@@ -1,0 +1,24 @@
+<Project>
+
+  <PropertyGroup>
+    <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
+  </PropertyGroup>
+
+  <Import Project="$(RepositoryDirectory)Windows.Toolkit.Common.props" />
+
+  <PropertyGroup>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <IncludeContentInPack>false</IncludeContentInPack>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DebugType>Embedded</DebugType>
+    <PackageOutputPath>bin\Package</PackageOutputPath>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+</Project>

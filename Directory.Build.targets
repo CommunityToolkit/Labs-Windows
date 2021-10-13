@@ -1,0 +1,21 @@
+<Project>
+
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.2.0" PrivateAssets="all" Pack="false" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CommonTags>$(CommonTags);UWP;Labs;Experimental</CommonTags>
+    <PackageTags Condition="'$(PackageTags)' != ''">$(CommonTags);$(PackageTags)</PackageTags>
+    <PackageTags Condition="'$(PackageTags)' == ''">$(CommonTags)</PackageTags>
+  </PropertyGroup>
+
+  <!-- TODO: Include these in the shared space -->
+  <!--<ItemGroup Condition="$(IsPackable)">
+    <None Include="$(RepositoryDirectory)nuget.png" Pack="true" PackagePath="\Icon.png" />
+    <None Include="$(RepositoryDirectory)License.md" Pack="true" PackagePath="\" />
+    <None Include="$(RepositoryDirectory)ThirdPartyNotices.txt" Pack="true" PackagePath="\" />
+  </ItemGroup>-->
+
+</Project>

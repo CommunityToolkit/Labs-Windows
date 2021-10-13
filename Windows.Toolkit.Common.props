@@ -1,0 +1,29 @@
+<Project>
+  <PropertyGroup>
+    <Company>.NET Foundation</Company>
+    <Authors>Microsoft.Toolkit</Authors>
+    <Product>Community Toolkit Labs</Product>
+    <CommonTags>Windows;Community;Toolkit;WCT</CommonTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/CommunityToolkit/Labs-UWP</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/CommunityToolkit/Labs-UWP/releases</PackageReleaseNotes>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/Labs-UWP/main/nuget.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Features>Strict</Features>
+    <Nullable>Disable</Nullable>
+    <LangVersion>Latest</LangVersion>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <IsPublishable>true</IsPublishable>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+</Project>
