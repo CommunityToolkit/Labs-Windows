@@ -1,0 +1,18 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <RootNamespace>CommunityToolkit.Labs.Uwp.CanvasLayout</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>CommunityToolkit.Labs.Uwp.CanvasLayout</PackageId>
+    <Description>
+      This package contains a CanvasLayout Layout for ItemsRepeater.
+    </Description>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\CommunityToolkit.Labs.Uwp.CanvasLayout.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
+  </ItemGroup>
+</Project>
