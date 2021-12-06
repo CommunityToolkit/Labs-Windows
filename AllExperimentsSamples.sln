@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24A1D6DC-FF32-4D9D-9FC2-8EB3E356A2C0}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\License.md = ..\License.md
+		..\ReadMe.md = ..\ReadMe.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{4DE60543-0C69-4378-BAD4-BFFCAF40889D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Uwp.UI.CanvasLayout", "Labs\CanvasLayout\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj", "{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|ARM.Build.0 = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|x64.Build.0 = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Debug|x86.Build.0 = Debug|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|ARM.ActiveCfg = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|ARM.Build.0 = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|ARM64.Build.0 = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|x64.ActiveCfg = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|x64.Build.0 = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|x86.ActiveCfg = Release|Any CPU
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6268D3D3-B6B1-442C-82CA-4C8F50EEF6EA} = {4DE60543-0C69-4378-BAD4-BFFCAF40889D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F0A4823-84EF-41AA-BBF9-A07B38DDC555}
+	EndGlobalSection
+EndGlobal
