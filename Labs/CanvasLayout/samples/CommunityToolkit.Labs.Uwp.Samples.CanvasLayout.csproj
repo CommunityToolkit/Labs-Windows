@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\UWP.App.props" />
+  <Import Project="..\..\..\UWP.App.props" />
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.Uwp.Samples</RootNamespace>
     <AssemblyName>CommunityToolkit.Labs.Uwp.Samples.CanvasLayout</AssemblyName>
@@ -41,9 +41,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\CommunityToolkit.Labs.Uwp.CanvasLayout.csproj">
-      <Project>{538e4793-066f-428e-9d94-1b9ef9e13523}</Project>
-      <Name>CommunityToolkit.Labs.Uwp.CanvasLayout</Name>
+    <ProjectReference Include="..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj">
+      <Project>{6268d3d3-b6b1-442c-82ca-4c8f50eef6ea}</Project>
+      <Name>CommunityToolkit.Labs.Uwp.UI.CanvasLayout</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
