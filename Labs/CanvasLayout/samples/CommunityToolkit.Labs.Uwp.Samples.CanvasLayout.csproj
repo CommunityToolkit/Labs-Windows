@@ -40,4 +40,10 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj">
+      <Project>{6268d3d3-b6b1-442c-82ca-4c8f50eef6ea}</Project>
+      <Name>CommunityToolkit.Labs.Uwp.UI.CanvasLayout</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
