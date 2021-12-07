@@ -1,18 +1,18 @@
-﻿<Page
-    x:Class="CounterButton.Samples.AdvancedSample"
+<Page
+    x:Class="CommunityToolkit.Labs.Uwp.CounterButton.Samples.AdvancedSample"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:CounterButton.Samples"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:lib="using:CounterButton.Library"
+    xmlns:lib="using:CommunityToolkit.Labs.Uwp.CounterButton"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
         <lib:CounterButton
             Click="CounterButton_Click"
-            Count="8987"
+            Count="8919"
+            Step="9"
             Height="100"
             Width="100"
             HorizontalAlignment="Center"
