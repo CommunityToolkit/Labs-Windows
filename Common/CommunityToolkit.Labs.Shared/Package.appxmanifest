@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -8,14 +8,14 @@
 
   <Identity
     Name="0b7f1f39-b49e-4d5a-b495-13c60832c27f"
-    Publisher="CN=agodfrey"
+    Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="0b7f1f39-b49e-4d5a-b495-13c60832c27f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>CommunityToolkit.Labs.Uwp.Samples.CanvasLayout</DisplayName>
-    <PublisherDisplayName>agodfrey</PublisherDisplayName>
+    <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
