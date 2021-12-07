@@ -116,6 +116,7 @@
         <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     </PropertyGroup>
 
+    <!-- Common Dependencies -->
     <ItemGroup>
         <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
             <Version>6.2.12</Version>
@@ -124,6 +125,38 @@
             <Version>2.7.0</Version>
         </PackageReference>
     </ItemGroup>
+
+    <!-- Assets -->
+    <ItemGroup>
+        <Content Include="$(MSBuildThisFileDirectory)\common\Assets\LockScreenLogo.scale-200.png">
+            <Link>Assets\LockScreenLogo.scale-200.png</Link>
+        </Content>
+        <Content Include="$(MSBuildThisFileDirectory)\common\Assets\SplashScreen.scale-200.png">
+            <Link>Assets\SplashScreen.scale-200.png</Link>
+        </Content>
+        <Content Include="$(MSBuildThisFileDirectory)\common\Assets\Square150x150Logo.scale-200.png">
+            <Link>Assets\Square150x150Logo.scale-200.png</Link>
+        </Content>
+        <Content Include="$(MSBuildThisFileDirectory)\common\Assets\Square44x44Logo.scale-200.png">
+            <Link>Assets\Square44x44Logo.scale-200.png</Link>
+        </Content>
+        <Content Include="$(MSBuildThisFileDirectory)\common\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+            <Link>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</Link>
+        </Content>
+        <Content Include="$(MSBuildThisFileDirectory)\common\Assets\StoreLogo.png">
+            <Link>Assets\StoreLogo.png</Link>
+        </Content>
+        <Content Include="$(MSBuildThisFileDirectory)\common\Assets\Wide310x150Logo.scale-200.png">
+            <Link>Assets\Wide310x150Logo.scale-200.png</Link>
+        </Content>
+        <!--<Content Include="$(MSBuildThisFileDirectory)\common\Assets\*.png">
+            <Link>Assets\%(Filename)%(Extension)</Link>
+        </Content>-->
+    </ItemGroup>
+    <!--<Target Name="Test" BeforeTargets="BeforeBuild">
+        <Message Importance="High" Text="Test: $(MSBuildThisFileDirectory)" />
+        <Message Importance="High" Text="Test: $(MSBuildProjectDirectory)" />
+    </Target>-->
 
     <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
         <VisualStudioVersion>14.0</VisualStudioVersion>
