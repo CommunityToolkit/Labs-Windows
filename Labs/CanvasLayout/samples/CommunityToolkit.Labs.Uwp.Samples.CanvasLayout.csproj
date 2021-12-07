@@ -1,17 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\..\UWP.App.props" />
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.Uwp.Samples</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.Uwp.Samples.CanvasLayout</RootNamespace>
     <AssemblyName>CommunityToolkit.Labs.Uwp.Samples.CanvasLayout</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -21,7 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
-    <!-- TODO: Move these to common folder -->
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
@@ -30,20 +22,6 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj">
-      <Project>{6268d3d3-b6b1-442c-82ca-4c8f50eef6ea}</Project>
-      <Name>CommunityToolkit.Labs.Uwp.UI.CanvasLayout</Name>
-    </ProjectReference>
-  </ItemGroup>
+  
+  <Import Project="../../../Common/Labs.Uwp.props" />
 </Project>
