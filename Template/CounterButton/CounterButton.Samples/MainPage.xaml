@@ -1,17 +1,19 @@
 <Page
-    x:Class="CommunityToolkit.Labs.Uwp.CounterButton.Samples.BasicSample"
+    x:Class="CommunityToolkit.Labs.Uwp.CounterButton.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:lib="using:CommunityToolkit.Labs.Uwp.CounterButton"
+    xmlns:samples="using:CommunityToolkit.Labs.Uwp.CounterButton.Samples"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <lib:CounterButton
-            HorizontalAlignment="Center" 
-            VerticalAlignment="Center"
-            Background="CadetBlue" />
-    </Grid>
+    <Pivot Title="CounterButton">
+        <PivotItem Header="Basic">
+            <samples:BasicSample />
+        </PivotItem>
+        <PivotItem Header="Advanced">
+            <samples:AdvancedSample />
+        </PivotItem>
+    </Pivot>
 </Page>

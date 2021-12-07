@@ -6,14 +6,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity Name="5b045be1-feee-41bc-b61e-e4d7c9c81466"
-            Publisher="CN=shane"
+            Publisher="CN=Microsoft"
             Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="5b045be1-feee-41bc-b61e-e4d7c9c81466" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>CounterButton.UnitTests</DisplayName>
-    <PublisherDisplayName>shane</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -27,12 +27,12 @@
   <Applications>
     <Application Id="vstest.executionengine.universal.App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="CounterButton.UnitTests.App">
+        EntryPoint="CommunityToolkit.Labs.Uwp.CounterButton.UnitTests.App">
       <uap:VisualElements
-        DisplayName="CounterButton.UnitTests"
+        DisplayName="Community Toolkit Labs - CounterButton Unit Tests"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="CounterButton.UnitTests"
+        Description="Community Toolkit Labs - CounterButton Unit Tests"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

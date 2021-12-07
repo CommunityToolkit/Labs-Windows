@@ -4,13 +4,13 @@
 
 using Windows.UI.Xaml.Controls;
 
-namespace CommunityToolkit.Labs.Uwp.CounterButton.Samples
+namespace CommunityToolkit.Labs.Uwp.CounterButton
 {
-    public sealed partial class BasicSample : Page
+    public sealed partial class MainPage : Page
     {
-        public BasicSample()
+        public MainPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

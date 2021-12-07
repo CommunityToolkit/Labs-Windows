@@ -7,7 +7,7 @@
     <ProjectGuid>{D2755C85-0ACA-47DD-8FA5-EAA2AD5E98EC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CounterButton.Library</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.Uwp.CounterButton</RootNamespace>
     <AssemblyName>CounterButton</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>

@@ -1,9 +1,13 @@
-﻿using Windows.UI;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace CounterButton.Samples
+namespace CommunityToolkit.Labs.Uwp.CounterButton.Samples
 {
     public sealed partial class AdvancedSample : Page
     {
@@ -14,7 +18,7 @@ namespace CounterButton.Samples
 
         private void CounterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Library.CounterButton cb && cb.Count > 9000)
+            if (sender is CounterButton cb && cb.Count > 9000)
             {
                 cb.Background = new SolidColorBrush(Colors.LightSalmon);
                 cb.Foreground = new SolidColorBrush(Colors.Crimson);

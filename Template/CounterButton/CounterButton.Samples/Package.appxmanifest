@@ -8,7 +8,7 @@
 
   <Identity
     Name="8c018a57-13ec-4942-b364-39324cb59149"
-    Publisher="CN=shane"
+    Publisher="CN=Microsoft"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="8c018a57-13ec-4942-b364-39324cb59149" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
@@ -30,12 +30,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="CounterButton.Samples.App">
+      EntryPoint="CommunityToolkit.Labs.Uwp.CounterButton.Samples.App">
       <uap:VisualElements
-        DisplayName="CounterButton"
+        DisplayName="Community Toolkit Labs - CounterButton Sample"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Community Toolkit Labs - CounterButton"
+        Description="Community Toolkit Labs - CounterButton Sample"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

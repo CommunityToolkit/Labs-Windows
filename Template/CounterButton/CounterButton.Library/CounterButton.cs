@@ -1,8 +1,12 @@
-﻿using Windows.UI.Xaml;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
-namespace CounterButton.Library
+namespace CommunityToolkit.Labs.Uwp.CounterButton
 {
     [TemplatePart(Name = CounterButtonName, Type = typeof(Button))]
     [TemplatePart(Name = CounterButtonTextBlockName, Type = typeof(TextBlock))]
@@ -10,10 +14,13 @@ namespace CounterButton.Library
     {
         private const string CounterButtonName = "PART_CounterButton";
         private const string CounterButtonTextBlockName = "PART_CounterButtonTextBlock";
+        private const int DefaultCount = 0;
+        private const int DefaultStep = 1;
 
         private Button _counterButton;
 
-        public static DependencyProperty CountProperty = DependencyProperty.Register(nameof(Count), typeof(int), typeof(CounterButton), new PropertyMetadata(0));
+        public static DependencyProperty CountProperty = DependencyProperty.Register(nameof(Count), typeof(int), typeof(CounterButton), new PropertyMetadata(DefaultCount));
+        public static DependencyProperty StepProperty = DependencyProperty.Register(nameof(Step), typeof(int), typeof(CounterButton), new PropertyMetadata(DefaultStep));
 
         public new RoutedEventHandler Click;
 
@@ -21,6 +28,12 @@ namespace CounterButton.Library
         {
             get => (int)GetValue(CountProperty);
             set => SetValue(CountProperty, value);
+        }
+
+        public int Step
+        {
+            get => (int)GetValue(StepProperty);
+            set => SetValue(StepProperty, value);
         }
 
         public CounterButton()
@@ -31,7 +44,12 @@ namespace CounterButton.Library
 
         public void Increment()
         {
-            Count += 1;
+            Count += Step;
+        }
+
+        public void Reset()
+        {
+            Count = DefaultCount;
         }
 
         protected override void OnApplyTemplate()
@@ -54,7 +72,7 @@ namespace CounterButton.Library
         private void CounterButton_Click(object sender, RoutedEventArgs e)
         {
             Increment();
-            Click.Invoke(this, e);
+            Click?.Invoke(this, e);
         }
     }
 }
