@@ -2,6 +2,12 @@
   <!-- Common properties needed for a labs project (UWP) -->
     <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
 
+    <ItemGroup>
+      <AppxManifest Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\Package.appxmanifest">
+        <SubType>Designer</SubType>
+      </AppxManifest>
+    </ItemGroup>
+
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -133,7 +139,7 @@
         </PackageReference>
       </ItemGroup>
 
-      <Import Project="CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
+      <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 
       <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
         <VisualStudioVersion>14.0</VisualStudioVersion>
