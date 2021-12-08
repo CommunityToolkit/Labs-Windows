@@ -3,17 +3,16 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
 namespace CommunityToolkit.Labs.Uwp.CounterButton
 {
     [TemplatePart(Name = CounterButtonName, Type = typeof(Button))]
-    [TemplatePart(Name = CounterButtonTextBlockName, Type = typeof(TextBlock))]
-    public partial class CounterButton : ButtonBase
+    public partial class CounterButton : Control
     {
         private const string CounterButtonName = "PART_CounterButton";
-        private const string CounterButtonTextBlockName = "PART_CounterButtonTextBlock";
         private const int DefaultCount = 0;
         private const int DefaultStep = 1;
 
@@ -22,7 +21,7 @@ namespace CommunityToolkit.Labs.Uwp.CounterButton
         public static DependencyProperty CountProperty = DependencyProperty.Register(nameof(Count), typeof(int), typeof(CounterButton), new PropertyMetadata(DefaultCount));
         public static DependencyProperty StepProperty = DependencyProperty.Register(nameof(Step), typeof(int), typeof(CounterButton), new PropertyMetadata(DefaultStep));
 
-        public new RoutedEventHandler Click;
+        public event RoutedEventHandler Click;
 
         public int Count
         {
@@ -54,7 +53,7 @@ namespace CommunityToolkit.Labs.Uwp.CounterButton
 
         protected override void OnApplyTemplate()
         {
-            if(_counterButton != null)
+            if (_counterButton != null)
             {
                 _counterButton.Click -= CounterButton_Click;
             }
