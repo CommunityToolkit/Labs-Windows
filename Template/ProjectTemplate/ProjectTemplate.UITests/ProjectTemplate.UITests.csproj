@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -160,7 +160,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CounterButton.Library\CounterButton.Library.csproj">
+    <ProjectReference Include="..\ProjectTemplate.Library\ProjectTemplate.Library.csproj">
       <Project>{d2755c85-0aca-47dd-8fa5-eaa2ad5e98ec}</Project>
       <Name>CounterButton.Library</Name>
     </ProjectReference>
