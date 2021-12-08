@@ -1,1 +1,0 @@
-Add a UI test application for CounterButton
