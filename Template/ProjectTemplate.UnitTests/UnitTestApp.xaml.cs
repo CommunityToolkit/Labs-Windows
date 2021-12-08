@@ -12,7 +12,7 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UnitTests
     {
         public App()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
@@ -25,11 +25,11 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UnitTests
 #endif
 
             Frame rootFrame = Window.Current.Content as Frame;
-            if (Window.Current.Content is not Frame)
+            if (rootFrame == null)
             {
                 Window.Current.Content = new Frame();
             }
-            
+
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
 
             Window.Current.Activate();

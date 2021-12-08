@@ -137,7 +137,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\Common\Assets\**\*.*">
+    <Content Include="..\Assets\**\*.*">
       <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -157,7 +157,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ProjectTemplate.Library\ProjectTemplate.Library.csproj">
       <Project>{d2755c85-0aca-47dd-8fa5-eaa2ad5e98ec}</Project>
-      <Name>CounterButton.Library</Name>
+      <Name>ProjectTemplate.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
