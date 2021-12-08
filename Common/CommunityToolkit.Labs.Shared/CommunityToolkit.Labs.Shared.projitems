@@ -37,12 +37,5 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)LinkerConfig.xml" />
-    <Content Include="$(MSBuildThisFileDirectory)WasmCSS\Fonts.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)WasmScripts\AppManifest.js" />
   </ItemGroup>
 </Project>
