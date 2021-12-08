@@ -1,5 +1,5 @@
 <Project>
-    <!-- Common properties needed for a labs project (UWP) -->
+    <!-- Common properties needed for a labs project (Wasm) -->
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
@@ -16,6 +16,11 @@
 		-->
         <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Update="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\WasmCSS\**\*.css" />
+        <EmbeddedResource Update="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\WasmScripts\**\*.js" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.0" />
@@ -30,11 +35,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <LinkerDescriptor Include="LinkerConfig.xml" />
+        <LinkerDescriptor Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\LinkerConfig.xml" />
     </ItemGroup>
 
     <ItemGroup>
-      <UpToDateCheckInput Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\**\*.xaml" />
+        <UpToDateCheckInput Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\**\*.xaml" />
+        <UpToDateCheckInput Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\**\*.js" />
+        <UpToDateCheckInput Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\**\*.css" />
     </ItemGroup>
 
     <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
