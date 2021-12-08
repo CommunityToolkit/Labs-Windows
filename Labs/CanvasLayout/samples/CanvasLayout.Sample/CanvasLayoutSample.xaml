@@ -1,0 +1,23 @@
+<UserControl
+    x:Class="CanvasLayout.Sample.CanvasLayoutSample"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:CanvasLayout.Sample"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:tk="using:CommunityToolkit.Labs.Uwp"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TextBlock FontSize="18" Text="Hello world! Samples coming soon™️." />
+
+        <muxc:ItemsRepeater>
+            <muxc:ItemsRepeater.Layout>
+                <tk:CanvasLayout />
+            </muxc:ItemsRepeater.Layout>
+        </muxc:ItemsRepeater>
+    </Grid>
+</UserControl>

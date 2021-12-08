@@ -1,0 +1,41 @@
+<Project>
+    <!-- Common properties needed for a labs project (Wasm) -->
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <NoWarn>NU1701</NoWarn>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
+        <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <!--
+		IL Linking is disabled in Debug configuration.
+		When building in Release, see https://platform.uno/docs/articles/features/using-il-linker-webassembly.html
+		-->
+        <WasmShellILLinkerEnabled>false</WasmShellILLinkerEnabled>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+        <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
+        <PackageReference Include="Uno.UI.WebAssembly" Version="4.0.9" />
+        <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.9" Condition="'$(Configuration)'=='Debug'" />
+        <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.9" />
+        <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.9" />
+        <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.1.2" />
+        <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <LinkerDescriptor Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\LinkerConfig.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <UpToDateCheckInput Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\**\*.xaml" />
+    </ItemGroup>
+
+    <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
+</Project>
