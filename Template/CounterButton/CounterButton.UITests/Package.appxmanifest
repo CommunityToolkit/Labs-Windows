@@ -5,14 +5,14 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   IgnorableNamespaces="uap mp">
 
-  <Identity Name="5b045be1-feee-41bc-b61e-e4d7c9c81466"
+  <Identity Name="400a234b-1067-4a3c-b776-d9e00898b6ce"
             Publisher="CN=Microsoft"
             Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="5b045be1-feee-41bc-b61e-e4d7c9c81466" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="400a234b-1067-4a3c-b776-d9e00898b6ce" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>CounterButton.UnitTests</DisplayName>
+    <DisplayName>Community Toolkit Labs - CounterButton UI Tests</DisplayName>
     <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -27,12 +27,12 @@
   <Applications>
     <Application Id="vstest.executionengine.universal.App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="CommunityToolkit.Labs.Uwp.CounterButton.UnitTests.App">
+        EntryPoint="CounterButton.UITests.App">
       <uap:VisualElements
-        DisplayName="Community Toolkit Labs - CounterButton Unit Tests"
+        DisplayName="Community Toolkit Labs - CounterButton UI Tests"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Unit tests for the Community Toolkit Labs - CounterButton project"
+        Description="UI Tests for the Community Toolkit Labs - CounterButton project"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

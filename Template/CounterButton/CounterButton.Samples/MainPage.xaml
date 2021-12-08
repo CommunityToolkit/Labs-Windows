@@ -9,10 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Pivot Title="CounterButton">
-        <PivotItem Header="Basic">
+        <PivotItem 
+            Header="Basic" 
+            AutomationProperties.AutomationId="BasicSamplePivotItem">
             <samples:BasicSample />
         </PivotItem>
-        <PivotItem Header="Advanced">
+        <PivotItem 
+            Header="Advanced" 
+            AutomationProperties.AutomationId="AdvancedSamplePivotItem">
             <samples:AdvancedSample />
         </PivotItem>
     </Pivot>
