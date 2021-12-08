@@ -1,0 +1,12 @@
+{
+    "author": "Microsoft",
+    "classifications": [ "Windows", "Community", "Toolkit", "Labs" ],
+    "name": "Community Toolkit Labs Project Template",
+    "identity": "CommunityToolkit.Labs.ProjectTemplate",
+    "shortName": "labsapp",
+    "tags": { 
+        "language": "C#"
+    },
+    "sourceName": "ProjectTemplate",
+    "preferNameDirectory" : "true"
+}
