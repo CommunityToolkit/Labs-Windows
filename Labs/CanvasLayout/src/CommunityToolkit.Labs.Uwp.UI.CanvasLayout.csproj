@@ -1,7 +1,10 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <Import Project="../../../Common/Labs.UnoLib.props" />
+
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.Uwp.CanvasLayout</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.Uwp</RootNamespace>
   </PropertyGroup>
+  
   <PropertyGroup>
     <PackageId>CommunityToolkit.Labs.Uwp.CanvasLayout</PackageId>
     <Description>
@@ -9,10 +12,4 @@
     </Description>
     <Version>0.0.1</Version>
   </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\CommunityToolkit.Labs.Uwp.CanvasLayout.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
-  </ItemGroup>
 </Project>

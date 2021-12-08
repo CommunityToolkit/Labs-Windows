@@ -1,0 +1,28 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <Import Project="../../../../Common/Labs.UnoLib.props" />
+  
+  <ItemGroup>
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="CanvasLayoutSample.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="CanvasLayoutSample.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="CanvasLayoutSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

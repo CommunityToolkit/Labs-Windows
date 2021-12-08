@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <RootNamespace>CanvasLayout.Uwp</RootNamespace>
+    <AssemblyName>CanvasLayout.Uwp</AssemblyName>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+
+  <Import Project="../../../../Common/Labs.Uwp.props" />
+</Project>
