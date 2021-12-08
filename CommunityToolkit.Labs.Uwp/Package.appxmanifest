@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="0b7f1f39-b49e-4d5a-b495-13c60832c27f"
+    Name="CommunityToolkit.Labs.Samples"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="0b7f1f39-b49e-4d5a-b495-13c60832c27f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>CommunityToolkit.Labs.Uwp.Samples.CanvasLayout</DisplayName>
+    <DisplayName>CommunityToolkit Labs Sample App</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="CommunityToolkit.Labs.Shared.App">
       <uap:VisualElements
-        DisplayName="CommunityToolkit Labs Samples"
+        DisplayName="CommunityToolkit Labs Sample App"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="CommunityToolkit Labs Samples"

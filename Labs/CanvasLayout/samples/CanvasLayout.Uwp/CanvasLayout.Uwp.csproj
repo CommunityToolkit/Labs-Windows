@@ -3,6 +3,7 @@
   <PropertyGroup>
     <RootNamespace>CanvasLayout.Uwp</RootNamespace>
     <AssemblyName>CanvasLayout.Uwp</AssemblyName>
+    <ProjectGuid>{3BAAC2DA-7124-460E-A9A9-13138843CD57}</ProjectGuid>
   </PropertyGroup>
   
   <ItemGroup>
@@ -11,6 +12,12 @@
 
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
   </ItemGroup>
 
   <Import Project="../../../../Common/Labs.Uwp.props" />

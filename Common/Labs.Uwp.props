@@ -2,12 +2,6 @@
   <!-- Common properties needed for a labs project (UWP) -->
     <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
 
-    <ItemGroup>
-      <AppxManifest Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\Package.appxmanifest">
-        <SubType>Designer</SubType>
-      </AppxManifest>
-    </ItemGroup>
-
     <PropertyGroup>
       <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
       <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -18,7 +12,6 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-        <ProjectGuid>{3BAAC2DA-7124-460E-A9A9-13138843CD57}</ProjectGuid>
         <OutputType>AppContainerExe</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <DefaultLanguage>en-US</DefaultLanguage>
