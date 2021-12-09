@@ -6,6 +6,7 @@
     xmlns:local="using:CanvasLayout.Sample"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:labs="using:CommunityToolkit.Labs.Uwp"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -29,7 +30,7 @@
                                    FontSize="24"
                                    FontWeight="Bold"
                                    HorizontalAlignment="Center"
-                                   TextLineBounds="Tight"
+                                   win:TextLineBounds="Tight"
                                    VerticalAlignment="Center"/>
                     </Border>
                 </DataTemplate>
