@@ -6,7 +6,7 @@ namespace CommunityToolkit.Labs.Core.Attributes
     /// Contains the registratino data for a toolkit sample project.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class ToolkitSampleAttribute : Attribute
+    public sealed class ToolkitSampleAttribute : Attribute
     {
         /// <summary>
         /// Creates a new instance of <see cref="ToolkitSampleAttribute"/>.
@@ -20,11 +20,11 @@ namespace CommunityToolkit.Labs.Core.Attributes
         /// <summary>
         /// The display name for this sample page.
         /// </summary>
-        public string DisplayName { get; set; }
+        public string DisplayName { get; }
 
         /// <summary>
         /// The description for this sample page.
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; }
     }
 }

@@ -6,7 +6,7 @@ using System;
 
 namespace CommunityToolkit.Labs.Core
 {
-    public class ToolkitSampleMetadata
+    public sealed class ToolkitSampleMetadata
     {
         /// <summary>
         /// Creates a new instance of <see cref="ToolkitSampleAttribute"/>.
@@ -21,16 +21,16 @@ namespace CommunityToolkit.Labs.Core
         /// <summary>
         /// The display name for this sample page.
         /// </summary>
-        public string DisplayName { get; set; }
+        public string DisplayName { get; }
 
         /// <summary>
         /// The description for this sample page.
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; }
 
         /// <summary>
         /// The sample page's type.
         /// </summary>
-        public Type Type { get; set; }
+        public Type Type { get; }
     }
 }

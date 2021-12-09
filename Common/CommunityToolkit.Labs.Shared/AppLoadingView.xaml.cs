@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -111,7 +112,7 @@ namespace CommunityToolkit.Labs.Shared
             {
                 // Sample projects are templated and must contain the word "sample".
                 // Skip iterating non-sample assemblies.
-                if (!assembly.FullName.ToLowerInvariant().Contains("sample"))
+                if (!assembly.FullName.Contains("sample", StringComparison.OrdinalIgnoreCase))
                     continue;
 
                 foreach (var type in assembly.ExportedTypes)
@@ -120,7 +121,7 @@ namespace CommunityToolkit.Labs.Shared
                     if (!type.IsSubclassOf(typeof(Page)))
                         continue;
 
-                    var attributes = type.GetCustomAttributes(typeof(ToolkitSampleAttribute), false).Cast<ToolkitSampleAttribute>();
+                    var attributes = type.GetCustomAttributes<ToolkitSampleAttribute>();
 
                     foreach (var attribute in attributes)
                         yield return new ToolkitSampleMetadata(attribute.DisplayName, attribute.Description, type);
