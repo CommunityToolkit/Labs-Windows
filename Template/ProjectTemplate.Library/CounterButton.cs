@@ -2,15 +2,27 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
 {
-    [TemplatePart(Name = CounterButtonName, Type = typeof(Button))]
-    public partial class CounterButton : Control
+    [TemplatePart(Name = CountTextBlockName, Type = typeof(TextBlock))]
+    public partial class CounterButton : Button
     {
-        private const string CounterButtonName = "PART_CounterButton";
+        private enum CommonStates
+        {
+            Normal,
+            PointerOver,
+            Pressed,
+            Disabled
+        }
+
+        private const string CountTextBlockName = "PART_CountTextBlock";
         private const int DefaultCount = 0;
         private const int DefaultStep = 1;
 
@@ -22,12 +34,13 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
             if (d is CounterButton cb)
             {
                 cb.UpdateUI();
+                cb.CountChanged?.Invoke(cb, new EventArgs());
             }
         }
 
-        private Button _counterButton = null;
+        private TextBlock _countTextBlock = null;
 
-        public event RoutedEventHandler Click;
+        public event EventHandler CountChanged;
 
         public int Count
         {
@@ -44,6 +57,16 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
         public CounterButton()
         {
             DefaultStyleKey = typeof(CounterButton);
+
+            Click += (s, e) => Increment();
+            IsEnabledChanged += (s, e) => UpdateVisualState(CommonStates.Disabled);
+            PointerEntered += (s, e) => UpdateVisualState(CommonStates.PointerOver);
+            PointerExited += (s, e) => UpdateVisualState(CommonStates.Normal);
+            PointerPressed += (s, e) => UpdateVisualState(CommonStates.Pressed);
+            PointerReleased += (s, e) => UpdateVisualState(CommonStates.PointerOver);
+            KeyUp += this.OnKeyUp;
+
+            AutomationProperties.SetAutomationId(this, nameof(CounterButton));
         }
 
         public void Increment()
@@ -51,41 +74,39 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
             Count += Step;
         }
 
-        public void Reset()
-        {
-            Count = DefaultCount;
-        }
-
         protected override void OnApplyTemplate()
         {
-            if (_counterButton != null)
-            {
-                _counterButton.Click -= CounterButton_Click;
-            }
-
-            _counterButton = GetTemplateChild(CounterButtonName) as Button;
-
-            if (_counterButton != null)
-            {
-                _counterButton.Click += CounterButton_Click;
-            }
-
+            _countTextBlock = GetTemplateChild(CountTextBlockName) as TextBlock;
             UpdateUI();
-            base.OnApplyTemplate();
-        }
-
-        private void CounterButton_Click(object sender, RoutedEventArgs e)
-        {
-            Increment();
-            Click?.Invoke(this, e);
         }
 
         private void UpdateUI()
         {
-            if (_counterButton != null)
+            if (_countTextBlock != null)
             {
-                _counterButton.Content = Count;
+                _countTextBlock.Text = Count.ToString();
             }
+        }
+
+        private void OnKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.Enter:
+                case VirtualKey.Space:
+                    Increment();
+                    break;
+            }
+        }
+
+        private void UpdateVisualState(CommonStates state)
+        {
+            if (!IsEnabled)
+            {
+                state = CommonStates.Disabled;
+            }
+
+            VisualStateManager.GoToState(this, state.ToString(), true);
         }
     }
 }
