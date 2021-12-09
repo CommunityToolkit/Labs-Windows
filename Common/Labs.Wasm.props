@@ -28,6 +28,10 @@
         <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.1.2" />
         <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.1.2" />
     </ItemGroup>
+  
+    <ItemGroup>
+      <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" />
+    </ItemGroup>
 
     <ItemGroup>
         <LinkerDescriptor Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\LinkerConfig.xml" />

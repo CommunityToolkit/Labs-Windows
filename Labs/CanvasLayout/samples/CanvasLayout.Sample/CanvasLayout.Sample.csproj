@@ -10,19 +10,14 @@
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
-  
   <ItemGroup>
-    <None Remove="CanvasLayoutSample.xaml" />
+    <None Remove="SamplePage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Remove="CanvasLayoutSample.xaml" />
+    <UpToDateCheckInput Remove="SamplePage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" />
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="CanvasLayoutSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 </Project>

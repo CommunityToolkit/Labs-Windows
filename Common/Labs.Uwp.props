@@ -137,6 +137,13 @@
         </PackageReference>
       </ItemGroup>
 
+      <ItemGroup>
+        <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj">
+          <Project>{210476d6-42cc-4d01-b027-478145bea8fe}</Project>
+          <Name>CommunityToolkit.Labs.Core</Name>
+        </ProjectReference>
+      </ItemGroup>
+
       <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 
       <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

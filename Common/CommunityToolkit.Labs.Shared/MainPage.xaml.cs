@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Navigation;
 namespace CommunityToolkit.Labs.Shared
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Used to display all Community Toolkit Labs sample projects in one place.
     /// </summary>
     public sealed partial class MainPage : Page
     {

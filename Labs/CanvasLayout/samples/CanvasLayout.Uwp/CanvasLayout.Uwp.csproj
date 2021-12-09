@@ -5,20 +5,22 @@
     <AssemblyName>CanvasLayout.Uwp</AssemblyName>
     <ProjectGuid>{3BAAC2DA-7124-460E-A9A9-13138843CD57}</ProjectGuid>
   </PropertyGroup>
-  
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
-
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj">
+      <Project>{a14189c0-39a8-4fbe-bf86-a78a94654c48}</Project>
+      <Name>CanvasLayout.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="../../../../Common/Labs.Uwp.props" />
 </Project>

@@ -7,5 +7,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid />
+    <Grid>
+        <TextBlock Text="Todo, show all samples." />
+    </Grid>
 </Page>
