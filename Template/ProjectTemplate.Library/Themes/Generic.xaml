@@ -9,18 +9,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CounterButton">
-                        <Button
-                            AutomationProperties.AutomationId="CounterButton"
-                            x:Name="PART_CounterButton"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Width="{TemplateBinding Width}"
-                            Height="{TemplateBinding Height}">
-                            <TextBlock
-                                Foreground="{TemplateBinding Foreground}"
-                                Text="{Binding Count}" />
-                        </Button>
+                    <Button
+                        AutomationProperties.AutomationId="CounterButton"
+                        x:Name="PART_CounterButton"
+                        Foreground="{TemplateBinding Foreground}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
