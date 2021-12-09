@@ -3,21 +3,48 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CommunityToolkit.Labs.Uwp.ProjectTemplate">
 
-    <Style TargetType="local:CounterButton">
-        <Setter Property="Height" Value="48" />
-        <Setter Property="Width" Value="48" />
+    <Style TargetType="Button" x:Key="DefaultButtonStyle" />
+
+    <Style TargetType="local:CounterButton" BasedOn="{StaticResource DefaultButtonStyle}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CounterButton">
-                    <Button
-                        AutomationProperties.AutomationId="CounterButton"
-                        x:Name="PART_CounterButton"
-                        Foreground="{TemplateBinding Foreground}"
+                    <Grid 
+                        x:Name="LayoutRoot"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"/>
+                        Height="{TemplateBinding Height}">
+                        <TextBlock 
+                            x:Name="PART_CountTextBlock"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+                                        <Setter Target="PART_CountTextBlock.Foreground" Value="{ThemeResource ButtonForegroundPointerOver}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource ButtonBackgroundPressed}" />
+                                        <Setter Target="PART_CountTextBlock.Foreground" Value="{ThemeResource ButtonForegroundPressed}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource ButtonBackgroundDisabled}" />
+                                        <Setter Target="PART_CountTextBlock.Foreground" Value="{ThemeResource ButtonForegroundDisabled}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

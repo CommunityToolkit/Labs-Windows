@@ -33,15 +33,16 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UITests
         public void ButtonClick()
         {
             var counterButton = session.FindElementByAccessibilityId("CounterButton");
+            var countTextBlock = counterButton.FindElementByAccessibilityId("PART_CountTextBlock");
 
             // Check the initial Count and Step values
-            var initialCount = Convert.ToInt32(counterButton.Text);
+            var initialCount = Convert.ToInt32(countTextBlock.Text);
 
             // Click the button
             counterButton.Click();
 
             // Check that the Count value has incremented.
-            var newCount = Convert.ToInt32(counterButton.Text);
+            var newCount = Convert.ToInt32(countTextBlock.Text);
             Assert.IsTrue(initialCount < newCount);
 
             // Check that the step is greater than 1.

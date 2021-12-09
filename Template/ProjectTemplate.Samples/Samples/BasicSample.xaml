@@ -10,6 +10,8 @@
 
     <Grid>
         <lib:CounterButton
+            Height="48"
+            Width="48"
             HorizontalAlignment="Center" 
             VerticalAlignment="Center"
             Background="CadetBlue" />

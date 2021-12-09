@@ -4,6 +4,8 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using System;
+using System.Threading;
 
 namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UnitTests
 {
@@ -30,26 +32,20 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UnitTests
             var cb = new CounterButton();
             var defaultCount = cb.Count;
             var defaultStep = cb.Step;
+            var eventFired = false;
+
+            cb.CountChanged += (s, e) =>
+            {
+                eventFired = true;
+            };
 
             // Increment the Count by the Step
             cb.Increment();
             Assert.AreEqual(defaultCount + defaultStep, cb.Count);
-        }
 
-        [UITestMethod]
-        public void ResetTest()
-        {
-            var cb = new CounterButton();
-            var defaultCount = cb.Count;
-            var newCount = 7;
-
-            // Change the Count
-            cb.Count = newCount;
-            Assert.AreEqual(newCount, cb.Count);
-
-            // Reset the Count
-            cb.Reset();
-            Assert.AreEqual(defaultCount, cb.Count);
+            // Wait a second then ensure that the event fired.
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            Assert.IsTrue(eventFired);
         }
 
         [UITestMethod]

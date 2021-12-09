@@ -10,7 +10,7 @@
 
     <Grid>
         <lib:CounterButton
-            Click="CounterButton_Click"
+            CountChanged="CounterButton_CountChanged"
             Count="8919"
             Step="9"
             Height="100"

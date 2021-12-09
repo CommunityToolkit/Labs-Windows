@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,7 +17,7 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.Samples
             InitializeComponent();
         }
 
-        private void CounterButton_Click(object sender, RoutedEventArgs e)
+        private void CounterButton_CountChanged(object sender, EventArgs e)
         {
             if (sender is CounterButton cb && cb.Count > 9000)
             {
