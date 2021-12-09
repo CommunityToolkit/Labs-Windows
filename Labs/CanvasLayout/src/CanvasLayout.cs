@@ -54,10 +54,24 @@ namespace CommunityToolkit.Labs.Uwp
                     Rect rect = new(item.Left, item.Top, item.Width, item.Height);
                     rect.Intersect(context.RealizationRect);
 
-                    // TODO: If the item is currently in view and will be in view, we should recycle the element's container
-                    item.IsInView = rect.Width > 0 || rect.Height > 0;
+                    // Check if we're in view now so we can compare to if we were last time.
+                    bool nowInView = rect.Width > 0 || rect.Height > 0;
 
-                    // TODO: If item is in view, we should call GetElementOrCreateAt to realize container here. (And call it's measure method.)
+                    // If it wasn't visible and now is, realize the container
+                    if (nowInView && !item.IsInView)
+                    {
+                        var element = context.GetOrCreateElementAt(i);
+                        element.Measure(new Size(item.Width, item.Height));
+                    }
+                    // If it was visible, but now isn't recycle the container
+                    else if (!nowInView && item.IsInView)
+                    {
+                        var element = context.GetOrCreateElementAt(i);
+                        context.RecycleElement(element);
+                    }
+
+                    // Update our current visibility
+                    item.IsInView = rect.Width > 0 || rect.Height > 0;
                 }
             }
 
