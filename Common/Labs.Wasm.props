@@ -5,6 +5,9 @@
         <TargetFramework>net5.0</TargetFramework>
         <NoWarn>NU1701</NoWarn>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <WasmShellILLinkerEnabled>true</WasmShellILLinkerEnabled>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Debug'">
         <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
         <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
