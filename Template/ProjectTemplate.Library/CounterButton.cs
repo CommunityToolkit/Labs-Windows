@@ -59,7 +59,7 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
             DefaultStyleKey = typeof(CounterButton);
 
             Click += (s, e) => Increment();
-            IsEnabledChanged += (s, e) => UpdateVisualState(CommonStates.Disabled);
+            IsEnabledChanged += (s, e) => UpdateVisualState(CommonStates.Normal);
             PointerEntered += (s, e) => UpdateVisualState(CommonStates.PointerOver);
             PointerExited += (s, e) => UpdateVisualState(CommonStates.Normal);
             PointerPressed += (s, e) => UpdateVisualState(CommonStates.Pressed);
@@ -80,14 +80,6 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
             UpdateUI();
         }
 
-        private void UpdateUI()
-        {
-            if (_countTextBlock != null)
-            {
-                _countTextBlock.Text = Count.ToString();
-            }
-        }
-
         private void OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
             switch (e.Key)
@@ -96,6 +88,14 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
                 case VirtualKey.Space:
                     Increment();
                     break;
+            }
+        }
+
+        private void UpdateUI()
+        {
+            if (_countTextBlock != null)
+            {
+                _countTextBlock.Text = Count.ToString();
             }
         }
 
