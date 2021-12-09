@@ -14,10 +14,18 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
         private const int DefaultCount = 0;
         private const int DefaultStep = 1;
 
-        private Button _counterButton;
-
-        public static DependencyProperty CountProperty = DependencyProperty.Register(nameof(Count), typeof(int), typeof(CounterButton), new PropertyMetadata(DefaultCount));
+        public static DependencyProperty CountProperty = DependencyProperty.Register(nameof(Count), typeof(int), typeof(CounterButton), new PropertyMetadata(DefaultCount, OnCountChanged));
         public static DependencyProperty StepProperty = DependencyProperty.Register(nameof(Step), typeof(int), typeof(CounterButton), new PropertyMetadata(DefaultStep));
+
+        private static void OnCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is CounterButton cb)
+            {
+                cb.UpdateUI();
+            }
+        }
+
+        private Button _counterButton = null;
 
         public event RoutedEventHandler Click;
 
@@ -36,7 +44,6 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
         public CounterButton()
         {
             DefaultStyleKey = typeof(CounterButton);
-            DataContext = this;
         }
 
         public void Increment()
@@ -63,6 +70,7 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
                 _counterButton.Click += CounterButton_Click;
             }
 
+            UpdateUI();
             base.OnApplyTemplate();
         }
 
@@ -70,6 +78,14 @@ namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
         {
             Increment();
             Click?.Invoke(this, e);
+        }
+
+        private void UpdateUI()
+        {
+            if (_counterButton != null)
+            {
+                _counterButton.Content = Count;
+            }
         }
     }
 }
