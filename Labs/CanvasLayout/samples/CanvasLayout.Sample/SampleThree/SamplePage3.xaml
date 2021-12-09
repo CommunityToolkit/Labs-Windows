@@ -1,0 +1,39 @@
+<Page
+    x:Class="CanvasLayout.Sample.SampleOne.SamplePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:CanvasLayout.Sample"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:labs="using:CommunityToolkit.Labs.Uwp"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        HorizontalScrollMode="Auto"
+        HorizontalScrollBarVisibility="Auto"
+        VerticalScrollMode="Auto"
+        VerticalScrollBarVisibility="Auto">
+        <muxc:ItemsRepeater ItemsSource="{x:Bind Items}">
+            <muxc:ItemsRepeater.Layout>
+                <labs:CanvasLayout/>
+            </muxc:ItemsRepeater.Layout>
+            <muxc:ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="local:CanvasItem">
+                    <Border Width="{x:Bind Width}" Height="{x:Bind Height}"
+                            CornerRadius="9999"
+                            Background="Red"
+                            BorderBrush="White" BorderThickness="2">
+                        <TextBlock Text="{x:Bind Text}"
+                                   Foreground="White"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   TextLineBounds="Tight"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                </DataTemplate>
+            </muxc:ItemsRepeater.ItemTemplate>
+        </muxc:ItemsRepeater>
+    </ScrollViewer>
+</Page>
