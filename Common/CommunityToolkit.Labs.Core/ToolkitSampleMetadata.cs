@@ -1,20 +1,21 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
 
-namespace CommunityToolkit.Labs.Core.Attributes
+namespace CommunityToolkit.Labs.Core
 {
-    /// <summary>
-    /// Contains the registratino data for a toolkit sample project.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class ToolkitSampleAttribute : Attribute
+    public class ToolkitSampleMetadata
     {
         /// <summary>
         /// Creates a new instance of <see cref="ToolkitSampleAttribute"/>.
         /// </summary>
-        public ToolkitSampleAttribute(string displayName, string description)
+        public ToolkitSampleMetadata(string displayName, string description, Type type)
         {
             DisplayName = displayName;
             Description = description;
+            Type = type;
         }
 
         /// <summary>
@@ -26,5 +27,10 @@ namespace CommunityToolkit.Labs.Core.Attributes
         /// The description for this sample page.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// The sample page's type.
+        /// </summary>
+        public Type Type { get; set; }
     }
 }

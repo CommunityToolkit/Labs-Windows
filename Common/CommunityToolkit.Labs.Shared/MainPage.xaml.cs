@@ -1,3 +1,4 @@
+using CommunityToolkit.Labs.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,13 @@ namespace CommunityToolkit.Labs.Shared
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var samplePages = e.Parameter as IEnumerable<ToolkitSampleMetadata>;
+
+            base.OnNavigatedTo(e);
         }
     }
 }
