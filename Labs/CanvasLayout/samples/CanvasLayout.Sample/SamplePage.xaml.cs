@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.Labs.Core;
 using CommunityToolkit.Labs.Core.Attributes;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace CanvasLayout.Sample
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    [ToolkitSample(displayName: "Canvas Layout", description: "A canvas-like VirtualizingPanel for use in an ItemsControl")]
+    [ToolkitSample("Canvas Layout", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A canvas-like VirtualizingPanel for use in an ItemsControl")]
     public sealed partial class SamplePage : Page
     {
         public SamplePage()

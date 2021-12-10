@@ -124,7 +124,7 @@ namespace CommunityToolkit.Labs.Shared
                     var attributes = type.GetCustomAttributes<ToolkitSampleAttribute>();
 
                     foreach (var attribute in attributes)
-                        yield return new ToolkitSampleMetadata(attribute.DisplayName, attribute.Description, type);
+                        yield return new ToolkitSampleMetadata(attribute.Category, attribute.Subcategory, attribute.DisplayName, attribute.Description, type);
                 }
             }
         }
