@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.Samples
+namespace CommunityToolkit.Labs.Uwp.Samples.ProjectTemplate
 {
     public sealed partial class AdvancedSample : Page
     {

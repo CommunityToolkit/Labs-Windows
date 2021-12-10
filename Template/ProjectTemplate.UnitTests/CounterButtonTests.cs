@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System;
 using System.Threading;
 
-namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UnitTests
+namespace CommunityToolkit.Labs.Uwp.UnitTests.ProjectTemplate
 {
     /// <summary>
     /// UnitTests for the <see cref="CounterButton"/> control.

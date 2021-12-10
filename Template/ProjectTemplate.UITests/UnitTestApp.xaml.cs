@@ -6,7 +6,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UITests
+namespace CommunityToolkit.Labs.Uwp.UITests.ProjectTemplate
 {
     sealed partial class App : Application
     {

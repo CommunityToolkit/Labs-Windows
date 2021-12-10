@@ -5,7 +5,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UITests
+namespace CommunityToolkit.Labs.Uwp.UITests.ProjectTemplate
 {
     [TestClass]
     public class ScenarioBasic : UITestSession

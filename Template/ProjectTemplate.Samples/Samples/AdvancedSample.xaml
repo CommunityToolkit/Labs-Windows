@@ -1,15 +1,15 @@
 <Page
-    x:Class="CommunityToolkit.Labs.Uwp.ProjectTemplate.Samples.AdvancedSample"
+    x:Class="CommunityToolkit.Labs.Uwp.Samples.ProjectTemplate.AdvancedSample"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:lib="using:CommunityToolkit.Labs.Uwp.ProjectTemplate"
+    xmlns:labs="using:CommunityToolkit.Labs.Uwp"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <lib:CounterButton
+        <labs:CounterButton
             CountChanged="CounterButton_CountChanged"
             Count="8919"
             Step="9"

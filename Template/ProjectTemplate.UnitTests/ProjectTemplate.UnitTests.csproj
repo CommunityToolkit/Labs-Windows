@@ -7,7 +7,7 @@
     <ProjectGuid>{2CA8F93B-A2E1-4FB6-A14E-AE5945257EBB}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CommunityToolkit.Labs.Uwp.CounterButton.UnitTests</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.Uwp.UnitTests.ProjectTemplate</RootNamespace>
     <AssemblyName>CounterButton.UnitTests</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>

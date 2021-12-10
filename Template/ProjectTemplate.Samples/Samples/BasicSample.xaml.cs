@@ -4,7 +4,7 @@
 
 using Windows.UI.Xaml.Controls;
 
-namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.Samples
+namespace CommunityToolkit.Labs.Uwp.Samples.ProjectTemplate
 {
     public sealed partial class BasicSample : Page
     {

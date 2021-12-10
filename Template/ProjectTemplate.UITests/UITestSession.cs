@@ -7,7 +7,7 @@ using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 
-namespace CommunityToolkit.Labs.Uwp.ProjectTemplate.UITests
+namespace CommunityToolkit.Labs.Uwp.UITests.ProjectTemplate
 {
     public class UITestSession
     {

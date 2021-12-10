@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace CommunityToolkit.Labs.Uwp.ProjectTemplate
+namespace CommunityToolkit.Labs.Uwp
 {
     [TemplatePart(Name = CountTextBlockName, Type = typeof(TextBlock))]
     public partial class CounterButton : Button
