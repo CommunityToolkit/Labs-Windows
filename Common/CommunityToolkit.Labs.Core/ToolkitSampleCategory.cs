@@ -13,25 +13,5 @@ namespace CommunityToolkit.Labs.Core
         /// Various UI controls that the user sees and interacts with.
         /// </summary>
         Controls,
-
-        /// <summary>
-        /// Contains APIs and helpers for animations.
-        /// </summary>
-        Animations,
-
-        /// <summary>
-        /// Contains APIs and helpers for external services such as Microsoft Graph.
-        /// </summary>
-        Services,
-
-        /// <summary>
-        /// Miscellaneous helpers and APIs that enhance the dev experience.
-        /// </summary>
-        Helpers,
-
-        /// <summary>
-        /// Extension methods and attached properties.
-        /// </summary>
-        Extensions,
     }
 }
