@@ -5,4 +5,8 @@
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
     <EmbeddedResource Include="WasmScripts\AppManifest.js" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
+  </ItemGroup>
 </Project>

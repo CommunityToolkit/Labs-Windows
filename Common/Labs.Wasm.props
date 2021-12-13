@@ -5,6 +5,9 @@
         <TargetFramework>net5.0</TargetFramework>
         <NoWarn>NU1701</NoWarn>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <WasmShellILLinkerEnabled>true</WasmShellILLinkerEnabled>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)'=='Debug'">
         <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
         <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
@@ -27,6 +30,10 @@
         <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.9" />
         <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.1.2" />
         <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.1.2" />
+    </ItemGroup>
+  
+    <ItemGroup>
+      <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>

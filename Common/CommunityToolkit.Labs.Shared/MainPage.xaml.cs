@@ -1,3 +1,4 @@
+using CommunityToolkit.Labs.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,13 +17,20 @@ using Windows.UI.Xaml.Navigation;
 namespace CommunityToolkit.Labs.Shared
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Used to display all Community Toolkit Labs sample projects in one place.
     /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var samplePages = e.Parameter as IEnumerable<ToolkitSampleMetadata>;
+
+            base.OnNavigatedTo(e);
         }
     }
 }
