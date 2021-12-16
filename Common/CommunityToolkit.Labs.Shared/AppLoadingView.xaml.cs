@@ -9,6 +9,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+
+#if !WINAPPSDK
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -16,6 +18,15 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+#else
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+#endif
 
 namespace CommunityToolkit.Labs.Shared
 {
@@ -92,16 +103,22 @@ namespace CommunityToolkit.Labs.Shared
         }
 
         // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
-        private void ScheduleNavigate(Type type, object? param = null)
+        private void ScheduleNavigate(Type type, object param = null)
         {
-            _ = Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            var actionToExecute = () =>
             {
 #if __WASM__
                 Frame.Navigate(type, param);
 #else
                 Frame.NavigateToType(type, param, new FrameNavigationOptions { IsNavigationStackEnabled = false });
 #endif
-            });
+            };
+
+#if WINAPPSDK
+            Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().TryEnqueue(() => actionToExecute());
+#else
+            _ = Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => actionToExecute());
+#endif
         }
 
         private IEnumerable<ToolkitSampleMetadata> FindReferencedSamplePages()

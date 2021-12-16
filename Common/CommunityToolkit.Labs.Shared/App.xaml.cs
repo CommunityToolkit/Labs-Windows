@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+
+#if !WINAPPSDK
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -14,6 +15,15 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+#else
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+#endif
 
 namespace CommunityToolkit.Labs.Shared
 {
@@ -29,7 +39,6 @@ namespace CommunityToolkit.Labs.Shared
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -39,7 +48,13 @@ namespace CommunityToolkit.Labs.Shared
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            Frame rootFrame = null;
+
+#if WINAPPSDK
+            var window = new Window();
+#else
+            rootFrame = Window.Current.Content as Frame;
+#endif
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -50,27 +65,30 @@ namespace CommunityToolkit.Labs.Shared
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
+#if WINAPPSDK
+                window.Content = rootFrame;
+#else
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+#endif
             }
 
+
+#if WINAPPSDK
+                rootFrame.Navigate(typeof(AppLoadingView), e.Arguments);
+                window.Activate();
+#else
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
                 {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
                     rootFrame.Navigate(typeof(AppLoadingView), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+#endif
         }
 
         /// <summary>
@@ -81,20 +99,6 @@ namespace CommunityToolkit.Labs.Shared
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
-        /// </summary>
-        /// <param name="sender">The source of the suspend request.</param>
-        /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
-            deferral.Complete();
         }
     }
 }

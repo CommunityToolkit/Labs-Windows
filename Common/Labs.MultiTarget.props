@@ -1,0 +1,32 @@
+<Project>
+  <!-- Common properties needed for multi-targeting UI libs -->
+
+  <!--
+	Adding project references to this project requires some manual adjustments.
+	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
+  tl;dr; Make sure netstandard2.0 is first below.
+	-->
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;uap10.0.19041;net6.0-windows10.0.19041.0;</TargetFrameworks>
+    <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0-windows10.0.19041.0' And '$(TargetFramework)' != 'uap10.0.19041'">
+    <PackageReference Include="Uno.UI" Version="4.0.11" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">
+    <DefineConstants>WINAPPSDK</DefineConstants>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
+  </PropertyGroup>
+
+</Project>
