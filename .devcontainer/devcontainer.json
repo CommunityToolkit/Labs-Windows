@@ -4,7 +4,7 @@
 	"name": "C# (.NET)",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"args": { 
+		"args": {
 			// Update 'VARIANT' to pick a .NET Core version: 3.1, 5.0, 6.0
 			// Append -bullseye or -focal to pin to an OS version.
 			"VARIANT": "6.0",
@@ -12,20 +12,24 @@
 			"NODE_VERSION": "lts/*"
 		}
 	},
-
 	// Set *default* container specific settings.json values on container create.
 	"settings": {},
-
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-dotnettools.csharp",
 		"unoplatform.vscode",
 		"ms-vsliveshare.vsliveshare"
 	],
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [5000, 5001],
+	"forwardPorts": [
+		5000,
+		5001
+	],
 
+	"appPort": [
+		5000,
+		5001
+	],
 	// [Optional] To reuse of your local HTTPS dev cert:
 	//
 	// 1. Export it locally using this command:
@@ -48,7 +52,6 @@
 	//
 	//    * If only using Remote - Containers with a local container, uncomment this line instead:
 	//      "mounts": [ "source=${env:HOME}${env:USERPROFILE}/.aspnet/https,target=/home/vscode/.aspnet/https,type=bind" ],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "dotnet restore",
 	"postCreateCommand": "dotnet dev-certs https --trust",
@@ -56,5 +59,11 @@
 	"remoteUser": "vscode",
 	"features": {
 		"powershell": "latest"
+	},
+	"portsAttributes": {
+		"5000": {
+			"label": "WebAssembly App",
+			"onAutoForward": "openPreview"
+		}
 	}
 }
