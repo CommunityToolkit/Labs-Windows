@@ -20,6 +20,23 @@
         "--project=${workspaceFolder}/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
       ],
       "cwd": "${workspaceFolder}/CommunityToolkit.Labs.Wasm",
+    },
+    {
+      "name": "CanvasLayout",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "dotnet",
+      "args": [
+        "run",
+        "build",
+        "/r",
+        "/bl",
+        "/p:UnoSourceGeneratorUseGenerationHost=true",
+        "/p:UnoSourceGeneratorUseGenerationController=false",
+        "/p:UnoRemoteControlPort=443",
+        "--project=${workspaceFolder}/Labs/CanvasLayout/samples/CanvasLayout.Wasm/CanvasLayout.Wasm.csproj",
+      ],
+      "cwd": "${workspaceFolder}/Labs/CanvasLayout/samples/CanvasLayout.Wasm",
     }
   ]
 }
