@@ -80,7 +80,7 @@ namespace CommunityToolkit.Labs.Shared
 
             if (samplePages.Length == 1)
             {
-                ScheduleNavigate(samplePages[0].Type);
+                ScheduleNavigate(Type.GetType(samplePages[0].AssemblyQualifiedName));
                 return;
             }
 
@@ -106,27 +106,7 @@ namespace CommunityToolkit.Labs.Shared
 
         private IEnumerable<ToolkitSampleMetadata> FindReferencedSamplePages()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            foreach (var assembly in assemblies)
-            {
-                // Sample projects are templated and must contain the word "sample".
-                // Skip iterating non-sample assemblies.
-                if (!assembly.FullName.Contains("sample", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                foreach (var type in assembly.ExportedTypes)
-                {
-                    // Sample pages must derive from Page.
-                    if (!type.IsSubclassOf(typeof(Page)))
-                        continue;
-
-                    var attributes = type.GetCustomAttributes<ToolkitSampleAttribute>();
-
-                    foreach (var attribute in attributes)
-                        yield return new ToolkitSampleMetadata(attribute.Category, attribute.Subcategory, attribute.DisplayName, attribute.Description, type);
-                }
-            }
+            return ToolkitSampleRegistry.Execute();
         }
     }
 }
