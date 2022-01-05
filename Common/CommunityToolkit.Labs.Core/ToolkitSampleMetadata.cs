@@ -14,11 +14,11 @@ namespace CommunityToolkit.Labs.Core
         /// <summary>
         /// Creates a new instance of <see cref="ToolkitSampleAttribute"/>.
         /// </summary>
-        public ToolkitSampleMetadata(ToolkitSampleCategory category, ToolkitSampleSubcategory subcategory, string displayName, string description, Type type)
+        public ToolkitSampleMetadata(ToolkitSampleCategory category, ToolkitSampleSubcategory subcategory, string displayName, string description, string assemblyQualifiedName)
         {
             DisplayName = displayName;
             Description = description;
-            Type = type;
+            AssemblyQualifiedName = assemblyQualifiedName;
             Category = category;
             Subcategory = subcategory;
         }
@@ -44,8 +44,8 @@ namespace CommunityToolkit.Labs.Core
         public string Description { get; }
 
         /// <summary>
-        /// The sample page's type.
+        /// A type name that can be used to locate the sample page's type.
         /// </summary>
-        public Type Type { get; }
+        public string AssemblyQualifiedName { get; }
     }
 }
