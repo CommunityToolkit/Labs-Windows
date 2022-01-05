@@ -80,7 +80,7 @@ namespace CommunityToolkit.Labs.Shared
 
             if (samplePages.Length == 1)
             {
-                ScheduleNavigate(Type.GetType(samplePages[0].AssemblyQualifiedName));
+                ScheduleNavigate(samplePages[0].SampleControlType);
                 return;
             }
 
