@@ -12,9 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="SamplePage.xaml" />
+    <None Remove="SamplePage2.xaml" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="SamplePage.xaml" />
+    <UpToDateCheckInput Remove="SamplePage2.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" />

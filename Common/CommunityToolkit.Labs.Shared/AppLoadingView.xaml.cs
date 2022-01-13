@@ -107,6 +107,15 @@ namespace CommunityToolkit.Labs.Shared
         {
             var actionToExecute = () =>
             {
+                // Individual samples are UserControls,
+                // but multi-sample view and grouped sample views should be a Page.
+                // TODO: Remove after creating grouped-sample view.
+                if (!type.IsSubclassOf(typeof(Page)))
+                {
+                    Window.Current.Content = (UIElement)Activator.CreateInstance(type);
+                    return;
+                }
+
 #if __WASM__
                 Frame.Navigate(type, param);
 #else
@@ -134,10 +143,6 @@ namespace CommunityToolkit.Labs.Shared
 
                 foreach (var type in assembly.ExportedTypes)
                 {
-                    // Sample pages must derive from Page.
-                    if (!type.IsSubclassOf(typeof(Page)))
-                        continue;
-
                     var attributes = type.GetCustomAttributes<ToolkitSampleAttribute>();
 
                     foreach (var attribute in attributes)
