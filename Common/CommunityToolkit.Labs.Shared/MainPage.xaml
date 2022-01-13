@@ -5,9 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock Text="Todo, show all samples." />
+        <muxc:NavigationView MenuItemsSource="{x:Bind NavigationViewItems}" SelectionChanged="OnSelectionChanged">
+            <ContentControl Content="{x:Bind MainContent, Mode=OneWay}" />
+        </muxc:NavigationView>
     </Grid>
 </Page>

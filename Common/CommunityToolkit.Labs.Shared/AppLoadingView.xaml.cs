@@ -94,14 +94,25 @@ namespace CommunityToolkit.Labs.Shared
         // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
         private void ScheduleNavigate(Type type, object? param = null)
         {
-            _ = Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            var actionToExecute = () =>
             {
+                // Individual samples are UserControls,
+                // but multi-sample view and grouped sample views should be a Page.
+                // TODO: Remove after creating grouped-sample view.
+                if (!type.IsSubclassOf(typeof(Page)))
+                {
+                    Window.Current.Content = (UIElement)Activator.CreateInstance(type);
+                    return;
+                }
+
 #if __WASM__
                 Frame.Navigate(type, param);
 #else
                 Frame.NavigateToType(type, param, new FrameNavigationOptions { IsNavigationStackEnabled = false });
 #endif
-            });
+            };
+
+            _ = Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => actionToExecute());
         }
 
         private IEnumerable<ToolkitSampleMetadata> FindReferencedSamplePages()
@@ -117,10 +128,6 @@ namespace CommunityToolkit.Labs.Shared
 
                 foreach (var type in assembly.ExportedTypes)
                 {
-                    // Sample pages must derive from Page.
-                    if (!type.IsSubclassOf(typeof(Page)))
-                        continue;
-
                     var attributes = type.GetCustomAttributes<ToolkitSampleAttribute>();
 
                     foreach (var attribute in attributes)
