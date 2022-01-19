@@ -106,11 +106,12 @@ internal static class ToolkitSampleRegistry
             if (typedConstant.Type is null)
                 throw new ArgumentNullException(nameof(typedConstant.Type));
 
+            // Types prefixed with global:: do not work with Type.GetType and must be stripped away.
             var assemblyQualifiedName = typedConstant.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).Replace("global::", "");
 
             var argType = Type.GetType(assemblyQualifiedName);
 
-            // Enums arrive as the underlying integer type, which doesn't work with Activator.CreateInstance()
+            // Enums arrive as the underlying integer type, which doesn't work as a param for Activator.CreateInstance()
             if (argType != null && typedConstant.Kind == TypedConstantKind.Enum)
                 return Enum.Parse(argType, typedConstant.Value?.ToString());
 
