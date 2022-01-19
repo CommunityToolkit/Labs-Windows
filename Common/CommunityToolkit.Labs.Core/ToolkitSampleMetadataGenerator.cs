@@ -88,6 +88,8 @@ internal static class ToolkitSampleRegistry
 
         private static ToolkitSampleRecord ReconstructSampleMetadata(INamedTypeSymbol typeSymbol, AttributeData attributeData)
         {
+            // Fully reconstructing the attribute as it was received
+            // gives us safety against changes to the attribute constructor signature.
             var args = attributeData.ConstructorArguments.Select(PrepareTypeForActivator).ToArray();
 
             var reconstructedAttribute = (ToolkitSampleAttribute)Activator.CreateInstance(typeof(ToolkitSampleAttribute), args);
@@ -118,6 +120,11 @@ internal static class ToolkitSampleRegistry
             return typedConstant.Value;
         }
 
+        /// <remarks>
+        /// A new record must be used instead of using <see cref="ToolkitSampleMetadata"/> directly
+        /// because we cannot <c>Type.GetType</c> using the <paramref name="AssemblyQualifiedName"/>,
+        /// but we can safely generate a type reference in the final output using <c>typeof(AssemblyQualifiedName)</c>.
+        /// </remarks>
         private sealed record ToolkitSampleRecord(ToolkitSampleCategory Category, ToolkitSampleSubcategory Subcategory, string DisplayName, string Description, string AssemblyQualifiedName);
     }
 }
