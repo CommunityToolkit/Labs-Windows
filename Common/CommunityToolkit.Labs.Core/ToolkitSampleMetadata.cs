@@ -9,7 +9,7 @@ namespace CommunityToolkit.Labs.Core
     /// <summary>
     /// Contains the metadata needed to identify and display a toolkit sample.
     /// </summary>
-    public sealed class ToolkitSampleMetadata
+    public sealed record ToolkitSampleMetadata
     {
         /// <summary>
         /// Creates a new instance of <see cref="ToolkitSampleAttribute"/>.
