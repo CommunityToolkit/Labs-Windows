@@ -28,7 +28,7 @@ public partial class ToolkitSampleMetadataGenerator : ISourceGenerator
         // Find all types in all assemblies.
         var assemblies = context.Compilation.SourceModule.ReferencedAssemblySymbols;
 
-        var types = assemblies.SelectMany(asm => CrawlForAllNamedTypes(asm.GlobalNamespace))
+        var types = assemblies.SelectMany(asm => asm.GlobalNamespace.CrawlForAllNamedTypes())
                               .Where(x => x is not null && x.TypeKind == TypeKind.Class && x.CanBeReferencedByName) // remove null and invalid values.
                               .Cast<INamedTypeSymbol>(); // strip nullability from type.
 
@@ -41,11 +41,11 @@ public partial class ToolkitSampleMetadataGenerator : ISourceGenerator
         // Find and reconstruct relevant attributes.
         var toolkitSampleAttributeData = allAttributeData
             .Where(x => IsToolkitSampleAttribute(x.Attribute))
-            .Select(x => (Attribute: ReconstructAttribute<ToolkitSampleAttribute>(x.Attribute), AttachedQualifiedTypeName: x.Type.ToString()));
+            .Select(x => (Attribute: x.Attribute.ReconstructAs<ToolkitSampleAttribute>(), AttachedQualifiedTypeName: x.Type.ToString()));
 
         var optionsPaneAttributes = allAttributeData
             .Where(x => IsToolkitSampleOptionsPaneAttribute(x.Attribute))
-            .Select(x => (Attribute: ReconstructAttribute<ToolkitSampleOptionsPaneAttribute>(x.Attribute), AttachedQualifiedTypeName: x.Type.ToString()));
+            .Select(x => (Attribute: x.Attribute.ReconstructAs<ToolkitSampleOptionsPaneAttribute>(), AttachedQualifiedTypeName: x.Type.ToString()));
 
         // Reconstruct sample metadata from attributes
         var sampleMetadata = toolkitSampleAttributeData.Select(sample =>
@@ -86,51 +86,11 @@ internal static class ToolkitSampleRegistry
         }
     }
 
-    private static IEnumerable<INamedTypeSymbol> CrawlForAllNamedTypes(INamespaceSymbol namespaceSymbol)
-    {
-        foreach (var member in namespaceSymbol.GetMembers())
-        {
-            if (member is INamespaceSymbol nestedNamespace)
-            {
-                foreach (var item in CrawlForAllNamedTypes(nestedNamespace))
-                    yield return item;
-            }
-
-            if (member is INamedTypeSymbol typeSymbol)
-                yield return typeSymbol;
-        }
-    }
-
     private static bool IsToolkitSampleAttribute(AttributeData attr)
         => attr.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == $"global::{typeof(ToolkitSampleAttribute).FullName}";
 
     private static bool IsToolkitSampleOptionsPaneAttribute(AttributeData attr)
         => attr.AttributeClass?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == $"global::{typeof(ToolkitSampleOptionsPaneAttribute).FullName}";
-
-    private static T ReconstructAttribute<T>(AttributeData attributeData)
-    {
-        // Fully reconstructing the attribute as it was received
-        // gives us safety against changes to the attribute constructor signature.
-        var attributeArgs = attributeData.ConstructorArguments.Select(PrepareTypeForActivator).ToArray();
-        return (T)Activator.CreateInstance(typeof(T), attributeArgs);
-    }
-
-    private static object? PrepareTypeForActivator(TypedConstant typedConstant)
-    {
-        if (typedConstant.Type is null)
-            throw new ArgumentNullException(nameof(typedConstant.Type));
-
-        // Types prefixed with global:: do not work with Type.GetType and must be stripped away.
-        var assemblyQualifiedName = typedConstant.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).Replace("global::", "");
-
-        var argType = Type.GetType(assemblyQualifiedName);
-
-        // Enums arrive as the underlying integer type, which doesn't work as a param for Activator.CreateInstance()
-        if (argType != null && typedConstant.Kind == TypedConstantKind.Enum)
-            return Enum.Parse(argType, typedConstant.Value?.ToString());
-
-        return typedConstant.Value;
-    }
 
     /// <remarks>
     /// A new record must be used instead of using <see cref="ToolkitSampleMetadata"/> directly
