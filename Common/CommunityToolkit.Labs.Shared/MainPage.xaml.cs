@@ -61,8 +61,8 @@ namespace CommunityToolkit.Labs.Shared
                 foreach (var item in categories)
                     NavigationViewItems.Add(item);
             }
-            
-            base.OnNavigatedTo(e);
+
+           base.OnNavigatedTo(e);
         }
 
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs e)
@@ -74,7 +74,7 @@ namespace CommunityToolkit.Labs.Shared
                 return;
 
             // TODO: Switch to Frame / Frame.Navigate when grouped-sample page is added.
-            var controlInstance = Activator.CreateInstance(selectedMetadata.Type);
+            var controlInstance = Activator.CreateInstance(selectedMetadata.SampleControlType);
 
             MainContent = controlInstance;
         }
