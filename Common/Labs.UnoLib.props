@@ -13,6 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Content Include="**\*.cs" Exclude="bin\**\*.cs;obj\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Uno.UI" Version="4.0.7" />
   </ItemGroup>
 
