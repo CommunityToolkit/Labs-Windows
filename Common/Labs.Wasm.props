@@ -42,18 +42,6 @@
 
   <!-- Source generator props -->
 
-  <PropertyGroup>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Don't include the output from a previous source generator execution into future runs; the */** trick here ensures that there's
-  at least one subdirectory, which is our key that it's coming from a source generator as opposed to something that is coming from
-  some other tool. -->
-    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/*/**/*.cs" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
