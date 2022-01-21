@@ -19,9 +19,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace CanvasLayout.Sample
+namespace CanvasLayout.Sample.SampleTwo
 {
-    [ToolkitSample("Example sample", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "An empty sample used to demonstrate the sample system.")]
+    [ToolkitSample(id: nameof(SamplePage2), "Example sample", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "An empty sample used to demonstrate the sample system.")]
     public sealed partial class SamplePage2 : UserControl
     {
         public SamplePage2()

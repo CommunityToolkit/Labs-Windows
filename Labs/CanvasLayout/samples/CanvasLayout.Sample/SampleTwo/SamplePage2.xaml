@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="CanvasLayout.Sample.SamplePage2"
+    x:Class="CanvasLayout.Sample.SampleTwo.SamplePage2"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CanvasLayout.Sample"

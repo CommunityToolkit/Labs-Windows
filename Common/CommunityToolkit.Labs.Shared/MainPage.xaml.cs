@@ -31,24 +31,9 @@ namespace CommunityToolkit.Labs.Shared
         }
 
         /// <summary>
-        /// Gets the backing dependency property for <see cref="MainContent"/>.
-        /// </summary>
-        public static readonly DependencyProperty MainContentProperty =
-            DependencyProperty.Register(nameof(MainContent), typeof(object), typeof(MainPage), new PropertyMetadata(null));
-
-        /// <summary>
         /// Gets the items used for navigating.
         /// </summary>
         public ObservableCollection<NavigationViewItem> NavigationViewItems { get; } = new ObservableCollection<NavigationViewItem>();
-
-        /// <summary>
-        /// Gets or sets the primary content displayed to the user.
-        /// </summary>
-        public object MainContent
-        {
-            get => (object)GetValue(MainContentProperty);
-            set => SetValue(MainContentProperty, value);
-        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -73,10 +58,7 @@ namespace CommunityToolkit.Labs.Shared
             if (selectedMetadata is null)
                 return;
 
-            // TODO: Switch to Frame / Frame.Navigate when grouped-sample page is added.
-            var controlInstance = Activator.CreateInstance(selectedMetadata.SampleControlType);
-
-            MainContent = controlInstance;
+            NavFrame.Navigate(typeof(ToolkitSampleRenderer), selectedMetadata);
         }
 
         private IEnumerable<NavigationViewItem> GenerateSampleNavItemTree(IEnumerable<ToolkitSampleMetadata> sampleMetadata)

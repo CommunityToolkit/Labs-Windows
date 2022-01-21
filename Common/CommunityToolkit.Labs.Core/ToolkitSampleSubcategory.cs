@@ -2,24 +2,24 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Labs.Core
+namespace CommunityToolkit.Labs.Core;
+
+/// <summary>
+/// The various subcategories used by samples.
+/// </summary>
+/// <remarks>
+/// Subcategories can be used by samples across multiple categories.
+/// </remarks>
+public enum ToolkitSampleSubcategory : byte
 {
     /// <summary>
-    /// All the different subcategories used by samples.
+    /// No subcategory specified.
     /// </summary>
-    
-    // Subcategory is a flat enum so we can use a subcategory in multiple categories,
-    // and so we can freely move samples or whole sections in the future.
-    public enum ToolkitSampleSubcategory : byte
-    {
-        /// <summary>
-        /// No subcategory specified.
-        /// </summary>
-        None,
+    None,
 
-        /// <summary>
-        /// A sample that focuses on control layout.
-        /// </summary>
-        Layout,
-    }
+    /// <summary>
+    /// A sample that focuses on control layout.
+    /// </summary>
+    Layout,
 }
+

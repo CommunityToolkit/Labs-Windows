@@ -11,12 +11,20 @@
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="SamplePageOptions.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="SamplePageOptions.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="SamplePage.xaml" />
     <None Remove="SamplePage2.xaml" />
+    <None Remove="SamplePageOptions.xaml" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="SamplePage.xaml" />
     <UpToDateCheckInput Remove="SamplePage2.xaml" />
+    <UpToDateCheckInput Remove="SamplePageOptions.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" />
