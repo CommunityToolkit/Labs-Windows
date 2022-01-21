@@ -8,7 +8,7 @@ using System.Linq;
 using CommunityToolkit.Labs.Core.Attributes;
 using Microsoft.CodeAnalysis;
 
-namespace CommunityToolkit.Labs.Core;
+namespace CommunityToolkit.Labs.Core.Generators;
 
 /// <summary>
 /// Crawls all referenced projects for <see cref="ToolkitSampleAttribute"/>s and generates a static method that returns metadata for each one found.
