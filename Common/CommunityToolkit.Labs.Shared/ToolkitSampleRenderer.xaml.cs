@@ -1,9 +1,11 @@
 using CommunityToolkit.Labs.Core;
+using CommunityToolkit.Labs.Core.Attributes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -127,6 +129,10 @@ namespace CommunityToolkit.Labs.Shared
             {
                 var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"{filePath}.{fileExtension.Trim('.')}"));
                 var textContents = await FileIO.ReadTextAsync(file);
+
+                // Remove toolkit attributes
+                textContents = Regex.Replace(textContents, @$"\s+?\[{nameof(ToolkitSampleAttribute).Replace("Attribute", "")}.+\]", "");
+                textContents = Regex.Replace(textContents, @$"\s+?\[{nameof(ToolkitSampleOptionsPaneAttribute).Replace("Attribute", "")}.+\]", "");
 
                 return textContents;
             }
