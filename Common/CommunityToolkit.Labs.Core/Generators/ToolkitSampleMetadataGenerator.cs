@@ -29,7 +29,7 @@ public partial class ToolkitSampleMetadataGenerator : ISourceGenerator
         var assemblies = context.Compilation.SourceModule.ReferencedAssemblySymbols;
 
         var types = assemblies.SelectMany(asm => asm.GlobalNamespace.CrawlForAllNamedTypes())
-                              .Where(x => x is not null && x.TypeKind == TypeKind.Class && x.CanBeReferencedByName) // remove null and invalid values.
+                              .Where(x => x?.TypeKind == TypeKind.Class && x.CanBeReferencedByName) // remove null and invalid values.
                               .Cast<INamedTypeSymbol>(); // strip nullability from type.
 
         if (types is null)
@@ -42,6 +42,9 @@ public partial class ToolkitSampleMetadataGenerator : ISourceGenerator
         var toolkitSampleAttributeData = allAttributeData
             .Where(x => IsToolkitSampleAttribute(x.Attribute))
             .Select(x => (Attribute: x.Attribute.ReconstructAs<ToolkitSampleAttribute>(), AttachedQualifiedTypeName: x.Type.ToString()));
+
+        if (!toolkitSampleAttributeData.Any())
+            return;
 
         var optionsPaneAttributes = allAttributeData
             .Where(x => IsToolkitSampleOptionsPaneAttribute(x.Attribute))
