@@ -73,24 +73,4 @@ namespace CanvasLayout.Sample.SampleOne
                 _xamlProperties.PrimaryText.FontSize = ((Slider)sender).Value;
         }
     }
-
-    // TODO: Create a source generator to automate this.
-    public sealed partial class SamplePage
-    {
-        /// <summary>
-        /// Provides the same functionality as using <c>&lt;SomeElement x:FieldProvider="public" x:Name="someName"&gt;</c>
-        /// on an element in XAML, without the need for the extra <c>x:FieldProvider</c> markup.
-        /// </summary>
-        public record XamlNamedPropertyRelay
-        {
-            private readonly SamplePage _samplePage;
-
-            public XamlNamedPropertyRelay(SamplePage samplePage)
-            {
-                _samplePage = samplePage;
-            }
-
-            public TextBlock PrimaryText => _samplePage.PrimaryText;
-        }
-    }
 }
