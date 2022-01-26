@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <ContentControl Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
@@ -23,7 +23,7 @@
         <Border
             Grid.RowSpan="2"
             Grid.Column="1"
-            Padding="15">
+            Padding="20">
             <ContentControl Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}" />
         </Border>
 
