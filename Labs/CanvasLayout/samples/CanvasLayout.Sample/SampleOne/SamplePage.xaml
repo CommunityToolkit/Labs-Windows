@@ -7,7 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock x:Name="PrimaryText" FontSize="18" Text="Hello world! Samples coming soon™️." />
-    </Grid>
+    <StackPanel>
+        <TextBlock
+            x:Name="PrimaryText"
+            FontSize="18"
+            Text="Hello world! Samples coming soon™️."
+            Visibility="{x:Bind IsShown, Mode=OneWay}" />
+
+        <Button Content="Button" IsEnabled="{x:Bind ButtonIsEnabled, Mode=OneWay}" />
+    </StackPanel>
 </Page>

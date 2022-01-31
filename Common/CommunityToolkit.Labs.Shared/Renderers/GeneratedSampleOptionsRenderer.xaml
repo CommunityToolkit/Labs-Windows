@@ -1,0 +1,26 @@
+<UserControl
+    x:Class="CommunityToolkit.Labs.Shared.Renderers.GeneratedSampleOptionsRenderer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:CommunityToolkit.Labs.Shared.Renderers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <local:GeneratedSampleOptionTemplateSelector x:Key="GeneratedSampleOptionTemplateSelector">
+            <local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>
+                <DataTemplate x:DataType="metadata:ToolkitSampleBoolOptionMetadataViewModel">
+                    <CheckBox Content="{x:Bind Label}" IsChecked="{x:Bind BoolValue, Mode=TwoWay}" />
+                </DataTemplate>
+            </local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>
+        </local:GeneratedSampleOptionTemplateSelector>
+    </UserControl.Resources>
+
+    <ItemsControl ItemTemplateSelector="{StaticResource GeneratedSampleOptionTemplateSelector}" ItemsSource="{x:Bind SampleOptions, Mode=OneWay}" />
+
+
+</UserControl>

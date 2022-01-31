@@ -1,5 +1,6 @@
 using CommunityToolkit.Labs.Core;
-using CommunityToolkit.Labs.Core.Attributes;
+using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace CommunityToolkit.Labs.Shared
+namespace CommunityToolkit.Labs.Shared.Renderers
 {
     /// <summary>
     /// Handles the display of a single toolkit sample, its source code, and the options that control it.
@@ -117,8 +118,24 @@ namespace CommunityToolkit.Labs.Shared
 
             SampleControlInstance = (UIElement)Activator.CreateInstance(Metadata.SampleControlType);
 
+            // Custom control-based sample options.
             if (Metadata.SampleOptionsPaneType is not null)
+            {
                 SampleOptionsPaneInstance = (UIElement)Activator.CreateInstance(Metadata.SampleOptionsPaneType, SampleControlInstance);
+            }
+
+            // Source generater-based sample options
+            else if (SampleControlInstance is IToolkitSampleGeneratedOptionPropertyContainer propertyContainer)
+            {
+                // Pass the generated sample options to the displayed Control instance.
+                // Generated properties reference these in getters and setters.
+                propertyContainer.GeneratedPropertyMetadata = Metadata.GeneratedSampleOptions;
+
+                SampleOptionsPaneInstance = new GeneratedSampleOptionsRenderer
+                {
+                    SampleOptions = propertyContainer.GeneratedPropertyMetadata
+                };
+            }
         }
 
         public static async Task<string?> GetMetadataFileContents(ToolkitSampleMetadata metadata, string fileExtension)

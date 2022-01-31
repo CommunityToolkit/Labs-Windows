@@ -27,7 +27,6 @@
     <UpToDateCheckInput Remove="SamplePageOptions.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" />
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj" />
   </ItemGroup>
 </Project>

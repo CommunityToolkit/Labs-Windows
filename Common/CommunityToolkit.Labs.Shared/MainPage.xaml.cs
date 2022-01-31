@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Navigation;
 using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
 using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
 using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
+using CommunityToolkit.Labs.Shared.Renderers;
+using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 
 namespace CommunityToolkit.Labs.Shared
 {

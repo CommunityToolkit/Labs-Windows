@@ -3,7 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Core;
-using CommunityToolkit.Labs.Core.Attributes;
+using CommunityToolkit.Labs.Core.SourceGenerators;
+using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,6 +28,8 @@ namespace CanvasLayout.Sample.SampleOne
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     [ToolkitSample(id: nameof(SamplePage), "Canvas Layout", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A canvas-like VirtualizingPanel for use in an ItemsControl")]
+    [ToolkitSampleBoolOption("IsShown", "Toggle visibility", true)]
+    [ToolkitSampleBoolOption("ButtonIsEnabled", "Enabled the button", false)]
     public sealed partial class SamplePage : Page
     {
         public SamplePage()
