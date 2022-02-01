@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamepace>CommunityToolkit.Labs.WinAppSdk</RootNamepace>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
+
+    <Import Project="../Common/Labs.WinAppSdk.props" />
+
+    <ItemGroup>
+        <ProjectReference Include="..\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
+        <Manifest Include="$(ApplicationManifest)" />
+    </ItemGroup>
+
+    <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+         Tools extension to be activated for this project even if the Windows App SDK Nuget
+         package has not yet been restored -->
+    <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
+        <ProjectCapability Include="Msix" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj">
+            <Project>{210476d6-42cc-4d01-b027-478145bea8fe}</Project>
+            <Name>CommunityToolkit.Labs.Core</Name>
+        </ProjectReference>
+    </ItemGroup>
+</Project>
