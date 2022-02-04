@@ -4,9 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+
+#if !WINAPPSDK
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+#else
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+#endif
 
 namespace CommunityToolkit.Labs.Shared
 {
@@ -83,9 +99,9 @@ namespace CommunityToolkit.Labs.Shared
         }
 
         // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
-        private void ScheduleNavigate(Type type, object? param = null)
+        private void ScheduleNavigate(Type type, object param = null)
         {
-            var actionToExecute = () =>
+            DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
             {
                 // Individual samples are UserControls,
                 // but multi-sample view and grouped sample views should be a Page.
@@ -101,9 +117,7 @@ namespace CommunityToolkit.Labs.Shared
 #else
                 Frame.NavigateToType(type, param, new FrameNavigationOptions { IsNavigationStackEnabled = false });
 #endif
-            };
-
-            _ = Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => actionToExecute());
+            });
         }
 
         private IEnumerable<ToolkitSampleMetadata> FindReferencedSamplePages()

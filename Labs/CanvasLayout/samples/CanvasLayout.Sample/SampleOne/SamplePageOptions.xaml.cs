@@ -4,11 +4,19 @@
 
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 using Microsoft.UI.Xaml.Controls;
+
+#if WINAPPSDK
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
+#else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
+#endif
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

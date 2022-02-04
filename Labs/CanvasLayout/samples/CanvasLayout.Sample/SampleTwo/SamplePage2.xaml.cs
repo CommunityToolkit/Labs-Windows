@@ -4,7 +4,12 @@
 
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+#if WINAPPSDK
+using Microsoft.UI.Xaml.Controls;
+#else
 using Windows.UI.Xaml.Controls;
+#endif
 
 namespace CanvasLayout.Sample.SampleTwo
 {
