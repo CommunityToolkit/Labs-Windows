@@ -40,7 +40,6 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         /// </summary>
         public static readonly DependencyProperty SampleOptionsProperty =
             DependencyProperty.Register(nameof(SampleOptions), typeof(IEnumerable<IToolkitSampleOptionViewModel>), typeof(GeneratedSampleOptionsRenderer), new PropertyMetadata(null));
-        private readonly IToolkitSampleGeneratedOptionPropertyContainer _propertyContainer;
 
         /// <summary>
         /// The sample options that are displayed to the user.
@@ -50,5 +49,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             get => (IEnumerable<IToolkitSampleOptionViewModel>?)GetValue(SampleOptionsProperty);
             set => SetValue(SampleOptionsProperty, value);
         }
+
+        public static Visibility NullOrWhiteSpaceToVisibility(string? str) => string.IsNullOrWhiteSpace(str) ? Visibility.Collapsed : Visibility.Visible;
     }
 }

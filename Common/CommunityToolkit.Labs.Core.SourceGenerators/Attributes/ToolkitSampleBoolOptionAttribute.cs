@@ -16,8 +16,8 @@ public sealed class ToolkitSampleBoolOptionAttribute : ToolkitSampleOptionBaseAt
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleBoolOptionAttribute"/>.
     /// </summary>
-    public ToolkitSampleBoolOptionAttribute(string name, string label, bool defaultState)
-        : base(name, defaultState)
+    public ToolkitSampleBoolOptionAttribute(string name, string label, bool defaultState, string? title = null)
+        : base(name, defaultState, title)
     {
         Label = label;
     }

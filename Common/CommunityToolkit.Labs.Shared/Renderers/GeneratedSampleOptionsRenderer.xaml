@@ -14,7 +14,10 @@
         <local:GeneratedSampleOptionTemplateSelector x:Key="GeneratedSampleOptionTemplateSelector">
             <local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleBoolOptionMetadataViewModel">
-                    <CheckBox Content="{x:Bind Label}" IsChecked="{x:Bind BoolValue, Mode=TwoWay}" />
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Title}" Visibility="{x:Bind local:GeneratedSampleOptionsRenderer.NullOrWhiteSpaceToVisibility(Title)}" />
+                        <CheckBox Content="{x:Bind Label}" IsChecked="{x:Bind BoolValue, Mode=TwoWay}" />
+                    </StackPanel>
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>
         </local:GeneratedSampleOptionTemplateSelector>

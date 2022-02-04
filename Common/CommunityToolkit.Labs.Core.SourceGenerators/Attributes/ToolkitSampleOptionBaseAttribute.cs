@@ -12,8 +12,9 @@ public abstract class ToolkitSampleOptionBaseAttribute : Attribute
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleBoolOptionAttribute"/>.
     /// </summary>
-    public ToolkitSampleOptionBaseAttribute(string name, object defaultState)
+    public ToolkitSampleOptionBaseAttribute(string name, object defaultState, string? title = null)
     {
+        Title = title;
         Name = name;
         DefaultState = defaultState;
     }
@@ -27,6 +28,11 @@ public abstract class ToolkitSampleOptionBaseAttribute : Attribute
     /// The default state.
     /// </summary>
     public object DefaultState { get; }
+
+    /// <summary>
+    /// A title to display on top of the option.
+    /// </summary>
+    public string? Title { get; }
 
     /// <summary>
     /// The source generator-friendly type name used for casting.

@@ -157,14 +157,14 @@ public static class ToolkitSampleRegistry
     {
         if (baseAttribute is ToolkitSampleBoolOptionAttribute boolAttribute)
         {
-            return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(""{boolAttribute.Name}"", ""{boolAttribute.Label}"", {boolAttribute.DefaultState.ToString().ToLower()})";
+            return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", label: ""{boolAttribute.Label}"", defaultState: {boolAttribute.DefaultState.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
         }
 
         throw new NotSupportedException($"Unsupported or unhandled type {baseAttribute.GetType()}.");
     }
 
     /// <summary>
-    /// Checks if a symbol's is or inherits from a type representing a XAML framework/
+    /// Checks if a symbol's is or inherits from a type representing a XAML framework.
     /// </summary>
     /// <returns><see langwork="true"/> if the <paramref name="symbol"/> is or inherits from a type representing a XAML framework.</returns>
     private static bool IsValidXamlControl(INamedTypeSymbol symbol)

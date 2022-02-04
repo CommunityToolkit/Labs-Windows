@@ -38,8 +38,8 @@ namespace CanvasLayout.Sample.SampleOne
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     [ToolkitSample(id: nameof(SamplePage), "Canvas Layout", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A canvas-like VirtualizingPanel for use in an ItemsControl")]
+    [ToolkitSampleBoolOption("ButtonIsEnabled", "Enable the button", false, title: "Boolean tests")]
     [ToolkitSampleBoolOption("IsShown", "Toggle visibility", true)]
-    [ToolkitSampleBoolOption("ButtonIsEnabled", "Enabled the button", false)]
     public sealed partial class SamplePage : Page
     {
         public SamplePage()
