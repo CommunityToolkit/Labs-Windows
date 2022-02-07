@@ -55,6 +55,80 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithBadName.Id);
         }
 
+        [TestMethod]
+        public void PaneOptionWithDuplicateName()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleBoolOption(""test"", ""Toggle x"", false)]
+                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
+                
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample
+                {{
+                }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithDuplicateName.Id);
+        }
+
+        [TestMethod]
+        public void PaneOptionWithDuplicateName_AllowedForMultiChoice()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Segoe UI"", value: ""Segoe UI"", title: ""Font"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Arial"", value: ""Arial"")]
+
+                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
+                
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample
+                {{
+                }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source);
+        }
+
+        [TestMethod]
+        public void PaneOptionWithDuplicateName_AllowedBetweenSamples()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
+                
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample
+                {{
+                }}
+
+                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
+                
+                [ToolkitSample(id: nameof(Sample2), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample2
+                {{
+                }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source);
+        }
+
         /// <summary>
         /// Verifies the output of a source generator.
         /// </summary>
@@ -91,7 +165,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
             IIncrementalGenerator generator = new TGenerator();
-            
+
             GeneratorDriver driver = CSharpGeneratorDriver.Create(generator).WithUpdatedParseOptions((CSharpParseOptions)syntaxTree.Options);
 
             _ = driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation outputCompilation, out ImmutableArray<Diagnostic> diagnostics);

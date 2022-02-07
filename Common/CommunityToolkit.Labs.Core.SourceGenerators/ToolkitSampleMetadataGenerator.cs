@@ -91,13 +91,22 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                     ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample, item.Item1.Locations.FirstOrDefault()));
 
                 // Check for generated options with an empty or invalid name.
-                var generatedOptionsWithBadName = generatedOptionPropertyData.Where(x => string.IsNullOrWhiteSpace(x.Item2.Name) ||
-                                                                                        !x.Item2.Name.Any(char.IsLetterOrDigit) ||
-                                                                                        x.Item2.Name.Any(char.IsWhiteSpace) ||
-                                                                                        SyntaxFacts.GetKeywordKind(x.Item2.Name) != SyntaxKind.None);
+                var generatedOptionsWithBadName = generatedOptionPropertyData.Where(x => string.IsNullOrWhiteSpace(x.Item2.Name) || // Must not be null or empty
+                                                                                        !x.Item2.Name.Any(char.IsLetterOrDigit) || // Must be alphanumeric
+                                                                                        x.Item2.Name.Any(char.IsWhiteSpace) || // Must not have whitespace
+                                                                                        SyntaxFacts.GetKeywordKind(x.Item2.Name) != SyntaxKind.None); // Must not be a reserved keyword
 
                 foreach (var item in generatedOptionsWithBadName)
-                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithBadName, item.Item1.Locations.FirstOrDefault()));
+                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithBadName, item.Item1.Locations.FirstOrDefault(), item.Item1.ToString()));
+
+                // Check for generated options with duplicate names.
+                var generatedOptionsWithDuplicateName = generatedOptionPropertyData.GroupBy(x => x.Item1, SymbolEqualityComparer.Default) // Group by containing symbol (allow reuse across samples)
+                                                                                   .SelectMany(y => y.GroupBy(x => x.Item2.Name) // In this symbol, group options by name.
+                                                                                                     .Where(x => x.Any(x => x.Item2 is not ToolkitSampleMultiChoiceOptionAttribute)) // Exclude Multichoice. 
+                                                                                                     .Where(x => x.Count() > 1)); // Options grouped by name should only contain 1 item.
+
+                foreach (var item in generatedOptionsWithDuplicateName)
+                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithDuplicateName, item.SelectMany(x => x.Item1.Locations).FirstOrDefault(), item.Key));
 
                 // Check for options pane attributes with no matching sample ID
                 var optionsPaneAttributeWithMissingOrInvalidSampleId = optionsPaneAttribute.Where(x => !toolkitSampleAttributeData.Any(sample => sample.Attribute.Id == x.Item1?.SampleId));
