@@ -37,11 +37,11 @@ namespace CanvasLayout.Sample.SampleOne
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    [ToolkitSampleBoolOption("IsVisible", "IsVisible", true)]
+    [ToolkitSampleBoolOption("IsTextVisible", "IsVisible", true)]
 
-    [ToolkitSampleMultiChoiceOption("TextColor", label: "Teal", value: "#0ddc8c", title: "Text foreground")]
-    [ToolkitSampleMultiChoiceOption("TextColor", label: "Sand", value: "#e7a676")]
-    [ToolkitSampleMultiChoiceOption("TextColor", label: "Dull green", value: "#5d7577")]
+    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Teal", value: "#0ddc8c", title: "Text foreground")]
+    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Sand", value: "#e7a676")]
+    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Dull green", value: "#5d7577")]
 
     [ToolkitSampleMultiChoiceOption("TextSize", label: "Small", value: "12", title: "Text size")]
     [ToolkitSampleMultiChoiceOption("TextSize", label: "Normal", value: "16")]

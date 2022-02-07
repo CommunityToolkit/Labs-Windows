@@ -64,11 +64,26 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics
         /// </summary>
         public static readonly DiagnosticDescriptor SamplePaneOptionWithDuplicateName = new(
             id: "TKSMPL0004",
-            title: $"Duplicate sample option delaration",
+            title: $"Duplicate sample option name",
             messageFormat: $"Cannot generate sample pane option with name {{0}} as the provided name is already in use by another sample option",
             category: typeof(ToolkitSampleMetadataGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: $"Cannot generate sample pane option when the provided name is used by another sample option.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating a derived <see cref="Attributes.ToolkitSampleOptionBaseAttribute"/> that contains a name which is already defined as a member in the attached class.
+        /// <para>
+        /// Format: <c>"Cannot generate sample pane options with name {0} the provided name is already defined as a member in the attached class"</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor SamplePaneOptionWithConflictingName = new(
+            id: "TKSMPL0005",
+            title: $"Conflicting sample option name",
+            messageFormat: $"Cannot generate sample pane option with name {{0}} as the provided name is already defined as a member in the attached class",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot generate sample pane option when the provided name is already defined as a member in the attached class.");
     }
 }

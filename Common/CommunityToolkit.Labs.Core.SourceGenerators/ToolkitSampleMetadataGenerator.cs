@@ -108,6 +108,12 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 foreach (var item in generatedOptionsWithDuplicateName)
                     ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithDuplicateName, item.SelectMany(x => x.Item1.Locations).FirstOrDefault(), item.Key));
 
+                // Check for generated options that conflict with an existing property name
+                var generatedOptionsWithConflictingPropertyNames = generatedOptionPropertyData.Where(x => GetAllMembers((INamedTypeSymbol)x.Item1).Any(y => x.Item2.Name == y.Name));
+
+                foreach (var item in generatedOptionsWithConflictingPropertyNames)
+                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithConflictingName, item.Item1.Locations.FirstOrDefault(), item.Item2.Name));
+
                 // Check for options pane attributes with no matching sample ID
                 var optionsPaneAttributeWithMissingOrInvalidSampleId = optionsPaneAttribute.Where(x => !toolkitSampleAttributeData.Any(sample => sample.Attribute.Id == x.Item1?.SampleId));
 
@@ -214,5 +220,15 @@ public static class ToolkitSampleRegistry
         var typeIsAccessible = symbol.DeclaredAccessibility == Accessibility.Public;
 
         return validInheritedSymbol != default && typeIsAccessible && !symbol.IsStatic;
+    }
+
+    private static IEnumerable<ISymbol> GetAllMembers(INamedTypeSymbol symbol)
+    {
+        foreach (var item in symbol.GetMembers())
+            yield return item;
+
+        if (symbol.BaseType is not null)
+            foreach (var item in GetAllMembers(symbol.BaseType))
+                yield return item;
     }
 }

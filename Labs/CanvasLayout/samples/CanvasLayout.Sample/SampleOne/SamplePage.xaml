@@ -11,8 +11,8 @@
         <TextBlock x:Name="PrimaryText"
                    Text="Hello world! Samples coming soon™️."
                    FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
-                   Foreground="{x:Bind TextColor, Mode=OneWay}"
-                   Visibility="{x:Bind IsVisible, Mode=OneWay}"
+                   Foreground="{x:Bind TextForeground, Mode=OneWay}"
+                   Visibility="{x:Bind IsTextVisible, Mode=OneWay}"
                    FontSize="{x:Bind TextSize, Mode=OneWay}" />
     </StackPanel>
 </Page>

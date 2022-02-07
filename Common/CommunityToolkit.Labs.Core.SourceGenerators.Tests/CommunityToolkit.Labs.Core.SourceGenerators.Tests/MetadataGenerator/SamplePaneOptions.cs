@@ -56,6 +56,52 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
         }
 
         [TestMethod]
+        public void PaneOptionWithConflictingPropertyName()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleBoolOption(""IsVisible"", ""Toggle x"", false)]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample
+                {{
+                    public string IsVisible {{ get; set; }}
+                }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id);
+        }
+
+        [TestMethod]
+        public void PaneOptionWithConflictingInheritedPropertyName()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleBoolOption(""IsVisible"", ""Toggle x"", false)]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample : Base
+                {{
+                }}
+
+                public class Base
+                {{
+                    public string IsVisible {{ get; set; }}
+                }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id);
+        }
+
+        [TestMethod]
         public void PaneOptionWithDuplicateName()
         {
             var source = $@"
