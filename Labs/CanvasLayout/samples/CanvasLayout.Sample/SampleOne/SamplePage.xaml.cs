@@ -37,9 +37,21 @@ namespace CanvasLayout.Sample.SampleOne
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    [ToolkitSampleBoolOption("IsVisible", "IsVisible", true)]
+
+    [ToolkitSampleMultiChoiceOption("TextColor", label: "Teal", value: "#0ddc8c", title: "Text foreground")]
+    [ToolkitSampleMultiChoiceOption("TextColor", label: "Sand", value: "#e7a676")]
+    [ToolkitSampleMultiChoiceOption("TextColor", label: "Dull green", value: "#5d7577")]
+
+    [ToolkitSampleMultiChoiceOption("TextSize", label: "Small", value: "12", title: "Text size")]
+    [ToolkitSampleMultiChoiceOption("TextSize", label: "Normal", value: "16")]
+    [ToolkitSampleMultiChoiceOption("TextSize", label: "Big", value: "32")]
+
+    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Segoe UI", value: "Segoe UI", title: "Font")]
+    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Arial", value: "Arial")]
+    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Consolas", value: "Consolas")]
+
     [ToolkitSample(id: nameof(SamplePage), "Canvas Layout", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A canvas-like VirtualizingPanel for use in an ItemsControl")]
-    [ToolkitSampleBoolOption("ButtonIsEnabled", "Enable the button", false, title: "Boolean tests")]
-    [ToolkitSampleBoolOption("IsShown", "Toggle visibility", true)]
     public sealed partial class SamplePage : Page
     {
         public SamplePage()

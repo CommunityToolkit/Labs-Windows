@@ -54,12 +54,12 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
         /// <summary>
         /// The current boolean value.
         /// </summary>
-        public object Value
+        public object? Value
         {
             get => BoolValue;
             set
             {
-                BoolValue = (bool)value;
+                BoolValue = (bool)(value ?? false);
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Name));
             }
         }

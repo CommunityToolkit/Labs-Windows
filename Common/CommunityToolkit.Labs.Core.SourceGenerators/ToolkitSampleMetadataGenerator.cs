@@ -52,6 +52,9 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
                     return (x.Item1, (ToolkitSampleOptionBaseAttribute)boolOptionAttribute);
 
+                if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
+                    return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
+
                 return default;
             }).Collect();
 
@@ -148,19 +151,37 @@ public static class ToolkitSampleRegistry
         var categoryParam = $"{nameof(ToolkitSampleCategory)}.{metadata.Category}";
         var subcategoryParam = $"{nameof(ToolkitSampleSubcategory)}.{metadata.Subcategory}";
         var containingClassTypeParam = $"typeof({metadata.SampleAssemblyQualifiedName})";
-        var generatedSampleOptionsParam = $"new {typeof(IToolkitSampleOptionViewModel).FullName}[] {{ {string.Join(", ", metadata.GeneratedSampleOptions?.Select(BuildNewGeneratedSampleOptionMetadataSource).ToArray())} }}";
+        var generatedSampleOptionsParam = $"new {typeof(IToolkitSampleOptionViewModel).FullName}[] {{ {string.Join(", ", BuildNewGeneratedSampleOptionMetadataSource(metadata).ToArray())} }}";
 
         return @$"yield return new {typeof(ToolkitSampleMetadata).FullName}({categoryParam}, {subcategoryParam}, ""{metadata.DisplayName}"", ""{metadata.Description}"", {containingClassTypeParam}, {sampleOptionsParam}, {generatedSampleOptionsParam});";
     }
 
-    private static string BuildNewGeneratedSampleOptionMetadataSource(ToolkitSampleOptionBaseAttribute baseAttribute)
+    private static IEnumerable<string> BuildNewGeneratedSampleOptionMetadataSource(ToolkitSampleRecord sample)
     {
-        if (baseAttribute is ToolkitSampleBoolOptionAttribute boolAttribute)
+        // Handle group-able items
+        var multiChoice = sample.GeneratedSampleOptions.Where(x => x is ToolkitSampleMultiChoiceOptionAttribute)
+                                                       .Cast<ToolkitSampleMultiChoiceOptionAttribute>()
+                                                       .GroupBy(x => x.Name);
+
+        foreach (var item in multiChoice)
         {
-            return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", label: ""{boolAttribute.Label}"", defaultState: {boolAttribute.DefaultState.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
+            yield return $@"new {typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel).FullName}(name: ""{item.Key}"", options: new[] {{ {string.Join(",", item.Select(x => $@"new {typeof(MultiChoiceOption).FullName}(""{x.Label}"", ""{x.Value}"")").ToArray())} }}, title: ""{item.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Title)).Title}"")";
         }
 
-        throw new NotSupportedException($"Unsupported or unhandled type {baseAttribute.GetType()}.");
+        var remainingItems = sample.GeneratedSampleOptions?.Except(multiChoice.SelectMany(x => x));
+
+        // Handle non-grouped items
+        foreach (var item in remainingItems ?? Enumerable.Empty<ToolkitSampleOptionBaseAttribute>())
+        {
+            if (item is ToolkitSampleBoolOptionAttribute boolAttribute)
+            {
+                yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", label: ""{boolAttribute.Label}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
+            }
+            else
+            {
+                throw new NotSupportedException($"Unsupported or unhandled type {item.GetType()}.");
+            }
+        }
     }
 
     /// <summary>

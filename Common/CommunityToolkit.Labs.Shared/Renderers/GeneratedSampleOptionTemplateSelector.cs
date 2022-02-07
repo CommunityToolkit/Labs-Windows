@@ -20,11 +20,14 @@ namespace CommunityToolkit.Labs.Shared.Renderers
     {
         public DataTemplate? BoolOptionTemplate { get; set; }
 
+        public DataTemplate? MultiChoiceOptionTemplate { get; set; }
+
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
             return item switch
             {
                 ToolkitSampleBoolOptionMetadataViewModel => BoolOptionTemplate ?? base.SelectTemplateCore(item, container),
+                ToolkitSampleMultiChoiceOptionMetadataViewModel => MultiChoiceOptionTemplate ?? base.SelectTemplateCore(item, container),
                 _ => base.SelectTemplateCore(item, container),
             };
         }

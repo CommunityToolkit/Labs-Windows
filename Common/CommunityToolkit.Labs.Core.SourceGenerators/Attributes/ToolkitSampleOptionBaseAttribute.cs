@@ -12,10 +12,10 @@ public abstract class ToolkitSampleOptionBaseAttribute : Attribute
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleBoolOptionAttribute"/>.
     /// </summary>
-    public ToolkitSampleOptionBaseAttribute(string name, object defaultState, string? title = null)
+    public ToolkitSampleOptionBaseAttribute(string bindingName, object? defaultState, string? title = null)
     {
         Title = title;
-        Name = name;
+        Name = bindingName;
         DefaultState = defaultState;
     }
 
@@ -27,7 +27,7 @@ public abstract class ToolkitSampleOptionBaseAttribute : Attribute
     /// <summary>
     /// The default state.
     /// </summary>
-    public object DefaultState { get; }
+    public object? DefaultState { get; }
 
     /// <summary>
     /// A title to display on top of the option.

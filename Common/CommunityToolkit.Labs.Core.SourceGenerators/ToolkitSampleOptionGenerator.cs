@@ -15,6 +15,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators
     [Generator]
     public class ToolkitSampleOptionGenerator : IIncrementalGenerator
     {
+        private readonly HashSet<string> _handledPropertyNames = new();
         private readonly HashSet<ToolkitSampleOptionBaseAttribute> _handledAttributes = new();
         private readonly HashSet<ISymbol> _handledContainingClasses = new(SymbolEqualityComparer.Default);
 
@@ -36,6 +37,9 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators
                 {
                     if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
                         return (Attribute: (ToolkitSampleOptionBaseAttribute)boolOptionAttribute, ContainingClassSymbol: x.Item1, Type: typeof(ToolkitSampleBoolOptionMetadataViewModel));
+
+                    if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
+                        return (Attribute: (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute, ContainingClassSymbol: x.Item1, Type: typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel));
 
                     return default;
                 })
@@ -60,7 +64,8 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators
 
                 var dependencyPropertySource = BuildProperty(data.ContainingClassSymbol, data.Attribute.Name, data.Attribute.TypeName, data.Type);
 
-                ctx.AddSource($"{data.ContainingClassSymbol}.Property.{data.Attribute.Name}.g", dependencyPropertySource);
+                if (_handledPropertyNames.Add(data.Attribute.Name))
+                    ctx.AddSource($"{data.ContainingClassSymbol}.Property.{data.Attribute.Name}.g", dependencyPropertySource);
             });
 
         }

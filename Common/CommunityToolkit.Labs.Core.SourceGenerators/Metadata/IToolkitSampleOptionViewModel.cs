@@ -14,7 +14,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
         /// <summary>
         /// The current value. Bound in XAML.
         /// </summary>
-        public object Value { get; set; }
+        public object? Value { get; set; }
 
         /// <summary>
         /// A unique identifier name for this option.

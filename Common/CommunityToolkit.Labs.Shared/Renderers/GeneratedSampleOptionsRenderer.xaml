@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:CommunityToolkit.Labs.Shared.Renderers"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:attrs="using:CommunityToolkit.Labs.Core.SourceGenerators.Attributes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
     d:DesignHeight="300"
@@ -20,10 +22,25 @@
                     </StackPanel>
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>
+            <local:GeneratedSampleOptionTemplateSelector.MultiChoiceOptionTemplate>
+                <DataTemplate x:DataType="metadata:ToolkitSampleMultiChoiceOptionMetadataViewModel">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Title}" Visibility="{x:Bind local:GeneratedSampleOptionsRenderer.NullOrWhiteSpaceToVisibility(Title)}" />
+                        <muxc:RadioButtons ItemsSource="{x:Bind Options}"
+                                           SelectedItem="{x:Bind Value, Mode=TwoWay}"
+                                           SelectedIndex="0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </local:GeneratedSampleOptionTemplateSelector.MultiChoiceOptionTemplate>
         </local:GeneratedSampleOptionTemplateSelector>
     </UserControl.Resources>
 
-    <ItemsControl ItemTemplateSelector="{StaticResource GeneratedSampleOptionTemplateSelector}" ItemsSource="{x:Bind SampleOptions, Mode=OneWay}" />
-
+    <ItemsControl ItemsSource="{x:Bind SampleOptions, Mode=OneWay}" ItemTemplateSelector="{StaticResource GeneratedSampleOptionTemplateSelector}">
+        <ItemsControl.ItemContainerStyle>
+            <Style TargetType="ContentPresenter">
+                <Setter Property="Margin" Value="0,15" />
+            </Style>
+        </ItemsControl.ItemContainerStyle>
+    </ItemsControl>
 
 </UserControl>
