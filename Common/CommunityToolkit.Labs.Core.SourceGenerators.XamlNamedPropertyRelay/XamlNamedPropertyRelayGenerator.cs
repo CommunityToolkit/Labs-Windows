@@ -9,6 +9,9 @@ using System.Linq;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay;
 
+/// <summary>
+/// Generates code that provides access to XAML elements with <c>x:Name</c> from code-behind by wrapping an instance of a control, without the need to use <c>x:FieldProvider="public"</c> directly in markup.
+/// </summary>
 [Generator]
 public class XamlNamedPropertyRelayGenerator : IIncrementalGenerator
 {
