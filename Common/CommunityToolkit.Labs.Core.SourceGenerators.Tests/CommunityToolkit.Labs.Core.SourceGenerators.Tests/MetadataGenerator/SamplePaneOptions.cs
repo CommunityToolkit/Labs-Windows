@@ -175,6 +175,28 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source);
         }
 
+        [TestMethod]
+        public void PaneMultipleChoiceOptionWithMultipleTitles()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Segoe UI"", value: ""Segoe UI"", title: ""Font"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Arial"", value: ""Arial"", title: ""Other font"")]
+                
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample
+                {{
+                }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles.Id);
+        }
+
         /// <summary>
         /// Verifies the output of a source generator.
         /// </summary>
@@ -218,7 +240,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 
             HashSet<string> resultingIds = diagnostics.Select(diagnostic => diagnostic.Id).ToHashSet();
 
-            Assert.IsTrue(resultingIds.SetEquals(diagnosticsIds));
+            Assert.IsTrue(resultingIds.SetEquals(diagnosticsIds), $"Expected one of [{string.Join(", ", diagnosticsIds)}] diagnostic Ids. Got [{string.Join("", resultingIds)}]");
 
             GC.KeepAlive(sampleAttributeType);
         }

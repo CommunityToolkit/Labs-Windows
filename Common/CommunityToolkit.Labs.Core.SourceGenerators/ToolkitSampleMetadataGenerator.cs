@@ -34,8 +34,8 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
         var referencedTypes = context.CompilationProvider
                               .SelectMany((x, _) => x.SourceModule.ReferencedAssemblySymbols)
                               .SelectMany((asm, _) => asm.GlobalNamespace.CrawlForAllNamedTypes())
-                              .Where(x => x.TypeKind == TypeKind.Class && x.CanBeReferencedByName)/*
-                              .Where(IsValidXamlControl)*/
+                              .Where(x => x.TypeKind == TypeKind.Class && x.CanBeReferencedByName)
+                              /*.Where(IsValidXamlControl)*/
                               .Select((x, _) => (ISymbol)x);
 
         Execute(classes);
@@ -62,9 +62,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             var toolkitSampleAttributeData = allAttributeData.Select(static (data, _) =>
             {
                 if (data.Item2.TryReconstructAs<ToolkitSampleAttribute>() is ToolkitSampleAttribute sampleAttribute)
-                {
                     return (Attribute: sampleAttribute, AttachedQualifiedTypeName: data.Item1.ToString(), Symbol: data.Item1);
-                }
 
                 return default;
             }).Collect();
@@ -84,41 +82,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 var optionsPaneAttribute = data.Left.Left.Where(x => x != default).Distinct();
                 var generatedOptionPropertyData = data.Right.Where(x => x != default).Distinct();
 
-                // Check for generated options which don't have a valid sample attribute
-                var generatedOptionsWithMissingSampleAttribute = generatedOptionPropertyData.Where(x => !toolkitSampleAttributeData.Any(sample => ReferenceEquals(sample.Symbol, x.Item1)));
-
-                foreach (var item in generatedOptionsWithMissingSampleAttribute)
-                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample, item.Item1.Locations.FirstOrDefault()));
-
-                // Check for generated options with an empty or invalid name.
-                var generatedOptionsWithBadName = generatedOptionPropertyData.Where(x => string.IsNullOrWhiteSpace(x.Item2.Name) || // Must not be null or empty
-                                                                                        !x.Item2.Name.Any(char.IsLetterOrDigit) || // Must be alphanumeric
-                                                                                        x.Item2.Name.Any(char.IsWhiteSpace) || // Must not have whitespace
-                                                                                        SyntaxFacts.GetKeywordKind(x.Item2.Name) != SyntaxKind.None); // Must not be a reserved keyword
-
-                foreach (var item in generatedOptionsWithBadName)
-                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithBadName, item.Item1.Locations.FirstOrDefault(), item.Item1.ToString()));
-
-                // Check for generated options with duplicate names.
-                var generatedOptionsWithDuplicateName = generatedOptionPropertyData.GroupBy(x => x.Item1, SymbolEqualityComparer.Default) // Group by containing symbol (allow reuse across samples)
-                                                                                   .SelectMany(y => y.GroupBy(x => x.Item2.Name) // In this symbol, group options by name.
-                                                                                                     .Where(x => x.Any(x => x.Item2 is not ToolkitSampleMultiChoiceOptionAttribute)) // Exclude Multichoice. 
-                                                                                                     .Where(x => x.Count() > 1)); // Options grouped by name should only contain 1 item.
-
-                foreach (var item in generatedOptionsWithDuplicateName)
-                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithDuplicateName, item.SelectMany(x => x.Item1.Locations).FirstOrDefault(), item.Key));
-
-                // Check for generated options that conflict with an existing property name
-                var generatedOptionsWithConflictingPropertyNames = generatedOptionPropertyData.Where(x => GetAllMembers((INamedTypeSymbol)x.Item1).Any(y => x.Item2.Name == y.Name));
-
-                foreach (var item in generatedOptionsWithConflictingPropertyNames)
-                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithConflictingName, item.Item1.Locations.FirstOrDefault(), item.Item2.Name));
-
-                // Check for options pane attributes with no matching sample ID
-                var optionsPaneAttributeWithMissingOrInvalidSampleId = optionsPaneAttribute.Where(x => !toolkitSampleAttributeData.Any(sample => sample.Attribute.Id == x.Item1?.SampleId));
-
-                foreach (var item in optionsPaneAttributeWithMissingOrInvalidSampleId)
-                    ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.OptionsPaneAttributeWithMissingOrInvalidSampleId, item.Item2.Locations.FirstOrDefault()));
+                ReportDiagnostics(ctx, toolkitSampleAttributeData, optionsPaneAttribute, generatedOptionPropertyData);
 
                 // Reconstruct sample metadata from attributes
                 var sampleMetadata = toolkitSampleAttributeData
@@ -142,6 +106,89 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 ctx.AddSource($"ToolkitSampleRegistry.g.cs", source);
             });
         }
+    }
+
+    private static void ReportDiagnostics(SourceProductionContext ctx,
+                                          IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData,
+                                          IEnumerable<(ToolkitSampleOptionsPaneAttribute?, ISymbol)> optionsPaneAttribute,
+                                          IEnumerable<(ISymbol, ToolkitSampleOptionBaseAttribute)> generatedOptionPropertyData)
+    {
+        ReportGeneratedOptionsPaneDiagnostics(ctx, toolkitSampleAttributeData, generatedOptionPropertyData);
+        ReportDiagnosticsForLinkedOptionsPane(ctx, toolkitSampleAttributeData, optionsPaneAttribute);
+    }
+
+    private static void ReportDiagnosticsForLinkedOptionsPane(SourceProductionContext ctx,
+                                                              IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData,
+                                                              IEnumerable<(ToolkitSampleOptionsPaneAttribute?, ISymbol)> optionsPaneAttribute)
+    {
+        // Check for options pane attributes with no matching sample ID
+        var optionsPaneAttributeWithMissingOrInvalidSampleId = optionsPaneAttribute.Where(x => !toolkitSampleAttributeData.Any(sample => sample.Attribute.Id == x.Item1?.SampleId));
+
+        foreach (var item in optionsPaneAttributeWithMissingOrInvalidSampleId)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.OptionsPaneAttributeWithMissingOrInvalidSampleId, item.Item2.Locations.FirstOrDefault()));
+    }
+
+    private static void ReportGeneratedOptionsPaneDiagnostics(SourceProductionContext ctx,
+                                                              IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData,
+                                                              IEnumerable<(ISymbol, ToolkitSampleOptionBaseAttribute)> generatedOptionPropertyData)
+    {
+        ReportGeneratedMultiChoiceOptionsPaneDiagnostics(ctx, generatedOptionPropertyData);
+
+        // Check for generated options which don't have a valid sample attribute
+        var generatedOptionsWithMissingSampleAttribute = generatedOptionPropertyData.Where(x => !toolkitSampleAttributeData.Any(sample => ReferenceEquals(sample.Symbol, x.Item1)));
+
+        foreach (var item in generatedOptionsWithMissingSampleAttribute)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample, item.Item1.Locations.FirstOrDefault()));
+
+        // Check for generated options with an empty or invalid name.
+        var generatedOptionsWithBadName = generatedOptionPropertyData.Where(x => string.IsNullOrWhiteSpace(x.Item2.Name) || // Must not be null or empty
+                                                                                !x.Item2.Name.Any(char.IsLetterOrDigit) || // Must be alphanumeric
+                                                                                x.Item2.Name.Any(char.IsWhiteSpace) || // Must not have whitespace
+                                                                                SyntaxFacts.GetKeywordKind(x.Item2.Name) != SyntaxKind.None); // Must not be a reserved keyword
+
+        foreach (var item in generatedOptionsWithBadName)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithBadName, item.Item1.Locations.FirstOrDefault(), item.Item1.ToString()));
+
+        // Check for generated options with duplicate names.
+        var generatedOptionsWithDuplicateName = generatedOptionPropertyData.GroupBy(x => x.Item1, SymbolEqualityComparer.Default) // Group by containing symbol (allow reuse across samples)
+                                                                           .SelectMany(y => y.GroupBy(x => x.Item2.Name) // In this symbol, group options by name.
+                                                                                             .Where(x => x.Any(x => x.Item2 is not ToolkitSampleMultiChoiceOptionAttribute)) // Exclude Multichoice. 
+                                                                                             .Where(x => x.Count() > 1)); // Options grouped by name should only contain 1 item.
+
+        foreach (var item in generatedOptionsWithDuplicateName)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithDuplicateName, item.SelectMany(x => x.Item1.Locations).FirstOrDefault(), item.Key));
+
+        // Check for generated options that conflict with an existing property name
+        var generatedOptionsWithConflictingPropertyNames = generatedOptionPropertyData.Where(x => GetAllMembers((INamedTypeSymbol)x.Item1).Any(y => x.Item2.Name == y.Name));
+
+        foreach (var item in generatedOptionsWithConflictingPropertyNames)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneOptionWithConflictingName, item.Item1.Locations.FirstOrDefault(), item.Item2.Name));
+    }
+
+    private static void ReportGeneratedMultiChoiceOptionsPaneDiagnostics(SourceProductionContext ctx, IEnumerable<(ISymbol, ToolkitSampleOptionBaseAttribute)> generatedOptionPropertyData)
+    {
+        var generatedMultipleChoiceOptionWithMultipleTitles = new List<(ISymbol, ToolkitSampleOptionBaseAttribute)>();
+
+        var multiChoiceOptionsGroupedBySymbol = generatedOptionPropertyData.GroupBy(x => x.Item1, SymbolEqualityComparer.Default)
+                                                                           .Where(x => x.Any(x => x.Item2 is ToolkitSampleMultiChoiceOptionAttribute));
+
+        foreach (var symbolGroup in multiChoiceOptionsGroupedBySymbol)
+        {
+            var optionsGroupedByName = symbolGroup.GroupBy(x => x.Item2.Name);
+
+            foreach (var nameGroup in optionsGroupedByName)
+            {
+                var optionsGroupedByTitle = nameGroup.Where(x => !string.IsNullOrWhiteSpace(x.Item2?.Title))
+                                                     .GroupBy(x => x.Item2.Title)
+                                                     .SelectMany(x => x);
+
+                if (optionsGroupedByTitle.Count() > 1)
+                    generatedMultipleChoiceOptionWithMultipleTitles.Add(optionsGroupedByTitle.First());
+            }
+        }
+
+        foreach (var item in generatedMultipleChoiceOptionWithMultipleTitles)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles, item.Item1.Locations.FirstOrDefault(), item.Item2.Title));
     }
 
     private static string BuildRegistrationCallsFromMetadata(IEnumerable<ToolkitSampleRecord> sampleMetadata)
@@ -179,23 +226,17 @@ public static class ToolkitSampleRegistry
                                                        .GroupBy(x => x.Name);
 
         foreach (var item in multiChoice)
-        {
-            yield return $@"new {typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel).FullName}(name: ""{item.Key}"", options: new[] {{ {string.Join(",", item.Select(x => $@"new {typeof(MultiChoiceOption).FullName}(""{x.Label}"", ""{x.Value}"")").ToArray())} }}, title: ""{item.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Title)).Title}"")";
-        }
-
-        var remainingItems = sample.GeneratedSampleOptions?.Except(multiChoice.SelectMany(x => x));
+            yield return $@"new {typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel).FullName}(name: ""{item.Key}"", options: new[] {{ {string.Join(",", item.Select(x => $@"new {typeof(MultiChoiceOption).FullName}(""{x.Label}"", ""{x.Value}"")").ToArray())} }}, title: ""{item.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Title))?.Title}"")";
 
         // Handle non-grouped items
+        var remainingItems = sample.GeneratedSampleOptions?.Except(multiChoice.SelectMany(x => x));
+
         foreach (var item in remainingItems ?? Enumerable.Empty<ToolkitSampleOptionBaseAttribute>())
         {
             if (item is ToolkitSampleBoolOptionAttribute boolAttribute)
-            {
                 yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", label: ""{boolAttribute.Label}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
-            }
             else
-            {
                 throw new NotSupportedException($"Unsupported or unhandled type {item.GetType()}.");
-            }
         }
     }
 

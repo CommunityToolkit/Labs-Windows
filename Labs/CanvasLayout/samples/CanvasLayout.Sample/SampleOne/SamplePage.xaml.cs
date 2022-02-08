@@ -47,7 +47,7 @@ namespace CanvasLayout.Sample.SampleOne
     [ToolkitSampleMultiChoiceOption("TextSize", label: "Normal", value: "16")]
     [ToolkitSampleMultiChoiceOption("TextSize", label: "Big", value: "32")]
 
-    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Segoe UI", value: "Segoe UI", title: "Font")]
+    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Segoe UI", value: "Segoe UI")]
     [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Arial", value: "Arial")]
     [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Consolas", value: "Consolas")]
 
