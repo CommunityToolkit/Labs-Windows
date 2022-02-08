@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace CommunityToolkit.Labs.Core.Generators
+namespace CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay
 {
     public static class GeneratorExtensions
     {
@@ -24,7 +24,7 @@ namespace CommunityToolkit.Labs.Core.Generators
             {
                 if (member is INamespaceSymbol nestedNamespace)
                 {
-                    foreach (var item in CrawlForAllNamedTypes(nestedNamespace))
+                    foreach (var item in nestedNamespace.CrawlForAllNamedTypes())
                         yield return item;
                 }
 
