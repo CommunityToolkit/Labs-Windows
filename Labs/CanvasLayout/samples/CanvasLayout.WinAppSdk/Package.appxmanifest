@@ -2,25 +2,24 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="CommunityToolkit.Labs.Samples.Uwp"
+    Name="CommunityToolkit.Labs.Samples.WinAppSdk"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="0b7f1f39-b49e-4d5a-b495-13c60832c27f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
-
   <Properties>
-    <DisplayName>CommunityToolkit Labs Sample App</DisplayName>
+    <DisplayName>CommunityToolkit Labs: CanvasLayout Sample</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
   </Dependencies>
 
   <Resources>
@@ -30,9 +29,9 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="CommunityToolkit.Labs.Shared.App">
+      EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="CommunityToolkit Labs Sample App"
+      DisplayName="CommunityToolkit Labs: CanvasLayout Sample"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="CommunityToolkit Labs Samples"
@@ -44,6 +43,7 @@
   </Applications>
 
   <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
     <Capability Name="internetClient" />
   </Capabilities>
 </Package>

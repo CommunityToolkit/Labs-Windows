@@ -9,6 +9,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+
+#if !WINAPPSDK
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -16,6 +19,16 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+#else
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+#endif
 
 namespace CommunityToolkit.Labs.Shared
 {
@@ -80,7 +93,7 @@ namespace CommunityToolkit.Labs.Shared
 
             if (samplePages.Length == 1)
             {
-                ScheduleNavigate(samplePages[0].Type);
+                ScheduleNavigate(samplePages[0].SampleControlType);
                 return;
             }
 
@@ -92,10 +105,19 @@ namespace CommunityToolkit.Labs.Shared
         }
 
         // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
-        private void ScheduleNavigate(Type type, object? param = null)
+        private void ScheduleNavigate(Type type, object param = null)
         {
-            _ = Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
             {
+                // Individual samples are UserControls,
+                // but multi-sample view and grouped sample views should be a Page.
+                // TODO: Remove after creating grouped-sample view.
+                if (!type.IsSubclassOf(typeof(Page)))
+                {
+                    Window.Current.Content = (UIElement)Activator.CreateInstance(type);
+                    return;
+                }
+
 #if __WASM__
                 Frame.Navigate(type, param);
 #else
@@ -106,27 +128,7 @@ namespace CommunityToolkit.Labs.Shared
 
         private IEnumerable<ToolkitSampleMetadata> FindReferencedSamplePages()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            foreach (var assembly in assemblies)
-            {
-                // Sample projects are templated and must contain the word "sample".
-                // Skip iterating non-sample assemblies.
-                if (!assembly.FullName.Contains("sample", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                foreach (var type in assembly.ExportedTypes)
-                {
-                    // Sample pages must derive from Page.
-                    if (!type.IsSubclassOf(typeof(Page)))
-                        continue;
-
-                    var attributes = type.GetCustomAttributes<ToolkitSampleAttribute>();
-
-                    foreach (var attribute in attributes)
-                        yield return new ToolkitSampleMetadata(attribute.Category, attribute.Subcategory, attribute.DisplayName, attribute.Description, type);
-                }
-            }
+            return ToolkitSampleRegistry.Execute();
         }
     }
 }
