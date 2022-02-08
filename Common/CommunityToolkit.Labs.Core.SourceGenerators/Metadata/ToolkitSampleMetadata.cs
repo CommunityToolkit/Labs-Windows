@@ -19,7 +19,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 /// The control type for the sample page's options pane.
 /// Constructor should have exactly one parameter that can be assigned to the control type (<see cref="SampleControlType"/>).
 /// </param>
-/// <param name="GeneratedSampleOptions">The options that were declared alongside this sample, if any.</param>
+/// <param name="GeneratedSampleOptions">The generated sample options that were declared alongside this sample, if any.</param>
 public sealed record ToolkitSampleMetadata(
         ToolkitSampleCategory Category,
         ToolkitSampleSubcategory Subcategory,
@@ -27,4 +27,4 @@ public sealed record ToolkitSampleMetadata(
         string Description,
         Type SampleControlType,
         Type? SampleOptionsPaneType = null,
-        IEnumerable<IToolkitSampleOptionViewModel>? GeneratedSampleOptions = null);
+        IEnumerable<IGeneratedToolkitSampleOptionViewModel>? GeneratedSampleOptions = null);

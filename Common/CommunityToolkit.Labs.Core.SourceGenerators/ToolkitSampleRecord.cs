@@ -9,6 +9,9 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
 public partial class ToolkitSampleMetadataGenerator
 {
+    /// <summary>
+    /// Used to hold interim data during the source generation process by <see cref="ToolkitSampleMetadataGenerator"/>.
+    /// </summary>
     /// <remarks>
     /// A new record must be used instead of using <see cref="ToolkitSampleMetadata"/> directly
     /// because we cannot <c>Type.GetType</c> using the <paramref name="SampleAssemblyQualifiedName"/>,

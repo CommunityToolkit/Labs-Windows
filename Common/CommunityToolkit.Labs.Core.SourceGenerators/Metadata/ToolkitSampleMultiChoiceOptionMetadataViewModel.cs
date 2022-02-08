@@ -8,9 +8,9 @@ using System.ComponentModel;
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
 {
     /// <summary>
-    /// A metadata container for data defined in <see cref="ToolkitSampleMultiChoiceOptionAttribute"/> with INPC support.
+    /// An INPC-enabled metadata container for data defined in an <see cref="ToolkitSampleMultiChoiceOptionAttribute"/>.
     /// </summary>
-    public class ToolkitSampleMultiChoiceOptionMetadataViewModel : IToolkitSampleOptionViewModel
+    public class ToolkitSampleMultiChoiceOptionMetadataViewModel : IGeneratedToolkitSampleOptionViewModel
     {
         private string? _title;
         private object? _value;

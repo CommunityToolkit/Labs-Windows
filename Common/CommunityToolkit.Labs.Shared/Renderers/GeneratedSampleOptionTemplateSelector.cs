@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Controls;
 namespace CommunityToolkit.Labs.Shared.Renderers
 {
     /// <summary>
-    /// Selects a template for a given <see cref="IToolkitSampleOptionViewModel{T}"/>.
+    /// Selects a sample option template for the provided <see cref="IGeneratedToolkitSampleOptionViewModel"/>.
     /// </summary>
     internal class GeneratedSampleOptionTemplateSelector : DataTemplateSelector
     {

@@ -28,6 +28,19 @@ using Windows.UI.Xaml.Navigation;
 
 namespace CommunityToolkit.Labs.Shared.Renderers
 {
+    /// <summary>
+    /// Displays the provided <see cref="SampleOptions"/> for manipulation by the user.
+    /// </summary>
+    /// <remarks>
+    /// Sample pages implement <see cref="IToolkitSampleGeneratedOptionPropertyContainer"/> via source generators,
+    /// and are provided a reference to the same <see cref="SampleOptions"/> given to this control.
+    /// <para/>
+    /// When the user updates the <see cref="IGeneratedToolkitSampleOptionViewModel.Value"/>,
+    /// a PropertyChanged event with the <see cref="IGeneratedToolkitSampleOptionViewModel.Name"/> should be emitted.
+    /// <para/>
+    /// The sample page sees this property change event via the generated <see cref="IToolkitSampleGeneratedOptionPropertyContainer"/>,
+    /// causing it to re-get the proxied <see cref="IGeneratedToolkitSampleOptionViewModel.Value"/>.
+    /// </remarks>
     public sealed partial class GeneratedSampleOptionsRenderer : UserControl
     {
         public GeneratedSampleOptionsRenderer()
@@ -39,14 +52,14 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         /// The backing <see cref="DependencyProperty"/> for <see cref="SampleOptions"/>.
         /// </summary>
         public static readonly DependencyProperty SampleOptionsProperty =
-            DependencyProperty.Register(nameof(SampleOptions), typeof(IEnumerable<IToolkitSampleOptionViewModel>), typeof(GeneratedSampleOptionsRenderer), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(SampleOptions), typeof(IEnumerable<IGeneratedToolkitSampleOptionViewModel>), typeof(GeneratedSampleOptionsRenderer), new PropertyMetadata(null));
 
         /// <summary>
-        /// The sample options that are displayed to the user.
+        /// The generated sample options that should be displayed to the user.
         /// </summary>
-        public IEnumerable<IToolkitSampleOptionViewModel>? SampleOptions
+        public IEnumerable<IGeneratedToolkitSampleOptionViewModel>? SampleOptions
         {
-            get => (IEnumerable<IToolkitSampleOptionViewModel>?)GetValue(SampleOptionsProperty);
+            get => (IEnumerable<IGeneratedToolkitSampleOptionViewModel>?)GetValue(SampleOptionsProperty);
             set => SetValue(SampleOptionsProperty, value);
         }
 

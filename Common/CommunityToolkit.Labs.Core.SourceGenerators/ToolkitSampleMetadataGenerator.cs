@@ -236,7 +236,7 @@ public static class ToolkitSampleRegistry
         var categoryParam = $"{nameof(ToolkitSampleCategory)}.{metadata.Category}";
         var subcategoryParam = $"{nameof(ToolkitSampleSubcategory)}.{metadata.Subcategory}";
         var containingClassTypeParam = $"typeof({metadata.SampleAssemblyQualifiedName})";
-        var generatedSampleOptionsParam = $"new {typeof(IToolkitSampleOptionViewModel).FullName}[] {{ {string.Join(", ", BuildNewGeneratedSampleOptionMetadataSource(metadata).ToArray())} }}";
+        var generatedSampleOptionsParam = $"new {typeof(IGeneratedToolkitSampleOptionViewModel).FullName}[] {{ {string.Join(", ", BuildNewGeneratedSampleOptionMetadataSource(metadata).ToArray())} }}";
 
         return @$"yield return new {typeof(ToolkitSampleMetadata).FullName}({categoryParam}, {subcategoryParam}, ""{metadata.DisplayName}"", ""{metadata.Description}"", {containingClassTypeParam}, {sampleOptionsParam}, {generatedSampleOptionsParam});";
     }

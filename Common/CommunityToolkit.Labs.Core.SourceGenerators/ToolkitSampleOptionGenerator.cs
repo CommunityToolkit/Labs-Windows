@@ -95,9 +95,9 @@ namespace {containingClassSymbol.ContainingNamespace}
 {{
     public partial class {containingClassSymbol.Name} : {typeof(IToolkitSampleGeneratedOptionPropertyContainer).Namespace}.{nameof(IToolkitSampleGeneratedOptionPropertyContainer)}
     {{
-        private IEnumerable<{typeof(IToolkitSampleOptionViewModel).FullName}>? _generatedPropertyMetadata;
+        private IEnumerable<{typeof(IGeneratedToolkitSampleOptionViewModel).FullName}>? _generatedPropertyMetadata;
 
-        public IEnumerable<{typeof(IToolkitSampleOptionViewModel).FullName}>? GeneratedPropertyMetadata
+        public IEnumerable<{typeof(IGeneratedToolkitSampleOptionViewModel).FullName}>? GeneratedPropertyMetadata
         {{
             get => _generatedPropertyMetadata;
             set
