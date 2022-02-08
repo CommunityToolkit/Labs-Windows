@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <TextBlock FontSize="18" Text="Samples coming soon™️. Hello world!" />
+        <TextBlock x:Name="PrimaryText" FontSize="18" Text="Samples coming soon™️. Hello world!" />
     </Grid>
 </UserControl>

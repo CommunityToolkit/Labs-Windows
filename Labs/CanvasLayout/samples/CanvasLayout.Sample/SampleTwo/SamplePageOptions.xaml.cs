@@ -20,20 +20,20 @@ using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace CanvasLayout.Sample.SampleOne
+namespace CanvasLayout.Sample.SampleTwo
 {
-    //[ToolkitSampleOptionsPane(sampleId: nameof(SamplePage))]
+    [ToolkitSampleOptionsPane(sampleId: nameof(SamplePage2))]
     public sealed partial class SamplePageOptions : UserControl
     {
-        private readonly SamplePage _samplePage;
-        private SamplePage.XamlNamedPropertyRelay _xamlProperties;
+        private readonly SamplePage2 _samplePage;
+        private SamplePage2.XamlNamedPropertyRelay _xamlProperties;
 
-        public SamplePageOptions(SamplePage samplePage)
+        public SamplePageOptions(SamplePage2 samplePage)
         {
             Loaded += SamplePageOptions_Loaded;
 
             _samplePage = samplePage;
-            _xamlProperties = new SamplePage.XamlNamedPropertyRelay(_samplePage);
+            _xamlProperties = new SamplePage2.XamlNamedPropertyRelay(_samplePage);
 
             this.InitializeComponent();
         }
