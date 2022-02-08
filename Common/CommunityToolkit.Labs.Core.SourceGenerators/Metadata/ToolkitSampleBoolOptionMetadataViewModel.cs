@@ -41,6 +41,9 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
         /// <summary>
         /// The current boolean value.
         /// </summary>
+        /// <remarks>
+        /// Provided to accomodate binding to a property that is a non-nullable <see cref="bool"/>.
+        /// </remarks>
         public bool BoolValue
         {
             get => (bool)_value;
@@ -51,9 +54,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
             }
         }
 
-        /// <summary>
-        /// The current boolean value.
-        /// </summary>
+        /// <inheritdoc/>
         public object? Value
         {
             get => BoolValue;
@@ -78,7 +79,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
         }
 
         /// <summary>
-        /// A label to display along the boolean option.
+        /// A title to display on top of the boolean option.
         /// </summary>
         public string? Title
         {

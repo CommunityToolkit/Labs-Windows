@@ -12,7 +12,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
     public interface IToolkitSampleOptionViewModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// The current value. Bound in XAML.
+        /// The current value. This property is provided for binding all generated properties in XAML.
         /// </summary>
         public object? Value { get; set; }
 

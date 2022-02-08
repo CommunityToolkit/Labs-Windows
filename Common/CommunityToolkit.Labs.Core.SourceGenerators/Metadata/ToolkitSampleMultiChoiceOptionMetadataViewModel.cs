@@ -50,14 +50,14 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
             get => _value;
             set
             {
+                // XAML converting a null value isn't supported for all types.
+                if (value is null)
+                    return;
+
                 if (value is MultiChoiceOption op)
                     _value = op.Value;
-                else
-                    _value = value;
 
-                // Value is null when selection changes
-                if (value is not null)
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Name));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Name));
             }
         }
 
