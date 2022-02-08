@@ -6,13 +6,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 {
     [TestClass]
-    public class SamplePaneOptions
+    public class ToolkitSampleMetadataTests
     {
         [TestMethod]
         public void PaneOptionOnNonSample()
@@ -24,9 +23,14 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             namespace MyApp
             {
                 [ToolkitSampleBoolOption(""BindToMe"", ""Toggle visibility"", false)]
-                public partial class Sample
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {
                 }
+            }
+
+            namespace Windows.UI.Xaml.Controls
+            {
+                public class UserControl { }
             }";
 
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample.Id);
@@ -47,9 +51,14 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             {{
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
                 [ToolkitSampleBoolOption(""{name}"", ""Toggle visibility"", false)]
-                public partial class Sample
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
             }}";
 
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithBadName.Id);
@@ -67,10 +76,15 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             {{
                 [ToolkitSampleBoolOption(""IsVisible"", ""Toggle x"", false)]
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
-                public partial class Sample
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                     public string IsVisible {{ get; set; }}
                 }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
             }}";
 
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id);
@@ -92,10 +106,15 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 {{
                 }}
 
-                public class Base
+                public class Base : Windows.UI.Xaml.Controls.UserControl
                 {{
                     public string IsVisible {{ get; set; }}
                 }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
             }}";
 
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id);
@@ -115,9 +134,14 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
-                public partial class Sample
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
             }}";
 
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithDuplicateName.Id);
@@ -139,9 +163,14 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
-                public partial class Sample
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
             }}";
 
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source);
@@ -160,16 +189,21 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
-                public partial class Sample
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
 
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 
                 [ToolkitSample(id: nameof(Sample2), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
-                public partial class Sample2
+                public partial class Sample2 : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
             }}";
 
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source);
@@ -189,12 +223,86 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Arial"", value: ""Arial"", title: ""Other font"")]
                 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
+                {{
+                }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles.Id);
+        }
+
+        [TestMethod]
+        public void SampleGeneratedOptionAttributeOnUnsupportedType()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Segoe UI"", value: ""Segoe UI"", title: ""Font"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Arial"", value: ""Arial"")]
+                [ToolkitSampleBoolOption(""Test"", ""Toggle visibility"", false)]
                 public partial class Sample
                 {{
                 }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleGeneratedOptionAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample.Id);
+        }
+
+        [TestMethod]
+        public void SampleAttributeOnUnsupportedType()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{                
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample
+                {{
+                }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleAttributeOnUnsupportedType.Id);
+        }
+
+        [TestMethod]
+        public void SampleOptionPaneAttributeOnUnsupportedType()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{                
+                [ToolkitSampleOptionsPane(sampleId: nameof(Sample))]
+                public partial class SampleOptionsPane
+                {{
+                }}  
+
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
+                {{
+                }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
+            }}";
+
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleOptionPaneAttributeOnUnsupportedType.Id);
         }
 
         /// <summary>
@@ -240,7 +348,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 
             HashSet<string> resultingIds = diagnostics.Select(diagnostic => diagnostic.Id).ToHashSet();
 
-            Assert.IsTrue(resultingIds.SetEquals(diagnosticsIds), $"Expected one of [{string.Join(", ", diagnosticsIds)}] diagnostic Ids. Got [{string.Join("", resultingIds)}]");
+            Assert.IsTrue(resultingIds.SetEquals(diagnosticsIds), $"Expected one of [{string.Join(", ", diagnosticsIds)}] diagnostic Ids. Got [{string.Join(", ", resultingIds)}]");
 
             GC.KeepAlive(sampleAttributeType);
         }

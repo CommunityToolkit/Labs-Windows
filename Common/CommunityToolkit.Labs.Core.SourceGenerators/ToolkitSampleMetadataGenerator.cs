@@ -35,7 +35,6 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                               .SelectMany((x, _) => x.SourceModule.ReferencedAssemblySymbols)
                               .SelectMany((asm, _) => asm.GlobalNamespace.CrawlForAllNamedTypes())
                               .Where(x => x.TypeKind == TypeKind.Class && x.CanBeReferencedByName)
-                              /*.Where(IsValidXamlControl)*/
                               .Select((x, _) => (ISymbol)x);
 
         Execute(classes);
@@ -46,7 +45,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             // Get all attributes + the original type symbol.
             var allAttributeData = types.SelectMany(static (sym, _) => sym.GetAttributes().Select(x => (sym, x)));
 
-            // Get all generated pane option attributes + the original type symbol.
+            // Find and reconstruct generated pane option attributes + the original type symbol.
             var generatedPaneOptions = allAttributeData.Select(static (x, _) =>
             {
                 if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
@@ -58,7 +57,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 return default;
             }).Collect();
 
-            // Find and reconstruct relevant attributes (with pane options)
+            // Find and reconstruct sample attributes
             var toolkitSampleAttributeData = allAttributeData.Select(static (data, _) =>
             {
                 if (data.Item2.TryReconstructAs<ToolkitSampleAttribute>() is ToolkitSampleAttribute sampleAttribute)
@@ -113,8 +112,32 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                                           IEnumerable<(ToolkitSampleOptionsPaneAttribute?, ISymbol)> optionsPaneAttribute,
                                           IEnumerable<(ISymbol, ToolkitSampleOptionBaseAttribute)> generatedOptionPropertyData)
     {
-        ReportGeneratedOptionsPaneDiagnostics(ctx, toolkitSampleAttributeData, generatedOptionPropertyData);
+        ReportDiagnosticsForInvalidAttributeUsage(ctx, toolkitSampleAttributeData, optionsPaneAttribute, generatedOptionPropertyData);
         ReportDiagnosticsForLinkedOptionsPane(ctx, toolkitSampleAttributeData, optionsPaneAttribute);
+        ReportDiagnosticsGeneratedOptionsPane(ctx, toolkitSampleAttributeData, generatedOptionPropertyData);
+    }
+
+    private static void ReportDiagnosticsForInvalidAttributeUsage(SourceProductionContext ctx,
+                                                                  IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData,
+                                                                  IEnumerable<(ToolkitSampleOptionsPaneAttribute?, ISymbol)> optionsPaneAttribute,
+                                                                  IEnumerable<(ISymbol, ToolkitSampleOptionBaseAttribute)> generatedOptionPropertyData)
+    {
+        var toolkitAttributesOnUnsupportedType = toolkitSampleAttributeData.Where(x => x.Symbol is not INamedTypeSymbol namedSym || !IsValidXamlControl(namedSym));
+        var optionsAttributeOnUnsupportedType = optionsPaneAttribute.Where(x => x.Item2 is not INamedTypeSymbol namedSym || !IsValidXamlControl(namedSym));
+        var generatedOptionAttributeOnUnsupportedType = generatedOptionPropertyData.Where(x => x.Item1 is not INamedTypeSymbol namedSym || !IsValidXamlControl(namedSym));
+
+
+        foreach (var item in toolkitAttributesOnUnsupportedType)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SampleAttributeOnUnsupportedType, item.Symbol.Locations.FirstOrDefault()));
+
+
+        foreach (var item in optionsAttributeOnUnsupportedType)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SampleOptionPaneAttributeOnUnsupportedType, item.Item2.Locations.FirstOrDefault()));
+
+
+        foreach (var item in generatedOptionAttributeOnUnsupportedType)
+            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SampleGeneratedOptionAttributeOnUnsupportedType, item.Item1.Locations.FirstOrDefault()));
+
     }
 
     private static void ReportDiagnosticsForLinkedOptionsPane(SourceProductionContext ctx,
@@ -128,7 +151,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.OptionsPaneAttributeWithMissingOrInvalidSampleId, item.Item2.Locations.FirstOrDefault()));
     }
 
-    private static void ReportGeneratedOptionsPaneDiagnostics(SourceProductionContext ctx,
+    private static void ReportDiagnosticsGeneratedOptionsPane(SourceProductionContext ctx,
                                                               IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData,
                                                               IEnumerable<(ISymbol, ToolkitSampleOptionBaseAttribute)> generatedOptionPropertyData)
     {
@@ -255,8 +278,8 @@ public static class ToolkitSampleRegistry
 
         // Recursively crawl the base types until either UserControl or Page is found.
         var validInheritedSymbol = symbol.CrawlBy(x => x?.BaseType, baseType => validNamespaceRoots.Any(x => $"{baseType}".StartsWith(x)) &&
-                                                                    $"{baseType}".Contains(".UI.Xaml.Controls.") &&
-                                                                    validSimpleTypeNames.Any(x => $"{baseType}".EndsWith(x)));
+                                                                                $"{baseType}".Contains(".UI.Xaml.Controls.") &&
+                                                                                validSimpleTypeNames.Any(x => $"{baseType}".EndsWith(x)));
 
         var typeIsAccessible = symbol.DeclaredAccessibility == Accessibility.Public;
 

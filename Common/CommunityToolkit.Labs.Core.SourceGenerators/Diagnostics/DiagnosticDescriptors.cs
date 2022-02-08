@@ -100,5 +100,50 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: $"Cannot generate multiple choice sample pane option as the title was defined multiple times.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating a <see cref="Attributes.ToolkitSampleAttribute"/> that was used on an unsupported type.
+        /// <para>
+        /// Format: <c>"Cannot generate sample metadata as the attribute was used on an unsupported type."</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor SampleAttributeOnUnsupportedType = new(
+            id: "TKSMPL0007",
+            title: $"ToolkitSampleAttribute declared on an invalid type",
+            messageFormat: $"Cannot generate sample metadata as the attribute was used on an unsupported type",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot generate sample metadata as the attribute was used on an unsupported type.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating a <see cref="Attributes.ToolkitSampleOptionsPaneAttribute"/> that was used on an unsupported type.
+        /// <para>
+        /// Format: <c>"Cannot generate options pane metadata as the attribute was used on an unsupported type."</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor SampleOptionPaneAttributeOnUnsupportedType = new(
+            id: "TKSMPL0008",
+            title: $"Toolkit sample options pane declared on an invalid type",
+            messageFormat: $"Cannot generate options pane metadata as the attribute was used on an unsupported type",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot generate options pane metadata as the attribute was used on an unsupported type.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating a derived <see cref="Attributes.ToolkitSampleOptionBaseAttribute"/> that was used on an unsupported type.
+        /// <para>
+        /// Format: <c>"Cannot generate sample option metadata as the attribute was used on an unsupported type."</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor SampleGeneratedOptionAttributeOnUnsupportedType = new(
+            id: "TKSMPL0009",
+            title: $"Toolkit sample option declared on an invalid type",
+            messageFormat: $"Cannot generate sample option metadata as the attribute was used on an unsupported type",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot generate sample option metadata as the attribute was used on an unsupported type.");
     }
 }
