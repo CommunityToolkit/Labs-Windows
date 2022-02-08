@@ -15,7 +15,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" />
+    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" 
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
   </ItemGroup>
 
   <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
