@@ -12,6 +12,10 @@ using System.Linq;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators
 {
+    /// <summary>
+    /// For the generated sample pane options, this generator creates the backing properties needed for binding in the UI,
+    /// as well as implementing the <see cref="IToolkitSampleGeneratedOptionPropertyContainer"/> for relaying data between the options pane and the generated property.
+    /// </summary>
     [Generator]
     public class ToolkitSampleOptionGenerator : IIncrementalGenerator
     {
