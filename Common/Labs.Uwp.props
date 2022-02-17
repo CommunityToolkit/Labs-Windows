@@ -148,7 +148,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
-    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">
+    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" SetTargetFramework="TargetFramework=netstandard2.0">
       <Project>{210476d6-42cc-4d01-b027-478145bea8fe}</Project>
       <Name>CommunityToolkit.Labs.Core.SourceGenerators</Name>
     </ProjectReference>

@@ -1,32 +1,32 @@
-<Project>
-  <!-- Common properties needed for multi-targeting UI libs -->
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23" InitialTargets="ValidateWinUITarget">
 
-  <!--
-	Adding project references to this project requires some manual adjustments.
-	Please see https://github.com/unoplatform/uno/issues/3909 for more details.
-  tl;dr; Make sure netstandard2.0 is first below.
-	-->
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;uap10.0.19041;net6.0-windows10.0.19041.0;</TargetFrameworks>
-    <!-- Ensures the .xr.xml files are generated in a proper layout folder -->
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <WinUITarget Condition="'$(WinUITarget)' == ''">2.x</WinUITarget>
+
+    <TargetFrameworks>netstandard2.0;uap10.0.19041;net6.0-windows10.0.19041.0</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
+    <DefineConstants Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">WINAPPSDK</DefineConstants>
   </PropertyGroup>
+
+  <Target Name="ValidateWinUITarget" Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Error Condition="'$(WinUITarget)' != '2.x' AND '$(WinUITarget)' != '3.x'"
+           Text="Property 'WinUITarget' contained an invalid value '$(WinUITarget)'. A value of '2.x' or '3.x' is expected when building an Uno target."/>
+  </Target>
 
   <ItemGroup>
     <Content Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
     <Content Include="**\*.cs" Exclude="bin\**\*.cs;obj\**\*.cs" />
   </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0-windows10.0.19041.0' And '$(TargetFramework)' != 'uap10.0.19041'">
-    <PackageReference Include="Uno.UI" Version="4.0.11" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+  
+  <ItemGroup>
+    <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0' AND '$(WinUITarget)' == '2.x'" Include="Uno.UI" Version="4.0.11"/>
+    <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0' AND '$(WinUITarget)' == '3.x'" Include="Uno.WinUI" Version="4.0.11"/>
+    
+    <PackageReference Condition="'$(TargetFramework)' == 'uap10.0.19041'" Include="Microsoft.UI.Xaml" Version="2.7.0" />
+    <PackageReference Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'" Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
   </ItemGroup>
 
   <!-- Source generator props -->
@@ -37,12 +37,5 @@
     <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
-
-  <!-- End source generator props -->
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">
-    <DefineConstants>WINAPPSDK</DefineConstants>
-    <EnableDefaultPageItems>false</EnableDefaultPageItems>
-  </PropertyGroup>
 
 </Project>
