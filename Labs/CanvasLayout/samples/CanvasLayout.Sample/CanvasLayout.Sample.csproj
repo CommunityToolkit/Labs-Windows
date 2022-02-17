@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+<Project>
   <Import Project="../../../../Common/Labs.MultiTarget.props" />
   
   <ItemGroup>
@@ -19,7 +19,10 @@
     <UpToDateCheckInput Remove="SamplePage2.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" />
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj" />
+    <ProjectReference Include="..\..\..\..\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
+    
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj">
+      <AdditionalProperties>WinUITarget=$(WinUITarget)</AdditionalProperties>
+    </ProjectReference>
   </ItemGroup>
 </Project>

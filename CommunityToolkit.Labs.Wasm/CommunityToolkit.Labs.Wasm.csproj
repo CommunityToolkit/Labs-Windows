@@ -1,12 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
   <Import Project="../Common/Labs.Wasm.props" />
-  
+
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
     <EmbeddedResource Include="WasmScripts\AppManifest.js" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
+    <ProjectReference Include="..\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj">
+      <AdditionalProperties>WinUITarget=2.x</AdditionalProperties>
+    </ProjectReference>
   </ItemGroup>
 </Project>
