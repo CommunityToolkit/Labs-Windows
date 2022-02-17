@@ -18,6 +18,8 @@
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
         "--project=${workspaceFolder}/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
+        "-p:TargetFrameworks=netstandard2.0",
+        "-p:TargetFramework=net5.0",
       ],
       "cwd": "${workspaceFolder}/CommunityToolkit.Labs.Wasm",
     },
@@ -35,6 +37,8 @@
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
         "--project=${workspaceFolder}/Labs/CanvasLayout/samples/CanvasLayout.Wasm/CanvasLayout.Wasm.csproj",
+        "-p:TargetFrameworks=netstandard2.0",
+        "-p:TargetFramework=net5.0",
       ],
       "cwd": "${workspaceFolder}/Labs/CanvasLayout/samples/CanvasLayout.Wasm",
     }
