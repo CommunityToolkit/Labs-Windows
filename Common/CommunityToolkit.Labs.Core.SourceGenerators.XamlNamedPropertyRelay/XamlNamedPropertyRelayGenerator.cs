@@ -4,6 +4,7 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -115,16 +116,43 @@ namespace {symbol.ContainingType.ContainingNamespace}
         var validNamespaceRoots = new[] { "Microsoft", "Windows" };
 
         // Recursively crawl the base types until either UserControl or Page is found.
-        var validInheritedSymbol = symbol.ContainingType
-            .CrawlBy(x => x?.BaseType, baseType => validNamespaceRoots.Any(x => $"{baseType}".StartsWith(x)) &&
-                                                   $"{baseType}".Contains(".UI.Xaml.Controls.") &&
-                                                   validSimpleTypeNames.Any(x => $"{baseType}".EndsWith(x)));
+        var validInheritedSymbol = CrawlBy(
+            symbol.ContainingType,
+            x => x?.BaseType,
+            baseType => validNamespaceRoots.Any(x => $"{baseType}".StartsWith(x)) &&
+                                                     $"{baseType}".Contains(".UI.Xaml.Controls.") &&
+                                                     validSimpleTypeNames.Any(x => $"{baseType}".EndsWith(x)));
 
         var containerIsPublic = symbol.ContainingType?.DeclaredAccessibility == Accessibility.Public;
         var isPrivate = symbol.DeclaredAccessibility == Accessibility.Private;
         var typeIsAccessible = symbol is IFieldSymbol field && field.Type.DeclaredAccessibility == Accessibility.Public || symbol is IPropertySymbol prop && prop.Type.DeclaredAccessibility == Accessibility.Public;
 
         return validInheritedSymbol != default && isPrivate && containerIsPublic && typeIsAccessible && !symbol.IsStatic;
+    }
+
+    /// <summary>
+    /// Crawls an object tree for nested properties of the same type and returns the first instance that matches the <paramref name="filterPredicate"/>. 
+    /// </summary>
+    /// <remarks>
+    /// Does not filter against or return the <paramref name="root"/> object.
+    /// </remarks>
+    public static T? CrawlBy<T>(T? root, Func<T?, T?> selectPredicate, Func<T?, bool> filterPredicate)
+    {
+        crawl:
+        var current = selectPredicate(root);
+
+        if (filterPredicate(current))
+        {
+            return current;
+        }
+
+        if (current is null)
+        {
+            return default;
+        }
+
+        root = current;
+        goto crawl;
     }
 }
 
