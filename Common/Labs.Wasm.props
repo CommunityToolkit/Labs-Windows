@@ -1,13 +1,32 @@
-<Project>
+<Project InitialTargets="ProcessWinUIConfiguration">
   <!-- Common properties needed for a labs project (Wasm) -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
+
+  <Target Name="ProcessWinUIConfiguration">
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug (WinUI 3)'">
+      <DefineConstants>$(DefineConstants);WINAPPSDK;</DefineConstants>
+      <WinUITarget>3.x</WinUITarget>
+      <Configuration>Debug</Configuration>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug (WinUI 2)'">
+      <WinUITarget>2.x</WinUITarget>
+      <Configuration>Debug</Configuration>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="TestWinUIConfiguration" AfterTargets="ProcessWinUIConfiguration">
+    <Message Text="WinUITarget: $(WinUITarget), Configuration: $(Configuration)"/>
+  </Target>
+  
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <WasmShellILLinkerEnabled>true</WasmShellILLinkerEnabled>
   </PropertyGroup>
+  
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
     <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>

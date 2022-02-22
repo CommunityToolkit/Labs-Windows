@@ -1,4 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
+  <PropertyGroup>
+    <UserSecretsId>8c83a209-36c5-4cd5-92e5-a218e5bf040b</UserSecretsId>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Configurations>Debug (WinUI 3);Debug (WinUI 3);Release (WinUI 3)</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug (WinUI3)|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug (WinUI 3)|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release (WinUI 3)|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+  </PropertyGroup>
   <Import Project="../Common/Labs.Wasm.props" />
 
   <ItemGroup>
@@ -7,8 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj">
-      <AdditionalProperties>WinUITarget=2.x</AdditionalProperties>
-    </ProjectReference>
+    <ProjectReference Include="..\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
   </ItemGroup>
 </Project>
