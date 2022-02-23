@@ -8,14 +8,14 @@
     <TargetFrameworks>netstandard2.0;uap10.0.19041;net6.0-windows10.0.19041.0</TargetFrameworks>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
-    <DefineConstants Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">WINAPPSDK</DefineConstants>
+    <DefineConstants Condition="'$(WinUITarget)' == '3.x'">WINAPPSDK</DefineConstants>
   </PropertyGroup>
 
   <Target Name="ValidateWinUITarget" Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <Message Text="Building $(MSBuildProjectName) using WinUITarget: $(WinUITarget)" />
     
     <Error Condition="'$(WinUITarget)' != '2.x' AND '$(WinUITarget)' != '3.x'"
            Text="Property 'WinUITarget' contained an invalid value '$(WinUITarget)'. A value of '2.x' or '3.x' is expected when building an Uno target."/>
-  
   </Target>
   
   <ItemGroup>

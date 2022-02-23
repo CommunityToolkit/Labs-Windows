@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <Import Project="$(RepositoryDirectory)\Common\Labs.Uwp.props" />
+  
+  <PropertyGroup>
+    <RootNamespace>CommunityToolkit.Labs.Uwp</RootNamespace>
+    <AssemblyName>CommunityToolkit.Labs.Uwp</AssemblyName>
+    <ProjectGuid>{B3D6DF0B-13DB-493E-9D1A-56343EFEDEA7}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="$(RepositoryDirectory)\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj">
+      <Project>{a14189c0-39a8-4fbe-bf86-a78a94654c48}</Project>
+      <Name>CanvasLayout.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

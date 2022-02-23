@@ -1,5 +1,6 @@
 <Project>
-  <Import Project="../../../../Common/Labs.MultiTarget.props" />
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  <Import Project="$(RepositoryDirectory)\Common\Labs.MultiTarget.props" />
   
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />

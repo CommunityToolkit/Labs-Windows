@@ -7,6 +7,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
+    <ProjectReference Include="$(RepositoryDirectory)\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj">
+      <AdditionalProperties>WinUITarget=2.x</AdditionalProperties>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
+  <Import Project="$(RepositoryDirectory)\Common\Labs.Wasm.props" />
+  
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\Fonts.css" />
+    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);WINAPPSDK;</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="$(RepositoryDirectory)\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj">
+      <AdditionalProperties>WinUITarget=3.x</AdditionalProperties>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
