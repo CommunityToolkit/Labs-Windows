@@ -13,11 +13,17 @@
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
     <DefineConstants>WINAPPSDK</DefineConstants>
   </PropertyGroup>
-  
+
+  <!-- Source generator props -->
+
   <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" 
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
+    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
+    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
+
+  <!-- End source generator props -->
 
   <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 </Project>

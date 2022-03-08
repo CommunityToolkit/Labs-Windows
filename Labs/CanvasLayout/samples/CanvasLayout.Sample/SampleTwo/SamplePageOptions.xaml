@@ -1,0 +1,36 @@
+<UserControl
+    x:Class="CanvasLayout.Sample.SampleTwo.SamplePageOptions"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CanvasLayout.Sample"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <StackPanel Spacing="15">
+        <StackPanel>
+            <TextBlock Text="Text:" />
+            <TextBox x:Name="CustomText" Width="250" TextChanged="TextBox_TextChanged" />
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Foreground colors:" />
+            <muxc:RadioButtons SelectionChanged="OnRadioButtonSelectionChanged" SelectedIndex="0">
+                <x:String>White</x:String>
+                <x:String>Green</x:String>
+                <x:String>Yellow</x:String>
+            </muxc:RadioButtons>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock>
+                <Run Text="Font size:"/>
+                <Run Text="{Binding Value, ElementName=FontSizeSlider}"/>
+            </TextBlock>
+            <Slider x:Name="FontSizeSlider" Minimum="1" Maximum="150" StepFrequency="1" ValueChanged="Slider_ValueChanged" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

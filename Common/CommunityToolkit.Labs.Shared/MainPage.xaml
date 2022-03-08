@@ -10,7 +10,7 @@
 
     <Grid>
         <muxc:NavigationView MenuItemsSource="{x:Bind NavigationViewItems}" SelectionChanged="OnSelectionChanged">
-            <ContentControl Content="{x:Bind MainContent, Mode=OneWay}" />
+            <Frame x:Name="NavFrame" />
         </muxc:NavigationView>
     </Grid>
 </Page>

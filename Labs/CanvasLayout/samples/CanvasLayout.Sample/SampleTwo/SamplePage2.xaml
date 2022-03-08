@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="CanvasLayout.Sample.SamplePage2"
+    x:Class="CanvasLayout.Sample.SampleTwo.SamplePage2"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:CanvasLayout.Sample"
@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <TextBlock FontSize="18" Text="Samples coming soon™️. Hello world!" />
+        <TextBlock x:Name="PrimaryText" FontSize="18" Text="Samples coming soon™️. Hello world!" />
     </Grid>
 </UserControl>

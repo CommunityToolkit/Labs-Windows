@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="CommunityToolkit.Labs.Samples.Uwp"
+    Name="CommunityToolkit.Labs.Samples"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 

@@ -21,8 +21,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)AppLoadingView.xaml.cs">
       <DependentUpon>AppLoadingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionsRenderer.xaml.cs">
+      <DependentUpon>GeneratedSampleOptionsRenderer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitSampleRenderer.xaml.cs">
+      <DependentUpon>ToolkitSampleRenderer.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -30,7 +37,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionsRenderer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Renderers\ToolkitSampleRenderer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

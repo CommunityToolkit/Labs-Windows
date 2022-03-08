@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj" SetTargetFramework="TargetFramework=netstandard2.0">
+    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj" SetTargetFramework="TargetFramework=netstandard2.0">
       <Project>{210476d6-42cc-4d01-b027-478145bea8fe}</Project>
-      <Name>CommunityToolkit.Labs.Core</Name>
+      <Name>CommunityToolkit.Labs.Core.SourceGenerators</Name>
     </ProjectReference>
 
     <ProjectReference Include="..\Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />

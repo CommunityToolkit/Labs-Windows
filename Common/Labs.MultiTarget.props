@@ -12,11 +12,14 @@
   </PropertyGroup>
 
   <Target Name="ValidateWinUITarget" Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    
     <Error Condition="'$(WinUITarget)' != '2.x' AND '$(WinUITarget)' != '3.x'"
            Text="Property 'WinUITarget' contained an invalid value '$(WinUITarget)'. A value of '2.x' or '3.x' is expected when building an Uno target."/>
-  
   </Target>
+
+  <ItemGroup>
+    <Content Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Content Include="**\*.cs" Exclude="bin\**\*.cs;obj\**\*.cs" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0' AND '$(WinUITarget)' == '2.x'" Include="Uno.UI" Version="4.0.11"/>
@@ -24,6 +27,15 @@
     
     <PackageReference Condition="'$(TargetFramework)' == 'uap10.0.19041'" Include="Microsoft.UI.Xaml" Version="2.7.0" />
     <PackageReference Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'" Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+  </ItemGroup>
+
+  <!-- Source generator props -->
+
+  <ItemGroup>
+    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
+    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
 
 </Project>
