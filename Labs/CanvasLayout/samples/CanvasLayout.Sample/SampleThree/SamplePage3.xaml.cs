@@ -4,11 +4,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using System.Runtime.InteropServices.WindowsRuntime;
+using CommunityToolkit.Labs.Uwp;
 
 #if !WINAPPSDK
 using Windows.Foundation;
@@ -32,31 +34,32 @@ using Microsoft.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace CanvasLayout.Sample.SampleOne
+namespace CanvasLayout.Sample.SampleThree
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    [ToolkitSampleBoolOption("IsTextVisible", "IsVisible", true)]
-
-    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Teal", value: "#0ddc8c", title: "Text foreground")]
-    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Sand", value: "#e7a676")]
-    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Dull green", value: "#5d7577")]
-
-    [ToolkitSampleMultiChoiceOption("TextSize", label: "Small", value: "12", title: "Text size")]
-    [ToolkitSampleMultiChoiceOption("TextSize", label: "Normal", value: "16")]
-    [ToolkitSampleMultiChoiceOption("TextSize", label: "Big", value: "32")]
-
-    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Segoe UI", value: "Segoe UI")]
-    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Arial", value: "Arial")]
-    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Consolas", value: "Consolas")]
-
-    [ToolkitSample(id: nameof(SamplePage), "Canvas Layout", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A canvas-like VirtualizingPanel for use in an ItemsControl")]
-    public sealed partial class SamplePage : Page
+    [ToolkitSample(id: nameof(SamplePage3), "Canvas Layout", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A canvas-like VirtualizingLayout for use in an ItemsRepeater")]
+    public sealed partial class SamplePage3 : Page
     {
-        public SamplePage()
+        public ObservableCollection<CanvasItem> Items = new()
+        {
+            new() { Left = 100, Top = 50, Width = 100, Height = 100, Text = "Item 1" },
+            new() { Left = 400, Top = 250, Width = 200, Height = 200, Text = "Item 2" },
+            new() { Left = 200, Top = 500, Width = 100, Height = 100, Text = "Item 3" },
+            new() { Left = 1200, Top = 2500, Width = 100, Height = 100, Text = "Item 4" },
+            new() { Left = 2200, Top = 1500, Width = 100, Height = 100, Text = "Item 5" },
+            new() { Left = 1200, Top = 3500, Width = 100, Height = 100, Text = "Item 6" },
+        };
+
+        public SamplePage3()
         {
             this.InitializeComponent();
         }
+    }
+
+    public class CanvasItem : CanvasLayoutItem
+    {
+        public string Text { get; set; }
     }
 }
