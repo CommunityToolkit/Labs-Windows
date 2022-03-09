@@ -1,4 +1,4 @@
-<Project>
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <Import Project="../../../../Common/Labs.MultiTarget.props" />
   
   <ItemGroup>

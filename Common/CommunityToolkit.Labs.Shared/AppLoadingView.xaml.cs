@@ -112,7 +112,7 @@ namespace CommunityToolkit.Labs.Shared
                     return;
                 }
 
-#if __WASM__
+#if !NETFX_CORE
                 Frame.Navigate(type, param);
 #else
                 Frame.NavigateToType(type, param, new FrameNavigationOptions { IsNavigationStackEnabled = false });

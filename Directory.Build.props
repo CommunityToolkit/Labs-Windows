@@ -1,5 +1,4 @@
 <Project>
-
   <PropertyGroup>
     <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
   </PropertyGroup>
