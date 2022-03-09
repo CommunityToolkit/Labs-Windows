@@ -19,11 +19,13 @@
   <ItemGroup>
     <None Remove="SamplePage.xaml" />
     <None Remove="SamplePage2.xaml" />
+    <None Remove="SamplePage3.xaml" />
     <None Remove="SamplePageOptions.xaml" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="SamplePage.xaml" />
     <UpToDateCheckInput Remove="SamplePage2.xaml" />
+    <UpToDateCheckInput Remove="SamplePage3.xaml" />
     <UpToDateCheckInput Remove="SamplePageOptions.xaml" />
   </ItemGroup>
   <ItemGroup>

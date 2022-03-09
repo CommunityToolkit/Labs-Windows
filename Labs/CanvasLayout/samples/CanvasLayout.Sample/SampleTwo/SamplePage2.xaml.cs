@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace CanvasLayout.Sample.SampleTwo
 {
-    [ToolkitSample(id: nameof(SamplePage2), "Example sample", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "An empty sample used to demonstrate the sample system.")]
+    [ToolkitSample(id: nameof(SamplePage2), "Custom options", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "An empty sample used to demonstrate the sample system.")]
     public sealed partial class SamplePage2 : UserControl
     {
         public SamplePage2()
