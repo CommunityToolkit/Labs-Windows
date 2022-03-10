@@ -126,12 +126,12 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             XamlCode = await GetMetadataFileContents(Metadata, "xaml");
             CSharpCode = await GetMetadataFileContents(Metadata, "xaml.cs");
 
-            SampleControlInstance = (UIElement)Activator.CreateInstance(Metadata.SampleControlType);
+            SampleControlInstance = (UIElement)Metadata.SampleControlFactory();
 
             // Custom control-based sample options.
             if (Metadata.SampleOptionsPaneType is not null)
             {
-                SampleOptionsPaneInstance = (UIElement)Activator.CreateInstance(Metadata.SampleOptionsPaneType, SampleControlInstance);
+                SampleOptionsPaneInstance = (UIElement)Metadata.SampleOptionsPaneFactory(SampleControlInstance);
             }
 
             // Source generater-based sample options
