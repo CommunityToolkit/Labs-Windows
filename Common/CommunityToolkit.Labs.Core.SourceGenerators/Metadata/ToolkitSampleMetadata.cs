@@ -15,6 +15,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 /// <param name="DisplayName">The display name for this sample page.</param>
 /// <param name="Description">The description for this sample page.</param>
 /// <param name="SampleControlType">A type that can be used to construct an instance of the sample control.</param>
+/// <param name="SampleControlFactory">A factory method that returns a new instance of the control.</param>
 /// <param name="SampleOptionsPaneType">
 /// The control type for the sample page's options pane.
 /// Constructor should have exactly one parameter that can be assigned to the control type (<see cref="SampleControlType"/>).
@@ -26,5 +27,7 @@ public sealed record ToolkitSampleMetadata(
         string DisplayName,
         string Description,
         Type SampleControlType,
+        Func<object> SampleControlFactory,
         Type? SampleOptionsPaneType = null,
+        Func<object, object>? SampleOptionsPaneFactory = null,
         IEnumerable<IGeneratedToolkitSampleOptionViewModel>? GeneratedSampleOptions = null);
