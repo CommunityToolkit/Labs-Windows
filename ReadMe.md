@@ -1,9 +1,9 @@
 
-# 🧪 Community Toolkit Labs - UWP 🧪
+# 🧪 Community Toolkit Labs for Windows 🧪
 
-Welcome to the home of Toolkit Labs experiments for UWP. Find out more about Toolkit Labs in our [Wiki here](https://aka.ms/toolkit/wiki/labs). It includes more about our motivations for having this space as well as how to setup the NuGet feed required to easily use experiments found in this repo.
+Welcome to the home of Toolkit Labs experiments for Windows (built on top of WinUI 2, WinUI 3, and [Uno Platform](https://platform.uno)). Find out more about Toolkit Labs in our [Wiki here](https://aka.ms/toolkit/wiki/labs). It includes more about our motivations for having this space as well as how to setup the NuGet feed required to easily use experiments found in this repo.
 
-This is the starting place for all new features to make it into the Windows Community Toolkit. It is a useful prototyping space as well as a space to work collaboratively on polishing a feature. This allows a final PR into the main Toolkit repo to go as smoothly as possible once a feature is ready to go.
+This is the starting place for all new features to make it into the [Windows Community Toolkit](https://aka.ms/wct). It is a useful prototyping space as well as a space to work collaboratively on polishing a feature. This allows a final PR into the main Toolkit repo to go as smoothly as possible once a feature is ready to go.
 
 ## Sample App
 

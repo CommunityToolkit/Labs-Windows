@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CanvasLayout", "CanvasLayout", "{86E3CC4D-1359-4249-9C5B-C193BF65633D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Uwp.UI.CanvasLayout", "Labs\CanvasLayout\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj", "{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "Labs\CanvasLayout\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{A14189C0-39A8-4FBE-BF86-A78A94654C48}"
 EndProject

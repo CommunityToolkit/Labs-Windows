@@ -10,7 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using CommunityToolkit.Labs.Uwp;
+using CommunityToolkit.Labs.WinUI;
 
 #if !WINAPPSDK
 using Windows.Foundation;
