@@ -126,16 +126,16 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             XamlCode = await GetMetadataFileContents(Metadata, "xaml");
             CSharpCode = await GetMetadataFileContents(Metadata, "xaml.cs");
 
-            SampleControlInstance = (UIElement)Metadata.SampleControlFactory();
+            var sampleControlInstance = (UIElement)Metadata.SampleControlFactory();
 
             // Custom control-based sample options.
             if (Metadata.SampleOptionsPaneType is not null)
             {
-                SampleOptionsPaneInstance = (UIElement)Metadata.SampleOptionsPaneFactory(SampleControlInstance);
+                SampleOptionsPaneInstance = (UIElement)Metadata.SampleOptionsPaneFactory(sampleControlInstance);
             }
 
             // Source generater-based sample options
-            else if (SampleControlInstance is IToolkitSampleGeneratedOptionPropertyContainer propertyContainer)
+            else if (sampleControlInstance is IToolkitSampleGeneratedOptionPropertyContainer propertyContainer)
             {
                 // Pass the generated sample options to the displayed Control instance.
                 // Generated properties reference these in getters and setters.
@@ -146,6 +146,10 @@ namespace CommunityToolkit.Labs.Shared.Renderers
                     SampleOptions = propertyContainer.GeneratedPropertyMetadata
                 };
             }
+
+            // Generated options must be assigned before attempting to render the control,
+            // else some platforms will nullref from XAML but not properly ignore the exception when binding to generated properties.
+            SampleControlInstance = sampleControlInstance;
         }
 
         public static async Task<string?> GetMetadataFileContents(ToolkitSampleMetadata metadata, string fileExtension)
