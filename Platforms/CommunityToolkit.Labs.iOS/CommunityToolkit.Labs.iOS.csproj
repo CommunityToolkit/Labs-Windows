@@ -178,5 +178,5 @@
   </ItemGroup>
   <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="$(RepositoryDirectory)\Common\Labs.All.props" />
+  <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
 </Project>

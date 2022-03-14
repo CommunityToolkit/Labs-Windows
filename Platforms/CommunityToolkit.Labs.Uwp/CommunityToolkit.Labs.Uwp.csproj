@@ -18,5 +18,5 @@
     </AppxManifest>
   </ItemGroup>
   <Import Project="$(RepositoryDirectory)\Common\Labs.Uwp.props" />
-  <Import Project="$(RepositoryDirectory)\Common\Labs.All.props" />
+  <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
 </Project>

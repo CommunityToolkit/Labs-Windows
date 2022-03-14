@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <Import Project="$(RepositoryDirectory)\Common\Labs.WinAppSdk.props" />
-  <Import Project="$(RepositoryDirectory)\Common\Labs.All.props" />
+  <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />

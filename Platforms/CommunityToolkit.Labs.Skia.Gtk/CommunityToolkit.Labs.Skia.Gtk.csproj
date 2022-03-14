@@ -23,5 +23,5 @@
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.1.8" />
   </ItemGroup>
   <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
-  <Import Project="$(RepositoryDirectory)\Common\Labs.All.props" />
+  <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
 </Project>

@@ -13,5 +13,5 @@
     <UpToDateCheckInput Include="..\CommunityToolkit.Labs.Shared\**\*.xaml" />
   </ItemGroup>
   <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
-  <Import Project="$(RepositoryDirectory)\Common\Labs.All.props" />
+  <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
 </Project>
