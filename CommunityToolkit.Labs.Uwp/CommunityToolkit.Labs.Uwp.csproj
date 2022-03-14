@@ -25,6 +25,10 @@
       <Project>{a14189c0-39a8-4fbe-bf86-a78a94654c48}</Project>
       <Name>CanvasLayout.Sample</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Labs\CanvasLayout\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj">
+      <Project>{fe19fff0-6ab6-4fc7-bfdf-b6499153dcd5}</Project>
+      <Name>CommunityToolkit.Labs.Uwp.UI.CanvasLayout</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="../Common/Labs.Uwp.props" />
 </Project>

@@ -87,6 +87,15 @@ namespace CommunityToolkit.Labs.Shared
 
             if (samplePages.Length == 1)
             {
+                // Individual samples are UserControls,
+                // but multi-sample view and grouped sample views should be a Page.
+                // TODO: Remove after creating grouped-sample view.
+                if (!samplePages[0].SampleControlType.IsSubclassOf(typeof(Page)))
+                {
+                    Window.Current.Content = (UIElement)samplePages[0].SampleControlFactory();
+                    return;
+                }
+
                 ScheduleNavigate(samplePages[0].SampleControlType);
                 return;
             }
@@ -103,15 +112,6 @@ namespace CommunityToolkit.Labs.Shared
         {
             DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
             {
-                // Individual samples are UserControls,
-                // but multi-sample view and grouped sample views should be a Page.
-                // TODO: Remove after creating grouped-sample view.
-                if (!type.IsSubclassOf(typeof(Page)))
-                {
-                    Window.Current.Content = (UIElement)Activator.CreateInstance(type);
-                    return;
-                }
-
 #if !NETFX_CORE
                 Frame.Navigate(type, param);
 #else

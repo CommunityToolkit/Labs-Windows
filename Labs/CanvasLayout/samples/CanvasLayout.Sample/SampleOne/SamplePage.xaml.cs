@@ -30,13 +30,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #endif
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace CanvasLayout.Sample.SampleOne
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     [ToolkitSampleBoolOption("IsTextVisible", "IsVisible", true)]
 
     [ToolkitSampleMultiChoiceOption("TextForeground", label: "Teal", value: "#0ddc8c", title: "Text foreground")]
@@ -51,7 +47,7 @@ namespace CanvasLayout.Sample.SampleOne
     [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Arial", value: "Arial")]
     [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Consolas", value: "Consolas")]
 
-    [ToolkitSample(id: nameof(SamplePage), "Canvas Layout", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A canvas-like VirtualizingPanel for use in an ItemsControl")]
+    [ToolkitSample(id: nameof(SamplePage), "Simple Options", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A sample page for showing how to do simple options.")]
     public sealed partial class SamplePage : Page
     {
         public SamplePage()
