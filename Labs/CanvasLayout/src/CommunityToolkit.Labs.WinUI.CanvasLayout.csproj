@@ -2,11 +2,11 @@
   <Import Project="../../../Common/Labs.MultiTarget.props" />
 
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.Uwp</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.WinUI</RootNamespace>
   </PropertyGroup>
   
   <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.Uwp.CanvasLayout</PackageId>
+    <PackageId>CommunityToolkit.Labs.WinUI.CanvasLayout</PackageId>
     <Description>
       This package contains a CanvasLayout Layout for ItemsRepeater.
     </Description>

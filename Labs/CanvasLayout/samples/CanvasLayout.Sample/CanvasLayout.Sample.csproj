@@ -31,7 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj">
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
       <AdditionalProperties>WinUITarget=$(WinUITarget)</AdditionalProperties>
     </ProjectReference>
   </ItemGroup>
