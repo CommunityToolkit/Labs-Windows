@@ -29,8 +29,16 @@ jobs:
         with:
           dotnet-version: '6.0.201'
 
+      - name: Install Uno Check
+        run: dotnet tool install -g Uno.Check
+
+      - name: Run Uno Check and Install Dependencies
+        run: uno-check -f -n --ci
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
       # Runs a set of commands using the runners shell
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
