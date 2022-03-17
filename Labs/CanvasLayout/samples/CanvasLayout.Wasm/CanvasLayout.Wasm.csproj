@@ -8,7 +8,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj" />
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
     <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
   </ItemGroup>
 </Project>

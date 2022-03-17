@@ -21,9 +21,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj">
-      <Project>{1c029cc0-bb45-45ff-ad34-086ec4840db0}</Project>
-      <Name>CommunityToolkit.Labs.Uwp.UI.CanvasLayout</Name>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
+      <Project>{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.CanvasLayout</Name>
     </ProjectReference>
     <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj">
       <Project>{a14189c0-39a8-4fbe-bf86-a78a94654c48}</Project>

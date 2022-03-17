@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 
-namespace CommunityToolkit.Labs.Uwp
+namespace CommunityToolkit.Labs.WinUI
 {
     public class CanvasLayout : VirtualizingLayout
     {

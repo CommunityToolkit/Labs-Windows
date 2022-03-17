@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Uwp.UI.CanvasLayout", "src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj", "{1C029CC0-BB45-45FF-AD34-086EC4840DB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{1C029CC0-BB45-45FF-AD34-086EC4840DB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasLayout.Uwp", "samples\CanvasLayout.Uwp\CanvasLayout.Uwp.csproj", "{3BAAC2DA-7124-460E-A9A9-13138843CD57}"
 EndProject

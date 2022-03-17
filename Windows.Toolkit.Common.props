@@ -7,10 +7,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/CommunityToolkit/Labs-UWP</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/CommunityToolkit/Labs-UWP/releases</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/CommunityToolkit/Labs-Windows</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/CommunityToolkit/Labs-Windows/releases</PackageReleaseNotes>
     <PackageIcon>Icon.png</PackageIcon>
-    <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/Labs-UWP/main/nuget.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/Labs-Windows/main/nuget.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup>
