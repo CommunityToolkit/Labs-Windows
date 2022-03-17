@@ -1,13 +1,10 @@
+<!-- References to all sample projects -->
 <Project>
-  
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
-    <ProjectReference Include="$(RepositoryDirectory)Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj" 
-                      SetTargetFramework="TargetFramework=netstandard2.0"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
-
-    <ProjectReference Include="$(RepositoryDirectory)Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
+    
+    <ProjectReference Include="$(RepositoryDirectory)Labs\CanvasLayout\src\CommunityToolkit.Labs.Uwp.UI.CanvasLayout.csproj" />
+    <ProjectReference Include="$(RepositoryDirectory)Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj"/>
   </ItemGroup>
-
 </Project>

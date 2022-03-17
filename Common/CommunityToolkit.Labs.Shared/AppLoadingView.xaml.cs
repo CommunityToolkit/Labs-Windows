@@ -92,7 +92,14 @@ namespace CommunityToolkit.Labs.Shared
                 // TODO: Remove after creating grouped-sample view.
                 if (!samplePages[0].SampleControlType.IsSubclassOf(typeof(Page)))
                 {
-                    Window.Current.Content = (UIElement)samplePages[0].SampleControlFactory();
+                    // MacOS and iOS don't know the correct type without a full namespace declaration, confusing it with NSWindow.
+                    // Using static will not work.
+#if WINAPPSDK
+                    var currentWindow = Microsoft.UI.Xaml.Window.Current;
+#else
+                    var currentWindow = Windows.UI.Xaml.Window.Current;
+#endif
+                    currentWindow.Content = (UIElement)samplePages[0].SampleControlFactory();
                     return;
                 }
 

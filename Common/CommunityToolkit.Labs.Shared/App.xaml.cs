@@ -32,6 +32,14 @@ namespace CommunityToolkit.Labs.Shared
     /// </summary>
     public sealed partial class App : Application
     {
+        // MacOS and iOS don't know the correct type without a full namespace declaration, confusing it with NSWindow and UIWindow.
+        // Using static will not work.
+#if WINAPPSDK
+        private static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
+#else
+        private static Windows.UI.Xaml.Window currentWindow = Windows.UI.Xaml.Window.Current;
+#endif
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -53,7 +61,7 @@ namespace CommunityToolkit.Labs.Shared
 #if WINAPPSDK
             var window = new Window();
 #else
-            rootFrame = Window.Current.Content as Frame;
+            rootFrame = currentWindow.Content as Frame;
 #endif
 
             // Do not repeat app initialization when the Window already has content,
@@ -69,7 +77,7 @@ namespace CommunityToolkit.Labs.Shared
                 window.Content = rootFrame;
 #else
                 // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
+                currentWindow.Content = rootFrame;
 #endif
             }
 
@@ -86,7 +94,7 @@ namespace CommunityToolkit.Labs.Shared
                 }
 
                 // Ensure the current window is active
-                Window.Current.Activate();
+                currentWindow.Activate();
             }
 #endif
         }

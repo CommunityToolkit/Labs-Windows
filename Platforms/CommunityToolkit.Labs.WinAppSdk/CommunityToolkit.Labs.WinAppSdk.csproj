@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(RepositoryDirectory)Common\Labs.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
+  
   <PropertyGroup>
     <RootNamepace>CommunityToolkit.Labs.WinAppSdk</RootNamepace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-
-  <Import Project="$(RepositoryDirectory)\Common\Labs.WinAppSdk.props" />
-  <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />

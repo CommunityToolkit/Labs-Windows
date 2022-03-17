@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23" InitialTargets="ValidateWinUITarget">
+<Project InitialTargets="ValidateWinUITarget">
 
   <PropertyGroup>
     <WinUITarget Condition="'$(WinUITarget)' == ''">2.x</WinUITarget>

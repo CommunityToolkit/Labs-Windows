@@ -58,10 +58,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{1b273854-1051-4fe3-9566-a9fa705304de}*SharedItemsImports = 5
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{34617141-25c4-4fec-8a15-5b46934f1a99}*SharedItemsImports = 4
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{3baac2da-7124-460e-a9a9-13138843cd57}*SharedItemsImports = 4
-		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{7a5bb49c-1ceb-4fd0-94bd-4a2dd91b818c}*SharedItemsImports = 5
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{8ea015ed-5142-4393-bca8-08ed2dff19a9}*SharedItemsImports = 4
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{93bfd459-2e21-41c7-9e54-868f5b014dbc}*SharedItemsImports = 4
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{9503c27c-55a8-4b66-aa7b-14efdb940b13}*SharedItemsImports = 13
