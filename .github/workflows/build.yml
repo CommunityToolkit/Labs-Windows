@@ -31,7 +31,12 @@ jobs:
 
       - name: Install Uno Check
         run: dotnet tool install -g Uno.Check
+      
+      - name: Run Uno Check and Install Dependencies
+        run: uno-check -f -n --ci -s wsl
+        continue-on-error: true
 
+      # Uno Check returns failure if anything was missing, so we run it again here to validate the installs from prior run.
       - name: Run Uno Check and Install Dependencies
         run: uno-check -f -n --ci -s wsl
 
