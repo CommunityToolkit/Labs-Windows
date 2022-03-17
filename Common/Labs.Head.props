@@ -1,0 +1,24 @@
+<!-- Common props for any deployable sample project head. -->
+<Project>
+  
+  <!-- Shared project -->
+  <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
+
+  <!-- Shared project dependencies -->
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <!-- Source generators -->
+  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0-windows10.0.19041.0'">
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RepositoryDirectory)Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
+                      SetTargetFramework="TargetFramework=netstandard2.0"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+  </ItemGroup>
+
+</Project>

@@ -35,21 +35,4 @@
   <ItemGroup>
     <LinkerDescriptor Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\LinkerConfig.xml" />
   </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\**\*.xaml" />
-  </ItemGroup>
-
-  <!-- Source generator props -->
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
-    <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj" SetTargetFramework="TargetFramework=netstandard2.0"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
-  </ItemGroup>
-
-  <!-- End source generator props -->
-
-  <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 </Project>

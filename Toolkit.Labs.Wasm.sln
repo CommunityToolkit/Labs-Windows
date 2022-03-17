@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9898
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommunityToolkit.Labs.Shared", "Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.shproj", "{9503C27C-55A8-4B66-AA7B-14EFDB940B13}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm", "CommunityToolkit.Labs.Wasm\CommunityToolkit.Labs.Wasm.csproj", "{3EBB8552-CE39-4EDC-9ACB-7B4871582FBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm", "Platforms\CommunityToolkit.Labs.Wasm\CommunityToolkit.Labs.Wasm.csproj", "{3EBB8552-CE39-4EDC-9ACB-7B4871582FBB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CanvasLayout", "CanvasLayout", "{86E3CC4D-1359-4249-9C5B-C193BF65633D}"
 EndProject
