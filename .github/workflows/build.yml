@@ -33,7 +33,7 @@ jobs:
         run: dotnet tool install -g Uno.Check
 
       - name: Run Uno Check and Install Dependencies
-        run: uno-check -f -n --ci
+        run: uno-check -f -n --ci -s wsl
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
