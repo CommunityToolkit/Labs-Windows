@@ -1,8 +1,10 @@
 <Project>
   <!-- Common properties needed for a labs project (Wasm) -->
+  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.props" />
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>$(WasmHeadTargetFramework)</TargetFramework>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

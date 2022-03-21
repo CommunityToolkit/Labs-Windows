@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.props" />
+
   <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>$(WpfHeadTargetFramework)</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>

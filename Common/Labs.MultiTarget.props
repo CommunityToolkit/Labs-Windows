@@ -1,22 +1,23 @@
 <Project InitialTargets="ValidateWinUITarget">
+  <Import Project="Labs.TargetFrameworks.props" />
 
   <PropertyGroup>
     <WinUITarget Condition="'$(WinUITarget)' == ''">2.x</WinUITarget>
 
-    <TargetFrameworks>netstandard2.0;uap10.0.19041;net6.0-macos;net6.0-maccatalyst;xamarinios10;monoandroid11.0;net6.0-windows10.0.19041.0</TargetFrameworks>
-    <IsUno Condition="'$(TargetFramework)' != 'uap10.0.19041' AND '$(TargetFramework)' != 'net6.0-windows10.0.19041.0'">True</IsUno>
+    <TargetFrameworks>$(WasmLibTargetFramework);$(WpfLibTargetFramework);$(LinuxLibTargetFramework);$(UwpTargetFramework);$(WinAppSdkTargetFramework);$(MacOSLibTargetFramework);$(iOSLibTargetFramework);$(AndroidLibTargetFramework);</TargetFrameworks>
+    <IsUno Condition="'$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">True</IsUno>
 
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
-    <DefineConstants Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">WINAPPSDK</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">WINAPPSDK</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0' OR '$(TargetFramework)' == 'uap10.0.19041'">
+  <PropertyGroup Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)' OR '$(TargetFramework)' == '$(UwpTargetFramework)'">
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
   </PropertyGroup>
 
-  <Target Name="ValidateWinUITarget" Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <Target Name="ValidateWinUITarget" Condition="'$(IsUno)' == 'true'">
     <Error Condition="'$(WinUITarget)' != '2.x' AND '$(WinUITarget)' != '3.x'"
            Text="Property 'WinUITarget' contained an invalid value '$(WinUITarget)'. A value of '2.x' or '3.x' is expected when building an Uno target."/>
   </Target>
@@ -30,8 +31,8 @@
     <PackageReference Condition="'$(IsUno)' == 'True' AND '$(WinUITarget)' == '2.x'" Include="Uno.UI" Version="4.0.11"/>
     <PackageReference Condition="'$(IsUno)' == 'True' AND '$(WinUITarget)' == '3.x'" Include="Uno.WinUI" Version="4.0.11"/>
 
-    <PackageReference Condition="'$(TargetFramework)' == 'uap10.0.19041'" Include="Microsoft.UI.Xaml" Version="2.7.0" />
-    <PackageReference Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'" Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+    <PackageReference Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'" Include="Microsoft.UI.Xaml" Version="2.7.0" />
+    <PackageReference Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'" Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
   </ItemGroup>
 
   <!-- Source generator props -->
