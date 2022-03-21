@@ -15,7 +15,8 @@
 
   <PropertyGroup>
     <Features>Strict</Features>
-    <Nullable>Disable</Nullable>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
     <LangVersion>Latest</LangVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <NoPackageAnalysis>true</NoPackageAnalysis>

@@ -104,20 +104,7 @@ namespace CommunityToolkit.Labs.WinUI
         /// List of layout bounds for items starting with the
         /// FirstRealizedIndex.
         /// </summary>
-        public List<Rect> LayoutRects
-        {
-            get
-            {
-                if (_layoutRects == null)
-                {
-                    _layoutRects = new List<Rect>();
-                }
-
-                return _layoutRects;
-            }
-        }
-
-        private List<Rect> _layoutRects;
+        public List<Rect> LayoutRects { get; } = new List<Rect>();
     }
 
     // TODO: Make DP? Can we do this with property mapping instead?

@@ -61,7 +61,7 @@ namespace CommunityToolkit.Labs.Shared
                     NavigationViewItems.Add(item);
             }
 
-           base.OnNavigatedTo(e);
+            base.OnNavigatedTo(e);
         }
 
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs e)
@@ -83,12 +83,12 @@ namespace CommunityToolkit.Labs.Shared
             foreach (var navData in categoryData)
             {
                 // Make subcategories
-                var subcategoryData = GenerateSubcategoryNavItems(navData.SampleMetadata);
+                var subcategoryData = GenerateSubcategoryNavItems(navData.SampleMetadata ?? Enumerable.Empty<ToolkitSampleMetadata>());
 
                 foreach (var subcategoryItemData in subcategoryData)
                 {
                     // Make samples
-                    var sampleNavigationItems = GenerateSampleNavItems(subcategoryItemData.SampleMetadata);
+                    var sampleNavigationItems = GenerateSampleNavItems(subcategoryItemData.SampleMetadata ?? Enumerable.Empty<ToolkitSampleMetadata>());
 
                     foreach (var item in sampleNavigationItems)
                     {
@@ -123,14 +123,10 @@ namespace CommunityToolkit.Labs.Shared
 
             foreach (var subcategoryGroup in samplesBySubcategory)
             {
-                yield return new GroupNavigationItemData
+                yield return new GroupNavigationItemData(new NavigationViewItem
                 {
-                    NavItem = new NavigationViewItem
-                    {
-                        Content = subcategoryGroup.Key,
-                    },
-                    SampleMetadata = subcategoryGroup.ToArray(),
-                };
+                    Content = subcategoryGroup.Key,
+                }, subcategoryGroup.ToArray());
             }
         }
 
@@ -140,28 +136,15 @@ namespace CommunityToolkit.Labs.Shared
 
             foreach (var categoryGroup in samplesByCategory)
             {
-                yield return new GroupNavigationItemData()
+                yield return new GroupNavigationItemData(new NavigationViewItem
                 {
-                    NavItem = new NavigationViewItem()
-                    {
-                        Content = categoryGroup.Key,
-                    },
-                    SampleMetadata = categoryGroup.ToArray(),
-                };
+                    Content = categoryGroup.Key,
+                }, categoryGroup.ToArray());
             }
         }
 
-        private record GroupNavigationItemData
-        {
-            /// <summary>
-            /// A navigation item to contain items in this group.
-            /// </summary>
-            public NavigationViewItem NavItem { get; set; }
-
-            /// <summary>
-            /// The samples that belong under <see cref="NavItem"/>.
-            /// </summary>
-            public IEnumerable<ToolkitSampleMetadata> SampleMetadata { get; set; }
-        };
+        /// <param name="NavItem">A navigation item to contain items in this group.</param>
+        /// <param name="SampleMetadata">The samples that belong under <see cref="NavItem"/>.</param>
+        private record GroupNavigationItemData(NavigationViewItem NavItem, IEnumerable<ToolkitSampleMetadata> SampleMetadata);
     }
 }
