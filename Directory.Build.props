@@ -3,7 +3,7 @@
     <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
   </PropertyGroup>
 
-  <Import Project="$(RepositoryDirectory)Windows.Toolkit.Common.props" />
+  <Import Project="Windows.Toolkit.Common.props" />
 
   <PropertyGroup>
     <DebugType>Embedded</DebugType>

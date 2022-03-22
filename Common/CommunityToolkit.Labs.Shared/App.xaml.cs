@@ -56,7 +56,7 @@ namespace CommunityToolkit.Labs.Shared
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = null;
+            Frame? rootFrame = null;
 
 #if WINAPPSDK
             var window = new Window();
@@ -88,6 +88,9 @@ namespace CommunityToolkit.Labs.Shared
 #else
             if (e.PrelaunchActivated == false)
             {
+                if (rootFrame is null)
+                    throw new InvalidOperationException("Cannot display app content, root frame is missing.");
+
                 if (rootFrame.Content == null)
                 {
                     rootFrame.Navigate(typeof(AppLoadingView), e.Arguments);
