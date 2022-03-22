@@ -115,7 +115,7 @@ namespace CommunityToolkit.Labs.Shared
         }
 
         // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
-        private void ScheduleNavigate(Type type, object param = null)
+        private void ScheduleNavigate(Type type, object? param = null)
         {
             DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
             {

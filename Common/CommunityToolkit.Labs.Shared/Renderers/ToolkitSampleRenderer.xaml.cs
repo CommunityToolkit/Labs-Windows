@@ -129,7 +129,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             var sampleControlInstance = (UIElement)Metadata.SampleControlFactory();
 
             // Custom control-based sample options.
-            if (Metadata.SampleOptionsPaneType is not null)
+            if (Metadata.SampleOptionsPaneType is not null && Metadata.SampleOptionsPaneFactory is not null)
             {
                 SampleOptionsPaneInstance = (UIElement)Metadata.SampleOptionsPaneFactory(sampleControlInstance);
             }
@@ -181,6 +181,12 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         {
             var simpleAssemblyName = type.Assembly.GetName().Name;
             var typeNamespace = type.Namespace;
+
+            if (string.IsNullOrWhiteSpace(simpleAssemblyName))
+                throw new ArgumentException($"Unable to find assembly name for provided type {type}.", nameof(simpleAssemblyName));
+
+            if (string.IsNullOrWhiteSpace(typeNamespace))
+                throw new ArgumentException($"Unable to find namespace for provided type {type}.", nameof(typeNamespace));
 
             var folderPath = typeNamespace.Replace(simpleAssemblyName, "").Trim('.').Replace('.', '/');
 

@@ -83,7 +83,7 @@ namespace {containingClassSymbol.ContainingNamespace}
 {{
     public partial class {containingClassSymbol.Name} : {nameof(System.ComponentModel.INotifyPropertyChanged)}
     {{
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
     }}
 }}
 ";
@@ -141,7 +141,7 @@ namespace {containingClassSymbol.ContainingNamespace}
     {{
         public {typeName} {propertyName}
         {{
-            get => (({typeName})(({viewModelType.FullName})GeneratedPropertyMetadata!.First(x => x.Name == ""{propertyName}""))!.Value);
+            get => (({typeName})(({viewModelType.FullName})GeneratedPropertyMetadata!.First(x => x.Name == ""{propertyName}""))!.Value!)!;
             set
             {{
 				if (GeneratedPropertyMetadata?.FirstOrDefault(x => x.Name == nameof({propertyName})) is {viewModelType.FullName} metadata)
