@@ -23,7 +23,8 @@
   </Target>
 
   <ItemGroup>
-    <Content Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <!-- In release mode, UWP already emits the raw XAML files to the final app package (with some modifications). -->
+    <Content Condition="!('$(TargetFramework)' == '$(UwpTargetFramework)' AND '$(Configuration)' == 'Release')" Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
     <Content Include="**\*.cs" Exclude="bin\**\*.cs;obj\**\*.cs" />
   </ItemGroup>
 
