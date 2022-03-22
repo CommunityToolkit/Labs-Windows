@@ -34,7 +34,7 @@ jobs:
         run: |
           $ProgressPreference = 'SilentlyContinue'
           & dotnet tool install --global Uno.Check
-          & uno-check --ci --fix --non-interactive --skip wsl --verbose
+          & uno-check --ci --fix --non-interactive --skip wsl --skip androidemulator --verbose
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
