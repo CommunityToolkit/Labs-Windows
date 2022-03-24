@@ -1,12 +1,6 @@
 <!-- Common props for any deployable sample project head. -->
-<Project InitialTargets="iPhoneSimulatorPlatformOverrideValidation">
-
-  <Target Name="iPhoneSimulatorPlatformOverrideValidation" Condition="'$(Platform)' == 'iPhoneSimulator'">
-    <!-- Prevent macOS / iOS from using "iPhoneSimulator" as the platform in libraries which don't support it. -->
-    <Error Condition="'$(PlatformTarget)' == ''" Text="PlatformTarget property was not defined, and is required when using the Platform iPhoneSimulator" />
-    <Error Condition="'$(PlatformTarget)' != 'x64' AND '$(PlatformTarget)' != 'x86' AND '$(PlatformTarget)' != 'ARM' AND '$(PlatformTarget)' != 'ARM64'" Text="Invalid PlatformTarget was defined: $(PlatformTarget). Expected x86, x64, ARM or ARM64" />
-  </Target>
-
+<Project>
+  
   <!-- Shared project -->
   <Import Project="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 
@@ -22,10 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true">
-      <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
-      <SetPlatform Condition="'$(Platform)' == 'iPhoneSimulator'">Platform=$(PlatformTarget)</SetPlatform>
-    </ProjectReference>
+    <ProjectReference Include="$(RepositoryDirectory)Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
+                      SetTargetFramework="TargetFramework=netstandard2.0"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
   </ItemGroup>
 
 </Project>
