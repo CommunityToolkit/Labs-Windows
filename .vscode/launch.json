@@ -17,11 +17,11 @@
         "/p:UnoSourceGeneratorUseGenerationHost=true",
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
-        "--project=${workspaceFolder}/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
+        "--project=${workspaceFolder}/Platforms/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
         "-p:TargetFrameworks=netstandard2.0",
         "-p:TargetFramework=net5.0",
       ],
-      "cwd": "${workspaceFolder}/CommunityToolkit.Labs.Wasm",
+      "cwd": "${workspaceFolder}/Platforms/CommunityToolkit.Labs.Wasm",
     },
     {
       "name": "CanvasLayout",
