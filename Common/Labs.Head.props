@@ -17,8 +17,9 @@
 
   <ItemGroup>
     <ProjectReference Include="$(RepositoryDirectory)Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
-                      SetTargetFramework="TargetFramework=netstandard2.0"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+                      OutputItemType="None" ReferenceOutputAssembly="true" />
+                      
+    <Analyzer Include="$(RepositoryDirectory)Common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
   </ItemGroup>
 
 </Project>
