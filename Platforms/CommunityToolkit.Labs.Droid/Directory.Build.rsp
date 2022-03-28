@@ -1,0 +1,9 @@
+# Remove all non-Wasm target frameworks from libraries.
+
+-p:UwpTargetFramework=
+-p:WinAppSdkTargetFramework=
+-p:WasmLibTargetFramework=
+-p:LinuxLibTargetFramework=
+-p:MacOSLibTargetFramework=
+-p:iOSLibTargetFramework=
+-p:WpfLibTargetFramework=

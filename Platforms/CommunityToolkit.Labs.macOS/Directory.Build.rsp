@@ -1,0 +1,9 @@
+# Remove all non-macOS target frameworks from libraries.
+
+-p:UwpTargetFramework=
+-p:WinAppSdkTargetFramework=
+-p:WasmLibTargetFramework=
+-p:LinuxLibTargetFramework=
+-p:iOSLibTargetFramework=
+-p:AndroidLibTargetFramework=
+-p:WpfLibTargetFramework=

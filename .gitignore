@@ -350,3 +350,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Custom Labs response files for platform heads
+!Platforms/**/Directory.Build.rsp
+!Labs/**/Samples/**/Directory.Build.rsp
