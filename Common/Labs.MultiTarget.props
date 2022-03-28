@@ -7,7 +7,7 @@
     <!--
       TargetFramework for WasmLibTargetFramework, WpfLibTargetFramework, and LinuxLibTargetFramework all use the same value.
       
-      This can't be removed during the evaluation phase without breaking things, so we emit them entirely
+      This can't be removed during the evaluation phase without breaking things, so we omit them entirely
       and use the value directly.
     -->
     <TargetFrameworks>
