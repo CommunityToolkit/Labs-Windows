@@ -4,7 +4,21 @@
   <PropertyGroup>
     <WinUITarget Condition="'$(WinUITarget)' == ''">2.x</WinUITarget>
 
-    <TargetFrameworks>$(WasmLibTargetFramework);$(WpfLibTargetFramework);$(LinuxLibTargetFramework);$(UwpTargetFramework);$(WinAppSdkTargetFramework);$(MacOSLibTargetFramework);$(iOSLibTargetFramework);$(AndroidLibTargetFramework);</TargetFrameworks>
+    <!--
+      TargetFramework for WasmLibTargetFramework, WpfLibTargetFramework, and LinuxLibTargetFramework all use the same value.
+      
+      This can't be removed during the evaluation phase without breaking things, so we emit them entirely
+      and use the value directly.
+    -->
+    <TargetFrameworks>
+      netstandard2.0;
+      $(UwpTargetFramework);
+      $(WinAppSdkTargetFramework);
+      $(MacOSLibTargetFramework);
+      $(iOSLibTargetFramework);
+      $(AndroidLibTargetFramework);
+    </TargetFrameworks>
+
     <IsUno Condition="'$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">True</IsUno>
 
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -44,5 +58,4 @@
     <ProjectReference Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
-
 </Project>
