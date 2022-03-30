@@ -3,6 +3,10 @@
   <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.props" />
 
   <PropertyGroup>
+    <PlatformHead>Wasm</PlatformHead>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(WasmHeadTargetFramework)</TargetFramework>
     <NoWarn>NU1701</NoWarn>

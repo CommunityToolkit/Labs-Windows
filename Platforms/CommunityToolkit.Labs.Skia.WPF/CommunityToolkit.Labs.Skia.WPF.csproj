@@ -4,6 +4,10 @@
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
 
   <PropertyGroup>
+    <PlatformHead>WPF</PlatformHead>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>
   </PropertyGroup>
   <ItemGroup>

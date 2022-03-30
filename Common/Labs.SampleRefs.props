@@ -3,8 +3,8 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
 
   <ItemGroup>
-    
-    <ProjectReference Include="$(RepositoryDirectory)Labs\CanvasLayout\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
+
+    <ProjectReference Include="$(RepositoryDirectory)Labs\CanvasLayout\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj"/>
     <ProjectReference Include="$(RepositoryDirectory)Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj"/>
   </ItemGroup>
 </Project>

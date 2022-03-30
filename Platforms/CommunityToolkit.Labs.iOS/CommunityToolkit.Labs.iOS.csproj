@@ -5,6 +5,10 @@
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
 
   <PropertyGroup>
+    <PlatformHead>iOS</PlatformHead>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectGuid>93BFD459-2E21-41C7-9E54-868F5B014DBC</ProjectGuid>

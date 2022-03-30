@@ -4,6 +4,10 @@
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
 
   <PropertyGroup>
+    <PlatformHead>Gtk</PlatformHead>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>$(LinuxHeadTargetFramework)</TargetFramework>
