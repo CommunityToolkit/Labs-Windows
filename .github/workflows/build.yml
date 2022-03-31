@@ -32,9 +32,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-      - name: Run Git Status
-        run: git status
+      - name: Run Git Diff
+        run: git diff origin/main pull/60/merge --name-only --diff-filter=ACM
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools

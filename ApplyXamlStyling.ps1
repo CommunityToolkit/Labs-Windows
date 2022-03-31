@@ -20,8 +20,18 @@ if ($Main)
 {
     Write-Output 'Checking Current Branch against `main` Files Only'
     $branch = git status | Select-String -Pattern "On branch (?<branch>.*)$"
+    if ($null -eq $branch.Matches)
+    {
+        $branch = git status | Select-String -Pattern "HEAD detached at (?<branch>.*)$"
+        if ($null -eq $branch.Matches)
+        {
+            Write-Error 'Don''t know how to fetch branch from `git status`:'
+            git status | Write-Error
+            exit 1
+        }
+    }
     $branch = $branch.Matches.groups[1].Value
-    $gitDiffCommand = "git diff main $branch --name-only --diff-filter=ACM"
+    $gitDiffCommand = "git diff origin/main $branch --name-only --diff-filter=ACM"
 }
 elseif ($Staged)
 {
