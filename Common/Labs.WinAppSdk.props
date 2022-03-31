@@ -4,10 +4,6 @@
   <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.default.props" />
 
   <PropertyGroup>
-    <PlatformHead>WinAppSDK</PlatformHead>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <TargetFramework>$(WinAppSdkTargetFramework)</TargetFramework>

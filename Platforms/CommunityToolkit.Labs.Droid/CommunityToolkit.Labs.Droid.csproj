@@ -4,10 +4,6 @@
   
   <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
-
-  <PropertyGroup>
-    <PlatformHead>Droid</PlatformHead>
-  </PropertyGroup>
   
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>

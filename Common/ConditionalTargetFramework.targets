@@ -5,41 +5,16 @@
         <OutputFile>$(RepositoryDirectory)Common\Labs.TargetFrameworks.props</OutputFile>
     </PropertyGroup>
 
-    <ItemGroup>
-        <UpToDateCheckBuilt Include="$(OutputFile)" Original="$(InputFile)" />
-    </ItemGroup>
+    <Target Name="PruneExtraTargetFrameworks" BeforeTargets="ResolvePackageAssets;PreBuildEvent">
+        <WriteLinesToFile Condition="'$(SolutionFileName)' == 'Toolkit.Labs.All.sln' or '$(SolutionFileName)' == ''" Overwrite="true" Encoding="Unicode"
+                          File="$(OutputFile)" Lines="$([System.IO.File]::ReadAllText('$(InputFile)'))"/>
 
-    <Target Name="PruneExtraTargetFrameworks" BeforeTargets="PreBuildEvent">
-        <WriteLinesToFile Condition="'$(PlatformHead)' == 'UWP'"
+        <WriteLinesToFile Condition="'$(SolutionFileName)' == 'Toolkit.Labs.Windows.sln'"
                           File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(WinAppSdkTargetFramework|WasmLibTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework|WpfLibTargetFramework)&gt;.+?&gt;', ''))" />
+                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)&gt;.+?&gt;', ''))" />
 
-        <WriteLinesToFile Condition="'$(PlatformHead)' == 'WinAppSDK'"
+        <WriteLinesToFile Condition="'$(SolutionFileName)' == 'Toolkit.Labs.Wasm.sln'"
                           File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(UwpTargetFramework|WasmLibTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework|WpfLibTargetFramework)&gt;.+?&gt;', ''))" />
-
-        <WriteLinesToFile Condition="'$(PlatformHead)' == 'Wasm'"
-                          File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(WinAppSdkTargetFramework|UwpTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework|WpfLibTargetFramework)&gt;.+?&gt;', ''))" />
-
-        <WriteLinesToFile Condition="'$(PlatformHead)' == 'Droid'"
-                          File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(WinAppSdkTargetFramework|UwpTargetFramework|LinuxLibTargetFramework|WasmLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework|WpfLibTargetFramework)&gt;.+?&gt;', ''))" />
-
-        <WriteLinesToFile Condition="'$(PlatformHead)' == 'iOS'"
-                          File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(WinAppSdkTargetFramework|UwpTargetFramework|LinuxLibTargetFramework|WasmLibTargetFramework|MacOSLibTargetFramework|AndroidLibTargetFramework|WpfLibTargetFramework)&gt;.+?&gt;', ''))" />
-
-        <WriteLinesToFile Condition="'$(PlatformHead)' == 'macOS'"
-                          File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(WinAppSdkTargetFramework|UwpTargetFramework|LinuxLibTargetFramework|WasmLibTargetFramework|iOSLibTargetFramework|AndroidLibTargetFramework|WpfLibTargetFramework)&gt;.+?&gt;', ''))" />
-
-        <WriteLinesToFile Condition="'$(PlatformHead)' == 'WPF'"
-                          File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(WinAppSdkTargetFramework|UwpTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|WasmLibTargetFramework|iOSLibTargetFramework|MacOSLibTargetFramework)&gt;.+?&gt;', ''))" />
-
-        <WriteLinesToFile Condition="'$(PlatformHead)' == 'Gtk'"
-                          File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(WinAppSdkTargetFramework|UwpTargetFramework|WpfLibTargetFramework|AndroidLibTargetFramework|WasmLibTargetFramework|iOSLibTargetFramework|MacOSLibTargetFramework)&gt;.+?&gt;', ''))" />
+                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(UwpTargetFramework|WinAppSdkTargetFramework|WpfLibTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)&gt;.+?&gt;', ''))" />
     </Target>
 </Project>

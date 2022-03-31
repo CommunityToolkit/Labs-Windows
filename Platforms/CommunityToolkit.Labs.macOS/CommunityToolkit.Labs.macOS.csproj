@@ -6,10 +6,6 @@
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
 
   <PropertyGroup>
-    <PlatformHead>macOS</PlatformHead>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectGuid>34617141-25C4-4FEC-8A15-5B46934F1A99</ProjectGuid>

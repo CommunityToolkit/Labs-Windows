@@ -2,10 +2,6 @@
   <!-- Common properties needed for a labs project (UWP) -->
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.props" />
-  
-  <PropertyGroup>
-    <PlatformHead>UWP</PlatformHead>
-  </PropertyGroup>
 
   <PropertyGroup>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
