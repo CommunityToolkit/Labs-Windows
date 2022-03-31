@@ -18,7 +18,7 @@ $gitDiffCommand = "git diff --name-only --diff-filter=ACM"
 
 if ($Main)
 {
-    Write-Output "Checking Current Branch against `main` Files Only"
+    Write-Output 'Checking Current Branch against `main` Files Only'
     $branch = git status | Select-String -Pattern "On branch (?<branch>.*)$"
     $branch = $branch.Matches.groups[1].Value
     $gitDiffCommand = "git diff main $branch --name-only --diff-filter=ACM"
@@ -54,7 +54,7 @@ if ($files.count -gt 0)
 
     if ($files.count -gt 0)
     {
-        Write-Output "XAML Files Modified; If this message is in the CI, please run `.\ApplyXamlStyling.ps1 -Main` locally to apply changes."
+        Write-Output 'XAML Files Modified; If this message is in the CI, please run `.\ApplyXamlStyling.ps1 -Main` locally to apply changes.'
         exit 1
     }
     else

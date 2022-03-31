@@ -33,6 +33,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Run Git Status
+        run: git status
+
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
         run: dotnet tool restore
