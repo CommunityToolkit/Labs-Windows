@@ -76,6 +76,11 @@ else
     {
         dotnet tool run xstyler -p -c .\settings.xamlstyler -f $files
 
+        if ($lastExitCode -eq 1)
+        {
+            Write-Error 'XAML Styling is incorrect, please run `ApplyXamlStyling.ps1` locally.'
+        }
+
         # Return XAML Styler Status
         exit $lastExitCode
     }
