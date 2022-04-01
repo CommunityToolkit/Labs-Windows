@@ -24,7 +24,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Install .NET Core SDK
+      # Needed until XAML Styler updates to .NET 6
+      - name: Install .NET Core 3.1 SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
+      - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.201'
@@ -32,18 +38,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Run Git Diff
-        run: git diff origin/main pull/60/merge --name-only --diff-filter=ACM
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
         run: dotnet tool restore
 
       - name: Check XAML Styling
-        run: ./ApplyXamlStyling.ps1 -Main
+        run: ./ApplyXamlStyling.ps1 -Passive
 
       - name: Run Uno Check to Install Dependencies
         run: dotnet tool run uno-check --ci --fix --non-interactive --skip wsl --skip androidemulator #--verbose
