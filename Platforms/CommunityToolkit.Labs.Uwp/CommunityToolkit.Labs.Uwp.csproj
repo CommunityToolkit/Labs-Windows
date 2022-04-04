@@ -4,7 +4,6 @@
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
   <Import Project="$(RepositoryDirectory)Common\Labs.Uwp.props" />
   <Import Project="$(RepositoryDirectory)Common\Labs.SampleRefs.props" />
-
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.Uwp</RootNamespace>
     <AssemblyName>CommunityToolkit.Labs.Uwp</AssemblyName>
