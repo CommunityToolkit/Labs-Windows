@@ -1,6 +1,12 @@
 <Project>
   <PropertyGroup>
     <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <Import Project="Windows.Toolkit.Common.props" />

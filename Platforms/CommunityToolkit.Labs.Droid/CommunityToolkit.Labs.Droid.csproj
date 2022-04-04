@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-  
   <Import Project="$(RepositoryDirectory)\Common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
-  
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -108,7 +106,6 @@
     <AndroidResource Include="Resources\values\Styles.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-
   <Target Name="Issue3897Workaround" Condition=" '$(ManagedDesignTimeBuild)' == 'True' " AfterTargets="_RemoveLegacyDesigner">
     <!-- See https://github.com/unoplatform/uno/issues/3897 and https://github.com/xamarin/xamarin-android/issues/5069 for more details -->
     <ItemGroup>

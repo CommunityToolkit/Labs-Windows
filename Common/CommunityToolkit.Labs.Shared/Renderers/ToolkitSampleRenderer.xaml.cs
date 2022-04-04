@@ -167,7 +167,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
 
                 return textContents;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
