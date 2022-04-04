@@ -34,8 +34,7 @@
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="CanvasLayout.UnitTests.Uwp"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:DefaultTile/>
       </uap:VisualElements>
     </Application>
   </Applications>
