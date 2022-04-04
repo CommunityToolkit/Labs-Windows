@@ -1,20 +1,14 @@
 <Project>
     <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-    <PropertyGroup>
-        <InputFile>$(RepositoryDirectory)Common\Labs.TargetFrameworks.default.props</InputFile>
-        <OutputFile>$(RepositoryDirectory)Common\Labs.TargetFrameworks.props</OutputFile>
-    </PropertyGroup>
 
     <Target Name="PruneExtraTargetFrameworks" BeforeTargets="ResolvePackageAssets;PreBuildEvent">
-        <WriteLinesToFile Condition="'$(SolutionFileName)' == 'Toolkit.Labs.All.sln' or '$(SolutionFileName)' == ''" Overwrite="true" Encoding="Unicode"
-                          File="$(OutputFile)" Lines="$([System.IO.File]::ReadAllText('$(InputFile)'))"/>
+        <PropertyGroup>
+            <PowerShellCommand Condition=" '$(OS)' == 'Windows_NT' ">powershell</PowerShellCommand>
+            <PowerShellCommand Condition=" '$(OS)' == 'Unix' ">pwsh</PowerShellCommand>
+            <ClientGenTriggerScript>$(MSBuildProjectDirectory)\..\..\..\.build\client_gen.ps1</ClientGenTriggerScript>
+        </PropertyGroup>
 
-        <WriteLinesToFile Condition="'$(SolutionFileName)' == 'Toolkit.Labs.Windows.sln'"
-                          File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)&gt;.+?&gt;', ''))" />
-
-        <WriteLinesToFile Condition="'$(SolutionFileName)' == 'Toolkit.Labs.Wasm.sln'"
-                          File="$(OutputFile)" Overwrite="true" Encoding="Unicode"
-                          Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(InputFile)')), '&lt;(UwpTargetFramework|WinAppSdkTargetFramework|WpfLibTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)&gt;.+?&gt;', ''))" />
+        <Exec Command="$(PowerShellCommand) -ExecutionPolicy Unrestricted -NoProfile -File $(RepositoryDirectory)Common/Scripts/UpdateTargetFrameworks.ps1 $(SolutionName) --Verbose"
+              WorkingDirectory="$(RepositoryDirectory)Common/Scripts/" />
     </Target>
 </Project>
