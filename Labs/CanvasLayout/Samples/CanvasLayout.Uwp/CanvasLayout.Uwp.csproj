@@ -21,7 +21,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
+    <ProjectReference Include="..\..\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
       <Project>{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}</Project>
       <Name>CommunityToolkit.Labs.WinUI.CanvasLayout</Name>
     </ProjectReference>

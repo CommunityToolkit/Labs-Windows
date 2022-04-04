@@ -16,15 +16,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommunityToolkit.Labs.Share
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CanvasLayout", "CanvasLayout", "{86E3CC4D-1359-4249-9C5B-C193BF65633D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasLayout.Uwp", "Labs\CanvasLayout\samples\CanvasLayout.Uwp\CanvasLayout.Uwp.csproj", "{3BAAC2DA-7124-460E-A9A9-13138843CD57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasLayout.Uwp", "Labs\CanvasLayout\Samples\CanvasLayout.Uwp\CanvasLayout.Uwp.csproj", "{3BAAC2DA-7124-460E-A9A9-13138843CD57}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "Labs\CanvasLayout\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "Labs\CanvasLayout\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{A14189C0-39A8-4FBE-BF86-A78A94654C48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "Labs\CanvasLayout\Samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{A14189C0-39A8-4FBE-BF86-A78A94654C48}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{EDD2FCF0-74FE-4AB9-B40A-7B2A4E89D59C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Wasm", "Labs\CanvasLayout\samples\CanvasLayout.Wasm\CanvasLayout.Wasm.csproj", "{E8E5AAAA-B15B-4B35-8673-118F6417B6F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Wasm", "Labs\CanvasLayout\Samples\CanvasLayout.Wasm\CanvasLayout.Wasm.csproj", "{E8E5AAAA-B15B-4B35-8673-118F6417B6F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{09003B35-7A35-4BD1-9A26-5CFD02AB88DD}"
 EndProject
@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinAppSdk", "Platforms\CommunityToolkit.Labs.WinAppSdk\CommunityToolkit.Labs.WinAppSdk.csproj", "{53E592FC-E73C-474B-89C3-0570854CB160}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.WinAppSdk", "Labs\CanvasLayout\samples\CanvasLayout.WinAppSdk\CanvasLayout.WinAppSdk.csproj", "{25341845-BFEE-47E0-A6A9-16CADDF829C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.WinAppSdk", "Labs\CanvasLayout\Samples\CanvasLayout.WinAppSdk\CanvasLayout.WinAppSdk.csproj", "{25341845-BFEE-47E0-A6A9-16CADDF829C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xPlatforms", "xPlatforms", "{E824D592-EBCB-41C6-A176-D001C5A124CB}"
 EndProject
@@ -64,19 +64,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.UnitT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments", "{DD69BA61-C86D-4138-AE6F-76E2C8445C9A}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Labs.WinUI.CanvasLayout.Tests", "Labs\CanvasLayout\tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.shproj", "{2C7A065B-9349-4071-AF95-E88F320A09A9}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Labs.WinUI.CanvasLayout.Tests", "Labs\CanvasLayout\Tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.shproj", "{2C7A065B-9349-4071-AF95-E88F320A09A9}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Labs\CanvasLayout\tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{2c7a065b-9349-4071-af95-e88f320a09a9}*SharedItemsImports = 13
+		Labs\CanvasLayout\Tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{2c7a065b-9349-4071-af95-e88f320a09a9}*SharedItemsImports = 13
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{34617141-25c4-4fec-8a15-5b46934f1a99}*SharedItemsImports = 4
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{3baac2da-7124-460e-a9a9-13138843cd57}*SharedItemsImports = 4
-		Labs\CanvasLayout\tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{53892f07-fe54-4e36-81d8-105427d097e5}*SharedItemsImports = 5
+		Labs\CanvasLayout\Tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{53892f07-fe54-4e36-81d8-105427d097e5}*SharedItemsImports = 5
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{8ea015ed-5142-4393-bca8-08ed2dff19a9}*SharedItemsImports = 4
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{93bfd459-2e21-41c7-9e54-868f5b014dbc}*SharedItemsImports = 4
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{9503c27c-55a8-4b66-aa7b-14efdb940b13}*SharedItemsImports = 13
 		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{b3d6df0b-13db-493e-9d1a-56343efedea7}*SharedItemsImports = 4
-		Labs\CanvasLayout\tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{fd78002e-c4e6-4bf8-9ec3-c06250dfef34}*SharedItemsImports = 4
+		Labs\CanvasLayout\Tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{fd78002e-c4e6-4bf8-9ec3-c06250dfef34}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

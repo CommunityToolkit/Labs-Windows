@@ -5,23 +5,23 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{1C029CC0-BB45-45FF-AD34-086EC4840DB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasLayout.Uwp", "samples\CanvasLayout.Uwp\CanvasLayout.Uwp.csproj", "{3BAAC2DA-7124-460E-A9A9-13138843CD57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasLayout.Uwp", "Samples\CanvasLayout.Uwp\CanvasLayout.Uwp.csproj", "{3BAAC2DA-7124-460E-A9A9-13138843CD57}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Wasm", "samples\CanvasLayout.Wasm\CanvasLayout.Wasm.csproj", "{6DC6B31C-D03C-4E53-A1A5-CAF51227440B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Wasm", "Samples\CanvasLayout.Wasm\CanvasLayout.Wasm.csproj", "{6DC6B31C-D03C-4E53-A1A5-CAF51227440B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{E648080E-263D-4920-9B3D-2F6BF541586C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "Samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{E648080E-263D-4920-9B3D-2F6BF541586C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{E6AFDCD6-F59A-4EC4-BCA7-1E47A5A15751}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.WinAppSdk", "samples\CanvasLayout.WinAppSdk\CanvasLayout.WinAppSdk.csproj", "{70DF1194-D158-473E-B350-F630231FB328}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.WinAppSdk", "Samples\CanvasLayout.WinAppSdk\CanvasLayout.WinAppSdk.csproj", "{70DF1194-D158-473E-B350-F630231FB328}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{69AFC3EC-DC11-4031-8624-0E9F942D19C3}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Labs.WinUI.CanvasLayout.Tests", "tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.shproj", "{2C7A065B-9349-4071-AF95-E88F320A09A9}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Labs.WinUI.CanvasLayout.Tests", "Tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.shproj", "{2C7A065B-9349-4071-AF95-E88F320A09A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.UnitTests.WinAppSdk", "tests\CanvasLayout.UnitTests.WinAppSdk\CanvasLayout.UnitTests.WinAppSdk.csproj", "{DD3E4652-114A-4614-8904-1DBCE62589CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.UnitTests.WinAppSdk", "Tests\CanvasLayout.UnitTests.WinAppSdk\CanvasLayout.UnitTests.WinAppSdk.csproj", "{DD3E4652-114A-4614-8904-1DBCE62589CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasLayout.UnitTests.Uwp", "tests\CanvasLayout.UnitTests.Uwp\CanvasLayout.UnitTests.Uwp.csproj", "{F17EE40D-CEE8-402F-AA43-45A7F87ACBF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasLayout.UnitTests.Uwp", "Tests\CanvasLayout.UnitTests.Uwp\CanvasLayout.UnitTests.Uwp.csproj", "{F17EE40D-CEE8-402F-AA43-45A7F87ACBF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Labs Dependencies", "Labs Dependencies", "{EC5804D7-C94B-4CF8-8344-132F2A58F88E}"
 EndProject
@@ -29,10 +29,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{2c7a065b-9349-4071-af95-e88f320a09a9}*SharedItemsImports = 13
+		Tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{2c7a065b-9349-4071-af95-e88f320a09a9}*SharedItemsImports = 13
 		..\..\Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{3baac2da-7124-460e-a9a9-13138843cd57}*SharedItemsImports = 4
-		tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{dd3e4652-114a-4614-8904-1dbce62589cc}*SharedItemsImports = 5
-		tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{f17ee40d-cee8-402f-aa43-45a7f87acbf3}*SharedItemsImports = 4
+		Tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{dd3e4652-114a-4614-8904-1dbce62589cc}*SharedItemsImports = 5
+		Tests\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems*{f17ee40d-cee8-402f-aa43-45a7f87acbf3}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

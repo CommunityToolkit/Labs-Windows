@@ -18,13 +18,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CanvasLayout", "CanvasLayout", "{86E3CC4D-1359-4249-9C5B-C193BF65633D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "Labs\CanvasLayout\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "Labs\CanvasLayout\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "Labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{A14189C0-39A8-4FBE-BF86-A78A94654C48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "Labs\CanvasLayout\Samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{A14189C0-39A8-4FBE-BF86-A78A94654C48}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{EDD2FCF0-74FE-4AB9-B40A-7B2A4E89D59C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Wasm", "Labs\CanvasLayout\samples\CanvasLayout.Wasm\CanvasLayout.Wasm.csproj", "{E8E5AAAA-B15B-4B35-8673-118F6417B6F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Wasm", "Labs\CanvasLayout\Samples\CanvasLayout.Wasm\CanvasLayout.Wasm.csproj", "{E8E5AAAA-B15B-4B35-8673-118F6417B6F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{09003B35-7A35-4BD1-9A26-5CFD02AB88DD}"
 EndProject

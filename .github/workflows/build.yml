@@ -48,7 +48,7 @@ jobs:
         
       # Build All Packages - TODO: Detect experiments
       - name: pack CanvasLayout
-        working-directory: ./Labs/CanvasLayout/src
+        working-directory: ./Labs/CanvasLayout/Src
         run: msbuild -t:pack /p:Configuration=Release /p:DebugType=Portable
 
       # Push Packages to our DevOps Artifacts Feed                       
