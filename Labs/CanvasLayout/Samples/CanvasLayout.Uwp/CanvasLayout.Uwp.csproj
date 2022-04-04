@@ -3,7 +3,6 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
   <Import Project="$(RepositoryDirectory)Common\Labs.Uwp.props" />
-
   <PropertyGroup>
     <RootNamespace>CanvasLayout.Uwp</RootNamespace>
     <AssemblyName>CanvasLayout.Uwp</AssemblyName>
