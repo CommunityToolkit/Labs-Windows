@@ -12,11 +12,11 @@
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\Square150x150Logo.scale-200.png" Link="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\Square44x44Logo.scale-200.png" Link="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" Link="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="..\..\..\..\Common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="..\..\..\..\Common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.scale-200.png" Link="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="..\..\..\..\Common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.scale-200.png" Link="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="..\..\..\..\Common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" Link="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="..\..\..\..\Common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
