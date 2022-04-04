@@ -11,13 +11,12 @@
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
-
   <ItemGroup>
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\Square150x150Logo.scale-200.png" Link="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\Square44x44Logo.scale-200.png" Link="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" Link="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="..\CanvasLayout.UnitTests.Uwp\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +47,10 @@
       <Version>16.10.0</Version>
       <ExcludeAssets>build</ExcludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
   
   <Import Project="..\CanvasLayout.Tests\CanvasLayout.Tests.projitems" Label="Shared" />
