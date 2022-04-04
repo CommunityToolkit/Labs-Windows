@@ -156,7 +156,7 @@
       <Version>2.2.7</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="..\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems" Label="Shared" />
+  <Import Project="..\CanvasLayout.Tests\CanvasLayout.Tests.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

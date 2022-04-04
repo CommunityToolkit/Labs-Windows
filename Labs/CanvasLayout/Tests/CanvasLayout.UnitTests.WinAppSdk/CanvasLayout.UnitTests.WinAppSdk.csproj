@@ -52,5 +52,5 @@
     </PackageReference>
   </ItemGroup>
   
-  <Import Project="..\Labs.WinUI.CanvasLayout.Tests\Labs.WinUI.CanvasLayout.Tests.projitems" Label="Shared" />
+  <Import Project="..\CanvasLayout.Tests\CanvasLayout.Tests.projitems" Label="Shared" />
 </Project>

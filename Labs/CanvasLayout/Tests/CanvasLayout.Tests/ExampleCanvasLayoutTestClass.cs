@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Labs.WinUI.CanvasLayout.Tests
+namespace CanvasLayout.Tests
 {
     [TestClass]
     public class ExampleCanvasLayoutTestClass
