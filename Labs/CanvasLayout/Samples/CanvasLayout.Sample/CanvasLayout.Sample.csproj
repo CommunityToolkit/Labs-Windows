@@ -38,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
+    <ProjectReference Include="..\..\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
       <AdditionalProperties>WinUITarget=$(WinUITarget)</AdditionalProperties>
     </ProjectReference>
   </ItemGroup>

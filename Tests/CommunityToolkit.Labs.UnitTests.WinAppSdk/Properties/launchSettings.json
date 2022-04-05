@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CommunityToolkit.Labs.UnitTests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CommunityToolkit.Labs.UnitTests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
