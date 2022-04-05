@@ -1,5 +1,6 @@
-<Project InitialTargets="ValidateWinUITarget">
-  <Import Project="ConditionalTargetFramework.targets" />
+<Project InitialTargets="PruneExtraTargetFrameworks;ValidateWinUITarget">
+  <Import Project="$(RepositoryDirectory)Common\ConditionalTargetFramework.targets" />
+
   <Import Project="Labs.TargetFrameworks.props" />
 
   <PropertyGroup>
@@ -22,8 +23,6 @@
 
     <IsUno Condition="'$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">True</IsUno>
 
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <BaseIntermediateOutputPath>obj</BaseIntermediateOutputPath>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
     <DefineConstants Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">WINAPPSDK</DefineConstants>

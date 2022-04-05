@@ -1,11 +1,14 @@
 <Project>
     <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+    
+    <PropertyGroup>
+        <DisableFastUpToDateCheck>True</DisableFastUpToDateCheck>
+    </PropertyGroup>
 
-    <Target Name="PruneExtraTargetFrameworks" BeforeTargets="ResolvePackageAssets;PreBuildEvent">
+    <Target Name="PruneExtraTargetFrameworks" BeforeTargets="PreBuildEvent">
         <PropertyGroup>
             <PowerShellCommand Condition=" '$(OS)' == 'Windows_NT' ">powershell</PowerShellCommand>
             <PowerShellCommand Condition=" '$(OS)' == 'Unix' ">pwsh</PowerShellCommand>
-            <ClientGenTriggerScript>$(MSBuildProjectDirectory)\..\..\..\.build\client_gen.ps1</ClientGenTriggerScript>
         </PropertyGroup>
 
         <Exec Command="$(PowerShellCommand) -ExecutionPolicy Unrestricted -NoProfile -File $(RepositoryDirectory)Common/Scripts/UpdateTargetFrameworks.ps1 $(SolutionName) --Verbose"
