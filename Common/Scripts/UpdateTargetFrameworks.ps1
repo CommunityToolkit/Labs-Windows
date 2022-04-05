@@ -3,12 +3,17 @@ $slnName = $args[0];
 $fileContents = Get-Content -Path .\..\Labs.TargetFrameworks.default.props
 $newFileContents = $fileContents;
 
-if ($slnName -eq "Toolkit.Labs.Windows") {
-    $newFileContents = $fileContents -replace '<(LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)>.+?>', '';
-}
+# If solution is set to All, don't do any replacements and copy all TFMs.
+if (-not($slnName -eq "Toolkit.Labs.All")) {
 
-if ($slnName -eq "Toolkit.Labs.Wasm") {
-    $newFileContents = $fileContents -replace '<(UwpTargetFramework|WinAppSdkTargetFramework|WpfLibTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)>.+?>', '';
+    # If WASM, remove all non-wasm TFMs
+    if ($slnName -eq "Toolkit.Labs.Wasm") {
+        $newFileContents = $fileContents -replace '<(UwpTargetFramework|WinAppSdkTargetFramework|WpfLibTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)>.+?>', '';
+    }
+    # If any other solution, assume minimal Windows dependencies.
+    else {
+        $newFileContents = $fileContents -replace '<(LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)>.+?>', '';
+    }
 }
 
 if ($newFileContents -eq $fileContents) {
