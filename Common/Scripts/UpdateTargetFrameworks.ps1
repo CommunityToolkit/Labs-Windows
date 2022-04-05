@@ -1,3 +1,10 @@
+if (Test-Path ".\..\Labs.TargetFrameworks.props.lock")
+{
+     return;
+}
+
+Set-Content -Path .\..\Labs.TargetFrameworks.props.lock -Value '';
+
 $slnName = $args[0];
 
 $fileContents = Get-Content -Path .\..\Labs.TargetFrameworks.default.props
@@ -17,7 +24,10 @@ if (-not($slnName -eq "Toolkit.Labs.All")) {
 }
 
 if ($newFileContents -eq $fileContents) {
+    Remove-Item -Path .\..\Labs.TargetFrameworks.props.lock;
     return;
 }
 
 Set-Content -Force -Path .\..\Labs.TargetFrameworks.props -Value $newFileContents;
+
+Remove-Item -Path .\..\Labs.TargetFrameworks.props.lock;
