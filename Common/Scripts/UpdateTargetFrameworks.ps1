@@ -15,5 +15,8 @@ if ($newFileContents -eq $fileContents) {
     return;
 }
 
-Clear-Content -Path .\..\Labs.TargetFrameworks.props;
+if (Test-Path '.\..\Labs.TargetFrameworks.props') {
+    Clear-Content -Path .\..\Labs.TargetFrameworks.props;
+}
+
 Add-Content -Force -Path .\..\Labs.TargetFrameworks.props -Value $newFileContents;
