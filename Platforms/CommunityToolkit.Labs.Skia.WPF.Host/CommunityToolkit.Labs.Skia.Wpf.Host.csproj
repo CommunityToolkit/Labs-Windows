@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" InitialTargets="Clean">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.default.props" />
 
   <PropertyGroup>

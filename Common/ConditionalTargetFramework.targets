@@ -1,6 +1,6 @@
 <Project>
     <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-    
+
     <PropertyGroup>
         <DisableFastUpToDateCheck>True</DisableFastUpToDateCheck>
     </PropertyGroup>
@@ -11,7 +11,12 @@
             <PowerShellCommand Condition=" '$(OS)' == 'Unix' ">pwsh</PowerShellCommand>
         </PropertyGroup>
 
-        <Exec Command="$(PowerShellCommand) -ExecutionPolicy Unrestricted -NoProfile -File $(RepositoryDirectory)Common/Scripts/UpdateTargetFrameworks.ps1 $(SolutionName) --Verbose"
-              WorkingDirectory="$(RepositoryDirectory)Common/Scripts/" />
+        <PropertyGroup>
+            <LabsTargetPlatformsVariant Condition="'$(SolutionName)' == 'Toolkit.Labs.All'">All</LabsTargetPlatformsVariant>
+            <LabsTargetPlatformsVariant Condition="'$(SolutionName)' == 'Toolkit.Labs.Wasm'">Wasm</LabsTargetPlatformsVariant>
+            <LabsTargetPlatformsVariant Condition="'$(LabsTargetPlatformsVariant)' == ''">Windows</LabsTargetPlatformsVariant>
+        </PropertyGroup>
+
+        <Exec Command="$(PowerShellCommand) -ExecutionPolicy Unrestricted -NoProfile -File $(RepositoryDirectory)Common/Scripts/UpdateTargetFrameworks.ps1 $(LabsTargetPlatformsVariant) --Verbose" WorkingDirectory="$(RepositoryDirectory)Common/Scripts/" />
     </Target>
 </Project>

@@ -1,26 +1,32 @@
-if (Test-Path ".\..\Labs.TargetFrameworks.props.lock")
-{
-     return;
+if (Test-Path ".\..\Labs.TargetFrameworks.props.lock") {
+    return;
 }
 
+if ($args.Length -eq 0 -or ![bool]$args[0]) {
+    Write-Error "Missing parameter. Please supply a variant value of All, Wasm or Windows.";
+    exit(-1);
+}
+
+$variant = $args[0];
+
 Set-Content -Path .\..\Labs.TargetFrameworks.props.lock -Value '';
-
-$slnName = $args[0];
-
 $fileContents = Get-Content -Path .\..\Labs.TargetFrameworks.default.props
-$newFileContents = $fileContents;
 
-# If solution is set to All, don't do any replacements and copy all TFMs.
-if (-not($slnName -eq "Toolkit.Labs.All")) {
+if ($variant -eq "All") {
+    # If set to All, don't do any replacements and copy all TFMs.
+    $newFileContents = $fileContents;
+}
 
-    # If WASM, remove all non-wasm TFMs
-    if ($slnName -eq "Toolkit.Labs.Wasm") {
-        $newFileContents = $fileContents -replace '<(UwpTargetFramework|WinAppSdkTargetFramework|WpfLibTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)>.+?>', '';
-    }
-    # If any other solution, assume minimal Windows dependencies.
-    else {
-        $newFileContents = $fileContents -replace '<(LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)>.+?>', '';
-    }
+if ($variant -eq "Wasm") {
+    # Remove all non-wasm TFMs
+    $newFileContents = $fileContents -replace '<(UwpTargetFramework|WinAppSdkTargetFramework|WpfLibTargetFramework|LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)>.+?>', '';
+    Set-Content -Path .\..\Labs.TargetFrameworks.props.wasmonly -Value '';
+}
+
+if ($variant -eq "Windows") {
+    # Minimal Windows dependencies.
+    $newFileContents = $fileContents -replace '<(LinuxLibTargetFramework|AndroidLibTargetFramework|MacOSLibTargetFramework|iOSLibTargetFramework)>.+?>', '';
+    Set-Content -Path .\..\Labs.TargetFrameworks.props.windowsonly -Value '';
 }
 
 if ($newFileContents -eq $fileContents) {
