@@ -74,13 +74,13 @@ jobs:
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
 
-      - name: Run tests on SourceGenerators
+      - name: Run SourceGenerators tests
         run: vstest.console.exe ./Common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll
 
-      - name: Run tests on experiments against UWP
+      - name: Run experiment tests against UWP
         run:  vstest.console.exe ./Tests/**/CommunityToolkit.Labs.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10
 
-      - name: Run tests on experiments against WinAppSDK
+      - name: Run experiment tests against WinAppSDK
         run:  vstest.console.exe ./Tests/**/CommunityToolkit.Labs.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10
 
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
