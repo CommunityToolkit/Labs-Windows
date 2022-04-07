@@ -5,6 +5,10 @@
         <DisableFastUpToDateCheck>True</DisableFastUpToDateCheck>
     </PropertyGroup>
 
+    <Target Name="CleanupConditionalTargetFrameworkCache" BeforeTargets="Clean">
+        <Delete Files="$(RepositoryDirectory)Common/Scripts/UpdateTargetFrameworks.CurrentVariant.txt" />
+    </Target>
+
     <Target Name="PruneExtraTargetFrameworks" BeforeTargets="PreBuildEvent">
         <PropertyGroup>
             <PowerShellCommand Condition=" '$(OS)' == 'Windows_NT' ">powershell</PowerShellCommand>

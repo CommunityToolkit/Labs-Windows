@@ -353,3 +353,4 @@ MigrationBackup/
 
 # Ignored as part of the Labs builds process
 Common/Labs.TargetFrameworks.props*
+Common/Scripts/UpdateTargetFrameworks.CurrentVariant.*
