@@ -70,14 +70,14 @@ jobs:
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
 
       - name: Run tests on SourceGenerators
-        uses: microsoft-approved-actions/vstest@master
+        uses: microsoft/vstest@master
         with:
           testAssembly: CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll
           searchFolder: ./Common/**/
           runInParallel: true
 
       - name: Run tests on experiments
-        uses: microsoft-approved-actions/vstest@master
+        uses: microsoft/vstest@master
         with:
           testAssembly: CommunityToolkit.Labs.UnitTests*.dll
           searchFolder: ./Tests/**/
