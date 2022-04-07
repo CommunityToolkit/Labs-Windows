@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CanvasLayout.UnitTests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CanvasLayout.UnitTests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

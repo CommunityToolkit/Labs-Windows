@@ -60,7 +60,7 @@ if (-not $Passive)
 
     if ($files.count -gt 0)
     {
-        dotnet tool run xstyler -p -c .\settings.xamlstyler -f $files
+        dotnet tool run xstyler -c .\settings.xamlstyler -f $files
     }
     else
     {

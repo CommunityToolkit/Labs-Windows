@@ -58,7 +58,7 @@ jobs:
         
       # Build All Packages - TODO: Detect experiments
       - name: pack CanvasLayout
-        working-directory: ./Labs/CanvasLayout/src
+        working-directory: ./Labs/CanvasLayout/Src
         run: msbuild -t:pack /p:Configuration=Release /p:DebugType=Portable
 
       # Push Packages to our DevOps Artifacts Feed                       
@@ -68,3 +68,24 @@ jobs:
       - name: Push packages
         if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
+
+  # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
+  experiment:
+    runs-on: windows-latest
+
+    steps:
+      - name: Install .NET 6 SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.201'
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.3
+        
+      - name: MSBuild
+        working-directory: ./Labs/CanvasLayout
+        run: msbuild.exe CanvasLayout.sln /restore -p:Configuration=Release

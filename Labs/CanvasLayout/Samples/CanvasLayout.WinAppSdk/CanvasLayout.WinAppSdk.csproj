@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
+    <ProjectReference Include="..\..\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
   </ItemGroup>
 
   <ItemGroup>
