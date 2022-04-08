@@ -86,8 +86,9 @@ jobs:
       - name: Create test reports
         uses: dorny/test-reporter@v1
         with:
-        path: './TestResults/*.trx'
-        reporter: dotnet-trx
+          name: Test results
+          path: './TestResults/*.trx'
+          reporter: dotnet-trx
 
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   experiment:
