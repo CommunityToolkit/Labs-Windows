@@ -13,11 +13,5 @@ namespace CanvasLayout.Tests
         {
             Assert.AreEqual(1, 1);
         }
-
-        [TestMethod]
-        public void example_failing_test_to_check_ci()
-        {
-            Assert.AreEqual(2, 1);
-        }
     }
 }
