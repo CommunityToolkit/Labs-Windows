@@ -1,6 +1,6 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
-  <Import Project="$(RepositoryDirectory)Common\Labs.MultiTarget.props" />
-  
+  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
     <Compile Update="**\*.xaml.cs">
@@ -37,8 +37,8 @@
     <UpToDateCheckInput Remove="SamplePageOptions.xaml" />
   </ItemGroup>
   <ItemGroup>
-    
-    <ProjectReference Include="..\..\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
+
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
       <AdditionalProperties>WinUITarget=$(WinUITarget)</AdditionalProperties>
     </ProjectReference>
   </ItemGroup>

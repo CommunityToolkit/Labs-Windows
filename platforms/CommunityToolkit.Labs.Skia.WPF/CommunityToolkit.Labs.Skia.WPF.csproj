@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="$(RepositoryDirectory)Common\Labs.SampleRefs.props" />
-  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.props" />
-  <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
   <PropertyGroup>
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>

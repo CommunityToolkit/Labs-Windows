@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="$(RepositoryDirectory)Common\Labs.WinAppSdk.props" />
-  <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
   <PropertyGroup>
     <RootNamepace>CanvasLayout.WinAppSdk</RootNamepace>
@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
-    <ProjectReference Include="..\..\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
   </ItemGroup>
 
   <ItemGroup>

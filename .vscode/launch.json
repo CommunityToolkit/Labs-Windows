@@ -17,11 +17,11 @@
         "/p:UnoSourceGeneratorUseGenerationHost=true",
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
-        "--project=${workspaceFolder}/Platforms/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
+        "--project=${workspaceFolder}/platforms/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
         "-p:TargetFrameworks=netstandard2.0",
         "-p:TargetFramework=net5.0",
       ],
-      "cwd": "${workspaceFolder}/Platforms/CommunityToolkit.Labs.Wasm",
+      "cwd": "${workspaceFolder}/platforms/CommunityToolkit.Labs.Wasm",
     },
     {
       "name": "CanvasLayout",
@@ -36,11 +36,11 @@
         "/p:UnoSourceGeneratorUseGenerationHost=true",
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
-        "--project=${workspaceFolder}/Labs/CanvasLayout/samples/CanvasLayout.Wasm/CanvasLayout.Wasm.csproj",
+        "--project=${workspaceFolder}/labs/CanvasLayout/samples/CanvasLayout.Wasm/CanvasLayout.Wasm.csproj",
         "-p:TargetFrameworks=netstandard2.0",
         "-p:TargetFramework=net5.0",
       ],
-      "cwd": "${workspaceFolder}/Labs/CanvasLayout/samples/CanvasLayout.Wasm",
+      "cwd": "${workspaceFolder}/labs/CanvasLayout/samples/CanvasLayout.Wasm",
     }
   ]
 }

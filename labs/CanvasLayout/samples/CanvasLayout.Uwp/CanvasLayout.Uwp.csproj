@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-  <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
-  <Import Project="$(RepositoryDirectory)Common\Labs.Uwp.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
   <PropertyGroup>
     <RootNamespace>CanvasLayout.Uwp</RootNamespace>
     <AssemblyName>CanvasLayout.Uwp</AssemblyName>
@@ -20,7 +20,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
       <Project>{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}</Project>
       <Name>CommunityToolkit.Labs.WinUI.CanvasLayout</Name>
     </ProjectReference>
