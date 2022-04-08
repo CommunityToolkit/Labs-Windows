@@ -4,7 +4,7 @@
 
   <ItemGroup>
     
-    <ProjectReference Include="$(RepositoryDirectory)Labs\CanvasLayout\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
-    <ProjectReference Include="$(RepositoryDirectory)Labs\CanvasLayout\Samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj"/>
+    <ProjectReference Include="$(RepositoryDirectory)labs\CanvasLayout\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
+    <ProjectReference Include="$(RepositoryDirectory)labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj"/>
   </ItemGroup>
 </Project>

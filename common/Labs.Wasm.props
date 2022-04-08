@@ -1,6 +1,6 @@
 <Project>
   <!-- Common properties needed for a labs project (Wasm) -->
-  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -35,6 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <LinkerDescriptor Include="$(RepositoryDirectory)\Common\CommunityToolkit.Labs.Shared\LinkerConfig.xml" />
+    <LinkerDescriptor Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\LinkerConfig.xml" />
   </ItemGroup>
 </Project>

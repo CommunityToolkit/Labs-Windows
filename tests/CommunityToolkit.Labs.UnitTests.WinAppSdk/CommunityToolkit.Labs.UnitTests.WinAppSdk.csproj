@@ -12,13 +12,13 @@
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\Common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="..\..\Common\CommunityToolkit.Labs.Shared\Assets\SplashScreen.scale-200.png" Link="Assets\SplashScreen.scale-200.png" />
-    <Content Include="..\..\Common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.scale-200.png" Link="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="..\..\Common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.scale-200.png" Link="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="..\..\Common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" Link="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="..\..\Common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
-    <Content Include="..\..\Common\CommunityToolkit.Labs.Shared\Assets\Wide310x150Logo.scale-200.png" Link="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\SplashScreen.scale-200.png" Link="Assets\SplashScreen.scale-200.png" />
+    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.scale-200.png" Link="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.scale-200.png" Link="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" Link="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Wide310x150Logo.scale-200.png" Link="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,5 +56,5 @@
   </ItemGroup>
 
   <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
-  <Import Project="..\..\Labs\**\*.Tests.projitems" Label="Shared" />
+  <Import Project="..\..\labs\**\*.Tests.projitems" Label="Shared" />
 </Project>

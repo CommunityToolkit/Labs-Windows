@@ -1,10 +1,10 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
-  <Import Project="$(RepositoryDirectory)Common\Labs.MultiTarget.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
 
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.WinUI</RootNamespace>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <PackageId>CommunityToolkit.Labs.WinUI.CanvasLayout</PackageId>
     <Description>
