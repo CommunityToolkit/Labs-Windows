@@ -75,13 +75,19 @@ jobs:
         uses: darenm/Setup-VSTest@v1
 
       - name: Run SourceGenerators tests
-        run: vstest.console.exe ./Common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll
+        run: vstest.console.exe ./Common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /FailWhenNoTestsFound:true /logger:"trx;LogFileName=SourceGenerators.trx"
 
       - name: Run experiment tests against UWP
-        run:  vstest.console.exe ./Tests/**/CommunityToolkit.Labs.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10
+        run:  vstest.console.exe ./Tests/**/CommunityToolkit.Labs.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10 /FailWhenNoTestsFound:true /logger:"trx;LogFileName=UWP.trx"
 
       - name: Run experiment tests against WinAppSDK
-        run:  vstest.console.exe ./Tests/**/CommunityToolkit.Labs.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10
+        run:  vstest.console.exe ./Tests/**/CommunityToolkit.Labs.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /FailWhenNoTestsFound:true /logger:"trx;LogFileName=WinAppSdk.trx"
+
+      - name: Create test reports
+        uses: dorny/test-reporter@v1
+        with:
+        path: './TestResults/*.trx'
+        reporter: dotnet-trx
 
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   experiment:
