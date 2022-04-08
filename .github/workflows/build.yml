@@ -104,6 +104,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Restore dotnet tools
+        run: dotnet tool restore
+
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
 
