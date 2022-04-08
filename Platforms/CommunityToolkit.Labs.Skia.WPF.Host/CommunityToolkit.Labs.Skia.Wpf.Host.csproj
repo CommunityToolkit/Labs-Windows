@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.default.props" />
+  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.All.props" />
 
   <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>

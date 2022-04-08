@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="$(RepositoryDirectory)Common\Labs.SampleRefs.props" />
-  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.default.props" />
+  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.All.props" />
   <Import Project="$(RepositoryDirectory)Common\Labs.Head.props" />
 
   <PropertyGroup>

@@ -1,0 +1,17 @@
+<Project>
+    <PropertyGroup>
+        <UwpTargetFramework>uap10.0.17763</UwpTargetFramework>
+        <WinAppSdkTargetFramework>net6.0-windows10.0.19041.0</WinAppSdkTargetFramework>
+        
+        <WasmHeadTargetFramework>net5.0</WasmHeadTargetFramework>
+        <LinuxHeadTargetFramework>net5.0</LinuxHeadTargetFramework>
+        <WpfHeadTargetFramework>netcoreapp3.1</WpfHeadTargetFramework>
+        
+        <WasmLibTargetFramework>netstandard2.0</WasmLibTargetFramework>
+        
+        
+        
+        
+        <WpfLibTargetFramework>netstandard2.0</WpfLibTargetFramework>
+    </PropertyGroup>
+</Project>

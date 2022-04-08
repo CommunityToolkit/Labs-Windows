@@ -1,7 +1,5 @@
 <!-- Common props for any deployable sample project head. -->
-<Project InitialTargets="PruneExtraTargetFrameworks">
-  <Import Project="$(RepositoryDirectory)Common\ConditionalTargetFramework.targets" />
-
+<Project>
   <!-- Shared project -->
   <Import Project="$(RepositoryDirectory)Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 

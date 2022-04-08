@@ -1,7 +1,7 @@
 <Project>
   <!-- Common properties needed for a labs project (WinAppSdk) -->
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.default.props" />
+  <Import Project="$(RepositoryDirectory)Common\Labs.TargetFrameworks.All.props" />
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>

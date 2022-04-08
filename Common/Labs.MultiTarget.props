@@ -1,6 +1,4 @@
-<Project InitialTargets="PruneExtraTargetFrameworks;ValidateWinUITarget">
-  <Import Project="$(RepositoryDirectory)Common\ConditionalTargetFramework.targets" />
-
+<Project InitialTargets="ValidateWinUITarget">
   <Import Project="Labs.TargetFrameworks.props" />
 
   <PropertyGroup>

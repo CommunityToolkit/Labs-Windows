@@ -350,7 +350,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-# Ignored as part of the Labs builds process
-Common/Labs.TargetFrameworks.props*
-Common/Scripts/UpdateTargetFrameworks.CurrentVariant.*
