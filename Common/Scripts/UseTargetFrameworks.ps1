@@ -56,7 +56,7 @@ if ($args.Contains("wpf")) {
 }
 
 if ($args.Contains("gtk")) {
-    $desiredTfmValues + $GtkTfm;
+    $desiredTfmValues += $GtkTfm;
 }
 
 if ($args.Contains("macos")) {
