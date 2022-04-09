@@ -1,9 +1,0 @@
-# Remove all non-UWP target frameworks from libraries.
-
--p:WinAppSdkTargetFramework=
--p:WasmLibTargetFramework=
--p:LinuxLibTargetFramework=
--p:AndroidLibTargetFramework=
--p:MacOSLibTargetFramework=
--p:iOSLibTargetFramework=
--p:WpfLibTargetFramework=
