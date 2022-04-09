@@ -1,0 +1,15 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+
+  <PropertyGroup>
+    <RootNamespace>CommunityToolkit.Labs.WinUI</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>CommunityToolkit.Labs.WinUI.CanvasLayout</PackageId>
+    <Description>
+      This package contains a CanvasLayout Layout for ItemsRepeater.
+    </Description>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+</Project>

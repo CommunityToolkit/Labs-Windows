@@ -12,23 +12,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9898A5F2-6B58-4770-9757-302E93848428}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommunityToolkit.Labs.Shared", "Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.shproj", "{9503C27C-55A8-4B66-AA7B-14EFDB940B13}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommunityToolkit.Labs.Shared", "common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.shproj", "{9503C27C-55A8-4B66-AA7B-14EFDB940B13}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm", "Platforms\CommunityToolkit.Labs.Wasm\CommunityToolkit.Labs.Wasm.csproj", "{3EBB8552-CE39-4EDC-9ACB-7B4871582FBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm", "platforms\CommunityToolkit.Labs.Wasm\CommunityToolkit.Labs.Wasm.csproj", "{3EBB8552-CE39-4EDC-9ACB-7B4871582FBB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "Labs\CanvasLayout\Src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinUI.CanvasLayout", "labs\CanvasLayout\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj", "{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "Labs\CanvasLayout\Samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{A14189C0-39A8-4FBE-BF86-A78A94654C48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanvasLayout.Sample", "labs\CanvasLayout\samples\CanvasLayout.Sample\CanvasLayout.Sample.csproj", "{A14189C0-39A8-4FBE-BF86-A78A94654C48}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{EDD2FCF0-74FE-4AB9-B40A-7B2A4E89D59C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{09003B35-7A35-4BD1-9A26-5CFD02AB88DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core", "Common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj", "{210476D6-42CC-4D01-B027-478145BEA8FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core", "common\CommunityToolkit.Labs.Core\CommunityToolkit.Labs.Core.csproj", "{210476D6-42CC-4D01-B027-478145BEA8FE}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{9503c27c-55a8-4b66-aa7b-14efdb940b13}*SharedItemsImports = 13
+		common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{9503c27c-55a8-4b66-aa7b-14efdb940b13}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
