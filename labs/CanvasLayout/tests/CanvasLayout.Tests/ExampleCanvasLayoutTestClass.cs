@@ -13,11 +13,5 @@ namespace CanvasLayout.Tests
         {
             Assert.AreEqual(1, 1);
         }
-
-        [TestMethod]
-        public void Deliberately_failing_test_for_CI_verification()
-        {
-            Assert.AreEqual(3, 1);
-        }
     }
 }
