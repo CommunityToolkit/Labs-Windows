@@ -85,6 +85,7 @@ jobs:
 
       - name: Create test reports
         uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
         with:
           name: Test results
           path: './TestResults/*.trx'
