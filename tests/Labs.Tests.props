@@ -1,0 +1,11 @@
+<Project>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest.TestAdapter">
+      <Version>2.2.8</Version>
+    </PackageReference>
+    <PackageReference Include="MSTest.TestFramework">
+      <Version>2.2.8</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>
