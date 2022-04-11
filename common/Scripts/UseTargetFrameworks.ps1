@@ -5,10 +5,10 @@ if ($args.Length -eq 0 -or ![bool]$args[0]) {
 
 if ($args.Contains("--allow-git-changes")) {
     Write-Warning "Changes to the default TargetFrameworks in Labs can now be committed. Run this command again without the --allow-git-changes flag to disable committing further changes.";
-    git update-index --no-assume-unchanged .\..\Labs.TargetFrameworks.props;
+    git update-index --no-assume-unchanged ../Labs.TargetFrameworks.props
 }
 else {
-    git update-index --assume-unchanged .\..\Labs.TargetFrameworks.props;
+    git update-index --assume-unchanged ../Labs.TargetFrameworks.props
 }
 
 $WasmTfm = "WasmLibTargetFramework";
@@ -20,7 +20,7 @@ $macOSTfm = "MacOSLibTargetFramework";
 $iOSTfm = "iOSLibTargetFramework";
 $DroidTfm = "AndroidLibTargetFramework";
 
-$fileContents = Get-Content -Path .\..\Labs.TargetFrameworks.All.props
+$fileContents = Get-Content -Path ../Labs.TargetFrameworks.All.props
 
 $allTargetFrameworks = @(
     $WasmTfm,
@@ -77,4 +77,4 @@ $targetFrameworksToRemoveRegexPartial = $targetFrameworksToRemove -join "|";
 
 $newFileContents = $fileContents -replace "<(?:$targetFrameworksToRemoveRegexPartial)>.+?>", '';
 
-Set-Content -Force -Path .\..\Labs.TargetFrameworks.props -Value $newFileContents;
+Set-Content -Force -Path ../Labs.TargetFrameworks.props -Value $newFileContents;
