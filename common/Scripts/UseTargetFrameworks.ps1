@@ -1,9 +1,13 @@
 Param (
-	[ValidateSet('all', 'wasm', 'uwp', 'winappsdk', 'wpf', 'gtk', 'macos', 'ios', 'droid')]
-	[string[]]$targets
+    [Parameter(HelpMessage = "The target frameworks to enable.")]
+    [ValidateSet('all', 'wasm', 'uwp', 'winappsdk', 'wpf', 'gtk', 'macos', 'ios', 'droid')]
+    [string[]]$targets,
+    
+    [Parameter(HelpMessage = "Disables suppressing changes to the Labs.TargetFrameworks.props file in git, allowing changes to be committed.")] 
+    [switch]$allowGitChanges = $false
 )
 
-if ($args.Contains("--allow-git-changes")) {
+if ($allowGitChanges.IsPresent) {
     Write-Warning "Changes to the default TargetFrameworks in Labs can now be committed. Run this command again without the --allow-git-changes flag to disable committing further changes.";
     git update-index --no-assume-unchanged ../Labs.TargetFrameworks.props
 }
