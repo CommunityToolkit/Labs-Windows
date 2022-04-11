@@ -73,6 +73,28 @@ jobs:
         if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
 
+
+      # Run tests
+      - name: Setup VSTest Path
+        uses: darenm/Setup-VSTest@v1
+
+      - name: Run SourceGenerators tests
+        run: vstest.console.exe ./Common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
+
+      - name: Run experiment tests against UWP
+        run:  vstest.console.exe ./Tests/**/CommunityToolkit.Labs.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
+
+      - name: Run experiment tests against WinAppSDK
+        run:  vstest.console.exe ./Tests/**/CommunityToolkit.Labs.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
+
+      - name: Create test reports
+        uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: Test results
+          path: './TestResults/*.trx'
+          reporter: dotnet-trx
+
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   experiment:
     runs-on: windows-latest
