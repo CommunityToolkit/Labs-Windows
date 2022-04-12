@@ -8,10 +8,10 @@
         <WpfHeadTargetFramework>netcoreapp3.1</WpfHeadTargetFramework>
         
         <WasmLibTargetFramework>netstandard2.0</WasmLibTargetFramework>
-        
-        
-        
-        
+        <LinuxLibTargetFramework>netstandard2.0</LinuxLibTargetFramework>
+        <AndroidLibTargetFramework>monoandroid11.0</AndroidLibTargetFramework>
+        <MacOSLibTargetFramework>xamarinmac20</MacOSLibTargetFramework>
+        <iOSLibTargetFramework>xamarinios10</iOSLibTargetFramework>
         <WpfLibTargetFramework>netstandard2.0</WpfLibTargetFramework>
     </PropertyGroup>
 </Project>
