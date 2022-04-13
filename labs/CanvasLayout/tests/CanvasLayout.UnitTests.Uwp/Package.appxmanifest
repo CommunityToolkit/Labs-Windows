@@ -6,14 +6,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity Name="564177e0-5e6c-43f5-9608-fe7fc6c7f4e8"
-            Publisher="CN=matt"
+            Publisher="CN=CommunityToolkit"
             Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="564177e0-5e6c-43f5-9608-fe7fc6c7f4e8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>CanvasLayout.UnitTests.Uwp</DisplayName>
-    <PublisherDisplayName>matt</PublisherDisplayName>
+    <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
