@@ -2,12 +2,16 @@
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  
+  <PropertyGroup>
+    <IsGtkHead>True</IsGtkHead>
+    <IsWpfHead>False</IsWpfHead>
+    <IsWasmHead>False</IsWasmHead>
+  </PropertyGroup>
+  
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
 
   <PropertyGroup>
-    <IsGtk>True</IsGtk>
-    <IsWpf>False</IsWpf>
-    <IsWasm>False</IsWasm>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>$(LinuxHeadTargetFramework)</TargetFramework>

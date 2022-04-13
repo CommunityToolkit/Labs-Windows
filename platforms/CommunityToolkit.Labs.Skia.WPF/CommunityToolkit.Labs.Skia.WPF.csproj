@@ -2,14 +2,17 @@
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
 
   <PropertyGroup>
-    <IsGtk>False</IsGtk>
-    <IsWpf>True</IsWpf>
-    <IsWasm>False</IsWasm>
+    <IsGtkHead>False</IsGtkHead>
+    <IsWpfHead>True</IsWpfHead>
+    <IsWpfLib>True</IsWpfLib>
+    <IsWasmHead>False</IsWasmHead>
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>
   </PropertyGroup>
+
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />

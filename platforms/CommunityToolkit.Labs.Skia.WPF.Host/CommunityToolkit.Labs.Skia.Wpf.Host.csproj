@@ -1,5 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+
+  <PropertyGroup>
+    <IsGtkHead>False</IsGtkHead>
+    <IsWpfHead>True</IsWpfHead>
+    <IsWpfLib>False</IsWpfLib>
+    <IsWasmHead>False</IsWasmHead>
+  </PropertyGroup>
+
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
 
   <PropertyGroup>
@@ -9,6 +17,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.1.8" />
   </ItemGroup>
