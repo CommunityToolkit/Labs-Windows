@@ -15,11 +15,11 @@ else {
     git update-index --assume-unchanged ../Labs.TargetFrameworks.props
 }
 
-$WasmTfm = "WasmLibTargetFramework";
 $UwpTfm = "UwpTargetFramework";
 $WinAppSdkTfm = "WinAppSdkTargetFramework";
-$WpfTfm = "WpfLibTargetFramework";
-$GtkTfm = "LinuxLibTargetFramework";
+$WasmTfm = "NetStandardCommonTargetFramework";
+$WpfTfm = "NetStandardCommonTargetFramework";
+$GtkTfm = "NetStandardCommonTargetFramework";
 $macOSTfm = "MacOSLibTargetFramework";
 $iOSTfm = "iOSLibTargetFramework";
 $DroidTfm = "AndroidLibTargetFramework";

@@ -10,9 +10,7 @@
       and use the value directly.
     -->
     <TargetFrameworks>
-      $(WasmLibTargetFramework);
-      $(WpfLibTargetFramework);
-      $(LinuxLibTargetFramework);
+      $(NetStandardCommonTargetFramework);
       $(UwpTargetFramework);
       $(WinAppSdkTargetFramework);
       $(MacOSLibTargetFramework);
