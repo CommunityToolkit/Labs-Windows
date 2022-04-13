@@ -24,7 +24,7 @@ if ($targets -eq "3") {
 
 if ($targets -eq "2") {
     $fileContents = $fileContents -replace 'Uno.WinUI', 'Uno.UI';
-    $fileContents = $fileContents -replace '\$\(DefineConstants\);WINAPPSDK;', '$(DefineConstants);';
+    $fileContents = $fileContents -replace 'WINAPPSDK;', '';
 }
 
 Set-Content -Force -Path ../Labs.Uno.props -Value $fileContents;
