@@ -2,8 +2,12 @@
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
 
   <PropertyGroup>
+    <IsGtk>False</IsGtk>
+    <IsWpf>True</IsWpf>
+    <IsWasm>False</IsWasm>
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>
   </PropertyGroup>
   <ItemGroup>

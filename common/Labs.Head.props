@@ -1,7 +1,5 @@
 <!-- Common props for any deployable sample project head. -->
 <Project>
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
-
   <!-- Shared project -->
   <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 

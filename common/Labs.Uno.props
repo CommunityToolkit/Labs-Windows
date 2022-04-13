@@ -2,16 +2,16 @@
     <Import Project="Labs.TargetFrameworks.props" />
 
     <PropertyGroup>
-        <IsWasm Condition="'$(TargetFramework)' == '$(WasmHeadTargetFramework)' or '$(TargetFramework)' == '$(WasmLibTargetFramework)'">True</IsWasm>
-        <IsWpf Condition="'$(TargetFramework)' == '$(WpfHeadTargetFramework)'  or '$(TargetFramework)' == '$(WpfLibTargetFramework)'">True</IsWpf>
-        <IsGtk Condition="'$(TargetFramework)' == '$(LinuxHeadTargetFramework)' or '$(TargetFramework)' == '$(LinuxLibTargetFramework)'">True</IsGtk>
+        <IsWasm Condition="'$(IsWasm)' == '' AND ('$(TargetFramework)' == '$(WasmHeadTargetFramework)' or '$(TargetFramework)' == '$(WasmLibTargetFramework)')">True</IsWasm>
+        <IsWpf Condition="'$(IsWpf)' == '' AND ('$(TargetFramework)' == '$(WpfHeadTargetFramework)'  or '$(TargetFramework)' == '$(WpfLibTargetFramework)')">True</IsWpf>
+        <IsGtk Condition="'$(IsGtk)' == '' AND ('$(TargetFramework)' == '$(LinuxHeadTargetFramework)' or '$(TargetFramework)' == '$(LinuxLibTargetFramework)')">True</IsGtk>
         <IsDroid Condition="'$(TargetFramework)' == '$(AndroidLibTargetFramework)'">True</IsDroid>
         <IsMacOS Condition="'$(TargetFramework)' == '$(MacOSLibTargetFramework)'">True</IsMacOS>
         <IsiOS Condition="'$(TargetFramework)' == '$(iOSLibTargetFramework)'">True</IsiOS>
         
         <IsUno Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true' OR '$(IsDroid)' == 'true' OR '$(IsMacOS)' == 'true' OR '$(IsiOS)' == 'true'">True</IsUno>
 
-        <DefineConstants>$(DefineConstants);</DefineConstants>
+        <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(IsUno)' == 'true'">

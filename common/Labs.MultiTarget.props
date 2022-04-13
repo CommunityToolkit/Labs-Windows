@@ -10,7 +10,9 @@
       and use the value directly.
     -->
     <TargetFrameworks>
-      netstandard2.0;
+      $(WasmLibTargetFramework);
+      $(WpfLibTargetFramework);
+      $(LinuxLibTargetFramework);
       $(UwpTargetFramework);
       $(WinAppSdkTargetFramework);
       $(MacOSLibTargetFramework);
@@ -20,7 +22,7 @@
 
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
-    <DefineConstants Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">$(DefineConstants)WINAPPSDK</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">$(DefineConstants);WINAPPSDK</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)' OR '$(TargetFramework)' == '$(UwpTargetFramework)'">

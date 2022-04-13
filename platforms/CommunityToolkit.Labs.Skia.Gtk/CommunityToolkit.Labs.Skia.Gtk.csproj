@@ -2,8 +2,12 @@
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
 
   <PropertyGroup>
+    <IsGtk>True</IsGtk>
+    <IsWpf>False</IsWpf>
+    <IsWasm>False</IsWasm>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>$(LinuxHeadTargetFramework)</TargetFramework>
@@ -21,5 +25,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.1.8" />
   </ItemGroup>
-  <Import Project="$(RepositoryDirectory)\common\Labs.SampleRefs.props" />
 </Project>

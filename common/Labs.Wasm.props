@@ -1,11 +1,15 @@
 <Project>
   <!-- Common properties needed for a labs project (Wasm) -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(WasmHeadTargetFramework)</TargetFramework>
     <NoWarn>NU1701</NoWarn>
+    <IsGtk>False</IsGtk>
+    <IsWpf>False</IsWpf>
+    <IsWasm>True</IsWasm>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <WasmShellILLinkerEnabled>true</WasmShellILLinkerEnabled>
