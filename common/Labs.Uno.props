@@ -3,7 +3,7 @@
 
     <PropertyGroup>
         <IsWasm Condition="'$(TargetFramework)' == '$(WasmHeadTargetFramework)' or '$(TargetFramework)' == '$(WasmLibTargetFramework)'">True</IsWasm>
-        <IsWpf Condition="'$(TargetFramework)' == '$(WpfHeadTargetFramework)'">True</IsWpf>
+        <IsWpf Condition="'$(TargetFramework)' == '$(WpfHeadTargetFramework)'  or '$(TargetFramework)' == '$(WpfLibTargetFramework)'">True</IsWpf>
         <IsGtk Condition="'$(TargetFramework)' == '$(LinuxHeadTargetFramework)' or '$(TargetFramework)' == '$(LinuxLibTargetFramework)'">True</IsGtk>
         <IsDroid Condition="'$(TargetFramework)' == '$(AndroidLibTargetFramework)'">True</IsDroid>
         <IsMacOS Condition="'$(TargetFramework)' == '$(MacOSLibTargetFramework)'">True</IsMacOS>
