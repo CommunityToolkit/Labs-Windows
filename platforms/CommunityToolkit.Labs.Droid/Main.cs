@@ -9,7 +9,14 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Com.Nostra13.Universalimageloader.Core;
+
+#if WINAPPSDK
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+#else
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+#endif
 
 namespace CommunityToolkit.Labs.Droid
 {
@@ -20,7 +27,7 @@ namespace CommunityToolkit.Labs.Droid
 		HardwareAccelerated = true,
 		Theme = "@style/AppTheme"
 	)]
-	public class Application : Windows.UI.Xaml.NativeApplication
+	public class Application : NativeApplication
 	{
 		public Application(IntPtr javaReference, JniHandleOwnership transfer)
 			: base(() => new CommunityToolkit.Labs.Shared.App(), javaReference, transfer)

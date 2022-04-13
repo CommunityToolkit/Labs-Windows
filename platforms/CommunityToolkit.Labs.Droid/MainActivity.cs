@@ -4,6 +4,12 @@ using Android.OS;
 using Android.Content.PM;
 using Android.Views;
 
+#if WINAPPSDK
+using Microsoft.UI.Xaml;
+#else
+using Windows.UI.Xaml;
+#endif
+
 namespace CommunityToolkit.Labs.Droid
 {
 	[Activity(
@@ -11,7 +17,7 @@ namespace CommunityToolkit.Labs.Droid
 			ConfigurationChanges = global::Uno.UI.ActivityHelper.AllConfigChanges,
 			WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden
 		)]
-	public class MainActivity : Windows.UI.Xaml.ApplicationActivity
+	public class MainActivity : ApplicationActivity
 	{
 	}
 }
