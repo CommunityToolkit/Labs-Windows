@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true'">
-        <PackageReference Include="Uno.UI.RemoteControl" Version="4.0.9" Condition="'$(Configuration)'=='Debug'" />
+        <PackageReference Include="Uno.UI.RemoteControl" Version="4.1.9" Condition="'$(Configuration)'=='Debug'" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsGtkHead)' == 'true'">
@@ -40,6 +40,6 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsWasmHead)' == 'true'">
-        <PackageReference Include="Uno.UI.WebAssembly" Version="4.0.9" />
+        <PackageReference Include="Uno.UI.WebAssembly" Version="4.1.9" />
     </ItemGroup>
 </Project>
