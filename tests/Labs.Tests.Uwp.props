@@ -1,0 +1,8 @@
+<Project>
+
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.props" />
+
+  <ItemGroup>
+    <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
+  </ItemGroup>
+</Project>
