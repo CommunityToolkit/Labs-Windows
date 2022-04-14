@@ -24,12 +24,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Needed until XAML Styler updates to .NET 6
-      - name: Install .NET Core 3.1 SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
@@ -42,9 +36,6 @@ jobs:
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
         run: dotnet tool restore
-
-      - name: Check XAML Styling
-        run: ./ApplyXamlStyling.ps1 -Passive
 
       - name: Run Uno Check to Install Dependencies
         run: dotnet tool run uno-check --ci --fix --non-interactive --skip wsl --skip androidemulator #--verbose
@@ -72,7 +63,6 @@ jobs:
       - name: Push packages
         if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
-
 
       # Run tests
       - name: Setup VSTest Path
@@ -102,12 +92,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Needed until XAML Styler updates to .NET 6
-      - name: Install .NET Core 3.1 SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
@@ -120,9 +104,6 @@ jobs:
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
         run: dotnet tool restore
-
-      - name: Check XAML Styling
-        run: ./ApplyXamlStyling.ps1 -Passive
 
       - name: Run Uno Check to Install Dependencies
         run: dotnet tool run uno-check --ci --fix --non-interactive --skip wsl --skip androidemulator #--verbose
@@ -175,6 +156,30 @@ jobs:
           name: Test results
           path: './TestResults/*.trx'
           reporter: dotnet-trx
+  
+  # This workflow contains a single job called "Xaml-Style-Check"
+  Xaml-Style-Check:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Needed until XAML Styler updates to .NET 6
+      - name: Install .NET Core 3.1 SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Restore Tools from Manifest list in the Repository
+      - name: Restore dotnet tools
+        run: dotnet tool restore
+
+      - name: Check XAML Styling
+        run: ./ApplyXamlStyling.ps1 -Passive
 
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   experiment:
