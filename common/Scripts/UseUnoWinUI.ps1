@@ -19,11 +19,13 @@ $fileContents = Get-Content -Path ../Labs.Uno.props
 
 if ($targets -eq "3") {
     $fileContents = $fileContents -replace 'Uno.UI', 'Uno.WinUI';
+    $fileContents = $fileContents -replace 'Uwp', 'WinUI';
     $fileContents = $fileContents -replace '\$\(DefineConstants\);', '$(DefineConstants);WINAPPSDK;';
 }
 
 if ($targets -eq "2") {
     $fileContents = $fileContents -replace 'Uno.WinUI', 'Uno.UI';
+    $fileContents = $fileContents -replace 'WinUI', 'Uwp';
     $fileContents = $fileContents -replace 'WINAPPSDK;', '';
 }
 

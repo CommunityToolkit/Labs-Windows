@@ -21,6 +21,8 @@
         <IsUno Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true' OR '$(IsDroid)' == 'true' OR '$(IsMacOS)' == 'true' OR '$(IsiOS)' == 'true'">True</IsUno>
 
         <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);</DefineConstants>
+
+        <PackageIdVariant>Uwp</PackageIdVariant>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(IsUno)' == 'true'">
