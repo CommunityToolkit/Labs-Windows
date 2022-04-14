@@ -10,7 +10,7 @@
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
   </PropertyGroup>
 
-  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Test.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
 
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

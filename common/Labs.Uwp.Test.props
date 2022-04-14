@@ -1,3 +1,0 @@
-<Project>
-  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
-</Project>
