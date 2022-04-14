@@ -9,12 +9,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
-    <Manifest Include="$(ApplicationManifest)" />
-  </ItemGroup>
-
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
          Tools extension to be activated for this project even if the Windows App SDK Nuget
          package has not yet been restored -->
