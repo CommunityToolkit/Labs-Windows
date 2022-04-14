@@ -68,10 +68,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{583C9ADC
 		common\Labs.MultiTarget.props = common\Labs.MultiTarget.props
 		common\Labs.SampleRefs.props = common\Labs.SampleRefs.props
 		common\Labs.TargetFrameworks.props = common\Labs.TargetFrameworks.props
+		common\Labs.Uwp.Base.props = common\Labs.Uwp.Base.props
 		common\Labs.Uwp.props = common\Labs.Uwp.props
 		common\Labs.Wasm.props = common\Labs.Wasm.props
 		common\Labs.WinAppSdk.props = common\Labs.WinAppSdk.props
 		Windows.Toolkit.Common.props = Windows.Toolkit.Common.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{DB021AE9-57A4-41BA-822F-2C76AF4A385B}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Labs.Tests.props = tests\Labs.Tests.props
+		tests\Labs.Tests.Uwp.props = tests\Labs.Tests.Uwp.props
+		tests\Labs.Tests.WinAppSdk.props = tests\Labs.Tests.WinAppSdk.props
 	EndProjectSection
 EndProject
 Global
@@ -1151,6 +1159,7 @@ Global
 		{DD69BA61-C86D-4138-AE6F-76E2C8445C9A} = {FF878CF0-59B1-4B8C-A7DB-1E2A7B47575A}
 		{2C7A065B-9349-4071-AF95-E88F320A09A9} = {DD69BA61-C86D-4138-AE6F-76E2C8445C9A}
 		{583C9ADC-96A6-446D-9573-7C33B0640915} = {24A1D6DC-FF32-4D9D-9FC2-8EB3E356A2C0}
+		{DB021AE9-57A4-41BA-822F-2C76AF4A385B} = {FF878CF0-59B1-4B8C-A7DB-1E2A7B47575A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1F0A4823-84EF-41AA-BBF9-A07B38DDC555}
