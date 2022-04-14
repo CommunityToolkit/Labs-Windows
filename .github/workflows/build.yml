@@ -17,8 +17,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "Build WinUI 2"
-  Build WinUI 2:
+  # This workflow contains a single job called "Build-WinUI-2"
+  Build-WinUI-2:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
@@ -95,8 +95,8 @@ jobs:
           path: './TestResults/*.trx'
           reporter: dotnet-trx
 
-  # This workflow contains a single job called "Build WinUI 3"
-  Build WinUI 3:
+  # This workflow contains a single job called "Build-WinUI-3"
+  Build-WinUI-3:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
