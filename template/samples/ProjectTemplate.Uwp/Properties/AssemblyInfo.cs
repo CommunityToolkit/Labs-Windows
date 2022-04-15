@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(".NET Foundation")]
 [assembly: AssemblyProduct("CommunityToolkit.Labs.Uwp.Samples.ProjectTemplate")]
-[assembly: AssemblyCopyright("Copyright ©  CUR_YEAR")]
+[assembly: AssemblyCopyright("Copyright © .NET Foundation CUR_YEAR")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

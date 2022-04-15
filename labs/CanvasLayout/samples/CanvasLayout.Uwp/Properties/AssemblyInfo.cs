@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("CommunityToolkit.Labs.Uwp.Samples.CanvasLayout")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyConfiguration(".NET Foundation")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CommunityToolkit.Labs.Uwp.Samples.CanvasLayout")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright © .NET Foundation 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
