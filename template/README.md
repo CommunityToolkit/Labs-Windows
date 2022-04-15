@@ -11,8 +11,8 @@ dotnet new --install .\template\
 
 cd labs
 
-dotnet new labsapp -n MyLabsApp
+dotnet new labsapp -n MyExperimentNameHere
 ```
 
-This will have created a new experiment called "MyLabsApp".
-You can now open `./labs/MyLabsApp/MyLabsApp.sln` and create something amazing!
+This creates a new experiment called "MyExperimentNameHere".
+You can now open `./labs/MyExperimentNameHere/MyExperimentNameHere.sln` and create something amazing!
