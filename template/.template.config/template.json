@@ -48,7 +48,7 @@
     "copyrightYear": {
       "type": "generated",
       "generator": "now",
-      "replaces": "1977",
+      "replaces": "CUR_YEAR",
       "parameters": {
         "format": "yyyy"
       }

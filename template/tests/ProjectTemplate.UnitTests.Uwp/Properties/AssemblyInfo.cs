@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ProjectTemplate.UnitTests.Uwp")]
-[assembly: AssemblyCopyright("Copyright ©  1977")]
+[assembly: AssemblyCopyright("Copyright ©  CUR_YEAR")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyMetadata("TargetPlatform","UAP")]
