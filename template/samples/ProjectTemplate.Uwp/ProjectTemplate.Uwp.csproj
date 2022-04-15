@@ -21,7 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj">
-      <Project>{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}</Project>
+      <Project>{2AB4591A-6877-487A-9733-0F06771832FF}</Project>
       <Name>CommunityToolkit.Labs.WinUI.ProjectTemplate</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProjectTemplate.Sample\ProjectTemplate.Sample.csproj">
