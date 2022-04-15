@@ -11,7 +11,7 @@ dotnet new --install .\template\
 
 cd labs
 
-dotnet new labsapp -n MyExperimentNameHere
+dotnet new labexp -n MyExperimentNameHere
 ```
 
 This creates a new experiment called "MyExperimentNameHere".

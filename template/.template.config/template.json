@@ -9,7 +9,7 @@
   ],
   "name": "Community Toolkit Labs Project Template",
   "identity": "CommunityToolkit.Labs.ProjectTemplate",
-  "shortName": "labsapp",
+  "shortName": "labexp",
   "tags": {
     "language": "C#",
     "type": "project"
