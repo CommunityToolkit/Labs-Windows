@@ -25,7 +25,9 @@
     <UpToDateCheckInput Remove="SamplePage.xaml" />
   </ItemGroup>
   <ItemGroup>
-
+    <AdditionalFiles Include="*.md"/>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj">
       <AdditionalProperties>WinUITarget=$(WinUITarget)</AdditionalProperties>
     </ProjectReference>
