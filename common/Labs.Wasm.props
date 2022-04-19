@@ -36,7 +36,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.0.1" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.9" />
-    <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.0.9" />
     <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.1.2" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.1.2" />
   </ItemGroup>
