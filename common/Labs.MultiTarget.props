@@ -39,11 +39,4 @@
     <PackageReference Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'" Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
   </ItemGroup>
 
-  <!-- Source generator props -->
-  <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
-    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
-  </ItemGroup>
 </Project>
