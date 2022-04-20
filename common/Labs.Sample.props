@@ -9,13 +9,9 @@
 
   <ItemGroup>
     <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="True">
-        <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
-    </ProjectReference>
+                      OutputItemType="None" ReferenceOutputAssembly="True"/>
     <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="True">
-        <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
-    </ProjectReference>
+                      OutputItemType="None" ReferenceOutputAssembly="True"/>
 
     <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
     <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.dll" />
