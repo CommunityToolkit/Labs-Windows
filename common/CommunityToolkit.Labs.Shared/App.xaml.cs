@@ -56,50 +56,27 @@ namespace CommunityToolkit.Labs.Shared
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame? rootFrame = null;
-
 #if WINAPPSDK
-            var window = new Window();
-#else
-            rootFrame = currentWindow.Content as Frame;
+            currentWindow = new Window();
 #endif
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (currentWindow.Content is not Frame rootFrame)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                currentWindow.Content = rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
-
-#if WINAPPSDK
-                window.Content = rootFrame;
-#else
-                // Place the frame in the current Window
-                currentWindow.Content = rootFrame;
-#endif
             }
 
-
-#if WINAPPSDK
-                rootFrame.Navigate(typeof(AppLoadingView), e.Arguments);
-                window.Activate();
-#else
+#if !WINAPPSDK
             if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame is null)
-                    throw new InvalidOperationException("Cannot display app content, root frame is missing.");
-
-                if (rootFrame.Content == null)
-                {
-                    rootFrame.Navigate(typeof(AppLoadingView), e.Arguments);
-                }
-
-                // Ensure the current window is active
-                currentWindow.Activate();
-            }
 #endif
+                rootFrame.Navigate(typeof(AppLoadingView), e.Arguments);
+
+            // Ensure the current window is active
+            currentWindow.Activate();
         }
 
         /// <summary>

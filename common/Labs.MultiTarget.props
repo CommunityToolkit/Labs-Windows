@@ -1,9 +1,8 @@
-<Project InitialTargets="ValidateWinUITarget">
+<Project>
   <Import Project="Labs.TargetFrameworks.props" />
+  <Import Project="Labs.Uno.props" />
 
   <PropertyGroup>
-    <WinUITarget Condition="'$(WinUITarget)' == ''">2.x</WinUITarget>
-
     <!--
       TargetFramework for WasmLibTargetFramework, WpfLibTargetFramework, and LinuxLibTargetFramework all use the same value.
 
@@ -11,7 +10,7 @@
       and use the value directly.
     -->
     <TargetFrameworks>
-      netstandard2.0;
+      $(NetStandardCommonTargetFramework);
       $(UwpTargetFramework);
       $(WinAppSdkTargetFramework);
       $(MacOSLibTargetFramework);
@@ -19,21 +18,15 @@
       $(AndroidLibTargetFramework);
     </TargetFrameworks>
 
-    <IsUno Condition="'$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">True</IsUno>
-
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
-    <DefineConstants Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">WINAPPSDK</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">$(DefineConstants);WINAPPSDK</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)' OR '$(TargetFramework)' == '$(UwpTargetFramework)'">
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
   </PropertyGroup>
-
-  <Target Name="ValidateWinUITarget" Condition="'$(IsUno)' == 'true'">
-    <Error Condition="'$(WinUITarget)' != '2.x' AND '$(WinUITarget)' != '3.x'" Text="Property 'WinUITarget' contained an invalid value '$(WinUITarget)'. A value of '2.x' or '3.x' is expected when building an Uno target." />
-  </Target>
 
   <ItemGroup>
     <!-- In release mode, UWP already emits the raw XAML files to the final app package (with some modifications). -->
@@ -42,15 +35,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Condition="'$(IsUno)' == 'True' AND '$(WinUITarget)' == '2.x'" Include="Uno.UI" Version="4.0.11" />
-    <PackageReference Condition="'$(IsUno)' == 'True' AND '$(WinUITarget)' == '3.x'" Include="Uno.WinUI" Version="4.0.11" />
-
     <PackageReference Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'" Include="Microsoft.UI.Xaml" Version="2.7.0" />
     <PackageReference Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'" Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
   </ItemGroup>
 
   <!-- Source generator props -->
-
   <ItemGroup>
     <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />

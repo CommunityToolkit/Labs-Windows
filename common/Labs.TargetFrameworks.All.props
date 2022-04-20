@@ -7,11 +7,16 @@
         <LinuxHeadTargetFramework>net5.0</LinuxHeadTargetFramework>
         <WpfHeadTargetFramework>netcoreapp3.1</WpfHeadTargetFramework>
         
-        <WasmLibTargetFramework>netstandard2.0</WasmLibTargetFramework>
-        <LinuxLibTargetFramework>netstandard2.0</LinuxLibTargetFramework>
         <AndroidLibTargetFramework>monoandroid11.0</AndroidLibTargetFramework>
         <MacOSLibTargetFramework>xamarinmac20</MacOSLibTargetFramework>
         <iOSLibTargetFramework>xamarinios10</iOSLibTargetFramework>
+
+        <!-- Used for comparison to current TargetFramework -->
+        <LinuxLibTargetFramework>netstandard2.0</LinuxLibTargetFramework>
+        <WasmLibTargetFramework>netstandard2.0</WasmLibTargetFramework>
         <WpfLibTargetFramework>netstandard2.0</WpfLibTargetFramework>
+
+        <!-- Used for defining TargetFramework under platforms that need it -->
+        <NetStandardCommonTargetFramework>netstandard2.0</NetStandardCommonTargetFramework>
     </PropertyGroup>
 </Project>

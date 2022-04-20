@@ -2,15 +2,23 @@
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
 
   <PropertyGroup>
+    <IsGtkHead>False</IsGtkHead>
+    <IsWpfHead>True</IsWpfHead>
+    <IsWpfLib>False</IsWpfLib>
+    <IsWasmHead>False</IsWasmHead>
+  </PropertyGroup>
+
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+
+  <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>
     <OutputType Condition="'$(Configuration)'=='Debug'">Exe</OutputType>
     <TargetFramework>$(WpfHeadTargetFramework)</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.1.8" />
-    <PackageReference Include="Uno.UI.RemoteControl" Version="4.1.8" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.1.8" />
   </ItemGroup>
   <ItemGroup>
