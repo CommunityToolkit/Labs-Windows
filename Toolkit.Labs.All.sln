@@ -82,6 +82,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{DB021AE9
 		tests\Labs.Tests.WinAppSdk.props = tests\Labs.Tests.WinAppSdk.props
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8DB0125D-C6BE-4C9A-AE2F-EEC8AED3A184}"
+	ProjectSection(SolutionItems) = preProject
+		Labs\CanvasLayout\Samples\CanvasLayout.Sample\canvaslayout.md = Labs\CanvasLayout\Samples\CanvasLayout.Sample\canvaslayout.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		labs\CanvasLayout\tests\CanvasLayout.Tests\CanvasLayout.Tests.projitems*{2c7a065b-9349-4071-af95-e88f320a09a9}*SharedItemsImports = 13

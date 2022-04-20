@@ -8,10 +8,18 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
@@ -21,9 +29,51 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators;
 [Generator]
 public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
 {
+    //public static readonly IDeserializer yamlDeserializer = new DeserializerBuilder()
+    //        .WithNamingConvention(UnderscoredNamingConvention.Instance)
+    //        .IgnoreUnmatchedProperties()
+    //        .Build();
+
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        IDeserializer yamlDeserializer = new DeserializerBuilder()
+            .WithNamingConvention(UnderscoredNamingConvention.Instance)
+            .IgnoreUnmatchedProperties()
+            .Build();
+
+        Log.Print("Getting Markdown Files...");
+
+        var markdown = context.AdditionalTextsProvider
+            .Where(static file => file.Path.EndsWith(".md")); // TODO: Do we need to scope this down?
+
+        Log.Print("Parsing Front Matter...");
+
+        context.RegisterSourceOutput(markdown.Collect(), (ctx, data) =>
+        {
+            Log.Print($"Markdown collected: {data.Length}");
+            AddDocuments(ctx, data.Select(file =>
+            {
+                try
+                {
+                    var parser = new Parser(new StringReader(file.GetText()!.ToString()));
+                    parser.Consume<StreamStart>();
+                    parser.Consume<DocumentStart>();
+                    return yamlDeserializer.Deserialize<ToolkitFrontMatter>(parser);
+                }
+                catch (Exception e)
+                {
+                    ctx.ReportDiagnostic(
+                        Diagnostic.Create(
+                            DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
+                            Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                            file.Path,
+                            e.Message + ": " + e.InnerException?.Message));
+                    return null;
+                }
+            }).OfType<ToolkitFrontMatter>().ToImmutableArray());
+        });
+
         var classes = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (s, _) => s is ClassDeclarationSyntax c && c.AttributeLists.Count > 0,
@@ -77,6 +127,8 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
 
             context.RegisterSourceOutput(all, (ctx, data) =>
             {
+                Log.Print("Building Sample Registry1...");
+
                 var toolkitSampleAttributeData = data.Left.Right.Where(x => x != default).Distinct();
                 var optionsPaneAttribute = data.Left.Left.Where(x => x != default).Distinct();
                 var generatedOptionPropertyData = data.Right.Where(x => x != default).Distinct();
@@ -104,6 +156,19 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 var source = BuildRegistrationCallsFromMetadata(sampleMetadata);
                 ctx.AddSource($"ToolkitSampleRegistry.g.cs", source);
             });
+        }
+
+        Log.FlushLogs(context);
+    }
+
+    private void AddDocuments(SourceProductionContext ctx, ImmutableArray<ToolkitFrontMatter> matter)
+    {
+        Log.Print($"Building FrontMatter Registry... {matter.Length} Items");
+
+        if (matter.Length > 0)
+        {
+            var source = BuildRegistrationCallsFromDocuments(matter);
+            ctx.AddSource($"ToolkitDocumentRegistry.g.cs", source);
         }
     }
 
@@ -214,6 +279,30 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles, item.Item1.Locations.FirstOrDefault(), item.Item2.Title));
     }
 
+    private static string BuildRegistrationCallsFromDocuments(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+    {
+        return $@"#nullable enable
+namespace CommunityToolkit.Labs.Core.SourceGenerators;
+
+public static class ToolkitDocumentRegistry
+{{
+    public static System.Collections.Generic.IEnumerable<{typeof(ToolkitFrontMatter).FullName}> Execute()
+    {{
+        {
+        string.Join("\n        ", sampleMetadata.Select(FrontMatterToRegistryCall).ToArray())
+    }
+    }}
+}}";
+    }
+
+    private static string FrontMatterToRegistryCall(ToolkitFrontMatter metadata)
+    {
+        var categoryParam = $"{nameof(ToolkitSampleCategory)}.{metadata.Category}";
+        var subcategoryParam = $"{nameof(ToolkitSampleSubcategory)}.{metadata.Subcategory}";
+
+        return @$"yield return new {typeof(ToolkitFrontMatter).FullName}() {{ Title = ""{metadata.Title}"", Author = ""{metadata.Author}"", Description = ""{metadata.Description}"", Keywords = ""{metadata.Keywords}"", Category = {categoryParam}, Subcategory = {subcategoryParam}}};";
+    }
+
     private static string BuildRegistrationCallsFromMetadata(IEnumerable<ToolkitSampleRecord> sampleMetadata)
     {
         return $@"#nullable enable
@@ -296,5 +385,24 @@ public static class ToolkitSampleRegistry
         if (symbol.BaseType is not null)
             foreach (var item in GetAllMembers(symbol.BaseType))
                 yield return item;
+    }
+
+    internal static class Log
+    {
+        public static List<string> Logs { get; } = new();
+
+        [Conditional("DEBUG")]
+        public static void Print(string msg) => Logs.Add("//\t" + msg); // Make all log messages comments so they're ignored by compiler
+
+        [Conditional("DEBUG")]
+        public static void FlushLogs(IncrementalGeneratorInitializationContext context)
+        {
+            context.RegisterPostInitializationOutput((ctx) =>
+            {
+                ctx.AddSource($"logs.g.cs", SourceText.From(string.Join("\n", Logs), Encoding.UTF8));
+            });
+        }
+
+        // TODO: Add alternate overload for non-incremental SG (or make these extension methods?).
     }
 }
