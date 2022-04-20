@@ -9,18 +9,16 @@
   </ItemGroup>
 
   <!-- Source generators -->
-  <!--<ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
+  <ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
-  </ItemGroup>-->
+  </ItemGroup>
 
   <ItemGroup>
-    <!--<ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
-                      OutputItemType="None" ReferenceOutputAssembly="True">
-      <SetTargetFramework>TargetFramework=netstandard2.0</SetTargetFramework>
-    </ProjectReference>-->
+    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
+                      OutputItemType="None" ReferenceOutputAssembly="True"/>
 
-    <!--<Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />-->
+    <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
   </ItemGroup>
 
 </Project>
