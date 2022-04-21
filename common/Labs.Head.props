@@ -17,6 +17,8 @@
   <ItemGroup>
     <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
                       OutputItemType="None" ReferenceOutputAssembly="True"/>
+    <!-- Including YamlDotNet directly here and/or in Labs.Samples.props doesn't work either. -->
+    <!--<PackageReference Include="YamlDotNet" Version="11.2.1" />-->
 
     <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
   </ItemGroup>
