@@ -17,9 +17,4 @@
     <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.dll" />
   </ItemGroup>
 
-  <!-- DEBUG for Source Generators -->
-  <!--<PropertyGroup>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-  </PropertyGroup>-->
-
 </Project>
