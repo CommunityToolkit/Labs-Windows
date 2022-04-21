@@ -11,10 +11,11 @@ Param (
 & git config advice.useCoreFSMonitorConfig false;
 
 if ($allowGitChanges.IsPresent) {
-    Write-Warning "Changes to the default TargetFrameworks in Labs can now be committed. Run this command again without the --allow-git-changes flag to disable committing further changes.";
+    Write-Warning "Changes to the default TargetFrameworks in Labs can now be committed. Run this command again without the -allowGitChanges flag to disable committing further changes.";
     git update-index --no-assume-unchanged ../Labs.TargetFrameworks.props
 }
 else {
+    Write-Output "Changes to the default TargetFrameworks in Labs are now suppressed. To switch branches, run git reset --hard with a clean working tree.";
     git update-index --assume-unchanged ../Labs.TargetFrameworks.props
 }
 
