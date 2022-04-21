@@ -1,22 +1,29 @@
 $templatedProjectFolderConfigTemplateMarker = "[TemplatedProjectFolderConfig]";
 $templatedProjectConfigurationTemplateMarker = "[TemplatedProjectConfigurations]";
 $templatedProjectDefinitionsMarker = "[TemplatedProjectDefinitions]";
+$templatedSharedTestProjectSelfDefinitionsMarker = "[TemplatedSharedTestProjectDefinitions]";
+$templatedSharedTestUwpProjectSelfDefinitionsMarker = "[TemplatedSharedTestUwpProjectDefinitions]";
+$templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker = "[TemplatedSharedTestWinAppSdkProjectDefinitions]";
 
 $sampleProjectTypeGuid = "9A19103F-16F7-4668-BE54-9A1E7A4F7556";
+$sharedProjectTypeGuid = "D954291E-2A0B-460D-934E-DC6B0785DB48";
 $libProjectTypeGuid = $sampleProjectTypeGuid;
 
+$solutionTemplatePath = 'common/Toolkit.Labs.All.sln.template';
+$generatedSolutionFilePath = 'Toolkit.Labs.All.sln'
+
 function CreateProjectConfiguration {
-    param (
-        [string]$projectGuid
-    )
+	param (
+		[string]$projectGuid
+	)
     
-    # Solution files are VERY picky about the unicode characters used as newlines and tabs.
-    # These characters act strange when paired next to characters found in ASCII, so we append
-    # as separate strings.
-    #
-    # Not doing this would cause Visual Studio to fix the file on load, and always ask the user
-    # if they want to save the changes.
-    return "
+	# Solution files are VERY picky about the unicode characters used as newlines and tabs.
+	# These characters act strange when paired next to characters found in ASCII, so we append
+	# as separate strings.
+	#
+	# Not doing this would cause Visual Studio to fix the file on load, and always ask the user
+	# if they want to save the changes.
+	return "
 " + "		" + "{$projectGuid}.Ad-Hoc|Any CPU.ActiveCfg = Debug|Any CPU
 		{$projectGuid}.Ad-Hoc|Any CPU.Build.0 = Debug|Any CPU
 		{$projectGuid}.Ad-Hoc|ARM.ActiveCfg = Release|Any CPU
@@ -76,87 +83,145 @@ function CreateProjectConfiguration {
 }
 
 function CreateProjectDefinition {
-    param (
-        [string]$projectTypeGuid,
-        [string]$projectGuid,
-        [string]$projectName,
-        [string]$projectPath
-    )
+	param (
+		[string]$projectTypeGuid,
+		[string]$projectGuid,
+		[string]$projectName,
+		[string]$projectPath
+	)
 
-    return "
+	return "
 Project(`"{$projectTypeGuid}`") = `"$projectName`", `"$projectPath`", `"{$projectGuid}`"
 EndProject";
 }
 
-function CreateFolderPlacementForProject {
-    param (
-        [string]$projectGuid,
-        [string]$folderGuid
-    )
+function CreateSharedProjectDefinition {
+	param (
+		[string]$projectGuid,
+		[string]$sharedProjectPath,
+		[string]$id
+	)
 
-    return [System.Environment]::NewLine + "		" + "{$projectGuid} = {$folderGuid}";
+	return "
+"+ "		" + "$sharedProjectPath*{$projectGuid}*SharedItemsImports = $id";
+}
+
+function CreateFolderPlacementForProject {
+	param (
+		[string]$projectGuid,
+		[string]$folderGuid
+	)
+
+	return [System.Environment]::NewLine + "		" + "{$projectGuid} = {$folderGuid}";
 }
 
 function GetFolderGuid {
-    param (
-        [string]$templateContents,
-        [string]$folderName
-    )
+	param (
+		[string]$templateContents,
+		[string]$folderName
+	)
 
-    $folderDefinitionRegex = "Project\(`"{2150E333-8FDC-42A3-9474-1A3956D46DE8}`"\) = `"$folderName`", `"$folderName`", `"\{(.+?)\}`"";
+	$folderDefinitionRegex = "Project\(`"{2150E333-8FDC-42A3-9474-1A3956D46DE8}`"\) = `"$folderName`", `"$folderName`", `"\{(.+?)\}`"";
 
-    if (-not ($templateContents -match $folderDefinitionRegex)) {
-        Write-Error "Folder `"$folderName`" was not found";
-        exit(-1);
-    }
+	if (-not ($templateContents -match $folderDefinitionRegex)) {
+		Write-Error "Folder `"$folderName`" was not found";
+		exit(-1);
+	}
 
-    return $Matches[1];
+	return $Matches[1];
 }
 
 function AddProjectsToSolution {
-    param (
-        $templateContents,
-        [string]$projectPath,
-        [string]$projectTypeGuid,
-        [string]$solutionFolder
-    )
+	param (
+		$templateContents,
+		[string]$projectPath,
+		[string]$projectTypeGuid,
+		[string]$solutionFolder,
+		[string]$projectGuid,
+		[bool]$omitConfiguration
+	)
 
-    $projectGuid = (New-Guid).ToString().ToUpper();
-    $projectName = [System.IO.Path]::GetFileNameWithoutExtension($sampleProjectPath);
-    $sampleFolderGuid = GetFolderGuid $solutionTemplate $solutionFolder;
+	if ($projectGuid.Length -eq 0) {
+		$projectGuid = (New-Guid).ToString().ToUpper();
+	}
 
-    Write-Host "Adding $projectName to solution folder $solutionFolder";
-
-    $definition = CreateProjectDefinition $projectTypeGuid $projectGuid $projectName $sampleProjectPath;
+	$projectPath = [System.IO.Path]::GetRelativePath((Get-Location), $projectPath)
+	$projectName = [System.IO.Path]::GetFileNameWithoutExtension($projectPath);
     
-    $templateContents = $templateContents -replace [regex]::escape($templatedProjectDefinitionsMarker), ($templatedProjectDefinitionsMarker + $definition); 
+	$sampleFolderGuid = GetFolderGuid $solutionTemplate $solutionFolder;
 
-    $configuration = CreateProjectConfiguration $projectGuid;
-    $templateContents = $templateContents -replace [regex]::escape($templatedProjectConfigurationTemplateMarker), ($templatedProjectConfigurationTemplateMarker + $configuration);
+	Write-Host "Adding $projectName to solution folder $solutionFolder";
 
-    $folderPlacement = CreateFolderPlacementForProject $projectGuid $sampleFolderGuid;
-    $templateContents = $templateContents -replace [regex]::escape($templatedProjectFolderConfigTemplateMarker), ($templatedProjectFolderConfigTemplateMarker + $folderPlacement);
+	$definition = CreateProjectDefinition $projectTypeGuid $projectGuid $projectName $projectPath;
+    
+	$templateContents = $templateContents -replace [regex]::escape($templatedProjectDefinitionsMarker), ($templatedProjectDefinitionsMarker + $definition); 
 
-    return $templateContents;
+	if (-not $omitConfiguration) {
+		$configuration = CreateProjectConfiguration $projectGuid;
+		$templateContents = $templateContents -replace [regex]::escape($templatedProjectConfigurationTemplateMarker), ($templatedProjectConfigurationTemplateMarker + $configuration);
+	}
+
+	$folderPlacement = CreateFolderPlacementForProject $projectGuid $sampleFolderGuid;
+	$templateContents = $templateContents -replace [regex]::escape($templatedProjectFolderConfigTemplateMarker), ($templatedProjectFolderConfigTemplateMarker + $folderPlacement);
+
+	return $templateContents;
 }
 
-$solutionTemplate = Get-Content -Path 'common/Toolkit.Labs.All.sln.template';
+$solutionTemplate = Get-Content -Path $solutionTemplatePath;
+
+Write-Output "Loaded solution template from $solutionTemplatePath";
 
 foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sample/*.csproj') {
-    $solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $sampleProjectTypeGuid "Samples" 
+	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $sampleProjectTypeGuid "Samples" 
 }
 
 foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/src/*.csproj') {
-    $solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $libProjectTypeGuid "Library" 
+	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $libProjectTypeGuid "Library" 
+}
+
+foreach ($sharedProjectItemsPath in Get-ChildItem -Recurse -Path 'labs/*/tests/*.projitems') {
+	$projitemsContents = Get-Content -Path $sharedProjectItemsPath;
+
+	$projectGuidRegex = '<SharedGUID>(.+?)<\/SharedGUID>';
+
+	$regex = Select-String -Pattern $projectGuidRegex -InputObject $projitemsContents;
+
+	if ($null -eq $regex -or $null -eq $regex.Matches -or $null -eq $regex.Matches.Groups -or $regex.Matches.Groups.Length -lt 2) {
+		Write-Error "Couldn't get SharedGUID property from $sharedProjectItemsPath";
+		exit(-1);
+	}
+
+	$projectGuid = $regex.Matches.Groups[1].Value;
+
+	$sharedProjectItemsPath = [System.IO.Path]::GetRelativePath((Get-Location), $sharedProjectItemsPath)
+	
+	$sharedProjectPath = $sharedProjectItemsPath -replace "projitems", "shproj";
+	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sharedProjectPath $sharedProjectTypeGuid "Experiments" $projectGuid.ToUpper() $true;
+	
+	$sharedProjectItemsName = [System.IO.Path]::GetFileNameWithoutExtension($sharedProjectItemsPath);
+
+	Write-Output "Linking $sharedProjectItemsName.projitems to $sharedProjectItemsName";
+	$sharedProjectDefinition = CreateSharedProjectDefinition $projectGuid $sharedProjectItemsPath "13"
+	$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestProjectSelfDefinitionsMarker), ($templatedSharedTestProjectSelfDefinitionsMarker + $sharedProjectDefinition);
+
+	Write-Output "Linking $sharedProjectItemsName.projitems to CommunityToolkit.Labs.UnitTests.Uwp";
+	$uwpSharedProjectDefinition = CreateSharedProjectDefinition "fd78002e-c4e6-4bf8-9ec3-c06250dfef34" $sharedProjectItemsPath "4"
+	$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestUwpProjectSelfDefinitionsMarker), ($templatedSharedTestUwpProjectSelfDefinitionsMarker + $uwpSharedProjectDefinition);
+	
+	Write-Output "Linking $sharedProjectItemsName.projitems to CommunityToolkit.Labs.UnitTests.WinAppSdk";
+	$winAppSdkSharedProjectDefinition = CreateSharedProjectDefinition "53892f07-fe54-4e36-81d8-105427d097e5" $sharedProjectItemsPath "5"
+	$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker), ($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker + $winAppSdkSharedProjectDefinition);
 }
 
 # Clean up template markers
 $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedProjectFolderConfigTemplateMarker), "";
 $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedProjectConfigurationTemplateMarker), "";
 $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedProjectDefinitionsMarker), "";
-$solutionTemplate = $solutionTemplate  -replace "(?m)^\s*`r`n", "";
+$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestProjectSelfDefinitionsMarker), "";
+$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestUwpProjectSelfDefinitionsMarker), "";
+$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker), "";
+$solutionTemplate = $solutionTemplate -replace "(?m)^\s*`r`n", "";
 
-Set-Content -Path 'Toolkit.Labs.All.sln' -Value $solutionTemplate;
+Set-Content -Path $generatedSolutionFilePath -Value $solutionTemplate;
 
-
-
+Write-Output "Done, saved to $generatedSolutionFilePath";
