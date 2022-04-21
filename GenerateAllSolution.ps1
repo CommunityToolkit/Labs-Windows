@@ -1,3 +1,18 @@
+Param (
+    [Parameter(HelpMessage = "The WinUI version to use when building an Uno head.", ParameterSetName = "UseUnoWinUI")]
+    [ValidateSet('2', '3')]
+    [string]$UseUnoWinUI = 2
+)
+
+# Set WinUI version for Uno projects
+$originalWorkingDirectory = Get-Location;
+
+Set-Location common/Scripts/
+& ./UseUnoWinUI.ps1 $UseUnoWinUI
+
+Set-Location $originalWorkingDirectory;
+
+# Set up contant values
 $templatedProjectFolderConfigTemplateMarker = "[TemplatedProjectFolderConfig]";
 $templatedProjectConfigurationTemplateMarker = "[TemplatedProjectConfigurations]";
 $templatedProjectDefinitionsMarker = "[TemplatedProjectDefinitions]";
@@ -167,18 +182,21 @@ function AddProjectsToSolution {
 	return $templateContents;
 }
 
+# Execute solution generation from template
 $solutionTemplate = Get-Content -Path $solutionTemplatePath;
-
 Write-Output "Loaded solution template from $solutionTemplatePath";
 
+# Add sample projects
 foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sample/*.csproj') {
 	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $sampleProjectTypeGuid "Samples" 
 }
 
+# Add library projects
 foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/src/*.csproj') {
 	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $libProjectTypeGuid "Library" 
 }
 
+# Add shared test projects
 foreach ($sharedProjectItemsPath in Get-ChildItem -Recurse -Path 'labs/*/tests/*.projitems') {
 	$projitemsContents = Get-Content -Path $sharedProjectItemsPath;
 
@@ -222,6 +240,6 @@ $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedT
 $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker), "";
 $solutionTemplate = $solutionTemplate -replace "(?m)^\s*`r`n", "";
 
+# Save and exit
 Set-Content -Path $generatedSolutionFilePath -Value $solutionTemplate;
-
 Write-Output "Done, saved to $generatedSolutionFilePath";
