@@ -160,7 +160,7 @@ function AddProjectsToSolution {
 		$projectGuid = (New-Guid).ToString().ToUpper();
 	}
 
-	$projectPath = [System.IO.Path]::GetRelativePath((Get-Location), $projectPath)
+	$projectPath = Resolve-Path -Relative -Path $projectPath;
 	$projectName = [System.IO.Path]::GetFileNameWithoutExtension($projectPath);
     
 	$sampleFolderGuid = GetFolderGuid $solutionTemplate $solutionFolder;
@@ -211,7 +211,7 @@ foreach ($sharedProjectItemsPath in Get-ChildItem -Recurse -Path 'labs/*/tests/*
 
 	$projectGuid = $regex.Matches.Groups[1].Value;
 
-	$sharedProjectItemsPath = [System.IO.Path]::GetRelativePath((Get-Location), $sharedProjectItemsPath)
+	$sharedProjectItemsPath = Resolve-Path -Relative -Path $sharedProjectItemsPath;
 	
 	$sharedProjectPath = $sharedProjectItemsPath -replace "projitems", "shproj";
 	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sharedProjectPath $sharedProjectTypeGuid "Experiments" $projectGuid.ToUpper() $true;
