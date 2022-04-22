@@ -84,11 +84,37 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                         return null;
                     }
 
+                    if (!Enum.TryParse<ToolkitSampleCategory>(category.Text, out var categoryValue))
+                    {
+                        // TODO: extract index to get proper line number?
+                        ctx.ReportDiagnostic(
+                            Diagnostic.Create(
+                                DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
+                                Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                                file.Path,
+                                "Can't parse category field, use value from ToolkitSampleCategory enum."));
+                        return null;
+                    }
+
+                    if (!Enum.TryParse<ToolkitSampleSubcategory>(subcategory.Text, out var subcategoryValue))
+                    {
+                        // TODO: extract index to get proper line number?
+                        ctx.ReportDiagnostic(
+                            Diagnostic.Create(
+                                DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
+                                Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                                file.Path,
+                                "Can't parse subcategory field, use value from ToolkitSampleSubcategory enum."));
+                        return null;
+                    }
+
                     return new ToolkitFrontMatter()
                     {
                         Title = title.Text,
                         Description = description.Text,
                         Keywords = keywords.Text,
+                        Category = categoryValue,
+                        Subcategory = subcategoryValue,
                     };
                 }
             }).OfType<ToolkitFrontMatter>().ToImmutableArray());
