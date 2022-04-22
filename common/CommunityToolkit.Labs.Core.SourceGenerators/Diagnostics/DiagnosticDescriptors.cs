@@ -145,5 +145,29 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: $"Cannot generate sample option metadata as the attribute was used on an unsupported type.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating an exception occured while parsing the front matter of a markdown sample file.
+        /// </summary>
+        public static readonly DiagnosticDescriptor MarkdownYAMLFrontMatterException = new(
+            id: "TKSMPL0010",
+            title: $"Invalid YAML Front Matter",
+            messageFormat: $"Cannot generate sample page info for file {{0}} as an error was encountered parsing its YAML front matter: {{1}}",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot generate sample page info due to a YAML Front Matter parsing exception.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating an expected piece of metadata was missing from the front matter of a markdown sample file.
+        /// </summary>
+        public static readonly DiagnosticDescriptor MarkdownYAMLFrontMatterMissingField = new(
+            id: "TKSMPL0011",
+            title: $"Missing YAML Front Matter",
+            messageFormat: $"Cannot generate sample page info for file {{0}} as no '{{1}}' field was found in its YAML front matter.",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot generate sample page info due to missing YAML Front Matter.");
     }
 }
