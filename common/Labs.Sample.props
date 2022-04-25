@@ -4,6 +4,7 @@
     <!-- In release mode, UWP already emits the raw XAML files to the final app package (with some modifications). -->
     <Content Condition="!('$(TargetFramework)' == '$(UwpTargetFramework)' AND '$(Configuration)' == 'Release')" Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
     <Content Include="**\*.cs" Exclude="bin\**\*.cs;obj\**\*.cs" />
+    <Content Include="**\*.md" Exclude="bin\**\*.md;obj\**\*.md" />
   </ItemGroup>
 
   <!-- Source generator props -->
