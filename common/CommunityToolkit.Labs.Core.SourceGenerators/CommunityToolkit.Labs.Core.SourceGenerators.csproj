@@ -7,6 +7,8 @@
     <LangVersion>10.0</LangVersion>
     <IsPackable>false</IsPackable>
     <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +16,11 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" Pack="false" />
     <!-- See: https://github.com/dotnet/roslyn/blob/main/docs/features/source-generators.cookbook.md#use-functionality-from-nuget-packages -->
     <!-- See Bug: https://github.com/dotnet/roslyn/issues/43903 - Added to Labs.Sample.props instead. -->
+    <!-- Take a private dependency on YamlDotNet (PrivateAssets=all) - i.e. consumers of this generator will not reference it.
+         Set GeneratePathProperty=true to reference the nuget path via the PKGYamlDotNet property -->
     <PackageReference Include="YamlDotNet" Version="11.2.1" PrivateAssets="all" Pack="false" GeneratePathProperty="true" />
+
+    
   </ItemGroup>
 
   <Target Name="GetDependencyTargetPaths">
