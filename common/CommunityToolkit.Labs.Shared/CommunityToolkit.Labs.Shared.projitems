@@ -29,6 +29,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitDocumentationRenderer.xaml.cs">
+      <DependentUpon>ToolkitDocumentationRenderer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitSampleRenderer.xaml.cs">
       <DependentUpon>ToolkitSampleRenderer.xaml</DependentUpon>
     </Compile>
@@ -43,6 +46,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Renderers\ToolkitDocumentationRenderer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

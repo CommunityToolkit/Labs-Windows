@@ -108,6 +108,8 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                         return null;
                     }
 
+                    var filepath = file.Path.Split(new string[] { @"\samples\" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+
                     return new ToolkitFrontMatter()
                     {
                         Title = title.Text,
@@ -115,6 +117,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                         Keywords = keywords.Text,
                         Category = categoryValue,
                         Subcategory = subcategoryValue,
+                        FilePath = filepath
                     };
                 }
             }).OfType<ToolkitFrontMatter>().ToImmutableArray());
@@ -362,7 +365,7 @@ public static class ToolkitDocumentRegistry
         var categoryParam = $"{nameof(ToolkitSampleCategory)}.{metadata.Category}";
         var subcategoryParam = $"{nameof(ToolkitSampleSubcategory)}.{metadata.Subcategory}";
 
-        return @$"yield return new {typeof(ToolkitFrontMatter).FullName}() {{ Title = ""{metadata.Title}"", Author = ""{metadata.Author}"", Description = ""{metadata.Description}"", Keywords = ""{metadata.Keywords}"", Category = {categoryParam}, Subcategory = {subcategoryParam}}};";
+        return @$"yield return new {typeof(ToolkitFrontMatter).FullName}() {{ Title = ""{metadata.Title}"", Author = ""{metadata.Author}"", Description = ""{metadata.Description}"", Keywords = ""{metadata.Keywords}"", Category = {categoryParam}, Subcategory = {subcategoryParam}, FilePath = @""{metadata.FilePath}""}};";
     }
 
     private static string BuildRegistrationCallsFromMetadata(IEnumerable<ToolkitSampleRecord> sampleMetadata)

@@ -21,4 +21,5 @@ public sealed class ToolkitFrontMatter : DocsFrontMatter
 {
     public ToolkitSampleCategory Category { get; set; }
     public ToolkitSampleSubcategory Subcategory { get; set; }
+    public string? FilePath { get; set; }
 }

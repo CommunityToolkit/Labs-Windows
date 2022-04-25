@@ -85,7 +85,9 @@ namespace CommunityToolkit.Labs.Shared
                 return;
             }
 
-            if (samplePages.Length == 1)
+            //// TODO: Add detection/compile time flags here to direct to
+            //// different page. Rename MainPage to NavigationPage vs. TabbedPage?
+            /*if (samplePages.Length == 1)
             {
                 // Individual samples are UserControls,
                 // but multi-sample view and grouped sample views should be a Page.
@@ -105,13 +107,13 @@ namespace CommunityToolkit.Labs.Shared
 
                 ScheduleNavigate(samplePages[0].SampleControlType);
                 return;
-            }
+            }*/
 
-            if (samplePages.Length > 1)
-            {
+            ////if (samplePages.Length > 1)
+            ////{
                 ScheduleNavigate(typeof(MainPage), samplePages);
                 return;
-            }
+            ////}
         }
 
         // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
@@ -127,9 +129,9 @@ namespace CommunityToolkit.Labs.Shared
             });
         }
 
-        private IEnumerable<ToolkitSampleMetadata> FindReferencedSamplePages()
+        private IEnumerable<ToolkitFrontMatter> FindReferencedSamplePages()
         {
-            return ToolkitSampleRegistry.Execute();
+            return ToolkitDocumentRegistry.Execute();
         }
     }
 }
