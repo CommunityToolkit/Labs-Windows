@@ -186,8 +186,6 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 var sampleMetadata = toolkitSampleAttributeData
                      .Select(sample =>
                         new ToolkitSampleRecord(
-                            sample.Attribute.Category,
-                            sample.Attribute.Subcategory,
                             sample.Attribute.DisplayName,
                             sample.Attribute.Description,
                             sample.AttachedQualifiedTypeName,
@@ -386,15 +384,13 @@ public static class ToolkitSampleRegistry
 
     private static string MetadataToRegistryCall(ToolkitSampleRecord metadata)
     {
-        var categoryParam = $"{nameof(ToolkitSampleCategory)}.{metadata.Category}";
-        var subcategoryParam = $"{nameof(ToolkitSampleSubcategory)}.{metadata.Subcategory}";
         var sampleControlTypeParam = $"typeof({metadata.SampleAssemblyQualifiedName})";
         var sampleControlFactoryParam = $"() => new {metadata.SampleAssemblyQualifiedName}()";
         var generatedSampleOptionsParam = $"new {typeof(IGeneratedToolkitSampleOptionViewModel).FullName}[] {{ {string.Join(", ", BuildNewGeneratedSampleOptionMetadataSource(metadata).ToArray())} }}";
         var sampleOptionsParam = metadata.SampleOptionsAssemblyQualifiedName is null ? "null" : $"typeof({metadata.SampleOptionsAssemblyQualifiedName})";
         var sampleOptionsPaneFactoryParam = metadata.SampleOptionsAssemblyQualifiedName is null ? "null" : $"x => new {metadata.SampleOptionsAssemblyQualifiedName}(({metadata.SampleAssemblyQualifiedName})x)";
 
-        return @$"yield return new {typeof(ToolkitSampleMetadata).FullName}({categoryParam}, {subcategoryParam}, ""{metadata.DisplayName}"", ""{metadata.Description}"", {sampleControlTypeParam}, {sampleControlFactoryParam}, {sampleOptionsParam}, {sampleOptionsPaneFactoryParam}, {generatedSampleOptionsParam});";
+        return @$"yield return new {typeof(ToolkitSampleMetadata).FullName}(""{metadata.DisplayName}"", ""{metadata.Description}"", {sampleControlTypeParam}, {sampleControlFactoryParam}, {sampleOptionsParam}, {sampleOptionsPaneFactoryParam}, {generatedSampleOptionsParam});";
     }
 
     private static IEnumerable<string> BuildNewGeneratedSampleOptionMetadataSource(ToolkitSampleRecord sample)

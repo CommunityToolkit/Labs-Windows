@@ -39,7 +39,7 @@ namespace CanvasLayout.Sample.SampleThree
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    [ToolkitSample(id: nameof(SamplePage3), "Canvas Layout", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A canvas-like VirtualizingLayout for use in an ItemsRepeater")]
+    [ToolkitSample(id: nameof(SamplePage3), "Canvas Layout", description: "A canvas-like VirtualizingLayout for use in an ItemsRepeater")]
     public sealed partial class SamplePage3 : Page
     {
         public ObservableCollection<CanvasItem> Items = new()
