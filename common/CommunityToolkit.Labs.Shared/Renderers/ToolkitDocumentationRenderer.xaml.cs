@@ -67,15 +67,23 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         /// The backing <see cref="DependencyProperty"/> for the <see cref="Metadata"/> property.
         /// </summary>
         public static readonly DependencyProperty MetadataProperty =
-            DependencyProperty.Register(nameof(Metadata), typeof(ToolkitFrontMatter), typeof(ToolkitDocumentationRenderer), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Metadata), typeof(ToolkitFrontMatter), typeof(ToolkitDocumentationRenderer), new PropertyMetadata(null, OnMetadataPropertyChanged));
+
+        private static async void OnMetadataPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            if (dependencyObject is ToolkitDocumentationRenderer renderer &&
+                renderer.Metadata != null &&
+                args.OldValue != args.NewValue)
+            {
+                renderer.DocumentationText = await GetDocumentationFileContents(renderer.Metadata);
+            }
+        }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             Metadata = (ToolkitFrontMatter)e.Parameter;
-
-            DocumentationText = await GetDocumentationFileContents(Metadata);
         }
 
         public static async Task<string?> GetDocumentationFileContents(ToolkitFrontMatter metadata)
