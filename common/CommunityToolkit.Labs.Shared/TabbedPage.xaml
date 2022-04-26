@@ -1,42 +1,43 @@
-<Page
-    x:Class="CommunityToolkit.Labs.Shared.TabbedPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:CommunityToolkit.Labs.Shared"
-    xmlns:renderer="using:CommunityToolkit.Labs.Shared.Renderers"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+﻿<Page x:Class="CommunityToolkit.Labs.Shared.TabbedPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:CommunityToolkit.Labs.Shared"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:renderer="using:CommunityToolkit.Labs.Shared.Renderers"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
 
     <Page.Resources>
-        <muxc:SymbolIconSource x:Key="DocumentIcon"  Symbol="AlignLeft" />
-        <muxc:SymbolIconSource x:Key="SampleIcon"  Symbol="PreviewLink" />
+        <muxc:SymbolIconSource x:Key="DocumentIcon"
+                               Symbol="AlignLeft" />
+        <muxc:SymbolIconSource x:Key="SampleIcon"
+                               Symbol="PreviewLink" />
 
-        <DataTemplate x:Key="DocumentTemplate" x:DataType="metadata:ToolkitFrontMatter">
+        <DataTemplate x:Key="DocumentTemplate"
+                      x:DataType="metadata:ToolkitFrontMatter">
             <muxc:TabViewItem Header="{x:Bind Title}"
                               IconSource="{StaticResource DocumentIcon}">
-                <renderer:ToolkitDocumentationRenderer Metadata="{Binding}"/>
+                <renderer:ToolkitDocumentationRenderer Metadata="{Binding}" />
             </muxc:TabViewItem>
         </DataTemplate>
 
-        <DataTemplate x:Key="SampleTemplate" x:DataType="metadata:ToolkitSampleMetadata">
+        <DataTemplate x:Key="SampleTemplate"
+                      x:DataType="metadata:ToolkitSampleMetadata">
             <muxc:TabViewItem Header="{x:Bind DisplayName}"
                               IconSource="{StaticResource SampleIcon}">
-                <renderer:ToolkitSampleRenderer Metadata="{Binding}"/>
+                <renderer:ToolkitSampleRenderer Metadata="{Binding}" />
             </muxc:TabViewItem>
         </DataTemplate>
 
         <local:DocOrSampleTemplateSelector x:Key="DocOrSampleTemplateSelector"
                                            Document="{StaticResource DocumentTemplate}"
-                                           Sample="{StaticResource SampleTemplate}"/>
+                                           Sample="{StaticResource SampleTemplate}" />
     </Page.Resources>
 
-    <muxc:TabView TabItemsSource="{x:Bind Items}"
+    <muxc:TabView IsAddTabButtonVisible="False"
                   TabItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
-                  IsAddTabButtonVisible="False">
-
-    </muxc:TabView>
+                  TabItemsSource="{x:Bind Items}" />
 </Page>
