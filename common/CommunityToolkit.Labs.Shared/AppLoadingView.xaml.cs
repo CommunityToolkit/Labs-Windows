@@ -76,44 +76,23 @@ namespace CommunityToolkit.Labs.Shared
             IsLoading = true;
             LoadingMessage = "Loading...";
 
-            var samplePages = FindReferencedSamplePages().ToArray();
+            var sampleDocs = FindReferencedDocumentPages().ToArray();
 
-            if (samplePages.Length == 0)
+            if (sampleDocs.Length == 0)
             {
                 IsLoading = false;
                 LoadingMessage = "No sample pages were found :(";
                 return;
             }
 
-            //// TODO: Add detection/compile time flags here to direct to
-            //// different page. Rename MainPage to NavigationPage vs. TabbedPage?
-            /*if (samplePages.Length == 1)
-            {
-                // Individual samples are UserControls,
-                // but multi-sample view and grouped sample views should be a Page.
-                // TODO: Remove after creating grouped-sample view.
-                if (!samplePages[0].SampleControlType.IsSubclassOf(typeof(Page)))
-                {
-                    // MacOS and iOS don't know the correct type without a full namespace declaration, confusing it with NSWindow.
-                    // Using static will not work.
-#if WINAPPSDK
-                    var currentWindow = Microsoft.UI.Xaml.Window.Current;
+#if LABS_ALL_SAMPLES
+            ScheduleNavigate(typeof(NavigationPage), sampleDocs);
 #else
-                    var currentWindow = Windows.UI.Xaml.Window.Current;
+            var samples = FindReferencedSamples().ToArray();
+
+            (IEnumerable<ToolkitSampleMetadata> Samples, IEnumerable<ToolkitFrontMatter> Docs, bool AreDocsFirst) displayInfo = (samples, sampleDocs, false);
+            ScheduleNavigate(typeof(TabbedPage), displayInfo);
 #endif
-                    currentWindow.Content = (UIElement)samplePages[0].SampleControlFactory();
-                    return;
-                }
-
-                ScheduleNavigate(samplePages[0].SampleControlType);
-                return;
-            }*/
-
-            ////if (samplePages.Length > 1)
-            ////{
-                ScheduleNavigate(typeof(MainPage), samplePages);
-                return;
-            ////}
         }
 
         // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
@@ -129,9 +108,14 @@ namespace CommunityToolkit.Labs.Shared
             });
         }
 
-        private IEnumerable<ToolkitFrontMatter> FindReferencedSamplePages()
+        private IEnumerable<ToolkitFrontMatter> FindReferencedDocumentPages()
         {
             return ToolkitDocumentRegistry.Execute();
+        }
+
+        private IEnumerable<ToolkitSampleMetadata> FindReferencedSamples()
+        {
+            return ToolkitSampleRegistry.Execute();
         }
     }
 }
