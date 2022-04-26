@@ -1,15 +1,8 @@
 <!-- Common props for any deployable sample project head. -->
 <Project>
-  <!-- Shared project -->
-  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
-
-  <!-- Shared project dependencies -->
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-  </ItemGroup>
 
   <!-- Source generators -->
-  <ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
   </ItemGroup>
@@ -17,8 +10,11 @@
   <ItemGroup>
     <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
                       OutputItemType="None" ReferenceOutputAssembly="True"/>
+    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
+                      OutputItemType="None" ReferenceOutputAssembly="True"/>
 
     <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
+    <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.dll" />
   </ItemGroup>
 
 </Project>
