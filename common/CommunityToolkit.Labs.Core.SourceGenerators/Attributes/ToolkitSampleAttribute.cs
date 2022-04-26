@@ -13,7 +13,7 @@ public sealed class ToolkitSampleAttribute : Attribute
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleAttribute"/>.
     /// </summary>
-    /// <param name="id">A unique identifier for this sample, used by the sample system.</param>
+    /// <param name="id">A unique identifier for this sample, used by the sample system (across all samples).</param>
     /// <param name="displayName">The display name for this sample page.</param>
     /// <param name="description">A short description of this sample.</param>
     public ToolkitSampleAttribute(string id, string displayName, string description)

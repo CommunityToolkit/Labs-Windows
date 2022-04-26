@@ -88,6 +88,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 var sampleMetadata = toolkitSampleAttributeData
                      .Select(sample =>
                         new ToolkitSampleRecord(
+                            sample.Attribute.Id,
                             sample.Attribute.DisplayName,
                             sample.Attribute.Description,
                             sample.AttachedQualifiedTypeName,
@@ -241,7 +242,7 @@ public static class ToolkitSampleRegistry
         var sampleOptionsParam = metadata.SampleOptionsAssemblyQualifiedName is null ? "null" : $"typeof({metadata.SampleOptionsAssemblyQualifiedName})";
         var sampleOptionsPaneFactoryParam = metadata.SampleOptionsAssemblyQualifiedName is null ? "null" : $"x => new {metadata.SampleOptionsAssemblyQualifiedName}(({metadata.SampleAssemblyQualifiedName})x)";
 
-        return @$"yield return new {typeof(ToolkitSampleMetadata).FullName}(""{metadata.DisplayName}"", ""{metadata.Description}"", {sampleControlTypeParam}, {sampleControlFactoryParam}, {sampleOptionsParam}, {sampleOptionsPaneFactoryParam}, {generatedSampleOptionsParam});";
+        return @$"yield return new {typeof(ToolkitSampleMetadata).FullName}(""{metadata.Id}"", ""{metadata.DisplayName}"", ""{metadata.Description}"", {sampleControlTypeParam}, {sampleControlFactoryParam}, {sampleOptionsParam}, {sampleOptionsPaneFactoryParam}, {generatedSampleOptionsParam});";
     }
 
     private static IEnumerable<string> BuildNewGeneratedSampleOptionMetadataSource(ToolkitSampleRecord sample)
