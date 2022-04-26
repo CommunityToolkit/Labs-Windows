@@ -37,9 +37,9 @@ namespace CommunityToolkit.Labs.Shared
     /// <summary>
     /// Used to display all Community Toolkit Labs sample projects in one place.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class NavigationPage : Page
     {
-        public MainPage()
+        public NavigationPage()
         {
             this.InitializeComponent();
         }
