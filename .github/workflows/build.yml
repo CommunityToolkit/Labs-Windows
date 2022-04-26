@@ -49,12 +49,12 @@ jobs:
 
       - name: MSBuild
        # working-directory: ./
-        run: msbuild.exe Toolkit.Labs.All.sln /restore -p:Configuration=Release
+        run: msbuild.exe Toolkit.Labs.All.sln /restore -p:Configuration=Debug
 
       # Build All Packages - TODO: Detect experiments
       - name: pack CanvasLayout
         working-directory: ./labs/CanvasLayout/src
-        run: msbuild -t:pack /p:Configuration=Release /p:DebugType=Portable
+        run: msbuild -t:pack /p:Configuration=Debug /p:DebugType=Portable
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
@@ -121,12 +121,12 @@ jobs:
 
       - name: MSBuild
        # working-directory: ./
-        run: msbuild.exe Toolkit.Labs.All.sln /restore -p:Configuration=Release
+        run: msbuild.exe Toolkit.Labs.All.sln /restore -p:Configuration=Debug
 
       # Build All Packages - TODO: Detect experiments
       - name: pack CanvasLayout
         working-directory: ./labs/CanvasLayout/src
-        run: msbuild -t:pack /p:Configuration=Release /p:DebugType=Portable
+        run: msbuild -t:pack /p:Configuration=Debug /p:DebugType=Portable
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
