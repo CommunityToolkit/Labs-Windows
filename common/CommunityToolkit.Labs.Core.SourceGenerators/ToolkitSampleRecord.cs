@@ -18,6 +18,7 @@ public partial class ToolkitSampleMetadataGenerator
     /// but we can safely generate a type reference in the final output using <c>typeof(AssemblyQualifiedName)</c>.
     /// </remarks>
     private sealed record ToolkitSampleRecord(
+        string Id,
         string DisplayName,
         string Description,
         string SampleAssemblyQualifiedName,
