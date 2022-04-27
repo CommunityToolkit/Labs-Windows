@@ -1,3 +1,4 @@
+using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
                 renderer.Metadata != null &&
                 args.OldValue != args.NewValue)
             {
-                renderer.DocumentationText = await GetDocumentationFileContents(renderer.Metadata);
+                await renderer.LoadData();
             }
         }
 
@@ -86,7 +87,19 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             Metadata = (ToolkitFrontMatter)e.Parameter;
         }
 
-        public static async Task<string?> GetDocumentationFileContents(ToolkitFrontMatter metadata)
+        private async Task LoadData()
+        {
+            if (Metadata is null)
+            {
+                return;
+            }
+
+            DocumentationText = await GetDocumentationFileContents(Metadata);
+
+            ////var samples = ToolkitSampleRegistry.Execute().Where(sample => Metadata.SampleIdReferences.Contains(sample.Id));
+        }
+
+        private static async Task<string?> GetDocumentationFileContents(ToolkitFrontMatter metadata)
         {
             // TODO: Path will be different if single vs. multi-sample?
             var fileUri = new Uri($"ms-appx:///{metadata.FilePath}");
