@@ -1,6 +1,11 @@
 using CommunityToolkit.Labs.Shared;
 using System;
+
+#if WINAPPSDK
+using Microsoft.UI.Xaml;
+#else
 using Windows.UI.Xaml;
+#endif
 
 namespace CanvasLayout.Wasm
 {
@@ -10,7 +15,7 @@ namespace CanvasLayout.Wasm
 
 		static int Main(string[] args)
 		{
-			Windows.UI.Xaml.Application.Start(_ => _app = new App());
+			Application.Start(_ => _app = new App());
 
 			return 0;
 		}

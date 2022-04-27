@@ -1,4 +1,5 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
 
   <ItemGroup>
@@ -38,8 +39,6 @@
   </ItemGroup>
   <ItemGroup>
 
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
-      <AdditionalProperties>WinUITarget=$(WinUITarget)</AdditionalProperties>
-    </ProjectReference>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj"/>
   </ItemGroup>
 </Project>

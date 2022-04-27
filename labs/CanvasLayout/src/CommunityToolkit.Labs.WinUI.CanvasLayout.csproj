@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.WinUI.CanvasLayout</PackageId>
+    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).CanvasLayout</PackageId>
     <Description>
       This package contains a CanvasLayout Layout for ItemsRepeater.
     </Description>
