@@ -2,6 +2,7 @@
 <Project>
   <!-- Shared project -->
   <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props"/>
 
   <!-- Shared project dependencies -->
   <ItemGroup>
@@ -9,7 +10,7 @@
   </ItemGroup>
 
   <!-- Source generators -->
-  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0-windows10.0.19041.0'">
+  <ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
   </ItemGroup>
