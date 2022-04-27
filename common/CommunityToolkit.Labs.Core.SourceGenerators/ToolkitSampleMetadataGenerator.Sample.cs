@@ -8,6 +8,7 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,6 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        GenerateDocumentRegistry(context);
-
         var classes = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (s, _) => s is ClassDeclarationSyntax c && c.AttributeLists.Count > 0,
@@ -72,37 +71,43 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 .Where(static x => x.Item1 is not null)
                 .Collect();
 
+            var markdownFiles = context.AdditionalTextsProvider
+                .Where(static file => file.Path.EndsWith(".md")) // TODO: file.Path.Contains("samples") - this seems to break things?
+                .Collect();
+
             var all = optionsPaneAttributes
                 .Combine(toolkitSampleAttributeData)
-                .Combine(generatedPaneOptions);
+                .Combine(generatedPaneOptions)
+                .Combine(markdownFiles);
 
             context.RegisterSourceOutput(all, (ctx, data) =>
             {
-                var toolkitSampleAttributeData = data.Left.Right.Where(x => x != default).Distinct();
-                var optionsPaneAttribute = data.Left.Left.Where(x => x != default).Distinct();
-                var generatedOptionPropertyData = data.Right.Where(x => x != default).Distinct();
+                var toolkitSampleAttributeData = data.Left.Left.Right.Where(x => x != default).Distinct();
+                var optionsPaneAttribute = data.Left.Left.Left.Where(x => x != default).Distinct();
+                var generatedOptionPropertyData = data.Left.Right.Where(x => x != default).Distinct();
+                var markdownFileData = data.Right.Where(x => x != default).Distinct();
 
                 ReportDiagnostics(ctx, toolkitSampleAttributeData, optionsPaneAttribute, generatedOptionPropertyData);
 
                 // Reconstruct sample metadata from attributes
                 var sampleMetadata = toolkitSampleAttributeData
-                     .Select(sample =>
-                        new ToolkitSampleRecord(
-                            sample.Attribute.Id,
-                            sample.Attribute.DisplayName,
-                            sample.Attribute.Description,
-                            sample.AttachedQualifiedTypeName,
-                            optionsPaneAttribute.FirstOrDefault(x => x.Item1?.SampleId == sample.Attribute.Id).Item2?.ToString(),
-                            generatedOptionPropertyData.Where(x => ReferenceEquals(x.Item1, sample.Symbol)).Select(x => x.Item2)
+                     .ToDictionary(
+                        sample => sample.Attribute.Id,
+                        sample =>
+                            new ToolkitSampleRecord(
+                                sample.Attribute.Id,
+                                sample.Attribute.DisplayName,
+                                sample.Attribute.Description,
+                                sample.AttachedQualifiedTypeName,
+                                optionsPaneAttribute.FirstOrDefault(x => x.Item1?.SampleId == sample.Attribute.Id).Item2?.ToString(),
+                                generatedOptionPropertyData.Where(x => ReferenceEquals(x.Item1, sample.Symbol)).Select(x => x.Item2)
                             )
                     );
 
-                // TODO: Check that samples referencesd in Markdown files match known samples.
-                // Throw error if markdown references one that's not found
-                // Throw warning? if sample exists but isn't referenced in markdown
-
                 if (!sampleMetadata.Any())
                     return;
+
+                DiagnoseAndGenerateDocumentRegistry(ctx, sampleMetadata, markdownFileData, toolkitSampleAttributeData);
 
                 // Build source string
                 var source = BuildRegistrationCallsFromMetadata(sampleMetadata);
@@ -218,8 +223,9 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles, item.Item1.Locations.FirstOrDefault(), item.Item2.Title));
     }
 
-    private static string BuildRegistrationCallsFromMetadata(IEnumerable<ToolkitSampleRecord> sampleMetadata)
+    private static string BuildRegistrationCallsFromMetadata(IDictionary<string, ToolkitSampleRecord> sampleMetadata)
     {
+        // TODO: Make this a dictionary by id:metadata
         return $@"#nullable enable
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
@@ -228,7 +234,7 @@ public static class ToolkitSampleRegistry
     public static System.Collections.Generic.IEnumerable<{typeof(ToolkitSampleMetadata).FullName}> Execute()
     {{
         {
-        string.Join("\n        ", sampleMetadata.Select(MetadataToRegistryCall).ToArray())
+        string.Join("\n        ", sampleMetadata.Values.Select(MetadataToRegistryCall).ToArray())
     }
     }}
 }}";

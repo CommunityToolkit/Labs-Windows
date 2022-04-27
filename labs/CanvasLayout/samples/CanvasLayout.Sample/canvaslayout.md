@@ -64,6 +64,8 @@ with the namespace and the class name. Without any country/region 'en-us' identi
 
 ## Example Output
 
+> [!SAMPLE SamplePage2]
+
 <!-- Image/Text can show the output of the control/helper -->
 ![Alt Text of Image (not same as filename)](../resources/images/filename.png)
 
