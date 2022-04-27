@@ -19,6 +19,7 @@ $templatedProjectDefinitionsMarker = "[TemplatedProjectDefinitions]";
 $templatedSharedTestProjectSelfDefinitionsMarker = "[TemplatedSharedTestProjectDefinitions]";
 $templatedSharedTestUwpProjectSelfDefinitionsMarker = "[TemplatedSharedTestUwpProjectDefinitions]";
 $templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker = "[TemplatedSharedTestWinAppSdkProjectDefinitions]";
+$templatedSampleProjectReferencesDefinitionMarker = "[TemplatedSampleProjectReferences]"
 
 $sampleProjectTypeGuid = "9A19103F-16F7-4668-BE54-9A1E7A4F7556";
 $sharedProjectTypeGuid = "D954291E-2A0B-460D-934E-DC6B0785DB48";
@@ -26,6 +27,9 @@ $libProjectTypeGuid = $sampleProjectTypeGuid;
 
 $solutionTemplatePath = 'common/Toolkit.Labs.All.sln.template';
 $generatedSolutionFilePath = 'Toolkit.Labs.All.sln'
+
+$sampleRefsPropsTemplatePath = 'common/Labs.SampleRefs.props.template';
+$generatedSampleRefsPropsPath = 'common/Labs.SampleRefs.props';
 
 function CreateProjectConfiguration {
 	param (
@@ -187,7 +191,7 @@ $solutionTemplate = Get-Content -Path $solutionTemplatePath;
 Write-Output "Loaded solution template from $solutionTemplatePath";
 
 # Add sample projects
-foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sample/*.csproj') {
+foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sample/*.Sample.csproj') {
 	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $sampleProjectTypeGuid "Samples" 
 }
 
@@ -240,6 +244,44 @@ $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedT
 $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker), "";
 $solutionTemplate = $solutionTemplate -replace "(?m)^\s*`r`n", "";
 
-# Save and exit
+# Save
 Set-Content -Path $generatedSolutionFilePath -Value $solutionTemplate;
-Write-Output "Done, saved to $generatedSolutionFilePath";
+Write-Output "Solution generated at $generatedSolutionFilePath";
+
+# Execute ProjectReference generation for all heads
+$sampleRefsPropsTemplate = Get-Content -Path $sampleRefsPropsTemplatePath;
+Write-Output "Loaded sample ProjectReference template from $sampleRefsPropsTemplatePath";
+
+# Add sample projects
+foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sample/*.Sample.csproj') {
+	$relativePath =  Resolve-Path -Relative -Path $sampleProjectPath;
+	$relativePath = $relativePath.TrimStart('.\');
+	$projectName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath);
+
+	Write-Host "Adding $projectName to project references";
+
+	$projectReferenceDefinition = "<ProjectReference Include=`"`$(RepositoryDirectory)$relativePath`" />";
+
+	$sampleRefsPropsTemplate = $sampleRefsPropsTemplate -replace [regex]::escape($templatedSampleProjectReferencesDefinitionMarker), ($templatedSampleProjectReferencesDefinitionMarker + "
+	" + $projectReferenceDefinition);
+}
+
+# Add library projects
+foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/src/*.csproj') {
+	$relativePath = Resolve-Path -Relative -Path $sampleProjectPath;
+	$relativePath = $relativePath.TrimStart('.\');
+	$projectName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath);
+
+	Write-Host "Adding $projectName to project references";
+
+	$projectReferenceDefinition = "<ProjectReference Include=`"`$(RepositoryDirectory)$relativePath`" />";
+
+	$sampleRefsPropsTemplate = $sampleRefsPropsTemplate -replace [regex]::escape($templatedSampleProjectReferencesDefinitionMarker), ($templatedSampleProjectReferencesDefinitionMarker + "
+	" + $projectReferenceDefinition);
+}
+
+$sampleRefsPropsTemplate = $sampleRefsPropsTemplate -replace [regex]::escape($templatedSampleProjectReferencesDefinitionMarker), "";
+
+# Save
+Set-Content -Path $generatedSampleRefsPropsPath -Value $sampleRefsPropsTemplate;
+Write-Output "Sample project references generated at $generatedSampleRefsPropsPath";
