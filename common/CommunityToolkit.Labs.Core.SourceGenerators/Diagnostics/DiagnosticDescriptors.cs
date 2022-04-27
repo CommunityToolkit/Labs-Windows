@@ -169,5 +169,29 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: $"Cannot generate sample page info due to missing YAML Front Matter.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating the sample referenced in the Markdown file couldn't be found.
+        /// </summary>
+        public static readonly DiagnosticDescriptor MarkdownSampleIdNotFound = new(
+            id: "TKSMPL0012",
+            title: $"Sample Id Not Found from Markdown Reference",
+            messageFormat: $"Cannot find the sample page referenced in file {{0}} with sample id '{{1}}'.",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot link sample page info due to invalid/unknown id.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating the sample is not referenced in any Markdown documentation files.
+        /// </summary>
+        public static readonly DiagnosticDescriptor SampleNotReferencedInMarkdown = new(
+            id: "TKSMPL0013",
+            title: $"Sample Not Referenced In Documentation",
+            messageFormat: $"The sample with id '{{0}}' is not referenced in any documentation files and will not appear in the full sample app.",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: $"Cannot find reference to the sample within the documentation.");
     }
 }

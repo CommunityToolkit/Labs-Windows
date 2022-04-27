@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 using CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using Microsoft.CodeAnalysis;
@@ -35,85 +36,146 @@ public partial class ToolkitSampleMetadataGenerator
     private const string FrontMatterRegexSubcategoryExpression = @"^subcategory:\s*(?<subcategory>.*)$";
     private static readonly Regex FrontMatterRegexSubcategory = new Regex(FrontMatterRegexSubcategoryExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-    private void GenerateDocumentRegistry(IncrementalGeneratorInitializationContext context)
+    private const string MarkdownRegexSampleTagExpression = @"^>\s*\[!SAMPLE\s*(?<sampleid>.*)\s*\]\s*$";
+    private static readonly Regex MarkdownRegexSampleTag = new Regex(MarkdownRegexSampleTagExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+    private void DiagnoseAndGenerateDocumentRegistry(SourceProductionContext ctx, Dictionary<string, ToolkitSampleRecord> sampleMetadata, IEnumerable<AdditionalText> markdownFileData, IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData)
     {
-        var markdown = context.AdditionalTextsProvider
-    .Where(static file => file.Path.EndsWith(".md")); // TODO: file.Path.Contains("samples") - this seems to break things?
+        // Keep track of all sample ids and remove them as we reference them so we know if we have any unreferenced samples.
+        var sampleIdReferences = sampleMetadata.Keys.ToList();
 
-        context.RegisterSourceOutput(markdown.Collect(), (ctx, data) =>
+        var docFrontMatter = GatherDocumentFrontMatter(ctx, markdownFileData);
+
+        foreach (var matter in docFrontMatter)
         {
-            AddDocuments(ctx, data.Select(file =>
+            foreach (var id in matter.SampleIdReferences!)
             {
-                // We have to manually parse the YAML here for now because of
-                // https://github.com/dotnet/roslyn/issues/43903
-
-                var matter = file.GetText()!.ToString().Split(new[] { "---" }, StringSplitOptions.RemoveEmptyEntries);
-
-                if (matter.Length <= 1)
+                if (!sampleMetadata.ContainsKey(id))
                 {
+                    var fullpath = markdownFileData.First(file => file.Path.Contains(matter.FilePath)).Path;
+
+                    // TODO: Figure out line location
+                    ctx.ReportDiagnostic(
+                        Diagnostic.Create(
+                            DiagnosticDescriptors.MarkdownSampleIdNotFound,
+                            Location.Create(fullpath, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                            matter.FilePath,
+                            id));
+                }
+                else
+                {
+                    sampleIdReferences.Remove(id);
+                }
+            }
+        }
+
+        AddDocuments(ctx, docFrontMatter);
+
+        // Emit warnings for any unreferenced samples
+        foreach (var id in sampleIdReferences)
+        {
+            var sample = toolkitSampleAttributeData.First(sample => sample.Attribute.Id == id);
+
+            ctx.ReportDiagnostic(
+                Diagnostic.Create(
+                    DiagnosticDescriptors.SampleNotReferencedInMarkdown,
+                    sample.Symbol.Locations.FirstOrDefault(),
+                    id));
+        }
+    }
+
+    private ImmutableArray<ToolkitFrontMatter> GatherDocumentFrontMatter(SourceProductionContext ctx, IEnumerable<AdditionalText> data)
+    {
+        return data.Select(file =>
+        {
+            // We have to manually parse the YAML here for now because of
+            // https://github.com/dotnet/roslyn/issues/43903
+
+            var content = file.GetText()!.ToString();
+            var matter = content.Split(new[] { "---" }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (matter.Length <= 1)
+            {
+                ctx.ReportDiagnostic(
+                    Diagnostic.Create(
+                        DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
+                        Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                        file.Path,
+                        "No Front Matter Section Found. Exclude md file from AdditionalFiles in csproj if this is not a documentation file."));
+                return null;
+            }
+            else
+            {
+                var frontmatter = matter[0];
+
+                // Grab all front matter fields using RegEx expressions.
+                var title = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexTitle, "title");
+                var description = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexDescription, "description");
+                var keywords = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexKeywords, "keywords");
+                //// TODO: Should generate the enum from these or something?
+                var category = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexCategory, "category");
+                var subcategory = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexSubcategory, "subcategory");
+
+                // Check we have all the fields we expect to continue (errors will have been spit out otherwise already from the ParseYamlField method)
+                if (!(title.Success && description.Success && keywords.Success &&
+                        category.Success && subcategory.Success))
+                {
+                    return null;
+                }
+
+                // Grab/Check Enum values
+                if (!Enum.TryParse<ToolkitSampleCategory>(category.Text, out var categoryValue))
+                {
+                    // TODO: extract index to get proper line number?
                     ctx.ReportDiagnostic(
                         Diagnostic.Create(
                             DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
                             Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
                             file.Path,
-                            "No Front Matter Section Found. Exclude md file from AdditionalFiles in csproj if this is not a documentation file."));
+                            "Can't parse category field, use value from ToolkitSampleCategory enum."));
                     return null;
                 }
-                else
+
+                if (!Enum.TryParse<ToolkitSampleSubcategory>(subcategory.Text, out var subcategoryValue))
                 {
-                    var content = matter[0];
-
-                    var title = ParseYamlField(ref ctx, file.Path, ref content, FrontMatterRegexTitle, "title");
-                    var description = ParseYamlField(ref ctx, file.Path, ref content, FrontMatterRegexDescription, "description");
-                    var keywords = ParseYamlField(ref ctx, file.Path, ref content, FrontMatterRegexKeywords, "keywords");
-                    /// TODO: Should generate the enum from these or something?
-                    var category = ParseYamlField(ref ctx, file.Path, ref content, FrontMatterRegexCategory, "category");
-                    var subcategory = ParseYamlField(ref ctx, file.Path, ref content, FrontMatterRegexSubcategory, "subcategory");
-
-                    if (!(title.Success && description.Success && keywords.Success &&
-                          category.Success && subcategory.Success))
-                    {
-                        return null;
-                    }
-
-                    if (!Enum.TryParse<ToolkitSampleCategory>(category.Text, out var categoryValue))
-                    {
-                        // TODO: extract index to get proper line number?
-                        ctx.ReportDiagnostic(
-                            Diagnostic.Create(
-                                DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
-                                Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
-                                file.Path,
-                                "Can't parse category field, use value from ToolkitSampleCategory enum."));
-                        return null;
-                    }
-
-                    if (!Enum.TryParse<ToolkitSampleSubcategory>(subcategory.Text, out var subcategoryValue))
-                    {
-                        // TODO: extract index to get proper line number?
-                        ctx.ReportDiagnostic(
-                            Diagnostic.Create(
-                                DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
-                                Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
-                                file.Path,
-                                "Can't parse subcategory field, use value from ToolkitSampleSubcategory enum."));
-                        return null;
-                    }
-
-                    var filepath = file.Path.Split(new string[] { @"\samples\" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
-
-                    return new ToolkitFrontMatter()
-                    {
-                        Title = title.Text,
-                        Description = description.Text,
-                        Keywords = keywords.Text,
-                        Category = categoryValue,
-                        Subcategory = subcategoryValue,
-                        FilePath = filepath
-                    };
+                    // TODO: extract index to get proper line number?
+                    ctx.ReportDiagnostic(
+                        Diagnostic.Create(
+                            DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
+                            Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                            file.Path,
+                            "Can't parse subcategory field, use value from ToolkitSampleSubcategory enum."));
+                    return null;
                 }
-            }).OfType<ToolkitFrontMatter>().ToImmutableArray());
-        });
+
+                // Get the filepath we need to be able to load the markdown file in sample app.
+                var filepath = file.Path.Split(new string[] { @"\samples\" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+
+                // Look for sample id tags
+                var matches = MarkdownRegexSampleTag.Matches(content);
+                var sampleids = new List<string>();
+
+                foreach (Match match in matches)
+                {
+                    // Validation of these ids occurs outside this function.
+                    sampleids.Add(match.Groups["sampleid"].Value.Trim());
+                }
+
+                // TODO: Emit a warning if a document has no samples.
+
+                // Finally, construct the complete object.
+                return new ToolkitFrontMatter()
+                {
+                    Title = title.Text,
+                    Description = description.Text,
+                    Keywords = keywords.Text,
+                    Category = categoryValue,
+                    Subcategory = subcategoryValue,
+                    FilePath = filepath,
+                    SampleIdReferences = sampleids.ToArray()
+                };
+            }
+        }).OfType<ToolkitFrontMatter>().ToImmutableArray();
     }
 
     private (bool Success, string? Text) ParseYamlField(ref SourceProductionContext ctx, string filepath, ref string content, Regex pattern, string fieldname)
@@ -141,6 +203,8 @@ public partial class ToolkitSampleMetadataGenerator
             var source = BuildRegistrationCallsFromDocuments(matter);
             ctx.AddSource($"ToolkitDocumentRegistry.g.cs", source);
         }
+
+        // TODO: Emit a better error that no documentation is here?
     }
 
     private static string BuildRegistrationCallsFromDocuments(IEnumerable<ToolkitFrontMatter> sampleMetadata)
@@ -164,6 +228,6 @@ public static class ToolkitDocumentRegistry
         var categoryParam = $"{nameof(ToolkitSampleCategory)}.{metadata.Category}";
         var subcategoryParam = $"{nameof(ToolkitSampleSubcategory)}.{metadata.Subcategory}";
 
-        return @$"yield return new {typeof(ToolkitFrontMatter).FullName}() {{ Title = ""{metadata.Title}"", Author = ""{metadata.Author}"", Description = ""{metadata.Description}"", Keywords = ""{metadata.Keywords}"", Category = {categoryParam}, Subcategory = {subcategoryParam}, FilePath = @""{metadata.FilePath}""}};";
+        return @$"yield return new {typeof(ToolkitFrontMatter).FullName}() {{ Title = ""{metadata.Title}"", Author = ""{metadata.Author}"", Description = ""{metadata.Description}"", Keywords = ""{metadata.Keywords}"", Category = {categoryParam}, Subcategory = {subcategoryParam}, FilePath = @""{metadata.FilePath}"", SampleIdReferences = new string[] {{ ""{string.Join("\",\"", metadata.SampleIdReferences)}"" }} }};"; // TODO: Add list of sample ids in document
     }
 }

@@ -21,5 +21,9 @@ public sealed class ToolkitFrontMatter : DocsFrontMatter
 {
     public ToolkitSampleCategory Category { get; set; }
     public ToolkitSampleSubcategory Subcategory { get; set; }
+
+    //// Extra Metadata needed for Sample App
     public string? FilePath { get; set; }
+
+    public string[]? SampleIdReferences { get; set; }
 }
