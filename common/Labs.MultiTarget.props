@@ -29,12 +29,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- In release mode, UWP already emits the raw XAML files to the final app package (with some modifications). -->
-    <Content Condition="!('$(TargetFramework)' == '$(UwpTargetFramework)' AND '$(Configuration)' == 'Release')" Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-    <Content Include="**\*.cs" Exclude="bin\**\*.cs;obj\**\*.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'" Include="Microsoft.UI.Xaml" Version="2.7.0" />
     <PackageReference Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'" Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
   </ItemGroup>
