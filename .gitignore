@@ -350,3 +350,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Community Toolkit Labs generated files
+Toolkit.Labs.All.sln
+Labs.SampleRefs.props
