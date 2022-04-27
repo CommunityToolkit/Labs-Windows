@@ -1,20 +1,9 @@
-<!-- Common props for any deployable sample project head. -->
 <Project>
-
-  <!-- Source generators -->
+  <!-- Source generator props -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
-                      OutputItemType="None" ReferenceOutputAssembly="True"/>
     <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
-                      OutputItemType="None" ReferenceOutputAssembly="True"/>
-
-    <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
-    <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.dll" />
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
+    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
-
 </Project>

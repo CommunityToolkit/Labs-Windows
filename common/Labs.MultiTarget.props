@@ -38,5 +38,4 @@
     <PackageReference Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'" Include="Microsoft.UI.Xaml" Version="2.7.0" />
     <PackageReference Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'" Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
   </ItemGroup>
-
 </Project>
