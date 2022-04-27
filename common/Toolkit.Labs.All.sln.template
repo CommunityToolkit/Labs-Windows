@@ -53,29 +53,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments", "{DD69BA61-C86D-4138-AE6F-76E2C8445C9A}"
 EndProject
 [TemplatedProjectDefinitions]
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{583C9ADC-96A6-446D-9573-7C33B0640915}"
-	ProjectSection(SolutionItems) = preProject
-		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
-		global.json = global.json
-		common\Labs.Head.props = common\Labs.Head.props
-		common\Labs.MultiTarget.props = common\Labs.MultiTarget.props
-		common\Labs.SampleRefs.props = common\Labs.SampleRefs.props
-		common\Labs.TargetFrameworks.props = common\Labs.TargetFrameworks.props
-		common\Labs.Uwp.Base.props = common\Labs.Uwp.Base.props
-		common\Labs.Uwp.props = common\Labs.Uwp.props
-		common\Labs.Wasm.props = common\Labs.Wasm.props
-		common\Labs.WinAppSdk.props = common\Labs.WinAppSdk.props
-		Windows.Toolkit.Common.props = Windows.Toolkit.Common.props
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{DB021AE9-57A4-41BA-822F-2C76AF4A385B}"
-	ProjectSection(SolutionItems) = preProject
-		tests\Labs.Tests.props = tests\Labs.Tests.props
-		tests\Labs.Tests.Uwp.props = tests\Labs.Tests.Uwp.props
-		tests\Labs.Tests.WinAppSdk.props = tests\Labs.Tests.WinAppSdk.props
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 [TemplatedSharedTestProjectDefinitions]
