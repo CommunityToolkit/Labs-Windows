@@ -33,7 +33,7 @@ using Microsoft.UI.Xaml.Navigation;
 //+:cnd:noEmit
 
 
-namespace ProjectTemplate.Sample.SampleOne
+namespace ProjectTemplate.Sample
 {
     [ToolkitSampleBoolOption("IsTextVisible", "IsVisible", true)]
 
@@ -49,10 +49,10 @@ namespace ProjectTemplate.Sample.SampleOne
     [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Arial", value: "Arial")]
     [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Consolas", value: "Consolas")]
 
-    [ToolkitSample(id: nameof(SamplePage), "Simple Options", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A sample page for showing how to do simple options.")]
-    public sealed partial class SamplePage : Page
+    [ToolkitSample(id: nameof(ProjectTemplateFirstSamplePage), "Simple Options", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: "A sample page for showing how to do simple options.")]
+    public sealed partial class ProjectTemplateFirstSamplePage : Page
     {
-        public SamplePage()
+        public ProjectTemplateFirstSamplePage()
         {
             this.InitializeComponent();
         }
