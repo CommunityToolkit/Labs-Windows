@@ -193,5 +193,17 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: $"Cannot find reference to the sample within the documentation.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating the documentation file contains no sample references.
+        /// </summary>
+        public static readonly DiagnosticDescriptor DocumentationHasNoSamples = new(
+            id: "TKSMPL0014",
+            title: $"Documentation Has No Samples",
+            messageFormat: $"The documentation page '{{0}}' does not reference any sample examples, it is recommended to have at least one code sample per document page.",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: $"Document contains no interactive sample code.");
     }
 }

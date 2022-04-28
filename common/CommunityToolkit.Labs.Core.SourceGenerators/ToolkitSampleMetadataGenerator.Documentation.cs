@@ -161,7 +161,14 @@ public partial class ToolkitSampleMetadataGenerator
                     sampleids.Add(match.Groups["sampleid"].Value.Trim());
                 }
 
-                // TODO: Emit a warning if a document has no samples.
+                if (sampleids.Count == 0)
+                {
+                    ctx.ReportDiagnostic(
+                        Diagnostic.Create(
+                            DiagnosticDescriptors.DocumentationHasNoSamples,
+                            Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                            file.Path));
+                }
 
                 // Finally, construct the complete object.
                 return new ToolkitFrontMatter()
