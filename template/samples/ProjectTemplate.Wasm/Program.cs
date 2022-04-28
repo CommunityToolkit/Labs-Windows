@@ -4,7 +4,14 @@
 
 using CommunityToolkit.Labs.Shared;
 using System;
+
+//-:cnd:noEmit
+#if WINAPPSDK
+using Microsoft.UI.Xaml;
+#else
 using Windows.UI.Xaml;
+#endif
+//+:cnd:noEmit
 
 namespace ProjectTemplate.Wasm
 {
@@ -14,7 +21,7 @@ namespace ProjectTemplate.Wasm
 
         static int Main(string[] args)
         {
-            Windows.UI.Xaml.Application.Start(_ => _app = new App());
+            Application.Start(_ => _app = new App());
 
             return 0;
         }

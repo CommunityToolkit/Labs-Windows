@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.WinUI.ProjectTemplate</PackageId>
+    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).ProjectTemplate</PackageId>
     <Description>
       This package contains ProjectTemplate.
     </Description>
