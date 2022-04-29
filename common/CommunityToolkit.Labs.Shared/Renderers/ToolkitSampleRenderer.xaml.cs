@@ -172,20 +172,24 @@ namespace CommunityToolkit.Labs.Shared.Renderers
 
         public static async Task<string?> GetMetadataFileContents(ToolkitSampleMetadata metadata, string fileExtension)
         {
-            var filePath = GetPathToFileWithoutExtension(metadata.SampleControlType);
+            var filePath = GetRelativePathToFileWithoutExtension(metadata.SampleControlType);
 
             try
             {
-                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"{filePath}.{fileExtension.Trim('.')}"));
-                var textContents = await FileIO.ReadTextAsync(file);
+                // Workaround for https://github.com/unoplatform/uno/issues/8649
+                if (fileExtension.Contains(".cs"))
+                {
+                    fileExtension = fileExtension.Replace(".cs", ".cs.dat");
+                }
 
-                // Remove toolkit attributes
-                textContents = Regex.Replace(textContents, @$"\s+?\[{nameof(ToolkitSampleAttribute).Replace("Attribute", "")}.+\]", "");
-                textContents = Regex.Replace(textContents, @$"\s+?\[{nameof(ToolkitSampleOptionsPaneAttribute).Replace("Attribute", "")}.+\]", "");
+                var finalPath = $"ms-appx:///{filePath}.{fileExtension.Trim('.')}";
+
+                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///{filePath}.{fileExtension.Trim('.')}"));
+                var textContents = await FileIO.ReadTextAsync(file);
 
                 return textContents;
             }
-            catch (Exception)
+            catch
             {
                 return null;
             }
@@ -195,7 +199,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         /// Compute path to a code file bundled in the app using type information.
         /// Assumes file path in project matches namespace.
         /// </summary>
-        public static string GetPathToFileWithoutExtension(Type type)
+        private static string GetRelativePathToFileWithoutExtension(Type type)
         {
             var simpleAssemblyName = type.Assembly.GetName().Name;
             var typeNamespace = type.Namespace;
@@ -206,9 +210,11 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             if (string.IsNullOrWhiteSpace(typeNamespace))
                 throw new ArgumentException($"Unable to find namespace for provided type {type}.", nameof(typeNamespace));
 
+            var sampleName = simpleAssemblyName.Replace(".Sample", "");
+
             var folderPath = typeNamespace.Replace(simpleAssemblyName, "").Trim('.').Replace('.', '/');
 
-            return $"ms-appx:///{simpleAssemblyName}/{folderPath}/{type.Name}";
+            return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}/{type.Name}";
         }
     }
 }

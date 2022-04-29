@@ -22,4 +22,11 @@
     <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.xaml" Exclude="$(RepositoryDirectory)labs\**\samples\*.Sample\obj\**\*.xaml;$(RepositoryDirectory)labs\**\samples\*.Sample\bin\**\*.xaml"  Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+
+    <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
+    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.cs" Exclude="$(RepositoryDirectory)labs\**\samples\*.Sample\obj\**\*.cs;$(RepositoryDirectory)labs\**\samples\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
+  </ItemGroup>
+
 </Project>
