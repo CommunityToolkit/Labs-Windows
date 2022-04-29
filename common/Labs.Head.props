@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- In release mode, UWP already emits the raw XAML files to the final app package (with some modifications). -->
     <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.xaml" Exclude="$(RepositoryDirectory)labs\**\samples\*.Sample\obj\**\*.xaml;$(RepositoryDirectory)labs\**\samples\*.Sample\bin\**\*.xaml"  Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
