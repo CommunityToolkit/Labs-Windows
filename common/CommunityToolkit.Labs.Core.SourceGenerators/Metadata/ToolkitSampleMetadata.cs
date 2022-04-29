@@ -7,25 +7,60 @@ using System.Collections.Generic;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 
+//// We can't use record for WinUI 3 yet due to https://github.com/microsoft/microsoft-ui-xaml/issues/5315
+
 /// <summary>
 /// Contains the metadata needed to identify and display a toolkit sample.
 /// </summary>
-/// <param name="Id">A unique identifier for the sample, across all samples.</param>
-/// <param name="DisplayName">The display name for this sample page.</param>
-/// <param name="Description">The description for this sample page.</param>
-/// <param name="SampleControlType">A type that can be used to construct an instance of the sample control.</param>
-/// <param name="SampleControlFactory">A factory method that returns a new instance of the control.</param>
-/// <param name="SampleOptionsPaneType">
-/// The control type for the sample page's options pane.
-/// Constructor should have exactly one parameter that can be assigned to the control type (<see cref="SampleControlType"/>).
-/// </param>
-/// <param name="GeneratedSampleOptions">The generated sample options that were declared alongside this sample, if any.</param>
-public sealed record ToolkitSampleMetadata(
-        string Id,
-        string DisplayName,
-        string Description,
-        Type SampleControlType,
-        Func<object> SampleControlFactory,
-        Type? SampleOptionsPaneType = null,
-        Func<object, object>? SampleOptionsPaneFactory = null,
-        IEnumerable<IGeneratedToolkitSampleOptionViewModel>? GeneratedSampleOptions = null);
+public sealed class ToolkitSampleMetadata
+{
+    public string Id { get; set; }
+
+    public string DisplayName { get; set; }
+
+    public string Description { get; set; }
+
+    public Type SampleControlType { get; set; }
+
+    public Func<object> SampleControlFactory { get; set; }
+
+    public Type? SampleOptionsPaneType { get; set; }
+
+    public Func<object, object>? SampleOptionsPaneFactory { get; set; }
+
+    public IEnumerable<IGeneratedToolkitSampleOptionViewModel>? GeneratedSampleOptions { get; set; }
+
+    /// <summary>
+    /// Contains the metadata needed to identify and display a toolkit sample.
+    /// </summary>
+    /// <param name="id">A unique identifier for the sample, across all samples.</param>
+    /// <param name="displayName">The display name for this sample page.</param>
+    /// <param name="description">The description for this sample page.</param>
+    /// <param name="sampleControlType">A type that can be used to construct an instance of the sample control.</param>
+    /// <param name="sampleControlFactory">A factory method that returns a new instance of the control.</param>
+    /// <param name="sampleOptionsPaneType">
+    /// The (optional) control type for the sample page's options pane.
+    /// Constructor should have exactly one parameter that can be assigned to the control type (<see cref="SampleControlType"/>).
+    /// </param>
+    /// <param name="sampleOptionsPaneFactory">A factory method that returns a new instance of the sample options control.</param>
+    /// <param name="generatedSampleOptions">The generated sample options that were declared alongside this sample, if any.</param>
+    public ToolkitSampleMetadata(
+        string id,
+        string displayName,
+        string description,
+        Type sampleControlType,
+        Func<object> sampleControlFactory,
+        Type? sampleOptionsPaneType = null,
+        Func<object, object>? sampleOptionsPaneFactory = null,
+        IEnumerable<IGeneratedToolkitSampleOptionViewModel>? generatedSampleOptions = null)
+    {
+        Id = id;
+        DisplayName = displayName;
+        Description = description;
+        SampleControlType = sampleControlType;
+        SampleControlFactory = sampleControlFactory;
+        SampleOptionsPaneType = sampleOptionsPaneType;
+        SampleOptionsPaneFactory = sampleOptionsPaneFactory;
+        GeneratedSampleOptions = generatedSampleOptions;
+    }
+}
