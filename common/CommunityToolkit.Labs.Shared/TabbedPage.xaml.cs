@@ -1,12 +1,10 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 #if !WINAPPSDK
 using Windows.UI.Xaml;
@@ -69,24 +67,6 @@ namespace CommunityToolkit.Labs.Shared
             }
 
             base.OnNavigatedTo(e);
-        }
-    }
-
-    public class DocOrSampleTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate? Document { get; set; }
-        public DataTemplate? Sample { get; set; }
-
-        protected override DataTemplate SelectTemplateCore(object item)
-        {
-            if (item is ToolkitFrontMatter)
-            {
-                return Document!;
-            }
-            else
-            {
-                return Sample!;
-            }
         }
     }
 }

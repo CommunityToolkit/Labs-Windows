@@ -1,13 +1,15 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 
 #if WINAPPSDK
@@ -35,25 +37,35 @@ namespace CommunityToolkit.Labs.Shared.Renderers
     /// </summary>
     public sealed partial class ToolkitDocumentationRenderer : Page
     {
+        private const string MarkdownRegexSampleTagExpression = @"^>\s*\[!SAMPLE\s*(?<sampleid>.*)\s*\]\s*$";
+        private static readonly Regex MarkdownRegexSampleTag = new Regex(MarkdownRegexSampleTagExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
         public ToolkitDocumentationRenderer()
         {
             this.InitializeComponent();
         }
 
         /// <summary>
-        /// The documentation content.
+        /// List of referenced samples in this page.
         /// </summary>
-        public string? DocumentationText
+        public List<ToolkitSampleMetadata> Samples
         {
-            get { return (string?)GetValue(DocumentationTextProperty); }
-            set { SetValue(DocumentationTextProperty, value); }
+            get { return (List<ToolkitSampleMetadata>)GetValue(SamplesProperty); }
+            set { SetValue(SamplesProperty, value); }
         }
 
         /// <summary>
-        /// The backing <see cref="DependencyProperty"/> for the <see cref="DocumentationText"/> property.
+        /// The backing <see cref="DependencyProperty"/> for the <see cref="Samples"/> property.
         /// </summary>
-        public static readonly DependencyProperty DocumentationTextProperty =
-            DependencyProperty.Register(nameof(DocumentationText), typeof(string), typeof(ToolkitDocumentationRenderer), new PropertyMetadata(null));
+        public static readonly DependencyProperty SamplesProperty
+            =
+            DependencyProperty.Register(nameof(Samples), typeof(List<ToolkitSampleMetadata>), typeof(ToolkitDocumentationRenderer), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Intermixed list of string doc snippets for Markdown and <see cref="ToolkitSampleMetadata"/>
+        /// objects for samples.
+        /// </summary>
+        public ObservableCollection<object> DocsAndSamples = new();
 
         /// <summary>
         /// The YAML front matter metadata about this documentation file.
@@ -94,12 +106,53 @@ namespace CommunityToolkit.Labs.Shared.Renderers
                 return;
             }
 
-            DocumentationText = await GetDocumentationFileContents(Metadata);
+            // TODO: Show list of samples in a side-panel
+            List<ToolkitSampleMetadata> samples = new();
+            if (Metadata.SampleIdReferences != null && Metadata.SampleIdReferences.Length > 0 &&
+                !string.IsNullOrWhiteSpace(Metadata.SampleIdReferences[0]))
+            {
+                foreach (var sampleid in Metadata.SampleIdReferences)
+                {
+                    // We don't check here for key as we validate with SG.
+                    samples.Add(ToolkitSampleRegistry.Listing[sampleid]);
+                }
+            }
+            Samples = samples;
 
-            ////var samples = ToolkitSampleRegistry.Execute().Where(sample => Metadata.SampleIdReferences.Contains(sample.Id));
+            var doctext = await GetDocumentationFileContents(Metadata);
+
+            var matches = MarkdownRegexSampleTag.Matches(doctext);
+
+            DocsAndSamples.Clear();
+            if (matches.Count == 0)
+            {
+                DocsAndSamples.Add(doctext);
+            }
+            else
+            {
+                int index = 0;
+                foreach (Match match in matches)
+                {
+                    DocsAndSamples.Add(doctext.Substring(index, match.Index - index - 1));
+                    DocsAndSamples.Add(ToolkitSampleRegistry.Listing[match.Groups["sampleid"].Value]);
+                    index = match.Index + match.Length;
+                }
+
+                // Put rest of text at end
+                DocsAndSamples.Add(doctext.Substring(index));
+            }
         }
 
-        private static async Task<string?> GetDocumentationFileContents(ToolkitFrontMatter metadata)
+        private void SampleListHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is HyperlinkButton btn && btn.DataContext is ToolkitSampleMetadata metadata)
+            {
+                var container = DocItemsControl.ContainerFromItem(metadata) as UIElement;
+                container?.StartBringIntoView();
+            }
+        }
+
+        private static async Task<string> GetDocumentationFileContents(ToolkitFrontMatter metadata)
         {
             // TODO: Path will be different if single vs. multi-sample?
             var fileUri = new Uri($"ms-appx:///{metadata.FilePath}");
@@ -112,11 +165,11 @@ namespace CommunityToolkit.Labs.Shared.Renderers
                 // Remove YAML
                 var blocks = textContents.Split("---", StringSplitOptions.RemoveEmptyEntries);
 
-                return blocks.LastOrDefault();
+                return blocks.LastOrDefault() ?? "Couldn't find content after YAML Front Matter removal.";
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                return $"Exception Encountered Loading file '{metadata.FilePath}':\n{e.Message}\n{e.StackTrace}";
             }
         }
     }
