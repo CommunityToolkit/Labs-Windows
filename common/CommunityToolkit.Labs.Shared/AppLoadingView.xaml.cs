@@ -115,7 +115,7 @@ namespace CommunityToolkit.Labs.Shared
 
         private IEnumerable<ToolkitSampleMetadata> FindReferencedSamples()
         {
-            return ToolkitSampleRegistry.Execute();
+            return ToolkitSampleRegistry.Listing.Values;
         }
     }
 }
