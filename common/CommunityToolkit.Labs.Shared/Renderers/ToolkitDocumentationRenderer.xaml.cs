@@ -155,7 +155,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         private static async Task<string> GetDocumentationFileContents(ToolkitFrontMatter metadata)
         {
             // TODO: Path will be different if single vs. multi-sample?
-            var fileUri = new Uri($"ms-appx:///{metadata.FilePath}");
+            var fileUri = new Uri($"ms-appx:///SourceAssets/{metadata.FilePath}");
 
             try
             {
@@ -169,7 +169,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             }
             catch (Exception e)
             {
-                return $"Exception Encountered Loading file '{metadata.FilePath}':\n{e.Message}\n{e.StackTrace}";
+                return $"Exception Encountered Loading file '{fileUri}':\n{e.Message}\n{e.StackTrace}";
             }
         }
     }
