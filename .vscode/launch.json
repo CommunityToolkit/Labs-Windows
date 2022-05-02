@@ -1,11 +1,8 @@
 {
-  // Use IntelliSense to find out which attributes exist for C# debugging
-  // Use hover for the description of the existing attributes
-  // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "All samples",
+      "name": "All samples app",
       "type": "coreclr",
       "request": "launch",
       "program": "dotnet",
@@ -19,28 +16,27 @@
         "/p:UnoRemoteControlPort=443",
         "--project=${workspaceFolder}/platforms/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
         "-p:TargetFrameworks=netstandard2.0",
-        "-p:TargetFramework=net5.0",
+        "-p:TargetFramework=net5.0"
       ],
+      "presentation": {
+        "group": "1",
+        "order": 1
+      },
       "cwd": "${workspaceFolder}/platforms/CommunityToolkit.Labs.Wasm",
+      "preLaunchTask": "generateAllSolution"
     },
     {
-      "name": "CanvasLayout",
-      "type": "coreclr",
+      "type": "PowerShell",
       "request": "launch",
-      "program": "dotnet",
+      "name": "Discover samples",
+      "script": "DiscoverSamples.ps1",
       "args": [
-        "run",
-        "build",
-        "/r",
-        "/bl",
-        "/p:UnoSourceGeneratorUseGenerationHost=true",
-        "/p:UnoSourceGeneratorUseGenerationController=false",
-        "/p:UnoRemoteControlPort=443",
-        "--project=${workspaceFolder}/labs/CanvasLayout/samples/CanvasLayout.Wasm/CanvasLayout.Wasm.csproj",
-        "-p:TargetFrameworks=netstandard2.0",
-        "-p:TargetFramework=net5.0",
+        ""
       ],
-      "cwd": "${workspaceFolder}/labs/CanvasLayout/samples/CanvasLayout.Wasm",
+      "presentation": {
+        "group": "2",
+        "order": 2
+      }
     }
   ]
 }
