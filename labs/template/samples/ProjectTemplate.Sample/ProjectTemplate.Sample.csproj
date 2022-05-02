@@ -20,16 +20,15 @@
     <UpToDateCheckInput Remove="obj\bin\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="SamplePage.xaml" />
+    <None Remove="ProjectTemplateFirstSamplePage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Remove="SamplePage.xaml" />
+    <UpToDateCheckInput Remove="ProjectTemplateFirstSamplePage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="*.md"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj">
-    </ProjectReference>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj"/>
   </ItemGroup>
 </Project>
