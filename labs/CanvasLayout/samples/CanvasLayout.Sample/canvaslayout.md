@@ -76,6 +76,10 @@ with the namespace and the class name. Without any country/region 'en-us' identi
 
 ## Source Code
 
+<!-- Referencing the other samples for now until we clean this experiment up, as otherwise causes build error. -->
+
+> [!SAMPLE SamplePage]
+
 - [control/helper name source code](source-code-link)
 
 <!-- Optional -->
