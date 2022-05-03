@@ -145,5 +145,65 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
             description: $"Cannot generate sample option metadata as the attribute was used on an unsupported type.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating an exception occured while parsing the front matter of a markdown sample file.
+        /// </summary>
+        public static readonly DiagnosticDescriptor MarkdownYAMLFrontMatterException = new(
+            id: "TKSMPL0010",
+            title: $"Invalid YAML Front Matter",
+            messageFormat: $"Cannot generate sample page info for file {{0}} as an error was encountered parsing its YAML front matter: {{1}}",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot generate sample page info due to a YAML Front Matter parsing exception.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating an expected piece of metadata was missing from the front matter of a markdown sample file.
+        /// </summary>
+        public static readonly DiagnosticDescriptor MarkdownYAMLFrontMatterMissingField = new(
+            id: "TKSMPL0011",
+            title: $"Missing YAML Front Matter",
+            messageFormat: $"Cannot generate sample page info for file {{0}} as no '{{1}}' field was found in its YAML front matter.",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot generate sample page info due to missing YAML Front Matter.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating the sample referenced in the Markdown file couldn't be found.
+        /// </summary>
+        public static readonly DiagnosticDescriptor MarkdownSampleIdNotFound = new(
+            id: "TKSMPL0012",
+            title: $"Sample Id Not Found from Markdown Reference",
+            messageFormat: $"Cannot find the sample page referenced in file {{0}} with sample id '{{1}}'.",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: $"Cannot link sample page info due to invalid/unknown id.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating the sample is not referenced in any Markdown documentation files.
+        /// </summary>
+        public static readonly DiagnosticDescriptor SampleNotReferencedInMarkdown = new(
+            id: "TKSMPL0013",
+            title: $"Sample Not Referenced In Documentation",
+            messageFormat: $"The sample with id '{{0}}' is not referenced in any documentation files and will not appear in the full sample app.",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: $"Cannot find reference to the sample within the documentation.");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating the documentation file contains no sample references.
+        /// </summary>
+        public static readonly DiagnosticDescriptor DocumentationHasNoSamples = new(
+            id: "TKSMPL0014",
+            title: $"Documentation Has No Samples",
+            messageFormat: $"The documentation page '{{0}}' does not reference any sample examples, it is recommended to have at least one code sample per document page.",
+            category: typeof(ToolkitSampleMetadataGenerator).FullName,
+            defaultSeverity: DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: $"Document contains no interactive sample code.");
     }
 }
