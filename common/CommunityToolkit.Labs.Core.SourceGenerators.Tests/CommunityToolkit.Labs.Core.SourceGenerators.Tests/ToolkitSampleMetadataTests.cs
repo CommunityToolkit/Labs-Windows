@@ -2,16 +2,20 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 using CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 {
     [TestClass]
-    public class ToolkitSampleMetadataTests
+    public partial class ToolkitSampleMetadataTests
     {
         [TestMethod]
         public void PaneOptionOnNonSample()
@@ -33,7 +37,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl { }
             }";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample.Id);
         }
 
         [DataRow("", DisplayName = "Empty string"), DataRow(" ", DisplayName = "Only whitespace"), DataRow("Test ", DisplayName = "Text with whitespace")]
@@ -61,7 +65,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithBadName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneOptionWithBadName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -87,7 +91,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -117,7 +121,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -144,7 +148,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithDuplicateName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneOptionWithDuplicateName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -173,7 +177,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -206,7 +210,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -233,7 +237,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -254,7 +258,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleGeneratedOptionAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SampleGeneratedOptionAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SamplePaneOptionAttributeOnNonSample.Id);
         }
 
         [TestMethod]
@@ -273,7 +277,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SampleAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -302,7 +306,33 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleOptionPaneAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SampleOptionPaneAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+        }
+
+        [TestMethod]
+        public void SampleAttributeValid()
+        {
+            var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
+                {{
+                }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
+            }}";
+
+            // TODO: We should have this return the references to the registries or something so we can check the generated output?
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         /// <summary>
@@ -310,11 +340,12 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
         /// </summary>
         /// <typeparam name="TGenerator">The generator type to use.</typeparam>
         /// <param name="source">The input source to process.</param>
+        /// <param name="markdown">The input documentation info to process.</param>
         /// <param name="diagnosticsIds">The diagnostic ids to expect for the input source code.</param>
-        private static void VerifyGeneratedDiagnostics<TGenerator>(string source, params string[] diagnosticsIds)
+        private static void VerifyGeneratedDiagnostics<TGenerator>(string source, string markdown, params string[] diagnosticsIds)
             where TGenerator : class, IIncrementalGenerator, new()
         {
-            VerifyGeneratedDiagnostics<TGenerator>(CSharpSyntaxTree.ParseText(source), diagnosticsIds);
+            VerifyGeneratedDiagnostics<TGenerator>(CSharpSyntaxTree.ParseText(source), markdown, diagnosticsIds);
         }
 
         /// <summary>
@@ -322,8 +353,9 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
         /// </summary>
         /// <typeparam name="TGenerator">The generator type to use.</typeparam>
         /// <param name="syntaxTree">The input source tree to process.</param>
+        /// <param name="markdown">The input documentation info to process.</param>
         /// <param name="diagnosticsIds">The diagnostic ids to expect for the input source code.</param>
-        private static void VerifyGeneratedDiagnostics<TGenerator>(SyntaxTree syntaxTree, params string[] diagnosticsIds)
+        private static void VerifyGeneratedDiagnostics<TGenerator>(SyntaxTree syntaxTree, string markdown, params string[] diagnosticsIds)
             where TGenerator : class, IIncrementalGenerator, new()
         {
             var sampleAttributeType = typeof(ToolkitSampleAttribute);
@@ -342,7 +374,17 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 
             IIncrementalGenerator generator = new TGenerator();
 
-            GeneratorDriver driver = CSharpGeneratorDriver.Create(generator).WithUpdatedParseOptions((CSharpParseOptions)syntaxTree.Options);
+            GeneratorDriver driver =
+                CSharpGeneratorDriver
+                    .Create(generator)
+                    .WithUpdatedParseOptions((CSharpParseOptions)syntaxTree.Options);
+
+            if (!string.IsNullOrWhiteSpace(markdown))
+            {
+                var text = new InMemoryAdditionalText(@"C:\pathtorepo\labs\experiment\samples\experiment.Sample\documentation.md", markdown);
+
+                driver = driver.AddAdditionalTexts(ImmutableArray.Create<AdditionalText>(text));
+            }
 
             _ = driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation outputCompilation, out ImmutableArray<Diagnostic> diagnostics);
 
@@ -351,6 +393,22 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             Assert.IsTrue(resultingIds.SetEquals(diagnosticsIds), $"Expected one of [{string.Join(", ", diagnosticsIds)}] diagnostic Ids. Got [{string.Join(", ", resultingIds)}]");
 
             GC.KeepAlive(sampleAttributeType);
+        }
+
+        //// From: https://github.com/dotnet/roslyn/blob/main/src/Compilers/Test/Core/SourceGeneration/TestGenerators.cs
+        internal class InMemoryAdditionalText : AdditionalText
+        {
+            private readonly SourceText _content;
+
+            public InMemoryAdditionalText(string path, string content)
+            {
+                Path = path;
+                _content = SourceText.From(content, Encoding.UTF8);
+            }
+
+            public override string Path { get; }
+
+            public override SourceText GetText(CancellationToken cancellationToken = default) => _content;
         }
     }
 }
