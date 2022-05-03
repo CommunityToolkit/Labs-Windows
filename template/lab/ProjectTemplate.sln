@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTemplate.WinAppSdk", "samples\ProjectTemplate.WinAppSdk\ProjectTemplate.WinAppSdk.csproj", "{70DF1194-D158-473E-B350-F630231FB328}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators", "..\..\common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj", "{66E6DA8A-FEFC-4221-A476-4314A4D692F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay", "..\..\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj", "{7A1E5FBF-B51A-4B56-8EA3-6AB56A7E9D91}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7F03DDE8-FC53-451D-B0A4-E852EC44C0E9}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ProjectTemplate.Tests", "tests\ProjectTemplate.Tests\ProjectTemplate.Tests.shproj", "{19AC7A6A-B001-45AA-ACBE-0536F688DB74}"
@@ -24,10 +28,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTemplate.UnitTests.Uwp", "tests\ProjectTemplate.UnitTests.Uwp\ProjectTemplate.UnitTests.Uwp.csproj", "{7134BD2E-0A74-4345-868A-E425FC452A89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Labs Dependencies", "Labs Dependencies", "{D4DCFA4B-63B3-4D93-8C91-FBEE3B92E5A0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators", "..\..\common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj", "{66E6DA8A-FEFC-4221-A476-4314A4D692F6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay", "..\..\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj", "{7A1E5FBF-B51A-4B56-8EA3-6AB56A7E9D91}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

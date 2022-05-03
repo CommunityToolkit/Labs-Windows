@@ -28,5 +28,7 @@
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
     <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.cs" Exclude="$(RepositoryDirectory)labs\**\samples\*.Sample\obj\**\*.cs;$(RepositoryDirectory)labs\**\samples\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
   </ItemGroup>
-
+  <PropertyGroup>
+<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+</PropertyGroup>
 </Project>
