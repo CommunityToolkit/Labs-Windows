@@ -40,29 +40,31 @@ namespace CommunityToolkit.Labs.Shared
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Note: Need to use as for tuple, think this is the tracking issue here: https://github.com/dotnet/csharplang/issues/3197
             var info = e.Parameter as (IEnumerable<ToolkitSampleMetadata> Samples, IEnumerable<ToolkitFrontMatter> Docs, bool AreDocsFirst)?;
 
-            if (info is not null)
+            if (info is null)
             {
-                if (info.Value.AreDocsFirst)
-                {
-                    foreach (var item in info.Value.Docs)
-                    {
-                        Items.Add(item);
-                    }
-                }
-
-                foreach (var item in info.Value.Samples)
+                return;
+            }
+            else if (info.Value.AreDocsFirst)
+            {
+                foreach (var item in info.Value.Docs)
                 {
                     Items.Add(item);
                 }
+            }
 
-                if (!info.Value.AreDocsFirst)
+            foreach (var item in info.Value.Samples)
+            {
+                Items.Add(item);
+            }
+
+            if (!info.Value.AreDocsFirst)
+            {
+                foreach (var item in info.Value.Docs)
                 {
-                    foreach (var item in info.Value.Docs)
-                    {
-                        Items.Add(item);
-                    }
+                    Items.Add(item);
                 }
             }
 

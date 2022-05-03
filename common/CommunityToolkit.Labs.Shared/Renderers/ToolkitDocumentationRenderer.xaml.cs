@@ -106,7 +106,6 @@ namespace CommunityToolkit.Labs.Shared.Renderers
                 return;
             }
 
-            // TODO: Show list of samples in a side-panel
             List<ToolkitSampleMetadata> samples = new();
             if (Metadata.SampleIdReferences != null && Metadata.SampleIdReferences.Length > 0 &&
                 !string.IsNullOrWhiteSpace(Metadata.SampleIdReferences[0]))
@@ -154,7 +153,6 @@ namespace CommunityToolkit.Labs.Shared.Renderers
 
         private static async Task<string> GetDocumentationFileContents(ToolkitFrontMatter metadata)
         {
-            // TODO: Path will be different if single vs. multi-sample?
             var fileUri = new Uri($"ms-appx:///SourceAssets/{metadata.FilePath}");
 
             try
