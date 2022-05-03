@@ -162,8 +162,8 @@ namespace CommunityToolkit.Labs.Shared.Renderers
                 var file = await StorageFile.GetFileFromApplicationUriAsync(fileUri);
                 var textContents = await FileIO.ReadTextAsync(file);
 
-                // Remove YAML
-                var blocks = textContents.Split("---", StringSplitOptions.RemoveEmptyEntries);
+                // Remove YAML - need to use array overload as single string not supported on .NET Standard 2.0
+                var blocks = textContents.Split(new[] { "---" }, StringSplitOptions.RemoveEmptyEntries);
 
                 return blocks.LastOrDefault() ?? "Couldn't find content after YAML Front Matter removal.";
             }
