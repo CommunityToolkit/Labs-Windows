@@ -12,7 +12,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 {
     public partial class ToolkitSampleMetadataTests
     {
-        //// We currently need at least one sample to test the document registry, so we'll have this for the base cases to share.
+        // We currently need at least one sample to test the document registry, so we'll have this for the base cases to share.
         private static readonly string SimpleSource = $@"
             using System.ComponentModel;
             using CommunityToolkit.Labs.Core.SourceGenerators;

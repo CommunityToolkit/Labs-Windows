@@ -15,10 +15,8 @@ using System.Text.RegularExpressions;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
-/// <summary>
-/// This part of the partial class deals with finding Markdown files and creating
-/// <see cref="ToolkitFrontMatter"/> metadata from it.
-/// </summary>
+// This part of the partial class deals with finding Markdown files
+// and creating ToolkitFrontMatter metadata from it.
 public partial class ToolkitSampleMetadataGenerator
 {
     private const string FrontMatterRegexTitleExpression = @"^title:\s*(?<title>.*)$";
@@ -117,14 +115,14 @@ public partial class ToolkitSampleMetadataGenerator
                 var subcategory = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexSubcategory, "subcategory");
 
                 // Check we have all the fields we expect to continue (errors will have been spit out otherwise already from the ParseYamlField method)
-                if (!(title.Success && description.Success && keywords.Success &&
-                        category.Success && subcategory.Success))
+                if (title == null || description == null || keywords == null ||
+                        category == null || subcategory == null)
                 {
                     return null;
                 }
 
                 // Grab/Check Enum values
-                if (!Enum.TryParse<ToolkitSampleCategory>(category.Text, out var categoryValue))
+                if (!Enum.TryParse<ToolkitSampleCategory>(category, out var categoryValue))
                 {
                     // TODO: extract index to get proper line number?
                     ctx.ReportDiagnostic(
@@ -136,7 +134,7 @@ public partial class ToolkitSampleMetadataGenerator
                     return null;
                 }
 
-                if (!Enum.TryParse<ToolkitSampleSubcategory>(subcategory.Text, out var subcategoryValue))
+                if (!Enum.TryParse<ToolkitSampleSubcategory>(subcategory, out var subcategoryValue))
                 {
                     // TODO: extract index to get proper line number?
                     ctx.ReportDiagnostic(
@@ -173,9 +171,9 @@ public partial class ToolkitSampleMetadataGenerator
                 // Finally, construct the complete object.
                 return new ToolkitFrontMatter()
                 {
-                    Title = title.Text,
-                    Description = description.Text,
-                    Keywords = keywords.Text,
+                    Title = title!,
+                    Description = description!,
+                    Keywords = keywords!,
                     Category = categoryValue,
                     Subcategory = subcategoryValue,
                     FilePath = filepath,
@@ -185,7 +183,7 @@ public partial class ToolkitSampleMetadataGenerator
         }).OfType<ToolkitFrontMatter>().ToImmutableArray();
     }
 
-    private (bool Success, string? Text) ParseYamlField(ref SourceProductionContext ctx, string filepath, ref string content, Regex pattern, string fieldname)
+    private string? ParseYamlField(ref SourceProductionContext ctx, string filepath, ref string content, Regex pattern, string fieldname)
     {
         var match = pattern.Match(content);
 
@@ -197,10 +195,10 @@ public partial class ToolkitSampleMetadataGenerator
                     Location.Create(filepath, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
                     filepath,
                     fieldname));
-            return (false, null);
+            return null;
         }
 
-        return (true, match.Groups[fieldname].Value.Trim());
+        return match.Groups[fieldname].Value.Trim();
     }
 
     private void AddDocuments(SourceProductionContext ctx, ImmutableArray<ToolkitFrontMatter> matter)

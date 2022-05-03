@@ -395,7 +395,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             GC.KeepAlive(sampleAttributeType);
         }
 
-        //// From: https://github.com/dotnet/roslyn/blob/main/src/Compilers/Test/Core/SourceGeneration/TestGenerators.cs
+        // From: https://github.com/dotnet/roslyn/blob/main/src/Compilers/Test/Core/SourceGeneration/TestGenerators.cs
         internal class InMemoryAdditionalText : AdditionalText
         {
             private readonly SourceText _content;

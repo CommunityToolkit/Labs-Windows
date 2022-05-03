@@ -16,7 +16,7 @@ using System.Linq;
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
 /// <summary>
-/// Crawls all referenced projects for <see cref="ToolkitSampleAttribute"/>s and generates a static method that returns metadata for each one found.
+/// Crawls all referenced projects for <see cref="ToolkitSampleAttribute"/>s and generates a static method that returns metadata for each one found. Uses markdown files to generate a listing of <see cref="ToolkitFrontMatter"/> data and an index of references samples for them.
 /// </summary>
 [Generator]
 public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
@@ -72,7 +72,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 .Collect();
 
             var markdownFiles = context.AdditionalTextsProvider
-                .Where(static file => file.Path.EndsWith(".md")) // TODO: file.Path.Contains("samples") - this seems to break things?
+                .Where(static file => file.Path.EndsWith(".md"))
                 .Collect();
 
             var all = optionsPaneAttributes
@@ -104,7 +104,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                             )
                     );
 
-                //// TODO: NOTE: BUGBUG: This is currently guarding us generating duplicate document registeries based on how the SG are setup to run twice to gather samples depending on how they're loaded.
+                //// TODO: NOTE: BUGBUG: This is currently guarding us generating duplicate document registeries based on how the SG are setup to run this Execute method twice to gather samples depending on how they're loaded.
                 //// However, that also means that if a sample only contains documentation without samples we won't load it. That shouldn't be the case currently, though makes testing more difficult.
                 if (!sampleMetadata.Any())
                     return;

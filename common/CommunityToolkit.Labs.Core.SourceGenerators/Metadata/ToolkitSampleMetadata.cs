@@ -14,20 +14,45 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 /// </summary>
 public sealed class ToolkitSampleMetadata
 {
+    /// <summary>
+    /// Gets or sets a unique identifier for the sample, across all samples.
+    /// </summary>
     public string Id { get; set; }
 
+    /// <summary>
+    /// Gets or sets the display name for this sample page.
+    /// </summary>
     public string DisplayName { get; set; }
 
+    /// <summary>
+    /// Gets or sets the description for this sample page.
+    /// </summary>
     public string Description { get; set; }
 
+    /// <summary>
+    /// Gets or sets a type that can be used to construct an instance of the sample control.
+    /// </summary>
     public Type SampleControlType { get; set; }
 
+    /// <summary>
+    /// Gets or sets a factory method that returns a new instance of the control.
+    /// </summary>
     public Func<object> SampleControlFactory { get; set; }
 
+    /// <summary>
+    /// Gets or sets the (optional) control type for the sample page's options pane.
+    /// Constructor should have exactly one parameter that can be assigned to the control type (<see cref="SampleControlType"/>).
+    /// </summary>
     public Type? SampleOptionsPaneType { get; set; }
 
+    /// <summary>
+    /// Gets or sets a factory method that returns a new instance of the sample options control.
+    /// </summary>
     public Func<object, object>? SampleOptionsPaneFactory { get; set; }
 
+    /// <summary>
+    /// Gets or sets the generated sample options that were declared alongside this sample, if any.
+    /// </summary>
     public IEnumerable<IGeneratedToolkitSampleOptionViewModel>? GeneratedSampleOptions { get; set; }
 
     /// <summary>
