@@ -2,7 +2,7 @@
 title: ProjectTemplate
 author: githubaccount
 description: TODO: Your experiment's description here
-keywords: windows 10, windows 11, winui, uwp, windows community toolkit, community toolkit, toolkit, ProjectTemplate
+keywords: ProjectTemplate, Control, Layout
 dev_langs:
   - csharp
 category: Controls
@@ -18,3 +18,5 @@ subcategory: Layout
 # ProjectTemplate
 
 TODO: Fill in information about this experiment and how to get started here...
+
+> [!SAMPLE ProjectTemplateFirstSamplePage]
