@@ -49,7 +49,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 
             namespace MyApp
             {{
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 [ToolkitSampleBoolOption(""{name}"", ""Toggle visibility"", false)]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
@@ -61,7 +61,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithBadName.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithBadName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             namespace MyApp
             {{
                 [ToolkitSampleBoolOption(""IsVisible"", ""Toggle x"", false)]
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                     public string IsVisible {{ get; set; }}
@@ -87,7 +87,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -101,7 +101,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             namespace MyApp
             {{
                 [ToolkitSampleBoolOption(""IsVisible"", ""Toggle x"", false)]
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Base
                 {{
                 }}
@@ -117,7 +117,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithConflictingName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -133,7 +133,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 [ToolkitSampleBoolOption(""test"", ""Toggle x"", false)]
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
@@ -144,7 +144,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithDuplicateName.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneOptionWithDuplicateName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -162,7 +162,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
@@ -173,7 +173,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -188,14 +188,14 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             {{
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
 
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 
-                [ToolkitSample(id: nameof(Sample2), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample2), ""Test Sample"", description: """")]
                 public partial class Sample2 : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
@@ -206,7 +206,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -222,7 +222,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Segoe UI"", value: ""Segoe UI"", title: ""Font"")]
                 [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Arial"", value: ""Arial"", title: ""Other font"")]
                 
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
@@ -233,7 +233,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -267,13 +267,13 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 
             namespace MyApp
             {{                
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample
                 {{
                 }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleAttributeOnUnsupportedType.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -291,7 +291,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 {{
                 }}  
 
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", ToolkitSampleCategory.Controls, ToolkitSampleSubcategory.Layout, description: """")]
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
@@ -302,7 +302,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleOptionPaneAttributeOnUnsupportedType.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, DiagnosticDescriptors.SampleOptionPaneAttributeOnUnsupportedType.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         /// <summary>
