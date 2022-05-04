@@ -37,9 +37,9 @@ namespace CommunityToolkit.Labs.Shared
     /// <summary>
     /// Used to display all Community Toolkit Labs sample projects in one place.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class NavigationPage : Page
     {
-        public MainPage()
+        public NavigationPage()
         {
             this.InitializeComponent();
         }
@@ -51,7 +51,7 @@ namespace CommunityToolkit.Labs.Shared
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var samplePages = e.Parameter as IEnumerable<ToolkitSampleMetadata>;
+            var samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
 
             if (samplePages is not null)
             {
@@ -67,15 +67,15 @@ namespace CommunityToolkit.Labs.Shared
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs e)
         {
             var selected = (NavigationViewItem)e.SelectedItem;
-            var selectedMetadata = selected.Tag as ToolkitSampleMetadata;
+            var selectedMetadata = selected.Tag as ToolkitFrontMatter;
 
             if (selectedMetadata is null)
                 return;
 
-            NavFrame.Navigate(typeof(ToolkitSampleRenderer), selectedMetadata);
+            NavFrame.Navigate(typeof(ToolkitDocumentationRenderer), selectedMetadata);
         }
 
-        private IEnumerable<NavigationViewItem> GenerateSampleNavItemTree(IEnumerable<ToolkitSampleMetadata> sampleMetadata)
+        private IEnumerable<NavigationViewItem> GenerateSampleNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
         {
             // Make categories
             var categoryData = GenerateCategoryNavItems(sampleMetadata);
@@ -83,12 +83,12 @@ namespace CommunityToolkit.Labs.Shared
             foreach (var navData in categoryData)
             {
                 // Make subcategories
-                var subcategoryData = GenerateSubcategoryNavItems(navData.SampleMetadata ?? Enumerable.Empty<ToolkitSampleMetadata>());
+                var subcategoryData = GenerateSubcategoryNavItems(navData.SampleMetadata ?? Enumerable.Empty<ToolkitFrontMatter>());
 
                 foreach (var subcategoryItemData in subcategoryData)
                 {
                     // Make samples
-                    var sampleNavigationItems = GenerateSampleNavItems(subcategoryItemData.SampleMetadata ?? Enumerable.Empty<ToolkitSampleMetadata>());
+                    var sampleNavigationItems = GenerateSampleNavItems(subcategoryItemData.SampleMetadata ?? Enumerable.Empty<ToolkitFrontMatter>());
 
                     foreach (var item in sampleNavigationItems)
                     {
@@ -105,19 +105,19 @@ namespace CommunityToolkit.Labs.Shared
             }
         }
 
-        private IEnumerable<NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitSampleMetadata> sampleMetadata)
+        private IEnumerable<NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
         {
             foreach (var metadata in sampleMetadata)
             {
                 yield return new NavigationViewItem
                 {
-                    Content = metadata.DisplayName,
+                    Content = metadata.Title,
                     Tag = metadata,
                 };
             }
         }
 
-        private IEnumerable<GroupNavigationItemData> GenerateSubcategoryNavItems(IEnumerable<ToolkitSampleMetadata> sampleMetadata)
+        private IEnumerable<GroupNavigationItemData> GenerateSubcategoryNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
         {
             var samplesBySubcategory = sampleMetadata.GroupBy(x => x.Subcategory);
 
@@ -130,7 +130,7 @@ namespace CommunityToolkit.Labs.Shared
             }
         }
 
-        private IEnumerable<GroupNavigationItemData> GenerateCategoryNavItems(IEnumerable<ToolkitSampleMetadata> sampleMetadata)
+        private IEnumerable<GroupNavigationItemData> GenerateCategoryNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
         {
             var samplesByCategory = sampleMetadata.GroupBy(x => x.Category);
 
@@ -145,6 +145,6 @@ namespace CommunityToolkit.Labs.Shared
 
         /// <param name="NavItem">A navigation item to contain items in this group.</param>
         /// <param name="SampleMetadata">The samples that belong under <see cref="NavItem"/>.</param>
-        private record GroupNavigationItemData(NavigationViewItem NavItem, IEnumerable<ToolkitSampleMetadata> SampleMetadata);
+        private record GroupNavigationItemData(NavigationViewItem NavItem, IEnumerable<ToolkitFrontMatter> SampleMetadata);
     }
 }

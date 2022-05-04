@@ -48,7 +48,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         /// The backing <see cref="DependencyProperty"/> for the <see cref="Metadata"/> property.
         /// </summary>
         public static readonly DependencyProperty MetadataProperty =
-            DependencyProperty.Register(nameof(Metadata), typeof(ToolkitSampleMetadata), typeof(ToolkitSampleRenderer), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Metadata), typeof(ToolkitSampleMetadata), typeof(ToolkitSampleRenderer), new PropertyMetadata(null, OnMetadataPropertyChanged));
 
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="SampleControlInstance"/> property.
@@ -117,11 +117,29 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             set => SetValue(CSharpCodeProperty, value);
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private static async void OnMetadataPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            if (dependencyObject is ToolkitSampleRenderer renderer &&
+                renderer.Metadata != null &&
+                args.OldValue != args.NewValue)
+            {
+                await renderer.LoadData();
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             Metadata = (ToolkitSampleMetadata)e.Parameter;
+        }
+
+        private async Task LoadData()
+        {
+            if (Metadata is null)
+            {
+                return;
+            }
 
             XamlCode = await GetMetadataFileContents(Metadata, "xaml");
             CSharpCode = await GetMetadataFileContents(Metadata, "xaml.cs");
