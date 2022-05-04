@@ -29,10 +29,7 @@
       "type": "PowerShell",
       "request": "launch",
       "name": "Discover samples",
-      "script": "DiscoverSamples.ps1",
-      "args": [
-        ""
-      ],
+      "script": "${workspaceFolder}/DiscoverSamples.ps1",
       "presentation": {
         "group": "2",
         "order": 2
