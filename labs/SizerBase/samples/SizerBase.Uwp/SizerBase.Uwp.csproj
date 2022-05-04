@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
+  <PropertyGroup>
+    <RootNamespace>SizerBase.Uwp</RootNamespace>
+    <AssemblyName>SizerBase.Uwp</AssemblyName>
+    <ProjectGuid>{1F1E15B8-C732-411C-9273-F48702E8E4E4}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj">
+      <Project>{5EFEA1FD-B8E4-4855-93CD-5874C7859B7D}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.SizerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SizerBase.Sample\SizerBase.Sample.csproj">
+      <Project>{8A9BECBF-6518-4C8B-A305-5FA62C3B1886}</Project>
+      <Name>SizerBase.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
