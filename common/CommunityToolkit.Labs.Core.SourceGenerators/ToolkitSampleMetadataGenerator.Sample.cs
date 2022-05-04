@@ -8,15 +8,15 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
 /// <summary>
-/// Crawls all referenced projects for <see cref="ToolkitSampleAttribute"/>s and generates a static method that returns metadata for each one found.
+/// Crawls all referenced projects for <see cref="ToolkitSampleAttribute"/>s and generates a static method that returns metadata for each one found. Uses markdown files to generate a listing of <see cref="ToolkitFrontMatter"/> data and an index of references samples for them.
 /// </summary>
 [Generator]
 public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
@@ -71,34 +71,45 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 .Where(static x => x.Item1 is not null)
                 .Collect();
 
+            var markdownFiles = context.AdditionalTextsProvider
+                .Where(static file => file.Path.EndsWith(".md"))
+                .Collect();
+
             var all = optionsPaneAttributes
                 .Combine(toolkitSampleAttributeData)
-                .Combine(generatedPaneOptions);
+                .Combine(generatedPaneOptions)
+                .Combine(markdownFiles);
 
             context.RegisterSourceOutput(all, (ctx, data) =>
             {
-                var toolkitSampleAttributeData = data.Left.Right.Where(x => x != default).Distinct();
-                var optionsPaneAttribute = data.Left.Left.Where(x => x != default).Distinct();
-                var generatedOptionPropertyData = data.Right.Where(x => x != default).Distinct();
+                var toolkitSampleAttributeData = data.Left.Left.Right.Where(x => x != default).Distinct();
+                var optionsPaneAttribute = data.Left.Left.Left.Where(x => x != default).Distinct();
+                var generatedOptionPropertyData = data.Left.Right.Where(x => x != default).Distinct();
+                var markdownFileData = data.Right.Where(x => x != default).Distinct();
 
                 ReportDiagnostics(ctx, toolkitSampleAttributeData, optionsPaneAttribute, generatedOptionPropertyData);
 
                 // Reconstruct sample metadata from attributes
                 var sampleMetadata = toolkitSampleAttributeData
-                     .Select(sample =>
-                        new ToolkitSampleRecord(
-                            sample.Attribute.Category,
-                            sample.Attribute.Subcategory,
-                            sample.Attribute.DisplayName,
-                            sample.Attribute.Description,
-                            sample.AttachedQualifiedTypeName,
-                            optionsPaneAttribute.FirstOrDefault(x => x.Item1?.SampleId == sample.Attribute.Id).Item2?.ToString(),
-                            generatedOptionPropertyData.Where(x => ReferenceEquals(x.Item1, sample.Symbol)).Select(x => x.Item2)
+                     .ToDictionary(
+                        sample => sample.Attribute.Id,
+                        sample =>
+                            new ToolkitSampleRecord(
+                                sample.Attribute.Id,
+                                sample.Attribute.DisplayName,
+                                sample.Attribute.Description,
+                                sample.AttachedQualifiedTypeName,
+                                optionsPaneAttribute.FirstOrDefault(x => x.Item1?.SampleId == sample.Attribute.Id).Item2?.ToString(),
+                                generatedOptionPropertyData.Where(x => ReferenceEquals(x.Item1, sample.Symbol)).Select(x => x.Item2)
                             )
                     );
 
+                //// TODO: NOTE: BUGBUG: This is currently guarding us generating duplicate document registeries based on how the SG are setup to run this Execute method twice to gather samples depending on how they're loaded.
+                //// However, that also means that if a sample only contains documentation without samples we won't load it. That shouldn't be the case currently, though makes testing more difficult.
                 if (!sampleMetadata.Any())
                     return;
+
+                DiagnoseAndGenerateDocumentRegistry(ctx, sampleMetadata, markdownFileData, toolkitSampleAttributeData);
 
                 // Build source string
                 var source = BuildRegistrationCallsFromMetadata(sampleMetadata);
@@ -214,33 +225,32 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles, item.Item1.Locations.FirstOrDefault(), item.Item2.Title));
     }
 
-    private static string BuildRegistrationCallsFromMetadata(IEnumerable<ToolkitSampleRecord> sampleMetadata)
+    private static string BuildRegistrationCallsFromMetadata(IDictionary<string, ToolkitSampleRecord> sampleMetadata)
     {
         return $@"#nullable enable
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
 public static class ToolkitSampleRegistry
 {{
-    public static System.Collections.Generic.IEnumerable<{typeof(ToolkitSampleMetadata).FullName}> Execute()
-    {{
+    public static System.Collections.Generic.Dictionary<string, {typeof(ToolkitSampleMetadata).FullName}> Listing
+    {{ get; }} = new() {{
         {
-        string.Join("\n        ", sampleMetadata.Select(MetadataToRegistryCall).ToArray())
+        string.Join(",\n        ", sampleMetadata.Select(MetadataToRegistryCall).ToArray())
     }
-    }}
+    }};
 }}";
     }
 
-    private static string MetadataToRegistryCall(ToolkitSampleRecord metadata)
+    private static string MetadataToRegistryCall(KeyValuePair<string, ToolkitSampleRecord> kvp)
     {
-        var categoryParam = $"{nameof(ToolkitSampleCategory)}.{metadata.Category}";
-        var subcategoryParam = $"{nameof(ToolkitSampleSubcategory)}.{metadata.Subcategory}";
+        var metadata = kvp.Value;
         var sampleControlTypeParam = $"typeof({metadata.SampleAssemblyQualifiedName})";
         var sampleControlFactoryParam = $"() => new {metadata.SampleAssemblyQualifiedName}()";
         var generatedSampleOptionsParam = $"new {typeof(IGeneratedToolkitSampleOptionViewModel).FullName}[] {{ {string.Join(", ", BuildNewGeneratedSampleOptionMetadataSource(metadata).ToArray())} }}";
         var sampleOptionsParam = metadata.SampleOptionsAssemblyQualifiedName is null ? "null" : $"typeof({metadata.SampleOptionsAssemblyQualifiedName})";
         var sampleOptionsPaneFactoryParam = metadata.SampleOptionsAssemblyQualifiedName is null ? "null" : $"x => new {metadata.SampleOptionsAssemblyQualifiedName}(({metadata.SampleAssemblyQualifiedName})x)";
 
-        return @$"yield return new {typeof(ToolkitSampleMetadata).FullName}({categoryParam}, {subcategoryParam}, ""{metadata.DisplayName}"", ""{metadata.Description}"", {sampleControlTypeParam}, {sampleControlFactoryParam}, {sampleOptionsParam}, {sampleOptionsPaneFactoryParam}, {generatedSampleOptionsParam});";
+        return @$"[""{kvp.Key}""] = new {typeof(ToolkitSampleMetadata).FullName}(""{metadata.Id}"", ""{metadata.DisplayName}"", ""{metadata.Description}"", {sampleControlTypeParam}, {sampleControlFactoryParam}, {sampleOptionsParam}, {sampleOptionsPaneFactoryParam}, {generatedSampleOptionsParam})";
     }
 
     private static IEnumerable<string> BuildNewGeneratedSampleOptionMetadataSource(ToolkitSampleRecord sample)

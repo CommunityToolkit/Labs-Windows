@@ -13,18 +13,14 @@ public sealed class ToolkitSampleAttribute : Attribute
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleAttribute"/>.
     /// </summary>
-    /// <param name="id">A unique identifier for this sample, used by the sample system.</param>
+    /// <param name="id">A unique identifier for this sample, used by the sample system (across all samples).</param>
     /// <param name="displayName">The display name for this sample page.</param>
-    /// <param name="category">The category that this sample belongs to.</param>
-    /// <param name="subcategory">A more specific category within the provided <see cref="Category"/>.</param>
     /// <param name="description">A short description of this sample.</param>
-    public ToolkitSampleAttribute(string id, string displayName, ToolkitSampleCategory category, ToolkitSampleSubcategory subcategory, string description)
+    public ToolkitSampleAttribute(string id, string displayName, string description)
     {
         Id = id;
         DisplayName = displayName;
         Description = description;
-        Category = category;
-        Subcategory = subcategory;
     }
 
     /// <summary>
@@ -36,16 +32,6 @@ public sealed class ToolkitSampleAttribute : Attribute
     /// The display name for this sample page.
     /// </summary>
     public string DisplayName { get; }
-
-    /// <summary>
-    /// The category that this sample belongs to.
-    /// </summary>
-    public ToolkitSampleCategory Category { get; }
-
-    /// <summary>
-    /// A more specific category within the provided <see cref="Category"/>.
-    /// </summary>
-    public ToolkitSampleSubcategory Subcategory { get; }
 
     /// <summary>
     /// A short description of this sample.
