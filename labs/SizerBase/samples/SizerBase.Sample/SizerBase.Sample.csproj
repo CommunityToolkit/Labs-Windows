@@ -20,19 +20,31 @@
     <UpToDateCheckInput Remove="obj\bin\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="SizerBase.md" />
-    <None Remove="SizerBaseFirstSamplePage.xaml" />
+    <None Remove="ContentSizer.md" />
+    <None Remove="ContentSizerLeftShelfPage.xaml" />
+    <None Remove="ContentSizerTopShelfPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Remove="SizerBaseFirstSamplePage.xaml" />
+    <UpToDateCheckInput Remove="ContentSizerLeftShelfPage.xaml" />
+    <UpToDateCheckInput Remove="ContentSizerTopShelfPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="*.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="SizerBase.md" />
+    <Content Remove="ContentSizer.md" />
+    <Content Remove="ContentSizerLeftShelfPage.xaml.cs" />
+    <Content Remove="ContentSizerTopShelfPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="ContentSizerLeftShelfPage.xaml.cs">
+      <DependentUpon>ContentSizerLeftShelfPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="ContentSizerTopShelfPage.xaml.cs">
+      <DependentUpon>ContentSizerTopShelfPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

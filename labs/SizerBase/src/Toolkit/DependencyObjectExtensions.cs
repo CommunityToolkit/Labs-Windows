@@ -13,7 +13,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 #endif
 
-namespace CommunityToolkit.WinUI.UI;
+// We want this to be private/local to our component.
+namespace CommunityToolkit.Labs.WinUI.SizerBaseLocal;
 
 //// IMPORTANT NOTE: This is the old 6.1.1 version of the extensions as I had issues with TPredicate with the new ones here for some reason and just wanted to get this working for now.
 
