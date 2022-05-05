@@ -4,8 +4,17 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
+
+//-:cnd:noEmit
+#if !WINAPPSDK
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+#else
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+#endif
+//+:cnd:noEmit
 
 namespace CommunityToolkit.Labs.WinUI
 {
