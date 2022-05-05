@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ProjectTemplate.Tests
 {
     [TestClass]
-    public class ExampleCanvasLayoutTestClass
+    public class ExampleProjectTemplateTestClass
     {
         [TestMethod]
         public void Just_an_example_test()
