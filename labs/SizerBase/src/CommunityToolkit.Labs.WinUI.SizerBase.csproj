@@ -12,4 +12,8 @@
     </Description>
     <Version>0.0.1</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Dependencies\" />
+  </ItemGroup>
 </Project>
