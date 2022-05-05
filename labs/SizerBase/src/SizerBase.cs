@@ -119,6 +119,10 @@ public abstract partial class SizerBase : Control
 
         // Trigger initial state transition based on if we're Enabled or not currently.
         SizerBase_IsEnabledChanged(this, null!);
+#if WINAPPSDK
+        // On WinAppSDK, we'll trigger this to setup the initial ProtectedCursor value.
+        OnOrientationPropertyChanged(this, null!);
+#endif
     }
 
     private void SizerBase_Loaded(object sender, RoutedEventArgs e)
