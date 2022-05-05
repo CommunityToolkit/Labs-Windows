@@ -26,14 +26,13 @@ using Microsoft.UI.Xaml.Navigation;
 #endif
 
 
-namespace SizerBase.Sample
+namespace SizerBase.Sample;
+
+[ToolkitSample(id: nameof(ContentSizerTopShelfPage), "Top Shelf", description: "Shows how to create an expandable shelf on the top of your app.")]
+public sealed partial class ContentSizerTopShelfPage : Page
 {
-    [ToolkitSample(id: nameof(ContentSizerTopShelfPage), "Top Shelf", description: "Shows how to create an expandable shelf on the top of your app.")]
-    public sealed partial class ContentSizerTopShelfPage : Page
+    public ContentSizerTopShelfPage()
     {
-        public ContentSizerTopShelfPage()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

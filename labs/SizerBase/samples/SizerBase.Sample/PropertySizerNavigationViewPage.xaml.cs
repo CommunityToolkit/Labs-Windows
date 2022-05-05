@@ -25,13 +25,12 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #endif
 
-
 namespace SizerBase.Sample;
 
-[ToolkitSample(id: nameof(ContentSizerLeftShelfPage), "Left-side Shelf", description: "Shows how to create an expandable shelf on the left-side of your app.")]
-public sealed partial class ContentSizerLeftShelfPage : Page
+[ToolkitSample(id: nameof(PropertySizerNavigationViewPage), "NavigationView Shelf", description: "Shows how to create an expandable shelf using a NavigationView and PropertySizer.")]
+public sealed partial class PropertySizerNavigationViewPage : Page
 {
-    public ContentSizerLeftShelfPage()
+    public PropertySizerNavigationViewPage()
     {
         this.InitializeComponent();
     }

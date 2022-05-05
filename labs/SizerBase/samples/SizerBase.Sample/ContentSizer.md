@@ -2,7 +2,7 @@
 title: ContentSizer
 author: mhawker
 description: The ContentSizer is a control which can be used to resize any element, usually its parent.
-keywords: SizerBase, Control, Layout
+keywords: ContentSizer, SizerBase, Control, Layout, Expander
 dev_langs:
   - csharp
 category: Controls
@@ -22,7 +22,7 @@ The ContentSizer is a control which can be used to resize any element, usually i
 
 # Examples 
 
-The main use-case for a ContentSizer is to create an exapandable shelf for your application. This allows the `Expander` itself to remember its opening/closing sizes.
+The main use-case for a ContentSizer is to create an expandable shelf for your application. This allows the `Expander` itself to remember its opening/closing sizes.
 
 A GridSplitter would be insufficient as it would force the grid to remember the row size and maintain its position when the `Expander` collapses.
 
