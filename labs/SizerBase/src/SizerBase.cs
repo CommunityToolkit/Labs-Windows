@@ -92,6 +92,11 @@ public abstract partial class SizerBase : Control
         return new SizerAutomationPeer(this);
     }
 
+#if WINAPPSDK
+    // Used to track when we're in the OnApplyTemplateStep to change ProtectedCursor value.
+    private bool _applyingTemplate = false;
+#endif
+
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
@@ -121,6 +126,7 @@ public abstract partial class SizerBase : Control
         SizerBase_IsEnabledChanged(this, null!);
 #if WINAPPSDK
         // On WinAppSDK, we'll trigger this to setup the initial ProtectedCursor value.
+        _applyingTemplate = true;
         OnOrientationPropertyChanged(this, null!);
 #endif
     }

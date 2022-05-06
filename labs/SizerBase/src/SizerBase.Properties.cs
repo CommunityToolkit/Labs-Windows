@@ -102,13 +102,17 @@ public partial class SizerBase : Control
         {
             gripper._cursorToUse = gripper.Orientation == Orientation.Vertical ? CursorEnum.SizeWestEast : CursorEnum.SizeNorthSouth;
 #if WINAPPSDK
-            var cursor = gripper.ReadLocalValue(CursorProperty);
-            if (cursor == DependencyProperty.UnsetValue)
+            // Need to wait until we're at least applying template step of loading before setting Cursor
+            // See https://github.com/microsoft/microsoft-ui-xaml/issues/7062
+            if (gripper._applyingTemplate)
             {
-                cursor = gripper._cursorToUse;
+                var cursor = gripper.ReadLocalValue(CursorProperty);
+                if (cursor == DependencyProperty.UnsetValue)
+                {
+                    cursor = gripper._cursorToUse;
+                }
+                gripper.ProtectedCursor = InputSystemCursor.Create(gripper._cursorToUse);
             }
-            var scursor = InputSystemCursor.Create(gripper._cursorToUse);
-            gripper.ProtectedCursor = scursor;
 #else
             // On UWP, we use the extension in XAML to control this behavior, so we'll update it here.
             gripper.Cursor = gripper._cursorToUse;
