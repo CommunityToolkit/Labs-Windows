@@ -48,7 +48,8 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
         Execute(symbolsInExecutingAssembly, skipRegistry: true);
 
         // Only generate the registry (project head)
-        // Skip diagnostics for symbols in referenced assemblies. They can only be placed on symbols in the executing assembly, and should only run once anyway.
+        // Skip diagnostics for symbols in referenced assemblies. We can't place diagnostics here even if we tried,
+        // and running diagnostics here will cause errors when executing in the sample project, due to not finding and sample metadata in referenced symbols.
         Execute(symbolsInReferencedAssemblies, skipDiagnostics: true);
 
         void Execute(IncrementalValuesProvider<ISymbol> types, bool skipDiagnostics = false, bool skipRegistry = false)
