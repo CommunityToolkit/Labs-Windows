@@ -127,8 +127,9 @@ public abstract partial class SizerBase : Control
 #if WINAPPSDK
         // On WinAppSDK, we'll trigger this to setup the initial ProtectedCursor value.
         _applyingTemplate = true;
-        OnOrientationPropertyChanged(this, null!);
 #endif
+        // On UWP, we'll check the current Orientation and set the Cursor property to use here still.
+        OnOrientationPropertyChanged(this, null!);
     }
 
     private void SizerBase_Loaded(object sender, RoutedEventArgs e)

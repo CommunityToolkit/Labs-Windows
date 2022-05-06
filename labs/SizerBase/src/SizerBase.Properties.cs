@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Core;
-
 #if !WINAPPSDK
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,8 +20,6 @@ namespace CommunityToolkit.Labs.WinUI;
 /// </summary>
 public partial class SizerBase : Control
 {
-    private CursorEnum _cursorToUse = CursorEnum.SizeWestEast;
-
     /// <summary>
     /// Gets or sets the cursor to use when hovering over the gripper bar. If left as <c>null</c>, the control will manage the cursor automatically based on the <see cref="Orientation"/> property value.
     /// </summary>
@@ -37,7 +33,7 @@ public partial class SizerBase : Control
     /// Identifies the <see cref="Cursor"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty CursorProperty =
-        DependencyProperty.Register(nameof(Cursor), typeof(CursorEnum), typeof(SizerBase), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(Cursor), typeof(CursorEnum), typeof(SizerBase), new PropertyMetadata(null, OnOrientationPropertyChanged));
 
     /// <summary>
     /// Gets or sets the incremental amount of change for draging with the mouse or touch of a sizer control. Effectively a snapping increment for changes. The default is 1.
@@ -100,22 +96,34 @@ public partial class SizerBase : Control
     {
         if (d is SizerBase gripper)
         {
-            gripper._cursorToUse = gripper.Orientation == Orientation.Vertical ? CursorEnum.SizeWestEast : CursorEnum.SizeNorthSouth;
+            CursorEnum cursorToUse = gripper.Orientation == Orientation.Vertical ? CursorEnum.SizeWestEast : CursorEnum.SizeNorthSouth;
+
+            // See if there's been a cursor override, otherwise we'll pick
+            var cursor = gripper.ReadLocalValue(CursorProperty);
+            if (cursor == DependencyProperty.UnsetValue || cursor == null)
+            {
+                cursor = cursorToUse;
+
+                // On UWP, we use the extension in XAML to control this behavior,
+                // so we'll update it here (and maintain binding).
+                // We'll keep it in-sync to maintain behavior for WinUI 3 as well.
+                gripper.SetValue(CursorProperty, cursor);
+
+                // We return here, as the Cursor will trigger this function again anyway to set for WinUI 3
+                return;
+            }
+
 #if WINAPPSDK
             // Need to wait until we're at least applying template step of loading before setting Cursor
             // See https://github.com/microsoft/microsoft-ui-xaml/issues/7062
-            if (gripper._applyingTemplate)
+            if (gripper._applyingTemplate &&
+                cursor is CursorEnum cursorToSet &&
+                (gripper.ProtectedCursor == null ||
+                    (gripper.ProtectedCursor is InputSystemCursor current &&
+                     current.CursorShape != cursorToSet)))
             {
-                var cursor = gripper.ReadLocalValue(CursorProperty);
-                if (cursor == DependencyProperty.UnsetValue)
-                {
-                    cursor = gripper._cursorToUse;
-                }
-                gripper.ProtectedCursor = InputSystemCursor.Create(gripper._cursorToUse);
+                gripper.ProtectedCursor = InputSystemCursor.Create(cursorToSet);
             }
-#else
-            // On UWP, we use the extension in XAML to control this behavior, so we'll update it here.
-            gripper.Cursor = gripper._cursorToUse;
 #endif
         }
     }
