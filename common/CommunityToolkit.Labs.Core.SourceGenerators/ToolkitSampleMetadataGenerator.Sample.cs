@@ -49,7 +49,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
 
         // Only generate the registry (project head)
         // Skip diagnostics for symbols in referenced assemblies. We can't place diagnostics here even if we tried,
-        // and running diagnostics here will cause errors when executing in the sample project, due to not finding and sample metadata in referenced symbols.
+        // and running diagnostics here will cause errors when executing in the sample project, due to not finding sample metadata in the provided symbols.
         Execute(symbolsInReferencedAssemblies, skipDiagnostics: true);
 
         void Execute(IncrementalValuesProvider<ISymbol> types, bool skipDiagnostics = false, bool skipRegistry = false)
@@ -124,10 +124,6 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
 
                 if (!isExecutingInSampleProject && !skipRegistry)
                 {
-                    // TODO: Document registry isn't being generated.
-                    // It needs to be generated only once on the head
-                    // it was previously being generated once in the one sample project we had.
-                    // Now it's being generated in the head, but we don't have access to the markdown files in referenced assemblies (yet).
                     CreateDocumentRegistry(ctx, docFrontMatter);
                     CreateSampleRegistry(ctx, sampleMetadata);
                 }
