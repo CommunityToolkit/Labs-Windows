@@ -24,9 +24,6 @@
     <None Remove="ProjectTemplateFirstSamplePage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Remove="ProjectTemplateFirstSamplePage.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <AdditionalFiles Include="*.md" />
   </ItemGroup>
   <ItemGroup>
