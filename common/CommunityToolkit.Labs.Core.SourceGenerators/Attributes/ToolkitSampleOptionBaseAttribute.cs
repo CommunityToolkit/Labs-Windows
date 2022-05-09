@@ -6,7 +6,6 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 /// <summary>
 /// Represents an abstraction of a sample option that the user can manipulate and the XAML can bind to.
 /// </summary>
-[Conditional("COMMUNITYTOOLKIT_KEEP_SAMPLE_ATTRIBUTES")]
 public abstract class ToolkitSampleOptionBaseAttribute : Attribute
 {
     /// <summary>

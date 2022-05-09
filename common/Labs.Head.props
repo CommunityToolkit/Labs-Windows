@@ -42,7 +42,7 @@
     <Content Include="$(RepositoryDirectory)template\**\samples\*.Sample\**\*.cs" Exclude="$(RepositoryDirectory)template\**\samples\*.Sample\obj\**\*.cs;$(RepositoryDirectory)template\**\samples\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
   
     <!-- Include markdown files from al lsamples so the head can access them in the source generator -->
-    <AdditionalFiles Include="$(RepositoryDirectory)template\**\samples\*.Sample\**\*.md"/>  
+    <AdditionalFiles Include="$(RepositoryDirectory)template\**\samples\*.Sample\**\*.md" Exclude="$(RepositoryDirectory)template\**\samples\*.Sample\obj\**\*.md;$(RepositoryDirectory)template\**\samples\*.Sample\bin\**\*.md"/>  
   </ItemGroup>
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>

@@ -10,7 +10,6 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 /// Using this attribute will automatically generate an <see cref="INotifyPropertyChanged"/>-enabled property
 /// that you can bind to in XAML, and displays an options pane alonside your sample which allows the user to manipulate the property.
 /// </remarks>
-[Conditional("COMMUNITYTOOLKIT_KEEP_SAMPLE_ATTRIBUTES")]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public sealed class ToolkitSampleBoolOptionAttribute : ToolkitSampleOptionBaseAttribute
 {

@@ -11,7 +11,6 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 /// that you can bind to in XAML, and displays an options pane alonside your sample which allows the user to manipulate the property.
 /// <para/>
 /// </remarks>
-[Conditional("COMMUNITYTOOLKIT_KEEP_SAMPLE_ATTRIBUTES")]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public sealed class ToolkitSampleMultiChoiceOptionAttribute : ToolkitSampleOptionBaseAttribute
 {

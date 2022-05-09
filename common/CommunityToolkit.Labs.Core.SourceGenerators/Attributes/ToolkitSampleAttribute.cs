@@ -6,7 +6,6 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 /// <summary>
 /// Registers a control as a toolkit sample using the provided data.
 /// </summary>
-[Conditional("COMMUNITYTOOLKIT_KEEP_SAMPLE_ATTRIBUTES")]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public sealed class ToolkitSampleAttribute : Attribute
 {

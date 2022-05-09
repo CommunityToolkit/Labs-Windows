@@ -199,14 +199,12 @@ public partial class ToolkitSampleMetadataGenerator
 
     private void CreateDocumentRegistry(SourceProductionContext ctx, ImmutableArray<ToolkitFrontMatter> matter)
     {
-
-        if (matter.Length > 0)
-        {
-            var source = BuildRegistrationCallsFromDocuments(matter);
-            ctx.AddSource($"ToolkitDocumentRegistry.g.cs", source);
-        }
-
         // TODO: Emit a better error that no documentation is here?
+        if (matter.Length == 0)
+            return;
+        
+        var source = BuildRegistrationCallsFromDocuments(matter);
+        ctx.AddSource($"ToolkitDocumentRegistry.g.cs", source);
     }
 
     private static string BuildRegistrationCallsFromDocuments(IEnumerable<ToolkitFrontMatter> sampleMetadata)

@@ -58,25 +58,31 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             var allAttributeData = types.SelectMany(static (sym, _) => sym.GetAttributes().Select(x => (sym, x)));
 
             // Find and reconstruct generated pane option attributes + the original type symbol.
-            var generatedPaneOptions = allAttributeData.Select(static (x, _) =>
-            {
-                if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
-                    return (x.Item1, (ToolkitSampleOptionBaseAttribute)boolOptionAttribute);
+            var generatedPaneOptions = allAttributeData
+                .Select(static (x, _) =>
+                {
+                    if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
+                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)boolOptionAttribute);
 
-                if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
-                    return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
+                    if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
+                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
 
-                return default;
-            }).Collect();
+                    return default;
+                })
+                .Where(static x => x != default)
+                .Collect();
 
             // Find and reconstruct sample attributes
-            var toolkitSampleAttributeData = allAttributeData.Select(static (data, _) =>
-            {
-                if (data.Item2.TryReconstructAs<ToolkitSampleAttribute>() is ToolkitSampleAttribute sampleAttribute)
-                    return (Attribute: sampleAttribute, AttachedQualifiedTypeName: data.Item1.ToString(), Symbol: data.Item1);
+            var toolkitSampleAttributeData = allAttributeData
+                .Select(static (data, _) =>
+                {
+                    if (data.Item2.TryReconstructAs<ToolkitSampleAttribute>() is ToolkitSampleAttribute sampleAttribute)
+                        return (Attribute: sampleAttribute, AttachedQualifiedTypeName: data.Item1.ToString(), Symbol: data.Item1);
 
-                return default;
-            }).Collect();
+                    return default;
+                })
+                .Where(static x => x != default)
+                .Collect();
 
             var optionsPaneAttributes = allAttributeData
                 .Select(static (x, _) => (x.Item2.TryReconstructAs<ToolkitSampleOptionsPaneAttribute>(), x.Item1))
@@ -133,6 +139,10 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
 
     private static void CreateSampleRegistry(SourceProductionContext ctx, Dictionary<string, ToolkitSampleRecord> sampleMetadata)
     {
+        // TODO: Emit a better error that no samples are here?
+        if (sampleMetadata.Count == 0)
+            return;
+
         var source = BuildRegistrationCallsFromMetadata(sampleMetadata);
         ctx.AddSource($"ToolkitSampleRegistry.g.cs", source);
     }
