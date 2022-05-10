@@ -1,7 +1,6 @@
 $curDir = Get-Location
 
-Get-ChildItem -Path $curDir 
- -Attributes Directory |
+Get-ChildItem -Path $curDir -Attributes Directory |
 
 ForEach-Object {
 
