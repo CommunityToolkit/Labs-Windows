@@ -43,6 +43,10 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
 
+      - name: Enable all TargetFrameworks
+        working-directory: ./common/Scripts/
+        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 all" -ErrorAction Stop
+
       - name: Generate solution
         run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
 
@@ -109,6 +113,10 @@ jobs:
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
+
+      - name: Enable all TargetFrameworks
+        working-directory: ./common/Scripts/
+        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 all" -ErrorAction Stop
 
       - name: Generate solution
         run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
