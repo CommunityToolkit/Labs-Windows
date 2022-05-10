@@ -48,10 +48,12 @@ public partial class SizerBase
             var horizontalChange = KeyboardIncrement;
 
             // Important: adjust for RTL language flow settings and invert horizontal axis
+#if !HAS_UNO
             if (this.FlowDirection == FlowDirection.RightToLeft)
             {
                 horizontalChange *= -1;
             }
+#endif
 
             if (e.Key == Windows.System.VirtualKey.Left)
             {
@@ -95,10 +97,12 @@ public partial class SizerBase
             Math.Truncate(e.Cumulative.Translation.Y / DragIncrement) * DragIncrement;
 
         // Important: adjust for RTL language flow settings and invert horizontal axis
+#if !HAS_UNO
         if (this.FlowDirection == FlowDirection.RightToLeft)
         {
             horizontalChange *= -1;
         }
+#endif
 
         if (Orientation == Orientation.Vertical)
         {

@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace SizerBase.Tests
 {
     [TestClass]
-    public class ExampleCanvasLayoutTestClass
+    public class ExampleSizerBaseTestClass
     {
         [TestMethod]
         public void Just_an_example_test()
