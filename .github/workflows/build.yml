@@ -47,11 +47,6 @@ jobs:
         working-directory: ./common/Scripts/
         run: ./UseTargetFrameworks.ps1 all
 
-      # Build and use template for creating new experiments
-      - name: Build ProjectTemplate
-        working-directory: ./template/lab
-        run: msbuild.exe ProjectTemplate.sln /restore -p:Configuration=Debug
-
       - name: Generate solution
         run: ./GenerateAllSolution.ps1
 
@@ -122,11 +117,6 @@ jobs:
       - name: Enable all TargetFrameworks
         working-directory: ./common/Scripts/
         run: ./UseTargetFrameworks.ps1 all
-
-      # Build and use template for creating new experiments
-      - name: Build ProjectTemplate
-        working-directory: ./template/lab
-        run: msbuild.exe ProjectTemplate.sln /restore -p:Configuration=Debug
 
       - name: Generate solution
         run: ./GenerateAllSolution.ps1
@@ -214,6 +204,12 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
 
+      # Build and use template for creating new experiments
+      - name: Build ProjectTemplate
+        working-directory: ./template/lab
+        run: msbuild.exe ProjectTemplate.sln /restore -p:Configuration=Debug
+
+      # Create a new experiment from the template and test using that
       - name: Install template
         working-directory: ./template/lab
         run: dotnet new --install ./
