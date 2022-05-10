@@ -43,15 +43,8 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
 
-      - name: Set PowerShell Version
-        run: powershell -version 5.1
-
-      - name: Enable all TargetFrameworks
-        working-directory: ./common/Scripts/
-        run: ./UseTargetFrameworks.ps1 all
-
       - name: Generate solution
-        run: ./GenerateAllSolution.ps1
+        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1"
 
       - name: MSBuild
       # working-directory: ./
@@ -117,19 +110,12 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
 
-      - name: Set PowerShell Version
-        run: powershell -version 5.1
-
-      - name: Enable all TargetFrameworks
-        working-directory: ./common/Scripts/
-        run: ./UseTargetFrameworks.ps1 all
-
       - name: Generate solution
-        run: ./GenerateAllSolution.ps1
+        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1"
 
       - name: Enable WinUI 3
         working-directory: ./common/Scripts/
-        run: ./UseUnoWinUI.ps1 3
+        run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3"
 
       - name: MSBuild
        # working-directory: ./
@@ -186,15 +172,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set PowerShell Version
-        run: powershell -version 5.1
-
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
         run: dotnet tool restore
 
       - name: Check XAML Styling
-        run: ./ApplyXamlStyling.ps1 -Passive
+        run: powershell -version 5.1 -command "./ApplyXamlStyling.ps1 -Passive"
 
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   experiment:
