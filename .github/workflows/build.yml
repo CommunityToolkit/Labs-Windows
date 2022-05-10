@@ -45,10 +45,10 @@ jobs:
 
       - name: Enable all TargetFrameworks
         working-directory: ./common/Scripts/
-        run: ./UseTargetFrameworks.ps1 all
+        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 all" -ErrorAction Stop
 
       - name: Generate solution
-        run: ./GenerateAllSolution.ps1
+        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
 
       - name: MSBuild
       # working-directory: ./
@@ -116,14 +116,14 @@ jobs:
 
       - name: Enable all TargetFrameworks
         working-directory: ./common/Scripts/
-        run: ./UseTargetFrameworks.ps1 all
+        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 all" -ErrorAction Stop
 
       - name: Generate solution
-        run: ./GenerateAllSolution.ps1
+        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
 
       - name: Enable WinUI 3
         working-directory: ./common/Scripts/
-        run: ./UseUnoWinUI.ps1 3
+        run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3" -ErrorAction Stop
 
       - name: MSBuild
        # working-directory: ./
@@ -185,7 +185,7 @@ jobs:
         run: dotnet tool restore
 
       - name: Check XAML Styling
-        run: ./ApplyXamlStyling.ps1 -Passive
+        run: powershell -version 5.1 -command "./ApplyXamlStyling.ps1 -Passive" -ErrorAction Stop
 
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   experiment:

@@ -26,12 +26,12 @@ function CreateVsCodeLaunchConfigJson {
       `"/p:UnoRemoteControlPort=443`",
       `"--project=`$`{workspaceFolder`}/labs/$projectName/samples/$projectName.Wasm/$projectName.Wasm.csproj`",
       `"-p:TargetFrameworks=netstandard2.0`",
-      `"-p:TargetFramework=net5.0`",
+      `"-p:TargetFramework=net5.0`"
     ],
     `"presentation`": {
-      `"group`": `"2`",
+      `"group`": `"2`"
     },
-    `"cwd`": `"`$`{workspaceFolder`}/labs/$projectName/samples/$projectName.Wasm`",
+    `"cwd`": `"`$`{workspaceFolder`}/labs/$projectName/samples/$projectName.Wasm`"
   }";
 }
 
