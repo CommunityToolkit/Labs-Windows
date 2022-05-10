@@ -31,7 +31,7 @@
     <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.cs" Exclude="$(RepositoryDirectory)labs\**\samples\*.Sample\obj\**\*.cs;$(RepositoryDirectory)labs\**\samples\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
     
     <!-- Include markdown files from al lsamples so the head can access them in the source generator -->
-    <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.md"/>
+    <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.md"  Exclude="$(RepositoryDirectory)labs\**\samples\*.Sample\obj\**\*.md;$(RepositoryDirectory)labs\**\samples\*.Sample\bin\**\*.md"/>
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.Contains('ProjectTemplate'))">
     <!-- These are also included in Labs.Samples.props, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
