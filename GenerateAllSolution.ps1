@@ -1,3 +1,5 @@
+#Requires -PSEdition Core
+
 Param (
     [Parameter(HelpMessage = "The WinUI version to use when building an Uno head.", ParameterSetName = "UseUnoWinUI")]
     [ValidateSet('2', '3')]
