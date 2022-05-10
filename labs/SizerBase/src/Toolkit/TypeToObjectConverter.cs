@@ -17,6 +17,7 @@ namespace CommunityToolkit.Labs.WinUI.SizerBaseLocal;
 /// <summary>
 /// This class returns an object or another, depending on whether the type of the provided value matches another provided Type.
 /// </summary>
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "Internal Uno Generator Issue: https://github.com/unoplatform/uno/pull/8743")]
 public partial class TypeToObjectConverter : DependencyObject, IValueConverter
 {
     /// <summary>

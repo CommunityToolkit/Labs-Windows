@@ -19,6 +19,7 @@ namespace CommunityToolkit.Labs.WinUI.SizerBaseLocal;
 /// <summary>
 /// This class returns a value depending on the <see cref="Orientation"/> of the value provided to the converter. In case of default will return the <see cref="VerticalValue"/>.
 /// </summary>
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "Internal Uno Generator Issue: https://github.com/unoplatform/uno/pull/8743")]
 public partial class OrientationToObjectConverter : DependencyObject, IValueConverter
 {
     /// <summary>
