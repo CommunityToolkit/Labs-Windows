@@ -31,7 +31,7 @@ function CreateProjectConfiguration {
 	param (
 		[string]$projectGuid
 	)
-    
+
 	# Solution files are VERY picky about the unicode characters used as newlines and tabs.
 	# These characters act strange when paired next to characters found in ASCII, so we append
 	# as separate strings.
@@ -162,14 +162,14 @@ function AddProjectsToSolution {
 
 	$projectPath = Resolve-Path -Relative -Path $projectPath;
 	$projectName = [System.IO.Path]::GetFileNameWithoutExtension($projectPath);
-    
+
 	$sampleFolderGuid = GetFolderGuid $solutionTemplate $solutionFolder;
 
 	Write-Host "Adding $projectName to solution folder $solutionFolder";
 
 	$definition = CreateProjectDefinition $projectTypeGuid $projectGuid $projectName $projectPath;
-    
-	$templateContents = $templateContents -replace [regex]::escape($templatedProjectDefinitionsMarker), ($templatedProjectDefinitionsMarker + $definition); 
+
+	$templateContents = $templateContents -replace [regex]::escape($templatedProjectDefinitionsMarker), ($templatedProjectDefinitionsMarker + $definition);
 
 	if (-not $omitConfiguration) {
 		$configuration = CreateProjectConfiguration $projectGuid;
@@ -188,12 +188,12 @@ Write-Output "Loaded solution template from $solutionTemplatePath";
 
 # Add sample projects
 foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sample/*.Sample.csproj') {
-	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $sampleProjectTypeGuid "Samples" 
+	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $sampleProjectTypeGuid "Samples"
 }
 
 # Add library projects
 foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/src/*.csproj') {
-	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $libProjectTypeGuid "Library" 
+	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $libProjectTypeGuid "Library"
 }
 
 # Add shared test projects
@@ -212,10 +212,10 @@ foreach ($sharedProjectItemsPath in Get-ChildItem -Recurse -Path 'labs/*/tests/*
 	$projectGuid = $regex.Matches.Groups[1].Value;
 
 	$sharedProjectItemsPath = Resolve-Path -Relative -Path $sharedProjectItemsPath;
-	
+
 	$sharedProjectPath = $sharedProjectItemsPath -replace "projitems", "shproj";
 	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sharedProjectPath $sharedProjectTypeGuid "Experiments" $projectGuid.ToUpper() $true;
-	
+
 	$sharedProjectItemsName = [System.IO.Path]::GetFileNameWithoutExtension($sharedProjectItemsPath);
 
 	Write-Output "Linking $sharedProjectItemsName.projitems to $sharedProjectItemsName";
@@ -225,7 +225,7 @@ foreach ($sharedProjectItemsPath in Get-ChildItem -Recurse -Path 'labs/*/tests/*
 	Write-Output "Linking $sharedProjectItemsName.projitems to CommunityToolkit.Labs.UnitTests.Uwp";
 	$uwpSharedProjectDefinition = CreateSharedProjectDefinition "fd78002e-c4e6-4bf8-9ec3-c06250dfef34" $sharedProjectItemsPath "4"
 	$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestUwpProjectSelfDefinitionsMarker), ($templatedSharedTestUwpProjectSelfDefinitionsMarker + $uwpSharedProjectDefinition);
-	
+
 	Write-Output "Linking $sharedProjectItemsName.projitems to CommunityToolkit.Labs.UnitTests.WinAppSdk";
 	$winAppSdkSharedProjectDefinition = CreateSharedProjectDefinition "53892f07-fe54-4e36-81d8-105427d097e5" $sharedProjectItemsPath "5"
 	$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker), ($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker + $winAppSdkSharedProjectDefinition);
