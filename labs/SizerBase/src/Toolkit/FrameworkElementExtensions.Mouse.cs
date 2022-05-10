@@ -82,6 +82,7 @@ public static partial class FrameworkElementExtensions
 #endif
     }
 
+#if !WINAPPSDK
     private static void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         // TODO [UNO] Only supported on certain platforms
@@ -117,4 +118,5 @@ public static partial class FrameworkElementExtensions
         Window.Current.CoreWindow.PointerCursor = _defaultCursor;
 #endif
     }
+#endif
 }
