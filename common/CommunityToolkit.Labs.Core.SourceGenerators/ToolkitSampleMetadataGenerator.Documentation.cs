@@ -37,16 +37,14 @@ public partial class ToolkitSampleMetadataGenerator
     private const string MarkdownRegexSampleTagExpression = @"^>\s*\[!SAMPLE\s*(?<sampleid>.*)\s*\]\s*$";
     private static readonly Regex MarkdownRegexSampleTag = new Regex(MarkdownRegexSampleTagExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-    private void DiagnoseAndGenerateDocumentRegistry(SourceProductionContext ctx, Dictionary<string, ToolkitSampleRecord> sampleMetadata, IEnumerable<AdditionalText> markdownFileData, IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData)
+    private static void ReportDocumentDiagnostics(SourceProductionContext ctx, Dictionary<string, ToolkitSampleRecord> sampleMetadata, IEnumerable<AdditionalText> markdownFileData, IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData, ImmutableArray<ToolkitFrontMatter> docFrontMatter)
     {
         // Keep track of all sample ids and remove them as we reference them so we know if we have any unreferenced samples.
         var sampleIdReferences = sampleMetadata.Keys.ToList();
 
-        var docFrontMatter = GatherDocumentFrontMatter(ctx, markdownFileData);
-
         foreach (var matter in docFrontMatter)
         {
-            foreach (var id in matter.SampleIdReferences!)
+            foreach (var id in matter.SampleIdReferences ?? Enumerable.Empty<string>())
             {
                 if (!sampleMetadata.ContainsKey(id))
                 {
@@ -66,8 +64,6 @@ public partial class ToolkitSampleMetadataGenerator
                 }
             }
         }
-
-        AddDocuments(ctx, docFrontMatter);
 
         // Emit warnings for any unreferenced samples
         foreach (var id in sampleIdReferences)
@@ -147,7 +143,7 @@ public partial class ToolkitSampleMetadataGenerator
                 }
 
                 // Get the filepath we need to be able to load the markdown file in sample app.
-                var filepath = file.Path.Split(new string[] { @"\labs\", "/labs/" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+                var filepath = file.Path.Split(new string[] { @"\labs\", "/labs/", @"\template\", "/template/" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
 
                 // Look for sample id tags
                 var matches = MarkdownRegexSampleTag.Matches(content);
@@ -201,15 +197,14 @@ public partial class ToolkitSampleMetadataGenerator
         return match.Groups[fieldname].Value.Trim();
     }
 
-    private void AddDocuments(SourceProductionContext ctx, ImmutableArray<ToolkitFrontMatter> matter)
+    private void CreateDocumentRegistry(SourceProductionContext ctx, ImmutableArray<ToolkitFrontMatter> matter)
     {
-        if (matter.Length > 0)
-        {
-            var source = BuildRegistrationCallsFromDocuments(matter);
-            ctx.AddSource($"ToolkitDocumentRegistry.g.cs", source);
-        }
-
         // TODO: Emit a better error that no documentation is here?
+        if (matter.Length == 0)
+            return;
+        
+        var source = BuildRegistrationCallsFromDocuments(matter);
+        ctx.AddSource($"ToolkitDocumentRegistry.g.cs", source);
     }
 
     private static string BuildRegistrationCallsFromDocuments(IEnumerable<ToolkitFrontMatter> sampleMetadata)

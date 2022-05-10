@@ -367,7 +367,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 select reference;
 
             var compilation = CSharpCompilation.Create(
-                "original",
+                "original.Sample",
                 new[] { syntaxTree },
                 references,
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));

@@ -24,70 +24,86 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var classes = context.SyntaxProvider
+        var symbolsInExecutingAssembly = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (s, _) => s is ClassDeclarationSyntax c && c.AttributeLists.Count > 0,
                 static (ctx, _) => ctx.SemanticModel.GetDeclaredSymbol(ctx.Node))
             .Where(static m => m is not null)
             .Select(static (x, _) => x!);
 
-        var referencedTypes = context.CompilationProvider
+        var symbolsInReferencedAssemblies = context.CompilationProvider
                               .SelectMany((x, _) => x.SourceModule.ReferencedAssemblySymbols)
                               .SelectMany((asm, _) => asm.GlobalNamespace.CrawlForAllNamedTypes())
                               .Where(x => x.TypeKind == TypeKind.Class && x.CanBeReferencedByName)
                               .Select((x, _) => (ISymbol)x);
 
-        Execute(classes);
-        Execute(referencedTypes);
+        var markdownFiles = context.AdditionalTextsProvider
+            .Where(static file => file.Path.EndsWith(".md"))
+            .Collect();
 
-        void Execute(IncrementalValuesProvider<ISymbol> types)
+        var assemblyName = context.CompilationProvider.Select((x, _) => x.Assembly.Name);
+
+        // Only generate diagnostics (sample projects)
+        // Skip creating the registry for symbols in the executing assembly. This would place an incomplete registry in each sample project and cause compiler erorrs.
+        Execute(symbolsInExecutingAssembly, skipRegistry: true);
+
+        // Only generate the registry (project head)
+        // Skip diagnostics for symbols in referenced assemblies. We can't place diagnostics here even if we tried,
+        // and running diagnostics here will cause errors when executing in the sample project, due to not finding sample metadata in the provided symbols.
+        Execute(symbolsInReferencedAssemblies, skipDiagnostics: true);
+
+        void Execute(IncrementalValuesProvider<ISymbol> types, bool skipDiagnostics = false, bool skipRegistry = false)
         {
             // Get all attributes + the original type symbol.
             var allAttributeData = types.SelectMany(static (sym, _) => sym.GetAttributes().Select(x => (sym, x)));
 
             // Find and reconstruct generated pane option attributes + the original type symbol.
-            var generatedPaneOptions = allAttributeData.Select(static (x, _) =>
-            {
-                if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
-                    return (x.Item1, (ToolkitSampleOptionBaseAttribute)boolOptionAttribute);
+            var generatedPaneOptions = allAttributeData
+                .Select(static (x, _) =>
+                {
+                    if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
+                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)boolOptionAttribute);
 
-                if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
-                    return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
+                    if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
+                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
 
-                return default;
-            }).Collect();
+                    return default;
+                })
+                .Where(static x => x != default)
+                .Collect();
 
             // Find and reconstruct sample attributes
-            var toolkitSampleAttributeData = allAttributeData.Select(static (data, _) =>
-            {
-                if (data.Item2.TryReconstructAs<ToolkitSampleAttribute>() is ToolkitSampleAttribute sampleAttribute)
-                    return (Attribute: sampleAttribute, AttachedQualifiedTypeName: data.Item1.ToString(), Symbol: data.Item1);
+            var toolkitSampleAttributeData = allAttributeData
+                .Select(static (data, _) =>
+                {
+                    if (data.Item2.TryReconstructAs<ToolkitSampleAttribute>() is ToolkitSampleAttribute sampleAttribute)
+                        return (Attribute: sampleAttribute, AttachedQualifiedTypeName: data.Item1.ToString(), Symbol: data.Item1);
 
-                return default;
-            }).Collect();
+                    return default;
+                })
+                .Where(static x => x != default)
+                .Collect();
 
             var optionsPaneAttributes = allAttributeData
                 .Select(static (x, _) => (x.Item2.TryReconstructAs<ToolkitSampleOptionsPaneAttribute>(), x.Item1))
                 .Where(static x => x.Item1 is not null)
                 .Collect();
 
-            var markdownFiles = context.AdditionalTextsProvider
-                .Where(static file => file.Path.EndsWith(".md"))
-                .Collect();
-
             var all = optionsPaneAttributes
                 .Combine(toolkitSampleAttributeData)
                 .Combine(generatedPaneOptions)
-                .Combine(markdownFiles);
+                .Combine(markdownFiles)
+                .Combine(assemblyName);
 
             context.RegisterSourceOutput(all, (ctx, data) =>
             {
-                var toolkitSampleAttributeData = data.Left.Left.Right.Where(x => x != default).Distinct();
-                var optionsPaneAttribute = data.Left.Left.Left.Where(x => x != default).Distinct();
-                var generatedOptionPropertyData = data.Left.Right.Where(x => x != default).Distinct();
-                var markdownFileData = data.Right.Where(x => x != default).Distinct();
+                var toolkitSampleAttributeData = data.Left.Left.Left.Right.Where(x => x != default).Distinct();
+                var optionsPaneAttribute = data.Left.Left.Left.Left.Where(x => x != default).Distinct();
+                var generatedOptionPropertyData = data.Left.Left.Right.Where(x => x != default).Distinct();
+                var markdownFileData = data.Left.Right.Where(x => x != default).Distinct();
+                var currentAssembly = data.Right;
 
-                ReportDiagnostics(ctx, toolkitSampleAttributeData, optionsPaneAttribute, generatedOptionPropertyData);
+                var isExecutingInSampleProject = currentAssembly?.EndsWith(".Sample") ?? false;
 
                 // Reconstruct sample metadata from attributes
                 var sampleMetadata = toolkitSampleAttributeData
@@ -104,21 +120,34 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                             )
                     );
 
-                //// TODO: NOTE: BUGBUG: This is currently guarding us generating duplicate document registeries based on how the SG are setup to run this Execute method twice to gather samples depending on how they're loaded.
-                //// However, that also means that if a sample only contains documentation without samples we won't load it. That shouldn't be the case currently, though makes testing more difficult.
-                if (!sampleMetadata.Any())
-                    return;
+                var docFrontMatter = GatherDocumentFrontMatter(ctx, markdownFileData);
 
-                DiagnoseAndGenerateDocumentRegistry(ctx, sampleMetadata, markdownFileData, toolkitSampleAttributeData);
+                if (isExecutingInSampleProject && !skipDiagnostics)
+                {
+                    ReportSampleDiagnostics(ctx, toolkitSampleAttributeData, optionsPaneAttribute, generatedOptionPropertyData);
+                    ReportDocumentDiagnostics(ctx, sampleMetadata, markdownFileData, toolkitSampleAttributeData, docFrontMatter);
+                }
 
-                // Build source string
-                var source = BuildRegistrationCallsFromMetadata(sampleMetadata);
-                ctx.AddSource($"ToolkitSampleRegistry.g.cs", source);
+                if (!isExecutingInSampleProject && !skipRegistry)
+                {
+                    CreateDocumentRegistry(ctx, docFrontMatter);
+                    CreateSampleRegistry(ctx, sampleMetadata);
+                }
             });
         }
     }
 
-    private static void ReportDiagnostics(SourceProductionContext ctx,
+    private static void CreateSampleRegistry(SourceProductionContext ctx, Dictionary<string, ToolkitSampleRecord> sampleMetadata)
+    {
+        // TODO: Emit a better error that no samples are here?
+        if (sampleMetadata.Count == 0)
+            return;
+
+        var source = BuildRegistrationCallsFromMetadata(sampleMetadata);
+        ctx.AddSource($"ToolkitSampleRegistry.g.cs", source);
+    }
+
+    private static void ReportSampleDiagnostics(SourceProductionContext ctx,
                                           IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData,
                                           IEnumerable<(ToolkitSampleOptionsPaneAttribute?, ISymbol)> optionsPaneAttribute,
                                           IEnumerable<(ISymbol, ToolkitSampleOptionBaseAttribute)> generatedOptionPropertyData)

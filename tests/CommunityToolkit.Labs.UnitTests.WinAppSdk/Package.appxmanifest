@@ -8,12 +8,12 @@
 
   <Identity
     Name="3ed6f167-5e49-430a-b27c-92f94bddbb01"
-    Publisher="CN=matt"
+    Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>CommunityToolkit.Labs.UnitTests.WinAppSdk</DisplayName>
-    <PublisherDisplayName>matt</PublisherDisplayName>
+    <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

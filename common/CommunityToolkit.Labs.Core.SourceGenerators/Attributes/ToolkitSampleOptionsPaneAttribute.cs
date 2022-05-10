@@ -7,7 +7,6 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 /// Registers a control as the options panel for a toolkit sample.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]
-[Conditional("COMMUNITYTOOLKIT_KEEP_SAMPLE_ATTRIBUTES")]
 public sealed class ToolkitSampleOptionsPaneAttribute : Attribute
 {
     /// <summary>

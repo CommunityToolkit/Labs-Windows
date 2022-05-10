@@ -29,6 +29,22 @@
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
     <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.cs" Exclude="$(RepositoryDirectory)labs\**\samples\*.Sample\obj\**\*.cs;$(RepositoryDirectory)labs\**\samples\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
+    
+    <!-- Include markdown files from al lsamples so the head can access them in the source generator -->
+    <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.md"/>
   </ItemGroup>
+  <ItemGroup Condition="$(MSBuildProjectName.Contains('ProjectTemplate'))">
+    <!-- These are also included in Labs.Samples.props, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
+    <Content Include="$(RepositoryDirectory)template\**\samples\*.Sample\**\*.md" Exclude="$(RepositoryDirectory)template\**\samples\*.Sample\obj\**\*.md;$(RepositoryDirectory)template\**\samples\*.Sample\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md"  Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(RepositoryDirectory)template\**\samples\*.Sample\**\*.xaml" Exclude="$(RepositoryDirectory)template\**\samples\*.Sample\obj\**\*.xaml;$(RepositoryDirectory)template\**\samples\*.Sample\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml"  Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
 
+    <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
+    <Content Include="$(RepositoryDirectory)template\**\samples\*.Sample\**\*.cs" Exclude="$(RepositoryDirectory)template\**\samples\*.Sample\obj\**\*.cs;$(RepositoryDirectory)template\**\samples\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
+  
+    <!-- Include markdown files from al lsamples so the head can access them in the source generator -->
+    <AdditionalFiles Include="$(RepositoryDirectory)template\**\samples\*.Sample\**\*.md" Exclude="$(RepositoryDirectory)template\**\samples\*.Sample\obj\**\*.md;$(RepositoryDirectory)template\**\samples\*.Sample\bin\**\*.md"/>  
+  </ItemGroup>
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
 </Project>
