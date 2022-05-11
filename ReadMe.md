@@ -25,7 +25,7 @@ To start a new experiment, open up a new Discussion to propose your idea with th
 
 Once there is traction an issue will be created to track your experiment and its progress.
 
-[Create a new experiment from the template](https://github.com/CommunityToolkit/Labs-Windows/edit/main/template/README.md).
+[Create a new experiment from the template](https://github.com/CommunityToolkit/Labs-Windows/tree/main/template).
 
 Then open a PR to start your experiment, not everything needs to be done in your initial PR. The Labs space is a great place to work on something over time, get feedback from the community, and collaborate with others. However, your initial PR should compile and have enough content for folks to understand how to leverage your component.
 
