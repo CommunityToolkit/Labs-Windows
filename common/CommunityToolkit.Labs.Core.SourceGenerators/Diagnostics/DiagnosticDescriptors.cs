@@ -87,9 +87,9 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics
             description: $"Cannot generate sample pane option when the provided name is already defined as a member in the attached class.");
 
         /// <summary>
-        /// Gets a <see cref="DiagnosticDescriptor"/> indicating a <see cref="Attributes.ToolkitSampleMultiChoiceOptionAttribute"/> that contains a title which is already defined in another <see cref="Attributes.ToolkitSampleMultiChoiceOptionAttribute"/>.
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating a <see cref="Attributes.ToolkitSampleMultiChoiceOptionAttribute"/> that has no defined options to present to the user.
         /// <para>
-        /// Format: <c>"Cannot generate multiple choice sample pane option with title {{0}} as the title was defined multiple times"</c>.
+        /// Format: <c>"Cannot generate multiple choice sample pane option with title {{0}} as no choices were provided"</c>.
         /// </para>
         /// </summary>
         public static readonly DiagnosticDescriptor SamplePaneMultiChoiceOptionWithNoChoices = new(
