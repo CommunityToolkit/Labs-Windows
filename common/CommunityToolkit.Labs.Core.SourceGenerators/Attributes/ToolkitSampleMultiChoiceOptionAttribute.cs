@@ -1,5 +1,5 @@
 using System;
-using System.Diagnostics;
+using System.Linq;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 
@@ -18,28 +18,30 @@ public sealed class ToolkitSampleMultiChoiceOptionAttribute : ToolkitSampleOptio
     /// Creates a new instance of <see cref="ToolkitSampleBoolOptionAttribute"/>.
     /// </summary>
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
-    /// <param name="label">The displayed text shown beside this option.</param>
-    /// <param name="value">The value to provide in XAML when this item is selected.</param>
+    /// <param name="choices">A list of the choices to display to the user. Can be literal values, or labeled values. Use a " : " separator (single colon surrounded by at least 1 whitespace) to separate a label from a value.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    public ToolkitSampleMultiChoiceOptionAttribute(string bindingName, string label, string value, string? title = null)
+    public ToolkitSampleMultiChoiceOptionAttribute(string bindingName, string? title = null, params string[] choices)
         : base(bindingName, null, title)
     {
-        Label = label;
-        Value = value;
+        Choices = choices.Select(x =>
+        {
+            if (x.Contains(" : "))
+            {
+                var parts = x.Split(new string[] { " : " }, StringSplitOptions.RemoveEmptyEntries);
+                return new MultiChoiceOption(parts[0].TrimEnd(), parts[1].TrimStart());
+            }
+
+            return new MultiChoiceOption(x, x);
+        }).ToArray();
     }
+
+    /// <summary>
+    /// A collection of choices to display in the options pane.
+    /// </summary>
+    public MultiChoiceOption[] Choices { get; }
 
     /// <summary>
     /// The source generator-friendly type name used for casting.
     /// </summary>
     internal override string TypeName { get; } = "string";
-
-    /// <summary>
-    /// The displayed text shown beside this option.
-    /// </summary>
-    public string Label { get; private set; }
-
-    /// <summary>
-    /// The value to provide in XAML when this item is selected.
-    /// </summary>
-    public string Value { get; private set; }
 }

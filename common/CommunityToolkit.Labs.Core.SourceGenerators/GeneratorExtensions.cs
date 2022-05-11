@@ -108,13 +108,42 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators
                 throw new ArgumentNullException(nameof(parameterTypedConstant.Type));
 
             // Types prefixed with global:: do not work with Type.GetType and must be stripped away.
-            var assemblyQualifiedName = parameterTypedConstant.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).Replace("global::", "");
+            var assemblyQualifiedName = parameterTypedConstant.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
+                .Replace("global::", "")
+                .Replace("string", "System.String");
 
             var argType = Type.GetType(assemblyQualifiedName);
 
             // Enums arrive as the underlying integer type, which doesn't work as a param for Activator.CreateInstance()
             if (argType != null && parameterTypedConstant.Kind == TypedConstantKind.Enum)
                 return Enum.Parse(argType, parameterTypedConstant.Value?.ToString());
+
+            if (parameterTypedConstant.Kind == TypedConstantKind.Array)
+            {
+                // Cannot use actual value to get item type b/c array can be empty.
+                var paramAssemblyQualifiedName = parameterTypedConstant.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
+                    .Replace("[]", "")
+                    .Replace("global::", "")
+                    .Replace("string", "System.String");
+
+                var paramArgType = paramAssemblyQualifiedName is null ? null : Type.GetType(paramAssemblyQualifiedName);
+
+                // Prepare each value in the array.
+                var arr = parameterTypedConstant.Values.Select(PrepareParameterTypeForActivator).ToArray();
+
+                // This code path will always return object?[]
+                if (paramArgType is null)
+                    return arr;
+
+                // Prepare the array as the correct type.
+                var result = Array.CreateInstance(paramArgType, arr.Length);
+                arr.CopyTo(result, 0);
+
+                return result;
+            }
+
+            if (argType is not null)
+                return Convert.ChangeType(parameterTypedConstant.Value, argType);
 
             return parameterTypedConstant.Value;
         }
