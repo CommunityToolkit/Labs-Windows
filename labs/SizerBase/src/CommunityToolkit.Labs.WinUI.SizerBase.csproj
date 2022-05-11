@@ -2,7 +2,7 @@
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
 
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.WinUI</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.WinUI.SizerBaseRns</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
