@@ -2,6 +2,10 @@
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
 
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>$(UwpTargetFramework)</TargetFramework>
   </PropertyGroup>
