@@ -113,7 +113,9 @@ public partial class SizerBase : Control
                 return;
             }
 
-#if WINAPPSDK
+            // TODO: [UNO] Only supported on certain platforms
+            // See ProtectedCursor here: https://github.com/unoplatform/uno/blob/3fe3862b270b99dbec4d830b547942af61b1a1d9/src/Uno.UI/UI/Xaml/UIElement.cs#L1015-L1023
+#if WINAPPSDK && !HAS_UNO
             // Need to wait until we're at least applying template step of loading before setting Cursor
             // See https://github.com/microsoft/microsoft-ui-xaml/issues/7062
             if (gripper._applyingTemplate &&

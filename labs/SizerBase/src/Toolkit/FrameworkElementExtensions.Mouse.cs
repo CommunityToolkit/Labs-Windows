@@ -85,7 +85,8 @@ public static partial class FrameworkElementExtensions
 #if !WINAPPSDK
     private static void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
-        // TODO [UNO] Only supported on certain platforms
+        // TODO: [UNO] Only supported on certain platforms
+        // See PointerCursor here: https://github.com/unoplatform/uno/blob/3fe3862b270b99dbec4d830b547942af61b1a1d9/src/Uno.UWP/UI/Core/CoreWindow.cs#L71-L77
 #if __NETFX_CORE__ || __WASM__ || __MACOS__ || __SKIA__
         CoreCursorType cursor = GetCursor((FrameworkElement)sender);
         Window.Current.CoreWindow.PointerCursor = _cursors[cursor];
