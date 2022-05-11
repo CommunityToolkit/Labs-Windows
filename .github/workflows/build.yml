@@ -56,7 +56,7 @@ jobs:
 
       # Build All Packages
       - name: pack experiments
-        working-directory: ./labs/
+        working-directory: ./common/Scripts/
         run: ./PackEachExperiment.ps1 all
 
       # Push Packages to our DevOps Artifacts Feed
@@ -131,7 +131,7 @@ jobs:
 
       # Build All Packages
       - name: pack experiments
-        working-directory: ./labs/
+        working-directory: ./common/Scripts/
         run: ./PackEachExperiment.ps1 all
 
       # Push Packages to our DevOps Artifacts Feed
