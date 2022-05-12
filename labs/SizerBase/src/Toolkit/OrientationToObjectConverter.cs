@@ -26,13 +26,13 @@ public partial class OrientationToObjectConverter : DependencyObject, IValueConv
     /// Identifies the <see cref="HorizontalValue"/> property.
     /// </summary>
     public static readonly DependencyProperty HorizontalValueProperty =
-        DependencyProperty.Register(nameof(HorizontalValue), typeof(object), typeof(TypeToObjectConverter), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(HorizontalValue), typeof(object), typeof(OrientationToObjectConverter), new PropertyMetadata(null));
 
     /// <summary>
     /// Identifies the <see cref="VerticalValue"/> property.
     /// </summary>
     public static readonly DependencyProperty VerticalValueProperty =
-        DependencyProperty.Register(nameof(VerticalValue), typeof(object), typeof(TypeToObjectConverter), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(VerticalValue), typeof(object), typeof(OrientationToObjectConverter), new PropertyMetadata(null));
 
     /// <summary>
     /// Gets or sets the value to be returned when the <see cref="Orientation"/> of the provided value is <see cref="Orientation.Horizontal"/>.
