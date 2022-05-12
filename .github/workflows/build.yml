@@ -27,7 +27,7 @@ jobs:
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.300'
+          dotnet-version: '6.0.201'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -38,7 +38,7 @@ jobs:
         run: dotnet tool restore
 
       - name: Run Uno Check to Install Dependencies
-        run: dotnet tool run uno-check --pre --ci --fix --non-interactive --skip wsl --skip androidemulator --verbose
+        run: dotnet tool run uno-check --ci --fix --non-interactive --skip wsl --skip androidemulator --verbose
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
