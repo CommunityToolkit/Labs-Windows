@@ -26,22 +26,26 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(IsUno)' == 'true'">
-        <PackageReference Include="Uno.UI" Version="4.1.9" />
+        <PackageReference Include="Uno.UI" Version="4.2.6" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true'">
-        <PackageReference Include="Uno.UI.RemoteControl" Version="4.1.9" Condition="'$(Configuration)'=='Debug'" />
+        <PackageReference Include="Uno.UI.RemoteControl" Version="4.2.6" Condition="'$(Configuration)'=='Debug'" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsGtkHead)' == 'true'">
-        <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.1.9" />
+        <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.2.6" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsWpfHead)' == 'true'">
-        <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.1.9" />
+        <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.2.6" />
     </ItemGroup>
+    <PropertyGroup Condition="'$(IsWpfHead)' == 'true'">
+        <!-- Ignorable issue from SkiaSharp package, see: https://github.com/CommunityToolkit/Labs-Windows/pull/119#issuecomment-1125373091 -->
+        <NoWarn>NU1701</NoWarn>
+    </PropertyGroup>
 
     <ItemGroup Condition="'$(IsWasmHead)' == 'true'">
-        <PackageReference Include="Uno.UI.WebAssembly" Version="4.1.9" />
+        <PackageReference Include="Uno.UI.WebAssembly" Version="4.2.6" />
     </ItemGroup>
 </Project>

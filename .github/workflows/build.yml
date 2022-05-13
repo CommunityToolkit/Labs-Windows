@@ -45,15 +45,10 @@ jobs:
 
       - name: Enable all TargetFrameworks
         working-directory: ./common/Scripts/
-        run: ./UseTargetFrameworks.ps1 all
-
-      # Build and use template for creating new experiments
-      - name: Build ProjectTemplate
-        working-directory: ./template/lab
-        run: msbuild.exe ProjectTemplate.sln /restore -p:Configuration=Debug
+        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 all" -ErrorAction Stop
 
       - name: Generate solution
-        run: ./GenerateAllSolution.ps1
+        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
 
       - name: MSBuild
       # working-directory: ./
@@ -121,19 +116,14 @@ jobs:
 
       - name: Enable all TargetFrameworks
         working-directory: ./common/Scripts/
-        run: ./UseTargetFrameworks.ps1 all
-
-      # Build and use template for creating new experiments
-      - name: Build ProjectTemplate
-        working-directory: ./template/lab
-        run: msbuild.exe ProjectTemplate.sln /restore -p:Configuration=Debug
+        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 all" -ErrorAction Stop
 
       - name: Generate solution
-        run: ./GenerateAllSolution.ps1
+        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
 
       - name: Enable WinUI 3
         working-directory: ./common/Scripts/
-        run: ./UseUnoWinUI.ps1 3
+        run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3" -ErrorAction Stop
 
       - name: MSBuild
        # working-directory: ./
@@ -195,7 +185,7 @@ jobs:
         run: dotnet tool restore
 
       - name: Check XAML Styling
-        run: ./ApplyXamlStyling.ps1 -Passive
+        run: powershell -version 5.1 -command "./ApplyXamlStyling.ps1 -Passive" -ErrorAction Stop
 
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   experiment:
@@ -214,6 +204,12 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
 
+      # Build and use template for creating new experiments
+      - name: Build ProjectTemplate
+        working-directory: ./template/lab
+        run: msbuild.exe ProjectTemplate.sln /restore -p:Configuration=Debug
+
+      # Create a new experiment from the template and test using that
       - name: Install template
         working-directory: ./template/lab
         run: dotnet new --install ./
@@ -243,3 +239,28 @@ jobs:
           name: Test results
           path: './TestResults/*.trx'
           reporter: dotnet-trx
+
+  wasm-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install .NET 6 SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.201'
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Generate solution
+        shell: pwsh
+        run: ./GenerateAllSolution.ps1
+
+      # Issue with Comment Links currently, see: https://github.com/mrlacey/CommentLinks/issues/38
+      # See launch.json configuration file for analogous command we're emulating here to build LINK: ../../.vscode/launch.json:CommunityToolkit.Labs.Wasm.csproj
+      - name: dotnet build
+        working-directory: ./platforms/CommunityToolkit.Labs.Wasm/
+        run: dotnet build /r /bl /p:UnoSourceGeneratorUseGenerationHost=true /p:UnoSourceGeneratorUseGenerationController=false -p:TargetFrameworks=netstandard2.0 -p:TargetFramework=net5.0
+  
+      # TODO: Do we want to run tests here? Can we do that on linux easily?
