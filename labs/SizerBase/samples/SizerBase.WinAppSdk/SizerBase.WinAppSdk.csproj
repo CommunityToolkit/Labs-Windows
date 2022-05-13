@@ -3,13 +3,13 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
   <PropertyGroup>
-    <RootNamepace>ProjectTemplate.WinAppSdk</RootNamepace>
+    <RootNamepace>SizerBase.WinAppSdk</RootNamepace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProjectTemplate.Sample\ProjectTemplate.Sample.csproj" />
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />
+    <ProjectReference Include="..\SizerBase.Sample\SizerBase.Sample.csproj" />
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj" />
   </ItemGroup>
 
   <ItemGroup>

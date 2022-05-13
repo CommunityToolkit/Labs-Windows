@@ -2,13 +2,13 @@
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
 
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.WinUI.ProjectTemplateRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.WinUI.SizerBaseRns</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).ProjectTemplate</PackageId>
+    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).SizerBase</PackageId>
     <Description>
-      This package contains ProjectTemplate.
+      This package contains SizerBase.
     </Description>
     <Version>0.0.1</Version>
   </PropertyGroup>

@@ -1,0 +1,24 @@
+﻿<Page x:Class="SizerBase.Sample.SizerCursorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.Labs.WinUI"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid MinWidth="400"
+          MinHeight="300">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Border x:Name="SomeContent"
+                MinWidth="200"
+                MaxWidth="600" />
+        <controls:ContentSizer Grid.Column="1"
+                               Cursor="Hand"
+                               TargetControl="{x:Bind SomeContent}" />
+    </Grid>
+</Page>

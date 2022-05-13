@@ -1,17 +1,6 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
-
-  <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.WinUI.ProjectTemplateRns</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).ProjectTemplate</PackageId>
-    <Description>
-      This package contains ProjectTemplate.
-    </Description>
-    <Version>0.0.1</Version>
-  </PropertyGroup>
 
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
@@ -29,5 +18,11 @@
     <None Remove="obj\bin\**" />
     <Page Remove="obj\bin\**" />
     <UpToDateCheckInput Remove="obj\bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="*.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj" />
   </ItemGroup>
 </Project>

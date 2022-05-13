@@ -189,9 +189,9 @@ namespace CommunityToolkit.Labs.Shared.Renderers
 
                 return textContents;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                return $"Exception Encountered Loading file '{filePath}':\n{e.Message}\n{e.StackTrace}";
             }
         }
 
@@ -214,7 +214,12 @@ namespace CommunityToolkit.Labs.Shared.Renderers
 
             var folderPath = typeNamespace.Replace(simpleAssemblyName, "").Trim('.').Replace('.', '/');
 
-            return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}/{type.Name}";
+            if (folderPath.Length != 0)
+            {
+                folderPath += "/";
+            }
+
+            return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}{type.Name}";
         }
     }
 }
