@@ -30,23 +30,16 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #endif
 
-
 namespace CanvasLayout.Sample.SampleOne
 {
     [ToolkitSampleBoolOption("IsTextVisible", "IsVisible", true)]
-
-    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Teal", value: "#0ddc8c", title: "Text foreground")]
-    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Sand", value: "#e7a676")]
-    [ToolkitSampleMultiChoiceOption("TextForeground", label: "Dull green", value: "#5d7577")]
-
-    [ToolkitSampleMultiChoiceOption("TextSize", label: "Small", value: "12", title: "Text size")]
-    [ToolkitSampleMultiChoiceOption("TextSize", label: "Normal", value: "16")]
-    [ToolkitSampleMultiChoiceOption("TextSize", label: "Big", value: "32")]
-
-    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Segoe UI", value: "Segoe UI")]
-    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Arial", value: "Arial")]
-    [ToolkitSampleMultiChoiceOption("TextFontFamily", label: "Consolas", value: "Consolas")]
-
+    [ToolkitSampleMultiChoiceOption("TextSize", title: "Text size", "Small : 12", "Normal : 16", "Big : 32")]
+    [ToolkitSampleMultiChoiceOption("TextFontFamily", title: "Font family", "Segoe UI", "Arial", "Consolas")]
+    [ToolkitSampleMultiChoiceOption("TextForeground", title: "Text foreground",
+        "Teal       : #0ddc8c",
+        "Sand       : #e7a676",
+        "Dull green : #5d7577")]
+    
     [ToolkitSample(id: nameof(SamplePage), "Simple Options", description: "A sample page for showing how to do simple options.")]
     public sealed partial class SamplePage : Page
     {

@@ -230,28 +230,13 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
 
     private static void ReportGeneratedMultiChoiceOptionsPaneDiagnostics(SourceProductionContext ctx, IEnumerable<(ISymbol, ToolkitSampleOptionBaseAttribute)> generatedOptionPropertyData)
     {
-        var generatedMultipleChoiceOptionWithMultipleTitles = new List<(ISymbol, ToolkitSampleOptionBaseAttribute)>();
-
-        var multiChoiceOptionsGroupedBySymbol = generatedOptionPropertyData.GroupBy(x => x.Item1, SymbolEqualityComparer.Default)
-                                                                           .Where(x => x.Any(x => x.Item2 is ToolkitSampleMultiChoiceOptionAttribute));
-
-        foreach (var symbolGroup in multiChoiceOptionsGroupedBySymbol)
+        foreach (var item in generatedOptionPropertyData)
         {
-            var optionsGroupedByName = symbolGroup.GroupBy(x => x.Item2.Name);
-
-            foreach (var nameGroup in optionsGroupedByName)
+            if (item.Item2 is ToolkitSampleMultiChoiceOptionAttribute multiChoiceAttr && multiChoiceAttr.Choices.Length == 0)
             {
-                var optionsGroupedByTitle = nameGroup.Where(x => !string.IsNullOrWhiteSpace(x.Item2?.Title))
-                                                     .GroupBy(x => x.Item2.Title)
-                                                     .SelectMany(x => x);
-
-                if (optionsGroupedByTitle.Count() > 1)
-                    generatedMultipleChoiceOptionWithMultipleTitles.Add(optionsGroupedByTitle.First());
+                ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithNoChoices, item.Item1.Locations.FirstOrDefault(), item.Item2.Title));
             }
         }
-
-        foreach (var item in generatedMultipleChoiceOptionWithMultipleTitles)
-            ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles, item.Item1.Locations.FirstOrDefault(), item.Item2.Title));
     }
 
     private static string BuildRegistrationCallsFromMetadata(IDictionary<string, ToolkitSampleRecord> sampleMetadata)
@@ -284,28 +269,25 @@ public static class ToolkitSampleRegistry
 
     private static IEnumerable<string> BuildNewGeneratedSampleOptionMetadataSource(ToolkitSampleRecord sample)
     {
-        // Handle group-able items
-        var multiChoice = sample.GeneratedSampleOptions.Where(x => x is ToolkitSampleMultiChoiceOptionAttribute)
-                                                       .Cast<ToolkitSampleMultiChoiceOptionAttribute>()
-                                                       .GroupBy(x => x.Name);
-
-        foreach (var item in multiChoice)
-            yield return $@"new {typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel).FullName}(name: ""{item.Key}"", options: new[] {{ {string.Join(",", item.Select(x => $@"new {typeof(MultiChoiceOption).FullName}(""{x.Label}"", ""{x.Value}"")").ToArray())} }}, title: ""{item.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Title))?.Title}"")";
-
-        // Handle non-grouped items
-        var remainingItems = sample.GeneratedSampleOptions?.Except(multiChoice.SelectMany(x => x));
-
-        foreach (var item in remainingItems ?? Enumerable.Empty<ToolkitSampleOptionBaseAttribute>())
+        foreach (var item in sample.GeneratedSampleOptions ?? Enumerable.Empty<ToolkitSampleOptionBaseAttribute>())
         {
-            if (item is ToolkitSampleBoolOptionAttribute boolAttribute)
+            if (item is ToolkitSampleMultiChoiceOptionAttribute multiChoiceAttr)
+            {
+                yield return $@"new {typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel).FullName}(name: ""{item.Name}"", options: new[] {{ {string.Join(",", multiChoiceAttr.Choices.Select(x => $@"new {typeof(MultiChoiceOption).FullName}(""{x.Label}"", ""{x.Value}"")").ToArray())} }}, title: ""{item.Title}"")";
+            }
+            else if (item is ToolkitSampleBoolOptionAttribute boolAttribute)
+            {
                 yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", label: ""{boolAttribute.Label}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
+            }
             else
+            {
                 throw new NotSupportedException($"Unsupported or unhandled type {item.GetType()}.");
+            }
         }
     }
 
     /// <summary>
-    /// Checks if a symbol's is or inherits from a type representing a XAML framework.
+    /// Checks if a symbol is or inherits from a type representing a XAML framework.
     /// </summary>
     /// <returns><see langwork="true"/> if the <paramref name="symbol"/> is or inherits from a type representing a XAML framework.</returns>
     private static bool IsValidXamlControl(INamedTypeSymbol symbol)
