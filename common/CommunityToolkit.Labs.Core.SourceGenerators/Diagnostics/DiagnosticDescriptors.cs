@@ -87,19 +87,19 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics
             description: $"Cannot generate sample pane option when the provided name is already defined as a member in the attached class.");
 
         /// <summary>
-        /// Gets a <see cref="DiagnosticDescriptor"/> indicating a <see cref="Attributes.ToolkitSampleMultiChoiceOptionAttribute"/> that contains a title which is already defined in another <see cref="Attributes.ToolkitSampleMultiChoiceOptionAttribute"/>.
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating a <see cref="Attributes.ToolkitSampleMultiChoiceOptionAttribute"/> that has no defined options to present to the user.
         /// <para>
-        /// Format: <c>"Cannot generate multiple choice sample pane option with title {{0}} as the title was defined multiple times"</c>.
+        /// Format: <c>"Cannot generate multiple choice sample pane option with title {{0}} as no choices were provided"</c>.
         /// </para>
         /// </summary>
-        public static readonly DiagnosticDescriptor SamplePaneMultiChoiceOptionWithMultipleTitles = new(
+        public static readonly DiagnosticDescriptor SamplePaneMultiChoiceOptionWithNoChoices = new(
             id: "TKSMPL0006",
-            title: $"Conflicting sample option name",
-            messageFormat: $"Cannot generate multiple choice sample pane option with title {{0}} as the title was defined multiple times",
+            title: $"Missing choices in multi-choice sample option",
+            messageFormat: $"Cannot generate multiple choice sample pane option with title {{0}} as no choices were provided.",
             category: typeof(ToolkitSampleMetadataGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot generate multiple choice sample pane option as the title was defined multiple times.");
+            description: $"Cannot generate multiple choice sample pane option as there are no choices provided.");
 
         /// <summary>
         /// Gets a <see cref="DiagnosticDescriptor"/> indicating a <see cref="Attributes.ToolkitSampleAttribute"/> that was used on an unsupported type.

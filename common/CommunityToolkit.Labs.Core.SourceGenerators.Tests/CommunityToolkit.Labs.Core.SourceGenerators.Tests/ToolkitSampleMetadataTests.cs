@@ -136,6 +136,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             {{
                 [ToolkitSampleBoolOption(""test"", ""Toggle x"", false)]
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
                 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
@@ -149,35 +150,6 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             }}";
 
             VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneOptionWithDuplicateName.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
-        }
-
-        [TestMethod]
-        public void PaneOptionWithDuplicateName_AllowedForMultiChoice()
-        {
-            var source = $@"
-            using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators;
-            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-
-            namespace MyApp
-            {{
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Segoe UI"", value: ""Segoe UI"", title: ""Font"")]
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Arial"", value: ""Arial"")]
-
-                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
-                
-                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
-                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
-                {{
-                }}
-            }}
-
-            namespace Windows.UI.Xaml.Controls
-            {{
-                public class UserControl {{ }}
-            }}";
-
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -214,7 +186,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
         }
 
         [TestMethod]
-        public void PaneMultipleChoiceOptionWithMultipleTitles()
+        public void PaneMultipleChoiceOptionWithNoChoices()
         {
             var source = $@"
             using System.ComponentModel;
@@ -223,8 +195,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 
             namespace MyApp
             {{
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Segoe UI"", value: ""Segoe UI"", title: ""Font"")]
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Arial"", value: ""Arial"", title: ""Other font"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"")]
                 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
@@ -237,7 +208,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 public class UserControl {{ }}
             }}";
 
-            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithMultipleTitles.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
+            VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(source, string.Empty, DiagnosticDescriptors.SamplePaneMultiChoiceOptionWithNoChoices.Id, DiagnosticDescriptors.SampleNotReferencedInMarkdown.Id);
         }
 
         [TestMethod]
@@ -250,8 +221,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 
             namespace MyApp
             {{
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Segoe UI"", value: ""Segoe UI"", title: ""Font"")]
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", label: ""Arial"", value: ""Arial"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
                 [ToolkitSampleBoolOption(""Test"", ""Toggle visibility"", false)]
                 public partial class Sample
                 {{

@@ -27,7 +27,7 @@ jobs:
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.201'
+          dotnet-version: '6.0.202'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -54,10 +54,10 @@ jobs:
       # working-directory: ./
         run: msbuild.exe Toolkit.Labs.All.sln /restore -p:Configuration=Release
 
-      # Build All Packages - TODO: Detect experiments
-      - name: pack CanvasLayout
-        working-directory: ./labs/CanvasLayout/src
-        run: msbuild -t:pack /p:Configuration=Release /p:DebugType=Portable
+      # Build All Packages
+      - name: pack experiments
+        working-directory: ./common/Scripts/
+        run: ./PackEachExperiment.ps1 all
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
@@ -98,7 +98,7 @@ jobs:
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.201'
+          dotnet-version: '6.0.202'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -129,10 +129,10 @@ jobs:
        # working-directory: ./
         run: msbuild.exe Toolkit.Labs.All.sln /restore /nowarn:MSB4011 -p:Configuration=Release
 
-      # Build All Packages - TODO: Detect experiments
-      - name: pack CanvasLayout
-        working-directory: ./labs/CanvasLayout/src
-        run: msbuild -t:pack /p:Configuration=Release /p:DebugType=Portable
+      # Build All Packages
+      - name: pack experiments
+        working-directory: ./common/Scripts/
+        run: ./PackEachExperiment.ps1 all
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
@@ -195,7 +195,7 @@ jobs:
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.201'
+          dotnet-version: '6.0.202'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -239,3 +239,28 @@ jobs:
           name: Test results
           path: './TestResults/*.trx'
           reporter: dotnet-trx
+
+  wasm-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install .NET 6 SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.201'
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Generate solution
+        shell: pwsh
+        run: ./GenerateAllSolution.ps1
+
+      # Issue with Comment Links currently, see: https://github.com/mrlacey/CommentLinks/issues/38
+      # See launch.json configuration file for analogous command we're emulating here to build LINK: ../../.vscode/launch.json:CommunityToolkit.Labs.Wasm.csproj
+      - name: dotnet build
+        working-directory: ./platforms/CommunityToolkit.Labs.Wasm/
+        run: dotnet build /r /bl /p:UnoSourceGeneratorUseGenerationHost=true /p:UnoSourceGeneratorUseGenerationController=false -p:TargetFrameworks=netstandard2.0 -p:TargetFramework=net5.0
+  
+      # TODO: Do we want to run tests here? Can we do that on linux easily?
