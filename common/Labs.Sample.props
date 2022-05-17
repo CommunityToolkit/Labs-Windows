@@ -7,10 +7,6 @@
     <Content Include="**\*.md" Exclude="bin\**\*.md;obj\**\*.md" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
-  </ItemGroup>
-
   <!-- Source generator props -->
   <ItemGroup>
     <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
