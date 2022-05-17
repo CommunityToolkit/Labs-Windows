@@ -11,6 +11,9 @@
     <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
     <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Wide310x150Logo.scale-200.png" Link="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
+  <PropertyGroup>
+    <RootNamespace>CommunityToolkit.Labs.UnitTests</RootNamespace>
+  </PropertyGroup>
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
        Tools extension to be activated for this project even if the Windows App SDK Nuget
@@ -20,6 +23,9 @@
   </ItemGroup>
 
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
+
+  <!-- Needed Unit Testing helper base classes -->
+  <Import Project="..\..\common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
 
   <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
   <Import Project="..\..\labs\**\*.Tests.projitems" Label="Shared" />

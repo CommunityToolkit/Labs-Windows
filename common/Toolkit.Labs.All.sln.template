@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9898
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommunityToolkit.Labs.Shared", "common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.shproj", "{9503C27C-55A8-4B66-AA7B-14EFDB940B13}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommunityToolkit.Labs.UnitTests.Shared", "common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.shproj", "{FAB2BFBB-B57A-4481-B4AC-037490067CE9}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{EDD2FCF0-74FE-4AB9-B40A-7B2A4E89D59C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{09003B35-7A35-4BD1-9A26-5CFD02AB88DD}"
@@ -62,6 +64,7 @@ Global
 		common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{93bfd459-2e21-41c7-9e54-868f5b014dbc}*SharedItemsImports = 4
 		common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{9503c27c-55a8-4b66-aa7b-14efdb940b13}*SharedItemsImports = 13
 		common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems*{b3d6df0b-13db-493e-9d1a-56343efedea7}*SharedItemsImports = 4
+		common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems*{fab2bfbb-b57a-4481-b4ac-037490067ce9}*SharedItemsImports = 13
 [TemplatedSharedTestUwpProjectDefinitions]
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1000,6 +1003,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9503C27C-55A8-4B66-AA7B-14EFDB940B13} = {09003B35-7A35-4BD1-9A26-5CFD02AB88DD}
+		{FAB2BFBB-B57A-4481-B4AC-037490067CE9} = {09003B35-7A35-4BD1-9A26-5CFD02AB88DD}
 		{5CB6662F-590F-4250-A19D-E27FEE9C2876} = {09003B35-7A35-4BD1-9A26-5CFD02AB88DD}
 		{1683BA1A-5D66-4488-B7CA-6DF3FDE2701D} = {09003B35-7A35-4BD1-9A26-5CFD02AB88DD}
 		{5BD4E79C-3744-4E89-A6F2-17FBAB7E3F68} = {09003B35-7A35-4BD1-9A26-5CFD02AB88DD}
