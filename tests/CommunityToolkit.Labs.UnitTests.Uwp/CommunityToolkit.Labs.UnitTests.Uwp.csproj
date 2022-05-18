@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
-  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />    
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
   <PropertyGroup>
     <ProjectGuid>{FD78002E-C4E6-4BF8-9EC3-C06250DFEF34}</ProjectGuid>
     <RootNamespace>CommunityToolkit.Labs.UnitTests</RootNamespace>
@@ -43,15 +43,17 @@
       <Link>Assets\Wide310x150Logo.scale-200.png</Link>
     </Content>
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.2</Version>
+    </PackageReference>
+  </ItemGroup>
   <!-- Workaround as discussed https://github.com/unoplatform/uno/discussions/5007 for https://developercommunity.visualstudio.com/t/HasSharedItems-is-explicitly-set-to-em/10016046 -->
   <PropertyGroup>
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
   </PropertyGroup>
-
   <!-- Needed Unit Testing helper base classes -->
   <Import Project="..\..\common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
-
   <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
   <Import Project="..\..\labs\**\*.Tests.projitems" Label="Shared" />
 </Project>
