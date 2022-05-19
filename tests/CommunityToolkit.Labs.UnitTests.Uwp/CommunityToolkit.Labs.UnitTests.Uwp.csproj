@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
-  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
+  
   <PropertyGroup>
     <ProjectGuid>{FD78002E-C4E6-4BF8-9EC3-C06250DFEF34}</ProjectGuid>
     <RootNamespace>CommunityToolkit.Labs.UnitTests</RootNamespace>
     <AssemblyName>CommunityToolkit.Labs.UnitTests.Uwp</AssemblyName>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
   </PropertyGroup>
+
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
+
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
