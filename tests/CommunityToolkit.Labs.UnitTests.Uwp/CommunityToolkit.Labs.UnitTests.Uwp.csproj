@@ -43,15 +43,6 @@
       <Link>Assets\Wide310x150Logo.scale-200.png</Link>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
-    </PackageReference>
-  </ItemGroup>
-  <!-- Workaround as discussed https://github.com/unoplatform/uno/discussions/5007 for https://developercommunity.visualstudio.com/t/HasSharedItems-is-explicitly-set-to-em/10016046 -->
-  <PropertyGroup>
-    <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
-  </PropertyGroup>
   <!-- Needed Unit Testing helper base classes -->
   <Import Project="..\..\common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
   <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
