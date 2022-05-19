@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <RootNamespace>CommunityToolkit.Labs.UnitTests</RootNamespace>
+  </PropertyGroup>
+
   <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
 
   <ItemGroup>
     <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
@@ -16,8 +21,9 @@
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
-
-  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
-
+  
+  <!-- Needed Unit Testing helper base classes -->
+  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
+  <!-- Include the unit test files themselves -->
   <Import Project="..\ProjectTemplate.Tests\ProjectTemplate.Tests.projitems" Label="Shared" />
 </Project>

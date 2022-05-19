@@ -14,11 +14,7 @@
 
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
