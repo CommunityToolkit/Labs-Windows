@@ -47,6 +47,12 @@
     </Content>
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj">
+      <Project>{2ab4591a-6877-487a-9733-0f06771832ff}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.ProjectTemplate</Name>
+    </ProjectReference>
+  </ItemGroup>
 
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
 
