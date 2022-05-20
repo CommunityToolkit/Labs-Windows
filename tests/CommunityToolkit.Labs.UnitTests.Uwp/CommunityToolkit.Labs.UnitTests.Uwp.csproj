@@ -19,6 +19,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
+  
   <ItemGroup>
     <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png">
       <Link>Assets\LockScreenLogo.scale-200.png</Link>
@@ -42,8 +43,13 @@
       <Link>Assets\Wide310x150Logo.scale-200.png</Link>
     </Content>
   </ItemGroup>
+
   <!-- Needed Unit Testing helper base classes -->
   <Import Project="..\..\common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
+
   <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
   <Import Project="..\..\labs\**\*.Tests.projitems" Label="Shared" />
+
+  <!-- Include all base code to be tested -->
+  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
 </Project>

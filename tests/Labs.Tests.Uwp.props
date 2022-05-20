@@ -9,5 +9,6 @@
 
   <ItemGroup>
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="7.1.2"/>
   </ItemGroup>
 </Project>

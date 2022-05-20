@@ -29,4 +29,7 @@
 
   <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
   <Import Project="..\..\labs\**\*.Tests.projitems" Label="Shared" />
+
+  <!-- Include all base code to be tested -->
+  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
 </Project>
