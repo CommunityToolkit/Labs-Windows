@@ -89,7 +89,6 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             set => SetValue(SampleControlInstanceProperty, value);
         }
 
-
         /// <summary>
         /// The options pane for the sample being displayed.
         /// </summary>
@@ -203,9 +202,12 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         {
             // MSBuild uses wildcard to find the files, and the wildcards decide where they end up
             // Single experiments use relative paths, the allExperiment head uses absolute paths that grab from all experiments
-            // The discrepency is accounted for manually.
+            // The wildcard captures decide the paths. This discrepency is accounted for manually.
             // Logic here is the exact same that MSBuild uses to find and include the files we need.
             var assemblyName = typeof(ToolkitSampleRenderer).Assembly.GetName().Name;
+            if (string.IsNullOrWhiteSpace(assemblyName))
+                throw new InvalidOperationException();
+
             var isAllExperimentHead = assemblyName.StartsWith("CommunityToolkit.Labs.", StringComparison.OrdinalIgnoreCase);
             var isProjectTemplateHead = assemblyName.StartsWith("ProjectTemplate");
             var isSingleExperimentHead = !isAllExperimentHead && !isProjectTemplateHead;

@@ -153,7 +153,31 @@ namespace CommunityToolkit.Labs.Shared.Renderers
 
         private static async Task<string> GetDocumentationFileContents(ToolkitFrontMatter metadata)
         {
-            var fileUri = new Uri($"ms-appx:///SourceAssets/{metadata.FilePath}");
+            // MSBuild uses wildcard to find the files, and the wildcards decide where they end up
+            // Single experiments use relative paths, the allExperiment head uses absolute paths that grab from all experiments
+            // The wildcard captures decide the paths. This discrepency is accounted for manually.
+            // Logic here is the exact same that MSBuild uses to find and include the files we need.
+            var assemblyName = typeof(ToolkitSampleRenderer).Assembly.GetName().Name;
+            if (string.IsNullOrWhiteSpace(assemblyName))
+                throw new InvalidOperationException();
+
+            var isAllExperimentHead = assemblyName.StartsWith("CommunityToolkit.Labs.", StringComparison.OrdinalIgnoreCase);
+            var isProjectTemplateHead = assemblyName.StartsWith("ProjectTemplate");
+            var isSingleExperimentHead = !isAllExperimentHead && !isProjectTemplateHead;
+
+            if (metadata.FilePath is null || string.IsNullOrWhiteSpace(metadata.FilePath))
+                throw new InvalidOperationException("Missing or malformed path to markdown file. Unable to continue;");
+
+            var path = metadata.FilePath;
+
+            if (isSingleExperimentHead || isProjectTemplateHead)
+            {
+                var experimentName = assemblyName.Split(".")[0];
+                path = path.Split($"\\{experimentName}.Sample")[1];
+                path = $"{experimentName}.Sample{path}";
+            }
+
+            var fileUri = new Uri($"ms-appx:///SourceAssets/{path}");
 
             try
             {
