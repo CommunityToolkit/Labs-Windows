@@ -172,8 +172,8 @@ namespace CommunityToolkit.Labs.Shared.Renderers
 
             if (isSingleExperimentHead || isProjectTemplateHead)
             {
-                var experimentName = assemblyName.Split(".")[0];
-                path = path.Split($"\\{experimentName}.Sample")[1];
+                var experimentName = assemblyName.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)[0];
+                path = path.Split(new[] { $"\\{experimentName}.Sample" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 path = $"{experimentName}.Sample{path}";
             }
 
