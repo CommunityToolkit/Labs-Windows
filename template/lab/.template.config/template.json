@@ -12,7 +12,7 @@
   "shortName": "labexp",
   "tags": {
     "language": "C#",
-    "type": "project"
+    "type": "solution"
   },
   "sourceName": "ProjectTemplate",
   "preferNameDirectory": true,
