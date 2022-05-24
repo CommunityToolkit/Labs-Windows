@@ -1,7 +1,6 @@
-﻿<Application x:Class="SizerBase.UnitTests.WinAppSdk.App"
+<Application x:Class="CommunityToolkit.Labs.UnitTests.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:SizerBase.UnitTests.WinAppSdk">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
