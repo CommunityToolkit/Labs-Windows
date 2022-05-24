@@ -34,7 +34,7 @@ The `Tests` folder contains the tests. You can ignore the projects that end `.Un
 The main code of your experiment will go in the project `CommunityToolkit.Labs.WinUI.MyExperimentNameHere`. This is the code that will, hopefully, eventually, make it into the toolkit.
 You will find an empty class in `MyExperimentNameHere.cs` that you can use as your starting point.
 
-The project `MyExperimentNameHere.Sample`is where you can put code that will allow you to demonstrate and test the experiment. In this project you'll find a sample page that includes an example of how to use settings and properties that can be controlled within the sample app. This folder also contains a markdown files that contains the documentation for the experiment and how to use it.
+The project `MyExperimentNameHere.Sample`is where you can put code that will allow you to demonstrate and test the experiment. In this project you'll find a sample page that includes an example of how to use settings and properties that can be controlled within the sample app. This folder also contains a markdown file that contains the documentation for the experiment and how to use it.
 
 Tests for the code in teh experiment go in the `Tests/MyExperimentNameHere.Tests` project. This is a shared project that is referenced by the other test projects. This makes it easy to check that the experiment's code works in more than one place. There's an example test inside the `ExampleMyExperimentNameHereTestClass.cs` file
 
