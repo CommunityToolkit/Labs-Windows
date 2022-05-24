@@ -42,11 +42,11 @@
 
   <ItemGroup Condition="'$(IsSingleExperimentHead)' == 'true' or '$(IsProjectTemplateHead)' == 'true'">
     <!-- These are also included in Labs.Samples.props, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
-    <Content Include="..\*.Sample\**\*.md" Exclude="..\*.Sample\obj\**\*.md;..\*.Sample\bin\**\*.md;..\**\SourceAssets\**\*.md"  Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
-    <Content Include="..\*.Sample\**\*.xaml" Exclude="..\*.Sample\obj\**\*.xaml;..\*.Sample\bin\**\*.xaml;..\**\SourceAssets\**\*.xaml"  Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(MSBuildProjectDirectory)\..\*.Sample\**\*.md" Exclude="$(MSBuildProjectDirectory)\..\*.Sample\obj\**\*.md;$(MSBuildProjectDirectory)\..\*.Sample\bin\**\*.md;$(MSBuildProjectDirectory)\..\**\SourceAssets\**\*.md"  Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(MSBuildProjectDirectory)\..\*.Sample\**\*.xaml" Exclude="$(MSBuildProjectDirectory)\..\*.Sample\obj\**\*.xaml;$(MSBuildProjectDirectory)\..\*.Sample\bin\**\*.xaml;$(MSBuildProjectDirectory)\..\**\SourceAssets\**\*.xaml"  Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
-    <Content Include="..\*.Sample\**\*.cs" Exclude="..\*.Sample\obj\**\*.cs;..\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
+    <Content Include="$(MSBuildProjectDirectory)\..\*.Sample\**\*.cs" Exclude="$(MSBuildProjectDirectory)\..\*.Sample\obj\**\*.cs;$(MSBuildProjectDirectory)\..\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
     
     <!-- Include markdown files from all samples so the head can access them in the source generator -->
     <AdditionalFiles Include="$(MSBuildProjectDirectory)\..\*.Sample\**\*.md"  Exclude="$(MSBuildProjectDirectory)\..\**\obj\**\*.md;$(MSBuildProjectDirectory)\..\**\bin\**\*.md"/>
