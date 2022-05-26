@@ -10,7 +10,7 @@
     <Description>
       This package contains SizerBase.
     </Description>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
