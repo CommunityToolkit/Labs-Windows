@@ -27,7 +27,7 @@ The `Labs Dependencies` folder can be ignored. The projects it contains are refe
 
 The `Platforms` folder contains projects that host your sample(s) on different platforms. Run any of these projects to see your sample running inside a UWP, WASM, or WinAppSdk/WinUI3 app. Again, you shouldn't modify anything in these projects.
 
-The `Tests` folder contains the tests. You can ignore the projects that end `.UnitTests.Uwp` and `.UnitTests.WinAppSdk`. The shared project is where you will write tests. More on that below.
+The `Tests` folder contains the tests. The shared project `ProjectTemplate.Tests` is where you will write tests. You can use Test Explorer to run all your tests for both UWP and WinAppSdk. Otherwise, you can ignore the projects that end in `.UnitTests.Uwp` and `.UnitTests.WinAppSdk`. More on that below.
 
 #### Where to add your code
 
