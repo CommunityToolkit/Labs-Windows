@@ -28,6 +28,7 @@
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup>
+    <!-- These suppressions are for references between generated assemblies and that VS can keep in the Error List once resolved -->
     <NoWarn>WMC1006;CS8034;</NoWarn>
   </PropertyGroup>
   <ItemGroup>
