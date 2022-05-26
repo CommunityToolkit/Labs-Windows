@@ -31,7 +31,7 @@ The `Tests` folder contains the tests. The shared project `ProjectTemplate.Tests
 
 #### Where to add your code
 
-The main code of your experiment will go in the project `CommunityToolkit.Labs.WinUI.MyExperimentNameHere`. This is the code that will, hopefully, eventually, make it into the toolkit.
+The main code of your experiment will go in the project `CommunityToolkit.Labs.WinUI.MyExperimentNameHere`. When an experiment is merged into Labs, this code will be bundled automatically in a NuGet package and pushed to the Labs DevOps feed. This will let others try out your experiment and provide feedback to further your experiment.
 You will find an empty class in `MyExperimentNameHere.cs` that you can use as your starting point.
 
 The project `MyExperimentNameHere.Sample`is where you can put code that will allow you to demonstrate and exercise the experiment. In this project you'll find a sample page that includes an example of how to use settings and properties that can be controlled within the sample app. This folder also contains a markdown file that contains the documentation for the experiment and how to use it.
