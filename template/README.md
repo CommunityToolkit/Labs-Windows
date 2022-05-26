@@ -19,7 +19,7 @@ You can now open `./labs/MyExperimentNameHere/MyExperimentNameHere.sln` and star
 
 ### Inside the generated solution
 
-The solution includes 10 projects but is not as complicated as you might first think.
+The solution includes many projects but is not as complicated as you might first think.
 
 #### Things you can ignore
 
