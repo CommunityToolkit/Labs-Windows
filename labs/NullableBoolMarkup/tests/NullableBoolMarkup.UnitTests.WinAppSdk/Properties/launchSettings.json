@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NullableBoolMarkup.UnitTests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "NullableBoolMarkup.UnitTests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -26,6 +26,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 #endif
 
 namespace CommunityToolkit.Labs.UnitTests;
@@ -105,6 +106,9 @@ public sealed partial class App : Application
             rootFrame.NavigationFailed += OnNavigationFailed;
         }
 
+#if WINAPPSDK
+        UITestMethodAttribute.DispatcherQueue = currentWindow.DispatcherQueue;
+#endif
         ////Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
 
         // Ensure the current window is active

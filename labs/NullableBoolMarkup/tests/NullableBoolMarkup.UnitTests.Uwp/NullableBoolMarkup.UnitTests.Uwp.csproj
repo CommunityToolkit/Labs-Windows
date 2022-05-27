@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+
+  <PropertyGroup>
+    <ProjectGuid>{2654D129-2FA2-431F-B6B6-24A03C366F2B}</ProjectGuid>
+    <RootNamespace>NullableBoolMarkup.UnitTests</RootNamespace>
+    <AssemblyName>NullableBoolMarkup.UnitTests.Uwp</AssemblyName>
+    <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
+  </PropertyGroup>
+
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
+
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Properties\Default.rd.xml" />
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png">
+      <Link>Assets\LockScreenLogo.scale-200.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.scale-200.png">
+      <Link>Assets\Square150x150Logo.scale-200.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.scale-200.png">
+      <Link>Assets\Square44x44Logo.scale-200.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Link>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png">
+      <Link>Assets\StoreLogo.png</Link>
+    </Content>
+  </ItemGroup>
+
+  <!-- Needed Unit Testing helper base classes -->
+  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
+  <!-- Include the unit test files themselves -->
+  <Import Project="..\NullableBoolMarkup.Tests\NullableBoolMarkup.Tests.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.NullableBoolMarkup.csproj" />
+  </ItemGroup>
+</Project>

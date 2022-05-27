@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
+  <PropertyGroup>
+    <RootNamespace>NullableBoolMarkup.Uwp</RootNamespace>
+    <AssemblyName>NullableBoolMarkup.Uwp</AssemblyName>
+    <ProjectGuid>{82A00143-2547-42C3-BBBF-15A24A7F48C0}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.NullableBoolMarkup.csproj">
+      <Project>{4DBE959F-A9FC-4054-9ADB-246651D2C2A0}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.NullableBoolMarkup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NullableBoolMarkup.Sample\NullableBoolMarkup.Sample.csproj">
+      <Project>{BFA735AA-98C9-44F4-9A50-3523DAADADFE}</Project>
+      <Name>NullableBoolMarkup.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
