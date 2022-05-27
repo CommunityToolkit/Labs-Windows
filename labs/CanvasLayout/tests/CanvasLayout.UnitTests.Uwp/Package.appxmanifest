@@ -27,7 +27,7 @@
   <Applications>
     <Application Id="vstest.executionengine.universal.App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="CanvasLayout.UnitTests.Uwp.App">
+        EntryPoint="CanvasLayout.UnitTests.App">
       <uap:VisualElements
         DisplayName="CanvasLayout.UnitTests.Uwp"
         Square150x150Logo="Assets\Square150x150Logo.png"
