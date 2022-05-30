@@ -21,9 +21,6 @@
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />
-  </ItemGroup>
 
   <!-- Needed Unit Testing helper base classes -->
   <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />

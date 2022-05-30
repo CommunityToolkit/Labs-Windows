@@ -37,12 +37,6 @@
       <Link>Assets\StoreLogo.png</Link>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj">
-      <Project>{2ab4591a-6877-487a-9733-0f06771832ff}</Project>
-      <Name>CommunityToolkit.Labs.WinUI.ProjectTemplate</Name>
-    </ProjectReference>
-  </ItemGroup>
 
   <!-- Needed Unit Testing helper base classes -->
   <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
