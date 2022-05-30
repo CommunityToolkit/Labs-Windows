@@ -33,9 +33,10 @@ namespace ProjectTemplate.Tests
     public class ExampleProjectTemplateTestClass
     {
         [TestMethod]
-        public void Just_an_example_test()
+        public void SimpleExampleTest()
         {
-            Assert.AreEqual(1, 1);
+            var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate();
+            Assert.IsNotNull(systemUnderTest);
         }
     }
 }
