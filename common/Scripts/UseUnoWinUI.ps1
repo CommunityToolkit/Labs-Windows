@@ -34,3 +34,24 @@ if ($targets -eq "2") {
 }
 
 Set-Content -Force -Path ../Labs.Uno.props -Value $fileContents;
+
+foreach ($experimentDepsPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/../../**/Labs.WinUI.Dependencies.props") {
+    if ($allowGitChanges.IsPresent) {
+        Invoke-Expression "git update-index --no-assume-unchanged $experimentDepsPath"
+    }
+    else {
+        Invoke-Expression "git update-index --assume-unchanged $experimentDepsPath"
+    }
+
+    $fileContents = Get-Content -Path $experimentDepsPath;
+
+    if ($targets -eq "3") {
+        $fileContents = $fileContents -replace 'Project="Dependencies.WinUI2.props"', 'Project="Dependencies.WinUI3.props"';
+    }
+    
+    if ($targets -eq "2") {
+        $fileContents = $fileContents -replace 'Project="Dependencies.WinUI3.props"', 'Project="Dependencies.WinUI2.props"';
+    }
+
+    Set-Content -Value $fileContents -Path $experimentDepsPath;
+}

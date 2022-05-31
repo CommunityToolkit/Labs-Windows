@@ -1,0 +1,21 @@
+<!--
+    !! WARNING !!
+    This file is managed by the Labs build system.
+    
+    Do not modify this file to add dependencies.
+
+    Use Dependencies.WinUI2.props and Dependencies.WinUI3.props to add dependent UI libraries.
+ -->
+
+<Project>
+    <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props"/>
+
+    <PropertyGroup>
+        <IsUwpTargetFramework Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'">True</IsUwpTargetFramework>
+        <IsWinAppSdkTargetFramework Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'">True</IsWinAppSdkTargetFramework>
+
+        <IsUnoTargetFramework Condition="'$(IsWinAppSdkTargetFramework)' != 'True' AND '$(IsUwpTargetFramework)' != 'True'">True</IsUnoTargetFramework>
+    </PropertyGroup>
+
+    <Import Project="Dependencies.WinUI2.props" />
+</Project>

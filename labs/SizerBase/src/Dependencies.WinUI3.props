@@ -1,0 +1,18 @@
+<!--
+    HOW TO USE THIS FILE
+
+    WinUI 2 under UWP uses TargetFramework uap10.0.*
+    WinUI 3 under WinAppSdk uses TargetFramework net6.0-windows10.*
+    However, under Uno-powered platforms, both WinUI 2 and 3 share the same TargetFramework.
+
+    MSBuild doesn't play nicely with this out of the box, so we've made it easy for you.
+    Place nuget packages designed to work under WinUI 3 / Uno here.
+-->
+<Project>
+    <ItemGroup Condition="'$(IsUwpTargetFramework)' == 'True'">
+
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsUnoTargetFramework)' == 'True'">
+
+    </ItemGroup>
+</Project>
