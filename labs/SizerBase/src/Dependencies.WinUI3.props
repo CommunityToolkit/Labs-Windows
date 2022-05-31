@@ -9,10 +9,10 @@
     Place nuget packages designed to work under WinUI 3 / Uno here.
 -->
 <Project>
-    <ItemGroup Condition="'$(IsUwpTargetFramework)' == 'True'">
+    <ItemGroup Condition="'$(IsWinAppSdkTargetFramework)' == 'True'">
 
     </ItemGroup>
-    <ItemGroup Condition="'$(IsUnoTargetFramework)' == 'True'">
+    <ItemGroup Condition="'$(UseWinUI)' == '3' AND '$(IsUnoTargetFramework)' == 'True'">
 
     </ItemGroup>
 </Project>

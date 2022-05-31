@@ -46,11 +46,11 @@ foreach ($experimentDepsPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/../.
     $fileContents = Get-Content -Path $experimentDepsPath;
 
     if ($targets -eq "3") {
-        $fileContents = $fileContents -replace 'Project="Dependencies.WinUI2.props"', 'Project="Dependencies.WinUI3.props"';
+        $fileContents = $fileContents -replace '<UseWinUI>2</UseWinUI>', '<UseWinUI>3</UseWinUI>';
     }
     
     if ($targets -eq "2") {
-        $fileContents = $fileContents -replace 'Project="Dependencies.WinUI3.props"', 'Project="Dependencies.WinUI2.props"';
+        $fileContents = $fileContents -replace '<UseWinUI>3</UseWinUI>', '<UseWinUI>2</UseWinUI>';
     }
 
     Set-Content -Value $fileContents -Path $experimentDepsPath;

@@ -15,7 +15,9 @@
         <IsWinAppSdkTargetFramework Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'">True</IsWinAppSdkTargetFramework>
 
         <IsUnoTargetFramework Condition="'$(IsWinAppSdkTargetFramework)' != 'True' AND '$(IsUwpTargetFramework)' != 'True'">True</IsUnoTargetFramework>
+        <UseWinUI>2</UseWinUI>
     </PropertyGroup>
 
     <Import Project="Dependencies.WinUI2.props" />
+    <Import Project="Dependencies.WinUI3.props" />
 </Project>

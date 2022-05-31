@@ -12,7 +12,7 @@
     <ItemGroup Condition="'$(IsWinAppSdkTargetFramework)' == 'True'">
 
     </ItemGroup>
-    <ItemGroup Condition="'$(IsUnoTargetFramework)' == 'True'">
+    <ItemGroup Condition="'$(UseWinUI)' == '2' AND '$(IsUnoTargetFramework)' == 'True'">
 
     </ItemGroup>
 </Project>
