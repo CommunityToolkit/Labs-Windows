@@ -2,20 +2,20 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using CommunityToolkit.Labs.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-
+using System.Threading.Tasks;
 using UnitTests.Extensions.Helpers;
 
 #if !WINAPPSDK
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 #else
+using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -26,6 +26,10 @@ namespace NullableBoolMarkup.Tests
 {
     [TestClass]
     public class Test_NullableBoolMarkupExtension
+
+#if WINAPPSDK
+        : VisualUITestBase
+#endif
     {
         [TestCategory("NullableBoolMarkupExtension")]
         [UITestMethod]
@@ -139,10 +143,9 @@ namespace NullableBoolMarkup.Tests
             Assert.AreEqual(null, obj.NullableBool, "Expected obj value to be null.");
         }
 
-        #region System-based Unit Tests, See Issue #3198
+#region System-based Unit Tests, See Issue #3198
         [Ignore] // This test has trouble running on CI in release mode for some reason, we should re-enable when we test WinUI 3 Issue #3106
         [TestCategory("NullableBoolMarkupExtension")]
-
         [UITestMethod]
         public void Test_NullableBool_DependencyProperty_SystemTrue()
         {
@@ -188,16 +191,18 @@ namespace NullableBoolMarkup.Tests
         }
 
         [TestCategory("NullableBoolMarkupExtension")]
-        [UITestMethod]
-        public void Test_NullableBool_DependencyProperty_SystemNull()
+        [TestMethod]
+        public async Task Test_NullableBool_DependencyProperty_SystemNull()
         {
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
             var ownbp = new ObjectWithNullableBoolProperty();
 
             Assert.IsNotNull(ownbp);
 
-            // This is the failure case in the OS currently which causes us to need
-            // this markup extension.
-            var treeroot = XamlReader.Load(@"<Page
+                // This is the failure case in the OS currently which causes us to need
+                // this markup extension.
+                var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
@@ -206,19 +211,24 @@ namespace NullableBoolMarkup.Tests
     </Page.Resources>
 </Page>") as FrameworkElement;
 
-            var obj = treeroot?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
+                Assert.IsTrue(treeroot?.Resources.Keys.Contains("OurObject"), "Expected resource could not be found."); // Check this as it gives a meaningful error message, while the following line is more likely to give a COMException than assign a null that will be caught in subsequent Asserts
 
-            Assert.IsNotNull(obj, "Could not find object in resources.");
+                var obj = treeroot?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
 
-            Assert.IsNull(obj.NullableBool, "Expected obj value to be null.");
+                Assert.IsNotNull(obj, "Could not find object in resources.");
+
+                Assert.IsNull(obj.NullableBool, "Expected obj value to be null.");
+            });
         }
-        #endregion
+#endregion
 
         [TestCategory("NullableBoolMarkupExtension")]
-        [UITestMethod]
-        public void Test_NullableBool_DependencyProperty_TrueValue()
+        [TestMethod]
+        public async Task Test_NullableBool_DependencyProperty_TrueValue()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
@@ -233,13 +243,16 @@ namespace NullableBoolMarkup.Tests
             Assert.IsNotNull(obj, "Could not find object in resources.");
 
             Assert.AreEqual(true, obj.NullableBool, "Expected obj value to be true.");
+            });
         }
     }
 }
 
 namespace UnitTests.Extensions.Helpers
-    {
-
+{
+#if WINAPPSDK
+    [Windows.UI.Xaml.Data.Bindable]
+#endif
     public class ObjectWithNullableBoolProperty : DependencyObject
     {
         public bool? NullableBool
