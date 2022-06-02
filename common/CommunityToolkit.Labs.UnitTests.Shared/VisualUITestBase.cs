@@ -5,6 +5,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
+using System.Reflection;
 
 #if !WINAPPSDK
 using Microsoft.Toolkit.Uwp;
@@ -25,6 +26,34 @@ namespace CommunityToolkit.Labs.UnitTests;
 /// </summary>
 public class VisualUITestBase
 {
+    public TestContext? TestContext { get; set; }
+
+    public FrameworkElement? TestPage { get; private set; }
+
+    [TestInitialize]
+    public async Task TestInitialize()
+    {
+        if (TestContext != null)
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                TestPage = GetPageForTest(TestContext);
+
+                if (TestPage != null)
+                {
+                    Task result = SetTestContentAsync(TestPage);
+
+                    await result;
+
+                    if (!result.IsCompletedSuccessfully)
+                    {
+                        throw new Exception($"Failed to load page for {TestContext.TestName} with Exception: {result.Exception?.Message}", result.Exception);
+                    }
+                }
+            });
+        }
+    }
+
     /// <summary>
     /// Sets the content of the test app to a simple <see cref="FrameworkElement"/> to load into the visual tree.
     /// Waits for that element to be loaded and rendered before returning.
@@ -81,10 +110,61 @@ public class VisualUITestBase
             // Going to wait for our original content to unload
             App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
 
+            TestPage = null;
+
             // Trigger that now
             App.ContentRoot = null;
         });
 
         await taskCompletionSource.Task;
+    }
+
+    private static FrameworkElement? GetPageForTest(TestContext testContext)
+    {
+        var testName = testContext.TestName;
+        var theClassName = testContext.FullyQualifiedTestClassName;
+
+        var testClassString = $"test class \"{theClassName}\"";
+        if (Type.GetType(theClassName) is not Type type)
+        {
+            throw new Exception($"Could not find {testClassString}.");
+        }
+
+        Log.Comment($"Found {testClassString}.");
+
+        var testMethodString = $"test method \"{testName}\" in {testClassString}";
+        if (type.GetMethod(testName) is not MethodInfo method)
+        {
+            throw new Exception($"Could not find {testMethodString}.");
+        }
+
+        Log.Comment($"Found {testMethodString}.");
+
+        var testpageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
+        if (method.GetCustomAttribute(typeof(TestPageAttribute), true) is not TestPageAttribute attribute)
+        {
+            // If we don't have an attribute, we'll return null here to indicate such.
+            // Otherwise, we'll be throwing an exception on failure anyway below.
+            return null;
+        }
+
+        if (attribute.PageType is null)
+        {
+            throw new Exception($"{testpageAttributeString} requires `PageType` to be set.");
+        }
+
+        var obj = Activator.CreateInstance(attribute.PageType);
+
+        if (obj is null)
+        {
+            throw new Exception($"Could not instantiate page of type {attribute.PageType.FullName} for {testpageAttributeString}.");
+        }
+
+        if (obj is FrameworkElement element)
+        {
+            return element;
+        }
+
+        throw new Exception($"{attribute.PageType.FullName} is required to inherit from `FrameworkElement` for the {testpageAttributeString}.");
     }
 }
