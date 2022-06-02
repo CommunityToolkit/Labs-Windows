@@ -26,6 +26,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 #endif
 
 namespace CommunityToolkit.Labs.UnitTests;
@@ -113,6 +114,8 @@ public sealed partial class App : Application
 #if !WINAPPSDK
         Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
 #else
+        UITestMethodAttribute.DispatcherQueue = DispatcherQueue;
+
         // Replace back with e.Arguments when https://github.com/microsoft/microsoft-ui-xaml/issues/3368 is fixed
         Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(Environment.CommandLine);
 #endif
