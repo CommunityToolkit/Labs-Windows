@@ -9,7 +9,7 @@
     Place nuget packages designed to work under WinUI 2 / Uno here.
 -->
 <Project>
-    <ItemGroup Condition="'$(IsWinAppSdkTargetFramework)' == 'True'">
+    <ItemGroup Condition="'$(IsUwpTargetFramework)' == 'True'">
 
     </ItemGroup>
     <ItemGroup Condition="'$(UseWinUI)' == '2' AND '$(IsUnoTargetFramework)' == 'True'">
