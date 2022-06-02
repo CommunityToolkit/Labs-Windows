@@ -25,11 +25,7 @@ using Microsoft.UI.Xaml.Markup;
 namespace NullableBoolMarkup.Tests
 {
     [TestClass]
-    public class Test_NullableBoolMarkupExtension
-
-#if WINAPPSDK
-        : VisualUITestBase
-#endif
+    public class Test_NullableBoolMarkupExtension : VisualUITestBase
     {
         [TestCategory("NullableBoolMarkupExtension")]
         [UITestMethod]
@@ -143,7 +139,7 @@ namespace NullableBoolMarkup.Tests
             Assert.AreEqual(null, obj.NullableBool, "Expected obj value to be null.");
         }
 
-#region System-based Unit Tests, See Issue #3198
+        #region System-based Unit Tests, See Issue #3198
         [Ignore] // This test has trouble running on CI in release mode for some reason, we should re-enable when we test WinUI 3 Issue #3106
         [TestCategory("NullableBoolMarkupExtension")]
         [UITestMethod]
@@ -192,35 +188,37 @@ namespace NullableBoolMarkup.Tests
 
         [TestCategory("NullableBoolMarkupExtension")]
         [TestMethod]
+        [TestPage(typeof(NullableBool_DependencyProperty_SystemNull))]
         public async Task Test_NullableBool_DependencyProperty_SystemNull()
         {
             await App.DispatcherQueue.EnqueueAsync(() =>
             {
-            var ownbp = new ObjectWithNullableBoolProperty();
+                ////            var ownbp = new ObjectWithNullableBoolProperty();
 
-            Assert.IsNotNull(ownbp);
+                ////            Assert.IsNotNull(ownbp);
 
-                // This is the failure case in the OS currently which causes us to need
-                // this markup extension.
-                var treeroot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
-    <Page.Resources>
-        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{x:Null}""/>
-    </Page.Resources>
-</Page>") as FrameworkElement;
+                ////                // This is the failure case in the OS currently which causes us to need
+                ////                // this markup extension.
+                ////                var treeroot = XamlReader.Load(@"<Page
+                ////    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+                ////    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+                ////    xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
+                ////    <Page.Resources>
+                ////        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{x:Null}""/>
+                ////    </Page.Resources>
+                ////</Page>") as FrameworkElement;
 
-                Assert.IsTrue(treeroot?.Resources.Keys.Contains("OurObject"), "Expected resource could not be found."); // Check this as it gives a meaningful error message, while the following line is more likely to give a COMException than assign a null that will be caught in subsequent Asserts
+                //var resources = TestPage?.FindDescendant<ObjectWithNullableBoolProperty>();
+                Assert.IsTrue(TestPage?.Resources.Keys.Contains("OurObject"), "Expected resource could not be found."); // Check this as it gives a meaningful error message, while the following line is more likely to give a COMException than assign a null that will be caught in subsequent Asserts
 
-                var obj = treeroot?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
+                    var obj = TestPage?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
 
                 Assert.IsNotNull(obj, "Could not find object in resources.");
 
                 Assert.IsNull(obj.NullableBool, "Expected obj value to be null.");
             });
         }
-#endregion
+        #endregion
 
         [TestCategory("NullableBoolMarkupExtension")]
         [TestMethod]
@@ -238,11 +236,11 @@ namespace NullableBoolMarkup.Tests
     </Page.Resources>
 </Page>") as FrameworkElement;
 
-            var obj = treeroot?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
+                var obj = treeroot?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
 
-            Assert.IsNotNull(obj, "Could not find object in resources.");
+                Assert.IsNotNull(obj, "Could not find object in resources.");
 
-            Assert.AreEqual(true, obj.NullableBool, "Expected obj value to be true.");
+                Assert.AreEqual(true, obj.NullableBool, "Expected obj value to be true.");
             });
         }
     }
