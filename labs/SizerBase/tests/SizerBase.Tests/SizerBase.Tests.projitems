@@ -10,5 +10,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleSizerBaseTestClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertySizerTestInitialBinding.xaml.cs">
+      <DependentUpon>PropertySizerTestInitialBinding.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)PropertySizerTestInitialBinding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

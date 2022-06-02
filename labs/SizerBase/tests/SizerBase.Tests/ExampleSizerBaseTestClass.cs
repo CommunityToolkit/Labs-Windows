@@ -14,10 +14,12 @@ using System.Threading.Tasks;
 
 #if !WINAPPSDK
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 #else
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 #endif
@@ -51,6 +53,21 @@ public class ExampleSizerBaseTestClass : VisualUITestBase
 
             gridSplitter.SetValue(AutomationProperties.NameProperty, automationName);
             Assert.IsTrue(gridSplitterAutomationPeer.GetName().Contains(automationName), "Verify that the UIA name contains the customized AutomationProperties.Name of the GridSplitter.");
+        });
+    }
+
+    [TestMethod]
+    [TestPage(typeof(PropertySizerTestInitialBinding))]
+    public async Task PropertySizer_TestInitialBinding()
+    {
+        await App.DispatcherQueue.EnqueueAsync(() => {
+            // TestPage shouldn't be null here, but we'll do the safer ?. to be sure.
+            var propertySizer = TestPage?.FindDescendant<PropertySizer>();
+
+            Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
+
+            // Set in XAML Page LINK: PropertySizerTestInitialBinding.xaml#L14
+            Assert.AreEqual(300, propertySizer.Binding, "Property Sizer not at expected initial value.");
         });
     }
 }
