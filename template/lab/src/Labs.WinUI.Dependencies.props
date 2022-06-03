@@ -2,7 +2,7 @@
     !! WARNING !!
     This file is managed by the Labs build system.
     
-    Do not modify this file to add dependencies.
+    DO NOT MODIFY THIS FILE.
 
     Use Dependencies.WinUI2.props and Dependencies.WinUI3.props to add dependent UI libraries.
  -->
