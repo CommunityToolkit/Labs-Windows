@@ -8,7 +8,7 @@
     MSBuild doesn't play nicely with this out of the box, so we've made it easy for you.
 
     For .NET Standard packages, you can use the Nuget Package Manager in Visual Studio.
-    For WinUI 2 / Uno packages, place the package references here.
+    For WinUI 3 / Uno packages, place the package references here.
 -->
 <Project>
     <ItemGroup Condition="'$(IsWinAppSdkTargetFramework)' == 'True'">
