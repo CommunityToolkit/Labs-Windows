@@ -4,8 +4,8 @@ Param (
 )
 
 $templatedSampleProjectReferencesDefinitionMarker = "[TemplatedSampleProjectReferences]"
-$sampleRefsPropsTemplatePath = 'common/Labs.SampleRefs.props.template';
-$generatedSampleRefsPropsPath = 'common/Labs.SampleRefs.props';
+$sampleRefsPropsTemplatePath = "$PSScriptRoot/common/Labs.SampleRefs.props.template";
+$generatedSampleRefsPropsPath = "$PSScriptRoot/common/Labs.SampleRefs.props";
 
 function CreateVsCodeLaunchConfigJson {
   param (
@@ -40,7 +40,7 @@ $sampleRefsPropsTemplate = Get-Content -Path $sampleRefsPropsTemplatePath;
 Write-Output "Loaded sample ProjectReference template from $sampleRefsPropsTemplatePath";
 
 # Add sample projects
-foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sample/*.Sample.csproj') {
+foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/labs/*/samples/*.Sample/*.Sample.csproj") {
   $relativePath = Resolve-Path -Relative -Path $sampleProjectPath;
   $relativePath = $relativePath.TrimStart('.\');
   $projectName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath);
@@ -54,7 +54,7 @@ foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sa
 }
 
 # Add library projects
-foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/src/*.csproj') {
+foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/labs/*/src/*.csproj") {
   $relativePath = Resolve-Path -Relative -Path $sampleProjectPath;
   $relativePath = $relativePath.TrimStart('.\');
   $projectName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath);
@@ -73,7 +73,7 @@ $sampleRefsPropsTemplate = $sampleRefsPropsTemplate -replace [regex]::escape($te
 Set-Content -Path $generatedSampleRefsPropsPath -Value $sampleRefsPropsTemplate;
 Write-Output "Sample project references generated at $generatedSampleRefsPropsPath";
 
-$launchConfigJson = Get-Content -Path "./.vscode/launch.json";
+$launchConfigJson = Get-Content -Path "$PSScriptRoot/.vscode/launch.json";
 $launchConfig = $launchConfigJson | ConvertFrom-Json;
 
 # Remove all non-generated configurations
@@ -82,7 +82,7 @@ $launchConfig.configurations = @();
 $launchConfig.configurations += $originalConfigurations[0];
 $launchConfig.configurations += $originalConfigurations[1];
 
-foreach ($wasmProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Wasm/*.Wasm.csproj') {
+foreach ($wasmProjectPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/labs/*/samples/*.Wasm/*.Wasm.csproj") {
   $projectName = [System.IO.Path]::GetFileNameWithoutExtension($wasmProjectPath) -Replace ".Wasm", "";
   Write-Host "Generating VSCode launch config for $projectName";
 
@@ -98,9 +98,9 @@ if ($allowGitChanges.IsPresent) {
 }
 else {
   Write-Output "Changes to the default launch.json in Labs are now suppressed. To switch branches, run git reset --hard with a clean working tree. Include the -allowGitChanges flag to enable committing changes.";
-  git update-index --assume-unchanged ./.vscode/launch.json
+  git update-index --assume-unchanged $PSScriptRoot/.vscode/launch.json
 }
 
 # Save
-Set-Content -Path "./.vscode/launch.json" -Value ($launchConfig | ConvertTo-Json -Depth 9);
-Write-Output "Saved VSCode launch configs to ./.vscode/launch.json";
+Set-Content -Path "$PSScriptRoot/.vscode/launch.json" -Value ($launchConfig | ConvertTo-Json -Depth 9);
+Write-Output "Saved VSCode launch configs to $PSScriptRoot/.vscode/launch.json";
