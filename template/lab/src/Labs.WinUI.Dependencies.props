@@ -12,7 +12,7 @@
 
     <PropertyGroup>
         <IsUwpTargetFramework Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'">True</IsUwpTargetFramework>
-        <IsWinAppSdkTargetFramework Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'">True</IsWinAppSdkTargetFramework>
+        <IsWinAppSdkTargetFramework Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">True</IsWinAppSdkTargetFramework>
 
         <IsUnoTargetFramework Condition="'$(IsWinAppSdkTargetFramework)' != 'True' AND '$(IsUwpTargetFramework)' != 'True'">True</IsUnoTargetFramework>
         <UseWinUI>2</UseWinUI>
