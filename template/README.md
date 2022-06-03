@@ -27,7 +27,7 @@ The `Labs Dependencies` folder can be ignored. The projects it contains are refe
 
 The `Platforms` folder contains projects that host your sample(s) on different platforms. Run any of these projects to see your sample running inside a UWP, WASM, or WinAppSdk/WinUI3 app. Again, you shouldn't modify anything in these projects.
 
-The `Tests` folder contains the tests. The shared project `ProjectTemplate.Tests` is where you will write tests. You can use Test Explorer to run all your tests for both UWP and WinAppSdk. Otherwise, you can ignore the projects that end in `.UnitTests.Uwp` and `.UnitTests.WinAppSdk`. More on that below.
+The `Tests` folder contains projects used to run the tests on different platforms. Details of where to create tests for the code in the experiment are below.
 
 #### Where to add your code
 
@@ -36,7 +36,7 @@ You will find an empty class in `MyExperimentNameHere.cs` that you can use as yo
 
 The project `MyExperimentNameHere.Sample`is where you can put code that will allow you to demonstrate and exercise the experiment. In this project you'll find a sample page that includes an example of how to use settings and properties that can be controlled within the sample app. This folder also contains a markdown file that contains the documentation for the experiment and how to use it.
 
-Tests for the code in the experiment go in the `Tests/MyExperimentNameHere.Tests` project. This is a shared project that is referenced by the other test projects. This makes it easy to check that the experiment's code works in more than one place. There's an example test inside the `ExampleMyExperimentNameHereTestClass.cs` file
+Tests for the code in the experiment go in the `MyExperimentNameHere.Tests` project. This is a shared project that is referenced by the other test projects. This makes it easy to check that the experiment's code works in more than one place. There's an example test inside the `ExampleMyExperimentNameHereTestClass.cs` file
 
 ### If things go wrong
 
