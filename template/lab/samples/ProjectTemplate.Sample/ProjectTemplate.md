@@ -17,6 +17,10 @@ subcategory: Layout
 
 # ProjectTemplate
 
+For more information about this experiment see:
+- Discussion: TODO: PASTE LINK HERE
+- Issue: TODO: PASTE LINK HERE
+
 TODO: Fill in information about this experiment and how to get started here...
 
 > [!SAMPLE ProjectTemplateFirstSamplePage]
