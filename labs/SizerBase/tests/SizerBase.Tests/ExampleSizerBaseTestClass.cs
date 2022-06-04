@@ -17,11 +17,15 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Controls;
+using MUXC = Microsoft.UI.Xaml.Controls;
 #else
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Controls;
+using MUXC = Microsoft.UI.Xaml.Controls;
 #endif
 
 namespace SizerBase.Tests;
@@ -68,6 +72,25 @@ public class ExampleSizerBaseTestClass : VisualUITestBase
 
             // Set in XAML Page LINK: PropertySizerTestInitialBinding.xaml#L14
             Assert.AreEqual(300, propertySizer.Binding, "Property Sizer not at expected initial value.");
+        });
+    }
+
+    [TestMethod]
+    [TestPage(typeof(PropertySizerTestInitialBinding))]
+    public async Task PropertySizer_TestChangeBinding()
+    {
+        await App.DispatcherQueue.EnqueueAsync(() => {
+            // TestPage shouldn't be null here, but we'll do the safer ?. to be sure.
+            var propertySizer = TestPage?.FindDescendant<PropertySizer>();
+            var navigationView = TestPage?.FindDescendant<MUXC.NavigationView>();
+
+            Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
+            Assert.IsNotNull(navigationView, "Could not find NavigationView control.");
+
+            navigationView.OpenPaneLength = 200;
+
+            // Set in XAML Page LINK: PropertySizerTestInitialBinding.xaml#L14
+            Assert.AreEqual(200, propertySizer.Binding, "Property Sizer not at expected changed value.");
         });
     }
 }
