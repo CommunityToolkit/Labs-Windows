@@ -200,6 +200,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers
         /// </summary>
         private static string GetRelativePathToFileWithoutExtension(Type type)
         {
+            // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/142
             // MSBuild uses wildcard to find the files, and the wildcards decide where they end up
             // Single experiments use relative paths, the allExperiment head uses absolute paths that grab from all experiments
             // The wildcard captures decide the paths. This discrepency is accounted for manually.
