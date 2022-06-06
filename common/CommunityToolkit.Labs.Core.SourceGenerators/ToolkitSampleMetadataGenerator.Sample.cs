@@ -121,7 +121,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                     );
 
                 var docFrontMatter = GatherDocumentFrontMatter(ctx, markdownFileData);
-
+                
                 if (isExecutingInSampleProject && !skipDiagnostics)
                 {
                     ReportSampleDiagnostics(ctx, toolkitSampleAttributeData, optionsPaneAttribute, generatedOptionPropertyData);

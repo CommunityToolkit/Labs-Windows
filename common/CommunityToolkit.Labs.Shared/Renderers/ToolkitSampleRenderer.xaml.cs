@@ -89,7 +89,6 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             set => SetValue(SampleControlInstanceProperty, value);
         }
 
-
         /// <summary>
         /// The options pane for the sample being displayed.
         /// </summary>
@@ -197,10 +196,23 @@ namespace CommunityToolkit.Labs.Shared.Renderers
 
         /// <summary>
         /// Compute path to a code file bundled in the app using type information.
-        /// Assumes file path in project matches namespace.
+        /// Assumes path to file within the included assembly folder matches the namespace.
         /// </summary>
         private static string GetRelativePathToFileWithoutExtension(Type type)
         {
+            // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/142
+            // MSBuild uses wildcard to find the files, and the wildcards decide where they end up
+            // Single experiments use relative paths, the allExperiment head uses absolute paths that grab from all experiments
+            // The wildcard captures decide the paths. This discrepency is accounted for manually.
+            // Logic here is the exact same that MSBuild uses to find and include the files we need.
+            var assemblyName = typeof(ToolkitSampleRenderer).Assembly.GetName().Name;
+            if (string.IsNullOrWhiteSpace(assemblyName))
+                throw new InvalidOperationException();
+
+            var isAllExperimentHead = assemblyName.StartsWith("CommunityToolkit.Labs.", StringComparison.OrdinalIgnoreCase);
+            var isProjectTemplateHead = assemblyName.StartsWith("ProjectTemplate");
+            var isSingleExperimentHead = !isAllExperimentHead && !isProjectTemplateHead;
+
             var simpleAssemblyName = type.Assembly.GetName().Name;
             var typeNamespace = type.Namespace;
 
@@ -213,13 +225,16 @@ namespace CommunityToolkit.Labs.Shared.Renderers
             var sampleName = simpleAssemblyName.Replace(".Sample", "");
 
             var folderPath = typeNamespace.Replace(simpleAssemblyName, "").Trim('.').Replace('.', '/');
-
             if (folderPath.Length != 0)
-            {
                 folderPath += "/";
-            }
 
-            return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}{type.Name}";
+            if (isSingleExperimentHead || isProjectTemplateHead)
+                return $"SourceAssets/{simpleAssemblyName}/{folderPath}{type.Name}";
+            
+            if (isAllExperimentHead)
+                return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}{type.Name}";
+
+            throw new InvalidOperationException("Unable to determine if running in a single or all experiment solution.");
         }
     }
 }
