@@ -17,12 +17,16 @@
         <IsDroid Condition="'$(IsDroid)' == '' AND '$(TargetFramework)' == '$(AndroidLibTargetFramework)'">True</IsDroid>
         <IsMacOS Condition="'$(IsMacOS)' == '' AND '$(TargetFramework)' == '$(MacOSLibTargetFramework)'">True</IsMacOS>
         <IsiOS Condition="'$(IsiOS)' == '' AND '$(TargetFramework)' == '$(iOSLibTargetFramework)'">True</IsiOS>
+
+        <IsUwp Condition="'$(IsUwp)' == '' AND '$(TargetFramework)' == '$(UwpTargetFramework)'">True</IsUwp>
+        <IsWinAppSdk Condition="'$(IsWinAppSdk)' == '' AND '$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">True</IsWinAppSdk>
         
         <IsUno Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true' OR '$(IsDroid)' == 'true' OR '$(IsMacOS)' == 'true' OR '$(IsiOS)' == 'true'">True</IsUno>
 
         <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);</DefineConstants>
 
         <PackageIdVariant>Uwp</PackageIdVariant>
+        <WinUIMajorVersion>2</WinUIMajorVersion>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(IsUno)' == 'true'">
