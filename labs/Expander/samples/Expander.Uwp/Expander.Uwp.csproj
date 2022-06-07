@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
+  <PropertyGroup>
+    <RootNamespace>Expander.Uwp</RootNamespace>
+    <AssemblyName>Expander.Uwp</AssemblyName>
+    <ProjectGuid>{94BECF55-40D9-4C2B-8E3B-43B5029AD03F}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.Expander.csproj">
+      <Project>{8CBAF8F1-5461-4210-8101-77800B6F129E}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.Expander</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Expander.Sample\Expander.Sample.csproj">
+      <Project>{5D390C4F-F9B8-4002-9BE3-033F76443FAD}</Project>
+      <Name>Expander.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

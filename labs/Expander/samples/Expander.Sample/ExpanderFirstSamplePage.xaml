@@ -1,0 +1,15 @@
+<Page x:Class="Expander.Sample.ExpanderFirstSamplePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Expander.Sample"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      mc:Ignorable="d">
+
+    <labs:Expander IsExpanded="False"
+                   ExpandDirection="Down"
+                   VerticalAlignment="Top"
+                   Header="This text is in the header"
+                   Content="This is in the content" />
+</Page>
