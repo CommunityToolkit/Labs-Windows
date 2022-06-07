@@ -1,3 +1,7 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +28,11 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #endif
 
-namespace NullableBoolMarkup.Tests
+namespace NullableBoolMarkup.UnitTests
 {
-    public sealed partial class NullableBool_DependencyProperty_SystemNull : Page
+    public sealed partial class Page1 : Page
     {
-        public NullableBool_DependencyProperty_SystemNull()
+        public Page1()
         {
             this.InitializeComponent();
         }

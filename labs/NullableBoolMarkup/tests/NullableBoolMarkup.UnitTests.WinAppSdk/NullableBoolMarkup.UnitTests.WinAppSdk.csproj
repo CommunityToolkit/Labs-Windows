@@ -6,6 +6,9 @@
 
   <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
+  <ItemGroup>
+    <None Remove="Page1.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
@@ -29,5 +32,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.NullableBoolMarkup.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Page1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

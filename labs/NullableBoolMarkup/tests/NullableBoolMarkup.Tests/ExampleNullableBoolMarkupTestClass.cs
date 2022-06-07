@@ -25,17 +25,23 @@ using Microsoft.UI.Xaml.Markup;
 namespace NullableBoolMarkup.Tests
 {
     [TestClass]
-    public class Test_NullableBoolMarkupExtension : VisualUITestBase
+    public class Test_NullableBoolMarkupExtension
     {
+#if !WINAPPSDK
+        private const string uiNamespace = "Microsoft.Toolkit.Uwp.UI";
+#else
+        private const string uiNamespace = "CommunityToolkit.WinUI.UI";
+#endif
+
         [TestCategory("NullableBoolMarkupExtension")]
         [UITestMethod]
         public void Test_NullableBool_MarkupExtension_ProvidesTrue()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeroot = XamlReader.Load($@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool Value=True}""/>
+    xmlns:ui=""using:{uiNamespace}"">
+        <CheckBox x:Name=""Check"" IsChecked=""{{ui:NullableBool Value=True}}""/>
 </Page>") as FrameworkElement;
 
             var toggle = treeroot?.FindChild("Check") as CheckBox;
@@ -49,11 +55,11 @@ namespace NullableBoolMarkup.Tests
         [UITestMethod]
         public void Test_NullableBool_MarkupExtension_ProvidesFalse()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeroot = XamlReader.Load($@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool Value=False}""/>
+    xmlns:ui=""using:{uiNamespace}"">
+        <CheckBox x:Name=""Check"" IsChecked=""{{ui:NullableBool Value=False}}""/>
 </Page>") as FrameworkElement;
 
             var toggle = treeroot?.FindChild("Check") as CheckBox;
@@ -67,11 +73,11 @@ namespace NullableBoolMarkup.Tests
         [UITestMethod]
         public void Test_NullableBool_MarkupExtension_ProvidesNull()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeroot = XamlReader.Load($@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool IsNull=True}""/>
+    xmlns:ui=""using:{uiNamespace}"">
+        <CheckBox x:Name=""Check"" IsChecked=""{{ui:NullableBool IsNull=True}}""/>
 </Page>") as FrameworkElement;
 
             var toggle = treeroot?.FindChild("Check") as CheckBox;
@@ -85,11 +91,11 @@ namespace NullableBoolMarkup.Tests
         [UITestMethod]
         public void Test_NullableBool_MarkupExtension_ProvidesNullStillWithTrueValue()
         {
-            var treeroot = XamlReader.Load(@"<Page
+            var treeroot = XamlReader.Load($@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool IsNull=True, Value=True}""/>
+    xmlns:ui=""using:{uiNamespace}"">
+        <CheckBox x:Name=""Check"" IsChecked=""{{ui:NullableBool IsNull=True, Value=True}}""/>
 </Page>") as FrameworkElement;
 
             var toggle = treeroot?.FindChild("Check") as CheckBox;
@@ -104,11 +110,11 @@ namespace NullableBoolMarkup.Tests
         public void Test_NullableBool_MarkupExtension_ProvidesNullStillWithFalseValue()
         {
             // Should be no-op as Value is false by default.
-            var treeroot = XamlReader.Load(@"<Page
+            var treeroot = XamlReader.Load($@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool IsNull=True, Value=False}""/>
+    xmlns:ui=""using:{uiNamespace}"">
+        <CheckBox x:Name=""Check"" IsChecked=""{{ui:NullableBool IsNull=True, Value=False}}""/>
 </Page>") as FrameworkElement;
 
             var toggle = treeroot?.FindChild("Check") as CheckBox;
@@ -187,67 +193,56 @@ namespace NullableBoolMarkup.Tests
         }
 
         [TestCategory("NullableBoolMarkupExtension")]
-        [TestMethod]
-        [TestPage(typeof(NullableBool_DependencyProperty_SystemNull))]
-        public async Task Test_NullableBool_DependencyProperty_SystemNull()
+        [UITestMethod]
+        public void Test_NullableBool_DependencyProperty_SystemNull()
         {
-            await App.DispatcherQueue.EnqueueAsync(() =>
-            {
-                ////            var ownbp = new ObjectWithNullableBoolProperty();
+            // This is the failure case in the OS currently which causes us to need
+            // this markup extension.
+            var treeroot = XamlReader.Load(@"<Page
+                    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+                    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+                    xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
+                    <Page.Resources>
+                        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{x:Null}""/>
+                    </Page.Resources>
+                </Page>") as FrameworkElement;
 
-                ////            Assert.IsNotNull(ownbp);
+            Assert.IsTrue(treeroot?.Resources.ContainsKey("OurObject"), "Expected resource could not be found."); // Check this as it gives a meaningful error message, while the following line is more likely to give a COMException than assign a null that will be caught in subsequent Asserts
 
-                ////                // This is the failure case in the OS currently which causes us to need
-                ////                // this markup extension.
-                ////                var treeroot = XamlReader.Load(@"<Page
-                ////    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-                ////    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-                ////    xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
-                ////    <Page.Resources>
-                ////        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{x:Null}""/>
-                ////    </Page.Resources>
-                ////</Page>") as FrameworkElement;
+            var obj = treeroot?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
 
-                //var resources = TestPage?.FindDescendant<ObjectWithNullableBoolProperty>();
-                Assert.IsTrue(TestPage?.Resources.Keys.Contains("OurObject"), "Expected resource could not be found."); // Check this as it gives a meaningful error message, while the following line is more likely to give a COMException than assign a null that will be caught in subsequent Asserts
+            Assert.IsNotNull(obj, "Could not find object in resources.");
 
-                    var obj = TestPage?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
-
-                Assert.IsNotNull(obj, "Could not find object in resources.");
-
-                Assert.IsNull(obj.NullableBool, "Expected obj value to be null.");
-            });
+            Assert.IsNull(obj.NullableBool, "Expected obj value to be null.");
         }
         #endregion
 
         [TestCategory("NullableBoolMarkupExtension")]
-        [TestMethod]
-        public async Task Test_NullableBool_DependencyProperty_TrueValue()
+        [UITestMethod]
+        public void Test_NullableBool_DependencyProperty_TrueValue()
         {
-            await App.DispatcherQueue.EnqueueAsync(() =>
-            {
-                var treeroot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
-    xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
-    <Page.Resources>
-        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{ui:NullableBool Value=True}""/>
-    </Page.Resources>
+            var treeroot = XamlReader.Load($@"<Page
+xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+xmlns:ui=""using:{uiNamespace}""
+xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
+<Page.Resources>
+    <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{{ui:NullableBool Value=True}}""/>
+</Page.Resources>
 </Page>") as FrameworkElement;
 
-                var obj = treeroot?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
+            var obj = treeroot?.Resources["OurObject"] as ObjectWithNullableBoolProperty;
 
-                Assert.IsNotNull(obj, "Could not find object in resources.");
+            Assert.IsNotNull(obj, "Could not find object in resources.");
 
-                Assert.AreEqual(true, obj.NullableBool, "Expected obj value to be true.");
-            });
+            Assert.AreEqual(true, obj.NullableBool, "Expected obj value to be true.");
         }
     }
+
 }
 
 namespace UnitTests.Extensions.Helpers
-{
+{ 
 #if WINAPPSDK
     [Windows.UI.Xaml.Data.Bindable]
 #endif
