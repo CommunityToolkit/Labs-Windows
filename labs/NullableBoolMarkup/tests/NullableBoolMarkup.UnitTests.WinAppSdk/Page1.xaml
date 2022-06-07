@@ -6,6 +6,7 @@
     xmlns:local="using:NullableBoolMarkup.UnitTests"
     xmlns:ui="using:CommunityToolkit.WinUI.UI">
     <Page.Resources>
+        <!--  This is included as unless specified in XAML the custom types can't be loaded with XamlReader  -->
         <helpers:ObjectWithNullableBoolProperty x:Key="AnExample" NullableBool="{ui:NullableBool Value=True}" />
     </Page.Resources>
 
