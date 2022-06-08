@@ -19,7 +19,6 @@ using MUXC = Microsoft.UI.Xaml.Controls;
 #else
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
@@ -30,4 +29,12 @@ namespace CommunityToolkit.Labs.WinUI;
 
 public class Expander : MUXC.Expander
 {
+    public Expander()
+    {
+        this.DefaultStyleKey = typeof(Expander);
+#if !HAS_UNO
+        // Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/3502
+        this.DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.Labs.WinUI.Expander/Themes/Generic.xaml");
+#endif
+    }
 }
