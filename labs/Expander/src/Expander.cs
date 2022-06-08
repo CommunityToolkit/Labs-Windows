@@ -15,15 +15,14 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
-using MUXC = Microsoft.UI.Xaml.Controls;
 #else
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
-using MUXC = Microsoft.UI.Xaml.Controls;
 #endif
+using MUXC = Microsoft.UI.Xaml.Controls;
 
 namespace CommunityToolkit.Labs.WinUI;
 
