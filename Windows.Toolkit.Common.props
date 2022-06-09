@@ -14,10 +14,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Features>Strict</Features>
-    <Nullable>enable</Nullable>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
-    <LangVersion>10.0</LangVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
