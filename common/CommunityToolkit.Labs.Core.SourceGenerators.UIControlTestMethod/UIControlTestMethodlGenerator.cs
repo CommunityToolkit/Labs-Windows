@@ -80,14 +80,11 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
         [TestMethod]
         public Task {methodSymbol.Name}_Test()
         {{
-            return App.DispatcherQueue.EnqueueAsync(async () => {{
+            return EnqueueAsync(async () => {{
                 TestPage = new {controlTypeSymbol.GetFullyQualifiedName()}();
 
                 // Set content
-                Task result = SetTestContentAsync(TestPage);
-                await result;
-
-                Assert.IsTrue(result.IsCompletedSuccessfully, $""Failed to load page {controlTypeSymbol.GetFullyQualifiedName()} for test { methodSymbol.Name } with Exception: {{ result.Exception?.Message}} "");
+                await SetTestContentAsync(TestPage);
 
                 // Call original
                 {(isAsync ? "await " : string.Empty)}{methodSymbol.Name}();
@@ -99,7 +96,7 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
 }}
 ";
 
-        context.AddSource($"{methodSymbol}.g", source);
+        context.AddSource($"{methodSymbol.Name}.g", source);
     }
 
     private static bool ControlTypeInheritsFrameworkElement(INamedTypeSymbol controlType)

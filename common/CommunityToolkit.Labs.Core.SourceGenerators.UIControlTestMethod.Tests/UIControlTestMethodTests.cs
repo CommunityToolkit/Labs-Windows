@@ -13,20 +13,14 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
     [TestClass]
     public partial class UIControlTestMethodTests
     {
-        private const string AppDispatcherQueueDefinition = @"
+        private const string DispatcherQueueDefinition = @"
 namespace MyApp
 {
-    public class DispatcherQueue
+    public partial class Test
     {
-        public System.Threading.Tasks.Task EnqueueAsync(System.Action function)
-        {
-            return System.Threading.Tasks.Task.Run(function);
-        }
-    }
+        public System.Threading.Tasks.Task EnqueueAsync<T>(System.Func<System.Threading.Tasks.Task<T>> function) => System.Threading.Tasks.Task.Run(function);
 
-    public class App
-    {
-        public static DispatcherQueue DispatcherQueue { get; } = new DispatcherQueue();
+        public System.Threading.Tasks.Task EnqueueAsync(System.Action function) => System.Threading.Tasks.Task.Run(function);
     }
 }
 ";
@@ -61,7 +55,7 @@ namespace MyApp
                 }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + AppDispatcherQueueDefinition, DiagnosticDescriptors.TypeDoesNotInheritFrameworkElement.Id);
+            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TypeDoesNotInheritFrameworkElement.Id);
         }
 
         [TestMethod]
@@ -94,7 +88,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + AppDispatcherQueueDefinition);
+            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
         }
 
         [TestMethod]
@@ -127,7 +121,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + AppDispatcherQueueDefinition);
+            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
         }
 
         [TestMethod]
@@ -160,7 +154,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + AppDispatcherQueueDefinition);
+            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
         }
 
         [TestMethod]
@@ -196,7 +190,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + AppDispatcherQueueDefinition, DiagnosticDescriptors.TestControlHasConstructorWithParameters.Id);
+            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TestControlHasConstructorWithParameters.Id);
         }
 
         [TestMethod]
@@ -229,7 +223,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + AppDispatcherQueueDefinition);
+            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
         }
 
         [TestMethod]
@@ -265,7 +259,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + AppDispatcherQueueDefinition, DiagnosticDescriptors.TestMethodIsNotParameterless.Id);
+            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TestMethodIsNotParameterless.Id);
         }
 
         [TestMethod]
@@ -298,7 +292,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + AppDispatcherQueueDefinition);
+            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
         }
 
         /// <summary>
@@ -340,7 +334,7 @@ namespace MyApp
 
             var compilationDiagnostics = compilation.GetDiagnostics();
 
-            Assert.IsTrue(compilationDiagnostics.All(x => x.Severity != DiagnosticSeverity.Error), $"Expected no compilation errors. Got: \n[{string.Join("\n", compilationDiagnostics.Where(x => x.Severity == DiagnosticSeverity.Error).Select(x => $"{x.Id}: {x.GetMessage()}"))}]");
+            Assert.IsTrue(compilationDiagnostics.All(x => x.Severity != DiagnosticSeverity.Error), $"Expected no compilation errors before source generation. Got: \n{string.Join("\n", compilationDiagnostics.Where(x => x.Severity == DiagnosticSeverity.Error).Select(x => $"[{x.Id}: {x.GetMessage()}]"))}");
 
             IIncrementalGenerator generator = new TGenerator();
 
@@ -355,7 +349,7 @@ namespace MyApp
             var generatedCompilationDiaghostics = outputCompilation.GetDiagnostics();
 
             Assert.IsTrue(resultingIds.SetEquals(diagnosticsIds), $"Expected one of [{string.Join(", ", diagnosticsIds)}] diagnostic Ids. Got [{string.Join(", ", resultingIds)}]");
-            Assert.IsTrue(generatedCompilationDiaghostics.All(x => x.Severity != DiagnosticSeverity.Error), $"Expected no generated compilation errors. Got: \n[{string.Join("\n", generatedCompilationDiaghostics.Where(x => x.Severity == DiagnosticSeverity.Error).Select(x => $"{x.Id}: {x.GetMessage()}"))}]");
+            Assert.IsTrue(generatedCompilationDiaghostics.All(x => x.Severity != DiagnosticSeverity.Error), $"Expected no generated compilation errors. Got: \n{string.Join("\n", generatedCompilationDiaghostics.Where(x => x.Severity == DiagnosticSeverity.Error).Select(x => $"[{x.Id}: {x.GetMessage()}]"))}");
 
             GC.KeepAlive(attributeType);
         }
