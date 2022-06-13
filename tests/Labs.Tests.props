@@ -4,8 +4,12 @@
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.2.8</Version>
     </PackageReference>
+
     <PackageReference Include="MSTest.TestFramework">
       <Version>2.2.8</Version>
     </PackageReference>
+
+    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
 </Project>
