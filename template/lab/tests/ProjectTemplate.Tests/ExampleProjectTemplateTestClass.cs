@@ -27,16 +27,15 @@ using Microsoft.UI.Xaml.Media;
 #endif
 //+:cnd:noEmit
 
-namespace ProjectTemplate.Tests
+namespace ProjectTemplate.Tests;
+
+[TestClass]
+public class ExampleProjectTemplateTestClass
 {
-    [TestClass]
-    public class ExampleProjectTemplateTestClass
+    [TestMethod]
+    public void SimpleExampleTest()
     {
-        [TestMethod]
-        public void SimpleExampleTest()
-        {
-            var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate();
-            Assert.IsNotNull(systemUnderTest);
-        }
+        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate();
+        Assert.IsNotNull(systemUnderTest);
     }
 }

@@ -12,20 +12,19 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 #endif
 
-namespace CommunityToolkit.Labs.Shared
+namespace CommunityToolkit.Labs.Shared;
+
+public class DocOrSampleTemplateSelector : DataTemplateSelector
 {
-    public class DocOrSampleTemplateSelector : DataTemplateSelector
+    public DataTemplate? Document { get; set; }
+    public DataTemplate? Sample { get; set; }
+
+    protected override DataTemplate SelectTemplateCore(object item) => item switch
     {
-        public DataTemplate? Document { get; set; }
-        public DataTemplate? Sample { get; set; }
+        ToolkitFrontMatter _ => Document!, // Used for concrete type in TabbedPage
+        ToolkitSampleMetadata _ => Sample!,
+        _ => Document! // Used for string type in ToolkitDocumentationRenderer
+    };
 
-        protected override DataTemplate SelectTemplateCore(object item) => item switch
-        {
-            ToolkitFrontMatter _ => Document!, // Used for concrete type in TabbedPage
-            ToolkitSampleMetadata _ => Sample!,
-            _ => Document! // Used for string type in ToolkitDocumentationRenderer
-        };
-
-        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container) => SelectTemplateCore(item);
-    }
+    protected override DataTemplate SelectTemplateCore(object item, DependencyObject container) => SelectTemplateCore(item);
 }

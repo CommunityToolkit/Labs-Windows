@@ -24,98 +24,97 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #endif
 
-namespace CommunityToolkit.Labs.Shared
+namespace CommunityToolkit.Labs.Shared;
+
+/// <summary>
+/// Kicks off the loading process and determines whether to display a single-sample or multi-sample view.
+/// </summary>
+public sealed partial class AppLoadingView : Page
 {
     /// <summary>
-    /// Kicks off the loading process and determines whether to display a single-sample or multi-sample view.
+    /// Creates a new instance of <see cref="AppLoadingView"/>.
     /// </summary>
-    public sealed partial class AppLoadingView : Page
+    public AppLoadingView()
     {
-        /// <summary>
-        /// Creates a new instance of <see cref="AppLoadingView"/>.
-        /// </summary>
-        public AppLoadingView()
+        this.InitializeComponent();
+    }
+
+    /// <summary>
+    /// Backing dependency property for <see cref="IsLoading"/>.
+    /// </summary>
+    public static readonly DependencyProperty IsLoadingProperty =
+        DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(AppLoadingView), new PropertyMetadata(false));
+
+    /// <summary>
+    /// Backing dependency property for <see cref="LoadingMessage"/>.
+    /// </summary>
+    public static readonly DependencyProperty LoadingMessageProperty =
+        DependencyProperty.Register(nameof(LoadingMessage), typeof(string), typeof(AppLoadingView), new PropertyMetadata(string.Empty));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether loading operations are being performed.
+    /// </summary>
+    public bool IsLoading
+    {
+        get { return (bool)GetValue(IsLoadingProperty); }
+        set { SetValue(IsLoadingProperty, value); }
+    }
+
+    /// <summary>
+    /// Gets or sets the displayed loading message.
+    /// </summary>
+    public string LoadingMessage
+    {
+        get { return (string)GetValue(LoadingMessageProperty); }
+        set { SetValue(LoadingMessageProperty, value); }
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+
+        IsLoading = true;
+        LoadingMessage = "Loading...";
+
+        var sampleDocs = FindReferencedDocumentPages().ToArray();
+
+        if (sampleDocs.Length == 0)
         {
-            this.InitializeComponent();
+            IsLoading = false;
+            LoadingMessage = "No sample pages were found :(";
+            return;
         }
-
-        /// <summary>
-        /// Backing dependency property for <see cref="IsLoading"/>.
-        /// </summary>
-        public static readonly DependencyProperty IsLoadingProperty =
-            DependencyProperty.Register(nameof(IsLoading), typeof(bool), typeof(AppLoadingView), new PropertyMetadata(false));
-
-        /// <summary>
-        /// Backing dependency property for <see cref="LoadingMessage"/>.
-        /// </summary>
-        public static readonly DependencyProperty LoadingMessageProperty =
-            DependencyProperty.Register(nameof(LoadingMessage), typeof(string), typeof(AppLoadingView), new PropertyMetadata(string.Empty));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether loading operations are being performed.
-        /// </summary>
-        public bool IsLoading
-        {
-            get { return (bool)GetValue(IsLoadingProperty); }
-            set { SetValue(IsLoadingProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the displayed loading message.
-        /// </summary>
-        public string LoadingMessage
-        {
-            get { return (string)GetValue(LoadingMessageProperty); }
-            set { SetValue(LoadingMessageProperty, value); }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            IsLoading = true;
-            LoadingMessage = "Loading...";
-
-            var sampleDocs = FindReferencedDocumentPages().ToArray();
-
-            if (sampleDocs.Length == 0)
-            {
-                IsLoading = false;
-                LoadingMessage = "No sample pages were found :(";
-                return;
-            }
 
 #if LABS_ALL_SAMPLES
-            ScheduleNavigate(typeof(NavigationPage), sampleDocs);
+        ScheduleNavigate(typeof(NavigationPage), sampleDocs);
 #else
-            var samples = FindReferencedSamples().ToArray();
+        var samples = FindReferencedSamples().ToArray();
 
-            (IEnumerable<ToolkitSampleMetadata> Samples, IEnumerable<ToolkitFrontMatter> Docs, bool AreDocsFirst) displayInfo = (samples, sampleDocs, false);
-            ScheduleNavigate(typeof(TabbedPage), displayInfo);
+        (IEnumerable<ToolkitSampleMetadata> Samples, IEnumerable<ToolkitFrontMatter> Docs, bool AreDocsFirst) displayInfo = (samples, sampleDocs, false);
+        ScheduleNavigate(typeof(TabbedPage), displayInfo);
 #endif
-        }
+    }
 
-        // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
-        private void ScheduleNavigate(Type type, object? param = null)
+    // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
+    private void ScheduleNavigate(Type type, object? param = null)
+    {
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
         {
-            DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
-            {
 #if !NETFX_CORE
-                Frame.Navigate(type, param);
+            Frame.Navigate(type, param);
 #else
-                Frame.NavigateToType(type, param, new FrameNavigationOptions { IsNavigationStackEnabled = false });
+            Frame.NavigateToType(type, param, new FrameNavigationOptions { IsNavigationStackEnabled = false });
 #endif
-            });
-        }
+        });
+    }
 
-        private IEnumerable<ToolkitFrontMatter> FindReferencedDocumentPages()
-        {
-            return ToolkitDocumentRegistry.Execute();
-        }
+    private IEnumerable<ToolkitFrontMatter> FindReferencedDocumentPages()
+    {
+        return ToolkitDocumentRegistry.Execute();
+    }
 
-        private IEnumerable<ToolkitSampleMetadata> FindReferencedSamples()
-        {
-            return ToolkitSampleRegistry.Listing.Values;
-        }
+    private IEnumerable<ToolkitSampleMetadata> FindReferencedSamples()
+    {
+        return ToolkitSampleRegistry.Listing.Values;
     }
 }

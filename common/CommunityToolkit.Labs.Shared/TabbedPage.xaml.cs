@@ -24,51 +24,50 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #endif
 
-namespace CommunityToolkit.Labs.Shared
+namespace CommunityToolkit.Labs.Shared;
+
+/// <summary>
+/// An empty page that can be used on its own or navigated to within a Frame.
+/// </summary>
+public sealed partial class TabbedPage : Page
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class TabbedPage : Page
+    public TabbedPage()
     {
-        public TabbedPage()
+        this.InitializeComponent();
+    }
+
+    public ObservableCollection<object> Items { get; } = new();
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        // Note: Need to use as for tuple, think this is the tracking issue here: https://github.com/dotnet/csharplang/issues/3197
+        var info = e.Parameter as (IEnumerable<ToolkitSampleMetadata> Samples, IEnumerable<ToolkitFrontMatter> Docs, bool AreDocsFirst)?;
+
+        if (info is null)
         {
-            this.InitializeComponent();
+            return;
         }
-
-        public ObservableCollection<object> Items { get; } = new();
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        else if (info.Value.AreDocsFirst)
         {
-            // Note: Need to use as for tuple, think this is the tracking issue here: https://github.com/dotnet/csharplang/issues/3197
-            var info = e.Parameter as (IEnumerable<ToolkitSampleMetadata> Samples, IEnumerable<ToolkitFrontMatter> Docs, bool AreDocsFirst)?;
-
-            if (info is null)
-            {
-                return;
-            }
-            else if (info.Value.AreDocsFirst)
-            {
-                foreach (var item in info.Value.Docs)
-                {
-                    Items.Add(item);
-                }
-            }
-
-            foreach (var item in info.Value.Samples)
+            foreach (var item in info.Value.Docs)
             {
                 Items.Add(item);
             }
-
-            if (!info.Value.AreDocsFirst)
-            {
-                foreach (var item in info.Value.Docs)
-                {
-                    Items.Add(item);
-                }
-            }
-
-            base.OnNavigatedTo(e);
         }
+
+        foreach (var item in info.Value.Samples)
+        {
+            Items.Add(item);
+        }
+
+        if (!info.Value.AreDocsFirst)
+        {
+            foreach (var item in info.Value.Docs)
+            {
+                Items.Add(item);
+            }
+        }
+
+        base.OnNavigatedTo(e);
     }
 }
