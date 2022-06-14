@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Shared;
-using System;
 
 //-:cnd:noEmit
 #if WINAPPSDK

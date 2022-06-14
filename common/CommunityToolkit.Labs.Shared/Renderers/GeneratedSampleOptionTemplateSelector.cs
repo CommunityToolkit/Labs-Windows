@@ -1,7 +1,4 @@
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 #if WINAPPSDK
 using Microsoft.UI.Xaml;

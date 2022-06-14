@@ -1,5 +1,4 @@
 using CommunityToolkit.Labs.Shared;
-using System;
 
 #if WINAPPSDK
 using Microsoft.UI.Xaml;

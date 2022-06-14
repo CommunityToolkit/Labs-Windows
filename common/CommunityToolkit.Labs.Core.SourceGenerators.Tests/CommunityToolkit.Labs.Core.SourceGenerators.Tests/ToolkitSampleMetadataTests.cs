@@ -4,13 +4,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 {
@@ -137,7 +130,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
                 [ToolkitSampleBoolOption(""test"", ""Toggle x"", false)]
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
                 [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
-                
+
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
@@ -163,14 +156,14 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             namespace MyApp
             {{
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
-                
+
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
 
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
-                
+
                 [ToolkitSample(id: nameof(Sample2), ""Test Sample"", description: """")]
                 public partial class Sample2 : Windows.UI.Xaml.Controls.UserControl
                 {{
@@ -196,7 +189,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             namespace MyApp
             {{
                 [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"")]
-                
+
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
@@ -240,7 +233,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 
             namespace MyApp
-            {{                
+            {{
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample
                 {{
@@ -259,11 +252,11 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
             using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 
             namespace MyApp
-            {{                
+            {{
                 [ToolkitSampleOptionsPane(sampleId: nameof(Sample))]
                 public partial class SampleOptionsPane
                 {{
-                }}  
+                }}
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 #if !WINAPPSDK
-using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #else

@@ -27,4 +27,8 @@
     <IsPublishable>true</IsPublishable>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(RepositoryDirectory)common\GlobalUsings.cs" />
+  </ItemGroup>
 </Project>

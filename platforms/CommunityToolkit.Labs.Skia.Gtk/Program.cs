@@ -1,4 +1,3 @@
-using System;
 using GLib;
 using Uno.UI.Runtime.Skia;
 

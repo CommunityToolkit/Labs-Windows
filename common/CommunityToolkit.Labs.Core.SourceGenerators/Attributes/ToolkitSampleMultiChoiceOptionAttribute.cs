@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 

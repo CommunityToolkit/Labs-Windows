@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 
