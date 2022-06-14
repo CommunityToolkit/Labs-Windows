@@ -66,7 +66,6 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
     [LabsUITestMethod]
     public void PropertySizer_TestInitialBinding(PropertySizerTestInitialBinding testControl)
     {
-        // TestPage shouldn't be null here, but we'll do the safer ?. to be sure.
         var propertySizer = testControl.FindDescendant<PropertySizer>();
 
         Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
@@ -78,7 +77,6 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
     [LabsUITestMethod]
     public void PropertySizer_TestChangeBinding(PropertySizerTestInitialBinding testControl)
     {
-        // TestPage shouldn't be null here, but we'll do the safer ?. to be sure.
         var propertySizer = testControl.FindDescendant<PropertySizer>();
         var navigationView = testControl.FindDescendant<MUXC.NavigationView>();
 
