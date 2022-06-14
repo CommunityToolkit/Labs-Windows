@@ -12,12 +12,11 @@ using Windows.UI.Xaml;
 
 namespace CommunityToolkit.Labs.Droid;
 
-	[Activity(
-			MainLauncher = true,
-			ConfigurationChanges = global::Uno.UI.ActivityHelper.AllConfigChanges,
-			WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden
-		)]
-	public class MainActivity : ApplicationActivity
-	{
-	}
-
+[Activity(
+		MainLauncher = true,
+		ConfigurationChanges = global::Uno.UI.ActivityHelper.AllConfigChanges,
+		WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden
+	)]
+public class MainActivity : ApplicationActivity
+{
+}

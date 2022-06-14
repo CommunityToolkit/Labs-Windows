@@ -20,30 +20,30 @@ using Windows.UI.Xaml.Media;
 
 namespace CommunityToolkit.Labs.Droid;
 
-	[global::Android.App.ApplicationAttribute(
-		Label = "@string/ApplicationName",
-		Icon = "@mipmap/icon",
-		LargeHeap = true,
-		HardwareAccelerated = true,
-		Theme = "@style/AppTheme"
-	)]
-	public class Application : NativeApplication
+[global::Android.App.ApplicationAttribute(
+	Label = "@string/ApplicationName",
+	Icon = "@mipmap/icon",
+	LargeHeap = true,
+	HardwareAccelerated = true,
+	Theme = "@style/AppTheme"
+)]
+public class Application : NativeApplication
+{
+	public Application(IntPtr javaReference, JniHandleOwnership transfer)
+		: base(() => new CommunityToolkit.Labs.Shared.App(), javaReference, transfer)
 	{
-		public Application(IntPtr javaReference, JniHandleOwnership transfer)
-			: base(() => new CommunityToolkit.Labs.Shared.App(), javaReference, transfer)
-		{
-			ConfigureUniversalImageLoader();
-		}
-
-		private void ConfigureUniversalImageLoader()
-		{
-			// Create global configuration and initialize ImageLoader with this config
-			ImageLoaderConfiguration config = new ImageLoaderConfiguration
-				.Builder(Context)
-				.Build();
-
-			ImageLoader.Instance.Init(config);
-
-			ImageSource.DefaultImageLoader = ImageLoader.Instance.LoadImageAsync;
-		}
+		ConfigureUniversalImageLoader();
 	}
+
+	private void ConfigureUniversalImageLoader()
+	{
+		// Create global configuration and initialize ImageLoader with this config
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration
+			.Builder(Context)
+			.Build();
+
+		ImageLoader.Instance.Init(config);
+
+		ImageSource.DefaultImageLoader = ImageLoader.Instance.LoadImageAsync;
+	}
+}
