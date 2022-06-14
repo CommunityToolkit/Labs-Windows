@@ -54,9 +54,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.UnitT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments", "{DD69BA61-C86D-4138-AE6F-76E2C8445C9A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod", "common\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.csproj", "{CA16C45E-DFB1-4641-A28D-EC52B6FB370A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod", "common\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.csproj", "{CA16C45E-DFB1-4641-A28D-EC52B6FB370A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.Tests", "common\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.Tests\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.Tests.csproj", "{6961F49B-705D-47E0-81C3-D8CF7741C3E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.Tests", "common\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.Tests\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.Tests.csproj", "{6961F49B-705D-47E0-81C3-D8CF7741C3E4}"
 EndProject
 [TemplatedProjectDefinitions]
 Global

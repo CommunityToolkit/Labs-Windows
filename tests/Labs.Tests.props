@@ -9,7 +9,7 @@
       <Version>2.2.8</Version>
     </PackageReference>
 
-    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.csproj"
+    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
 </Project>

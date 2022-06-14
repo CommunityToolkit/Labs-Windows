@@ -1,5 +1,5 @@
-using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
-using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.Diagnostics;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,7 +11,7 @@ using System.Linq;
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests
 {
     [TestClass]
-    public partial class UIControlTestMethodTests
+    public partial class LabsUITestMethodTests
     {
         private const string DispatcherQueueDefinition = @"
 namespace MyApp
@@ -26,153 +26,21 @@ namespace MyApp
 ";
 
         [TestMethod]
-        public void TypeDoesNotInheritFrameworkElement()
-        {
-            string source = @"
-            using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
-
-            namespace MyApp
-            {
-                public partial class Test
-                {
-                    public Windows.UI.Xaml.FrameworkElement? TestPage { get; private set; }
-                    public System.Threading.Tasks.Task SetTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
-
-                    [UIControlTestMethod(typeof(Test))]
-                    public void TestMethod()
-                    {
-                    }
-                }
-
-                public class MyControl : Windows.UI.Xaml.FrameworkElement
-                {
-                }
-
-                namespace Windows.UI.Xaml
-                {
-                    public class FrameworkElement { }
-                }
-            }";
-
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TypeDoesNotInheritFrameworkElement.Id);
-        }
-
-        [TestMethod]
-        public void TypeDoesInheritFrameworkElement_Wux()
-        {
-            string source = @"
-            using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
-
-            namespace MyApp
-            {
-                public partial class Test
-                {
-                    public Windows.UI.Xaml.FrameworkElement? TestPage { get; private set; }
-                    public System.Threading.Tasks.Task SetTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
-
-                    [UIControlTestMethod(typeof(MyControl))]
-                    public void TestMethod()
-                    {
-                    }
-                }
-
-                public class MyControl : Windows.UI.Xaml.FrameworkElement
-                {
-                }
-            }
-
-            namespace Windows.UI.Xaml
-            {
-                public class FrameworkElement { }
-            }";
-
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
-        }
-
-        [TestMethod]
-        public void TypeDoesInheritFrameworkElement_Mux()
-        {
-            string source = @"
-            using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
-
-            namespace MyApp
-            {
-                public partial class Test
-                {
-                    public Microsoft.UI.Xaml.FrameworkElement? TestPage { get; private set; }
-                    public System.Threading.Tasks.Task SetTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
-
-                    [UIControlTestMethod(typeof(MyControl))]
-                    public void TestMethod()
-                    {
-                    }
-                }
-
-                public class MyControl : Microsoft.UI.Xaml.FrameworkElement
-                {
-                }
-            }
-
-            namespace Microsoft.UI.Xaml
-            {
-                public class FrameworkElement { }
-            }";
-
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
-        }
-
-        [TestMethod]
-        public void TestControlHasNoConstructorWithParameters()
-        {
-            string source = @"
-            using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
-
-            namespace MyApp
-            {
-                public partial class Test
-                {
-                    public Microsoft.UI.Xaml.FrameworkElement? TestPage { get; private set; }
-                    public System.Threading.Tasks.Task SetTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
-
-                    [UIControlTestMethod(typeof(MyControl))]
-                    public void TestMethod()
-                    {
-                    }
-                }
-
-                public class MyControl : Microsoft.UI.Xaml.FrameworkElement
-                {
-                }
-            }
-
-            namespace Microsoft.UI.Xaml
-            {
-                public class FrameworkElement { }
-            }";
-
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
-        }
-
-        [TestMethod]
         public void TestControlHasConstructorWithParameters()
         {
             string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
+            using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
 
             namespace MyApp
             {
                 public partial class Test
                 {
-                    public Microsoft.UI.Xaml.FrameworkElement? TestPage { get; private set; }
-                    public System.Threading.Tasks.Task SetTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+                    public System.Threading.Tasks.Task LoadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+                    public System.Threading.Tasks.Task UnloadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
 
-                    [UIControlTestMethod(typeof(MyControl))]
-                    public void TestMethod()
+                    [LabsUITestMethod]
+                    public void TestMethod(MyControl control)
                     {
                     }
                 }
@@ -190,25 +58,25 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TestControlHasConstructorWithParameters.Id);
+            VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TestControlHasConstructorWithParameters.Id);
         }
 
         [TestMethod]
-        public void TestMethodHasParameterlessConstructor()
+        public void Async_Mux_NoErrors()
         {
             string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
+            using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
 
             namespace MyApp
             {
                 public partial class Test
                 {
-                    public Microsoft.UI.Xaml.FrameworkElement? TestPage { get; private set; }
-                    public System.Threading.Tasks.Task SetTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+                    public System.Threading.Tasks.Task LoadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+                    public System.Threading.Tasks.Task UnloadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
 
-                    [UIControlTestMethod(typeof(MyControl))]
-                    public void TestMethod()
+                    [LabsUITestMethod]
+                    public async System.Threading.Tasks.Task TestMethod(MyControl control)
                     {
                     }
                 }
@@ -223,64 +91,82 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
+            VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
         }
 
         [TestMethod]
-        public void TestMethodDoesNotHaveParameterlessConstructor()
+        public void Async_Wux_NoErrors()
         {
             string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
+            using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
 
             namespace MyApp
             {
                 public partial class Test
                 {
-                    public Microsoft.UI.Xaml.FrameworkElement? TestPage { get; private set; }
-                    public System.Threading.Tasks.Task SetTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+                    public System.Threading.Tasks.Task LoadTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+                    public System.Threading.Tasks.Task UnloadTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
 
-                    [UIControlTestMethod(typeof(MyControl))]
-                    public void TestMethod(string id)
+                    [LabsUITestMethod]
+                    public async System.Threading.Tasks.Task TestMethod(MyControl control)
                     {
                     }
                 }
 
-                public class MyControl : Microsoft.UI.Xaml.FrameworkElement
+                public class MyControl : Windows.UI.Xaml.FrameworkElement
                 {
-                    public MyControl()
-                    {
-                    }
                 }
             }
 
-            namespace Microsoft.UI.Xaml
+            namespace Windows.UI.Xaml
             {
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TestMethodIsNotParameterless.Id);
+            VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
         }
 
         [TestMethod]
-        public void AsyncMethod_NoErrors()
+        public void Async_NoMethodParams_NoErrors()
         {
             string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
+            using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
 
             namespace MyApp
             {
                 public partial class Test
                 {
-                    public Microsoft.UI.Xaml.FrameworkElement? TestPage { get; private set; }
-                    public System.Threading.Tasks.Task SetTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
-
-                    [UIControlTestMethod(typeof(MyControl))]
+                    [LabsUITestMethod]
                     public async System.Threading.Tasks.Task TestMethod()
                     {
                     }
                 }
+            }";
+
+            VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        }
+
+        [TestMethod]
+        public void Synchronous_Mux_NoErrors()
+        {
+            string source = @"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+
+            namespace MyApp
+            {
+                public partial class Test
+                {
+                    public System.Threading.Tasks.Task LoadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+                    public System.Threading.Tasks.Task UnloadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+
+                    [LabsUITestMethod]
+                    public void TestMethod(MyControl control)
+                    {
+                    }
+                }
 
                 public class MyControl : Microsoft.UI.Xaml.FrameworkElement
                 {
@@ -292,7 +178,61 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-            VerifyGeneratedDiagnostics<UIControlTestMethodGenerator>(source + DispatcherQueueDefinition);
+            VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        }
+
+        [TestMethod]
+        public void Synchronous_Wux_NoErrors()
+        {
+            string source = @"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+
+            namespace MyApp
+            {
+                public partial class Test
+                {
+                    public System.Threading.Tasks.Task LoadTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+                    public System.Threading.Tasks.Task UnloadTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
+
+                    [LabsUITestMethod]
+                    public void TestMethod(MyControl control)
+                    {
+                    }
+                }
+
+                public class MyControl : Windows.UI.Xaml.FrameworkElement
+                {
+                }
+            }
+
+            namespace Windows.UI.Xaml
+            {
+                public class FrameworkElement { }
+            }";
+
+            VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        }
+
+        [TestMethod]
+        public void Synchronous_NoMethodParams_NoErrors()
+        {
+            string source = @"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+
+            namespace MyApp
+            {
+                public partial class Test
+                {
+                    [LabsUITestMethod]
+                    public void TestMethod()
+                    {
+                    }
+                }
+            }";
+
+            VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
         }
 
         /// <summary>
@@ -318,7 +258,7 @@ namespace MyApp
         private static void VerifyGeneratedDiagnostics<TGenerator>(SyntaxTree syntaxTree, params string[] diagnosticsIds)
             where TGenerator : class, IIncrementalGenerator, new()
         {
-            var attributeType = typeof(UIControlTestMethodAttribute);
+            var attributeType = typeof(LabsUITestMethodAttribute);
 
             var references =
                 from assembly in AppDomain.CurrentDomain.GetAssemblies()

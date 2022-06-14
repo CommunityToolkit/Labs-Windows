@@ -2,19 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.Diagnostics;
-using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.Extensions;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.Diagnostics;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
 
-namespace CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
+namespace CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
 
 /// <summary>
 /// Generates code that provides access to XAML elements with <c>x:Name</c> from code-behind by wrapping an instance of a control, without the need to use <c>x:FieldProvider="public"</c> directly in markup.
 /// </summary>
 [Generator]
-public class UIControlTestMethodGenerator : IIncrementalGenerator
+public class LabsUITestMethodGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -26,20 +26,19 @@ public class UIControlTestMethodGenerator : IIncrementalGenerator
             .Where(x => x is not null)
             .Select((x, _) => x!);
 
-        // Filter the methods using [UIControlTestMethod]
+        // Filter the methods using [LabsUITestMethod]
         var methodAndPageTypeSymbols = methodSymbols
             .Select(static (item, _) =>
             (
                 Symbol: item,
-                Attribute: item.GetAttributes().FirstOrDefault(a => a.AttributeClass?.HasFullyQualifiedName("global::CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.UIControlTestMethodAttribute") ?? false)
+                Attribute: item.GetAttributes().FirstOrDefault(a => a.AttributeClass?.HasFullyQualifiedName("global::CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.LabsUITestMethodAttribute") ?? false)
             ))
             
             .Where(static item => item.Attribute is not null && item.Symbol is IMethodSymbol)
-            .Select(static (x, _) => (MethodSymbol: (IMethodSymbol)x.Symbol, Attribute: x.Attribute!))
+            .Select(static (x, _) => (IMethodSymbol)x.Symbol)
             
-            .Where(static x => !x.Attribute.ConstructorArguments.IsEmpty)
-            .Select(static (x, _) => (x.MethodSymbol, ControlTypeSymbol: GetControlTypeSymbolFromAttribute(x.Attribute)))
-            
+            .Select(static (x, _) => (MethodSymbol: x, ControlTypeSymbol: GetControlTypeSymbolFromMethodParameters(x)))
+
             .Where(static x => x.ControlTypeSymbol is not null)
             .Select(static (x, _) => (x.MethodSymbol, ControlTypeSymbol: x.ControlTypeSymbol!));
 
@@ -47,23 +46,11 @@ public class UIControlTestMethodGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(methodAndPageTypeSymbols, (x, y) => GenerateTestMethod(x, y.MethodSymbol, y.ControlTypeSymbol));
     }
 
-    private static void GenerateTestMethod(SourceProductionContext context, IMethodSymbol methodSymbol, INamedTypeSymbol controlTypeSymbol)
+    private static void GenerateTestMethod(SourceProductionContext context, IMethodSymbol methodSymbol, INamedTypeSymbol? controlTypeSymbol)
     {
-        if (!ControlTypeInheritsFrameworkElement(controlTypeSymbol))
-        {
-            context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.TypeDoesNotInheritFrameworkElement, methodSymbol.Locations.FirstOrDefault(), controlTypeSymbol.Name));            
-            return;
-        }
-
-        if (controlTypeSymbol.Constructors.Any(x => !x.Parameters.IsEmpty))
+        if (controlTypeSymbol is not null && controlTypeSymbol.Constructors.Any(x => !x.Parameters.IsEmpty))
         {
             context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.TestControlHasConstructorWithParameters, methodSymbol.Locations.FirstOrDefault(), controlTypeSymbol.Name));
-            return;
-        }
-
-        if (!methodSymbol.Parameters.IsEmpty)
-        {
-            context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.TestMethodIsNotParameterless, methodSymbol.Locations.FirstOrDefault(), controlTypeSymbol.Name));
             return;
         }
 
@@ -81,15 +68,19 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
         public Task {methodSymbol.Name}_Test()
         {{
             return EnqueueAsync(async () => {{
-                TestPage = new {controlTypeSymbol.GetFullyQualifiedName()}();
+                {(controlTypeSymbol is not null ? @$"
+                // Create content
+                var testControl = new {controlTypeSymbol.GetFullyQualifiedName()}();
 
-                // Set content
-                await SetTestContentAsync(TestPage);
+                // Load content
+                await LoadTestContentAsync(testControl);" : string.Empty)}
 
-                // Call original
-                {(isAsync ? "await " : string.Empty)}{methodSymbol.Name}();
+                // Run test
+                {(isAsync ? "await " : string.Empty)}{methodSymbol.Name}({(controlTypeSymbol is not null ? "testControl" : string.Empty)});
 
-                TestPage = null;
+                {(controlTypeSymbol is not null ?
+                @"// Unload content
+                await UnloadTestContentAsync(testControl);" : string.Empty)}
             }});
         }}
     }}
@@ -99,15 +90,15 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
         context.AddSource($"{methodSymbol.Name}.g", source);
     }
 
-    private static bool ControlTypeInheritsFrameworkElement(INamedTypeSymbol controlType)
+    private static bool ControlTypeInheritsFrameworkElement(ITypeSymbol controlType)
     {
         return controlType.HasOrInheritsFromFullyQualifiedName("global::Windows.UI.Xaml.FrameworkElement") ||
                controlType.HasOrInheritsFromFullyQualifiedName("global::Microsoft.UI.Xaml.FrameworkElement");
     }
 
-    private static INamedTypeSymbol? GetControlTypeSymbolFromAttribute(AttributeData attribute)
+    private static INamedTypeSymbol? GetControlTypeSymbolFromMethodParameters(IMethodSymbol methodSymbol)
     {
-        return attribute.ConstructorArguments.FirstOrDefault(x => x.Kind == TypedConstantKind.Type).Value as INamedTypeSymbol;
+        return methodSymbol.Parameters.FirstOrDefault(x => ControlTypeInheritsFrameworkElement(x.Type))?.Type as INamedTypeSymbol;
     }
 }
 

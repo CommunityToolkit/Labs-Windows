@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod\CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.csproj" />
   </ItemGroup>
 
 </Project>

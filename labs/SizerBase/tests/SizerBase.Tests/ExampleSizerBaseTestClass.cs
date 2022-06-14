@@ -11,7 +11,8 @@ using CommunityToolkit.Labs.WinUI.Automation.Peers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Threading.Tasks;
-using CommunityToolkit.Labs.Core.SourceGenerators.UIControlTestMethod;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+using Microsoft.UI.Xaml;
 
 #if !WINAPPSDK
 using Microsoft.Toolkit.Uwp;
@@ -62,11 +63,11 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
         });
     }
 
-    [UIControlTestMethod(typeof(PropertySizerTestInitialBinding))]
-    public void PropertySizer_TestInitialBinding()
+    [LabsUITestMethod]
+    public void PropertySizer_TestInitialBinding(PropertySizerTestInitialBinding testControl)
     {
         // TestPage shouldn't be null here, but we'll do the safer ?. to be sure.
-        var propertySizer = TestPage?.FindDescendant<PropertySizer>();
+        var propertySizer = testControl.FindDescendant<PropertySizer>();
 
         Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
 
@@ -74,12 +75,12 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
         Assert.AreEqual(300, propertySizer.Binding, "Property Sizer not at expected initial value.");
     }
 
-    [UIControlTestMethod(typeof(PropertySizerTestInitialBinding))]
-    public void PropertySizer_TestChangeBinding()
+    [LabsUITestMethod]
+    public void PropertySizer_TestChangeBinding(PropertySizerTestInitialBinding testControl)
     {
         // TestPage shouldn't be null here, but we'll do the safer ?. to be sure.
-        var propertySizer = TestPage?.FindDescendant<PropertySizer>();
-        var navigationView = TestPage?.FindDescendant<MUXC.NavigationView>();
+        var propertySizer = testControl.FindDescendant<PropertySizer>();
+        var navigationView = testControl.FindDescendant<MUXC.NavigationView>();
 
         Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
         Assert.IsNotNull(navigationView, "Could not find NavigationView control.");

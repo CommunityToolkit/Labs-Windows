@@ -25,8 +25,6 @@ namespace CommunityToolkit.Labs.UnitTests;
 /// </summary>
 public class VisualUITestBase
 {
-    public FrameworkElement? TestPage { get; protected set; }
-
     protected Task EnqueueAsync<T>(Func<Task<T>> function)
     {
         var taskCompletionSource = new TaskCompletionSource<T>();
@@ -78,61 +76,42 @@ public class VisualUITestBase
     /// </summary>
     /// <param name="content">Content to set in test app.</param>
     /// <returns>When UI is loaded.</returns>
-    protected async Task SetTestContentAsync(FrameworkElement content)
+    protected async Task LoadTestContentAsync(FrameworkElement content)
     {
-        await App.DispatcherQueue.EnqueueAsync(async () =>
-        {
-            var taskCompletionSource = new TaskCompletionSource<bool>();
+        var taskCompletionSource = new TaskCompletionSource<object?>();
 
-            async void Callback(object sender, RoutedEventArgs args)
-            {
-                content.Loaded -= Callback;
-
-                // Wait for first Render pass
-                await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
-
-                taskCompletionSource.SetResult(true);
-            }
-
-            // Going to wait for our original content to unload
-            content.Loaded += Callback;
-
-            try
-            {
-                App.ContentRoot = content;
-            }
-            catch (Exception e)
-            {
-                taskCompletionSource.SetException(e);
-            }
-
-            await taskCompletionSource.Task;
-        });
-
-        Assert.IsTrue(content.IsLoaded);
-    }
-
-    [TestCleanup]
-    public async Task Cleanup()
-    {
-        var taskCompletionSource = new TaskCompletionSource<bool>();
-
-        await EnqueueAsync(() =>
-        {
-            // If we didn't set our content we don't have to do anything but complete here.
-            if (App.ContentRoot is null)
-            {
-                taskCompletionSource.SetResult(true);
-                return;
-            }
-
-            // Going to wait for our original content to unload
-            App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
-
-            TestPage = null;
-            App.ContentRoot = null;
-        });
+        content.Loaded += OnLoaded;
+        App.ContentRoot = content;
 
         await taskCompletionSource.Task;
+        Assert.IsTrue(content.IsLoaded);
+
+        async void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            content.Loaded -= OnLoaded;
+
+            // Wait for first Render pass
+            await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
+
+            taskCompletionSource.SetResult(null);
+        }
+    }
+
+    public async Task UnloadTestContentAsync(FrameworkElement element)
+    {
+        var taskCompletionSource = new TaskCompletionSource<object?>();
+
+        element.Unloaded += OnUnloaded;
+
+        App.ContentRoot = null;
+
+        await taskCompletionSource.Task;
+        Assert.IsFalse(element.IsLoaded);
+
+        void OnUnloaded(object sender, RoutedEventArgs args)
+        {
+            element.Unloaded -= OnUnloaded;
+            taskCompletionSource.SetResult(null);
+        }
     }
 }
