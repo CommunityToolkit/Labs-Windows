@@ -1,6 +1,4 @@
 
-using Windows.UI.Xaml;
-
 namespace CommunityToolkit.Labs.Shared;
 
 /// <summary>

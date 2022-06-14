@@ -2,6 +2,9 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Wasm.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <ItemGroup>
+    <Compile Include="..\..\common\GlobalUsings_Labs.cs" Link="GlobalUsings_Labs.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />

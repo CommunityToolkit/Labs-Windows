@@ -15,5 +15,8 @@
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\common\GlobalUsings_Labs.cs" Link="GlobalUsings_Labs.cs" />
+  </ItemGroup>
 
 </Project>

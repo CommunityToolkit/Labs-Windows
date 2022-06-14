@@ -3,13 +3,10 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-
   <PropertyGroup>
     <IsDroid>True</IsDroid>
   </PropertyGroup>
-
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
-  
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -83,6 +80,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\common\GlobalUsings_Labs.cs">
+      <Link>GlobalUsings_Labs.cs</Link>
+    </Compile>
     <Compile Include="MainActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
