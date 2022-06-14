@@ -11,14 +11,13 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls;
 #endif
 
-namespace CanvasLayout.Sample.SampleTwo
+namespace CanvasLayout.Sample.SampleTwo;
+
+[ToolkitSample(id: nameof(SamplePage2), "Custom options", description: "An empty sample used to demonstrate the sample system.")]
+public sealed partial class SamplePage2 : UserControl
 {
-    [ToolkitSample(id: nameof(SamplePage2), "Custom options", description: "An empty sample used to demonstrate the sample system.")]
-    public sealed partial class SamplePage2 : UserControl
+    public SamplePage2()
     {
-        public SamplePage2()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

@@ -24,9 +24,8 @@ using Microsoft.UI.Xaml.Media;
 #endif
 //+:cnd:noEmit
 
-namespace CommunityToolkit.Labs.WinUI
+namespace CommunityToolkit.Labs.WinUI;
+
+public class ProjectTemplate
 {
-    public class ProjectTemplate
-    {
-    }
 }

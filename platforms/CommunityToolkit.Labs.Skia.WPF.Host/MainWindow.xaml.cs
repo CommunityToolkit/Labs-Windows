@@ -9,18 +9,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CommunityToolkit.Labs.WPF.Host
+namespace CommunityToolkit.Labs.WPF.Host;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
+	public MainWindow()
 	{
-		public MainWindow()
-		{
-			InitializeComponent();
+		InitializeComponent();
 	
-			root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new Shared.App());
-		}
+		root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new Shared.App());
 	}
 }

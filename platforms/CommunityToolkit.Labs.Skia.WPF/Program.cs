@@ -1,3 +1,1 @@
-namespace CommunityToolkit.Labs.Skia.Gtk
-{
-}
+namespace CommunityToolkit.Labs.Skia.Gtk;
