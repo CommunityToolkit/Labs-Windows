@@ -10,8 +10,8 @@ using Microsoft.UI.Xaml;
 using Windows.UI.Xaml;
 #endif
 
-namespace CommunityToolkit.Labs.Droid
-{
+namespace CommunityToolkit.Labs.Droid;
+
 	[Activity(
 			MainLauncher = true,
 			ConfigurationChanges = global::Uno.UI.ActivityHelper.AllConfigChanges,
@@ -20,5 +20,4 @@ namespace CommunityToolkit.Labs.Droid
 	public class MainActivity : ApplicationActivity
 	{
 	}
-}
 

@@ -13,8 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CommunityToolkit.Labs.WPF.Host
-{
+namespace CommunityToolkit.Labs.WPF.Host;
+
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -27,4 +27,3 @@ namespace CommunityToolkit.Labs.WPF.Host
 			root.Content = new global::Uno.UI.Skia.Platform.WpfHost(Dispatcher, () => new Shared.App());
 		}
 	}
-}

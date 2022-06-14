@@ -4,20 +4,19 @@
 
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata
+namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
+
+/// <summary>
+/// Implementors of this class contain one or more source-generated properties
+/// which are bound to in the XAML of a toolkit sample
+/// and manipulated from a data-generated options pane.
+/// </summary>
+public interface IToolkitSampleGeneratedOptionPropertyContainer
 {
     /// <summary>
-    /// Implementors of this class contain one or more source-generated properties
-    /// which are bound to in the XAML of a toolkit sample
-    /// and manipulated from a data-generated options pane.
+    /// Holds a reference to all generated ViewModels that act
+    /// as a proxy between the current actual value and the
+    /// generated properties which consume them.
     /// </summary>
-    public interface IToolkitSampleGeneratedOptionPropertyContainer
-    {
-        /// <summary>
-        /// Holds a reference to all generated ViewModels that act
-        /// as a proxy between the current actual value and the
-        /// generated properties which consume them.
-        /// </summary>
-        public IEnumerable<IGeneratedToolkitSampleOptionViewModel>? GeneratedPropertyMetadata { get; set; }
-    }
+    public IEnumerable<IGeneratedToolkitSampleOptionViewModel>? GeneratedPropertyMetadata { get; set; }
 }

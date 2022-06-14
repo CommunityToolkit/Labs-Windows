@@ -7,8 +7,8 @@ using Microsoft.UI.Xaml;
 using Windows.UI.Xaml;
 #endif
 
-namespace CanvasLayout.Wasm
-{
+namespace CanvasLayout.Wasm;
+
 	public class Program
 	{
 		private static App? _app;
@@ -20,4 +20,3 @@ namespace CanvasLayout.Wasm
 			return 0;
 		}
 	}
-}

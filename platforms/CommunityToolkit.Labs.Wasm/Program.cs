@@ -7,8 +7,8 @@ using Microsoft.UI.Xaml;
 using Windows.UI.Xaml;
 #endif
 
-namespace CommunityToolkit.Labs.Wasm
-{
+namespace CommunityToolkit.Labs.Wasm;
+
 	public class Program
 	{
 		private static App? _app;
@@ -20,4 +20,3 @@ namespace CommunityToolkit.Labs.Wasm
 			return 0;
 		}
 	}
-}

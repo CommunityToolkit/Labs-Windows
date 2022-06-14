@@ -1,7 +1,7 @@
 using AppKit;
 
-namespace CommunityToolkit.Labs.macOS
-{
+namespace CommunityToolkit.Labs.macOS;
+
 	static class MainClass
 	{
 		static void Main(string[] args)
@@ -11,5 +11,4 @@ namespace CommunityToolkit.Labs.macOS
 			NSApplication.Main(args);  
 		}
 	}
-}
 

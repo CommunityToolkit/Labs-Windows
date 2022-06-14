@@ -1,7 +1,7 @@
 using UIKit;
 
-namespace CommunityToolkit.Labs.iOS
-{
+namespace CommunityToolkit.Labs.iOS;
+
 	public class Application
 	{
 		// This is the main entry point of the application.
@@ -12,4 +12,3 @@ namespace CommunityToolkit.Labs.iOS
 			UIApplication.Main(args, null, typeof(Shared.App));
 		}
 	}
-}

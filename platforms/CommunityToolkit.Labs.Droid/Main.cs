@@ -18,8 +18,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 #endif
 
-namespace CommunityToolkit.Labs.Droid
-{
+namespace CommunityToolkit.Labs.Droid;
+
 	[global::Android.App.ApplicationAttribute(
 		Label = "@string/ApplicationName",
 		Icon = "@mipmap/icon",
@@ -47,4 +47,3 @@ namespace CommunityToolkit.Labs.Droid
 			ImageSource.DefaultImageLoader = ImageLoader.Instance.LoadImageAsync;
 		}
 	}
-}

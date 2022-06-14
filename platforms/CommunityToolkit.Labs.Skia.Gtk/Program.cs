@@ -2,8 +2,8 @@ using System;
 using GLib;
 using Uno.UI.Runtime.Skia;
 
-namespace CommunityToolkit.Labs.Skia.Gtk
-{
+namespace CommunityToolkit.Labs.Skia.Gtk;
+
 	class Program
 	{
 		static void Main(string[] args)
@@ -19,4 +19,3 @@ namespace CommunityToolkit.Labs.Skia.Gtk
 			host.Run();
 		}
 	}
-}
