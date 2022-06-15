@@ -4,6 +4,8 @@
 global using System.Runtime.InteropServices.WindowsRuntime;
 global using CommunityToolkit.Labs.WinUI;
 
+global using Windows.Foundation;
+
 #if !WINAPPSDK
 global using Windows.ApplicationModel;
 global using Windows.ApplicationModel.Activation;
