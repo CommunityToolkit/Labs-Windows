@@ -48,7 +48,7 @@ public class LabsUITestMethodGenerator : IIncrementalGenerator
 
     private static void GenerateTestMethod(SourceProductionContext context, IMethodSymbol methodSymbol, INamedTypeSymbol? controlTypeSymbol)
     {
-        if (controlTypeSymbol is not null && controlTypeSymbol.Constructors.Any(x => !x.Parameters.IsEmpty))
+        if (controlTypeSymbol is not null && controlTypeSymbol.Constructors.Any(x => x.DeclaredAccessibility == Accessibility.Public && !x.Parameters.IsEmpty))
         {
             context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.TestControlHasConstructorWithParameters, methodSymbol.Locations.FirstOrDefault(), controlTypeSymbol.Name));
             return;
