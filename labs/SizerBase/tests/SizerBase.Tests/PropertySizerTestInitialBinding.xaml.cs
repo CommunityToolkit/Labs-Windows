@@ -1,6 +1,4 @@
 
-using System.Runtime.InteropServices.WindowsRuntime;
-
 namespace SizerBase.Tests;
 
 /// <summary>

@@ -3,13 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 #if !WINAPPSDK
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using CursorEnum = Windows.UI.Core.CoreCursorType;
 #else
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using CursorEnum = Microsoft.UI.Input.InputSystemCursorShape;
 #endif
 

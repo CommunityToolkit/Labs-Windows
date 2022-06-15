@@ -31,4 +31,7 @@
     <Page Remove="obj\bin\**" />
     <UpToDateCheckInput Remove="obj\bin\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\common\GlobalUsings_Experiments.cs" Link="GlobalUsings_Experiments.cs" />
+  </ItemGroup>
 </Project>

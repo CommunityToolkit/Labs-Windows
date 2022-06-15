@@ -4,12 +4,6 @@
 
 using CommunityToolkit.Labs.Shared;
 
-#if WINAPPSDK
-using Microsoft.UI.Xaml;
-#else
-using Windows.UI.Xaml;
-#endif
-
 namespace SizerBase.Wasm;
 
 public class Program

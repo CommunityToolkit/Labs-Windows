@@ -4,14 +4,6 @@
 
 using Windows.UI.Core;
 
-#if !WINAPPSDK
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Input;
-#else
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
-#endif
-
 namespace CommunityToolkit.Labs.WinUI.SizerBaseLocal;
 
 /// <inheritdoc cref="FrameworkElementExtensions"/>
