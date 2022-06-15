@@ -21,9 +21,6 @@
     <EmbeddedResource Include="..\CommunityToolkit.Labs.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\common\GlobalUsings_Labs.cs" Link="GlobalUsings_Labs.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>

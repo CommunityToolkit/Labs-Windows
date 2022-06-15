@@ -101,9 +101,6 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\common\GlobalUsings_Labs.cs">
-      <Link>GlobalUsings_Labs.cs</Link>
-    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

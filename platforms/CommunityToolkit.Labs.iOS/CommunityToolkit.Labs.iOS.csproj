@@ -104,9 +104,6 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\common\GlobalUsings_Labs.cs">
-      <Link>GlobalUsings_Labs.cs</Link>
-    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <BundleResource Include="Resources\SplashScreen%402x.png" />

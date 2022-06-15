@@ -10,9 +10,6 @@
     <ProjectGuid>{B3D6DF0B-13DB-493E-9D1A-56343EFEDEA7}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\common\GlobalUsings_Labs.cs">
-      <Link>GlobalUsings_Labs.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
