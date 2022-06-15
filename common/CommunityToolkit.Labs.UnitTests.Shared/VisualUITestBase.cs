@@ -116,22 +116,22 @@ public class VisualUITestBase
     }
 
     [TestInitialize]
-    public virtual async Task TestSetup()
+    public virtual Task TestSetup() => EnqueueAsync(async () =>
     {
         // Make sure every test starts with a clean slate, even if it doesn't use LoadTestContentAsync.
         if (App.ContentRoot is FrameworkElement element)
             await UnloadTestContentAsync(element);
 
         Assert.IsNull(App.ContentRoot);
-    }
+    });
 
     [TestCleanup]
-    public virtual async Task TestCleanup()
+    public virtual Task TestCleanup() => EnqueueAsync(async () =>
     {
         // Make sure every test ends with a clean slate, even if it doesn't use LoadTestContentAsync.
         if (App.ContentRoot is FrameworkElement element)
             await UnloadTestContentAsync(element);
 
         Assert.IsNull(App.ContentRoot);
-    }
+    });
 }
