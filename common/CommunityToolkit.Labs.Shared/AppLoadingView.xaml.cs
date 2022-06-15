@@ -1,7 +1,6 @@
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 
 #if !WINAPPSDK

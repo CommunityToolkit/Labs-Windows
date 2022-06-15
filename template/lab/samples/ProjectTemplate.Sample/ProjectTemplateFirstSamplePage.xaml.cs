@@ -7,7 +7,6 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 
 //-:cnd:noEmit
 #if !WINAPPSDK
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

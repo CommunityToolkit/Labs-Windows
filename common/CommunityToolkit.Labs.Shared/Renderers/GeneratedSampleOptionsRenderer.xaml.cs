@@ -1,6 +1,5 @@
 
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
