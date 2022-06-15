@@ -1,11 +1,5 @@
 using CommunityToolkit.Labs.Shared;
 
-#if WINAPPSDK
-using Microsoft.UI.Xaml;
-#else
-using Windows.UI.Xaml;
-#endif
-
 namespace CanvasLayout.Wasm;
 
 public class Program
