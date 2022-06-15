@@ -4,14 +4,6 @@
 
 using CommunityToolkit.Labs.Shared;
 
-//-:cnd:noEmit
-#if WINAPPSDK
-using Microsoft.UI.Xaml;
-#else
-using Windows.UI.Xaml;
-#endif
-//+:cnd:noEmit
-
 namespace ProjectTemplate.Wasm;
 
 public class Program
