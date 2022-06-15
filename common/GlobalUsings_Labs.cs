@@ -4,14 +4,14 @@
 global using System.Runtime.InteropServices.WindowsRuntime;
 global using CommunityToolkit.Labs.WinUI;
 
+global using Microsoft.UI.Xaml.Controls;
+
 global using Windows.Foundation;
+global using Windows.Foundation.Collections;
 
 #if !WINAPPSDK
 global using Windows.ApplicationModel;
 global using Windows.ApplicationModel.Activation;
-
-global using Windows.Foundation;
-global using Windows.Foundation.Collections;
 
 global using Windows.UI.Xaml;
 global using Windows.UI.Xaml.Controls;
@@ -23,7 +23,6 @@ global using Windows.UI.Xaml.Navigation;
 
 #else
 global using Microsoft.UI.Xaml;
-global using Microsoft.UI.Xaml.Controls;
 global using Microsoft.UI.Xaml.Controls.Primitives;
 global using Microsoft.UI.Xaml.Data;
 global using Microsoft.UI.Xaml.Input;
