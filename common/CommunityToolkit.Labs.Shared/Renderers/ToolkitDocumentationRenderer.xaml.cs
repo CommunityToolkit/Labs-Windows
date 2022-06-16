@@ -136,9 +136,9 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         }
     }
 
-    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void SampleSelectionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (sender is ComboBox btn && btn.SelectedItem is ToolkitSampleMetadata metadata)
+        if (sender is ComboBox comboBox && comboBox.SelectedItem is ToolkitSampleMetadata metadata)
         {
             var container = DocItemsControl.ContainerFromItem(metadata) as UIElement;
             container?.StartBringIntoView();

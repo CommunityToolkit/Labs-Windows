@@ -127,8 +127,8 @@
                                        Style="{StaticResource CaptionTextBlockStyle}"
                                        VerticalAlignment="Center"/>
                     <ComboBox SelectedIndex="0"
-                                      ItemsSource="{x:Bind Samples, Mode=OneWay}"
-                                      SelectionChanged="ComboBox_SelectionChanged">
+                              x:Name="SampleSelectionBox"
+                              SelectionChanged="SampleSelectionBox_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="metadata:ToolkitSampleMetadata">
                                 <TextBlock Text="{Binding DisplayName}"/>
@@ -148,7 +148,7 @@
             </Grid>
 
             <TextBlock Text="{x:Bind Metadata.Title}"
-                               Style="{StaticResource TitleTextBlockStyle}" />
+                       Style="{StaticResource TitleTextBlockStyle}" />
         </Grid>
     </Grid>
 </Page>
