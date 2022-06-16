@@ -2,7 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-// To learn more about this file see https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/using-directive#global-modifier
+// This file contains additional directives available to individual experiments.
+// Learn more global using directives at https://docs.microsoft.com/dotnet/csharp/language-reference/keywords/using-directive#global-modifier
 
 #if !WINAPPSDK
 global using Windows.UI.Xaml.Automation;
