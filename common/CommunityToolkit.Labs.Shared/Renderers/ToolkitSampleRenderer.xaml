@@ -7,6 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      
       mc:Ignorable="d">
 
     <Grid>
@@ -31,7 +32,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid>
-            <!-- TO DO: DO WE WANT TO CUSTOMIZE THIS? Style="{StaticResource SubtleButtonStyle}" -->
             <TextBlock Text="{x:Bind Metadata.DisplayName}"
                        Style="{StaticResource BodyStrongTextBlockStyle}"
                        VerticalAlignment="Center"
@@ -56,8 +56,7 @@
 
         <Grid Style="{StaticResource CardStyle}"
               Grid.Row="1"
-              CornerRadius="8,8,0,0"
-              Padding="12">
+              CornerRadius="8,8,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -68,11 +67,13 @@
             </Grid.ColumnDefinitions>
 
             <Grid x:Name="PageControlHolder"
-                  Padding="24"
+                  Padding="0"
                   Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
                   CornerRadius="8"
                   Grid.Column="0" >
                 <ContentControl x:Name="PageControl"
+                                Margin="24"
+                                
                                 Content="{x:Bind SampleControlInstance, Mode=OneWay}"
                                 HorizontalContentAlignment="Stretch"
                                 HorizontalAlignment="Center"
@@ -83,7 +84,7 @@
                             HorizontalAlignment="Center"
                             Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}"
                             Grid.Column="1"
-                            Margin="0,20,20,0"/>
+                            Margin="24"/>
         </Grid>
         
         <muxc:Expander CornerRadius="0,0,8,8"
@@ -92,10 +93,7 @@
                        Grid.Row="2">
             <muxc:Expander.Header>
                 <StackPanel Orientation="Horizontal">
-                    <FontIcon Glyph="&#xE943;"
-                              FontSize="14"
-                              VerticalAlignment="Center"/>
-                    <TextBlock Text="Code"
+                    <TextBlock Text="Source code"
                                VerticalAlignment="Center"
                                Margin="8,0,0,0"
                                FontWeight="SemiBold" />

@@ -9,9 +9,30 @@
       mc:Ignorable="d">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LayoutVisualStates">
+            <VisualState x:Name="WideLayout">
+                <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint840Plus}" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters />
+            </VisualState>
+            <VisualState x:Name="NarrowLayout">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="0" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="NavFrame.Padding" Value="16,0,16,0" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    
         <muxc:NavigationView MenuItemsSource="{x:Bind NavigationViewItems}"
                              SelectionChanged="OnSelectionChanged">
-            <Frame x:Name="NavFrame" />
+
+            <Frame x:Name="NavFrame" Padding="48,0,48,0"/>
+
         </muxc:NavigationView>
     </Grid>
 </Page>

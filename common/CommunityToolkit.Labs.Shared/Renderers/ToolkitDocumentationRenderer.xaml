@@ -14,7 +14,7 @@
         <DataTemplate x:Key="DocumentTemplate"
                       x:DataType="x:String">
             <TextBlock win:IsTextSelectionEnabled="True"
-                       Text="{Binding}" />
+                       Text="{Binding}" TextWrapping="WrapWholeWords" />
         </DataTemplate>
 
         <DataTemplate x:Key="SampleTemplate"
@@ -33,19 +33,32 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+      
         <ScrollViewer>
-            <ItemsControl x:Name="DocItemsControl"
-                          ItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
-                          ItemsSource="{x:Bind DocsAndSamples, Mode=OneWay}" />
+            <StackPanel>
+                <TextBlock Text="{x:Bind Metadata.Title}"
+                           Style="{StaticResource HeaderTextBlockStyle}" />
+                <ComboBox ItemsSource="{x:Bind Samples, Mode=OneWay}" SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="metadata:ToolkitSampleMetadata">
+                            <TextBlock Text="{Binding DisplayName}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ItemsControl x:Name="DocItemsControl"
+                              ItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
+                              ItemsSource="{x:Bind DocsAndSamples, Mode=OneWay}" />
+            </StackPanel>
+           
         </ScrollViewer>
-        <ItemsControl Grid.Column="1"
-                      ItemsSource="{x:Bind Samples, Mode=OneWay}">
+        <!--<ItemsControl Grid.Column="1"  ItemsSource="{x:Bind Samples, Mode=OneWay}"
+                      >
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleMetadata">
                     <HyperlinkButton Click="SampleListHyperlink_Click"
                                      Content="{Binding DisplayName}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        </ItemsControl>-->
     </Grid>
 </Page>
