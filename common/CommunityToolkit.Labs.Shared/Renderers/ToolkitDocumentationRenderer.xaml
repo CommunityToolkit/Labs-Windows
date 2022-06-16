@@ -28,7 +28,7 @@
                                            Sample="{StaticResource SampleTemplate}" />
     </Page.Resources>
 
-    <Grid x:Name="RootGrid" Padding="40,0,40,0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
@@ -46,14 +46,16 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootGrid.Padding" Value="16,0,16,0" />
+                        <Setter Target="DocItemsControl.Margin" Value="16,0,16,0" />
+                        <Setter Target="HeaderGrid.Margin" Value="16,16,16,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <ScrollViewer Grid.Row="1">
             <ItemsControl x:Name="DocItemsControl"
+                          Margin="40,0,40,0"
                           ItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
                           ItemsSource="{x:Bind DocsAndSamples, Mode=OneWay}" />
         </ScrollViewer>
@@ -68,7 +70,7 @@
         </ItemsControl>-->
 
         <!-- Header grid-->
-        <Grid VerticalAlignment="Top" Padding="0,16,0,16">
+        <Grid x:Name="HeaderGrid" VerticalAlignment="Top" Margin="40,16,40,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -128,6 +130,7 @@
                                        VerticalAlignment="Center"/>
                     <ComboBox SelectedIndex="0"
                               x:Name="SampleSelectionBox"
+                              ItemsSource="{x:Bind Samples, Mode=OneWay}"
                               SelectionChanged="SampleSelectionBox_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="metadata:ToolkitSampleMetadata">
