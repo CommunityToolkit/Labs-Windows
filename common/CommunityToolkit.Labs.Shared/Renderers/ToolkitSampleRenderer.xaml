@@ -6,10 +6,123 @@
       xmlns:local="using:CommunityToolkit.Labs.Shared"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       mc:Ignorable="d">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ReflowStates">
+                <VisualState x:Name="HorizontalState"/>
+
+                <VisualState x:Name="VerticalState">
+                    <VisualState.Setters>
+                        <Setter Target="PageControlHolder.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="OptionsControl.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="OptionsControl.(Grid.Column)" Value="0" />
+                        <Setter Target="OptionsControl.(Grid.Row)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <!-- TO DO: DO WE WANT TO CUSTOMIZE THIS? Style="{StaticResource SubtleButtonStyle}" -->
+            <TextBlock Text="{x:Bind Metadata.DisplayName}"
+                       Style="{StaticResource BodyStrongTextBlockStyle}"
+                       VerticalAlignment="Center"
+                       Grid.ColumnSpan="2"
+                       Margin="0,0,0,8" />
+            <Button Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,-12,0"
+                    ToolTipService.ToolTip="View sample on GitHub">
+                <PathIcon Margin="-3"
+                          VerticalAlignment="Center"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Data="{StaticResource GithubIcon}">
+                    <PathIcon.RenderTransform>
+                        <CompositeTransform TranslateY="5"
+                                            ScaleX="0.65"
+                                            ScaleY="0.65" />
+                    </PathIcon.RenderTransform>
+                </PathIcon>
+            </Button>
+        </Grid>
+
+        <Grid Style="{StaticResource CardStyle}"
+              Grid.Row="1"
+              CornerRadius="8,8,0,0"
+              Padding="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="PageControlHolder"
+                  Padding="24"
+                  Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                  CornerRadius="8"
+                  Grid.Column="0" >
+                <ContentControl x:Name="PageControl"
+                                Content="{x:Bind SampleControlInstance, Mode=OneWay}"
+                                HorizontalContentAlignment="Stretch"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+            </Grid>
+
+            <ContentControl x:Name="OptionsControl"
+                            HorizontalAlignment="Center"
+                            Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}"
+                            Grid.Column="1"
+                            Margin="0,20,20,0"/>
+        </Grid>
+        
+        <muxc:Expander CornerRadius="0,0,8,8"
+                       Margin="0,-1,0,0"
+                       HorizontalAlignment="Stretch"
+                       Grid.Row="2">
+            <muxc:Expander.Header>
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon Glyph="&#xE943;"
+                              FontSize="14"
+                              VerticalAlignment="Center"/>
+                    <TextBlock Text="Code"
+                               VerticalAlignment="Center"
+                               Margin="8,0,0,0"
+                               FontWeight="SemiBold" />
+                </StackPanel>
+            </muxc:Expander.Header>
+                <Pivot>
+                    <Pivot.Resources>
+                        <x:Double x:Key="PivotHeaderItemFontSize">14</x:Double>
+                    </Pivot.Resources>
+
+                    <PivotItem Header="XAML">
+                        <ScrollViewer>
+                            <TextBlock win:IsTextSelectionEnabled="True"
+                                       Text="{x:Bind XamlCode, Mode=OneWay}" />
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="C#">
+                        <ScrollViewer>
+                            <TextBlock win:IsTextSelectionEnabled="True"
+                                       Text="{x:Bind CSharpCode, Mode=OneWay}" />
+                        </ScrollViewer>
+                    </PivotItem>
+                </Pivot>
+        </muxc:Expander>
+    </Grid>
+    
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="1.5*" />
@@ -28,24 +141,7 @@
         </Border>
 
         <Border Grid.Row="1">
-            <Pivot>
-                <Pivot.Resources>
-                    <x:Double x:Key="PivotHeaderItemFontSize">14</x:Double>
-                </Pivot.Resources>
-
-                <PivotItem Header="XAML">
-                    <ScrollViewer>
-                        <TextBlock win:IsTextSelectionEnabled="True"
-                                   Text="{x:Bind XamlCode, Mode=OneWay}" />
-                    </ScrollViewer>
-                </PivotItem>
-                <PivotItem Header="C#">
-                    <ScrollViewer>
-                        <TextBlock win:IsTextSelectionEnabled="True"
-                                   Text="{x:Bind CSharpCode, Mode=OneWay}" />
-                    </ScrollViewer>
-                </PivotItem>
-            </Pivot>
+            
         </Border>
-    </Grid>
+    </Grid>-->
 </Page>

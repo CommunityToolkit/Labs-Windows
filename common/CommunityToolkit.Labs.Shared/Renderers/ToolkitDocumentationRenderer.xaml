@@ -8,7 +8,6 @@
       xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
       xmlns:renderer="using:CommunityToolkit.Labs.Shared.Renderers"
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -20,8 +19,8 @@
 
         <DataTemplate x:Key="SampleTemplate"
                       x:DataType="metadata:ToolkitSampleMetadata">
-            <!--  TODO: Display Header for name of sample?  -->
-            <renderer:ToolkitSampleRenderer Metadata="{Binding}" />
+            <renderer:ToolkitSampleRenderer Margin="0,0,0,24"
+                                            Metadata="{Binding}" />
         </DataTemplate>
 
         <local:DocOrSampleTemplateSelector x:Key="DocOrSampleTemplateSelector"
