@@ -80,7 +80,7 @@
             </Grid.RowDefinitions>
             <TextBlock x:Name="HeaderText"
                        VerticalAlignment="Stretch"
-                       win:AutomationProperties.HeadingLevel="1"
+                       AutomationProperties.HeadingLevel="Level1"
                        Style="{StaticResource TitleTextBlockStyle}"
                        Text="{x:Bind Metadata.Title}" />
 
