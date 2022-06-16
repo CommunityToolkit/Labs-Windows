@@ -8,7 +8,6 @@
       xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:renderer="using:CommunityToolkit.Labs.Shared.Renderers"
-      muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
       mc:Ignorable="d">
 
     <Page.Resources>
