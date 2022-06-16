@@ -42,6 +42,8 @@ public sealed partial class App : Application
     private static Windows.UI.Xaml.Window currentWindow = Windows.UI.Xaml.Window.Current;
 #endif
 
+    public static Rect Bounds => currentWindow.Bounds;
+
     // Holder for test content to abstract Window.Current.Content
     public static FrameworkElement? ContentRoot
     {

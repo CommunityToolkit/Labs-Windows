@@ -57,4 +57,32 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
         // Set in XAML Page LINK: PropertySizerTestInitialBinding.xaml#L14
         Assert.AreEqual(200, propertySizer.Binding, "Property Sizer not at expected changed value.");
     }
+
+    [LabsUITestMethod]
+    public async Task InputInjection_TestClickButton(TouchInjectionTest testControl)
+    {
+        var button = testControl.FindDescendant<Button>();
+
+        Assert.IsNotNull(button, "Could not find button control.");
+        Assert.IsFalse(testControl.WasButtonClicked, "Initial state unexpected. Button shouldn't be clicked yet.");
+
+        // Get location to button.
+        var location = App.ContentRoot.CoordinatesTo(button); // TODO: Write a `CoordinatesToCenter` helper?
+
+        SimulateInput.StartTouch();
+        // Offset location slightly to ensure we're inside the button.
+        var pointerId = SimulateInput.TouchDown(new Point(location.X + 25, location.Y + 25));
+        await Task.Delay(50);
+        SimulateInput.TouchUp(pointerId);
+
+        // Ensure UI event is processed by our button
+        await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
+
+        // Optional delay for us to be able to see button content change before test shuts down.
+        await Task.Delay(250);
+
+        Assert.IsTrue(testControl.WasButtonClicked, "Button wasn't clicked.");
+
+        SimulateInput.StopTouch();
+    }
 }
