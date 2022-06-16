@@ -70,7 +70,7 @@
         </ItemsControl>-->
 
         <!-- Header grid-->
-        <Grid x:Name="HeaderGrid" VerticalAlignment="Top" Margin="40,16,40,0">
+        <Grid x:Name="HeaderGrid" VerticalAlignment="Top" Margin="40,16,40,16">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
