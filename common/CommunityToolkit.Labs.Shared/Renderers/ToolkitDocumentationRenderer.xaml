@@ -14,7 +14,8 @@
         <DataTemplate x:Key="DocumentTemplate"
                       x:DataType="x:String">
             <TextBlock win:IsTextSelectionEnabled="True"
-                       Text="{Binding}" TextWrapping="WrapWholeWords" />
+                       Text="{Binding}"
+                       TextWrapping="WrapWholeWords" />
         </DataTemplate>
 
         <DataTemplate x:Key="SampleTemplate"
@@ -30,7 +31,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
@@ -59,8 +60,7 @@
                           ItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
                           ItemsSource="{x:Bind DocsAndSamples, Mode=OneWay}" />
         </ScrollViewer>
-        <!--<ItemsControl Grid.Column="1"  ItemsSource="{x:Bind Samples, Mode=OneWay}"
-                      >
+        <!--<ItemsControl Grid.Column="1"  ItemsSource="{x:Bind Samples, Mode=OneWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleMetadata">
                     <HyperlinkButton Click="SampleListHyperlink_Click"
@@ -69,89 +69,95 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>-->
 
-        <!-- Header grid-->
-        <Grid x:Name="HeaderGrid" VerticalAlignment="Top" Margin="40,16,40,16">
+        <!--  Header grid  -->
+        <Grid x:Name="HeaderGrid"
+              Margin="40,16,40,16"
+              VerticalAlignment="Top">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock x:Name="HeaderText"
-                   Text="{x:Bind Metadata.Title}"
-                   AutomationProperties.HeadingLevel="1"
-                   Style="{StaticResource TitleTextBlockStyle}"
-                   VerticalAlignment="Stretch"/>
+                       VerticalAlignment="Stretch"
+                       AutomationProperties.HeadingLevel="1"
+                       Style="{StaticResource TitleTextBlockStyle}"
+                       Text="{x:Bind Metadata.Title}" />
 
             <TextBlock Grid.Row="1"
-                       TextWrapping="WrapWholeWords"
                        Margin="0,8,0,0"
                        HorizontalAlignment="Left"
-                       Text="{x:Bind Metadata.Description}"/>
+                       Text="{x:Bind Metadata.Description}"
+                       TextWrapping="WrapWholeWords" />
 
             <Grid Grid.Row="2"
-                  ColumnSpacing="8"
-                  Margin="0,16,0,0">
+                  Margin="0,16,0,0"
+                  ColumnSpacing="8">
                 <!--<animations:Implicit.Animations>
                             <animations:OffsetAnimation Duration="0:0:0.3"/>
                         </animations:Implicit.Animations>-->
 
-                <StackPanel Orientation="Horizontal" Spacing="8">
+                <StackPanel Orientation="Horizontal"
+                            Spacing="8">
                     <Button Grid.Column="0"
-                                Style="{StaticResource AccentButtonStyle}">
+                            Style="{StaticResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal">
-                            <FontIcon Glyph="&#xE130;"
-                                          FontSize="14"/>
-                            <TextBlock Text="See the docs"
-                                           Margin="8,0,0,0" />
+                            <FontIcon FontSize="14"
+                                      Glyph="&#xE130;" />
+                            <TextBlock Margin="8,0,0,0"
+                                       Text="See the docs" />
                         </StackPanel>
                     </Button>
                     <Button Grid.Column="1"
-                                Style="{StaticResource AccentButtonStyle}">
+                            Style="{StaticResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal">
                             <PathIcon Margin="-3"
-                                          VerticalAlignment="Center"
-                                          Data="{StaticResource GithubIcon}">
+                                      VerticalAlignment="Center"
+                                      Data="{StaticResource GithubIcon}">
                                 <PathIcon.RenderTransform>
-                                    <CompositeTransform TranslateY="5" TranslateX="-5" ScaleX="0.65" ScaleY="0.65" />
+                                    <CompositeTransform ScaleX="0.65"
+                                                        ScaleY="0.65"
+                                                        TranslateX="-5"
+                                                        TranslateY="5" />
                                 </PathIcon.RenderTransform>
                             </PathIcon>
-                            <TextBlock Text="View in GitHub"
-                                           Margin="-4,0,0,0" />
+                            <TextBlock Margin="-4,0,0,0"
+                                       Text="View in GitHub" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal"
-                            Spacing="8"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
-                    <TextBlock Text="Jump to:"
-                                       Style="{StaticResource CaptionTextBlockStyle}"
-                                       VerticalAlignment="Center"/>
-                    <ComboBox SelectedIndex="0"
-                              x:Name="SampleSelectionBox"
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <TextBlock VerticalAlignment="Center"
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Text="Jump to:" />
+                    <ComboBox x:Name="SampleSelectionBox"
                               ItemsSource="{x:Bind Samples, Mode=OneWay}"
+                              SelectedIndex="0"
                               SelectionChanged="SampleSelectionBox_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="metadata:ToolkitSampleMetadata">
-                                <TextBlock Text="{Binding DisplayName}"/>
+                                <TextBlock Text="{Binding DisplayName}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Button Height="32">
-                        <FontIcon Glyph="&#xE1A0;"
-                                  FontSize="14"/>
+                        <FontIcon FontSize="14"
+                                  Glyph="&#xE1A0;" />
                     </Button>
 
                     <Button Height="32">
-                        <FontIcon Glyph="&#xE793;"
-                                  FontSize="14"/>
+                        <FontIcon FontSize="14"
+                                  Glyph="&#xE793;" />
                     </Button>
                 </StackPanel>
             </Grid>
 
-            <TextBlock Text="{x:Bind Metadata.Title}"
-                       Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                       Text="{x:Bind Metadata.Title}" />
         </Grid>
     </Grid>
 </Page>

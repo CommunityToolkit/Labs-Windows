@@ -9,12 +9,11 @@
       mc:Ignorable="d">
 
     <Grid>
-
-    
         <muxc:NavigationView MenuItemsSource="{x:Bind NavigationViewItems}"
                              SelectionChanged="OnSelectionChanged">
 
             <Frame x:Name="NavFrame" Padding="48,0,48,0"/>
+
         </muxc:NavigationView>
     </Grid>
 </Page>
