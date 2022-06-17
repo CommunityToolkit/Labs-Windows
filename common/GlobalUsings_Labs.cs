@@ -16,6 +16,9 @@ global using Windows.Foundation.Collections;
 global using Windows.ApplicationModel;
 global using Windows.ApplicationModel.Activation;
 
+global using Windows.UI.Xaml.Automation;
+global using Windows.UI.Xaml.Automation.Peers;
+
 global using Windows.UI.Xaml;
 global using Windows.UI.Xaml.Controls;
 global using Windows.UI.Xaml.Controls.Primitives;
@@ -26,6 +29,10 @@ global using Windows.UI.Xaml.Media;
 global using Windows.UI.Xaml.Navigation;
 
 #else
+
+global using Microsoft.UI.Xaml.Automation;
+global using Microsoft.UI.Xaml.Automation.Peers;
+
 global using Microsoft.UI.Xaml;
 global using Microsoft.UI.Xaml.Controls;
 global using Microsoft.UI.Xaml.Controls.Primitives;

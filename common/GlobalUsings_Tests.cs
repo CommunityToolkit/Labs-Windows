@@ -11,15 +11,11 @@ global using Microsoft.Toolkit.Uwp.UI;
 global using Microsoft.Toolkit.Uwp.UI.Helpers;
 global using Windows.UI;
 global using Windows.UI.Core;
-global using Windows.UI.Xaml.Automation;
-global using Windows.UI.Xaml.Automation.Peers;
 #else
 global using CommunityToolkit.WinUI;
 global using CommunityToolkit.WinUI.UI;
 global using CommunityToolkit.WinUI.UI.Helpers;
 global using Microsoft.UI;
-global using Microsoft.UI.Xaml.Automation;
-global using Microsoft.UI.Xaml.Automation.Peers;
 #endif
 
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
