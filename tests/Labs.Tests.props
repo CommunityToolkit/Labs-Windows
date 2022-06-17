@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_Labs.cs" />
     <Compile Include="$(RepositoryDirectory)common\GlobalUsings_Tests.cs" />
   </ItemGroup>
 
