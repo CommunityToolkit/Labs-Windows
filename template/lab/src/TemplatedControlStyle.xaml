@@ -1,0 +1,65 @@
+<ResourceDictionary
+	x:Class="CommunityToolkit.Labs.WinUI.ProjectTemplateRns.TemplatedControlStyle"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:CommunityToolkit.Labs.WinUI.ProjectTemplateRns">
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Light">
+			<SolidColorBrush x:Key="MyBrush" Color="{StaticResource ControlFillColorDefault}" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Dark">
+			<SolidColorBrush x:Key="MyBrush" Color="{StaticResource ControlFillColorDefault}" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<SolidColorBrush x:Key="MyBrush" Color="{ThemeResource SystemColorButtonFaceColor}" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<!--  Implictly applied default style  -->
+	<Style BasedOn="{StaticResource DefaultTemplatedControlStyle}" TargetType="local:TemplatedControl" />
+
+	<Style x:Key="DefaultTemplatedControlStyle" TargetType="local:TemplatedControl">
+		<Style.Setters>
+			<Setter Property="MyProperty" Value="This property has been overriden by the style template" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="local:TemplatedControl">
+						<ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+							<ContentControl.ContentTemplate>
+								<DataTemplate x:DataType="local:TemplatedControl">
+
+									<Grid>
+										<StackPanel Spacing="20">
+											<TextBlock
+												x:Name="PART_HelloWorld"
+												Foreground="{ThemeResource MyBrush}"
+												Text="Hello world!" />
+
+											<TextBlock Text="{x:Bind MyProperty, Mode=OneWay}" />
+											<TextBlock Text="{TemplateBinding MyProperty}" Visibility="Collapsed" />
+											<TextBlock Text="{Binding MyProperty, RelativeSource={RelativeSource Mode=TemplatedParent}}" Visibility="Collapsed" />
+										</StackPanel>
+									</Grid>
+
+								</DataTemplate>
+							</ContentControl.ContentTemplate>
+						</ContentControl>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style.Setters>
+	</Style>
+
+	<!--  Minimal, custom style  -->
+	<Style
+		x:Key="CustomTemplatedControlStyle"
+		BasedOn="{StaticResource DefaultTemplatedControlStyle}"
+		TargetType="local:TemplatedControl">
+		<Style.Setters>
+			<Setter Property="MyProperty" Value="This property has been overriden by a custom style!" />
+		</Style.Setters>
+	</Style>
+
+
+</ResourceDictionary>

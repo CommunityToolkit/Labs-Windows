@@ -9,6 +9,15 @@
     <Import_RootNamespace>ProjectTemplate.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ExampleProjectTemplatePage.xaml.cs">
+      <DependentUpon>ExampleProjectTemplatePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleProjectTemplateTestClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)ExampleProjectTemplatePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

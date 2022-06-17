@@ -32,10 +32,10 @@ namespace ProjectTemplate.Tests;
 [TestClass]
 public class ExampleProjectTemplateTestClass
 {
-    [TestMethod]
+    // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/160
     public void SimpleExampleTest()
     {
-        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate();
+        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplateRns.TemplatedControl();
         Assert.IsNotNull(systemUnderTest);
     }
 }

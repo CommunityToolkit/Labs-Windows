@@ -32,4 +32,15 @@
     <Page Remove="obj\bin\**" />
     <UpToDateCheckInput Remove="obj\bin\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="TemplatedControlStyle.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="TemplatedControlStyle.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="TemplatedControlStyle.xaml.cs">
+      <DependentUpon>TemplatedControlStyle.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

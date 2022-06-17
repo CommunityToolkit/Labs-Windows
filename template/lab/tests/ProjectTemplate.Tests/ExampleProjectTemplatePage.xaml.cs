@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using Windows.Foundation;
 
 // TODO: remove any unneeded namespaces before creating a PR
-//-:cnd:noEmit
 #if !WINAPPSDK
 using Windows.UI;
 using Windows.UI.Core;
@@ -24,10 +23,16 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 #endif
-//+:cnd:noEmit
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace ProjectTemplate.Tests;
 
-public class ProjectTemplate
+/// <summary>
+/// An empty page that can be used on its own or navigated to within a Frame.
+/// </summary>
+public sealed partial class ExampleProjectTemplatePage : Page
 {
+    public ExampleProjectTemplatePage()
+    {
+        this.InitializeComponent();
+    }
 }
