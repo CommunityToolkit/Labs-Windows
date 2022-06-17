@@ -17,19 +17,27 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="ReflowStates">
-                <VisualState x:Name="HorizontalState" />
-
-                <VisualState x:Name="VerticalState">
+            <VisualStateGroup>
+                <VisualState x:Name="HorizontalSampleLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint840Plus}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="VerticalSampleLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="PageControlHolder.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="OptionsControl.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="OptionsControl.(Grid.Column)" Value="0" />
+                        <Setter Target="OptionsControl.HorizontalContentAlignment" Value="Left" />
+                        <Setter Target="OptionsControl.Margin" Value="0,24,0,0" />
                         <Setter Target="OptionsControl.(Grid.Row)" Value="1" />
+                        <Setter Target="OptionsControl.(Grid.Column)" Value="0" />
+                        <Setter Target="OptionsControl.(Grid.ColumnSpan)" Value="2" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+
         <Grid>
             <TextBlock Grid.ColumnSpan="2"
                        Margin="0,0,0,8"
@@ -69,7 +77,7 @@
                   Grid.Column="0"
                   Padding="0"
                   Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
-                  CornerRadius="8">
+                  CornerRadius="8,0,0,0">
                 <ContentControl x:Name="PageControl"
                                 Margin="24"
                                 HorizontalAlignment="Center"
@@ -78,6 +86,7 @@
                                 Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
             </Grid>
 
+            <!--  TO DO: HIDE CONTROL WHEN EMPTY (TO REMOVE GAP)?  -->
             <ContentControl x:Name="OptionsControl"
                             Grid.Column="1"
                             Margin="24"
