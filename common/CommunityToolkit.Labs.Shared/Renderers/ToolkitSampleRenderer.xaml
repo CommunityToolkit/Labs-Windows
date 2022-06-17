@@ -117,27 +117,4 @@
             </Pivot>
         </muxc:Expander>
     </Grid>
-
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="1.5*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <ContentControl Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
-
-        <Border Grid.RowSpan="2"
-                Grid.Column="1"
-                Padding="20">
-            <ContentControl Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}" />
-        </Border>
-
-        <Border Grid.Row="1">
-
-        </Border>
-    </Grid>-->
 </Page>

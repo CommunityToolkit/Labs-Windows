@@ -12,7 +12,7 @@
             <Style x:Key="CardStyle"
                    TargetType="Grid">
                 <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="Background" Value="{ThemeResource LayerFillColorDefaultBrush}" />
+                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
                 <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
                 <Setter Property="CornerRadius" Value="8" />
             </Style>

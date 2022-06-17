@@ -11,8 +11,7 @@
         <muxc:NavigationView MenuItemsSource="{x:Bind NavigationViewItems}"
                              SelectionChanged="OnSelectionChanged">
 
-            <Frame x:Name="NavFrame"
-                   Padding="48,0,48,0" />
+            <Frame x:Name="NavFrame" />
 
         </muxc:NavigationView>
     </Grid>

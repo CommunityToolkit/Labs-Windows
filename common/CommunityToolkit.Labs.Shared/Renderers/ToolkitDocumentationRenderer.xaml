@@ -60,14 +60,6 @@
                           ItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
                           ItemsSource="{x:Bind DocsAndSamples, Mode=OneWay}" />
         </ScrollViewer>
-        <!--<ItemsControl Grid.Column="1"  ItemsSource="{x:Bind Samples, Mode=OneWay}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="metadata:ToolkitSampleMetadata">
-                    <HyperlinkButton Click="SampleListHyperlink_Click"
-                                     Content="{Binding DisplayName}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>-->
 
         <!--  Header grid  -->
         <Grid x:Name="HeaderGrid"
@@ -93,9 +85,6 @@
             <Grid Grid.Row="2"
                   Margin="0,16,0,0"
                   ColumnSpacing="8">
-                <!--<animations:Implicit.Animations>
-                            <animations:OffsetAnimation Duration="0:0:0.3"/>
-                        </animations:Implicit.Animations>-->
 
                 <StackPanel Orientation="Horizontal"
                             Spacing="8">
