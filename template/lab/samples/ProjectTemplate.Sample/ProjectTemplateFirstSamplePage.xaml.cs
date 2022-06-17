@@ -27,7 +27,6 @@ using Microsoft.UI.Xaml.Navigation;
 #endif
 //+:cnd:noEmit
 
-
 namespace ProjectTemplate.Sample;
 
 [ToolkitSampleBoolOption("IsTextVisible", "IsVisible", true)]
