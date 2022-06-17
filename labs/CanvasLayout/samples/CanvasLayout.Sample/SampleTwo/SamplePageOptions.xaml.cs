@@ -35,7 +35,7 @@ public sealed partial class SamplePageOptions : UserControl
 
     private void OnRadioButtonSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (sender is RadioButtons radioButtons)
+        if (sender is MUXC.RadioButtons radioButtons)
         {
             if (radioButtons.SelectedItem is null)
                 return;

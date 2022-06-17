@@ -4,10 +4,10 @@
 
 namespace CommunityToolkit.Labs.WinUI;
 
-public class CanvasLayout : VirtualizingLayout
+public class CanvasLayout : MUXC.VirtualizingLayout
 {
     #region Setup / teardown
-    protected override void InitializeForContextCore(VirtualizingLayoutContext context)
+    protected override void InitializeForContextCore(MUXC.VirtualizingLayoutContext context)
     {
         base.InitializeForContextCore(context);
 
@@ -19,7 +19,7 @@ public class CanvasLayout : VirtualizingLayout
         }
     }
 
-    protected override void UninitializeForContextCore(VirtualizingLayoutContext context)
+    protected override void UninitializeForContextCore(MUXC.VirtualizingLayoutContext context)
     {
         base.UninitializeForContextCore(context);
 
@@ -31,7 +31,7 @@ public class CanvasLayout : VirtualizingLayout
 
     #region Layout
 
-    protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
+    protected override Size MeasureOverride(MUXC.VirtualizingLayoutContext context, Size availableSize)
     {
         int maxWidth = 0;
         int maxHeight = 0;
@@ -73,7 +73,7 @@ public class CanvasLayout : VirtualizingLayout
         return new Size(maxWidth, maxHeight);
     }
 
-    protected override Size ArrangeOverride(VirtualizingLayoutContext context, Size finalSize)
+    protected override Size ArrangeOverride(MUXC.VirtualizingLayoutContext context, Size finalSize)
     {
         for (int i = 0; i < context.ItemCount; i++)
         {
