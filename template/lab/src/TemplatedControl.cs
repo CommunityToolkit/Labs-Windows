@@ -52,7 +52,7 @@ public class TemplatedControl : Control
         if (element is null)
         {
             // Handle missing x:Name'd element from the template
-            throw new ArgumentException(@"No element with x:Name=""PART_HelloWorld"" exists in the template");
+            return;
         }
 
         element.Text = "Hello from code behind!";
