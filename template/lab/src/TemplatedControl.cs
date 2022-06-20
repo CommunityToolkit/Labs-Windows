@@ -49,13 +49,11 @@ public class TemplatedControl : Control
         base.OnApplyTemplate();
 
         var element = GetTemplateChild("PART_HelloWorld") as TextBlock;
-        if (element is null)
+        
+        if (element is not null)
         {
-            // Handle missing x:Name'd element from the template
-            return;
+            element.Text = "Hello from code behind!";
         }
-
-        element.Text = "Hello from code behind!";
     }
 
     /// <summary>
