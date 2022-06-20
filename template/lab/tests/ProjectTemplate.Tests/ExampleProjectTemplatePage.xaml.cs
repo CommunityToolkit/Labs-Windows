@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Windows.Foundation;
 
 // TODO: remove any unneeded namespaces before creating a PR
+//-:cnd:noEmit
 #if !WINAPPSDK
 using Windows.UI;
 using Windows.UI.Core;
@@ -23,6 +24,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 #endif
+//+:cnd:noEmit
 
 namespace ProjectTemplate.Tests;
 
