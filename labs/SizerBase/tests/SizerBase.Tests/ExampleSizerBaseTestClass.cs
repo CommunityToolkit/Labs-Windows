@@ -2,31 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using CommunityToolkit.Labs.UnitTests;
 using CommunityToolkit.Labs.WinUI;
 using CommunityToolkit.Labs.WinUI.Automation.Peers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using System.Threading.Tasks;
-
-#if !WINAPPSDK
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
-using Windows.UI.Xaml.Automation;
-using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Controls;
-using MUXC = Microsoft.UI.Xaml.Controls;
-#else
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI;
-using Microsoft.UI.Xaml.Automation;
-using Microsoft.UI.Xaml.Automation.Peers;
-using Microsoft.UI.Xaml.Controls;
-using MUXC = Microsoft.UI.Xaml.Controls;
-#endif
 
 namespace SizerBase.Tests;
 

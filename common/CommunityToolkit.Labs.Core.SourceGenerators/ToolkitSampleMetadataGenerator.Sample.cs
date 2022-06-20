@@ -9,9 +9,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
@@ -121,7 +118,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                     );
 
                 var docFrontMatter = GatherDocumentFrontMatter(ctx, markdownFileData);
-                
+
                 if (isExecutingInSampleProject && !skipDiagnostics)
                 {
                     ReportSampleDiagnostics(ctx, toolkitSampleAttributeData, optionsPaneAttribute, generatedOptionPropertyData);
@@ -215,7 +212,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
         // Check for generated options with duplicate names.
         var generatedOptionsWithDuplicateName = generatedOptionPropertyData.GroupBy(x => x.Item1, SymbolEqualityComparer.Default) // Group by containing symbol (allow reuse across samples)
                                                                            .SelectMany(y => y.GroupBy(x => x.Item2.Name) // In this symbol, group options by name.
-                                                                                             .Where(x => x.Any(x => x.Item2 is not ToolkitSampleMultiChoiceOptionAttribute)) // Exclude Multichoice. 
+                                                                                             .Where(x => x.Any(x => x.Item2 is not ToolkitSampleMultiChoiceOptionAttribute)) // Exclude Multichoice.
                                                                                              .Where(x => x.Count() > 1)); // Options grouped by name should only contain 1 item.
 
         foreach (var item in generatedOptionsWithDuplicateName)

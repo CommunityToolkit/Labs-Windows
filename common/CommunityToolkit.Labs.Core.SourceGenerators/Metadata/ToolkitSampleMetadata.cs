@@ -2,9 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 
 //// We can't use record for WinUI 3 yet due to https://github.com/microsoft/microsoft-ui-xaml/issues/5315

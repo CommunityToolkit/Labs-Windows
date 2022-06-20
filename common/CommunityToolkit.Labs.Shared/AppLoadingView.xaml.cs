@@ -4,12 +4,7 @@
 
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using CommunityToolkit.Labs.Core.SourceGenerators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 
 #if !WINAPPSDK

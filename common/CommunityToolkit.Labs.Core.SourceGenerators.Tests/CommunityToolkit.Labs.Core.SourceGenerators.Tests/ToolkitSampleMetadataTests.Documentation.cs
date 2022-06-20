@@ -7,10 +7,6 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests;
 
