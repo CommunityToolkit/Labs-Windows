@@ -35,7 +35,7 @@ public class ExampleProjectTemplateTestClass
     // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/160
     public void SimpleExampleTest()
     {
-        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplateRns.TemplatedControl();
+        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate.TemplatedControl();
         Assert.IsNotNull(systemUnderTest);
     }
 }

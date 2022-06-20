@@ -26,7 +26,7 @@ using Microsoft.UI.Xaml.Media;
 #endif
 //+:cnd:noEmit
 
-namespace CommunityToolkit.Labs.WinUI.ProjectTemplateRns;
+namespace CommunityToolkit.Labs.WinUI.ProjectTemplate;
 
 /// <summary>
 /// An example templated control.

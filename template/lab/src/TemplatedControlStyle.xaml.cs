@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml;
 #endif
 //+:cnd:noEmit
 
-namespace CommunityToolkit.Labs.WinUI.ProjectTemplateRns;
+namespace CommunityToolkit.Labs.WinUI.ProjectTemplate;
 
 /// <summary>
 /// Backing code for this resource dictionary.
