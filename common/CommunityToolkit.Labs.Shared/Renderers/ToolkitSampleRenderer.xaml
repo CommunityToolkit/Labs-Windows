@@ -106,7 +106,7 @@
                                Text="Source code" />
                 </StackPanel>
             </muxc:Expander.Header>
-            <Pivot>
+            <Pivot HorizontalAlignment="Stretch">
                 <Pivot.Resources>
                     <x:Double x:Key="PivotHeaderItemFontSize">14</x:Double>
                 </Pivot.Resources>

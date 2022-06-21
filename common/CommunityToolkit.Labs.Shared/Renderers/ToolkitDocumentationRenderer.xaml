@@ -74,12 +74,12 @@
                        VerticalAlignment="Stretch"
                        win:AutomationProperties.HeadingLevel="Level1"
                        Style="{StaticResource TitleTextBlockStyle}"
-                       Text="{x:Bind Metadata.Title}" />
+                       Text="{x:Bind Metadata.Title, Mode=OneWay}" />
 
             <TextBlock Grid.Row="1"
                        Margin="0,8,0,0"
                        HorizontalAlignment="Left"
-                       Text="{x:Bind Metadata.Description}"
+                       Text="{x:Bind Metadata.Description, Mode=OneWay}"
                        TextWrapping="WrapWholeWords" />
 
             <Grid Grid.Row="2"
@@ -129,7 +129,7 @@
                               SelectionChanged="SampleSelectionBox_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="metadata:ToolkitSampleMetadata">
-                                <TextBlock Text="{Binding DisplayName}" />
+                                <TextBlock Text="{Binding DisplayName, Mode=OneWay}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -144,9 +144,6 @@
                     </Button>
                 </StackPanel>
             </Grid>
-
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
-                       Text="{x:Bind Metadata.Title}" />
         </Grid>
     </Grid>
 </Page>
