@@ -144,16 +144,6 @@ public sealed partial class ToolkitDocumentationRenderer : Page
             container?.StartBringIntoView();
         }
     }
-
-    //private void SampleListHyperlink_Click(object sender, RoutedEventArgs e)
-    //{
-    //    if (sender is HyperlinkButton btn && btn.DataContext is ToolkitSampleMetadata metadata)
-    //    {
-    //        var container = DocItemsControl.ContainerFromItem(metadata) as UIElement;
-    //        container?.StartBringIntoView();
-    //    }
-    //}
-
     private static async Task<string> GetDocumentationFileContents(ToolkitFrontMatter metadata)
     {
         // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/142
