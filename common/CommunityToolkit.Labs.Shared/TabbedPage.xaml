@@ -28,7 +28,8 @@
                       x:DataType="metadata:ToolkitSampleMetadata">
             <muxc:TabViewItem Header="{x:Bind DisplayName}"
                               IconSource="{StaticResource SampleIcon}">
-                <renderer:ToolkitSampleRenderer Metadata="{Binding}" />
+                <renderer:ToolkitSampleRenderer Margin="16"
+                                                Metadata="{Binding}" />
             </muxc:TabViewItem>
         </DataTemplate>
 
