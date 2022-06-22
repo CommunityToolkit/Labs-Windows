@@ -38,9 +38,6 @@
     <UpToDateCheckInput Remove="SamplePageOptions.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="*.md" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj"/>
   </ItemGroup>
 </Project>
