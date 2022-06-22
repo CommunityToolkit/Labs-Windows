@@ -19,7 +19,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VisualUITestBase.cs" />
   </ItemGroup>
 </Project>

@@ -45,20 +45,8 @@ public sealed partial class App : Application
     // Holder for test content to abstract Window.Current.Content
     public static FrameworkElement? ContentRoot
     {
-        get
-        {
-            var rootFrame = currentWindow.Content as Frame;
-            return rootFrame?.Content as FrameworkElement;
-        }
-
-        set
-        {
-            var rootFrame = currentWindow.Content as Frame;
-            if (rootFrame != null)
-            {
-                rootFrame.Content = value;
-            }
-        }
+        get => currentWindow.Content as FrameworkElement;
+        set => currentWindow.Content = value;
     }
 
     // Abstract CoreApplication.MainView.DispatcherQueue
