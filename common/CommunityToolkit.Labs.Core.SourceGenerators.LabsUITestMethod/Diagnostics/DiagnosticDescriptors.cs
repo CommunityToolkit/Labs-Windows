@@ -4,26 +4,25 @@
 
 using Microsoft.CodeAnalysis;
 
-namespace CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.Diagnostics
+namespace CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.Diagnostics;
+
+/// <summary>
+/// A container for all <see cref="DiagnosticDescriptor"/> instances for errors reported by analyzers in this project.
+/// </summary>
+public static class DiagnosticDescriptors
 {
     /// <summary>
-    /// A container for all <see cref="DiagnosticDescriptor"/> instances for errors reported by analyzers in this project.
+    /// Gets a <see cref="DiagnosticDescriptor"/> indicating that a test method decorated with <see cref="LabsUITestMethodAttribute"/> asks for a control instance with a non-parameterless constructor.
+    /// <para>
+    /// Format: <c>"Cannot generate test with type {0} as it has a constructor with parameters."</c>.
+    /// </para>
     /// </summary>
-    public static class DiagnosticDescriptors
-    {
-        /// <summary>
-        /// Gets a <see cref="DiagnosticDescriptor"/> indicating that a test method decorated with <see cref="LabsUITestMethodAttribute"/> asks for a control instance with a non-parameterless constructor.
-        /// <para>
-        /// Format: <c>"Cannot generate test with type {0} as it has a constructor with parameters."</c>.
-        /// </para>
-        /// </summary>
-        public static readonly DiagnosticDescriptor TestControlHasConstructorWithParameters = new(
-            id: "LUITM0001",
-            title: $"Provided control must not have a constructor with parameters.",
-            messageFormat: $"Cannot generate test with control {{0}} as it has a constructor with parameters.",
-            category: typeof(LabsUITestMethodGenerator).FullName,
-            defaultSeverity: DiagnosticSeverity.Error,
-            isEnabledByDefault: true,
-            description: $"Cannot generate test method with provided control.");
-    }
+    public static readonly DiagnosticDescriptor TestControlHasConstructorWithParameters = new(
+        id: "LUITM0001",
+        title: $"Provided control must not have a constructor with parameters.",
+        messageFormat: $"Cannot generate test with control {{0}} as it has a constructor with parameters.",
+        category: typeof(LabsUITestMethodGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: $"Cannot generate test method with provided control.");
 }
