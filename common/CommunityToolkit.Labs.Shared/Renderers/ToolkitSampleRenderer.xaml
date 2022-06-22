@@ -83,7 +83,7 @@
                   CornerRadius="8,0,0,0">
                 <ContentControl x:Name="PageControl"
                                 Margin="24"
-                                HorizontalAlignment="Center"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 HorizontalContentAlignment="Stretch"
                                 Content="{x:Bind SampleControlInstance, Mode=OneWay}" />

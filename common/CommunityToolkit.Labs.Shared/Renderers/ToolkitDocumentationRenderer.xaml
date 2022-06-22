@@ -52,6 +52,15 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+
+            <VisualStateGroup x:Name="HeaderStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="Collapsed">
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGrid.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
         <ScrollViewer Grid.Row="1">
