@@ -3,8 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 #if !WINAPPSDK
 using Windows.UI.Xaml;

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using System.ComponentModel;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 

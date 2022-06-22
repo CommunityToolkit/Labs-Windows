@@ -3,13 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Shared;
-using System;
-
-#if WINAPPSDK
-using Microsoft.UI.Xaml;
-#else
-using Windows.UI.Xaml;
-#endif
 
 namespace SizerBase.Wasm;
 

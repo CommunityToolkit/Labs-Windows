@@ -3,12 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
@@ -34,7 +28,7 @@ public static class GeneratorExtensions
     }
 
     /// <summary>
-    /// Crawls an object tree for nested properties of the same type and returns the first instance that matches the <paramref name="filterPredicate"/>. 
+    /// Crawls an object tree for nested properties of the same type and returns the first instance that matches the <paramref name="filterPredicate"/>.
     /// </summary>
     /// <remarks>
     /// Does not filter against or return the <paramref name="root"/> object.

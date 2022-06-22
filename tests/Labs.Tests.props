@@ -8,4 +8,10 @@
       <Version>2.2.8</Version>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
+    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_Tests.cs" />
+  </ItemGroup>
+
 </Project>

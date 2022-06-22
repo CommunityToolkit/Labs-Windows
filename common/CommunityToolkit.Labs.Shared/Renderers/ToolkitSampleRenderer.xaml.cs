@@ -4,14 +4,7 @@
 
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 
