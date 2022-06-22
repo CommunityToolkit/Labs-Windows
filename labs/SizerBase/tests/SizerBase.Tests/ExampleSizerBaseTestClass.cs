@@ -35,7 +35,6 @@ namespace SizerBase.Tests;
 [TestClass]
 public partial class ExampleSizerBaseTestClass : VisualUITestBase
 {
-
     [TestMethod]
     public void Just_an_example_test()
     {
