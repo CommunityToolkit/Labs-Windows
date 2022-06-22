@@ -55,7 +55,6 @@
                                       Padding="{TemplateBinding Padding}"
                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      AutomationProperties.AccessibilityView="Raw"
                                       Background="{TemplateBinding Background}"
                                       BackgroundSizing="{TemplateBinding BackgroundSizing}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
