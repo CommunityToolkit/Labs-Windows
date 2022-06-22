@@ -25,50 +25,14 @@ namespace CommunityToolkit.Labs.UnitTests;
 /// </summary>
 public class VisualUITestBase
 {
-    protected Task EnqueueAsync<T>(Func<Task<T>> function)
-    {
-        var taskCompletionSource = new TaskCompletionSource<T>();
+    // Used by source generators to dispatch to the UI thread
+    // Methods must be declared or interfaced for compatibility with the source generator's unit tests.
 
-        var addedToQueue = App.DispatcherQueue.TryEnqueue(async () =>
-        {
-            var res = await function();
-            taskCompletionSource?.TrySetResult(res);
-        });
+    protected Task EnqueueAsync<T>(Func<Task<T>> function) => App.DispatcherQueue.EnqueueAsync(function);
 
-        Assert.IsTrue(addedToQueue);
+    protected Task EnqueueAsync(Func<Task> function) => App.DispatcherQueue.EnqueueAsync(function);
 
-        return taskCompletionSource.Task;
-    }
-
-    protected Task EnqueueAsync(Func<Task> function)
-    {
-        var taskCompletionSource = new TaskCompletionSource<object?>();
-
-        var addedToQueue = App.DispatcherQueue.TryEnqueue(async () =>
-        {
-            await function();
-            taskCompletionSource?.TrySetResult(null);
-        });
-
-        Assert.IsTrue(addedToQueue);
-
-        return taskCompletionSource.Task;
-    }
-
-    protected Task EnqueueAsync(Action function)
-    {
-        var taskCompletionSource = new TaskCompletionSource<object?>();
-
-        var addedToQueue = App.DispatcherQueue.TryEnqueue(() =>
-        {
-            function();
-            taskCompletionSource?.TrySetResult(null);
-        });
-
-        Assert.IsTrue(addedToQueue);
-
-        return taskCompletionSource.Task;
-    }
+    protected Task EnqueueAsync(Action function) => App.DispatcherQueue.EnqueueAsync(function);
 
     /// <summary>
     /// Sets the content of the test app to a simple <see cref="FrameworkElement"/> to load into the visual tree.
@@ -77,7 +41,7 @@ public class VisualUITestBase
     /// <param name="content">Content to set in test app.</param>
     /// <returns>When UI is loaded.</returns>
     protected async Task LoadTestContentAsync(FrameworkElement content)
-    {
+    {        
         var taskCompletionSource = new TaskCompletionSource<object?>();
 
         content.Loaded += OnLoaded;
