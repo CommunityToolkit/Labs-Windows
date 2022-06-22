@@ -6,7 +6,6 @@
       xmlns:local="using:ProjectTemplate.Sample"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-
     <StackPanel>
         <TextBlock x:Name="PrimaryText"
                    FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
