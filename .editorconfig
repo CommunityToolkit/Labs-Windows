@@ -411,7 +411,7 @@ dotnet_diagnostic.SA1634.severity = none
 dotnet_diagnostic.SA1652.severity = none
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_namespace_declarations = file_scoped:warning
 csharp_style_expression_bodied_local_functions = false:silent
 csharp_style_prefer_null_check_over_type_check = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
@@ -429,3 +429,6 @@ csharp_style_prefer_pattern_matching = true:silent
 csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_prefer_not_pattern = true:suggestion
 csharp_style_prefer_extended_property_pattern = true:suggestion
+
+# Require file header
+dotnet_diagnostic.IDE0073.severity = warning

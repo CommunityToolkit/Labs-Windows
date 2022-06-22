@@ -17,14 +17,18 @@
     <Features>Strict</Features>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
-    <LangVersion>Latest</LangVersion>
+    <LangVersion>latest</LangVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <IsPublishable>true</IsPublishable>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(RepositoryDirectory)common\GlobalUsings.cs" />
+  </ItemGroup>
 </Project>

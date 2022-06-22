@@ -7,11 +7,6 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Diagnostics;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace CommunityToolkit.Labs.Core.SourceGenerators;
 
@@ -202,7 +197,7 @@ public partial class ToolkitSampleMetadataGenerator
         // TODO: Emit a better error that no documentation is here?
         if (matter.Length == 0)
             return;
-        
+
         var source = BuildRegistrationCallsFromDocuments(matter);
         ctx.AddSource($"ToolkitDocumentRegistry.g.cs", source);
     }

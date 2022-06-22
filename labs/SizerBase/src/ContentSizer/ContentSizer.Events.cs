@@ -4,14 +4,6 @@
 
 using CommunityToolkit.Labs.WinUI.SizerBaseLocal;
 
-#if !WINAPPSDK
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#else
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-#endif
-
 namespace CommunityToolkit.Labs.WinUI;
 
 // Events for ContentSizer.

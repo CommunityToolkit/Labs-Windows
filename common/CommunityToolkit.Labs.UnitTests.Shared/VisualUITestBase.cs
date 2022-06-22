@@ -2,20 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-#if !WINAPPSDK
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
-using Windows.UI.Xaml;
-#else
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI.Helpers;
-using Microsoft.UI.Xaml;
-#endif
-
 namespace CommunityToolkit.Labs.UnitTests;
 
 /// <summary>

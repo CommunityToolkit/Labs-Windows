@@ -3,13 +3,10 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-
   <PropertyGroup>
     <IsMacOS>True</IsMacOS>
   </PropertyGroup>
-
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
-
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>

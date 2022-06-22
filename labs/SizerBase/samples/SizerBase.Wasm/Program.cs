@@ -3,25 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Shared;
-using System;
 
-#if WINAPPSDK
-using Microsoft.UI.Xaml;
-#else
-using Windows.UI.Xaml;
-#endif
+namespace SizerBase.Wasm;
 
-namespace SizerBase.Wasm
+public class Program
 {
-    public class Program
+    private static App? _app;
+
+    static int Main(string[] args)
     {
-        private static App? _app;
+        Application.Start(_ => _app = new App());
 
-        static int Main(string[] args)
-        {
-            Application.Start(_ => _app = new App());
-
-            return 0;
-        }
+        return 0;
     }
 }

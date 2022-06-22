@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -18,33 +18,32 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 #endif
 
-namespace CommunityToolkit.Labs.Droid
+namespace CommunityToolkit.Labs.Droid;
+
+[global::Android.App.ApplicationAttribute(
+	Label = "@string/ApplicationName",
+	Icon = "@mipmap/icon",
+	LargeHeap = true,
+	HardwareAccelerated = true,
+	Theme = "@style/AppTheme"
+)]
+public class Application : NativeApplication
 {
-	[global::Android.App.ApplicationAttribute(
-		Label = "@string/ApplicationName",
-		Icon = "@mipmap/icon",
-		LargeHeap = true,
-		HardwareAccelerated = true,
-		Theme = "@style/AppTheme"
-	)]
-	public class Application : NativeApplication
+	public Application(IntPtr javaReference, JniHandleOwnership transfer)
+		: base(() => new CommunityToolkit.Labs.Shared.App(), javaReference, transfer)
 	{
-		public Application(IntPtr javaReference, JniHandleOwnership transfer)
-			: base(() => new CommunityToolkit.Labs.Shared.App(), javaReference, transfer)
-		{
-			ConfigureUniversalImageLoader();
-		}
+		ConfigureUniversalImageLoader();
+	}
 
-		private void ConfigureUniversalImageLoader()
-		{
-			// Create global configuration and initialize ImageLoader with this config
-			ImageLoaderConfiguration config = new ImageLoaderConfiguration
-				.Builder(Context)
-				.Build();
+	private void ConfigureUniversalImageLoader()
+	{
+		// Create global configuration and initialize ImageLoader with this config
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration
+			.Builder(Context)
+			.Build();
 
-			ImageLoader.Instance.Init(config);
+		ImageLoader.Instance.Init(config);
 
-			ImageSource.DefaultImageLoader = ImageLoader.Instance.LoadImageAsync;
-		}
+		ImageSource.DefaultImageLoader = ImageLoader.Instance.LoadImageAsync;
 	}
 }

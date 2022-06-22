@@ -14,4 +14,9 @@
     <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_Samples.cs" />
+  </ItemGroup>
+
 </Project>
