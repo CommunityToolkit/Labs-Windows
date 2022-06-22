@@ -30,8 +30,9 @@
                     ResourceKey="ControlFillColorTransparentBrush" />
     <StaticResource x:Key="SubtleIconButtonBorderBrushDisabled"
                     ResourceKey="ControlFillColorTransparentBrush" />
-    <BrushTransition x:Name="DefaultBackgroundTransition"
-                     Duration="0:0:0.083" />
+    <!--  Doesn't work with Uno  -->
+    <!-- <BrushTransition x:Name="DefaultBackgroundTransition"
+                     Duration="0:0:0.083" />-->
     <Style x:Key="SubtleButtonStyle"
            TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource SubtleIconButtonBackground}" />
@@ -57,7 +58,6 @@
                                       AutomationProperties.AccessibilityView="Raw"
                                       Background="{TemplateBinding Background}"
                                       BackgroundSizing="{TemplateBinding BackgroundSizing}"
-                                      BackgroundTransition="{StaticResource DefaultBackgroundTransition}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       BorderThickness="{TemplateBinding BorderThickness}"
                                       Content="{TemplateBinding Content}"
