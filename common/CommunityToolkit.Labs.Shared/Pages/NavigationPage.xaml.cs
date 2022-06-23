@@ -128,6 +128,7 @@ public sealed partial class NavigationPage : Page
             yield return new NavigationViewItem
             {
                 Content = metadata.Title,
+                Icon = new BitmapIcon() { ShowAsMonochrome = false, UriSource = new Uri("ms-appx:///Assets/Images/ConnectedAnimation.png") }, // TO DO: This is probably a property we need to add to ToolkitFrontMatter?
                 Tag = metadata,
             };
         }
@@ -156,6 +157,7 @@ public sealed partial class NavigationPage : Page
             yield return new GroupNavigationItemData(new NavigationViewItem
             {
                 Content = categoryGroup.Key,
+                Icon = new SymbolIcon() { Symbol = Symbol.Keyboard }, // TO DO: Helper that checks what icon belongs to what Category enum
                 SelectsOnInvoked = false,
             }, categoryGroup.ToArray());
         }
