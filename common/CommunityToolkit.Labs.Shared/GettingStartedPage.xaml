@@ -1,12 +1,146 @@
-<Page x:Class="CommunityToolkit.Labs.Shared.GettingStartedPage"
+﻿<Page x:Class="CommunityToolkit.Labs.Shared.GettingStartedPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:CommunityToolkit.Labs.Shared"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock Text="Getting started" />
+    <Grid Background="{StaticResource NavigationViewContentBackground}"
+          BorderBrush="{StaticResource NavigationViewContentGridBorderBrush}"
+          BorderThickness="1,1,0,0"
+          CornerRadius="8,0,0,0">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="HeaderGrid"
+              Margin="0,0,0,0"
+              CornerRadius="0,0,0,0">
+
+            <FlipView x:Name="Gallery"
+                      Height="360"
+                      CornerRadius="0,0,0,0">
+                <FlipViewItem>
+                    <Grid>
+                        <Image x:Name="headerImage"
+                               HorizontalAlignment="Center"
+                               Source="ms-appx:///Assets/Images/Wallpaper1.png"
+                               Stretch="UniformToFill" />
+                        <Grid>
+                            <StackPanel Margin="40,-40,0,20"
+                                        VerticalAlignment="Center"
+                                        Orientation="Vertical"
+                                        Spacing="4">
+                                <TextBlock Foreground="White"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="Windows Community Toolkit 8.0" />
+                                <TextBlock Foreground="White"
+                                           Opacity="0.8"
+                                           Style="{StaticResource BodyTextBlockStyle}"
+                                           Text="A collection of helpers, extensions, and custom controls to create great Windows apps"
+                                           Visibility="Visible" />
+                                <Button Margin="0,12,0,0"
+                                        Content="See what's new in 8.0" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </FlipViewItem>
+            </FlipView>
+
+            <Grid Height="64"
+                  VerticalAlignment="Bottom">
+                <Grid.Background>
+                    <AcrylicBrush BackgroundSource="Backdrop"
+                                  FallbackColor="{ThemeResource SystemChromeMediumColor}"
+                                  TintColor="{ThemeResource SystemChromeAltHighColor}"
+                                  TintOpacity="0.6" />
+                </Grid.Background>
+                <StackPanel Margin="30,0,0,0"
+                            Orientation="Horizontal">
+
+
+                    <Button Margin="0,0,0,0"
+                            Style="{StaticResource SubtleButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <PathIcon Margin="-3"
+                                      VerticalAlignment="Center"
+                                      Data="{StaticResource GithubIcon}"
+                                      Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+                                <PathIcon.RenderTransform>
+                                    <CompositeTransform ScaleX="0.65"
+                                                        ScaleY="0.65"
+                                                        TranslateX="-5"
+                                                        TranslateY="5" />
+                                </PathIcon.RenderTransform>
+                            </PathIcon>
+                            <TextBlock Margin="-2,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                       Text="GitHub" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Margin="0,0,0,0"
+                            Style="{StaticResource SubtleButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontSize="16"
+                                      Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                      Glyph="&#xE130;" />
+                            <TextBlock Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                       Text="Documentation" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Margin="0,0,0,0"
+                            Style="{StaticResource SubtleButtonStyle}">
+                        <StackPanel Orientation="Horizontal" />
+                    </Button>
+                </StackPanel>
+
+                <muxc:PipsPager x:Name="FlipViewPipsPager"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                NumberOfPages="1"
+                                SelectedPageIndex="{x:Bind Path=Gallery.SelectedIndex, Mode=TwoWay}" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Margin="40,40,40,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <GridView x:Name="itemGridView"
+                      Grid.Row="1"
+                      IsItemClickEnabled="True"
+                      IsSwipeEnabled="False"
+                      SelectionMode="None">
+
+                <GridView.Header>
+                    <TextBlock Margin="0,0,0,12"
+                               Style="{StaticResource SubtitleTextBlockStyle}"
+                               Text="Current experiments in Labs" />
+                </GridView.Header>
+            </GridView>
+            <StackPanel Grid.Column="1"
+                        Width="360"
+                        Orientation="Vertical">
+                <TextBlock Margin="0,0,0,12"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="What is Toolkit Labs?" />
+                <TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                           TextWrapping="WrapWholeWords" />
+                <Button Margin="0,16,0,0"
+                        Content="Button"
+                        Style="{StaticResource AccentButtonStyle}" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
