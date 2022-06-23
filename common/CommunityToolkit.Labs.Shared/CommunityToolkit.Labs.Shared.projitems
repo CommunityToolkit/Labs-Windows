@@ -22,14 +22,14 @@
       <DependentUpon>AppLoadingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)DocOrSampleTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GettingStartedPAge.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPAge.xaml.cs">
       <DependentUpon>GettingStartedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Polyfills\System.Runtime.CompilerServices\IsExternalInit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionsRenderer.xaml.cs">
       <DependentUpon>GeneratedSampleOptionsRenderer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)NavigationPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NavigationPage.xaml.cs">
       <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionTemplateSelector.cs" />
@@ -39,10 +39,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitSampleRenderer.xaml.cs">
       <DependentUpon>ToolkitSampleRenderer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)SettingsPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)TabbedPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\TabbedPage.xaml.cs">
       <DependentUpon>TabbedPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -51,7 +51,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)GettingStartedPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -59,7 +59,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)NavigationPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\NavigationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -71,7 +71,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)SettingsPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,7 +79,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)TabbedPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\TabbedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -94,5 +94,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
   </ItemGroup>
 </Project>
