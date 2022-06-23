@@ -105,11 +105,12 @@
                     </Button>
                 </StackPanel>
 
-                <muxc:PipsPager x:Name="FlipViewPipsPager"
+                <!-- TO DO: DOES NOT SEEM TO BE SUPPORTED BY WINUI 3 / UNO -->
+                <!--<muxc:PipsPager x:Name="FlipViewPipsPager"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 NumberOfPages="1"
-                                SelectedPageIndex="{x:Bind Path=Gallery.SelectedIndex, Mode=TwoWay}" />
+                                SelectedPageIndex="{x:Bind Path=Gallery.SelectedIndex, Mode=TwoWay}" />-->
             </Grid>
         </Grid>
 
