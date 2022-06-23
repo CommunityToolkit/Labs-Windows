@@ -26,6 +26,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
 using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewItemSeparator = Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator;
 using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 using CommunityToolkit.Labs.Shared.Renderers;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
@@ -46,7 +47,6 @@ public sealed partial class NavigationPage : Page
     /// Gets the items used for navigating.
     /// </summary>
     public ObservableCollection<NavigationViewItem> NavigationViewItems { get; } = new ObservableCollection<NavigationViewItem>();
-
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         var samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
@@ -54,11 +54,15 @@ public sealed partial class NavigationPage : Page
         if (samplePages is not null)
         {
             var categories = GenerateSampleNavItemTree(samplePages);
+            NavigationViewControl.MenuItems.Add(new NavigationViewItem() { Content = "Get started", Icon = new SymbolIcon() { Symbol = Symbol.Home }, Tag = "GettingStarted" });
+            NavigationViewControl.MenuItems.Add(new NavigationViewItemSeparator());
 
             foreach (var item in categories)
-                NavigationViewItems.Add(item);
-        }
+                NavigationViewControl.MenuItems.Add(item);
 
+            NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems[0];
+        }
+       
         base.OnNavigatedTo(e);
     }
 
@@ -66,11 +70,25 @@ public sealed partial class NavigationPage : Page
     {
         var selected = (NavigationViewItem)e.SelectedItem;
         var selectedMetadata = selected.Tag as ToolkitFrontMatter;
+        if (e.IsSettingsSelected)
+        {
+            if (NavFrame.CurrentSourcePageType != typeof(SettingsPage))
+            {
+                NavFrame.Navigate(typeof(SettingsPage));
+            }
+        }
+        // Check if Getting Started page
+        else if (selected.Tag != null && selected.Tag.GetType() == typeof(string))
+        {
+            NavFrame.Navigate(typeof(GettingStartedPage));
+        }
+        else
+        {
+            if (selectedMetadata is null)
+                return;
 
-        if (selectedMetadata is null)
-            return;
-
-        NavFrame.Navigate(typeof(ToolkitDocumentationRenderer), selectedMetadata);
+            NavFrame.Navigate(typeof(ToolkitDocumentationRenderer), selectedMetadata);
+        }
     }
 
     private IEnumerable<NavigationViewItem> GenerateSampleNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
@@ -124,6 +142,7 @@ public sealed partial class NavigationPage : Page
             yield return new GroupNavigationItemData(new NavigationViewItem
             {
                 Content = subcategoryGroup.Key,
+                SelectsOnInvoked = false,
             }, subcategoryGroup.ToArray());
         }
     }
@@ -137,6 +156,7 @@ public sealed partial class NavigationPage : Page
             yield return new GroupNavigationItemData(new NavigationViewItem
             {
                 Content = categoryGroup.Key,
+                SelectsOnInvoked = false,
             }, categoryGroup.ToArray());
         }
     }
