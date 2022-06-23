@@ -31,7 +31,7 @@ using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.Navig
 using CommunityToolkit.Labs.Shared.Renderers;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 
-namespace CommunityToolkit.Labs.Shared;
+namespace CommunityToolkit.Labs.Shared.Pages;
 
 /// <summary>
 /// Used to display all Community Toolkit Labs sample projects in one place.

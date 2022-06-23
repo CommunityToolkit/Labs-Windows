@@ -24,7 +24,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #endif
 
-namespace CommunityToolkit.Labs.Shared
+namespace CommunityToolkit.Labs.Shared.Pages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

@@ -6,6 +6,7 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation.Collections;
+using CommunityToolkit.Labs.Shared.Pages;
 
 #if !WINAPPSDK
 using Windows.System;

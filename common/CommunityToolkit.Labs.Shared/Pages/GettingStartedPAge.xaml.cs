@@ -24,7 +24,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 #endif
 
-namespace CommunityToolkit.Labs.Shared
+namespace CommunityToolkit.Labs.Shared.Pages
 {
     public sealed partial class GettingStartedPage : Page
     {
