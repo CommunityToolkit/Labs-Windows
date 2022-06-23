@@ -85,6 +85,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Wallpaper1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LockScreenLogo.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-200.png" />
