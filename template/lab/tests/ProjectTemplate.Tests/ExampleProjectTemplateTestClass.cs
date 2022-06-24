@@ -8,6 +8,7 @@ namespace ProjectTemplate.Tests;
 public class ExampleProjectTemplateTestClass
 {
     // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/160
+    [TestMethod]
     public void SimpleExampleTest()
     {
         var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate.TemplatedControl();
