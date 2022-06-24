@@ -20,7 +20,7 @@ public partial class TemplatedControl : Control
     }
 
     /// <summary>
-    /// The primary text block that displays "Hello world"
+    /// The primary text block that displays "Hello world".
     /// </summary>
     protected TextBlock? PART_HelloWorld { get; private set; }
 
