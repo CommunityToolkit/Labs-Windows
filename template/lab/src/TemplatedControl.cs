@@ -24,13 +24,25 @@ public partial class TemplatedControl : Control
     {
         base.OnApplyTemplate();
 
+        // Attach events when the template is applied and the control is loaded.
+        // Only required if using traditional binding. x:Bind can directly bind to all properties, methods and event handlers from XAML.
         var element = GetTemplateChild("PART_HelloWorld") as TextBlock;
-
         if (element is not null)
         {
-#if !MONOANDROID
-            element.HorizontalTextAlignment = TextAlignment.Left;
-#endif
+            element.PointerEntered += Element_PointerEntered;
+        }
+
+        // Detach all attached events when the control is unloaded.
+        Unloaded += OnUnloaded;
+
+        void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            Unloaded -= OnUnloaded;
+
+            if (element is not null)
+            {
+                element.PointerEntered -= Element_PointerEntered;
+            }
         }
     }
 
@@ -76,8 +88,16 @@ public partial class TemplatedControl : Control
         set => SetValue(ItemPaddingProperty, value);
     }
 
-    private void OnMyPropertyChanged(string oldValue, string newValue)
+    protected virtual void OnMyPropertyChanged(string oldValue, string newValue)
     {
         // Do something with the changed value.
+    }
+
+    public void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is TextBlock text)
+        {
+            text.Opacity = 1;
+        }
     }
 }
