@@ -26,8 +26,7 @@ public class ToolkitSampleOptionGenerator : IIncrementalGenerator
                 static (s, _) => s is ClassDeclarationSyntax c && c.AttributeLists.Count > 0,
                 static (ctx, _) => ctx.SemanticModel.GetDeclaredSymbol(ctx.Node))
             .Where(static m => m is not null)
-            .Select(static (x, _) => x!)
-            .Where(static x => x.ContainingAssembly?.Name.Contains(".Sample") ?? false); // Restrict generating sample options to sample assemblies only
+            .Select(static (x, _) => x!);
 
         // Get all attributes + the original type symbol.
         var allAttributeData = classes.SelectMany((sym, _) => sym.GetAttributes().Select(x => (sym, x)));
