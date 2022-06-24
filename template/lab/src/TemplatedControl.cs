@@ -8,7 +8,7 @@ namespace CommunityToolkit.Labs.WinUI.ProjectTemplate;
 /// An example templated control.
 /// </summary>
 [TemplatePart(Name = "PART_HelloWorld", Type = typeof(TextBlock))]
-public class TemplatedControl : Control
+public partial class TemplatedControl : Control
 {
     /// <summary>
     /// Creates a new instance of the <see cref="TemplatedControl"/> class.
@@ -28,7 +28,9 @@ public class TemplatedControl : Control
 
         if (element is not null)
         {
+#if !MONOANDROID
             element.HorizontalTextAlignment = TextAlignment.Left;
+#endif
         }
     }
 
