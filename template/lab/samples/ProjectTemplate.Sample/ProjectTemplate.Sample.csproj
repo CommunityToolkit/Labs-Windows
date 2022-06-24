@@ -21,13 +21,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ProjectTemplate.md" />
-    <None Remove="ProjectTemplateFirstSamplePage.xaml" />
+    <None Remove="TemplatedControlStyle.xaml" />
+    <None Remove="TemplatedControlWithCustomStyleSample.xaml" />
+    <None Remove="BackedTemplatedControlWithCustomStyleSample.xaml" />
+    <None Remove="BackedTemplatedControlSample.xaml" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="*.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="ProjectTemplate.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="TemplatedControlStyle.xaml.cs">
+      <DependentUpon>TemplatedControlStyle.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="TemplatedControlWithCustomStyleSample.xaml.cs">
+      <DependentUpon>TemplatedControlWithCustomStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="BackedTemplatedControlWithCustomStyleSample.xaml.cs">
+      <DependentUpon>BackedTemplatedControlWithCustomStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="BackedTemplatedControlSample.xaml.cs">
+      <DependentUpon>BackedTemplatedControlSample.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />

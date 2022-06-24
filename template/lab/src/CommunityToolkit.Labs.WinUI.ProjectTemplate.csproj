@@ -34,9 +34,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="TemplatedControlStyle.xaml" />
+    <None Remove="TemplatedControlStyle2.xaml" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="TemplatedControlStyle.xaml" />
+    <UpToDateCheckInput Remove="TemplatedControlStyle2.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="TemplatedControlStyle.xaml.cs">

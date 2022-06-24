@@ -2,14 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-//-:cnd:noEmit
-#if !WINAPPSDK
-using Windows.UI.Xaml;
-#else
-using Microsoft.UI.Xaml;
-#endif
-//+:cnd:noEmit
-
 namespace CommunityToolkit.Labs.WinUI.ProjectTemplate;
 
 /// <summary>

@@ -23,4 +23,22 @@ For more information about this experiment see:
 
 TODO: Fill in information about this experiment and how to get started here...
 
-> [!SAMPLE ProjectTemplateFirstSamplePage]
+
+# Templated Controls
+### Implict style
+
+> [!SAMPLE TemplatedControlSample]
+
+### Custom style
+
+> [!SAMPLE TemplatedControlWithCustomStyleSample]
+
+# Templated Controls with x:Bind
+### Implict style
+
+> [!SAMPLE BackedTemplatedControlSample]
+
+### Custom style
+
+> [!SAMPLE BackedTemplatedControlWithCustomStyleSample]
+

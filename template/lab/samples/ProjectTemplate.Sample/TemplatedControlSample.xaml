@@ -1,5 +1,5 @@
 ﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<Page x:Class="ProjectTemplate.Sample.ProjectTemplateFirstSamplePage"
+<Page x:Class="ProjectTemplate.Sample.TemplatedControlSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,24 +11,17 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <lib:TemplatedControlStyle />
+                <!--  Import implicit / custom styles  -->
+                <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.ProjectTemplate/TemplatedControlStyle2.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
-    <StackPanel Spacing="15">
-        <TextBlock x:Name="PrimaryText"
-                   FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
-                   FontSize="{x:Bind TextSize, Mode=OneWay}"
-                   Foreground="{x:Bind TextForeground, Mode=OneWay}"
-                   Text="Add sample here."
-                   Visibility="{x:Bind IsTextVisible, Mode=OneWay}" />
-
-        <lib:TemplatedControl FontSize="{x:Bind TextSize, Mode=OneWay}"
-                              Foreground="{x:Bind TextForeground, Mode=OneWay}" />
-
-        <lib:TemplatedControl MyProperty="This property was provided from outside the control." />
-
-        <lib:TemplatedControl Style="{StaticResource CustomTemplatedControlStyle}" />
+    <StackPanel Padding="20"
+                Spacing="15">
+        <lib:TemplatedControl FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
+                              FontSize="{x:Bind TextSize, Mode=OneWay}"
+                              Foreground="{x:Bind TextForeground, Mode=OneWay}"
+                              Visibility="{x:Bind IsTextVisible, Mode=OneWay}" />
     </StackPanel>
 </Page>
