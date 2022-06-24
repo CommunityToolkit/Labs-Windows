@@ -8,15 +8,14 @@ namespace CommunityToolkit.Labs.WinUI.ProjectTemplate;
 /// An example templated control.
 /// </summary>
 [TemplatePart(Name = nameof(PART_HelloWorld), Type = typeof(TextBlock))]
-public partial class TemplatedControl : Control
+public partial class ProjectTemplate_ClassicBinding : Control
 {
     /// <summary>
-    /// Creates a new instance of the <see cref="TemplatedControl"/> class.
+    /// Creates a new instance of the <see cref="ProjectTemplate_ClassicBinding"/> class.
     /// </summary>
-    public TemplatedControl()
+    public ProjectTemplate_ClassicBinding()
     {
-        this.DefaultStyleKey = nameof(TemplatedControl);
-        this.DataContext = this; // Allows using this control as the x:DataType in the template. Do not assign any custom classes to this, or it will break external binding.
+        this.DefaultStyleKey = nameof(ProjectTemplate_ClassicBinding);
     }
 
     /// <summary>
@@ -36,8 +35,8 @@ public partial class TemplatedControl : Control
         }
 
         // Attach events when the template is applied and the control is loaded.
-        // Only required if using traditional binding. x:Bind can directly bind to all properties, methods and event handlers from XAML.
         PART_HelloWorld = GetTemplateChild(nameof(PART_HelloWorld)) as TextBlock;
+        
         if (PART_HelloWorld is not null)
         {
             PART_HelloWorld.PointerEntered += Element_PointerEntered;
@@ -50,7 +49,7 @@ public partial class TemplatedControl : Control
     public static readonly DependencyProperty ItemPaddingProperty = DependencyProperty.Register(
         nameof(ItemPadding),
         typeof(Thickness),
-        typeof(TemplatedControl),
+        typeof(ProjectTemplate_ClassicBinding),
         new PropertyMetadata(defaultValue: new Thickness(0)));
 
     /// <summary>
@@ -59,8 +58,8 @@ public partial class TemplatedControl : Control
     public static readonly DependencyProperty MyPropertyProperty = DependencyProperty.Register(
         nameof(MyProperty),
         typeof(string),
-        typeof(TemplatedControl),
-        new PropertyMetadata(defaultValue: string.Empty, (d, e) => ((TemplatedControl)d).OnMyPropertyChanged((string)e.OldValue, (string)e.NewValue)));
+        typeof(ProjectTemplate_ClassicBinding),
+        new PropertyMetadata(defaultValue: string.Empty, (d, e) => ((ProjectTemplate_ClassicBinding)d).OnMyPropertyChanged((string)e.OldValue, (string)e.NewValue)));
 
     /// <summary>
     /// Gets or sets an example string. A basic DependencyProperty example.

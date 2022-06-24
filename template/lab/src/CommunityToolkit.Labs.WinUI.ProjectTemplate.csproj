@@ -33,16 +33,16 @@
     <UpToDateCheckInput Remove="obj\bin\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="TemplatedControlStyle.xaml" />
-    <None Remove="TemplatedControlStyle2.xaml" />
+    <None Remove="ProjectTemplateStyle_ClassicBinding.xaml" />
+    <None Remove="ProjectTemplateStyle_xBind.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Remove="TemplatedControlStyle.xaml" />
-    <UpToDateCheckInput Remove="TemplatedControlStyle2.xaml" />
+    <UpToDateCheckInput Remove="ProjectTemplateStyle_ClassicBinding.xaml" />
+    <UpToDateCheckInput Remove="ProjectTemplateStyle_xBind.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="TemplatedControlStyle.xaml.cs">
-      <DependentUpon>TemplatedControlStyle.xaml</DependentUpon>
+    <Compile Update="ProjectTemplateStyle_xBind.xaml.cs">
+      <DependentUpon>ProjectTemplateStyle_xBind.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

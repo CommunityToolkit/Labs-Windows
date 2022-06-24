@@ -7,13 +7,13 @@ namespace CommunityToolkit.Labs.WinUI.ProjectTemplate;
 /// <summary>
 /// Backing code for this resource dictionary.
 /// </summary>
-public sealed partial class TemplatedControlStyle : ResourceDictionary
+public sealed partial class ProjectTemplateStyle_xBind : ResourceDictionary
 {
     // NOTICE
     // This file only exists to enable x:Bind in the resource dictionary.
     // Do not add code here.
     // Instead, add code-behind to your templated control.
-    public TemplatedControlStyle()
+    public ProjectTemplateStyle_xBind()
     {
         this.InitializeComponent();
     }
