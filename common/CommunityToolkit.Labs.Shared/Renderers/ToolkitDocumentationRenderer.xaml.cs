@@ -136,15 +136,14 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         }
     }
 
-    private void SampleListHyperlink_Click(object sender, RoutedEventArgs e)
+    private void SampleSelectionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (sender is HyperlinkButton btn && btn.DataContext is ToolkitSampleMetadata metadata)
+        if (sender is ComboBox comboBox && comboBox.SelectedItem is ToolkitSampleMetadata metadata)
         {
             var container = DocItemsControl.ContainerFromItem(metadata) as UIElement;
             container?.StartBringIntoView();
         }
     }
-
     private static async Task<string> GetDocumentationFileContents(ToolkitFrontMatter metadata)
     {
         // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/142

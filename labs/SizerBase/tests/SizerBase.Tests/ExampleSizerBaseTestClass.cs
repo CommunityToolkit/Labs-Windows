@@ -5,11 +5,12 @@
 using CommunityToolkit.Labs.UnitTests;
 using CommunityToolkit.Labs.WinUI;
 using CommunityToolkit.Labs.WinUI.Automation.Peers;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
 
 namespace SizerBase.Tests;
 
 [TestClass]
-public class ExampleSizerBaseTestClass : VisualUITestBase
+public partial class ExampleSizerBaseTestClass : VisualUITestBase
 {
     [TestMethod]
     public void Just_an_example_test()
@@ -20,7 +21,7 @@ public class ExampleSizerBaseTestClass : VisualUITestBase
     [TestMethod]
     public async Task ShouldConfigureGridSplitterAutomationPeer()
     {
-        await App.DispatcherQueue.EnqueueAsync(() =>
+        await EnqueueAsync(() =>
         {
             const string automationName = "MyCustomAutomationName";
             const string name = "Sizer";
@@ -38,37 +39,29 @@ public class ExampleSizerBaseTestClass : VisualUITestBase
         });
     }
 
-    [TestMethod]
-    [TestPage(typeof(PropertySizerTestInitialBinding))]
-    public async Task PropertySizer_TestInitialBinding()
+    [LabsUITestMethod]
+    public void PropertySizer_TestInitialBinding(PropertySizerTestInitialBinding testControl)
     {
-        await App.DispatcherQueue.EnqueueAsync(() => {
-            // TestPage shouldn't be null here, but we'll do the safer ?. to be sure.
-            var propertySizer = TestPage?.FindDescendant<PropertySizer>();
+        var propertySizer = testControl.FindDescendant<PropertySizer>();
 
-            Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
+        Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
 
-            // Set in XAML Page LINK: PropertySizerTestInitialBinding.xaml#L14
-            Assert.AreEqual(300, propertySizer.Binding, "Property Sizer not at expected initial value.");
-        });
+        // Set in XAML Page LINK: PropertySizerTestInitialBinding.xaml#L14
+        Assert.AreEqual(300, propertySizer.Binding, "Property Sizer not at expected initial value.");
     }
 
-    [TestMethod]
-    [TestPage(typeof(PropertySizerTestInitialBinding))]
-    public async Task PropertySizer_TestChangeBinding()
+    [LabsUITestMethod]
+    public void PropertySizer_TestChangeBinding(PropertySizerTestInitialBinding testControl)
     {
-        await App.DispatcherQueue.EnqueueAsync(() => {
-            // TestPage shouldn't be null here, but we'll do the safer ?. to be sure.
-            var propertySizer = TestPage?.FindDescendant<PropertySizer>();
-            var navigationView = TestPage?.FindDescendant<MUXC.NavigationView>();
+        var propertySizer = testControl.FindDescendant<PropertySizer>();
+        var navigationView = testControl.FindDescendant<MUXC.NavigationView>();
 
-            Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
-            Assert.IsNotNull(navigationView, "Could not find NavigationView control.");
+        Assert.IsNotNull(propertySizer, "Could not find PropertySizer control.");
+        Assert.IsNotNull(navigationView, "Could not find NavigationView control.");
 
-            navigationView.OpenPaneLength = 200;
+        navigationView.OpenPaneLength = 200;
 
-            // Set in XAML Page LINK: PropertySizerTestInitialBinding.xaml#L14
-            Assert.AreEqual(200, propertySizer.Binding, "Property Sizer not at expected changed value.");
-        });
+        // Set in XAML Page LINK: PropertySizerTestInitialBinding.xaml#L14
+        Assert.AreEqual(200, propertySizer.Binding, "Property Sizer not at expected changed value.");
     }
 }

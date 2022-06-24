@@ -11,33 +11,14 @@ namespace CommunityToolkit.Labs.UnitTests;
 /// </summary>
 public class VisualUITestBase
 {
-    public TestContext? TestContext { get; set; }
+    // Used by source generators to dispatch to the UI thread
+    // Methods must be declared or interfaced for compatibility with the source generator's unit tests.
 
-    public FrameworkElement? TestPage { get; private set; }
+    protected Task EnqueueAsync<T>(Func<Task<T>> function) => App.DispatcherQueue.EnqueueAsync(function);
 
-    [TestInitialize]
-    public async Task TestInitialize()
-    {
-        if (TestContext != null)
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                TestPage = GetPageForTest(TestContext);
+    protected Task EnqueueAsync(Func<Task> function) => App.DispatcherQueue.EnqueueAsync(function);
 
-                if (TestPage != null)
-                {
-                    Task result = SetTestContentAsync(TestPage);
-
-                    await result;
-
-                    if (!result.IsCompletedSuccessfully)
-                    {
-                        throw new Exception($"Failed to load page for {TestContext.TestName} with Exception: {result.Exception?.Message}", result.Exception);
-                    }
-                }
-            });
-        }
-    }
+    protected Task EnqueueAsync(Action function) => App.DispatcherQueue.EnqueueAsync(function);
 
     /// <summary>
     /// Sets the content of the test app to a simple <see cref="FrameworkElement"/> to load into the visual tree.
@@ -45,111 +26,62 @@ public class VisualUITestBase
     /// </summary>
     /// <param name="content">Content to set in test app.</param>
     /// <returns>When UI is loaded.</returns>
-    protected Task SetTestContentAsync(FrameworkElement content)
-    {
-        return App.DispatcherQueue.EnqueueAsync(() =>
-        {
-            var taskCompletionSource = new TaskCompletionSource<bool>();
+    protected async Task LoadTestContentAsync(FrameworkElement content)
+    {        
+        var taskCompletionSource = new TaskCompletionSource<object?>();
 
-            async void Callback(object sender, RoutedEventArgs args)
-            {
-                content.Loaded -= Callback;
-
-                // Wait for first Render pass
-                await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
-
-                taskCompletionSource.SetResult(true);
-            }
-
-            // Going to wait for our original content to unload
-            content.Loaded += Callback;
-
-            // Trigger that now
-            try
-            {
-                App.ContentRoot = content;
-            }
-            catch (Exception e)
-            {
-                taskCompletionSource.SetException(e);
-            }
-
-            return taskCompletionSource.Task;
-        });
-    }
-
-    [TestCleanup]
-    public async Task Cleanup()
-    {
-        var taskCompletionSource = new TaskCompletionSource<bool>();
-
-        await App.DispatcherQueue.EnqueueAsync(() =>
-        {
-            // If we didn't set our content we don't have to do anything but complete here.
-            if (App.ContentRoot is null)
-            {
-                taskCompletionSource.SetResult(true);
-                return;
-            }
-
-            // Going to wait for our original content to unload
-            App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
-
-            TestPage = null;
-
-            // Trigger that now
-            App.ContentRoot = null;
-        });
+        content.Loaded += OnLoaded;
+        App.ContentRoot = content;
 
         await taskCompletionSource.Task;
+        Assert.IsTrue(content.IsLoaded);
+
+        async void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            content.Loaded -= OnLoaded;
+
+            // Wait for first Render pass
+            await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
+
+            taskCompletionSource.SetResult(null);
+        }
     }
 
-    private static FrameworkElement? GetPageForTest(TestContext testContext)
+    public async Task UnloadTestContentAsync(FrameworkElement element)
     {
-        var testName = testContext.TestName;
-        var theClassName = testContext.FullyQualifiedTestClassName;
+        var taskCompletionSource = new TaskCompletionSource<object?>();
 
-        var testClassString = $"test class \"{theClassName}\"";
-        if (Type.GetType(theClassName) is not Type type)
+        element.Unloaded += OnUnloaded;
+
+        App.ContentRoot = null;
+
+        await taskCompletionSource.Task;
+        Assert.IsFalse(element.IsLoaded);
+
+        void OnUnloaded(object sender, RoutedEventArgs args)
         {
-            throw new Exception($"Could not find {testClassString}.");
+            element.Unloaded -= OnUnloaded;
+            taskCompletionSource.SetResult(null);
         }
-
-        Log.Comment($"Found {testClassString}.");
-
-        var testMethodString = $"test method \"{testName}\" in {testClassString}";
-        if (type.GetMethod(testName) is not MethodInfo method)
-        {
-            throw new Exception($"Could not find {testMethodString}.");
-        }
-
-        Log.Comment($"Found {testMethodString}.");
-
-        var testpageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
-        if (method.GetCustomAttribute(typeof(TestPageAttribute), true) is not TestPageAttribute attribute)
-        {
-            // If we don't have an attribute, we'll return null here to indicate such.
-            // Otherwise, we'll be throwing an exception on failure anyway below.
-            return null;
-        }
-
-        if (attribute.PageType is null)
-        {
-            throw new Exception($"{testpageAttributeString} requires `PageType` to be set.");
-        }
-
-        var obj = Activator.CreateInstance(attribute.PageType);
-
-        if (obj is null)
-        {
-            throw new Exception($"Could not instantiate page of type {attribute.PageType.FullName} for {testpageAttributeString}.");
-        }
-
-        if (obj is FrameworkElement element)
-        {
-            return element;
-        }
-
-        throw new Exception($"{attribute.PageType.FullName} is required to inherit from `FrameworkElement` for the {testpageAttributeString}.");
     }
+
+    [TestInitialize]
+    public virtual Task TestSetup() => EnqueueAsync(async () =>
+    {
+        // Make sure every test starts with a clean slate, even if it doesn't use LoadTestContentAsync.
+        if (App.ContentRoot is FrameworkElement element)
+            await UnloadTestContentAsync(element);
+
+        Assert.IsNull(App.ContentRoot);
+    });
+
+    [TestCleanup]
+    public virtual Task TestCleanup() => EnqueueAsync(async () =>
+    {
+        // Make sure every test ends with a clean slate, even if it doesn't use LoadTestContentAsync.
+        if (App.ContentRoot is FrameworkElement element)
+            await UnloadTestContentAsync(element);
+
+        Assert.IsNull(App.ContentRoot);
+    });
 }

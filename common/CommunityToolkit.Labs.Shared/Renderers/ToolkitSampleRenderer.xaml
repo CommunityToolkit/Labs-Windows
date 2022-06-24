@@ -5,30 +5,111 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:CommunityToolkit.Labs.Shared"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
     <Grid>
+
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="1.5*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="HorizontalSampleLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint840Plus}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="VerticalSampleLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="OptionsControl.HorizontalContentAlignment" Value="Left" />
+                        <Setter Target="OptionsControl.Margin" Value="0,24,0,0" />
+                        <Setter Target="OptionsControl.(Grid.Row)" Value="1" />
+                        <Setter Target="OptionsControl.(Grid.Column)" Value="0" />
+                        <Setter Target="OptionsControl.(Grid.ColumnSpan)" Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
-        <ContentControl Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
+        <Grid>
+            <TextBlock Grid.ColumnSpan="2"
+                       Margin="0,0,0,8"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource BodyStrongTextBlockStyle}"
+                       Text="{x:Bind Metadata.DisplayName}" />
 
-        <Border Grid.RowSpan="2"
-                Grid.Column="1"
-                Padding="20">
-            <ContentControl Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}" />
-        </Border>
+            <Button Grid.Column="1"
+                    Margin="0,-2,-6,0"
+                    Padding="4,4,-2,4"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource SubtleButtonStyle}"
+                    ToolTipService.ToolTip="View sample on GitHub">
+                <PathIcon Margin="-3"
+                          VerticalAlignment="Center"
+                          Data="{StaticResource GithubIcon}"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                    <PathIcon.RenderTransform>
+                        <CompositeTransform ScaleX="0.65"
+                                            ScaleY="0.65"
+                                            TranslateY="5" />
+                    </PathIcon.RenderTransform>
+                </PathIcon>
+            </Button>
+        </Grid>
 
-        <Border Grid.Row="1">
-            <Pivot>
+        <Grid Grid.Row="1"
+              CornerRadius="8,8,0,0"
+              Style="{StaticResource CardStyle}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="PageControlHolder"
+                  Grid.Column="0"
+                  Padding="0"
+                  Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                  CornerRadius="8,0,0,0">
+                <ContentControl x:Name="PageControl"
+                                Margin="24"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                HorizontalContentAlignment="Stretch"
+                                Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
+            </Grid>
+
+            <!--  TO DO: HIDE CONTROL WHEN EMPTY (TO REMOVE GAP)?  -->
+            <ContentControl x:Name="OptionsControl"
+                            Grid.Column="1"
+                            Margin="24"
+                            HorizontalAlignment="Center"
+                            Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}" />
+        </Grid>
+
+        <muxc:Expander Grid.Row="2"
+                       Margin="0,-1,0,0"
+                       HorizontalAlignment="Stretch"
+                       CornerRadius="0,0,8,8">
+            <muxc:Expander.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="8,0,0,0"
+                               VerticalAlignment="Center"
+                               FontWeight="SemiBold"
+                               Text="Source code" />
+                </StackPanel>
+            </muxc:Expander.Header>
+            <Pivot HorizontalAlignment="Stretch">
                 <Pivot.Resources>
                     <x:Double x:Key="PivotHeaderItemFontSize">14</x:Double>
                 </Pivot.Resources>
@@ -46,6 +127,6 @@
                     </ScrollViewer>
                 </PivotItem>
             </Pivot>
-        </Border>
+        </muxc:Expander>
     </Grid>
 </Page>

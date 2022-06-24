@@ -5,13 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
     <Grid>
         <muxc:NavigationView MenuItemsSource="{x:Bind NavigationViewItems}"
                              SelectionChanged="OnSelectionChanged">
+
             <Frame x:Name="NavFrame" />
+
         </muxc:NavigationView>
     </Grid>
 </Page>
