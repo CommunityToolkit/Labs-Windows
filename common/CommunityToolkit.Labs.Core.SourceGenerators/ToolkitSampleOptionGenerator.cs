@@ -17,7 +17,6 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators;
 public class ToolkitSampleOptionGenerator : IIncrementalGenerator
 {
     private readonly HashSet<string> _handledPropertyNames = new();
-    private readonly HashSet<ToolkitSampleOptionBaseAttribute> _handledAttributes = new();
     private readonly HashSet<ISymbol> _handledContainingClasses = new(SymbolEqualityComparer.Default);
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -27,7 +26,8 @@ public class ToolkitSampleOptionGenerator : IIncrementalGenerator
                 static (s, _) => s is ClassDeclarationSyntax c && c.AttributeLists.Count > 0,
                 static (ctx, _) => ctx.SemanticModel.GetDeclaredSymbol(ctx.Node))
             .Where(static m => m is not null)
-            .Select(static (x, _) => x!);
+            .Select(static (x, _) => x!)
+            .Where(static x => x.ContainingAssembly?.Name.Contains(".Sample") ?? false); // Restrict generating sample options to sample assemblies only
 
         // Get all attributes + the original type symbol.
         var allAttributeData = classes.SelectMany((sym, _) => sym.GetAttributes().Select(x => (sym, x)));
@@ -60,13 +60,13 @@ public class ToolkitSampleOptionGenerator : IIncrementalGenerator
                 ctx.AddSource($"{data.ContainingClassSymbol}.GeneratedPropertyContainer.g", propertyContainerSource);
             }
 
-            if (!_handledAttributes.Add(data.Attribute))
-                return;
+            var name = $"{data.ContainingClassSymbol}.Property.{data.Attribute.Name}.g";
 
-            var dependencyPropertySource = BuildProperty(data.ContainingClassSymbol, data.Attribute.Name, data.Attribute.TypeName, data.Type);
-
-            if (_handledPropertyNames.Add(data.Attribute.Name))
-                ctx.AddSource($"{data.ContainingClassSymbol}.Property.{data.Attribute.Name}.g", dependencyPropertySource);
+            if (_handledPropertyNames.Add(name))
+            {
+                var dependencyPropertySource = BuildProperty(data.ContainingClassSymbol, data.Attribute.Name, data.Attribute.TypeName, data.Type);
+                ctx.AddSource(name, dependencyPropertySource);
+            }
         });
 
     }
@@ -109,7 +109,6 @@ namespace {containingClassSymbol.ContainingNamespace}
                         item.PropertyChanged -= OnPropertyChanged;
                 }}
                 
-
                 if (!(value is null))
                 {{
                     foreach (var item in value)
