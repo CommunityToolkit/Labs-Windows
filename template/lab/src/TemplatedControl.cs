@@ -7,7 +7,7 @@ namespace CommunityToolkit.Labs.WinUI.ProjectTemplate;
 /// <summary>
 /// An example templated control.
 /// </summary>
-[TemplatePart(Name = "PART_HelloWorld", Type = typeof(TextBlock))]
+[TemplatePart(Name = nameof(PART_HelloWorld), Type = typeof(TextBlock))]
 public partial class TemplatedControl : Control
 {
     /// <summary>
@@ -19,30 +19,28 @@ public partial class TemplatedControl : Control
         this.DataContext = this; // Allows using this control as the x:DataType in the template. Do not assign any custom classes to this, or it will break external binding.
     }
 
+    /// <summary>
+    /// The primary text block that displays "Hello world"
+    /// </summary>
+    protected TextBlock? PART_HelloWorld { get; private set; }
+
     /// <inheritdoc />
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        // Attach events when the template is applied and the control is loaded.
-        // Only required if using traditional binding. x:Bind can directly bind to all properties, methods and event handlers from XAML.
-        var element = GetTemplateChild("PART_HelloWorld") as TextBlock;
-        if (element is not null)
+        // Detach all attached events when a new template is applied.
+        if (PART_HelloWorld is not null)
         {
-            element.PointerEntered += Element_PointerEntered;
+            PART_HelloWorld.PointerEntered -= Element_PointerEntered;
         }
 
-        // Detach all attached events when the control is unloaded.
-        Unloaded += OnUnloaded;
-
-        void OnUnloaded(object sender, RoutedEventArgs e)
+        // Attach events when the template is applied and the control is loaded.
+        // Only required if using traditional binding. x:Bind can directly bind to all properties, methods and event handlers from XAML.
+        PART_HelloWorld = GetTemplateChild(nameof(PART_HelloWorld)) as TextBlock;
+        if (PART_HelloWorld is not null)
         {
-            Unloaded -= OnUnloaded;
-
-            if (element is not null)
-            {
-                element.PointerEntered -= Element_PointerEntered;
-            }
+            PART_HelloWorld.PointerEntered += Element_PointerEntered;
         }
     }
 
@@ -67,9 +65,6 @@ public partial class TemplatedControl : Control
     /// <summary>
     /// Gets or sets an example string. A basic DependencyProperty example.
     /// </summary>
-    /// <remarks>
-    /// Works with {x:Bind MyProperty}, {TemplateBinding MyProperty}, and {Binding MyProperty, RelativeSource={RelativeSource Mode=TemplatedParent}}
-    /// </remarks>
     public string MyProperty
     {
         get => (string)GetValue(MyPropertyProperty);
@@ -79,9 +74,6 @@ public partial class TemplatedControl : Control
     /// <summary>
     /// Gets or sets a padding for an item. A basic DependencyProperty example.
     /// </summary>
-    /// <remarks>
-    /// Works with {x:Bind MyProperty}, {TemplateBinding MyProperty}, and {Binding MyProperty, RelativeSource={RelativeSource Mode=TemplatedParent}}
-    /// </remarks>
     public Thickness ItemPadding
     {
         get => (Thickness)GetValue(ItemPaddingProperty);
