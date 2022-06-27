@@ -14,7 +14,7 @@ public partial class ProjectTemplate_xBind: Control
     /// </summary>
     public ProjectTemplate_xBind()
     {
-        this.DefaultStyleKey = nameof(ProjectTemplate_xBind);
+        this.DefaultStyleKey = typeof(ProjectTemplate_xBind);
 
         // Allows directly using this control as the x:DataType in the template.
         this.DataContext = this;

@@ -15,7 +15,7 @@ public partial class ProjectTemplate_ClassicBinding : Control
     /// </summary>
     public ProjectTemplate_ClassicBinding()
     {
-        this.DefaultStyleKey = nameof(ProjectTemplate_ClassicBinding);
+        this.DefaultStyleKey = typeof(ProjectTemplate_ClassicBinding);
     }
 
     /// <summary>
