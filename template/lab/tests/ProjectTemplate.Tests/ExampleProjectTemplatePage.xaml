@@ -9,6 +9,6 @@
       mc:Ignorable="d">
 
     <Grid>
-        <lib:TemplatedControl x:Name="PART_TemplatedControl" />
+        <lib:ProjectTemplate_ClassicBinding x:Name="PART_TemplatedControl" />
     </Grid>
 </Page>

@@ -35,7 +35,7 @@ public partial class ProjectTemplate_xBind: Control
     public static readonly DependencyProperty MyPropertyProperty = DependencyProperty.Register(
         nameof(MyProperty),
         typeof(string),
-        typeof(ProjectTemplate_ClassicBinding),
+        typeof(ProjectTemplate_xBind),
         new PropertyMetadata(defaultValue: string.Empty, (d, e) => ((ProjectTemplate_xBind)d).OnMyPropertyChanged((string)e.OldValue, (string)e.NewValue)));
 
     /// <summary>

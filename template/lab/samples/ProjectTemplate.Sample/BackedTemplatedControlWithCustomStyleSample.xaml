@@ -12,17 +12,17 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--  Import implicit / custom styles  -->
-                <lib:TemplatedControlStyle />
+                <lib:ProjectTemplateStyle_xBind />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
     <StackPanel Padding="20"
                 Spacing="15">
-        <lib:TemplatedControl FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
-                              FontSize="{x:Bind TextSize, Mode=OneWay}"
-                              Foreground="{x:Bind TextForeground, Mode=OneWay}"
-                              Style="{StaticResource CustomTemplatedControlStyle}"
-                              Visibility="{x:Bind IsTextVisible, Mode=OneWay}" />
+        <lib:ProjectTemplate_xBind FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
+                                   FontSize="{x:Bind TextSize, Mode=OneWay}"
+                                   Foreground="{x:Bind TextForeground, Mode=OneWay}"
+                                   Style="{StaticResource CustomTemplatedControlStyle}"
+                                   Visibility="{x:Bind IsTextVisible, Mode=OneWay}" />
     </StackPanel>
 </Page>

@@ -34,7 +34,7 @@
 							HorizontalContentAlignment="Stretch"
 							VerticalContentAlignment="Stretch">
 							<ContentControl.ContentTemplate>
-								<DataTemplate x:DataType="local:TemplatedControl">
+								<DataTemplate x:DataType="local:ProjectTemplate_xBind">
 									<Grid Padding="{x:Bind ItemPadding}" PointerEntered="{x:Bind Element_PointerEntered}">
 										<StackPanel Spacing="20">
 											<TextBlock Foreground="{ThemeResource MyBrush}" Text="Hello world!" />
@@ -55,7 +55,7 @@
 	<Style
 		x:Key="CustomTemplatedControlStyle"
 		BasedOn="{StaticResource DefaultTemplatedControlStyle}"
-		TargetType="local:TemplatedControl">
+		TargetType="local:ProjectTemplate_xBind">
 		<Style.Setters>
 			<Setter Property="MyProperty" Value="This property has been overriden by a custom style!" />
 			<Setter Property="ItemPadding" Value="25" />
