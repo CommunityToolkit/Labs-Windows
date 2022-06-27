@@ -36,7 +36,7 @@
 									Text="Hello world!" />
 
 								<TextBlock Text="{TemplateBinding MyProperty}" />
-								<TextBlock Text="{Binding MyProperty}" Visibility="Collapsed" />
+								<TextBlock Text="{Binding MyProperty, RelativeSource={RelativeSource Mode=TemplatedParent}}" Visibility="Collapsed" />
 							</StackPanel>
 						</Grid>
 					</ControlTemplate>

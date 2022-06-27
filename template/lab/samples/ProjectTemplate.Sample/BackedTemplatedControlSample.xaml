@@ -8,15 +8,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <!--  Import implicit / custom styles  -->
-                <lib:ProjectTemplateStyle_xBind />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-
     <StackPanel Padding="20"
                 Spacing="15">
         <lib:ProjectTemplate_xBind FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"

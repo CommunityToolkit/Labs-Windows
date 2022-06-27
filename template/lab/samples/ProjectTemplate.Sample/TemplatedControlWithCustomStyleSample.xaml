@@ -11,7 +11,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--  Import implicit / custom styles  -->
+                <!--  Import custom styles  -->
                 <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.ProjectTemplate/ProjectTemplateStyle_ClassicBinding.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
