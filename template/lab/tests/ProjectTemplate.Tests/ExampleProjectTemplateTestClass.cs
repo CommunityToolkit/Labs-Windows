@@ -9,9 +9,12 @@ public class ExampleProjectTemplateTestClass
 {
     // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/160
     [TestMethod]
-    public void SimpleExampleTest()
+    public async Task SimpleExampleTest()
     {
-        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate_ClassicBinding();
-        Assert.IsNotNull(systemUnderTest);
+        await CommunityToolkit.Labs.UnitTests.App.DispatcherQueue.EnqueueAsync(() =>
+        {
+            var systemUnderTest = new ProjectTemplate_ClassicBinding();
+            Assert.IsNotNull(systemUnderTest);
+        });
     }
 }
