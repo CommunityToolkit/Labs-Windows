@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 #else
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -38,11 +39,33 @@ public sealed partial class App : Application
     // Using static will not work.
 #if WINAPPSDK
     private static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
+
+    private static AppWindow GetAppWindow(Microsoft.UI.Xaml.Window window)
+    {
+        // From: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/windowing/windowing-overview#code-example
+        // Retrieve the window handle (HWND) of the current (XAML) WinUI 3 window.
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+
+        // Retrieve the WindowId that corresponds to hWnd.
+        var windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
+
+        // Lastly, retrieve the AppWindow for the current (XAML) WinUI 3 window.
+        return AppWindow.GetFromWindowId(windowId);
+    }
+
+    public static Rect Bounds { get
+        {
+            var appWindow = GetAppWindow(currentWindow);
+            var position = appWindow.Position;
+            var size = appWindow.Size;
+            return new Rect(position.X, position.Y, size.Width, size.Height);
+        }
+    }
 #else
     private static Windows.UI.Xaml.Window currentWindow = Windows.UI.Xaml.Window.Current;
-#endif
 
     public static Rect Bounds => currentWindow.Bounds;
+#endif
 
     // Holder for test content to abstract Window.Current.Content
     public static FrameworkElement? ContentRoot
