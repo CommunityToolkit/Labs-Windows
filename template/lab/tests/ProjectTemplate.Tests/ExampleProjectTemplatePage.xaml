@@ -1,15 +1,14 @@
-<Page
-	x:Class="ProjectTemplate.Tests.ExampleProjectTemplatePage"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:lib="using:CommunityToolkit.Labs.WinUI"
-	xmlns:local="using:ProjectTemplate.Tests"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-	mc:Ignorable="d">
+﻿<Page x:Class="ProjectTemplate.Tests.ExampleProjectTemplatePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lib="using:CommunityToolkit.Labs.WinUI"
+      xmlns:local="using:ProjectTemplate.Tests"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
 
-	<Grid>
-		<lib:ProjectTemplate_ClassicBinding x:Name="PART_TemplatedControl" />
-	</Grid>
+    <Grid>
+        <lib:ProjectTemplate_ClassicBinding x:Name="PART_TemplatedControl" />
+    </Grid>
 </Page>
