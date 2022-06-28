@@ -57,7 +57,7 @@
     </Style>
 
     <!--  Minimal, custom style  -->
-    <Style x:Key="CustomTemplatedControlStyle"
+    <Style x:Key="CustomProjectTemplateStyle"
            BasedOn="{StaticResource DefaultProjectTemplateStyle}"
            TargetType="labs:ProjectTemplate_xBind">
         <Style.Setters>
