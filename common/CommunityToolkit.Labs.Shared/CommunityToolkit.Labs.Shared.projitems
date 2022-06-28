@@ -22,7 +22,7 @@
       <DependentUpon>AppLoadingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)DocOrSampleTemplateSelector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPAge.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml.cs">
       <DependentUpon>GettingStartedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Polyfills\System.Runtime.CompilerServices\IsExternalInit.cs" />
