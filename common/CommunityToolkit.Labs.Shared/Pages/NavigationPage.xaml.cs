@@ -46,7 +46,6 @@ public sealed partial class NavigationPage : Page
     /// <summary>
     /// Gets the items used for navigating.
     /// </summary>
-    public ObservableCollection<NavigationViewItem> NavigationViewItems { get; } = new ObservableCollection<NavigationViewItem>();
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         var samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
