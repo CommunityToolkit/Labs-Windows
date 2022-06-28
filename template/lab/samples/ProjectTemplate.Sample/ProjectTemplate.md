@@ -27,7 +27,7 @@ TODO: Fill in information about this experiment and how to get started here...
 # Templated Controls
 ### Implict style
 
-> [!SAMPLE TemplatedControlSample]
+> [!SAMPLE ProjectTemplateControlSample]
 
 ### Custom style
 
@@ -36,7 +36,7 @@ TODO: Fill in information about this experiment and how to get started here...
 # Templated Controls with x:Bind
 ### Implict style
 
-> [!SAMPLE BackedTemplatedControlSample]
+> [!SAMPLE BackedProjectTemplateControlSample]
 
 ### Custom style
 

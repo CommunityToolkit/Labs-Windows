@@ -24,7 +24,7 @@
     <None Remove="TemplatedControlStyle.xaml" />
     <None Remove="TemplatedControlWithCustomStyleSample.xaml" />
     <None Remove="BackedTemplatedControlWithCustomStyleSample.xaml" />
-    <None Remove="BackedTemplatedControlSample.xaml" />
+    <None Remove="BackedProjectTemplateControlSample.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="ProjectTemplate.md" />
@@ -39,8 +39,8 @@
     <Compile Update="BackedTemplatedControlWithCustomStyleSample.xaml.cs">
       <DependentUpon>BackedTemplatedControlWithCustomStyleSample.xaml</DependentUpon>
     </Compile>
-    <Compile Update="BackedTemplatedControlSample.xaml.cs">
-      <DependentUpon>BackedTemplatedControlSample.xaml</DependentUpon>
+    <Compile Update="BackedProjectTemplateControlSample.xaml.cs">
+      <DependentUpon>BackedProjectTemplateControlSample.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
