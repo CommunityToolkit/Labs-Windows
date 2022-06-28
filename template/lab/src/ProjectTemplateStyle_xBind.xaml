@@ -22,10 +22,10 @@
     <Thickness x:Key="DefaultProjectTemplateItemPadding">4,4,4,4</Thickness>
 
     <!--  Implicitly applied default style  -->
-    <Style BasedOn="{StaticResource DefaultProjectTemplateStyle}"
+    <Style BasedOn="{StaticResource DefaultxBindProjectTemplateStyle}"
            TargetType="labs:ProjectTemplate_xBind" />
 
-    <Style x:Key="DefaultProjectTemplateStyle"
+    <Style x:Key="DefaultxBindProjectTemplateStyle"
            TargetType="labs:ProjectTemplate_xBind">
         <Style.Setters>
             <Setter Property="MyProperty" Value="This property has been overriden by the style template" />
@@ -57,8 +57,8 @@
     </Style>
 
     <!--  Minimal, custom style  -->
-    <Style x:Key="CustomProjectTemplateStyle"
-           BasedOn="{StaticResource DefaultProjectTemplateStyle}"
+    <Style x:Key="CustomxBindProjectTemplateStyle"
+           BasedOn="{StaticResource DefaultxBindProjectTemplateStyle}"
            TargetType="labs:ProjectTemplate_xBind">
         <Style.Setters>
             <Setter Property="MyProperty" Value="This property has been overriden by a custom style!" />

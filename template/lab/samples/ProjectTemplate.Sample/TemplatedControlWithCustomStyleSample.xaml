@@ -22,7 +22,7 @@
         <labs:ProjectTemplate_ClassicBinding FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
                                              FontSize="{x:Bind TextSize, Mode=OneWay}"
                                              Foreground="{x:Bind TextForeground, Mode=OneWay}"
-                                             Style="{StaticResource CustomProjectTemplateStyle}"
+                                             Style="{StaticResource CustomClassicBindingProjectTemplateStyle}"
                                              Visibility="{x:Bind IsTextVisible, Mode=OneWay}" />
     </StackPanel>
 </Page>
