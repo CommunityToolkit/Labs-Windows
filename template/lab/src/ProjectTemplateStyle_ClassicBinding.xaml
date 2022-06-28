@@ -2,7 +2,7 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:local="using:CommunityToolkit.Labs.WinUI.ProjectTemplate">
+	xmlns:labs="using:CommunityToolkit.Labs.WinUI">
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Light">
@@ -19,15 +19,15 @@
 	<Thickness x:Key="DefaultTemplatedControlItemPadding">4,4,4,4</Thickness>
 
 	<!--  Implicitly applied default style  -->
-	<Style BasedOn="{StaticResource DefaultTemplatedControlStyle}" TargetType="local:ProjectTemplate_ClassicBinding" />
+	<Style BasedOn="{StaticResource DefaultTemplatedControlStyle}" TargetType="labs:ProjectTemplate_ClassicBinding" />
 
-	<Style x:Key="DefaultTemplatedControlStyle" TargetType="local:ProjectTemplate_ClassicBinding">
+	<Style x:Key="DefaultTemplatedControlStyle" TargetType="labs:ProjectTemplate_ClassicBinding">
 		<Style.Setters>
 			<Setter Property="MyProperty" Value="This property has been overriden by the style template" />
 			<Setter Property="ItemPadding" Value="{StaticResource DefaultTemplatedControlItemPadding}" />
 			<Setter Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="local:ProjectTemplate_ClassicBinding">
+					<ControlTemplate TargetType="labs:ProjectTemplate_ClassicBinding">
 						<Grid Padding="{TemplateBinding ItemPadding}">
 							<StackPanel Spacing="20">
 								<TextBlock
@@ -49,7 +49,7 @@
 	<Style
 		x:Key="CustomTemplatedControlStyle"
 		BasedOn="{StaticResource DefaultTemplatedControlStyle}"
-		TargetType="local:ProjectTemplate_ClassicBinding">
+		TargetType="labs:ProjectTemplate_ClassicBinding">
 		<Style.Setters>
 			<Setter Property="MyProperty" Value="This property has been overriden by a custom style!" />
 			<Setter Property="ItemPadding" Value="25" />
