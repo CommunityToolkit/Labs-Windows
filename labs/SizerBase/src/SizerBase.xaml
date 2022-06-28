@@ -32,7 +32,11 @@
     <StaticResource x:Key="GripperBarFontFamily"
                     ResourceKey="SymbolThemeFontFamily" />
 
-    <Style TargetType="controls:SizerBase">
+    <Style BasedOn="{StaticResource DefaultSizerBaseStyle}"
+           TargetType="controls:SizerBase" />
+
+    <Style x:Key="DefaultSizerBaseStyle"
+           TargetType="controls:SizerBase">
         <Setter Property="IsTabStop" Value="True" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
