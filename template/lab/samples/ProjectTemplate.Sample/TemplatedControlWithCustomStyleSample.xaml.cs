@@ -14,10 +14,10 @@ namespace ProjectTemplate.Sample;
     "Sand       : #e7a676",
     "Dull green : #5d7577")]
 
-[ToolkitSample(id: nameof(ProjectTemplateFirstSamplePage), "Simple Options", description: "A sample page for showing how to do simple options.")]
-public sealed partial class ProjectTemplateFirstSamplePage : Page
+[ToolkitSample(id: nameof(TemplatedControlWithCustomStyleSample), "Templated control (restyled)", description: "A sample for showing how to create a use and templated control with a custom style.")]
+public sealed partial class TemplatedControlWithCustomStyleSample : Page
 {
-    public ProjectTemplateFirstSamplePage()
+    public TemplatedControlWithCustomStyleSample()
     {
         this.InitializeComponent();
     }

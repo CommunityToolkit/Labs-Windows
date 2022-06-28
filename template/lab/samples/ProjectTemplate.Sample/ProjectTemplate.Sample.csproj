@@ -21,7 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ProjectTemplate.md" />
-    <None Remove="ProjectTemplateFirstSamplePage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="ProjectTemplate.md" />
