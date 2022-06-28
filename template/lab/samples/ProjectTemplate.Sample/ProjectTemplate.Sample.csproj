@@ -27,9 +27,6 @@
     <None Remove="BackedTemplatedControlSample.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="*.md" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Remove="ProjectTemplate.md" />
   </ItemGroup>
   <ItemGroup>

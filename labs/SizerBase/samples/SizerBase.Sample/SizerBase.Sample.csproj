@@ -20,9 +20,6 @@
     <UpToDateCheckInput Remove="obj\bin\**" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="*.md" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj" />
   </ItemGroup>
 </Project>
