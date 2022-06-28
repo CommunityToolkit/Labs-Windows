@@ -32,17 +32,4 @@
     <Page Remove="obj\bin\**" />
     <UpToDateCheckInput Remove="obj\bin\**" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="ProjectTemplateStyle_ClassicBinding.xaml" />
-    <None Remove="ProjectTemplateStyle_xBind.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Remove="ProjectTemplateStyle_ClassicBinding.xaml" />
-    <UpToDateCheckInput Remove="ProjectTemplateStyle_xBind.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="ProjectTemplateStyle_xBind.xaml.cs">
-      <DependentUpon>ProjectTemplateStyle_xBind.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>
