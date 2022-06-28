@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Thickness x:Key="DefaultTemplatedControlItemPadding">4,4,4,4</Thickness>
+    <Thickness x:Key="DefaultProjectTemplateItemPadding">4,4,4,4</Thickness>
 
     <!--  Implicitly applied default style  -->
     <Style BasedOn="{StaticResource DefaultProjectTemplateStyle}"
@@ -29,7 +29,7 @@
            TargetType="labs:ProjectTemplate_xBind">
         <Style.Setters>
             <Setter Property="MyProperty" Value="This property has been overriden by the style template" />
-            <Setter Property="ItemPadding" Value="{StaticResource DefaultTemplatedControlItemPadding}" />
+            <Setter Property="ItemPadding" Value="{StaticResource DefaultProjectTemplateItemPadding}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:ProjectTemplate_xBind">
