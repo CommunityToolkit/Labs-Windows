@@ -11,7 +11,7 @@ public class ExampleProjectTemplateTestClass
     [TestMethod]
     public void SimpleExampleTest()
     {
-        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate.ProjectTemplate_ClassicBinding();
+        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate_ClassicBinding();
         Assert.IsNotNull(systemUnderTest);
     }
 }
