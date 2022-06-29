@@ -1,5 +1,6 @@
 
-# This is a basic workflow to help you get started with Actions
+# https://docs.github.com/actions/using-workflows/about-workflows
+# https://docs.github.com/actions/using-workflows/workflow-syntax-for-github-actions
 
 name: CI
 
@@ -17,9 +18,32 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "Xaml-Style-Check"
+  Xaml-Style-Check:
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Needed until XAML Styler updates to .NET 6
+      - name: Install .NET Core 3.1 SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Restore Tools from Manifest list in the Repository
+      - name: Restore dotnet tools
+        run: dotnet tool restore
+
+      - name: Check XAML Styling
+        run: powershell -version 5.1 -command "./ApplyXamlStyling.ps1 -Passive" -ErrorAction Stop
+
   # This workflow contains a single job called "Build-WinUI-2"
   Build-WinUI-2:
-    # The type of runner that the job will run on
+    needs: [Xaml-Style-Check]
     runs-on: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -90,7 +114,7 @@ jobs:
 
   # This workflow contains a single job called "Build-WinUI-3"
   Build-WinUI-3:
-    # The type of runner that the job will run on
+    needs: [Xaml-Style-Check]
     runs-on: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -163,32 +187,9 @@ jobs:
           path: './TestResults/*.trx'
           reporter: dotnet-trx
 
-  # This workflow contains a single job called "Xaml-Style-Check"
-  Xaml-Style-Check:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Needed until XAML Styler updates to .NET 6
-      - name: Install .NET Core 3.1 SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      # Restore Tools from Manifest list in the Repository
-      - name: Restore dotnet tools
-        run: dotnet tool restore
-
-      - name: Check XAML Styling
-        run: powershell -version 5.1 -command "./ApplyXamlStyling.ps1 -Passive" -ErrorAction Stop
-
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   experiment:
+    needs: [Xaml-Style-Check]
     runs-on: windows-latest
 
     steps:
@@ -241,6 +242,7 @@ jobs:
           reporter: dotnet-trx
 
   wasm-linux:
+    needs: [Xaml-Style-Check]
     runs-on: ubuntu-latest
 
     steps:
