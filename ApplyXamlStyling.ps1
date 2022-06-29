@@ -91,7 +91,7 @@ if (-not $Passive)
 else 
 {
     Write-Output "Checking all files (passively)"
-    $files = Get-ChildItem *.xaml -Recurse | Select-Object -ExpandProperty FullName
+    $files = Get-ChildItem *.xaml -Recurse | Select-Object -ExpandProperty FullName | Where-Object { $_ -notmatch "(\\obj\\)|(\\bin\\)" }
 
     if ($files.count -gt 0)
     {
