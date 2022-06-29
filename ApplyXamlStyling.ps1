@@ -1,18 +1,39 @@
+<#
+    .SYNOPSIS 
+    Modify XAML files to adhere to XAML Styler settings.
 
+    .DESCRIPTION
+    The Apply XAML Stying Script can be used to check or modify XAML files with the repo's XAML Styler settings.
+    Learn more about XAML Styler at https://github.com/Xavalon/XamlStyler
+
+    By default, unstaged files are modified only.
+
+    Use "PS> Help .\ApplyXamlStyling.ps1 -Full" for more details on parameters.
+
+    .PARAMETER LastCommit
+    Runs against last commit vs. current changes
+
+    .PARAMETER Staged
+    Runs against staged files vs. current changes
+
+    .PARAMETER Main
+    Runs against main vs. current branch
+
+    .PARAMETER Passive
+    Runs a passive check against all files in the repo for the CI
+
+    .EXAMPLE
+    PS> .\ApplyXamlStyling.ps1 -Main
+#>
 param(
-    [Parameter(HelpMessage="Runs against last commit vs. current changes")]
     [switch]$LastCommit = $false,
-
-    [Parameter(HelpMessage="Runs against staged files vs. current changes")]
     [switch]$Staged = $false,
-
-    [Parameter(HelpMessage="Runs against main vs. current branch")]
     [switch]$Main = $false,
-
-    [Parameter(HelpMessage="Runs a passive check against all files in the repo for the CI")]
     [switch]$Passive = $false
 )
 
+Write-Output "Use 'Help .\ApplyXamlStyling.ps1' for more info or '-Main' to run against all files."
+Write-Output
 Write-Output "Restoring dotnet tools..."
 dotnet tool restore
 
@@ -78,7 +99,7 @@ else
 
         if ($lastExitCode -eq 1)
         {
-            Write-Error 'XAML Styling is incorrect, please run `ApplyXamlStyling.ps1` locally.'
+            Write-Error 'XAML Styling is incorrect, please run `ApplyXamlStyling.ps1 -Main` locally.'
         }
 
         # Return XAML Styler Status
