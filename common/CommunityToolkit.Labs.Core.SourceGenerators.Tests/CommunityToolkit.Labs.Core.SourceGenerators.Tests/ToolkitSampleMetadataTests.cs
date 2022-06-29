@@ -48,6 +48,53 @@ public partial class ToolkitSampleMetadataTests
     }
 
     [TestMethod]
+    public void PaneOption_GeneratesProperty_DuplicatePropNamesAcrossSampleClasses()
+    {
+        var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
+                {{
+                    public Sample()
+                    {{
+                        var x = this.Test;
+                        var y = this.TextFontFamily;
+                    }}
+                }}
+
+                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+
+                [ToolkitSample(id: nameof(Sample2), ""Test Sample"", description: """")]
+                public partial class Sample2 : Windows.UI.Xaml.Controls.UserControl
+                {{
+                    public Sample2()
+                    {{
+                        var x = this.Test;
+                        var y = this.TextFontFamily;
+                    }}
+                }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
+            }}";
+
+        VerifyGeneratedDiagnostics<ToolkitSampleOptionGenerator>(source, string.Empty);
+    }
+
+    [TestMethod]
     public void PaneOptionOnNonSample()
     {
         string source = @"
