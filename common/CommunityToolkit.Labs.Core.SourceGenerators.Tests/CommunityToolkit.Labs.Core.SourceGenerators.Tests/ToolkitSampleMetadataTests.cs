@@ -239,7 +239,7 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
@@ -250,15 +250,11 @@ public partial class ToolkitSampleMetadataTests
                     }}
                 }}
 
-                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
 
-                [ToolkitSample(id: nameof(Sample2), ""Test Sample 2"", description: """")]
+                [ToolkitSample(id: nameof(Sample2), ""Test Sample"", description: """")]
                 public partial class Sample2 : Windows.UI.Xaml.Controls.UserControl
                 {{
-                    public Sample2()
-                    {{
-                        var x = this.Test;
-                    }}
                 }}
             }}
 
