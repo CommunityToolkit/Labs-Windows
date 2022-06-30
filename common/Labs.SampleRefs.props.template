@@ -1,7 +1,5 @@
 <!-- References to all sample projects -->
-<Project>
-  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);LABS_ALL_SAMPLES</DefineConstants>
   </PropertyGroup>
