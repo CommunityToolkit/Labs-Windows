@@ -30,6 +30,7 @@
       <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\Markdown\MarkdownTextBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitDocumentationRenderer.xaml.cs">
       <DependentUpon>ToolkitDocumentationRenderer.xaml</DependentUpon>
     </Compile>
