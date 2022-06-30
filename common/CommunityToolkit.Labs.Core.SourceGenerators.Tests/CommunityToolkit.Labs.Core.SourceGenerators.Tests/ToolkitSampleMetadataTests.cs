@@ -46,6 +46,7 @@ public partial class ToolkitSampleMetadataTests
         VerifyGeneratedDiagnostics<ToolkitSampleOptionGenerator>(source, string.Empty);
     }
 
+    // https://github.com/CommunityToolkit/Labs-Windows/issues/175
     [TestMethod]
     public void PaneOption_GeneratesProperty_DuplicatePropNamesAcrossSampleClasses()
     {
