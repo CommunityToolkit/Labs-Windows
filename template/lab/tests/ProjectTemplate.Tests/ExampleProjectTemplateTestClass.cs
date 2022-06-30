@@ -13,7 +13,11 @@ public class ExampleProjectTemplateTestClass
     {
         await CommunityToolkit.Labs.UnitTests.App.DispatcherQueue.EnqueueAsync(() =>
         {
+//#if (!backed)
             var systemUnderTest = new ProjectTemplate_ClassicBinding();
+//#else
+            var systemUnderTest = new ProjectTemplate_xBind();
+//#endif
             Assert.IsNotNull(systemUnderTest);
         });
     }
