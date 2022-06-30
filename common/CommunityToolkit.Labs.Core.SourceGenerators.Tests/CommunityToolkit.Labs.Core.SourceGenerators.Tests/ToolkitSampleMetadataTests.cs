@@ -244,10 +244,6 @@ public partial class ToolkitSampleMetadataTests
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
-                    public Sample()
-                    {{
-                        var x = this.Test;
-                    }}
                 }}
 
                 [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
