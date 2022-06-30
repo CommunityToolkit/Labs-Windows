@@ -1,5 +1,5 @@
 <Project>
-    <Import Project="Labs.TargetFrameworks.props" />
+    <Import Project="Labs.TargetFrameworks.props" Condition="'$(LabsPropsTargetFrameworks)' != 'True'" />
 
     <PropertyGroup>
         <IsWasmHead Condition="'$(IsWasmHead)' == '' AND '$(TargetFramework)' == '$(WasmHeadTargetFramework)'">True</IsWasmHead>
