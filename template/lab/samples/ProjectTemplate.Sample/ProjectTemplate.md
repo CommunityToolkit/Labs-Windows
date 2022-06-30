@@ -23,7 +23,7 @@ For more information about this experiment see:
 
 TODO: Fill in information about this experiment and how to get started here...
 
-
+#if (!backed)
 # Templated Controls
 ### Implict style
 
@@ -32,7 +32,7 @@ TODO: Fill in information about this experiment and how to get started here...
 ### Custom style
 
 > [!SAMPLE TemplatedControlWithCustomStyleSample]
-
+#else
 # Templated Controls with x:Bind
 ### Implict style
 
@@ -41,4 +41,4 @@ TODO: Fill in information about this experiment and how to get started here...
 ### Custom style
 
 > [!SAMPLE BackedTemplatedControlWithCustomStyleSample]
-
+#endif

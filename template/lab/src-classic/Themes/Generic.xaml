@@ -3,7 +3,6 @@
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI">
 
     <ResourceDictionary.MergedDictionaries>
-        <labs:ProjectTemplateStyle_xBind />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.ProjectTemplate/ProjectTemplateStyle_ClassicBinding.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

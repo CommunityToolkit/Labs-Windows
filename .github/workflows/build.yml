@@ -205,32 +205,56 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.3
 
       # Build and use template for creating new experiments
-      - name: Build ProjectTemplate
-        working-directory: ./template/lab
-        run: msbuild.exe ProjectTemplate.sln /restore /nowarn:MSB4011 -p:Configuration=Debug
+     # - name: Build ProjectTemplate
+    #    working-directory: ./template/lab
+      #  run: msbuild.exe ProjectTemplate.sln /restore /nowarn:MSB4011 -p:Configuration=Debug
 
       # Create a new experiment from the template and test using that
       - name: Install template
         working-directory: ./template/lab
         run: dotnet new --install ./
 
-      - name: Create new experiment
+      - name: Create new experiment (Classic1)
         working-directory: ./labs
-        run: dotnet new labexp -n CiTestExp
+        run: dotnet new labexp -n CiTestExpClassic1
 
-      - name: MSBuild
-        working-directory: ./labs/CiTestExp
-        run: msbuild.exe CiTestExp.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+      - name: MSBuild Classic1
+        working-directory: ./labs/CiTestExpClassic1
+        run: msbuild.exe CiTestExpClassic1.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+
+      - name: Create new experiment (Classic2)
+        working-directory: ./labs
+        run: dotnet new labexp -n CiTestExpClassic2
+
+      - name: MSBuild Classic2
+        working-directory: ./labs/CiTestExpClassic2
+        run: msbuild.exe CiTestExpClassic2.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+
+      - name: Create new experiment (Backed1)
+        working-directory: ./labs
+        run: dotnet new labexp -n CiTestExpBacked1 --backed
+
+      - name: MSBuild Backed1
+        working-directory: ./labs/CiTestExpBacked1
+        run: msbuild.exe CiTestExpBacked1.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+
+      - name: Create new experiment (Backed2)
+        working-directory: ./labs
+        run: dotnet new labexp -n CiTestExpBacked2 --backed
+
+      - name: MSBuild Backed2
+        working-directory: ./labs/CiTestExpBacked2
+        run: msbuild.exe CiTestExpBacked2.sln /restore /nowarn:MSB4011 -p:Configuration=Release
 
       # Run tests
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
 
       - name: Run tests in the generated experiment against UWP
-        run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpUWP.trx"
+        run:  vstest.console.exe ./labs/CiTestExp*/**/CiTestExp*.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpUWP.trx"
 
       - name: Run tests in the generated experiment against WinAppSDK
-        run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpWinAppSdk.trx"
+        run:  vstest.console.exe ./labs/CiTestExp*/**/CiTestExp*.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpWinAppSdk.trx"
 
       - name: Create test reports
         uses: dorny/test-reporter@v1
@@ -262,5 +286,5 @@ jobs:
       - name: dotnet build
         working-directory: ./platforms/CommunityToolkit.Labs.Wasm/
         run: dotnet build /r /bl /p:UnoSourceGeneratorUseGenerationHost=true /p:UnoSourceGeneratorUseGenerationController=false -p:TargetFrameworks=netstandard2.0 -p:TargetFramework=net5.0
-  
+
       # TODO: Do we want to run tests here? Can we do that on linux easily?
