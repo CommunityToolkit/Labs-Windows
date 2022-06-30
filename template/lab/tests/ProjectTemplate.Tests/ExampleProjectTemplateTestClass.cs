@@ -7,6 +7,7 @@ namespace ProjectTemplate.Tests;
 [TestClass]
 public class ExampleProjectTemplateTestClass
 {
+#if (!usenetstd)
     // TODO: https://github.com/CommunityToolkit/Labs-Windows/issues/160
     [TestMethod]
     public async Task SimpleExampleTest()
@@ -17,4 +18,13 @@ public class ExampleProjectTemplateTestClass
             Assert.IsNotNull(systemUnderTest);
         });
     }
+#endif
+#if (usenetstd)
+    [TestMethod]
+    public void SimpleExampleTest()
+    {
+        var systemUnderTest = new CommunityToolkit.Labs.WinUI.ProjectTemplate();
+        Assert.IsNotNull(systemUnderTest);
+    }
+#endif
 }

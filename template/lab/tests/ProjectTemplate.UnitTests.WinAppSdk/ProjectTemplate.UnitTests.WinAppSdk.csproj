@@ -28,6 +28,11 @@
   <Import Project="..\ProjectTemplate.Tests\ProjectTemplate.Tests.projitems" Label="Shared" />
 
   <ItemGroup>
+<!--#if (!usenetstd) -->
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />
+<!--#endif -->
+<!--#if (usenetstd) -->
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.ProjectTemplate.csproj" />
+<!--#endif -->
   </ItemGroup>
 </Project>

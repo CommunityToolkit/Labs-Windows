@@ -18,15 +18,33 @@
   "preferNameDirectory": true,
   "sources": [
     {
-      "source": "./",
-      "target": "./",
-
+      "include": [
+        "ProjectTemplate.sln"
+      ],
       "exclude": [
         "README.md",
         "**/[Bb]in/**",
         "**/[Oo]bj/**",
         ".template.config/**/*"
       ]
+    },
+    {
+      "source": "./samples",
+      "target": "samples"
+    },
+    {
+      "source": "./tests",
+      "target": "./tests"
+    },
+    {
+      "source": "./src",
+      "target": "./src",
+      "condition": "(!usenetstd)"
+    },
+    {
+      "source": "./src-netstd",
+      "target": "./src",
+      "condition": "(usenetstd)"
     }
   ],
   "guids": [
@@ -44,7 +62,8 @@
     "956F45AA-3810-48E9-8795-9051BBCC5C09",
     "D4DCFA4B-63B3-4D93-8C91-FBEE3B92E5A0",
     "E648080E-263D-4920-9B3D-2F6BF541586C",
-    "ED318A01-D129-4F06-A9EB-8D911000E243"
+    "ED318A01-D129-4F06-A9EB-8D911000E243",
+    "52243218-8E83-4A23-A62C-9AD2F314FDE1"
   ],
   "symbols": {
     "copyrightYear": {
@@ -72,6 +91,11 @@
         "low": 44300,
         "high": 44399
       }
+    },
+    "usenetstd": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false"
     }
   }
 }

@@ -8,7 +8,12 @@
   </ItemGroup>
 
   <ItemGroup>
+<!--#if (!usenetstd) -->
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />
+<!--#endif -->
+<!--#if (usenetstd) -->
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.ProjectTemplate.csproj" />
+<!--#endif -->
     <ProjectReference Include="..\ProjectTemplate.Sample\ProjectTemplate.Sample.csproj" />
   </ItemGroup>
 </Project>

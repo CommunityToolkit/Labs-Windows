@@ -9,7 +9,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectTemplate.Sample\ProjectTemplate.Sample.csproj" />
+<!--#if (!usenetstd) -->
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />
+<!--#endif -->
+<!--#if (usenetstd) -->
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.ProjectTemplate.csproj" />
+<!--#endif -->
   </ItemGroup>
 
   <ItemGroup>
