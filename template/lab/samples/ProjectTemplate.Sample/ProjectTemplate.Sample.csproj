@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
 
@@ -11,6 +11,20 @@
   <ItemGroup>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
+<!--#if (!IsGeneratedProject) -->
+  <ItemGroup>
+    <Page Include="..\..\samples-backed\*.xaml"  />
+    <Content Include="..\..\samples-backed\*.cs"  />
+    <Compile Update="..\..\samples-backed\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Page Include="..\..\samples-classic\*.xaml"  />
+    <Content Include="..\..\samples-classic\*.cs"  />
+    <Compile Update="..\..\samples-classic\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+<!---#endif -->
   <ItemGroup>
     <Compile Remove="obj\bin\**" />
     <Content Remove="obj\bin\**" />

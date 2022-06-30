@@ -15,6 +15,20 @@
     <Version>0.0.1</Version>
   </PropertyGroup>
 
+<!--#if (!IsGeneratedProject) -->
+  <ItemGroup>
+    <Page Include="..\src-backed\*.xaml"  />
+    <Content Include="..\src-backed\*.cs"  />
+    <Compile Include="..\src-backed\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Page Include="..\src-classic\*.xaml"  />
+    <Content Include="..\src-classic\*.cs"  />
+    <Compile Include="..\src-classic\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+<!---#endif -->
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
     <Compile Update="**\*.xaml.cs">
