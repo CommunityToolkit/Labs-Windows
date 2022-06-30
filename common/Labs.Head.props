@@ -1,13 +1,23 @@
 <!-- Common props for any deployable sample project head. -->
 <Project>
   <!-- Shared project -->
-  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
   <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props"/>
+  <Import Project="$(RepositoryDirectory)\common\Labs.Uno.props"/>
 
   <!-- Shared project dependencies -->
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
+
+  <!-- Project Head/Sample App dependencies -->
+  <ItemGroup Condition="'$(IsUwp)' == 'True' AND '$(IsUno)' == 'False'">
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown" Version="7.1.2"/>
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsWinAppSdk)' == 'True' AND '$(IsUno)' == 'False'">
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2"/>
+  </ItemGroup>
+
+  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 
   <!-- Source generators -->
   <ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
@@ -21,10 +31,12 @@
     <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
   </ItemGroup>
 
+  <!-- Global Usings -->
   <ItemGroup>
     <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
   </ItemGroup>
 
+  <!-- Source Generator Input/Content -->
   <PropertyGroup>
     <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
     <IsAllExperimentHead Condition="$(MSBuildProjectName.StartsWith('CommunityToolkit.Labs.')) == 'true'">true</IsAllExperimentHead>
