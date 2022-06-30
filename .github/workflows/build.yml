@@ -205,9 +205,9 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.3
 
       # Build and use template for creating new experiments
-     # - name: Build ProjectTemplate
-    #    working-directory: ./template/lab
-      #  run: msbuild.exe ProjectTemplate.sln /restore /nowarn:MSB4011 -p:Configuration=Debug
+      - name: Build ProjectTemplate
+        working-directory: ./template/lab
+        run: msbuild.exe ProjectTemplate.sln /restore /nowarn:MSB4011 -p:Configuration=Debug
 
       # Create a new experiment from the template and test using that
       - name: Install template
