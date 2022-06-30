@@ -15,6 +15,84 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Tests;
 public partial class ToolkitSampleMetadataTests
 {
     [TestMethod]
+    public void PaneOption_GeneratesProperty()
+    {
+        var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
+                {{
+                    public Sample()
+                    {{
+                        var x = this.Test;
+                        var y = this.TextFontFamily;
+                    }}
+                }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
+            }}";
+
+        VerifyGeneratedDiagnostics<ToolkitSampleOptionGenerator>(source, string.Empty);
+    }
+
+    // https://github.com/CommunityToolkit/Labs-Windows/issues/175
+    [TestMethod]
+    public void PaneOption_GeneratesProperty_DuplicatePropNamesAcrossSampleClasses()
+    {
+        var source = $@"
+            using System.ComponentModel;
+            using CommunityToolkit.Labs.Core.SourceGenerators;
+            using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+
+            namespace MyApp
+            {{
+                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+
+                [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
+                public partial class Sample : Windows.UI.Xaml.Controls.UserControl
+                {{
+                    public Sample()
+                    {{
+                        var x = this.Test;
+                        var y = this.TextFontFamily;
+                    }}
+                }}
+
+                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+
+                [ToolkitSample(id: nameof(Sample2), ""Test Sample"", description: """")]
+                public partial class Sample2 : Windows.UI.Xaml.Controls.UserControl
+                {{
+                    public Sample2()
+                    {{
+                        var x = this.Test;
+                        var y = this.TextFontFamily;
+                    }}
+                }}
+            }}
+
+            namespace Windows.UI.Xaml.Controls
+            {{
+                public class UserControl {{ }}
+            }}";
+
+        VerifyGeneratedDiagnostics<ToolkitSampleOptionGenerator>(source, string.Empty);
+    }
+
+    [TestMethod]
     public void PaneOptionOnNonSample()
     {
         string source = @"
@@ -339,6 +417,8 @@ public partial class ToolkitSampleMetadataTests
             references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
+        var compilationDiagnostics = compilation.GetDiagnostics();
+
         IIncrementalGenerator generator = new TGenerator();
 
         GeneratorDriver driver =
@@ -356,8 +436,10 @@ public partial class ToolkitSampleMetadataTests
         _ = driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation outputCompilation, out ImmutableArray<Diagnostic> diagnostics);
 
         HashSet<string> resultingIds = diagnostics.Select(diagnostic => diagnostic.Id).ToHashSet();
+        var generatedCompilationDiaghostics = outputCompilation.GetDiagnostics();
 
         Assert.IsTrue(resultingIds.SetEquals(diagnosticsIds), $"Expected one of [{string.Join(", ", diagnosticsIds)}] diagnostic Ids. Got [{string.Join(", ", resultingIds)}]");
+        Assert.IsTrue(generatedCompilationDiaghostics.All(x => x.Severity != DiagnosticSeverity.Error), $"Expected no generated compilation errors. Got: \n{string.Join("\n", generatedCompilationDiaghostics.Where(x => x.Severity == DiagnosticSeverity.Error).Select(x => $"[{x.Id}: {x.GetMessage()}]"))}");
 
         GC.KeepAlive(sampleAttributeType);
     }
