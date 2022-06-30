@@ -25,7 +25,6 @@ public partial class ToolkitSampleMetadataTests
             namespace MyApp
             {{
                 [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
-                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
                 [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
