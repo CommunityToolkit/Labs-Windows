@@ -11,10 +11,10 @@
     For WinUI 2 / Uno packages, place the package references here.
 -->
 <Project>
-    <ItemGroup Condition="'$(IsUwp)' == 'True'">
+    <ItemGroup Condition="'$(IsUwp)' == 'true'">
         <!--<PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.2"/>-->
     </ItemGroup>
-    <ItemGroup Condition="'$(WinUIMajorVersion)' == '2' AND '$(IsUno)' == 'True'">
+    <ItemGroup Condition="'$(WinUIMajorVersion)' == '2' AND '$(IsUno)' == 'true'">
         <!--<PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.11"/>-->
     </ItemGroup>
 </Project>

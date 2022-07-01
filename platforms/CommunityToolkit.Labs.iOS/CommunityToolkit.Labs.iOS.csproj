@@ -4,7 +4,7 @@
   <Import Project="$(RepositoryDirectory)\common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)\common\Labs.Head.props" />
   <PropertyGroup>
-    <IsiOS>True</IsiOS>
+    <IsiOS>true</IsiOS>
   </PropertyGroup>
   <Import Project="$(RepositoryDirectory)\common\Labs.Uno.props" />
   <PropertyGroup>

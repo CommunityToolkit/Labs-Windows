@@ -11,10 +11,10 @@
     For WinUI 3 / Uno packages, place the package references here.
 -->
 <Project>
-    <ItemGroup Condition="'$(IsWinAppSdk)' == 'True'">
+    <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
         <!--<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2"/>-->
     </ItemGroup>
-    <ItemGroup Condition="'$(WinUIMajorVersion)' == '3' AND '$(IsUno)' == 'True'">
+    <ItemGroup Condition="'$(WinUIMajorVersion)' == '3' AND '$(IsUno)' == 'true'">
         <!--<PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.100-dev.15.g12261e2626"/>-->
     </ItemGroup>
 </Project>

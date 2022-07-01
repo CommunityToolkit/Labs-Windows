@@ -1,5 +1,5 @@
 <Project>
-  <Import Project="Labs.TargetFrameworks.props" Condition="'$(LabsPropsTargetFrameworks)' != 'True'" />
+  <Import Project="Labs.TargetFrameworks.props" Condition="'$(LabsPropsTargetFrameworks)' != 'true'" />
   <Import Project="Labs.Uno.props" />
 
   <PropertyGroup>

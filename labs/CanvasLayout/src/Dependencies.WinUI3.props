@@ -11,10 +11,10 @@
     For WinUI 3 / Uno packages, place the package references here.
 -->
 <Project>
-    <ItemGroup Condition="'$(IsWinAppSdk)' == 'True'">
+    <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
 
     </ItemGroup>
-    <ItemGroup Condition="'$(WinUIMajorVersion)' == '3' AND '$(IsUno)' == 'True'">
+    <ItemGroup Condition="'$(WinUIMajorVersion)' == '3' AND '$(IsUno)' == 'true'">
 
     </ItemGroup>
 </Project>

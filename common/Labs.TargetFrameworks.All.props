@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <LabsPropsTargetFrameworks>True</LabsPropsTargetFrameworks>
+        <LabsPropsTargetFrameworks>true</LabsPropsTargetFrameworks>
         <UwpTargetFramework>uap10.0.17763</UwpTargetFramework>
         <WinAppSdkTargetFramework>net6.0-windows10.0.19041.0</WinAppSdkTargetFramework>
         
