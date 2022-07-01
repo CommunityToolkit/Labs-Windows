@@ -4,7 +4,7 @@
     <RootNamespace>SizerBase.UnitTests</RootNamespace>
   </PropertyGroup>
 
-  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.WinAppSdk.props" />
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
 
   <ItemGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <!-- Needed Unit Testing helper base classes -->
-  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
+  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
   <!-- Include the unit test files themselves -->
   <Import Project="..\SizerBase.Tests\SizerBase.Tests.projitems" Label="Shared" />
 

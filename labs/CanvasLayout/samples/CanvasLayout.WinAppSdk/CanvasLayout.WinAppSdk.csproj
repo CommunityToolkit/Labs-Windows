@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.Head.props" />
 
   <PropertyGroup>
     <RootNamepace>CanvasLayout.WinAppSdk</RootNamepace>

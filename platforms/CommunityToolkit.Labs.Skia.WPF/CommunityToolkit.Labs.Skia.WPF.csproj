@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.SampleRefs.props" />
   <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props" Condition="'$(LabsPropsTargetFrameworks)' != 'True'" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.Head.props" />
 
   <PropertyGroup>
     <IsGtkHead>False</IsGtkHead>
@@ -11,7 +11,7 @@
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.Uno.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />

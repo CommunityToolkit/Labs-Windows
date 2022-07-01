@@ -1,6 +1,6 @@
 <Project>
-  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" Condition="'$(LabsPropsTargetFrameworks)' != 'True'" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props" Condition="'$(LabsPropsTargetFrameworks)' != 'True'" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.Uwp.Base.props" />
 
   <ItemGroup>
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />

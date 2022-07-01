@@ -37,6 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
+    <Compile Include="$(RepositoryDirectory)\common\GlobalUsings_WinUI.cs" />
   </ItemGroup>
 </Project>

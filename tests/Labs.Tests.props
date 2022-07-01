@@ -9,13 +9,13 @@
       <Version>2.2.8</Version>
     </PackageReference>
 
-    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.csproj"
+    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
-    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_Tests.cs" />
+    <Compile Include="$(RepositoryDirectory)\common\GlobalUsings_WinUI.cs" />
+    <Compile Include="$(RepositoryDirectory)\common\GlobalUsings_Tests.cs" />
   </ItemGroup>
 
 </Project>

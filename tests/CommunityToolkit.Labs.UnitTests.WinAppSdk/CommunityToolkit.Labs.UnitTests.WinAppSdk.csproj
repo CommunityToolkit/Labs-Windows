@@ -4,7 +4,7 @@
     <RootNamespace>CommunityToolkit.Labs.UnitTests</RootNamespace>
   </PropertyGroup>
 
-  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.WinAppSdk.props" />
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
 
   <ItemGroup>
@@ -31,5 +31,5 @@
   <Import Project="..\..\labs\**\*.Tests.projitems" Label="Shared" />
 
   <!-- Include all base code to be tested -->
-  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.SampleRefs.props" />
 </Project>

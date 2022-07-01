@@ -10,7 +10,7 @@
     <IsWasmLib>False</IsWasmLib>
   </PropertyGroup>
 
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.Uno.props" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
