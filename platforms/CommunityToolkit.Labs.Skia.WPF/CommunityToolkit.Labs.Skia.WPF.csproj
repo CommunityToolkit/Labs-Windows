@@ -4,10 +4,10 @@
   <Import Project="$(RepositoryDirectory)\common\Labs.Head.props" />
 
   <PropertyGroup>
-    <IsGtkHead>False</IsGtkHead>
+    <IsGtkHead>false</IsGtkHead>
     <IsWpfHead>true</IsWpfHead>
     <IsWpfLib>true</IsWpfLib>
-    <IsWasmHead>False</IsWasmHead>
+    <IsWasmHead>false</IsWasmHead>
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>
   </PropertyGroup>
 

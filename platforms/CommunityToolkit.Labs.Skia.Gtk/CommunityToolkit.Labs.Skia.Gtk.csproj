@@ -5,8 +5,8 @@
   
   <PropertyGroup>
     <IsGtkHead>true</IsGtkHead>
-    <IsWpfHead>False</IsWpfHead>
-    <IsWasmHead>False</IsWasmHead>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWasmHead>false</IsWasmHead>
   </PropertyGroup>
   
   <Import Project="$(RepositoryDirectory)\common\Labs.Uno.props" />
