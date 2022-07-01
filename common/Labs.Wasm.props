@@ -1,6 +1,6 @@
 <Project>
   <!-- Common properties needed for a labs project (Wasm) -->
-  <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props" Condition="'$(LabsPropsTargetFrameworks)' != 'true'" />
+  <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props" Condition="'$(ImportLabsTargetFrameworksProps)' != 'true'" />
 
   <PropertyGroup>
     <IsGtkHead>false</IsGtkHead>
