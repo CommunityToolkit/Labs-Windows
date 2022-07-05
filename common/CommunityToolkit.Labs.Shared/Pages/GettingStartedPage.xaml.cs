@@ -2,6 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
+using CommunityToolkit.Labs.Core.SourceGenerators;
+
 namespace CommunityToolkit.Labs.Shared.Pages
 {
     public sealed partial class GettingStartedPage : Page
@@ -9,6 +12,15 @@ namespace CommunityToolkit.Labs.Shared.Pages
         public GettingStartedPage()
         {
             this.InitializeComponent();
+        }
+
+        /// <summary>
+        /// Gets the items used for navigating.
+        /// </summary>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            itemGridView.ItemsSource = e.Parameter as IEnumerable<ToolkitFrontMatter>;
+            base.OnNavigatedTo(e);
         }
     }
 }

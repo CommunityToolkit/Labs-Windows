@@ -38,6 +38,9 @@ namespace CommunityToolkit.Labs.Shared.Pages;
 /// </summary>
 public sealed partial class NavigationPage : Page
 {
+    public static IEnumerable<ToolkitFrontMatter>? samplePages { get; private set; }
+  
+
     public NavigationPage()
     {
         this.InitializeComponent();
@@ -48,8 +51,8 @@ public sealed partial class NavigationPage : Page
     /// </summary>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        var samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
-
+        samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
+        
         if (samplePages is not null)
         {
             var categories = GenerateSampleNavItemTree(samplePages);
@@ -79,7 +82,7 @@ public sealed partial class NavigationPage : Page
         // Check if Getting Started page
         else if (selected.Tag != null && selected.Tag.GetType() == typeof(string))
         {
-            NavFrame.Navigate(typeof(GettingStartedPage));
+            NavFrame.Navigate(typeof(GettingStartedPage), samplePages);
         }
         else
         {
