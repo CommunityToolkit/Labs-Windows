@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="CommunityToolkit.Labs.Shared.Pages.GettingStartedPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -140,7 +140,7 @@
                 <TextBlock Margin="0,0,0,12"
                            Style="{StaticResource SubtitleTextBlockStyle}"
                            Text="What is Toolkit Labs?" />
-                <TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                <TextBlock Text="Toolkit Labs for Windows is the new starting place for all new features for the Windows Community Toolkit. It is meant to be a safe space to collaborate and engineer solutions from the prototyping stage all the way through polished finalized component."
                            TextWrapping="WrapWholeWords" />
                 <Button Margin="0,16,0,0"
                         Content="Button"
