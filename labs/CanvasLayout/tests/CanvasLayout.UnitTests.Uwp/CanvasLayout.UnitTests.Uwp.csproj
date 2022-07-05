@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build"
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="'$(ImportLabsDirectoryBuildProps)' != 'true' and Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
 
   <PropertyGroup>
     <ProjectGuid>{F17EE40D-CEE8-402F-AA43-45A7F87ACBF3}</ProjectGuid>

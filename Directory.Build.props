@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <ImportLabsDirectoryBuildProps Condition="'$(ImportLabsDirectoryBuildProps)' == ''">true</ImportLabsDirectoryBuildProps>
     <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
