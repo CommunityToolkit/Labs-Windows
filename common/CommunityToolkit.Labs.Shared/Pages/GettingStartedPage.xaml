@@ -122,18 +122,19 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <win:GridView x:Name="itemGridView"
-                          Grid.Row="1"
-                          IsItemClickEnabled="True"
-                          IsSwipeEnabled="False"
-                          SelectionMode="None">
+            <GridView x:Name="itemGridView"
+                      Grid.Row="1"
+                      ItemTemplate="{StaticResource ControlItemTemplate}"
+                      win:IsSwipeEnabled="False"
+                      IsItemClickEnabled="True"
+                      SelectionMode="None">
 
-                <win:GridView.Header>
+                <GridView.Header>
                     <TextBlock Margin="0,0,0,12"
                                Style="{StaticResource SubtitleTextBlockStyle}"
                                Text="Current experiments in Labs" />
-                </win:GridView.Header>
-            </win:GridView>
+                </GridView.Header>
+            </GridView>
             <StackPanel Grid.Column="1"
                         Width="360"
                         Orientation="Vertical">
