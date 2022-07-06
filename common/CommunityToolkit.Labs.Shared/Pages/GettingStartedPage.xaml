@@ -122,11 +122,11 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <GridView x:Name="itemGridView"
+            <GridView x:Name="controlsGridView"
                       Grid.Row="1"
-                      ItemTemplate="{StaticResource ControlItemTemplate}"
-                      win:IsSwipeEnabled="False"
                       IsItemClickEnabled="True"
+                      ItemClick="controlsGridView_ItemClick"
+                      ItemTemplate="{StaticResource ControlItemTemplate}"
                       SelectionMode="None">
 
                 <GridView.Header>

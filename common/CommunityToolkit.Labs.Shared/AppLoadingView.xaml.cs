@@ -86,7 +86,7 @@ public sealed partial class AppLoadingView : Page
         }
 
 #if LABS_ALL_SAMPLES
-        ScheduleNavigate(typeof(NavigationPage), sampleDocs);
+        ScheduleNavigate(typeof(Shell), sampleDocs);
 #else
         var samples = FindReferencedSamples().ToArray();
 

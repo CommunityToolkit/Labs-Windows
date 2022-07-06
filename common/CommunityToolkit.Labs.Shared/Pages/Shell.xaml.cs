@@ -36,14 +36,15 @@ namespace CommunityToolkit.Labs.Shared.Pages;
 /// <summary>
 /// Used to display all Community Toolkit Labs sample projects in one place.
 /// </summary>
-public sealed partial class NavigationPage : Page
+public sealed partial class Shell : Page
 {
     public static IEnumerable<ToolkitFrontMatter>? samplePages { get; private set; }
-  
+    public static Shell? Current { get; private set; }
 
-    public NavigationPage()
+    public Shell()
     {
         this.InitializeComponent();
+        Current = this;
     }
 
     /// <summary>
@@ -88,8 +89,19 @@ public sealed partial class NavigationPage : Page
         {
             if (selectedMetadata is null)
                 return;
+            NavigateToSample(selectedMetadata);
+        }
+    }
 
-            NavFrame.Navigate(typeof(ToolkitDocumentationRenderer), selectedMetadata);
+    public void NavigateToSample(ToolkitFrontMatter? sample)
+    {
+        if (sample == null)
+        {
+            NavFrame.Navigate(typeof(GettingStartedPage), samplePages);
+        }
+        else
+        {
+            NavFrame.Navigate(typeof(ToolkitDocumentationRenderer), sample);
         }
     }
 

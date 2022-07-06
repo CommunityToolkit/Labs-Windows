@@ -19,8 +19,16 @@ namespace CommunityToolkit.Labs.Shared.Pages
         /// </summary>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            itemGridView.ItemsSource = e.Parameter as IEnumerable<ToolkitFrontMatter>;
+            controlsGridView.ItemsSource = e.Parameter as IEnumerable<ToolkitFrontMatter>;
             base.OnNavigatedTo(e);
+        }
+
+        private void controlsGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var selectedSample = e.ClickedItem as ToolkitFrontMatter;
+
+            NavigationPage.Current?.NavigateToSample(selectedSample);
+
         }
     }
 }
