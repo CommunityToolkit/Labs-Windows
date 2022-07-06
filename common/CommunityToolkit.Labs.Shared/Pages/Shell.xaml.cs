@@ -52,21 +52,31 @@ public sealed partial class Shell : Page
     /// </summary>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        NavigationFrame.Navigated += NavigationFrameOnNavigated;
+
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
         
         if (samplePages is not null)
         {
             var categories = GenerateSampleNavItemTree(samplePages);
-            NavigationViewControl.MenuItems.Add(new NavigationViewItem() { Content = "Get started", Icon = new SymbolIcon() { Symbol = Symbol.Home }, Tag = "GettingStarted" });
-            NavigationViewControl.MenuItems.Add(new NavigationViewItemSeparator());
+            NavView.MenuItems.Add(new NavigationViewItem() { Content = "Get started", Icon = new SymbolIcon() { Symbol = Symbol.Home }, Tag = "GettingStarted" });
+            NavView.MenuItems.Add(new NavigationViewItemSeparator());
 
             foreach (var item in categories)
-                NavigationViewControl.MenuItems.Add(item);
+                NavView.MenuItems.Add(item);
 
-            NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems[0];
+            NavView.SelectedItem = NavView.MenuItems[0];
         }
        
         base.OnNavigatedTo(e);
+    }
+
+    private void TitleBar_BackButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (NavigationFrame.CanGoBack)
+        {
+            NavigationFrame.GoBack();
+        }
     }
 
     private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs e)
@@ -75,15 +85,15 @@ public sealed partial class Shell : Page
         var selectedMetadata = selected.Tag as ToolkitFrontMatter;
         if (e.IsSettingsSelected)
         {
-            if (NavFrame.CurrentSourcePageType != typeof(SettingsPage))
+            if (NavigationFrame.CurrentSourcePageType != typeof(SettingsPage))
             {
-                NavFrame.Navigate(typeof(SettingsPage));
+                NavigationFrame.Navigate(typeof(SettingsPage));
             }
         }
         // Check if Getting Started page
         else if (selected.Tag != null && selected.Tag.GetType() == typeof(string))
         {
-            NavFrame.Navigate(typeof(GettingStartedPage), samplePages);
+            NavigationFrame.Navigate(typeof(GettingStartedPage), samplePages);
         }
         else
         {
@@ -97,12 +107,17 @@ public sealed partial class Shell : Page
     {
         if (sample == null)
         {
-            NavFrame.Navigate(typeof(GettingStartedPage), samplePages);
+            NavigationFrame.Navigate(typeof(GettingStartedPage), samplePages);
         }
         else
         {
-            NavFrame.Navigate(typeof(ToolkitDocumentationRenderer), sample);
+            NavigationFrame.Navigate(typeof(ToolkitDocumentationRenderer), sample);
         }
+    }
+
+    private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+    {
+        titleBar.IsBackButtonVisible = NavigationFrame.CanGoBack;
     }
 
     private IEnumerable<NavigationViewItem> GenerateSampleNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
