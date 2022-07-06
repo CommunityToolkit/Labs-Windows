@@ -250,7 +250,7 @@
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
 
-                            <Grid x:Name="DragRegion"
+                            <Grid x:Name="PART_DragRegion"
                                   Grid.Column="1"
                                   Grid.ColumnSpan="3"
                                   Background="Transparent" />
