@@ -19,7 +19,7 @@ public static class DiagnosticDescriptors
     /// </summary>
     public static readonly DiagnosticDescriptor SamplePaneOptionAttributeOnNonSample = new(
         id: "TKSMPL0001",
-        title: $"Invalid sample option delaration",
+        title: $"Invalid sample option declaration",
         messageFormat: $"Cannot generate sample pane options for type {{0}} as it does not use {nameof(Attributes.ToolkitSampleAttribute)}",
         category: typeof(ToolkitSampleMetadataGenerator).FullName,
         defaultSeverity: DiagnosticSeverity.Error,
@@ -34,7 +34,7 @@ public static class DiagnosticDescriptors
     /// </summary>
     public static readonly DiagnosticDescriptor SamplePaneOptionWithBadName = new(
         id: "TKSMPL0002",
-        title: $"Invalid sample option delaration",
+        title: $"Invalid sample option declaration",
         messageFormat: $"Cannot generate sample pane options for type {{0}} as the provided name is empty or invalid",
         category: typeof(ToolkitSampleMetadataGenerator).FullName,
         defaultSeverity: DiagnosticSeverity.Error,
@@ -205,4 +205,19 @@ public static class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
         description: $"Document contains no interactive sample code.");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> indicating a sample ID is already in use by another sample.
+    /// <para>
+    /// Format: <c>"Cannot generate sample with id {0} as the provided id is already in use by another sample"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor SampleIdAlreadyInUse = new(
+        id: "TKSMPL0015",
+        title: $"Sample ID already in use",
+        messageFormat: $"Cannot generate sample with id {{0}} as the provided id is already in use by another sample",
+        category: typeof(ToolkitSampleMetadataGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: $"Cannot generate sample as the id is already in use by another sample.");
 }
