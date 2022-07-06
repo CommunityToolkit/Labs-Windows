@@ -27,7 +27,7 @@ namespace CommunityToolkit.Labs.Shared.Pages
         {
             var selectedSample = e.ClickedItem as ToolkitFrontMatter;
 
-            NavigationPage.Current?.NavigateToSample(selectedSample);
+            Shell.Current?.NavigateToSample(selectedSample);
 
         }
     }
