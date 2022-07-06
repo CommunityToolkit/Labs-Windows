@@ -53,7 +53,6 @@ public sealed partial class Shell : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         NavigationFrame.Navigated += NavigationFrameOnNavigated;
-
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
         
         if (samplePages is not null)

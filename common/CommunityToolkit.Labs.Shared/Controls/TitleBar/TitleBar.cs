@@ -15,10 +15,13 @@ namespace CommunityToolkit.Labs.Shared.Controls;
 [TemplateVisualState(Name = "Visible", GroupName = "BackButtonStates")]
 [TemplateVisualState(Name = "Collapsed", GroupName = "BackButtonStates")]
 [TemplatePart(Name = PartIconPresenter, Type = typeof(Button))]
+[TemplatePart(Name = PartDragRegionPresenter, Type = typeof(Grid))]
 public sealed class TitleBar : Control
 {
+    private const string PartDragRegionPresenter = "PART_DragRegion";
     private const string PartIconPresenter = "PART_BackButton";
     private Button? _backButton;
+    private Grid? _dragRegion;
     private TitleBar? _titleBar;
   
     public string Title
@@ -58,7 +61,10 @@ public sealed class TitleBar : Control
         Update();
         _titleBar = (TitleBar)this;
         _backButton = (Button)_titleBar.GetTemplateChild(PartIconPresenter);
+        _dragRegion = (Grid)_titleBar.GetTemplateChild(PartDragRegionPresenter);
         _backButton.Click += _backButton_Click;
+
+        SetTitleBar();
         base.OnApplyTemplate();
     }
 
@@ -80,5 +86,16 @@ public sealed class TitleBar : Control
     private void Update()
     {
         VisualStateManager.GoToState(this, IsBackButtonVisible ? "Visible" : "Collapsed", true);
+    }
+
+    private void SetTitleBar()
+    {
+
+#if !WINAPPSDK
+        //Window.Current.SetTitleBar(_dragRegion);
+#else
+//        Window window = App.MainWindow;
+//window.SetTitleBar(_dragRegion);
+#endif
     }
 }

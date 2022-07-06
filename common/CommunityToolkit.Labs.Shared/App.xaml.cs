@@ -52,6 +52,7 @@ public sealed partial class App : Application
 #endif
             rootFrame.Navigate(typeof(AppLoadingView), e.Arguments);
 
+        SetTitleBar();
         // Ensure the current window is active
         currentWindow.Activate();
     }
@@ -64,5 +65,15 @@ public sealed partial class App : Application
     void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
     {
         throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+    }
+
+    private void SetTitleBar()
+    {
+#if !WINAPPSDK
+        Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+        var viewTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+        viewTitleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
+        viewTitleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
+#endif
     }
 }
