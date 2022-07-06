@@ -1,23 +1,24 @@
 <!-- Common props for any deployable sample project head. -->
 <Project>
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props"/>
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props"/>
+
+  <!-- Project Head/Sample App dependencies -->
+  <ItemGroup Condition="'$(IsUwp)' == 'true' AND '$(IsWinAppSdk)' != 'true' AND '$(IsUno)' != 'true'">
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown" Version="7.1.2"/>
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(IsWinAppSdk)' == 'true' AND '$(IsUwp)' != 'true' AND '$(IsUno)' != 'true'">
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2"/>
+  </ItemGroup>
+
   <!-- Shared project -->
-  <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props"/>
-  <Import Project="$(RepositoryDirectory)\common\Labs.Uno.props"/>
+  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 
   <!-- Shared project dependencies -->
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
-
-  <!-- Project Head/Sample App dependencies -->
-  <ItemGroup Condition="'$(IsUwp)' == 'True' AND '$(IsUno)' == 'False'">
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown" Version="7.1.2"/>
-  </ItemGroup>
-  <ItemGroup Condition="'$(IsWinAppSdk)' == 'True' AND '$(IsUno)' == 'False'">
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2"/>
-  </ItemGroup>
-
-  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
 
   <!-- Source generators -->
   <ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">

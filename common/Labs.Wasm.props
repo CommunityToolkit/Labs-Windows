@@ -41,6 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <LinkerDescriptor Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\LinkerConfig.xml" />
+    <LinkerDescriptor Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\LinkerConfig.xml" />
   </ItemGroup>
 </Project>

@@ -9,9 +9,9 @@
 
   <!-- Source generator props -->
   <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
+    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
-    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
+    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\CommunityToolkit.Labs.Core.SourceGenerators.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
 

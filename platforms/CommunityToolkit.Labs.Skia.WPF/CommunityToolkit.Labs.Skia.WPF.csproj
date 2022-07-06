@@ -7,6 +7,7 @@
     <IsWasmHead>False</IsWasmHead>
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>
   </PropertyGroup>
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props"/>
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
   

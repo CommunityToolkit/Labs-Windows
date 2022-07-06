@@ -1,0 +1,31 @@
+<Project>
+    <Import Project="Labs.TargetFrameworks.props" />
+
+    <PropertyGroup>
+        <IsWasmHead Condition="'$(IsWasmHead)' == '' AND '$(TargetFramework)' == '$(WasmHeadTargetFramework)'">true</IsWasmHead>
+        <IsWpfHead Condition="'$(IsWpfHead)' == '' AND '$(TargetFramework)' == '$(WpfHeadTargetFramework)'">true</IsWpfHead>
+        <IsGtkHead Condition="'$(IsGtkHead)' == '' AND '$(TargetFramework)' == '$(LinuxHeadTargetFramework)'">true</IsGtkHead>
+
+        <IsWasmLib Condition="'$(IsWasmLib)' == '' AND '$(TargetFramework)' == '$(WasmLibTargetFramework)'">true</IsWasmLib>
+        <IsWpfLib Condition="'$(IsWpfLib)' == '' AND '$(TargetFramework)' == '$(WpfLibTargetFramework)'">true</IsWpfLib>
+        <IsGtkLib Condition="'$(IsGtkLib)' == '' AND '$(TargetFramework)' == '$(LinuxLibTargetFramework)'">true</IsGtkLib>
+
+        <IsWasm Condition="'$(IsWasm)' == '' AND ('$(IsWasmHead)' == 'true' or '$(IsWasmLib)' == 'true')">true</IsWasm>
+        <IsWpf Condition="'$(IsWpf)' == '' AND ('$(IsWpfHead)' == 'true' or '$(IsWpfLib)' == 'true')">true</IsWpf>
+        <IsGtk Condition="'$(IsGtk)' == '' AND ('$(IsGtkHead)' == 'true' or '$(IsGtkLib)' == 'true')">true</IsGtk>
+
+        <IsDroid Condition="'$(IsDroid)' == '' AND '$(TargetFramework)' == '$(AndroidLibTargetFramework)'">true</IsDroid>
+        <IsMacOS Condition="'$(IsMacOS)' == '' AND '$(TargetFramework)' == '$(MacOSLibTargetFramework)'">true</IsMacOS>
+        <IsiOS Condition="'$(IsiOS)' == '' AND '$(TargetFramework)' == '$(iOSLibTargetFramework)'">true</IsiOS>
+
+        <IsUwp Condition="'$(IsUwp)' == '' AND '$(TargetFramework)' == '$(UwpTargetFramework)'">true</IsUwp>
+        <IsWinAppSdk Condition="'$(IsWinAppSdk)' == '' AND '$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">true</IsWinAppSdk>
+        
+        <IsUno Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true' OR '$(IsDroid)' == 'true' OR '$(IsMacOS)' == 'true' OR '$(IsiOS)' == 'true'">true</IsUno>
+
+        <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);</DefineConstants>
+
+        <PackageIdVariant>Uwp</PackageIdVariant>
+        <WinUIMajorVersion>2</WinUIMajorVersion>
+    </PropertyGroup>
+</Project>

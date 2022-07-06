@@ -2,7 +2,7 @@
 
   <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  <Import Project="$(RepositoryDirectory)\common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
 
   <PropertyGroup>
     <RootNamepace>CommunityToolkit.Labs.WinAppSdk</RootNamepace>

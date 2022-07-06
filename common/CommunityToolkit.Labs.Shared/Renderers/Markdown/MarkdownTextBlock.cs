@@ -4,9 +4,9 @@
 
 #if HAS_UNO
     #if WINAPPSDK
-    using ToolkitMTB = Microsoft.UI.Xaml.DependencyObject;
+    using ToolkitMTB = Microsoft.UI.Xaml.Control;
     #else
-    using ToolkitMTB = Windows.UI.Xaml.DependencyObject;
+    using ToolkitMTB = Windows.UI.Xaml.Control;
     #endif
 #else
     #if WINAPPSDK
