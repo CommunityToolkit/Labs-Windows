@@ -29,13 +29,13 @@ public sealed class TitleBar : Control
 
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(TitleBar), new PropertyMetadata(default(string)));
 
-    public string IconURI
+    public ImageSource Icon
     {
-        get => (string)GetValue(IconURIProperty);
-        set => SetValue(IconURIProperty, value);
+        get => (ImageSource)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
     }
 
-    public static readonly DependencyProperty IconURIProperty = DependencyProperty.Register("IconURI", typeof(string), typeof(TitleBar), new PropertyMetadata(null));
+    public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(ImageSource), typeof(TitleBar), new PropertyMetadata(default(ImageSource)));
 
     public bool IsBackButtonVisible
     {

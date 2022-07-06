@@ -16,7 +16,7 @@
         <controls:TitleBar x:Name="titleBar"
                            Title="Toolkit Labs Gallery"
                            BackButtonClick="TitleBar_BackButtonClick"
-                           IconURI="ms-appx:///Assets/Images/Wallpaper1.png" />
+                           Icon="ms-appx:///Assets/Images/ConnectedAnimation.png" />
         <muxc:NavigationView x:Name="NavView"
                              Grid.Row="2"
                              IsBackButtonVisible="Collapsed"
