@@ -1,3 +1,5 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!-- Properties for multi-targetting of source/samples. -->
 <Project>
   <Import Project="Labs.TargetFrameworks.props" Condition="'$(ImportLabsTargetFrameworksProps)' != 'true'" />
   <Import Project="Labs.Uno.props" />

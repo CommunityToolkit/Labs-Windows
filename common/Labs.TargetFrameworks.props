@@ -1,3 +1,5 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!-- Target Framework Versions, used to generate/modify Labs.TargetFrameworks.props. See Scripts/UseTargetFramework.ps1. -->
 <Project>
     <PropertyGroup>
         <ImportLabsTargetFrameworksProps Condition="'$(ImportLabsTargetFrameworksProps)' == ''">true</ImportLabsTargetFrameworksProps>

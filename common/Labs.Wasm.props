@@ -1,5 +1,6 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!-- Common properties needed for a labs project (Wasm) -->
 <Project>
-  <!-- Common properties needed for a labs project (Wasm) -->
   <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props" Condition="'$(ImportLabsTargetFrameworksProps)' != 'true'" />
 
   <PropertyGroup>

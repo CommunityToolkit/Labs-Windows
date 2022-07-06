@@ -1,3 +1,5 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!-- Common properties needed for a labs project (UWP) -->
 <Project>
   <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props" Condition="'$(ImportLabsTargetFrameworksProps)' != 'true'" />
   <Import Project="$(RepositoryDirectory)\common\Labs.Uwp.Base.props" />

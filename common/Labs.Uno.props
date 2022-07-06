@@ -1,3 +1,5 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!-- Uno specific properties, see Scripts/UseUnoWinUI.ps1 as well. -->
 <Project>
     <Import Project="Labs.TargetFrameworks.props" Condition="'$(ImportLabsTargetFrameworksProps)' != 'true'" />
 
