@@ -22,4 +22,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="$(RepositoryDirectory)\common\GlobalUsings.cs" />
+  </ItemGroup>
 </Project>
