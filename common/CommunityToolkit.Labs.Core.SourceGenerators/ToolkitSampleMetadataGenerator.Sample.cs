@@ -104,6 +104,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
 
                 // Reconstruct sample metadata from attributes
                 var sampleMetadata = toolkitSampleAttributeData
+                     .GroupBy(x => x.Attribute.Id).Select(x => x.First()) // Filter out non-unique Ids. Diagnostics happen below.
                      .ToDictionary(
                         sample => sample.Attribute.Id,
                         sample =>
@@ -129,6 +130,9 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 {
                     CreateDocumentRegistry(ctx, docFrontMatter);
                     CreateSampleRegistry(ctx, sampleMetadata);
+
+                    // These diagnostics need to scan all symbols referenced from a sample head.
+                    ReportDiagnosticsForConflictingSampleId(ctx, toolkitSampleAttributeData);
                 }
             });
         }
@@ -177,6 +181,16 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
 
     }
 
+    private static void ReportDiagnosticsForConflictingSampleId(SourceProductionContext ctx,
+                                                              IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData)
+    {
+        foreach (var sampleIdGroup in toolkitSampleAttributeData.GroupBy(x => x.Attribute.Id))
+        {
+            if (sampleIdGroup.Count() > 1)
+                ctx.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.SampleIdAlreadyInUse, null, sampleIdGroup.Key));
+        }
+    }
+
     private static void ReportDiagnosticsForLinkedOptionsPane(SourceProductionContext ctx,
                                                               IEnumerable<(ToolkitSampleAttribute Attribute, string AttachedQualifiedTypeName, ISymbol Symbol)> toolkitSampleAttributeData,
                                                               IEnumerable<(ToolkitSampleOptionsPaneAttribute?, ISymbol)> optionsPaneAttribute)
@@ -212,7 +226,6 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
         // Check for generated options with duplicate names.
         var generatedOptionsWithDuplicateName = generatedOptionPropertyData.GroupBy(x => x.Item1, SymbolEqualityComparer.Default) // Group by containing symbol (allow reuse across samples)
                                                                            .SelectMany(y => y.GroupBy(x => x.Item2.Name) // In this symbol, group options by name.
-                                                                                             .Where(x => x.Any(x => x.Item2 is not ToolkitSampleMultiChoiceOptionAttribute)) // Exclude Multichoice.
                                                                                              .Where(x => x.Count() > 1)); // Options grouped by name should only contain 1 item.
 
         foreach (var item in generatedOptionsWithDuplicateName)
@@ -245,9 +258,7 @@ public static class ToolkitSampleRegistry
 {{
     public static System.Collections.Generic.Dictionary<string, {typeof(ToolkitSampleMetadata).FullName}> Listing
     {{ get; }} = new() {{
-        {
-        string.Join(",\n        ", sampleMetadata.Select(MetadataToRegistryCall).ToArray())
-    }
+        {string.Join(",\n        ", sampleMetadata.Select(MetadataToRegistryCall).ToArray())}
     }};
 }}";
     }
