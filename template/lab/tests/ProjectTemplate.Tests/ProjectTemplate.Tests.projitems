@@ -10,5 +10,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleProjectTemplateTestClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExampleProjectTemplateTestPage.xaml.cs">
+      <DependentUpon>ExampleProjectTemplateTestPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)ExampleProjectTemplateTestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>
