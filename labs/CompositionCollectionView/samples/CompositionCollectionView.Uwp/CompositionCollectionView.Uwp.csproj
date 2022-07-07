@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
+  <PropertyGroup>
+    <RootNamespace>CompositionCollectionView.Uwp</RootNamespace>
+    <AssemblyName>CompositionCollectionView.Uwp</AssemblyName>
+    <ProjectGuid>{052083DA-908D-40A3-AD89-DCD26450A34C}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CompositionCollectionView.csproj">
+      <Project>{30FD6398-9706-434D-8A23-088E2AAEDD11}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.CompositionCollectionView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompositionCollectionView.Sample\CompositionCollectionView.Sample.csproj">
+      <Project>{B521DDDD-EC8E-4BF8-B15F-AAD7E430A5CB}</Project>
+      <Name>CompositionCollectionView.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
