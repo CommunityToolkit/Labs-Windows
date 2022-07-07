@@ -54,7 +54,6 @@ public sealed partial class Shell : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         NavigationFrame.Navigated += NavigationFrameOnNavigated;
-        NavView.BackRequested += this.NavView_BackRequested;
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
         SetupNavigationMenu();
         base.OnNavigatedTo(e);
@@ -110,11 +109,6 @@ public sealed partial class Shell : Page
         }
     }
 
-
-    private void NavView_BackRequested(NavigationView sender, MUXC.NavigationViewBackRequestedEventArgs args)
-    {
- 
-    }
     public void NavigateToSample(ToolkitFrontMatter? sample)
     {
         if (sample is null)
