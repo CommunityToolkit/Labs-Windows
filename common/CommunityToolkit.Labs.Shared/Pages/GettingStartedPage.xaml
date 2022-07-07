@@ -146,6 +146,7 @@
                 <Button Margin="0,16,0,0"
                         Content="Button"
                         Style="{StaticResource AccentButtonStyle}" />
+                <HyperlinkButton Content="Button" Style="{StaticResource AccentHyperlinkButtonStyle}" />
             </StackPanel>
         </Grid>
     </Grid>

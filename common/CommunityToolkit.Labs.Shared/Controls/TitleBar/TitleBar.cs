@@ -92,7 +92,7 @@ public sealed class TitleBar : Control
     {
 
 #if !WINAPPSDK
-        //Window.Current.SetTitleBar(_dragRegion);
+        Window.Current.SetTitleBar(_dragRegion);
 #else
 //        Window window = App.MainWindow;
 //window.SetTitleBar(_dragRegion);

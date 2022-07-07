@@ -23,6 +23,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TitleBar\TitleBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DocOrSampleTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationViewHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml.cs">
       <DependentUpon>GettingStartedPage.xaml</DependentUpon>
     </Compile>

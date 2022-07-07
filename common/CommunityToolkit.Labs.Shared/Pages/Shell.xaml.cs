@@ -30,6 +30,7 @@ using NavigationViewItemSeparator = Microsoft.UI.Xaml.Controls.NavigationViewIte
 using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 using CommunityToolkit.Labs.Shared.Renderers;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
+using CommunityToolkit.Labs.Shared.Helpers;
 
 namespace CommunityToolkit.Labs.Shared.Pages;
 
@@ -53,21 +54,52 @@ public sealed partial class Shell : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         NavigationFrame.Navigated += NavigationFrameOnNavigated;
+        NavView.BackRequested += this.NavView_BackRequested;
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
-        
+        SetupNavigationMenu();
+        base.OnNavigatedTo(e);
+    }
+
+
+    private void SetupNavigationMenu()
+    {
         if (samplePages is not null)
         {
-            var categories = GenerateSampleNavItemTree(samplePages);
             NavView.MenuItems.Add(new NavigationViewItem() { Content = "Get started", Icon = new SymbolIcon() { Symbol = Symbol.Home }, Tag = "GettingStarted" });
             NavView.MenuItems.Add(new NavigationViewItemSeparator());
 
-            foreach (var item in categories)
+            // Populate menu with categories, subcategories and samples
+            foreach (var item in NavigationViewHelper.GenerateNavItemTree(samplePages))
                 NavView.MenuItems.Add(item);
 
             NavView.SelectedItem = NavView.MenuItems[0];
+            NavigationFrame.Navigate(typeof(GettingStartedPage), samplePages);
         }
-       
-        base.OnNavigatedTo(e);
+    }
+
+    private void NavView_ItemInvoked(NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs args)
+    {
+        var selectedItem = ((NavigationViewItem)args.InvokedItemContainer);
+
+        if (args.IsSettingsInvoked)
+        {
+            if (NavigationFrame.CurrentSourcePageType != typeof(SettingsPage))
+            {
+                NavigationFrame.Navigate(typeof(SettingsPage));
+            }
+        }
+        // Check if Getting Started page
+        else if (selectedItem.Tag != null && selectedItem.Tag.GetType() == typeof(string))
+        {
+            NavigationFrame.Navigate(typeof(GettingStartedPage), samplePages);
+        }
+        else
+        {
+            var selectedMetadata = selectedItem.Tag as ToolkitFrontMatter;
+            if (selectedMetadata is null)
+                return;
+            NavigationFrame.Navigate(typeof(ToolkitDocumentationRenderer), selectedMetadata);
+        }
     }
 
     private void TitleBar_BackButtonClick(object sender, RoutedEventArgs e)
@@ -78,33 +110,14 @@ public sealed partial class Shell : Page
         }
     }
 
-    private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs e)
-    {
-        var selected = (NavigationViewItem)e.SelectedItem;
-        var selectedMetadata = selected.Tag as ToolkitFrontMatter;
-        if (e.IsSettingsSelected)
-        {
-            if (NavigationFrame.CurrentSourcePageType != typeof(SettingsPage))
-            {
-                NavigationFrame.Navigate(typeof(SettingsPage));
-            }
-        }
-        // Check if Getting Started page
-        else if (selected.Tag != null && selected.Tag.GetType() == typeof(string))
-        {
-            NavigationFrame.Navigate(typeof(GettingStartedPage), samplePages);
-        }
-        else
-        {
-            if (selectedMetadata is null)
-                return;
-            NavigateToSample(selectedMetadata);
-        }
-    }
 
+    private void NavView_BackRequested(NavigationView sender, MUXC.NavigationViewBackRequestedEventArgs args)
+    {
+ 
+    }
     public void NavigateToSample(ToolkitFrontMatter? sample)
     {
-        if (sample == null)
+        if (sample is null)
         {
             NavigationFrame.Navigate(typeof(GettingStartedPage), samplePages);
         }
@@ -112,86 +125,69 @@ public sealed partial class Shell : Page
         {
             NavigationFrame.Navigate(typeof(ToolkitDocumentationRenderer), sample);
         }
+
+        EnsureNavigationSelection(sample?.FilePath);
     }
 
     private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
     {
+        NavView.IsBackEnabled = NavigationFrame.CanGoBack;
         titleBar.IsBackButtonVisible = NavigationFrame.CanGoBack;
-    }
 
-    private IEnumerable<NavigationViewItem> GenerateSampleNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
-    {
-        // Make categories
-        var categoryData = GenerateCategoryNavItems(sampleMetadata);
-
-        foreach (var navData in categoryData)
+        // Update the NavigationViewControl selection indicator
+        if (navigationEventArgs.NavigationMode == NavigationMode.Back)
         {
-            // Make subcategories
-            var subcategoryData = GenerateSubcategoryNavItems(navData.SampleMetadata ?? Enumerable.Empty<ToolkitFrontMatter>());
-
-            foreach (var subcategoryItemData in subcategoryData)
+            if (navigationEventArgs.SourcePageType == typeof(GettingStartedPage))
             {
-                // Make samples
-                var sampleNavigationItems = GenerateSampleNavItems(subcategoryItemData.SampleMetadata ?? Enumerable.Empty<ToolkitFrontMatter>());
-
-                foreach (var item in sampleNavigationItems)
-                {
-                    // Add sample to subcategory
-                    subcategoryItemData.NavItem.MenuItems.Add(item);
-                }
-
-                // Add subcategory to category
-                navData.NavItem.MenuItems.Add(subcategoryItemData.NavItem);
+                NavView.SelectedItem = NavView.MenuItems[0];
             }
-
-            // Return category
-            yield return navData.NavItem;
-        }
-    }
-
-    private IEnumerable<NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
-    {
-        foreach (var metadata in sampleMetadata)
-        {
-            yield return new NavigationViewItem
+            else if (navigationEventArgs.SourcePageType == typeof(SettingsPage))
             {
-                Content = metadata.Title,
-                Icon = new BitmapIcon() { ShowAsMonochrome = false, UriSource = new Uri("ms-appx:///Assets/Images/ConnectedAnimation.png") }, // TO DO: This is probably a property we need to add to ToolkitFrontMatter?
-                Tag = metadata,
-            };
-        }
-    }
-
-    private IEnumerable<GroupNavigationItemData> GenerateSubcategoryNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
-    {
-        var samplesBySubcategory = sampleMetadata.GroupBy(x => x.Subcategory);
-
-        foreach (var subcategoryGroup in samplesBySubcategory)
-        {
-            yield return new GroupNavigationItemData(new NavigationViewItem
+                NavView.SelectedItem = NavView.SettingsItem;
+            }
+            else if (navigationEventArgs.Parameter.GetType() == typeof(ToolkitFrontMatter))
             {
-                Content = subcategoryGroup.Key,
-                SelectsOnInvoked = false,
-            }, subcategoryGroup.ToArray());
+
+                EnsureNavigationSelection(((ToolkitFrontMatter)navigationEventArgs.Parameter).FilePath);
+            }
         }
     }
 
-    private IEnumerable<GroupNavigationItemData> GenerateCategoryNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+
+
+
+    public void EnsureNavigationSelection(string? FilePath)
     {
-        var samplesByCategory = sampleMetadata.GroupBy(x => x.Category);
-
-        foreach (var categoryGroup in samplesByCategory)
+        foreach (object rawCategory in this.NavView.MenuItems)
         {
-            yield return new GroupNavigationItemData(new NavigationViewItem
+            // Categorie = group
+            if (rawCategory is NavigationViewItem category)
             {
-                Content = categoryGroup.Key,
-                Icon = new SymbolIcon() { Symbol = Symbol.Keyboard }, // TO DO: Helper that checks what icon belongs to what Category enum
-                SelectsOnInvoked = false,
-            }, categoryGroup.ToArray());
+                foreach (object rawSubcategory in category.MenuItems)
+                {
+                    // item is subcategory
+                    if (rawSubcategory is NavigationViewItem subcategory)
+                    {
+                        foreach (object rawSample in subcategory.MenuItems)
+                        {
+                            if (rawSample is NavigationViewItem sample)
+                            {
+                                if (sample.Tag != null)
+                                {
+                                    if (((ToolkitFrontMatter)sample.Tag).FilePath == FilePath) // TO DO: file path is unique and works for now, but do we need a SampleID of some sorts?
+                                    {
+                                        category.IsExpanded = true;
+                                        subcategory.IsExpanded = true;
+                                        NavView.SelectedItem = sample;
+                                        sample.IsSelected = true;
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
-
-    /// <param name="NavItem">A navigation item to contain items in this group.</param>
-    /// <param name="SampleMetadata">The samples that belong under <see cref="NavItem"/>.</param>
-    private record GroupNavigationItemData(NavigationViewItem NavItem, IEnumerable<ToolkitFrontMatter> SampleMetadata);
 }
