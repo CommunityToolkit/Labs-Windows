@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 
-
 // A control to show a Fluent titlebar
 
 namespace CommunityToolkit.Labs.Shared.Controls;
@@ -16,7 +15,7 @@ namespace CommunityToolkit.Labs.Shared.Controls;
 [TemplateVisualState(Name = "Collapsed", GroupName = "BackButtonStates")]
 [TemplatePart(Name = PartIconPresenter, Type = typeof(Button))]
 [TemplatePart(Name = PartDragRegionPresenter, Type = typeof(Grid))]
-public sealed class TitleBar : Control
+public sealed partial class TitleBar : Control
 {
     private const string PartDragRegionPresenter = "PART_DragRegion";
     private const string PartIconPresenter = "PART_BackButton";
@@ -91,7 +90,7 @@ public sealed class TitleBar : Control
     private void SetTitleBar()
     {
 
-#if !WINAPPSDK
+#if WINDOWS_UWP
         Window.Current.SetTitleBar(_dragRegion);
 #else
 //        Window window = App.MainWindow;

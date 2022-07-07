@@ -14,7 +14,6 @@ namespace CommunityToolkit.Labs.Shared.Helpers;
 
 public static class NavigationViewHelper
 {
-
     public static IEnumerable<NavigationViewItem> GenerateNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
     {
         // Make categories

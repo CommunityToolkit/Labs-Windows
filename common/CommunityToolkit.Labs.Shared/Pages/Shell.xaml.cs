@@ -154,12 +154,10 @@ public sealed partial class Shell : Page
     {
         foreach (object rawCategory in this.NavView.MenuItems)
         {
-            // Categorie = group
             if (rawCategory is NavigationViewItem category)
             {
                 foreach (object rawSubcategory in category.MenuItems)
                 {
-                    // item is subcategory
                     if (rawSubcategory is NavigationViewItem subcategory)
                     {
                         foreach (object rawSample in subcategory.MenuItems)
