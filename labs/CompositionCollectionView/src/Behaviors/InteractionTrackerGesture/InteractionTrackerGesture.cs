@@ -1,3 +1,7 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -66,14 +70,14 @@ public abstract class InteractionTrackerGesture<TId>
     //Disabling a gesture prevents it from processing tracker updates immediately, it can't be undone
     public void Disable() => _isDisabled = true;
 
-    internal void PauseAnimation()
+    public void PauseAnimation()
     {
         var visual = ElementCompositionPreview.GetElementVisual(PreviewControl);
         visual.StopAnimation(TransformMatrix);
         visual.StopAnimation(Opacity);
     }
 
-    internal void Restart()
+    public void Restart()
     {
         var visual = ElementCompositionPreview.GetElementVisual(PreviewControl);
 

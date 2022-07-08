@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>CommunityToolkit.ExpressionAnimations.Fork</id>
+    <version>0.0.3</version>
+    <title>CommunityToolkit.ExpressionAnimations.Fork</title>
+    <authors>arcadiog</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>Private fork of the ExpressionAnimations feature from the CommunityToolkit</description>
+    <copyright>$copyright$</copyright>
+      <references>
+    <group targetFramework="uap10.0">
+        <reference file="ExpressionsFork.dll" />
+    </group>
+</references>
+  </metadata>
+  <files>
+      <file src="bin\x64\Release\ExpressionsFork.dll" target="runtimes\win10-x64"/>
+      <file src="bin\x64\Release\ExpressionsFork.pdb" target="runtimes\win10-x64"/>
+      <file src="bin\x64\Release\ExpressionsFork.pri" target="runtimes\win10-x64"/>
+
+      <file src="bin\x86\Release\ExpressionsFork.dll" target="runtimes\win10-x86"/>
+      <file src="bin\x86\Release\ExpressionsFork.pdb" target="runtimes\win10-x86"/>
+      <file src="bin\x86\Release\ExpressionsFork.pri" target="runtimes\win10-x86"/>
+
+      <file src="bin\ARM64\Release\ExpressionsFork.dll" target="runtimes\win10-arm64"/>
+      <file src="bin\ARM64\Release\ExpressionsFork.pdb" target="runtimes\win10-arm64"/>
+      <file src="bin\ARM64\Release\ExpressionsFork.pri" target="runtimes\win10-arm64"/>
+
+      <file src="bin\Release\ExpressionsFork.dll" target="ref\uap10.0"/>
+      <file src="bin\Release\ExpressionsFork.dll" target="lib\uap10.0"/>
+      <file src="bin\Release\ExpressionsFork.pdb" target="lib\uap10.0"/>
+      <file src="bin\Release\ExpressionsFork.pri" target="lib\uap10.0"/>
+  </files>
+</package>

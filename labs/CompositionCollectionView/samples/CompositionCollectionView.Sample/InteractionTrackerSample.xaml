@@ -1,13 +1,10 @@
-<Page x:Class="CompositionCollectionView.Sample.CompositionCollectionViewFirstSamplePage"
+<Page x:Class="CompositionCollectionView.Sample.InteractionTrackerSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:CompositionCollectionView.Sample"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:compositioncollectionview="using:CommunityToolkit.Labs.WinUI.CompositionCollectionView"
-      mc:Ignorable="d">
-
-    <StackPanel>
-        <Button Click="Button_Click_Add" Margin="10">Add element</Button>
-        <compositioncollectionview:CompositionCollectionView x:Name="compositionCollectionView" Width="600" Height="200"/>
-    </StackPanel>
+      mc:Ignorable="d"
+      HorizontalAlignment="Stretch">
+    <compositioncollectionview:CompositionCollectionView x:Name="compositionCollectionView" Height="200" Width="600"/>
 </Page>

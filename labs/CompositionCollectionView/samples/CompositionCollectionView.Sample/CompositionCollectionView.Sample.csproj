@@ -1,6 +1,9 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+  <PropertyGroup>
+    <Nullable>warnings</Nullable>
+  </PropertyGroup>
 
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
@@ -21,11 +24,37 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="CompositionCollectionView.md" />
+    <None Remove="InteractionTrackerSample.xaml" />
+    <None Remove="SwitchLayoutsSample.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="CompositionCollectionView.md" />
+    <Content Remove="InteractionTrackerSample.xaml.cs" />
+    <Content Remove="InteractionTrackerSample.xaml" />
+    <Content Remove="SwitchLayoutsSample - Copy.xaml.cs" />
+    <Content Remove="SwitchLayoutsSample.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="InteractionTrackerSample.xaml" />
+    <UpToDateCheckInput Remove="SwitchLayoutsSample.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CompositionCollectionView.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="SwitchLayoutsSample - Copy.xaml.cs">
+      <DependentUpon>SwitchLayoutsSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="SwitchLayoutsSample.xaml.cs">
+      <DependentUpon>SwitchLayoutsSample.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="InteractionTrackerSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SwitchLayoutsSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

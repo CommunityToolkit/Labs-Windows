@@ -1,3 +1,7 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 #nullable enable
 using System;
 using System.Collections;
@@ -37,7 +41,7 @@ namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
 
         public void UpdateSource<TId>(IEnumerable<(TId id, Action<CompositionPropertySet, Dictionary<string, object?>> populateProperties)> source, Action? updateCallback = null)
         {
-            .if (_contentPanel is not null)
+            if (_contentPanel is not null)
             {
                 (_layout as Layout<TId>)?.UpdateSource(source, updateCallback);
             }
