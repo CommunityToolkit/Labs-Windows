@@ -33,7 +33,7 @@ param(
 )
 
 Write-Output "Use 'Help .\ApplyXamlStyling.ps1' for more info or '-Main' to run against all files."
-Write-Output
+Write-Output ""
 Write-Output "Restoring dotnet tools..."
 dotnet tool restore
 
