@@ -23,26 +23,35 @@
               CornerRadius="0,0,0,0">
 
             <FlipView x:Name="Gallery"
-                      Height="360"
+                      Height="400"
                       CornerRadius="0,0,0,0">
                 <FlipViewItem>
                     <Grid>
                         <Image x:Name="headerImage"
                                HorizontalAlignment="Center"
-                               Source="ms-appx:///Assets/Images/Wallpaper1.png"
+                               Source="ms-appx:///Assets/Images/LabsHeaderImage.png"
                                Stretch="UniformToFill" />
                         <Grid>
                             <StackPanel Margin="40,-40,0,20"
                                         VerticalAlignment="Center"
                                         Orientation="Vertical"
                                         Spacing="4">
-                                <TextBlock Foreground="White"
-                                           Style="{StaticResource TitleTextBlockStyle}"
-                                           Text="Windows Community Toolkit 8.0" />
-                                <TextBlock Foreground="White"
+                                <TextBlock FontWeight="SemiBold"
+                                           Foreground="Black"
+                                           Text="Windows Community" />
+                                <TextBlock FontSize="36"
+                                           FontWeight="SemiBold"
+                                           Foreground="Black"
+                                           Text="Toolkit Labs" />
+                                <Rectangle Width="80"
+                                           Height="1"
+                                           Margin="0,16,0,16"
+                                           HorizontalAlignment="Left"
+                                           Fill="Black" />
+                                <TextBlock Foreground="Black"
                                            Opacity="0.8"
                                            Style="{StaticResource BodyTextBlockStyle}"
-                                           Text="A collection of helpers, extensions, and custom controls to create great Windows apps"
+                                           Text="A new way to contribute.."
                                            Visibility="Visible" />
                                 <Button Margin="0,12,0,0"
                                         Content="See what's new in 8.0" />
