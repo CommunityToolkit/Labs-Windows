@@ -54,7 +54,8 @@
                                            Text="A new way to contribute.."
                                            Visibility="Visible" />
                                 <Button Margin="0,12,0,0"
-                                        Content="See what's new in 8.0" />
+                                        Content="Learm more about Labs"
+                                        RequestedTheme="Light" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -63,7 +64,9 @@
 
             <Grid Height="64"
                   VerticalAlignment="Bottom"
-                  Background="{ThemeResource SystemChromeMediumColor}">
+                  Background="{ThemeResource ControlFillColorDefaultBrush}"
+                  BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
+                  BorderThickness="0,0,0,1">
                 <!--  TO DO: Acrylic is not support in this way for WAS, and not for Uno  -->
                 <!--<Grid.Background>
                     <AcrylicBrush BackgroundSource="Backdrop"
@@ -76,6 +79,7 @@
 
 
                     <Button Margin="0,0,0,0"
+                            RequestedTheme="Light"
                             Style="{StaticResource SubtleButtonStyle}">
                         <StackPanel Orientation="Horizontal">
                             <PathIcon Margin="-3"
@@ -97,6 +101,7 @@
                     </Button>
 
                     <Button Margin="0,0,0,0"
+                            RequestedTheme="Light"
                             Style="{StaticResource SubtleButtonStyle}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon FontSize="16"
