@@ -55,6 +55,7 @@
                                            Visibility="Visible" />
                                 <HyperlinkButton Margin="0,12,0,0"
                                                  Content="Learm more about Labs"
+                                                 NavigateUri="https://aka.ms/toolkit/labs/windows"
                                                  RequestedTheme="Light"
                                                  Style="{StaticResource CustomHyperlinkButtonStyle}" />
                             </StackPanel>
