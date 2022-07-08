@@ -99,6 +99,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\AutoSuggestBox.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ConnectedAnimation.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\LabsHeaderImage.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\LabsIcon.png" />

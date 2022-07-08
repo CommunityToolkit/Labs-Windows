@@ -43,7 +43,7 @@
                 <Image x:Name="gridImage"
                        Width="48"
                        VerticalAlignment="Center"
-                       Source="ms-appx:///Assets/Images/ConnectedAnimation.png"
+                       Source="ms-appx:///Assets/Images/AutoSuggestBox.png"
                        Stretch="Uniform" />
             </Grid>
 

@@ -52,7 +52,7 @@ public static class NavigationViewHelper
             yield return new NavigationViewItem
             {
                 Content = metadata.Title,
-                Icon = new BitmapIcon() { ShowAsMonochrome = false, UriSource = new Uri("ms-appx:///Assets/Images/ConnectedAnimation.png") }, // TO DO: This is probably a property we need to add to ToolkitFrontMatter?
+                Icon = new BitmapIcon() { ShowAsMonochrome = false, UriSource = new Uri("ms-appx:///Assets/Images/AutoSuggestBox.png") }, // TO DO: This is probably a property we need to add to ToolkitFrontMatter?
                 Tag = metadata,
             };
         }
