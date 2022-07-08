@@ -18,6 +18,30 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LayoutVisualStates">
+                <VisualState x:Name="WideLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint840Plus}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters />
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="controlsGridView.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="descriptionPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="descriptionPanel.(Grid.Row)" Value="1" />
+                        <!--<Setter Target="descriptionPanel.HorizontalAligment" Value="Left" />-->
+
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid x:Name="HeaderGrid"
               Margin="0,0,0,0"
               CornerRadius="0,0,0,0">
@@ -131,35 +155,45 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1"
-              Margin="40,40,40,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Row="1">
 
-            <GridView x:Name="controlsGridView"
-                      Grid.Row="1"
-                      IsItemClickEnabled="True"
-                      ItemClick="controlsGridView_ItemClick"
-                      ItemTemplate="{StaticResource ControlItemTemplate}"
-                      SelectionMode="None">
+            <Grid Margin="40,40,40,40"
+                  ColumnSpacing="24"
+                  RowSpacing="36">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                <GridView.Header>
+                <GridView x:Name="controlsGridView"
+                          IsItemClickEnabled="True"
+                          ItemClick="controlsGridView_ItemClick"
+                          ItemTemplate="{StaticResource ControlItemTemplate}"
+                          SelectionMode="None">
+
+                    <GridView.Header>
+                        <TextBlock Margin="0,0,0,16"
+                                   Style="{StaticResource SubtitleTextBlockStyle}"
+                                   Text="Current experiments in Labs" />
+                    </GridView.Header>
+                </GridView>
+
+                <StackPanel x:Name="descriptionPanel"
+                            Grid.Column="1"
+                            Width="360"
+                            HorizontalAlignment="Left"
+                            Orientation="Vertical">
                     <TextBlock Margin="0,0,0,12"
                                Style="{StaticResource SubtitleTextBlockStyle}"
-                               Text="Current experiments in Labs" />
-                </GridView.Header>
-            </GridView>
-            <StackPanel Grid.Column="1"
-                        Width="360"
-                        Orientation="Vertical">
-                <TextBlock Margin="0,0,0,12"
-                           Style="{StaticResource SubtitleTextBlockStyle}"
-                           Text="What is Toolkit Labs?" />
-                <TextBlock Text="Toolkit Labs for Windows is the new starting place for all new features for the Windows Community Toolkit. It is meant to be a safe space to collaborate and engineer solutions from the prototyping stage all the way through polished finalized component."
-                           TextWrapping="WrapWholeWords" />
-            </StackPanel>
-        </Grid>
+                               Text="About Toolkit Labs" />
+                    <TextBlock Text="Toolkit Labs for Windows is the new starting place for all new features for the Windows Community Toolkit. It is meant to be a safe space to collaborate and engineer solutions from the prototyping stage all the way through polished finalized component."
+                               TextWrapping="WrapWholeWords" />
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
