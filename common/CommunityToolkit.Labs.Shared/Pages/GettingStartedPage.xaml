@@ -53,9 +53,10 @@
                                            Style="{StaticResource BodyTextBlockStyle}"
                                            Text="A new way to contribute.."
                                            Visibility="Visible" />
-                                <Button Margin="0,12,0,0"
-                                        Content="Learm more about Labs"
-                                        RequestedTheme="Light" />
+                                <HyperlinkButton Margin="0,12,0,0"
+                                                 Content="Learm more about Labs"
+                                                 RequestedTheme="Light"
+                                                 Style="{StaticResource CustomHyperlinkButtonStyle}" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -157,11 +158,6 @@
                            Text="What is Toolkit Labs?" />
                 <TextBlock Text="Toolkit Labs for Windows is the new starting place for all new features for the Windows Community Toolkit. It is meant to be a safe space to collaborate and engineer solutions from the prototyping stage all the way through polished finalized component."
                            TextWrapping="WrapWholeWords" />
-                <Button Margin="0,16,0,0"
-                        Content="Button"
-                        Style="{StaticResource AccentButtonStyle}" />
-                <HyperlinkButton Content="Button"
-                                 Style="{StaticResource AccentHyperlinkButtonStyle}" />
             </StackPanel>
         </Grid>
     </Grid>
