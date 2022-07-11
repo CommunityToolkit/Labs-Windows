@@ -64,7 +64,7 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
         [TestMethod]
         public Task {methodSymbol.Name}_Test()
         {{
-            return EnqueueAsync(async () => {{
+            return EnqueueAsync({(isAsync || controlTypeSymbol is not null ? "async " : string.Empty)}() => {{
                 {(controlTypeSymbol is not null ? @$"
                 // Create content
                 var testControl = new {controlTypeSymbol.GetFullyQualifiedName()}();
