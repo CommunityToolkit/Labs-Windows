@@ -31,6 +31,7 @@ using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.Navig
 using CommunityToolkit.Labs.Shared.Renderers;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using CommunityToolkit.Labs.Shared.Helpers;
+using Microsoft.UI.Xaml.Controls;
 
 namespace CommunityToolkit.Labs.Shared.Pages;
 
@@ -55,6 +56,7 @@ public sealed partial class Shell : Page
     {
         NavigationFrame.Navigated += NavigationFrameOnNavigated;
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
+        SetBackground();
         SetupNavigationMenu();
         base.OnNavigatedTo(e);
     }
@@ -147,9 +149,6 @@ public sealed partial class Shell : Page
         }
     }
 
-
-
-
     public void EnsureNavigationSelection(string? FilePath)
     {
         foreach (object rawCategory in this.NavView.MenuItems)
@@ -181,5 +180,15 @@ public sealed partial class Shell : Page
                 }
             }
         }
+    }
+
+    private void SetBackground()
+    {
+#if !WINAPPSDK
+        BackdropMaterial.SetApplyToRootOrPageBackground(this, true);
+#else
+        // TO DO: SET MICA THE WINAPPSDK WAY, FALLING BACK TO DEFAULT BACKGROUND FOR NOW
+        this.Background =  (SolidColorBrush)Resources["BackgroundColorBrush"];
+#endif
     }
 }

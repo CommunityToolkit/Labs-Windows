@@ -187,12 +187,14 @@
         </Setter>
     </Style>
 
+    <!--  THIS XAML IS FROM WINUI TITLEBAR EXPERIMENT  -->
     <Style TargetType="local:TitleBar">
         <Setter Property="Height" Value="32" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:TitleBar">
-                    <Grid Height="{TemplateBinding Height}">
+                    <Grid Height="{TemplateBinding Height}"
+                          Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="LeftPaddingColumn"
                                               Width="0" />
@@ -252,8 +254,7 @@
 
                             <Grid x:Name="PART_DragRegion"
                                   Grid.Column="1"
-                                  Grid.ColumnSpan="3"
-                                  Background="Transparent" />
+                                  Grid.ColumnSpan="3" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>

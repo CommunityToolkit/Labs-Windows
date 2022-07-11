@@ -89,12 +89,15 @@ public sealed partial class TitleBar : Control
 
     private void SetTitleBar()
     {
-
-#if WINDOWS_UWP
+#if !WINAPPSDK
+        Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         Window.Current.SetTitleBar(_dragRegion);
 #else
-//        Window window = App.MainWindow;
-//window.SetTitleBar(_dragRegion);
+        Window window = App.currentWindow;
+        window.ExtendsContentIntoTitleBar = true;
+        window.SetTitleBar(_dragRegion);
+
+        // TO DO: BACKGROUND IS NOT TRANSPARENT
 #endif
     }
 }

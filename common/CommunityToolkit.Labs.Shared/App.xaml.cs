@@ -12,7 +12,7 @@ public sealed partial class App : Application
     // MacOS and iOS don't know the correct type without a full namespace declaration, confusing it with NSWindow and UIWindow.
     // Using static will not work.
 #if WINAPPSDK
-    private static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
+    public static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
 #else
     private static Windows.UI.Xaml.Window currentWindow = Windows.UI.Xaml.Window.Current;
 #endif
@@ -70,7 +70,7 @@ public sealed partial class App : Application
     private void SetTitleBar()
     {
 #if !WINAPPSDK
-        Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+      
         var viewTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
         viewTitleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
         viewTitleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
