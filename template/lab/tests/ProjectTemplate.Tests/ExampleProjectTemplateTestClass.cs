@@ -85,7 +85,7 @@ public partial class ExampleProjectTemplateTestClass : VisualUITestBase
     [TestMethod]
     public async Task ComplexAsyncUIExampleTest()
     {
-        await App.DispatcherQueue.EnqueueAsync(() =>
+        await EnqueueAsync(() =>
         {
             var component = new ProjectTemplate_ClassicBinding();
             Assert.IsNotNull(component);
@@ -97,7 +97,7 @@ public partial class ExampleProjectTemplateTestClass : VisualUITestBase
     [TestMethod]
     public async Task ComplexAsyncLoadUIExampleTest()
     {
-        await App.DispatcherQueue.EnqueueAsync(async () =>
+        await EnqueueAsync(async () =>
         {
             var component = new ProjectTemplate_ClassicBinding();
             Assert.IsNotNull(component);
