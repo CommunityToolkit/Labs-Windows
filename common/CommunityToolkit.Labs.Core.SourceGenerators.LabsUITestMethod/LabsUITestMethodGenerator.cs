@@ -36,11 +36,8 @@ public class LabsUITestMethodGenerator : IIncrementalGenerator
             
             .Where(static item => item.Attribute is not null && item.Symbol is IMethodSymbol)
             .Select(static (x, _) => (IMethodSymbol)x.Symbol)
-            
-            .Select(static (x, _) => (MethodSymbol: x, ControlTypeSymbol: GetControlTypeSymbolFromMethodParameters(x)))
 
-            .Where(static x => x.ControlTypeSymbol is not null)
-            .Select(static (x, _) => (x.MethodSymbol, ControlTypeSymbol: x.ControlTypeSymbol!));
+            .Select(static (x, _) => (MethodSymbol: x, ControlTypeSymbol: GetControlTypeSymbolFromMethodParameters(x)));
 
         // Generate source
         context.RegisterSourceOutput(methodAndPageTypeSymbols, (x, y) => GenerateTestMethod(x, y.MethodSymbol, y.ControlTypeSymbol));

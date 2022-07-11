@@ -91,7 +91,15 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+
+        Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
+        // To do, should probably inspect tree more directly.
+        var generatedSource = result.GeneratedTrees.First().ToString();
+        Assert.IsTrue(generatedSource.Contains("await LoadTestContentAsync(testControl);"), "Didn't see expected loading call.");
+        Assert.IsTrue(generatedSource.Contains("await UnloadTestContentAsync(testControl);"), "Didn't see expected unloading call.");
+        Assert.IsTrue(generatedSource.Contains("var testControl = new global::MyApp.MyControl();"), "Didn't see expected creation of test control.");
+        Assert.IsTrue(generatedSource.Contains("await TestMethod(testControl);"), "Didn't see expected running of test.");
     }
 
     [TestMethod]
@@ -124,7 +132,15 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+
+        Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
+        // To do, should probably inspect tree more directly.
+        var generatedSource = result.GeneratedTrees.First().ToString();
+        Assert.IsTrue(generatedSource.Contains("await LoadTestContentAsync(testControl);"), "Didn't see expected loading call.");
+        Assert.IsTrue(generatedSource.Contains("await UnloadTestContentAsync(testControl);"), "Didn't see expected unloading call.");
+        Assert.IsTrue(generatedSource.Contains("var testControl = new global::MyApp.MyControl();"), "Didn't see expected creation of test control.");
+        Assert.IsTrue(generatedSource.Contains("await TestMethod(testControl);"), "Didn't see expected running of test.");
     }
 
     [TestMethod]
@@ -145,7 +161,14 @@ namespace MyApp
                 }
             }";
 
-        VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+
+        Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
+        // To do, should probably inspect tree more directly.
+        var generatedSource = result.GeneratedTrees.First().ToString();
+        Assert.IsFalse(generatedSource.Contains("await LoadTestContentAsync"), "Saw a loading call.");
+        Assert.IsFalse(generatedSource.Contains("await UnloadTestContentAsync"), "Saw an unloading call.");
+        Assert.IsTrue(generatedSource.Contains("await TestMethod();"), "Didn't see expected running of test.");
     }
 
     [TestMethod]
@@ -178,7 +201,15 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+
+        Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
+        // To do, should probably inspect tree more directly.
+        var generatedSource = result.GeneratedTrees.First().ToString();
+        Assert.IsTrue(generatedSource.Contains("await LoadTestContentAsync(testControl);"), "Didn't see expected loading call.");
+        Assert.IsTrue(generatedSource.Contains("await UnloadTestContentAsync(testControl);"), "Didn't see expected unloading call.");
+        Assert.IsTrue(generatedSource.Contains("var testControl = new global::MyApp.MyControl();"), "Didn't see expected creation of test control.");
+        Assert.IsTrue(generatedSource.Contains("TestMethod(testControl);"), "Didn't see expected running of test.");
     }
 
     [TestMethod]
@@ -211,7 +242,15 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+
+        Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
+        // To do, should probably inspect tree more directly.
+        var generatedSource = result.GeneratedTrees.First().ToString();
+        Assert.IsTrue(generatedSource.Contains("await LoadTestContentAsync(testControl);"), "Didn't see expected loading call.");
+        Assert.IsTrue(generatedSource.Contains("await UnloadTestContentAsync(testControl);"), "Didn't see expected unloading call.");
+        Assert.IsTrue(generatedSource.Contains("var testControl = new global::MyApp.MyControl();"), "Didn't see expected creation of test control.");
+        Assert.IsTrue(generatedSource.Contains("TestMethod(testControl);"), "Didn't see expected running of test.");
     }
 
     [TestMethod]
@@ -232,7 +271,15 @@ namespace MyApp
                 }
             }";
 
-        VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<LabsUITestMethodGenerator>(source + DispatcherQueueDefinition);
+
+        Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
+        // To do, should probably inspect tree more directly.
+        var generatedSource = result.GeneratedTrees.First().ToString();
+        Assert.IsFalse(generatedSource.Contains("await LoadTestContentAsync"), "Saw a loading call.");
+        Assert.IsFalse(generatedSource.Contains("await UnloadTestContentAsync"), "Saw an unloading call.");
+        Assert.IsTrue(generatedSource.Contains("TestMethod();"), "Didn't see expected running of test.");
+        Assert.IsFalse(generatedSource.Contains("await TestMethod();"), "Sync method ran async instead.");
     }
 
     /// <summary>
@@ -242,10 +289,10 @@ namespace MyApp
     /// <param name="source">The input source to process.</param>
     /// <param name="markdown">The input documentation info to process.</param>
     /// <param name="diagnosticsIds">The diagnostic ids to expect for the input source code.</param>
-    private static void VerifyGeneratedDiagnostics<TGenerator>(string source, params string[] diagnosticsIds)
+    private static GeneratorDriverRunResult VerifyGeneratedDiagnostics<TGenerator>(string source, params string[] diagnosticsIds)
         where TGenerator : class, IIncrementalGenerator, new()
     {
-        VerifyGeneratedDiagnostics<TGenerator>(CSharpSyntaxTree.ParseText(source), diagnosticsIds);
+        return VerifyGeneratedDiagnostics<TGenerator>(CSharpSyntaxTree.ParseText(source), diagnosticsIds);
     }
 
     /// <summary>
@@ -255,7 +302,7 @@ namespace MyApp
     /// <param name="syntaxTree">The input source tree to process.</param>
     /// <param name="markdown">The input documentation info to process.</param>
     /// <param name="diagnosticsIds">The diagnostic ids to expect for the input source code.</param>
-    private static void VerifyGeneratedDiagnostics<TGenerator>(SyntaxTree syntaxTree, params string[] diagnosticsIds)
+    private static GeneratorDriverRunResult VerifyGeneratedDiagnostics<TGenerator>(SyntaxTree syntaxTree, params string[] diagnosticsIds)
         where TGenerator : class, IIncrementalGenerator, new()
     {
         var attributeType = typeof(LabsUITestMethodAttribute);
@@ -283,7 +330,7 @@ namespace MyApp
                 .Create(generator)
                 .WithUpdatedParseOptions((CSharpParseOptions)syntaxTree.Options);
 
-        _ = driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation outputCompilation, out ImmutableArray<Diagnostic> diagnostics);
+        driver = driver.RunGeneratorsAndUpdateCompilation(compilation, out Compilation outputCompilation, out ImmutableArray<Diagnostic> diagnostics);
 
         HashSet<string> resultingIds = diagnostics.Select(diagnostic => diagnostic.Id).ToHashSet();
         var generatedCompilationDiaghostics = outputCompilation.GetDiagnostics();
@@ -292,5 +339,14 @@ namespace MyApp
         Assert.IsTrue(generatedCompilationDiaghostics.All(x => x.Severity != DiagnosticSeverity.Error), $"Expected no generated compilation errors. Got: \n{string.Join("\n", generatedCompilationDiaghostics.Where(x => x.Severity == DiagnosticSeverity.Error).Select(x => $"[{x.Id}: {x.GetMessage()}]"))}");
 
         GC.KeepAlive(attributeType);
+
+        var result = driver.GetRunResult();
+
+        if (diagnosticsIds.Length == 0)
+        {
+            Assert.IsTrue(result.GeneratedTrees.Length > 0, "Generator did not produce any output!");
+        }
+
+        return result;
     }
 }
