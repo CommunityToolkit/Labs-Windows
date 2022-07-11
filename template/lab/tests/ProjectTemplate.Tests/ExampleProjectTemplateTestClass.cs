@@ -77,6 +77,8 @@ public partial class ExampleProjectTemplateTestClass : VisualUITestBase
         Assert.IsNotNull(component);
     }
 
+    //// ----------------------------- ADVANCED TEST SCENARIOS -----------------------------
+
     // If you need to use DataRow, you can use this pattern with the UI dispatch still.
     // Otherwise, checkout the LabsUITestMethod attribute above.
     // See https://github.com/CommunityToolkit/Labs-Windows/issues/186
@@ -88,5 +90,43 @@ public partial class ExampleProjectTemplateTestClass : VisualUITestBase
             var component = new ProjectTemplate_ClassicBinding();
             Assert.IsNotNull(component);
         });
+    }
+
+    // If you want to load other content not within a XAML page using the LabsUITestMethod above.
+    // Then you can do that using the Load/UnloadTestContentAsync methods.
+    [TestMethod]
+    public async Task ComplexAsyncLoadUIExampleTest()
+    {
+        await App.DispatcherQueue.EnqueueAsync(async () =>
+        {
+            var component = new ProjectTemplate_ClassicBinding();
+            Assert.IsNotNull(component);
+            Assert.IsFalse(component.IsLoaded);
+
+            await LoadTestContentAsync(component);
+
+            Assert.IsTrue(component.IsLoaded);
+
+            await UnloadTestContentAsync(component);
+
+            Assert.IsFalse(component.IsLoaded);
+        });
+    }
+
+    // You can still use the LabsUITestMethod to remove the extra layer for the dispatcher as well:
+    [LabsUITestMethod]
+    public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
+    {
+        var component = new ProjectTemplate_ClassicBinding();
+        Assert.IsNotNull(component);
+        Assert.IsFalse(component.IsLoaded);
+
+        await LoadTestContentAsync(component);
+
+        Assert.IsTrue(component.IsLoaded);
+
+        await UnloadTestContentAsync(component);
+
+        Assert.IsFalse(component.IsLoaded);
     }
 }
