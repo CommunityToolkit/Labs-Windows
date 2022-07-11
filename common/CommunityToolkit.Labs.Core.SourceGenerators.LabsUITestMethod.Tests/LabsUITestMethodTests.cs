@@ -98,6 +98,7 @@ namespace MyApp
         var generatedSource = result.GeneratedTrees.First().ToString();
         Assert.IsTrue(generatedSource.Contains("await LoadTestContentAsync(testControl);"), "Didn't see expected loading call.");
         Assert.IsTrue(generatedSource.Contains("await UnloadTestContentAsync(testControl);"), "Didn't see expected unloading call.");
+        Assert.IsTrue(generatedSource.Contains("EnqueueAsync(async () => {"), "Unexpected sync lambda in Enqueue call.");
         Assert.IsTrue(generatedSource.Contains("var testControl = new global::MyApp.MyControl();"), "Didn't see expected creation of test control.");
         Assert.IsTrue(generatedSource.Contains("await TestMethod(testControl);"), "Didn't see expected running of test.");
     }
@@ -139,6 +140,7 @@ namespace MyApp
         var generatedSource = result.GeneratedTrees.First().ToString();
         Assert.IsTrue(generatedSource.Contains("await LoadTestContentAsync(testControl);"), "Didn't see expected loading call.");
         Assert.IsTrue(generatedSource.Contains("await UnloadTestContentAsync(testControl);"), "Didn't see expected unloading call.");
+        Assert.IsTrue(generatedSource.Contains("EnqueueAsync(async () => {"), "Unexpected sync lambda in Enqueue call.");
         Assert.IsTrue(generatedSource.Contains("var testControl = new global::MyApp.MyControl();"), "Didn't see expected creation of test control.");
         Assert.IsTrue(generatedSource.Contains("await TestMethod(testControl);"), "Didn't see expected running of test.");
     }
@@ -168,6 +170,7 @@ namespace MyApp
         var generatedSource = result.GeneratedTrees.First().ToString();
         Assert.IsFalse(generatedSource.Contains("await LoadTestContentAsync"), "Saw a loading call.");
         Assert.IsFalse(generatedSource.Contains("await UnloadTestContentAsync"), "Saw an unloading call.");
+        Assert.IsTrue(generatedSource.Contains("EnqueueAsync(async () => {"), "Unexpected sync lambda in Enqueue call.");
         Assert.IsTrue(generatedSource.Contains("await TestMethod();"), "Didn't see expected running of test.");
     }
 
@@ -208,6 +211,7 @@ namespace MyApp
         var generatedSource = result.GeneratedTrees.First().ToString();
         Assert.IsTrue(generatedSource.Contains("await LoadTestContentAsync(testControl);"), "Didn't see expected loading call.");
         Assert.IsTrue(generatedSource.Contains("await UnloadTestContentAsync(testControl);"), "Didn't see expected unloading call.");
+        Assert.IsTrue(generatedSource.Contains("EnqueueAsync(async () => {"), "Unexpected sync lambda in Enqueue call.");
         Assert.IsTrue(generatedSource.Contains("var testControl = new global::MyApp.MyControl();"), "Didn't see expected creation of test control.");
         Assert.IsTrue(generatedSource.Contains("TestMethod(testControl);"), "Didn't see expected running of test.");
     }
@@ -249,6 +253,7 @@ namespace MyApp
         var generatedSource = result.GeneratedTrees.First().ToString();
         Assert.IsTrue(generatedSource.Contains("await LoadTestContentAsync(testControl);"), "Didn't see expected loading call.");
         Assert.IsTrue(generatedSource.Contains("await UnloadTestContentAsync(testControl);"), "Didn't see expected unloading call.");
+        Assert.IsTrue(generatedSource.Contains("EnqueueAsync(async () => {"), "Unexpected sync lambda in Enqueue call.");
         Assert.IsTrue(generatedSource.Contains("var testControl = new global::MyApp.MyControl();"), "Didn't see expected creation of test control.");
         Assert.IsTrue(generatedSource.Contains("TestMethod(testControl);"), "Didn't see expected running of test.");
     }
@@ -278,6 +283,7 @@ namespace MyApp
         var generatedSource = result.GeneratedTrees.First().ToString();
         Assert.IsFalse(generatedSource.Contains("await LoadTestContentAsync"), "Saw a loading call.");
         Assert.IsFalse(generatedSource.Contains("await UnloadTestContentAsync"), "Saw an unloading call.");
+        Assert.IsTrue(generatedSource.Contains("EnqueueAsync(() => {"), "Unexpected async lambda in Enqueue call.");
         Assert.IsTrue(generatedSource.Contains("TestMethod();"), "Didn't see expected running of test.");
         Assert.IsFalse(generatedSource.Contains("await TestMethod();"), "Sync method ran async instead.");
     }
