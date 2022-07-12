@@ -3,11 +3,11 @@
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
 
   <PropertyGroup>
-    <IsGtkHead>False</IsGtkHead>
-    <IsWpfHead>False</IsWpfHead>
-    <IsWpfLib>False</IsWpfLib>
-    <IsWasmHead>True</IsWasmHead>
-    <IsWasmLib>False</IsWasmLib>
+    <IsGtkHead>false</IsGtkHead>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWpfLib>false</IsWpfLib>
+    <IsWasmHead>true</IsWasmHead>
+    <IsWasmLib>false</IsWasmLib>
   </PropertyGroup>
 
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
