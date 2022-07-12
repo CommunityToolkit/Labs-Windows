@@ -12,7 +12,7 @@
 -->
 <Project>
     <!-- Uno / WinUI 3 -->
-    <ItemGroup Condition="''$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
+    <ItemGroup Condition="'$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
         <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.100-dev.15.g12261e2626" />
     </ItemGroup>
 </Project>

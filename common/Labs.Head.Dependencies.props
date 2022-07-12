@@ -12,8 +12,6 @@
     For Uno packages, see Labs.Uno.UI.Dependencies.props and Labs.Uno.WinUI.Dependencies.props.
 -->
 <Project>
-    <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props"/>
-
     <!-- UWP WinUI 2 -->
     <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' == '$(UwpTargetFramework)'">
         <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown" Version="7.1.2" />
