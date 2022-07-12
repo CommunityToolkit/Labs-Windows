@@ -9,7 +9,7 @@ category: Controls
 subcategory: Layout
 ---
 
-<!-- To know about all the available Markdown syntax, Check out https://docs.microsoft.com/en-us/contribute/markdown-reference -->
+<!-- To know about all the available Markdown syntax, Check out https://docs.microsoft.com/contribute/markdown-reference -->
 <!-- Ensure you remove all comments before submission, to ensure that there are no formatting issues when displaying this page.  -->
 <!-- It is recommended to check how the Documentation will look in the sample app, before Merging a PR -->
 <!-- **Note:** All links to other docs.microsoft.com pages should be relative without locale, i.e. for the one above would be /contribute/markdown-reference -->
@@ -24,21 +24,31 @@ For more information about this experiment see:
 TODO: Fill in information about this experiment and how to get started here...
 
 
-# Templated Controls
+## Templated Controls
+
+The Toolkit is built with templated controls. This provides developers a flexible way to restyle components
+easily while still inheriting the general functionality a control provides. The examples below show
+how a component can use a default style and then get overridden by the end developer.
+
+The `_ClassicBinding` class shows the traditional method used to develop components with best practices.
+
 ### Implict style
 
-> [!SAMPLE ProjectTemplateControlSample]
+> [!SAMPLE ProjectTemplateTemplatedSample]
 
 ### Custom style
 
-> [!SAMPLE ProjectTemplateCustomStyleSample]
+> [!SAMPLE ProjectTemplateTemplatedStyleCustomSample]
 
-# Templated Controls with x:Bind
+## Templated Controls with x:Bind
+
+This is an _experimental_ new way to define components which allows for the use of x:Bind within the style.
+
 ### Implict style
 
-> [!SAMPLE BackedProjectTemplateControlSample]
+> [!SAMPLE ProjectTemplateXbindBackedSample]
 
 ### Custom style
 
-> [!SAMPLE ProjectTemplateCustomStyleBackedSample]
+> [!SAMPLE ProjectTemplateXbindBackedStyleCustomSample]
 

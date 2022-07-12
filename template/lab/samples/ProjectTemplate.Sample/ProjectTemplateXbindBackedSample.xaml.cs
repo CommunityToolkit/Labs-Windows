@@ -14,10 +14,10 @@ namespace ProjectTemplate.Sample;
     "Sand       : #e7a676",
     "Dull green : #5d7577")]
 
-[ToolkitSample(id: nameof(ProjectTemplateCustomStyleBackedSample), "Backed templated control (restyled)", description: "A sample for showing how to create and use a templated control with a backed resource dictionary and a custom style.")]
-public sealed partial class ProjectTemplateCustomStyleBackedSample : Page
+[ToolkitSample(id: nameof(ProjectTemplateXbindBackedSample), "Backed templated control", description: "A sample for showing how to create and use a templated control with a backed resource dictionary.")]
+public sealed partial class ProjectTemplateXbindBackedSample : Page
 {
-    public ProjectTemplateCustomStyleBackedSample()
+    public ProjectTemplateXbindBackedSample()
     {
         this.InitializeComponent();
     }
