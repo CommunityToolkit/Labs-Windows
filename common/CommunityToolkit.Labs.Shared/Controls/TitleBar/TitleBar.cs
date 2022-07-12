@@ -94,8 +94,7 @@ public sealed partial class TitleBar : Control
         window.ExtendsContentIntoTitleBar = true;
         window.SetTitleBar(_dragRegion);
         // TO DO: BACKGROUND IS NOT TRANSPARENT
-#endif
-#if WINDOWS_UWP
+#elif !HAS_UNO
         Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         Window.Current.SetTitleBar(_dragRegion);
         // NOT SUPPORTED IN UNO WASM
