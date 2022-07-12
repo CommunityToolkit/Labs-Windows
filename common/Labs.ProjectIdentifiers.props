@@ -2,6 +2,11 @@
     <Import Project="Labs.TargetFrameworks.props" />
 
     <PropertyGroup>
+        <!--
+            NOTICE:
+            These properties cannot be used for selecting a PackageReference.
+            MSBuild only allows selecting a PackageReference based on a condition that uses TargetFramework directly.
+         -->
         <IsWasmHead Condition="'$(IsWasmHead)' == '' AND '$(TargetFramework)' == '$(WasmHeadTargetFramework)'">true</IsWasmHead>
         <IsWpfHead Condition="'$(IsWpfHead)' == '' AND '$(TargetFramework)' == '$(WpfHeadTargetFramework)'">true</IsWpfHead>
         <IsGtkHead Condition="'$(IsGtkHead)' == '' AND '$(TargetFramework)' == '$(LinuxHeadTargetFramework)'">true</IsGtkHead>
