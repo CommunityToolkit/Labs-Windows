@@ -6,6 +6,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       mc:Ignorable="d">
     <Page.Resources>
         <SolidColorBrush x:Key="BackgroundColorBrush"
@@ -26,7 +27,7 @@
                              ItemInvoked="NavView_ItemInvoked">
             <Frame x:Name="NavigationFrame" />
             <muxc:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox AutomationProperties.Name="Search"
+                <AutoSuggestBox win:AutomationProperties.Name="Search"
                                 PlaceholderText="Search Labs"
                                 QueryIcon="Find" />
             </muxc:NavigationView.AutoSuggestBox>

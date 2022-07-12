@@ -69,8 +69,7 @@ public sealed partial class App : Application
 
     private void SetTitleBar()
     {
-#if !WINAPPSDK
-      
+#if WINDOWS_UWP
         var viewTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
         viewTitleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
         viewTitleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;

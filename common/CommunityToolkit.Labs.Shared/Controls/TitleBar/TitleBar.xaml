@@ -4,7 +4,8 @@
                     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:local="using:CommunityToolkit.Labs.Shared.Controls"
-                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+                    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
 
     <ResourceDictionary.ThemeDictionaries>
@@ -172,7 +173,7 @@
                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                            muxc:AnimatedIcon.State="Normal"
-                                           AutomationProperties.AccessibilityView="Raw">
+                                           win:AutomationProperties.AccessibilityView="Raw">
                             <animatedvisuals:AnimatedBackVisualSource />
                             <muxc:AnimatedIcon.FallbackIconSource>
                                 <muxc:FontIconSource FontFamily="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontFamily}"
