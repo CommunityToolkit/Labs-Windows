@@ -9,7 +9,7 @@
 
     For .NET Standard packages, you can use the Nuget Package Manager in Visual Studio.
     For UWP / WinAppSDK packages (NOT Uno), place the package references here.
-    For Uno packages, see Dependencies.Uno.UI.props and Dependencies.Uno.WinUI.props.
+    For Uno packages, see Labs.Uno.UI.Dependencies.props and Labs.Uno.WinUI.Dependencies.props.
 -->
 <Project>
     <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props"/>
