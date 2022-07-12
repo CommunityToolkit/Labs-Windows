@@ -8,11 +8,11 @@
     MSBuild doesn't play nicely with this out of the box, so we've made it easy for you.
 
     For .NET Standard packages, you can use the Nuget Package Manager in Visual Studio.
-    For any Uno packages built on WinUI 2, place the package references here (even if the package is multitargeted).
+    For any Uno packages built on WinUI 3, place the package references here (even if the package is multitargeted).
 -->
 <Project>
-    <!-- Uno / WinUI 2 -->
-    <ItemGroup Condition="'$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
-        <!--<PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.11"/>-->
+    <!-- Uno / WinUI 3 -->
+    <ItemGroup Condition="''$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
+        <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.100-dev.15.g12261e2626" />
     </ItemGroup>
 </Project>

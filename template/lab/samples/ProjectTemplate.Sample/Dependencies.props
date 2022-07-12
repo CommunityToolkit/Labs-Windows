@@ -13,12 +13,12 @@
 -->
 <Project>
     <!-- UWP WinUI 2 -->
-    <ItemGroup Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'">
+    <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' == '$(UwpTargetFramework)'">
         <!--<PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.2"/>-->
     </ItemGroup>
 
     <!-- WinAppSdk WinUI 3 -->
-    <ItemGroup Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">
+    <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">
         <!--<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2"/>-->
     </ItemGroup>
 </Project>

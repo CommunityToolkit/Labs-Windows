@@ -1,16 +1,12 @@
 <!-- Common props for any deployable sample project head. -->
 <Project>
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
+
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props"/>
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props"/>
-
-  <!-- Project Head/Sample App dependencies -->
-  <ItemGroup Condition="'$(IsUwp)' == 'true' AND '$(IsWinAppSdk)' != 'true' AND '$(IsUno)' != 'true'">
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown" Version="7.1.2"/>
-  </ItemGroup>
-  
-  <ItemGroup Condition="'$(IsWinAppSdk)' == 'true' AND '$(IsUwp)' != 'true' AND '$(IsUno)' != 'true'">
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2"/>
-  </ItemGroup>
+  <Import Project="$(RepositoryDirectory)\common\Labs.Head.Dependencies.props" Condition="Exists('$(RepositoryDirectory)\common\Labs.Head.Dependencies.props')" />
 
   <!-- Shared project -->
   <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
@@ -41,7 +37,7 @@
   <PropertyGroup>
     <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
     <IsAllExperimentHead Condition="$(MSBuildProjectName.StartsWith('CommunityToolkit.Labs.')) == 'true'">true</IsAllExperimentHead>
-    <IsProjectTemplateHead Condition="$(MSBuildProjectName.StartsWith('ProjectTemplate')) == 'true'">true</IsProjectTemplateHead>
+    <IsProjectTemplateHead Condition="$(MSBuildProjectName.Contains('ProjectTemplate')) == 'true'">true</IsProjectTemplateHead>
     <IsSingleExperimentHead Condition="'$(IsAllExperimentHead)' != 'true' AND '$(IsProjectTemplateHead)' != 'true'">true</IsSingleExperimentHead>
   </PropertyGroup>
 
