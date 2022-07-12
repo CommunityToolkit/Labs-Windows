@@ -6,12 +6,15 @@
     The Apply XAML Stying Script can be used to check or modify XAML files with the repo's XAML Styler settings.
     Learn more about XAML Styler at https://github.com/Xavalon/XamlStyler
 
-    By default, unstaged files are modified only.
+    By default, uses git status to check all new or modified files.
 
     Use "PS> Help .\ApplyXamlStyling.ps1 -Full" for more details on parameters.
 
     .PARAMETER LastCommit
     Runs against last commit vs. current changes
+
+    .PARAMETER Unstaged
+    Runs against unstaged changed files
 
     .PARAMETER Staged
     Runs against staged files vs. current changes
@@ -27,20 +30,21 @@
 #>
 param(
     [switch]$LastCommit = $false,
+    [switch]$Unstaged = $false,
     [switch]$Staged = $false,
     [switch]$Main = $false,
     [switch]$Passive = $false
 )
 
 Write-Output "Use 'Help .\ApplyXamlStyling.ps1' for more info or '-Main' to run against all files."
-Write-Output
+Write-Output ""
 Write-Output "Restoring dotnet tools..."
 dotnet tool restore
 
 if (-not $Passive)
 {
     # Look for unstaged changed files by default
-    $gitDiffCommand = "git diff --name-only --diff-filter=ACM"
+    $gitDiffCommand = "git status -s --porcelain"
 
     if ($Main)
     {
@@ -59,6 +63,12 @@ if (-not $Passive)
         $branch = $branch.Matches.groups[1].Value
         $gitDiffCommand = "git diff origin/main $branch --name-only --diff-filter=ACM"
     }
+    elseif ($Unstaged)
+    {
+        # Look for unstaged files
+        Write-Output "Checking Unstaged Files"
+        $gitDiffCommand = "git diff --name-only --diff-filter=ACM"
+    }
     elseif ($Staged)
     {
         # Look for staged files
@@ -73,11 +83,17 @@ if (-not $Passive)
     }
     else 
     {
-        Write-Output "Checking Current Unstaged Files Only"    
+        Write-Output "Checking Git Status Files Only"    
     }
 
     Write-Output "Running Git Diff: $gitDiffCommand"
     $files = Invoke-Expression $gitDiffCommand | Select-String -Pattern "\.xaml$"
+
+    if (-not $Passive -and -not $Main -and -not $Unstaged -and -not $Staged -and -not $LastCommit)
+    {
+        # Remove 'status' column of 3 characters at beginning of lines
+        $files = $files | ForEach-Object { $_.ToString().Substring(3) }
+    }
 
     if ($files.count -gt 0)
     {

@@ -11,12 +11,12 @@
     <StackPanel Padding="20"
                 Spacing="15">
         <labs:ProjectTemplate Orientation="{x:Bind local:ProjectTemplateCustomSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}">
-            <TextBlock Text="1"/>
-            <TextBlock Text="2"/>
-            <TextBlock Text="3"/>
-            <TextBlock Text="4"/>
-            <TextBlock Text="5"/>
-            <TextBlock Text="6"/>
+            <TextBlock Text="1" />
+            <TextBlock Text="2" />
+            <TextBlock Text="3" />
+            <TextBlock Text="4" />
+            <TextBlock Text="5" />
+            <TextBlock Text="6" />
         </labs:ProjectTemplate>
     </StackPanel>
 </Page>
