@@ -5,7 +5,7 @@
         <!--
             NOTICE:
             These properties cannot be used for selecting a PackageReference.
-            MSBuild only allows selecting a PackageReference based on a condition that uses TargetFramework directly.
+            MSBuild only allows selecting a PackageReference based on a condition that uses TargetFramework DIRECTLY in the Condition.
          -->
         <IsWasmHead Condition="'$(IsWasmHead)' == '' AND '$(TargetFramework)' == '$(WasmHeadTargetFramework)'">true</IsWasmHead>
         <IsWpfHead Condition="'$(IsWpfHead)' == '' AND '$(TargetFramework)' == '$(WpfHeadTargetFramework)'">true</IsWpfHead>
