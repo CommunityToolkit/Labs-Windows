@@ -6,7 +6,7 @@
 
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.Dependencies.props" Condition="Exists('$(RepositoryDirectory)\common\Labs.Head.Dependencies.props')" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Dependencies.props" />
 
   <!-- Shared project -->
   <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
