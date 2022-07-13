@@ -36,4 +36,21 @@
   <ItemGroup>
     <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
   </ItemGroup>
+
+  <!-- Automatically include XAML pages within multi-targetted projects (source and samples) -->
+  <ItemGroup>
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="obj\bin\**" />
+    <Page Remove="obj\bin\**" />
+    <Compile Remove="obj\bin\**" />
+    <Content Remove="obj\bin\**" />
+    <EmbeddedResource Remove="obj\bin\**" />
+    <UpToDateCheckInput Remove="obj\bin\**" />
+  </ItemGroup>
 </Project>

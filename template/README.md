@@ -65,3 +65,7 @@ This may require a reboot.
 #### Uno Templates
 
 It can be helpful to install the [Uno Platform Templates](https://marketplace.visualstudio.com/items?itemName=unoplatform.uno-platform-addin-2022) in order to use their templates when creating new Pages in Sample and Test projects.
+
+#### Sample Page
+
+If when adding a new page to the sample project you run into errors, try resetting the csproj file, it's setup to automatically include all XAML files.
