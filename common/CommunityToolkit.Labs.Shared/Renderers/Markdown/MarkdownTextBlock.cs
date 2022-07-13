@@ -4,9 +4,9 @@
 
 #if HAS_UNO
     #if WINAPPSDK
-    using ToolkitMTB = Microsoft.UI.Xaml.FrameworkElement;
+    using ToolkitMTB = Microsoft.UI.Xaml.Controls.TextBlock;
     #else
-    using ToolkitMTB = Windows.UI.Xaml.FrameworkElement;
+    using ToolkitMTB = Windows.UI.Xaml.Controls.TextBlock;
     #endif
 #else
     #if WINAPPSDK
@@ -23,9 +23,4 @@ namespace CommunityToolkit.Labs.Shared.Renderers;
 /// </summary>
 public partial class MarkdownTextBlock : ToolkitMTB
 {
-#if HAS_UNO
-    public string? Text;
-    public bool? IsTextSelectionEnabled;
-    public TextWrapping? TextWrapping;
-#endif
 }
