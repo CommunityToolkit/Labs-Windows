@@ -37,53 +37,58 @@ public class ProjectTemplate : Panel
         }
     }
 
-    // Since we expect contents of panel to be dynamic, allocate memory for calculations here as fields.
-    int maxrc, rowcount, colcount;
-    double cellwidth, cellheight, maxcellheight, aspectratio;
+    // Store calculations we want to use between the Measure and Arrange methods.
+    int _columnCount;
+    double _cellWidth, _cellHeight;
 
     protected override Size MeasureOverride(Size availableSize)
     {
         // Determine the square that can contain this number of items.
-        maxrc = (int)Math.Ceiling(Math.Sqrt(Children.Count));
+        var maxrc = (int)Math.Ceiling(Math.Sqrt(Children.Count));
         // Get an aspect ratio from availableSize, decides whether to trim row or column.
-        aspectratio = availableSize.Width / availableSize.Height;
+        var aspectratio = availableSize.Width / availableSize.Height;
         if (Orientation == Orientation.Vertical) { aspectratio = 1 / aspectratio; }
+
+        int rowcount;
 
         // Now trim this square down to a rect, many times an entire row or column can be omitted.
         if (aspectratio > 1)
         {
             rowcount = maxrc;
-            colcount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
+            _columnCount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
         }
         else
         {
             rowcount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
-            colcount = maxrc;
+            _columnCount = maxrc;
         }
 
         // Now that we have a column count, divide available horizontal, that's our cell width.
-        cellwidth = (int)Math.Floor(availableSize.Width / colcount);
+        _cellWidth = (int)Math.Floor(availableSize.Width / _columnCount);
         // Next get a cell height, same logic of dividing available vertical by rowcount.
-        cellheight = Double.IsInfinity(availableSize.Height) ? Double.PositiveInfinity : availableSize.Height / rowcount;
+        _cellHeight = Double.IsInfinity(availableSize.Height) ? Double.PositiveInfinity : availableSize.Height / rowcount;
+
+        double maxcellheight = 0;
 
         foreach (UIElement child in Children)
         {
-            child.Measure(new Size(cellwidth, cellheight));
+            child.Measure(new Size(_cellWidth, _cellHeight));
             maxcellheight = (child.DesiredSize.Height > maxcellheight) ? child.DesiredSize.Height : maxcellheight;
         }
-        return LimitUnboundedSize(availableSize);
+
+        return LimitUnboundedSize(availableSize, maxcellheight);
     }
 
     // This method limits the panel height when no limit is imposed by the panel's parent.
     // That can happen to height if the panel is close to the root of main app window.
     // In this case, base the height of a cell on the max height from desired size
     // and base the height of the panel on that number times the #rows.
-    Size LimitUnboundedSize(Size input)
+    Size LimitUnboundedSize(Size input, double maxcellheight)
     { 
         if (Double.IsInfinity(input.Height))
         {
-            input.Height = maxcellheight* colcount;
-            cellheight = maxcellheight;
+            input.Height = maxcellheight * _columnCount;
+            _cellHeight = maxcellheight;
         }
         return input;
     }
@@ -94,8 +99,8 @@ public class ProjectTemplate : Panel
         double x, y;
         foreach (UIElement child in Children)
         {
-            x = (count - 1) % colcount * cellwidth;
-            y = ((int)(count - 1) / colcount) * cellheight;
+            x = (count - 1) % _columnCount * _cellWidth;
+            y = ((int)(count - 1) / _columnCount) * _cellHeight;
             Point anchorPoint = new Point(x, y);
             child.Arrange(new Rect(anchorPoint, child.DesiredSize));
             count++;
