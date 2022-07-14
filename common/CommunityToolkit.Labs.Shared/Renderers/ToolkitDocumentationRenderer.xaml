@@ -13,8 +13,7 @@
     <Page.Resources>
         <DataTemplate x:Key="DocumentTemplate"
                       x:DataType="x:String">
-            <renderer:MarkdownTextBlock win:IsTextSelectionEnabled="True"
-                                        Text="{Binding}"
+            <renderer:MarkdownTextBlock Text="{Binding}"
                                         TextWrapping="WrapWholeWords" />
         </DataTemplate>
 
