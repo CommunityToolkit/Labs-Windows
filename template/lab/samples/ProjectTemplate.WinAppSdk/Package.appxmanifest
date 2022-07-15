@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="Labs.ProjectTemplate.WinAppSdk"
+    Name="Labs.ProjectTemplate.Samples.WinAppSdk"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>CommunityToolkit Labs: ProjectTemplate Sample</DisplayName>
+    <DisplayName>CommunityToolkit Labs: ProjectTemplate Samples (WinAppSdk)</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

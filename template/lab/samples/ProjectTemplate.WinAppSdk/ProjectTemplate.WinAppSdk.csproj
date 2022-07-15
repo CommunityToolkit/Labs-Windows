@@ -12,8 +12,8 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
   <PropertyGroup>
-    <RootNamepace>ProjectTemplate.WinAppSdk</RootNamepace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <RootNamepace>ProjectTemplateExperiment.Samples</RootNamepace>
+    <AssemblyName>ProjectTemplateExperiment.Samples.WinAppSdk</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
