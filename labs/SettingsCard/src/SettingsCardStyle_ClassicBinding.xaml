@@ -108,7 +108,6 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-
                             <ContentPresenter
                                 x:Name="PART_IconPresenter"
                                 MaxWidth="20"

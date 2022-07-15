@@ -21,6 +21,7 @@
             </ComboBox>
         </labs:SettingsCard_ClassicBinding>
 
+
         <labs:SettingsCard_ClassicBinding
             Title="Preferred languages"
             Description="Microsoft Store apps will appear in the first supported languages in this list"

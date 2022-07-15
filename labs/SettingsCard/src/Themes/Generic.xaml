@@ -7,4 +7,5 @@
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SettingsCard/SettingsCardStyle_ClassicBinding.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+
 </ResourceDictionary>
