@@ -25,6 +25,7 @@
             Title="Devices"
             Description="Mouse, keyboard, pen, audio, displays and docks, other devices"
             Icon="&#xE772;"
+            IsClickEnabled="True"
             IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <StackPanel Orientation="Horizontal" Spacing="12">
                 <Button Content="Add device" Style="{StaticResource AccentButtonStyle}" />
