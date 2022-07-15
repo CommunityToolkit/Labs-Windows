@@ -28,7 +28,3 @@ TODO: Fill in information about this experiment and how to get started here...
 ### Implict style
 
 > [!SAMPLE SettingsCardControlSample]
-
-### Custom style
-
-> [!SAMPLE SettingsCardCustomStyleSample]
