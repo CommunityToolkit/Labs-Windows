@@ -7,88 +7,186 @@ namespace CommunityToolkit.Labs.WinUI;
 /// <summary>
 /// An example templated control.
 /// </summary>
-[TemplatePart(Name = nameof(PART_HelloWorld), Type = typeof(TextBlock))]
-public partial class SettingsCard_ClassicBinding : Control
+[TemplateVisualState(Name = IconVisibleState, GroupName = IconStates)]
+[TemplateVisualState(Name = IconCollapsedState, GroupName = IconStates)]
+[TemplateVisualState(Name = DescriptionVisibleState, GroupName = DescriptionStates)]
+[TemplateVisualState(Name = DescriptionCollapsedState, GroupName = DescriptionStates)]
+public partial class SettingsCard_ClassicBinding : ButtonBase
 {
+    SettingsCard_ClassicBinding self;
+    private const string NormalState = "Normal";
+    private const string PointerOverState = "PointerOver";
+    private const string PressedState = "Pressed";
+    private const string DisabledState = "Disabled";
+
+    private const string IconStates = "IconStates";
+    private const string IconVisibleState = "IconVisible";
+    private const string IconCollapsedState = "IconCollapsed";
+
+    private const string DescriptionStates = "DescriptionStates";
+    private const string DescriptionVisibleState = "DescriptionVisible";
+    private const string DescriptionCollapsedState = "DescriptionCollapsed";
+
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsCard_ClassicBinding"/> class.
     /// </summary>
     public SettingsCard_ClassicBinding()
     {
         this.DefaultStyleKey = typeof(SettingsCard_ClassicBinding);
+        self = this;
     }
 
-    /// <summary>
-    /// The primary text block that displays "Hello world".
-    /// </summary>
-    protected TextBlock? PART_HelloWorld { get; private set; }
-
-    /// <inheritdoc />
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+        IsEnabledChanged -= OnIsEnabledChanged;
+        OnIsClickEnabledChanged();
+        OnIconChanged();
+        OnDescriptionChanged();
+        VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
+        RegisterAutomation();
 
-        // Detach all attached events when a new template is applied.
-        if (PART_HelloWorld is not null)
+        IsEnabledChanged += OnIsEnabledChanged;
+    }
+
+    private void RegisterAutomation()
+    {
+        if (self.IsClickEnabled)
         {
-            PART_HelloWorld.PointerEntered -= Element_PointerEntered;
+            if (!string.IsNullOrEmpty(self.Title))
+            {
+                AutomationProperties.SetName(this, self.Title);
+            }
         }
-
-        // Attach events when the template is applied and the control is loaded.
-        PART_HelloWorld = GetTemplateChild(nameof(PART_HelloWorld)) as TextBlock;
-        
-        if (PART_HelloWorld is not null)
+        else
         {
-            PART_HelloWorld.PointerEntered += Element_PointerEntered;
+            if (self.Content != null && self.Content.GetType() != typeof(Button))
+            {
+                // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
+                if (!string.IsNullOrEmpty(self.Title))
+                {
+                    AutomationProperties.SetName((UIElement)self.Content, self.Title);
+                }
+            }
         }
     }
 
-    /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="ItemPadding"/> property.
-    /// </summary>
-    public static readonly DependencyProperty ItemPaddingProperty = DependencyProperty.Register(
-        nameof(ItemPadding),
-        typeof(Thickness),
-        typeof(SettingsCard_ClassicBinding),
-        new PropertyMetadata(defaultValue: new Thickness(0)));
-
-    /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="MyProperty"/> property.
-    /// </summary>
-    public static readonly DependencyProperty MyPropertyProperty = DependencyProperty.Register(
-        nameof(MyProperty),
-        typeof(string),
-        typeof(SettingsCard_ClassicBinding),
-        new PropertyMetadata(defaultValue: string.Empty, (d, e) => ((SettingsCard_ClassicBinding)d).OnMyPropertyChanged((string)e.OldValue, (string)e.NewValue)));
-
-    /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
-    /// </summary>
-    public string MyProperty
+    private void EnableButtonInteraction()
     {
-        get => (string)GetValue(MyPropertyProperty);
-        set => SetValue(MyPropertyProperty, value);
+        DisableButtonInteraction();
+
+        IsTabStop = true;
+        // UseSystemFocusVisuals = true;
+        PointerEntered += Control_PointerEntered;
+        PointerExited += Control_PointerExited;
+        PointerPressed += Control_PointerPressed; // TO DO: THIS EVENT DOES NOT SEEM TO EXIST IN BUTTONBASE, ONLY UIELEMENT?
+        PointerReleased += Control_PointerReleased;
+        PreviewKeyDown += Control_PreviewKeyDown;
+        PreviewKeyUp += Control_PreviewKeyUp;
     }
 
-    /// <summary>
-    /// Gets or sets a padding for an item. A basic DependencyProperty example.
-    /// </summary>
-    public Thickness ItemPadding
+
+    private void DisableButtonInteraction()
     {
-        get => (Thickness)GetValue(ItemPaddingProperty);
-        set => SetValue(ItemPaddingProperty, value);
+        IsTabStop = false;
+        // UseSystemFocusVisuals = false;
+        PointerEntered -= Control_PointerEntered;
+        PointerExited -= Control_PointerExited;
+        PointerPressed -= Control_PointerPressed;
+        PointerReleased -= Control_PointerReleased;
+        PreviewKeyDown -= Control_PreviewKeyDown;
+        PreviewKeyUp -= Control_PreviewKeyUp;
     }
 
-    protected virtual void OnMyPropertyChanged(string oldValue, string newValue)
-    {
-        // Do something with the changed value.
-    }
 
-    public void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
+
+    private void Control_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
     {
-        if (sender is TextBlock text)
+        if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
         {
-            text.Opacity = 1;
+            VisualStateManager.GoToState(this, NormalState, true);
         }
+    }
+
+    private void Control_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
+        {
+            VisualStateManager.GoToState(this, PressedState, true);
+        }
+    }
+
+    public void Control_PointerReleased(object sender, PointerRoutedEventArgs e)
+    {
+        base.OnPointerReleased(e);
+        VisualStateManager.GoToState(this, NormalState, true);
+    }
+
+    public void Control_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        base.OnPointerExited(e);
+        VisualStateManager.GoToState(this, NormalState, true);
+    }
+    public void Control_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        base.OnPointerEntered(e);
+        VisualStateManager.GoToState(this, PointerOverState, true);
+    }
+
+    private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        base.OnPointerPressed(e);
+        VisualStateManager.GoToState(this, PressedState, true);
+    }
+
+    /// <summary>
+    /// Creates AutomationPeer
+    /// </summary>
+    /// <returns>An automation peer for this <see cref="SettingsCard_ClassicBinding"/>.</returns>
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new SettingsCard_ClassicBindingAutomationPeer(this);
+    }
+
+    private void OnIsClickEnabledChanged()
+    {
+        // TO DO: DISABLE THE CLICK EVENT
+        if (IsClickEnabled)
+        {
+            EnableButtonInteraction();
+        }
+        else
+        {
+            DisableButtonInteraction();
+        }
+    }
+
+    private void OnIconChanged()
+    {
+        if (self.Icon != null)
+        {
+            VisualStateManager.GoToState(this, IconVisibleState, true);
+        }
+        else
+        {
+            VisualStateManager.GoToState(this, IconCollapsedState, true);
+        }
+    }
+
+    private void OnDescriptionChanged()
+    {
+        if (self.Description != null)
+        {
+            VisualStateManager.GoToState(this, DescriptionVisibleState, true);
+        }
+        else
+        {
+            VisualStateManager.GoToState(this, DescriptionCollapsedState, true);
+        }
+    }
+
+    private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
     }
 }
