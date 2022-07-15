@@ -13,7 +13,7 @@ public partial class SettingsCard_ClassicBindingAutomationPeer : FrameworkElemen
     /// Initializes a new instance of the <see cref="SettingsCard_ClassicBindingAutomationPeer"/> class.
     /// </summary>
     /// <param name="owner">
-    /// The <see cref="BladeItem" /> that is associated with this <see cref="T:Windows.UI.Xaml.Automation.Peers.BladeItemAutomationPeer" />.
+    /// The <see cref="SettingsCard" /> that is associated with this <see cref="T:Windows.UI.Xaml.Automation.Peers.SettingsCardAutomationPeer" />.
     /// </param>
     public SettingsCard_ClassicBindingAutomationPeer(SettingsCard_ClassicBinding owner)
         : base(owner)
