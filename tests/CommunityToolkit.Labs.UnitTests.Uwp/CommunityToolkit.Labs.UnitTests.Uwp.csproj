@@ -60,4 +60,7 @@
 
   <!-- Include all base code to be tested -->
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
+
+  <!-- Must be imported after any shared projects in non-sdk style projects -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
 </Project>
