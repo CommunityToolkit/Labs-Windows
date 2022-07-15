@@ -71,6 +71,7 @@
             <Setter Property="BorderThickness" Value="{ThemeResource SettingsCardBorderThickness}" />
             <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
             <Setter Property="MinHeight" Value="68" />
+            <Setter Property="MinWidth" Value="460" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -88,8 +89,10 @@
 
                         <Grid
                             x:Name="PART_RootGrid"
+                            MinWidth="{TemplateBinding MinWidth}"
                             MinHeight="{TemplateBinding MinHeight}"
                             Padding="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             muxc:AnimatedIcon.State="Normal"
                             Background="{TemplateBinding Background}"
@@ -113,12 +116,12 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 win:AutomationProperties.AccessibilityView="Raw"
+                                win:HighContrastAdjustment="None"
+                                win:IsTextScaleFactorEnabled="False"
                                 Content="{TemplateBinding Icon}"
                                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                 FontSize="20"
                                 Foreground="{TemplateBinding Foreground}"
-                                HighContrastAdjustment="None"
-                                IsTextScaleFactorEnabled="False"
                                 Visibility="Collapsed" />
 
                             <StackPanel
@@ -130,9 +133,9 @@
                                 <TextBlock
                                     x:Name="PART_TitlePresenter"
                                     VerticalAlignment="Center"
+                                    win:HighContrastAdjustment="None"
                                     AutomationProperties.AccessibilityView="Raw"
                                     Foreground="{TemplateBinding Foreground}"
-                                    HighContrastAdjustment="None"
                                     Text="{TemplateBinding Title}" />
 
                                 <ContentPresenter

@@ -8,16 +8,45 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Padding="20" Spacing="15">
+    <StackPanel Padding="20" Spacing="32">
         <labs:SettingsCard_ClassicBinding
-            Title="Hello world"
-            Description="This is a description"
-            Icon="&#xE12A;">
+            Title="Country or region"
+            Description="Windows and apps might use your country or region to give you local content"
+            Icon="&#xF49A;"
+            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <ComboBox SelectedIndex="0">
-                <ComboBoxItem>Option 1</ComboBoxItem>
-                <ComboBoxItem>Option 2</ComboBoxItem>
-                <ComboBoxItem>Option 3</ComboBoxItem>
+                <ComboBoxItem>United States</ComboBoxItem>
+                <ComboBoxItem>The Netherlands</ComboBoxItem>
+                <ComboBoxItem>Germany</ComboBoxItem>
             </ComboBox>
+        </labs:SettingsCard_ClassicBinding>
+
+        <labs:SettingsCard_ClassicBinding
+            Title="Preferred languages"
+            Description="Microsoft Store apps will appear in the first supported languages in this list"
+            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <Button Content="Add a new language" Style="{StaticResource AccentButtonStyle}" />
+        </labs:SettingsCard_ClassicBinding>
+
+        <labs:SettingsCard_ClassicBinding
+            Title="Personalize your lockscreen"
+            Icon="&#xEE3F;"
+            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <ComboBox SelectedIndex="0">
+                <ComboBoxItem>Windows spotlight</ComboBoxItem>
+                <ComboBoxItem>Picture</ComboBoxItem>
+                <ComboBoxItem>Slideshow</ComboBoxItem>
+            </ComboBox>
+        </labs:SettingsCard_ClassicBinding>
+
+        <labs:SettingsCard_ClassicBinding
+            Title="Phone Link"
+            Icon="&#xE1C9;"
+            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <labs:SettingsCard_ClassicBinding.Description>
+                <HyperlinkButton Content="Learn more about Phone Link" />
+            </labs:SettingsCard_ClassicBinding.Description>
+            <Button Content="Open Phone Link" />
         </labs:SettingsCard_ClassicBinding>
     </StackPanel>
 </Page>

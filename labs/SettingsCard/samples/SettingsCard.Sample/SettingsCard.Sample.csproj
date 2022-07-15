@@ -21,11 +21,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="SettingsCard.md" />
+    <None Remove="SettingsCardButtonSample.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="SettingsCard.md" />
+    <Content Remove="SettingsCardButtonSample.xaml" />
+    <Content Remove="SettingsCardButtonSample.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="SettingsCardButtonSample.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SettingsCard.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="SettingsCardButtonSample.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

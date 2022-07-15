@@ -14,10 +14,10 @@ namespace SettingsCard.Sample;
 //    "Sand       : #e7a676",
 //    "Dull green : #5d7577")]
 
-[ToolkitSample(id: nameof(SettingsCardControlSample), "Customizable options", description: "A sample for showing how to create and use a templated control.")]
-public sealed partial class SettingsCardControlSample : Page
+[ToolkitSample(id: nameof(SettingsCardButtonSample), "A clickable SettingsCard", description: "A sample for showing how a SettingsCard can be used as a button.")]
+public sealed partial class SettingsCardButtonSample : Page
 {
-    public SettingsCardControlSample()
+    public SettingsCardButtonSample()
     {
         this.InitializeComponent();
     }
