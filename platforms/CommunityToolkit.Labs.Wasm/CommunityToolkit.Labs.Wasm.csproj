@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
   <Import Project="$(RepositoryDirectory)common\Labs.Wasm.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props"/>
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
 
