@@ -1,0 +1,31 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+
+  <ItemGroup>
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="obj\bin\**" />
+    <Content Remove="obj\bin\**" />
+    <EmbeddedResource Remove="obj\bin\**" />
+    <None Remove="obj\bin\**" />
+    <Page Remove="obj\bin\**" />
+    <UpToDateCheckInput Remove="obj\bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="SettingsCard.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="SettingsCard.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SettingsCard.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
+  <PropertyGroup>
+    <RootNamespace>SettingsCard.Uwp</RootNamespace>
+    <AssemblyName>SettingsCard.Uwp</AssemblyName>
+    <ProjectGuid>{44D7603F-F611-4120-A9A2-7BEF5E3700C6}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SettingsCard.csproj">
+      <Project>{25ADCE5E-7D20-4A35-93FD-A8A1D3FE0DDC}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.SettingsCard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SettingsCard.Sample\SettingsCard.Sample.csproj">
+      <Project>{4833B04E-B60B-44A1-A45B-88AD95094399}</Project>
+      <Name>SettingsCard.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

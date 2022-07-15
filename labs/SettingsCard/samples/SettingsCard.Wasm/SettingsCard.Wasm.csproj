@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
+  <Import Project="$(RepositoryDirectory)common\Labs.Wasm.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\Fonts.css" />
+    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SettingsCard.csproj" />
+    <ProjectReference Include="..\SettingsCard.Sample\SettingsCard.Sample.csproj" />
+  </ItemGroup>
+</Project>

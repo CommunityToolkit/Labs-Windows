@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SettingsCard.UnitTests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SettingsCard.UnitTests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
