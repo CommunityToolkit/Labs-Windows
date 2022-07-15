@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  
   <PropertyGroup>
     <RootNamespace>CanvasLayout.UnitTests</RootNamespace>
   </PropertyGroup>

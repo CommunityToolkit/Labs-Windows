@@ -1,5 +1,4 @@
-<Project>
-  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+<Project>  
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
 
   <ItemGroup>

@@ -1,6 +1,4 @@
 <Project>
-    <Import Project="Labs.TargetFrameworks.props" />
-
     <PropertyGroup>
         <IsWasmHead Condition="'$(IsWasmHead)' == '' AND '$(TargetFramework)' == '$(WasmHeadTargetFramework)'">True</IsWasmHead>
         <IsWpfHead Condition="'$(IsWpfHead)' == '' AND '$(TargetFramework)' == '$(WpfHeadTargetFramework)'">True</IsWpfHead>

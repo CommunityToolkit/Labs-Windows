@@ -1,5 +1,4 @@
 <Project>
-  <Import Project="Labs.TargetFrameworks.props" />
   <Import Project="Labs.Uno.props" />
 
   <PropertyGroup>
