@@ -2,7 +2,6 @@
 <Project>
   <!-- Shared project -->
   <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
-  <Import Project="$(RepositoryDirectory)\common\Labs.TargetFrameworks.props"/>
 
   <!-- Shared project dependencies -->
   <ItemGroup>
