@@ -1,8 +1,8 @@
 ---
 title: SettingsCard
-author: githubaccount
-description: TODO: Your experiment's description here
-keywords: SettingsCard, Control, Layout
+author: niels9001
+description: A card control used for creating Windows 11 styled settings experiences
+keywords: SettingsCard, Control, Layout, Settings
 dev_langs:
   - csharp
 category: Controls
@@ -32,13 +32,3 @@ TODO: Fill in information about this experiment and how to get started here...
 ### Custom style
 
 > [!SAMPLE SettingsCardCustomStyleSample]
-
-# Templated Controls with x:Bind
-### Implict style
-
-> [!SAMPLE BackedSettingsCardControlSample]
-
-### Custom style
-
-> [!SAMPLE SettingsCardCustomStyleBackedSample]
-
