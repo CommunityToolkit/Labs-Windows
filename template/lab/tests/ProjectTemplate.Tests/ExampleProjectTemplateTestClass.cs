@@ -5,7 +5,7 @@
 using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
 using CommunityToolkit.Labs.UnitTests;
 
-namespace ProjectTemplate.Tests;
+namespace ProjectTemplateExperiment.Tests;
 
 [TestClass]
 public partial class ExampleProjectTemplateTestClass : VisualUITestBase
@@ -14,11 +14,11 @@ public partial class ExampleProjectTemplateTestClass : VisualUITestBase
     [TestMethod]
     public void SimpleSynchronousExampleTest()
     {
-        var assembly = typeof(ProjectTemplate_ClassicBinding).Assembly;
-        var type = assembly.GetType(typeof(ProjectTemplate_ClassicBinding).FullName ?? string.Empty);
+        var assembly = typeof(ProjectTemplate).Assembly;
+        var type = assembly.GetType(typeof(ProjectTemplate).FullName ?? string.Empty);
 
         Assert.IsNotNull(type, "Could not find ProjectTemplate_ClassicBinding type.");
-        Assert.AreEqual(typeof(ProjectTemplate_ClassicBinding), type, "Type of ProjectTemplate_ClassicBinding does not match expected type.");
+        Assert.AreEqual(typeof(ProjectTemplate), type, "Type of ProjectTemplate_ClassicBinding does not match expected type.");
     }
 
     // If you don't need access to UI objects directly, use this pattern.
@@ -45,7 +45,7 @@ public partial class ExampleProjectTemplateTestClass : VisualUITestBase
     [LabsUITestMethod]
     public void SimpleUIAttributeExampleTest()
     {
-        var component = new ProjectTemplate_ClassicBinding();
+        var component = new ProjectTemplate();
         Assert.IsNotNull(component);
     }
 

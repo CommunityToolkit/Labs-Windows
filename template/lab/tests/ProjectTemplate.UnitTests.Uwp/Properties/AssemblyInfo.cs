@@ -6,11 +6,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("ProjectTemplate.UnitTests.Uwp")]
+[assembly: AssemblyTitle("ProjectTemplateExperiment.Tests.Uwp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(".NET Foundation")]
-[assembly: AssemblyProduct("ProjectTemplate.UnitTests.Uwp")]
+[assembly: AssemblyProduct("ProjectTemplateExperiment.Tests.Uwp")]
 [assembly: AssemblyCopyright("Copyright © .NET Foundation CUR_YEAR")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -5,14 +5,14 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   IgnorableNamespaces="uap mp">
 
-  <Identity Name="FC4ACA4C-2390-44E2-B85C-B7763D87C6AB"
+  <Identity Name="Labs.ProjectTemplate.Tests.Uwp"
             Publisher="CN=CommunityToolkit"
             Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="FC4ACA4C-2390-44E2-B85C-B7763D87C6AB" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>ProjectTemplate.UnitTests.Uwp</DisplayName>
+    <DisplayName>ProjectTemplateExperiment.Tests.Uwp</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

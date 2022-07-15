@@ -14,8 +14,8 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
   <PropertyGroup>
-    <RootNamespace>ProjectTemplate.Uwp</RootNamespace>
-    <AssemblyName>ProjectTemplate.Uwp</AssemblyName>
+    <RootNamespace>ProjectTemplateExperiment.Samples</RootNamespace>
+    <AssemblyName>ProjectTemplateExperiment.Samples.Uwp</AssemblyName>
     <ProjectGuid>{E25BF6D0-24D6-459C-A180-1E9405D59F87}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>

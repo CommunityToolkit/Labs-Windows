@@ -2,14 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace ProjectTemplate.Sample;
+namespace ProjectTemplateExperiment.Samples;
 
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
 [ToolkitSampleMultiChoiceOption("LayoutOrientation", title: "Orientation", "Horizontal", "Vertical")]
 
-[ToolkitSample(id: nameof(ProjectTemplateCustomSample), "Custom control", description: "A sample for showing how to create and use a custom control.")]
+[ToolkitSample(id: nameof(ProjectTemplateCustomSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(ProjectTemplate)} custom control.")]
 public sealed partial class ProjectTemplateCustomSample : Page
 {
     public ProjectTemplateCustomSample()
