@@ -89,7 +89,7 @@ public sealed partial class TitleBar : Control
 
     private void SetTitleBar()
     {
-#if WINAPPSDK
+#if WINAPPSDK && !HAS_UNO
         Window window = App.currentWindow;
         window.ExtendsContentIntoTitleBar = true;
         window.SetTitleBar(_dragRegion);
