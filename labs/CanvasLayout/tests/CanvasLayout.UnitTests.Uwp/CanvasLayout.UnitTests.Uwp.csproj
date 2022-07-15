@@ -2,7 +2,17 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build"
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
+
+  <!-- Labs Test Config -->
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
 
   <PropertyGroup>
     <ProjectGuid>{F17EE40D-CEE8-402F-AA43-45A7F87ACBF3}</ProjectGuid>
@@ -10,9 +20,6 @@
     <AssemblyName>CanvasLayout.UnitTests.Uwp</AssemblyName>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
   </PropertyGroup>
-
-  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
-  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
 
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

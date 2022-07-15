@@ -1,6 +1,4 @@
 <Project>
-  <Import Project="Labs.Uno.props" />
-
   <PropertyGroup>
     <!--
       TargetFramework for WasmLibTargetFramework, WpfLibTargetFramework, and LinuxLibTargetFramework all use the same value.

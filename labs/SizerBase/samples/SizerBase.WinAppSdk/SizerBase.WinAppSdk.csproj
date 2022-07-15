@@ -1,9 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
-  
-  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
 
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
+
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  
   <PropertyGroup>
     <RootNamepace>SizerBase.WinAppSdk</RootNamepace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
