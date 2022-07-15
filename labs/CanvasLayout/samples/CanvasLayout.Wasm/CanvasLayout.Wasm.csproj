@@ -1,6 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
+  <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
+
+  <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Wasm.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+  
+  <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
   <ItemGroup>

@@ -1,6 +1,11 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
-  
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+
+  <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
   <Import Project="Dependencies.WinUI2.props" />
   <Import Project="Dependencies.WinUI3.props" />

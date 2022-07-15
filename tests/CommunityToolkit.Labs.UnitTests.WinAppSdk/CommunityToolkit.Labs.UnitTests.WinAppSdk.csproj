@@ -1,12 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
-  
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
+
+  <!-- Labs Test Config -->
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
+
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.UnitTests</RootNamespace>
   </PropertyGroup>
-
-  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
-  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
 
   <ItemGroup>
     <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />

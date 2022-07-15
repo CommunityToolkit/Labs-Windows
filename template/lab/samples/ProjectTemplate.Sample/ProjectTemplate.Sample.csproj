@@ -1,9 +1,14 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   
-  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
 
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
+  
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
     <Compile Update="**\*.xaml.cs">
