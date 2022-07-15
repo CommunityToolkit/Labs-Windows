@@ -1,19 +1,18 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<Page
-    x:Class="SettingsCard.Sample.SettingsCardControlSample"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="SettingsCard.Sample.SettingsCardControlSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
-    <StackPanel Padding="20" Spacing="32">
-        <labs:SettingsCard_ClassicBinding
-            Title="Country or region"
-            Description="Windows and apps might use your country or region to give you local content"
-            Icon="&#xF49A;"
-            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+    <StackPanel Padding="20"
+                Spacing="32">
+        <labs:SettingsCard_ClassicBinding Title="Country or region"
+                                          Description="Windows and apps might use your country or region to give you local content"
+                                          Icon="&#xF49A;"
+                                          IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <ComboBox SelectedIndex="0">
                 <ComboBoxItem>United States</ComboBoxItem>
                 <ComboBoxItem>The Netherlands</ComboBoxItem>
@@ -22,17 +21,16 @@
         </labs:SettingsCard_ClassicBinding>
 
 
-        <labs:SettingsCard_ClassicBinding
-            Title="Preferred languages"
-            Description="Microsoft Store apps will appear in the first supported languages in this list"
-            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
-            <Button Content="Add a new language" Style="{StaticResource AccentButtonStyle}" />
+        <labs:SettingsCard_ClassicBinding Title="Preferred languages"
+                                          Description="Microsoft Store apps will appear in the first supported languages in this list"
+                                          IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <Button Content="Add a new language"
+                    Style="{StaticResource AccentButtonStyle}" />
         </labs:SettingsCard_ClassicBinding>
 
-        <labs:SettingsCard_ClassicBinding
-            Title="Personalize your lockscreen"
-            Icon="&#xEE3F;"
-            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+        <labs:SettingsCard_ClassicBinding Title="Personalize your lockscreen"
+                                          Icon="&#xEE3F;"
+                                          IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <ComboBox SelectedIndex="0">
                 <ComboBoxItem>Windows spotlight</ComboBoxItem>
                 <ComboBoxItem>Picture</ComboBoxItem>
@@ -40,10 +38,9 @@
             </ComboBox>
         </labs:SettingsCard_ClassicBinding>
 
-        <labs:SettingsCard_ClassicBinding
-            Title="Phone Link"
-            Icon="&#xE1C9;"
-            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+        <labs:SettingsCard_ClassicBinding Title="Phone Link"
+                                          Icon="&#xE1C9;"
+                                          IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard_ClassicBinding.Description>
                 <HyperlinkButton Content="Learn more about Phone Link" />
             </labs:SettingsCard_ClassicBinding.Description>
