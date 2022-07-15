@@ -7,12 +7,12 @@
     <IsDeployableHead>true</IsDeployableHead>
   </PropertyGroup>
 
-  <!-- Labs Platform Config -->  
+  <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
 
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  
+
   <PropertyGroup>
     <RootNamespace>CanvasLayout.Uwp</RootNamespace>
     <AssemblyName>CanvasLayout.Uwp</AssemblyName>
@@ -39,4 +39,7 @@
       <Name>CanvasLayout.Sample</Name>
     </ProjectReference>
   </ItemGroup>
+
+  <!-- Must be imported after any shared projects in non-sdk style projects -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
 </Project>
