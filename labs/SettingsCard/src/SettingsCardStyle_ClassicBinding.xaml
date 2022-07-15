@@ -244,7 +244,6 @@
                                     </VisualState>
                                     <VisualState x:Name="IconCollapsed" />
 
-
                                 </VisualStateGroup>
 
                                 <VisualStateGroup x:Name="DescriptionStates">
@@ -254,7 +253,6 @@
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="DescriptionCollapsed" />
-
 
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
@@ -279,8 +277,8 @@
 
                                 <TextBlock x:Name="PART_TitlePresenter"
                                            VerticalAlignment="Center"
+                                           win:AutomationProperties.AccessibilityView="Raw"
                                            win:HighContrastAdjustment="None"
-                                           AutomationProperties.AccessibilityView="Raw"
                                            Foreground="{TemplateBinding Foreground}"
                                            Text="{TemplateBinding Title}" />
 
@@ -316,8 +314,6 @@
                                               HorizontalContentAlignment="Stretch"
                                               Content="{TemplateBinding Content}" />
                         </Grid>
-
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
