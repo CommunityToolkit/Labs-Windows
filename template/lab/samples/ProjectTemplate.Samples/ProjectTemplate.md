@@ -36,6 +36,10 @@ The Toolkit is built with templated controls. This provides developers a flexibl
 easily while still inheriting the general functionality a control provides. The examples below show
 how a component can use a default style and then get overridden by the end developer.
 
+TODO: Two types of templated control building methods are shown. Delete these if you're building a custom component.
+Otherwise, pick one method for your component and delete the files related to the unchosen `_ClassicBinding` or `_xBind`
+classes (and the custom non-suffixed one as well). Then, rename your component to just be your component name.
+
 The `_ClassicBinding` class shows the traditional method used to develop components with best practices.
 
 ### Implict style
