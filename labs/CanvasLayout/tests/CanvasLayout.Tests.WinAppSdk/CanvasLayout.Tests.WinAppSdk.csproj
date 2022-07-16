@@ -12,7 +12,8 @@
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
 
   <PropertyGroup>
-    <RootNamespace>CanvasLayout.UnitTests</RootNamespace>
+    <RootNamespace>CanvasLayoutExperiment.Tests</RootNamespace>
+    <AssemblyName>CanvasLayoutExperiment.Tests.WinAppSdk</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,5 +38,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
-  </ItemGroup>  
+  </ItemGroup>
 </Project>

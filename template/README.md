@@ -75,3 +75,9 @@ For instance, you never want to add a 'Content Page' or use the other Xamarin ba
 #### Sample Page
 
 If when adding a new page to the sample project you run into errors, try resetting the csproj file, it's setup to automatically include all XAML files.
+
+#### Windows.UI.Xaml.Controls (WUXC) vs. Microsoft.UI.Xaml.Controls (MUXC) w/ WinUI 2 vs. WinUI 3
+
+If you are referring to a control from the system like `TextBlock`, the build system will automatically pick the system one on UWP or the WinUI 3 one in the Windows App SDK.
+
+However, if you need to refer to a component that was part of the WinUI 2 library like `NavigationView` or `ItemsRepeater`, then preface your C# code type with `MUXC.` to clarify you are referring to the WinUI 2 or WinUI 3 versions of the components. In XAML this is done automatically as the namespace is the same (and it is effectively ignored in the WinUI 3 case).

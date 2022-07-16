@@ -12,13 +12,13 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
   <PropertyGroup>
-    <RootNamepace>CanvasLayout.WinAppSdk</RootNamepace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <RootNamepace>CanvasLayoutExperiment.Samples</RootNamepace>
+    <AssemblyName>CanvasLayoutExperiment.Samples.WinAppSdk</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj" />
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
+    <ProjectReference Include="..\CanvasLayout.Samples\CanvasLayout.Samples.csproj" />
   </ItemGroup>
 
   <ItemGroup>

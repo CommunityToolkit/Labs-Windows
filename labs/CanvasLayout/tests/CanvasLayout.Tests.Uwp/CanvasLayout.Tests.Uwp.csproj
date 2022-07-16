@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build"
-  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
@@ -15,9 +14,9 @@
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
 
   <PropertyGroup>
-    <ProjectGuid>{F17EE40D-CEE8-402F-AA43-45A7F87ACBF3}</ProjectGuid>
-    <RootNamespace>CanvasLayout.UnitTests</RootNamespace>
-    <AssemblyName>CanvasLayout.UnitTests.Uwp</AssemblyName>
+    <ProjectGuid>{FE0158C9-FD90-4E7C-A385-FBC0CB4DBB98}</ProjectGuid>
+    <RootNamespace>CanvasLayoutExperiment.Tests</RootNamespace>
+    <AssemblyName>CanvasLayoutExperiment.Tests.Uwp</AssemblyName>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
   </PropertyGroup>
 
@@ -43,7 +42,7 @@
     </Content>
     <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png">
       <Link>Assets\StoreLogo.png</Link>
-    </Content>    
+    </Content>
   </ItemGroup>
 
   <!-- Needed Unit Testing helper base classes -->

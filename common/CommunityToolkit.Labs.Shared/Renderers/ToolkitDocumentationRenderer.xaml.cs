@@ -169,10 +169,7 @@ public sealed partial class ToolkitDocumentationRenderer : Page
             var experimentName = assemblyName.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)[0];
 
             // Our assembly has 'ProjectTemplateExperiment.Samples', but our folder is 'ProjectTemplate.Samples'
-            if (isProjectTemplateHead)
-            {
-                experimentName = experimentName.Replace("Experiment", "");
-            }
+            experimentName = experimentName.Replace("Experiment", "");
 
             path = path.Split(new[] { $"\\{experimentName}.Samples" }, StringSplitOptions.RemoveEmptyEntries)[1];
             path = $"{experimentName}.Samples{path}";

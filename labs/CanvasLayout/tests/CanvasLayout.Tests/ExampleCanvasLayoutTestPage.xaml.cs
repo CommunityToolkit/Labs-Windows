@@ -2,12 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CanvasLayout.Sample.SampleTwo;
+namespace CanvasLayoutExperiment.Tests;
 
-[ToolkitSample(id: nameof(SamplePage2), "Custom options", description: "An empty sample used to demonstrate the sample system.")]
-public sealed partial class SamplePage2 : UserControl
+/// <summary>
+/// An empty page that can be used on its own or navigated to within a Frame.
+/// </summary>
+public sealed partial class ExampleCanvasLayoutTestPage : Page
 {
-    public SamplePage2()
+    public ExampleCanvasLayoutTestPage()
     {
         this.InitializeComponent();
     }

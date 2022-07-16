@@ -223,17 +223,13 @@ public sealed partial class ToolkitSampleRenderer : Page
             throw new ArgumentException($"Unable to find namespace for provided type {type}.", nameof(typeNamespace));
         }
 
-        var sampleName = simpleAssemblyName.Replace(".Samples", "");
 
         var folderPath = typeNamespace.Replace(simpleAssemblyName, "").Trim('.').Replace('.', '/');
         if (folderPath.Length != 0)
             folderPath += "/";
 
-        // Our assembly has 'ProjectTemplateExperiment.Samples', but our folder is 'ProjectTemplate.Samples'
-        if (isProjectTemplateHead)
-        {
-            simpleAssemblyName = simpleAssemblyName.Replace("Experiment", "");
-        }
+        // Our assembly has 'ProjectTemplateExperiment.Samples', but our folders are 'ProjectTemplate.Samples'
+        simpleAssemblyName = simpleAssemblyName.Replace("Experiment", "");
 
         if (isSingleExperimentHead || isProjectTemplateHead)
         {
@@ -242,6 +238,7 @@ public sealed partial class ToolkitSampleRenderer : Page
 
         if (isAllExperimentHead)
         {
+            var sampleName = simpleAssemblyName.Replace(".Samples", "");
             return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}{type.Name}";
         }
 

@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="9e2085e4-3f58-4e39-8b44-da73cfd4d595"
+    Name="Labs.CanvasLayout.Tests.WinAppSdk"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>CanvasLayout.UnitTests.WinAppSdk</DisplayName>
+    <DisplayName>CanvasLayoutExperiment.Tests.WinAppSdk</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

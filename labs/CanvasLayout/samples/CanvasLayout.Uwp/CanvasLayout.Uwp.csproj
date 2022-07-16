@@ -6,17 +6,14 @@
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
   </PropertyGroup>
-
   <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
-
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-
   <PropertyGroup>
-    <RootNamespace>CanvasLayout.Uwp</RootNamespace>
-    <AssemblyName>CanvasLayout.Uwp</AssemblyName>
-    <ProjectGuid>{3BAAC2DA-7124-460E-A9A9-13138843CD57}</ProjectGuid>
+    <RootNamespace>CanvasLayoutExperiment.Samples</RootNamespace>
+    <AssemblyName>CanvasLayoutExperiment.Samples.Uwp</AssemblyName>
+    <ProjectGuid>{C3F460EC-A0A6-4B22-A91A-6CF98B30FD8A}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -31,15 +28,14 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj">
-      <Project>{FE19FFF0-6AB6-4FC7-BFDF-B6499153DCD5}</Project>
+      <Project>{A2E17BD4-FC57-444A-A928-0CB4D499B2C6}</Project>
       <Name>CommunityToolkit.Labs.WinUI.CanvasLayout</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CanvasLayout.Sample\CanvasLayout.Sample.csproj">
-      <Project>{a14189c0-39a8-4fbe-bf86-a78a94654c48}</Project>
+    <ProjectReference Include="..\CanvasLayout.Samples\CanvasLayout.Samples.csproj">
+      <Project>{04549439-81BA-4BAA-9FCB-C3EB9148278D}</Project>
       <Name>CanvasLayout.Sample</Name>
     </ProjectReference>
   </ItemGroup>
-
   <!-- Must be imported after any shared projects in non-sdk style projects -->
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
 </Project>

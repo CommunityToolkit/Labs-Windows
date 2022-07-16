@@ -2,13 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CanvasLayout.Sample.SampleThree;
+namespace CanvasLayoutExperiment.Samples;
 
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-[ToolkitSample(id: nameof(SamplePage3), "Canvas Layout", description: "A canvas-like VirtualizingLayout for use in an ItemsRepeater")]
-public sealed partial class SamplePage3 : Page
+[ToolkitSample(id: nameof(CanvasLayoutSample), "Canvas Layout", description: "A canvas-like VirtualizingLayout for use in an ItemsRepeater")]
+public sealed partial class CanvasLayoutSample : Page
 {
     public ObservableCollection<CanvasItem> Items = new()
     {
@@ -20,7 +20,7 @@ public sealed partial class SamplePage3 : Page
         new() { Left = 1200, Top = 3500, Width = 100, Height = 100, Text = "Item 6" },
     };
 
-    public SamplePage3()
+    public CanvasLayoutSample()
     {
         this.InitializeComponent();
     }
