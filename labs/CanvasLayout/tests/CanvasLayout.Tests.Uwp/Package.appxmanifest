@@ -5,14 +5,14 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   IgnorableNamespaces="uap mp">
 
-  <Identity Name="564177e0-5e6c-43f5-9608-fe7fc6c7f4e8"
+  <Identity Name="Labs.CanvasLayout.Tests.Uwp"
             Publisher="CN=CommunityToolkit"
             Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="564177e0-5e6c-43f5-9608-fe7fc6c7f4e8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="B02E881F-FF37-4C13-94F3-9407D6D1A96A" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>CanvasLayout.UnitTests.Uwp</DisplayName>
+    <DisplayName>CanvasLayoutExperiment.Tests.Uwp</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

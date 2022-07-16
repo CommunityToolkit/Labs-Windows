@@ -12,9 +12,9 @@
 -->
 <Project>
     <ItemGroup Condition="'$(IsUwp)' == 'True'">
-
+        <!--<PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.2"/>-->
     </ItemGroup>
     <ItemGroup Condition="'$(WinUIMajorVersion)' == '2' AND '$(IsUno)' == 'True'">
-
+        <!--<PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.11"/>-->
     </ItemGroup>
 </Project>

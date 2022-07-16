@@ -17,8 +17,8 @@ public partial class ExampleProjectTemplateTestClass : VisualUITestBase
         var assembly = typeof(ProjectTemplate).Assembly;
         var type = assembly.GetType(typeof(ProjectTemplate).FullName ?? string.Empty);
 
-        Assert.IsNotNull(type, "Could not find ProjectTemplate_ClassicBinding type.");
-        Assert.AreEqual(typeof(ProjectTemplate), type, "Type of ProjectTemplate_ClassicBinding does not match expected type.");
+        Assert.IsNotNull(type, "Could not find ProjectTemplate type.");
+        Assert.AreEqual(typeof(ProjectTemplate), type, "Type of ProjectTemplate does not match expected type.");
     }
 
     // If you don't need access to UI objects directly, use this pattern.

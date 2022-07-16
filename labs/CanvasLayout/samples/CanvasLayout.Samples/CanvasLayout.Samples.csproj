@@ -5,11 +5,18 @@
   <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
-  
+
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
 
+  <PropertyGroup>
+    <RootNamespace>CanvasLayoutExperiment.Samples</RootNamespace>
+    <AssemblyName>CanvasLayoutExperiment.Samples</AssemblyName>
+  </PropertyGroup>
+  
+  <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
+  
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj"/>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
   </ItemGroup>
 </Project>

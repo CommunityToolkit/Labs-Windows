@@ -12,9 +12,9 @@
 -->
 <Project>
     <ItemGroup Condition="'$(IsWinAppSdk)' == 'True'">
-
+        <!--<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2"/>-->
     </ItemGroup>
     <ItemGroup Condition="'$(WinUIMajorVersion)' == '3' AND '$(IsUno)' == 'True'">
-
+        <!--<PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.100-dev.15.g12261e2626"/>-->
     </ItemGroup>
 </Project>
