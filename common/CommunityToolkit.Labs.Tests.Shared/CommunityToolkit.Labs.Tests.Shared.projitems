@@ -6,7 +6,7 @@
     <SharedGUID>fab2bfbb-b57a-4481-b4ac-037490067ce9</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>CommunityToolkit.Labs.UnitTests.Shared</Import_RootNamespace>
+    <Import_RootNamespace>CommunityToolkit.Labs.Tests.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">

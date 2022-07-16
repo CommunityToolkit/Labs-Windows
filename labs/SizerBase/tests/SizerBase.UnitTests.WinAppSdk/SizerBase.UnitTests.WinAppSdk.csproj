@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <!-- Needed Unit Testing helper base classes -->
-  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
+  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.Tests.Shared\CommunityToolkit.Labs.Tests.Shared.projitems" Label="Unit Testing Helpers" />
   <!-- Include the unit test files themselves -->
   <Import Project="..\SizerBase.Tests\SizerBase.Tests.projitems" Label="Shared" />
 

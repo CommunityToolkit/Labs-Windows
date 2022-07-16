@@ -27,7 +27,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 #endif
 
-namespace CommunityToolkit.Labs.UnitTests;
+namespace CommunityToolkit.Labs.Tests;
 
 /// <summary>
 /// Provides application-specific behavior to supplement the default Application class.

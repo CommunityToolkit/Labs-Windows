@@ -15,8 +15,8 @@
 
   <PropertyGroup>
     <ProjectGuid>{FD78002E-C4E6-4BF8-9EC3-C06250DFEF34}</ProjectGuid>
-    <RootNamespace>CommunityToolkit.Labs.UnitTests</RootNamespace>
-    <AssemblyName>CommunityToolkit.Labs.UnitTests.Uwp</AssemblyName>
+    <RootNamespace>CommunityToolkit.Labs.Tests</RootNamespace>
+    <AssemblyName>CommunityToolkit.Labs.Tests.Uwp</AssemblyName>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
   </PropertyGroup>
 
@@ -53,7 +53,7 @@
   </ItemGroup>
 
   <!-- Needed Unit Testing helper base classes -->
-  <Import Project="..\..\common\CommunityToolkit.Labs.UnitTests.Shared\CommunityToolkit.Labs.UnitTests.Shared.projitems" Label="Unit Testing Helpers" />
+  <Import Project="..\..\common\CommunityToolkit.Labs.Tests.Shared\CommunityToolkit.Labs.Tests.Shared.projitems" Label="Unit Testing Helpers" />
 
   <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
   <Import Project="..\..\labs\**\*.Tests.projitems" Label="Shared" />

@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
-using CommunityToolkit.Labs.UnitTests;
+using CommunityToolkit.Labs.Tests;
 
 namespace ProjectTemplateExperiment.Tests;
 

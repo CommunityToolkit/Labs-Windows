@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Labs.UnitTests;
+namespace CommunityToolkit.Labs.Tests;
 
 /// <summary>
 /// Base class to be used in API tests which require UI layout or rendering to occur first.

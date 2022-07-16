@@ -8,6 +8,11 @@
 
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
+
+  <PropertyGroup>
+    <RootNamespace>ProjectTemplateExperiment.Samples</RootNamespace>
+    <AssemblyName>ProjectTemplateExperiment.Samples</AssemblyName>
+  </PropertyGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   

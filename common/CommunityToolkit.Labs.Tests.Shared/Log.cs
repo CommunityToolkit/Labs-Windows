@@ -4,7 +4,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 
-namespace CommunityToolkit.Labs.UnitTests;
+namespace CommunityToolkit.Labs.Tests;
 
 /// <summary>
 /// Use to log different types of error messages for MS Test. (Originally polyfill for TAEF API for MSTest, but keeping as nice to abstract intent of message.)

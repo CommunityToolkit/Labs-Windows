@@ -187,7 +187,7 @@ $solutionTemplate = Get-Content -Path $solutionTemplatePath;
 Write-Output "Loaded solution template from $solutionTemplatePath";
 
 # Add sample projects
-foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Sample/*.Sample.csproj') {
+foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Samples/*.Samples.csproj') {
 	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $sampleProjectTypeGuid "Samples"
 }
 
@@ -222,11 +222,11 @@ foreach ($sharedProjectItemsPath in Get-ChildItem -Recurse -Path 'labs/*/tests/*
 	$sharedProjectDefinition = CreateSharedProjectDefinition $projectGuid $sharedProjectItemsPath "13"
 	$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestProjectSelfDefinitionsMarker), ($templatedSharedTestProjectSelfDefinitionsMarker + $sharedProjectDefinition);
 
-	Write-Output "Linking $sharedProjectItemsName.projitems to CommunityToolkit.Labs.UnitTests.Uwp";
+	Write-Output "Linking $sharedProjectItemsName.projitems to CommunityToolkit.Labs.Tests.Uwp";
 	$uwpSharedProjectDefinition = CreateSharedProjectDefinition "fd78002e-c4e6-4bf8-9ec3-c06250dfef34" $sharedProjectItemsPath "4"
 	$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestUwpProjectSelfDefinitionsMarker), ($templatedSharedTestUwpProjectSelfDefinitionsMarker + $uwpSharedProjectDefinition);
 
-	Write-Output "Linking $sharedProjectItemsName.projitems to CommunityToolkit.Labs.UnitTests.WinAppSdk";
+	Write-Output "Linking $sharedProjectItemsName.projitems to CommunityToolkit.Labs.Tests.WinAppSdk";
 	$winAppSdkSharedProjectDefinition = CreateSharedProjectDefinition "53892f07-fe54-4e36-81d8-105427d097e5" $sharedProjectItemsPath "5"
 	$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker), ($templatedSharedTestWinAppSdkProjectSelfDefinitionsMarker + $winAppSdkSharedProjectDefinition);
 }
