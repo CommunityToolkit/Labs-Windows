@@ -1,19 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap mp rescap">
+  IgnorableNamespaces="uap mp">
 
-  <Identity Name="56364EFD-86F0-4C49-9F65-B7CCA5FB6298"
+  <Identity Name="Labs.SizerBase.Tests.Uwp"
             Publisher="CN=CommunityToolkit"
             Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="56364EFD-86F0-4C49-9F65-B7CCA5FB6298" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="620BCF6F-C478-49F0-B660-378AD158BAA4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>SizerBase.UnitTests.Uwp</DisplayName>
+    <DisplayName>SizerBaseExperiment.Tests.Uwp</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -42,6 +41,5 @@
   <Capabilities>
     <Capability Name="internetClientServer" />
     <Capability Name="privateNetworkClientServer" />
-    <rescap:Capability Name="inputInjectionBrokered" />
   </Capabilities>
 </Package>

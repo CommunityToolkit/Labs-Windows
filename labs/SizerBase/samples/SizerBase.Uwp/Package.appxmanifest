@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="Labs.Samples.SizerBase.Uwp"
+    Name="Labs.SizerBase.Samples.Uwp"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="4A271A57-453C-417D-841C-9E10BE6B585D" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="71787B0B-9F72-4B00-9398-5E47A0DA0473" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>CommunityToolkit Labs: SizerBase Sample</DisplayName>
+    <DisplayName>CommunityToolkit Labs: SizerBase Samples (UWP)</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

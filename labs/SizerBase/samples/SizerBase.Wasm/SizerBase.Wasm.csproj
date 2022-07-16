@@ -12,7 +12,6 @@
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
-
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
     <EmbeddedResource Include="WasmScripts\AppManifest.js" />
@@ -20,6 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj" />
-    <ProjectReference Include="..\SizerBase.Sample\SizerBase.Sample.csproj" />
+    <ProjectReference Include="..\SizerBase.Samples\SizerBase.Samples.csproj" />
   </ItemGroup>
 </Project>

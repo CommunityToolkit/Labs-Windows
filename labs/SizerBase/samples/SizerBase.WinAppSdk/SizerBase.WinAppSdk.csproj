@@ -10,15 +10,15 @@
 
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  
+
   <PropertyGroup>
-    <RootNamepace>SizerBase.WinAppSdk</RootNamepace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <RootNamepace>SizerBaseExperiment.Samples</RootNamepace>
+    <AssemblyName>SizerBaseExperiment.Samples.WinAppSdk</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SizerBase.Sample\SizerBase.Sample.csproj" />
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj" />
+    <ProjectReference Include="..\SizerBase.Samples\SizerBase.Samples.csproj" />
   </ItemGroup>
 
   <ItemGroup>

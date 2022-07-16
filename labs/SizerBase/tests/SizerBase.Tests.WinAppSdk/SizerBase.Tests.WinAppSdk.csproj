@@ -12,7 +12,8 @@
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
 
   <PropertyGroup>
-    <RootNamespace>SizerBase.UnitTests</RootNamespace>
+    <RootNamespace>SizerBaseExperiment.Tests</RootNamespace>
+    <AssemblyName>SizerBaseExperiment.Tests.WinAppSdk</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

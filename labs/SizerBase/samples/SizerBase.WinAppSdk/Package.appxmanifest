@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="Labs.SizerBase.WinAppSdk"
+    Name="Labs.SizerBase.Samples.WinAppSdk"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>CommunityToolkit Labs: SizerBase Sample</DisplayName>
+    <DisplayName>CommunityToolkit Labs: SizerBase Samples (WinAppSdk)</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

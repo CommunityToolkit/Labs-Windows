@@ -14,15 +14,15 @@
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
 
   <PropertyGroup>
-    <ProjectGuid>{03580331-0918-4A52-9A9E-C50061A226CF}</ProjectGuid>
-    <RootNamespace>SizerBase.UnitTests</RootNamespace>
-    <AssemblyName>SizerBase.UnitTests.Uwp</AssemblyName>
+    <ProjectGuid>{24B41BBE-3182-4BC4-B5EB-525B76E7AF23}</ProjectGuid>
+    <RootNamespace>SizerBaseExperiment.Tests</RootNamespace>
+    <AssemblyName>SizerBaseExperiment.Tests.Uwp</AssemblyName>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Properties\Default.rd.xml" />    
+    <Content Include="Properties\Default.rd.xml" />
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>

@@ -9,7 +9,7 @@
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
   <Import Project="Dependencies.WinUI2.props" />
   <Import Project="Dependencies.WinUI3.props" />
-  
+
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.WinUI.SizerBaseRns</RootNamespace>
   </PropertyGroup>
@@ -21,4 +21,6 @@
     </Description>
     <Version>0.0.2</Version>
   </PropertyGroup>
+
+  <!-- XAML Pages are automatically included, and don't need to be specified here. -->
 </Project>

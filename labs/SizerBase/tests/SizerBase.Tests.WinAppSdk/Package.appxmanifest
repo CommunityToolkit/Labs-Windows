@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="3159A485-E8E6-40E8-A33E-70343D3E2EBA"
+    Name="Labs.SizerBase.Tests.WinAppSdk"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>SizerBase.UnitTests.WinAppSdk</DisplayName>
+    <DisplayName>SizerBaseExperiment.Tests.WinAppSdk</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -43,6 +43,5 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
-    <rescap:Capability Name="inputInjectionBrokered" />
   </Capabilities>
 </Package>
