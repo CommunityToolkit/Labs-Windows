@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace SizerBase.Sample;
+namespace SizerBaseExperiment.Samples;
 
 [ToolkitSample(id: nameof(ContentSizerTopShelfPage), "Top Shelf", description: "Shows how to create an expandable shelf on the top of your app.")]
 public sealed partial class ContentSizerTopShelfPage : Page

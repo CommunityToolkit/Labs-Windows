@@ -4,7 +4,7 @@
 
 using CommunityToolkit.Labs.Shared;
 
-namespace SizerBase.Wasm;
+namespace SizerBaseExperiment.Samples.Wasm;
 
 public class Program
 {

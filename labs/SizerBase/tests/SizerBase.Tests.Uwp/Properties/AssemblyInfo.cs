@@ -6,11 +6,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("SizerBase.UnitTests.Uwp")]
+[assembly: AssemblyTitle("SizerBaseExperiment.Tests.Uwp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(".NET Foundation")]
-[assembly: AssemblyProduct("SizerBase.UnitTests.Uwp")]
+[assembly: AssemblyProduct("SizerBaseExperiment.Tests.Uwp")]
 [assembly: AssemblyCopyright("Copyright © .NET Foundation 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
