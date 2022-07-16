@@ -167,8 +167,15 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         if (isSingleExperimentHead || isProjectTemplateHead)
         {
             var experimentName = assemblyName.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)[0];
-            path = path.Split(new[] { $"\\{experimentName}.Sample" }, StringSplitOptions.RemoveEmptyEntries)[1];
-            path = $"{experimentName}.Sample{path}";
+
+            // Our assembly has 'ProjectTemplateExperiment.Samples', but our folder is 'ProjectTemplate.Samples'
+            if (isProjectTemplateHead)
+            {
+                experimentName = experimentName.Replace("Experiment", "");
+            }
+
+            path = path.Split(new[] { $"\\{experimentName}.Samples" }, StringSplitOptions.RemoveEmptyEntries)[1];
+            path = $"{experimentName}.Samples{path}";
         }
 
         var fileUri = new Uri($"ms-appx:///SourceAssets/{path}");

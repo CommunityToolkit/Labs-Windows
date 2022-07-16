@@ -214,22 +214,36 @@ public sealed partial class ToolkitSampleRenderer : Page
         var typeNamespace = type.Namespace;
 
         if (string.IsNullOrWhiteSpace(simpleAssemblyName))
+        {
             throw new ArgumentException($"Unable to find assembly name for provided type {type}.", nameof(simpleAssemblyName));
+        }
 
         if (string.IsNullOrWhiteSpace(typeNamespace))
+        {
             throw new ArgumentException($"Unable to find namespace for provided type {type}.", nameof(typeNamespace));
+        }
 
-        var sampleName = simpleAssemblyName.Replace(".Sample", "");
+        var sampleName = simpleAssemblyName.Replace(".Samples", "");
 
         var folderPath = typeNamespace.Replace(simpleAssemblyName, "").Trim('.').Replace('.', '/');
         if (folderPath.Length != 0)
             folderPath += "/";
 
+        // Our assembly has 'ProjectTemplateExperiment.Samples', but our folder is 'ProjectTemplate.Samples'
+        if (isProjectTemplateHead)
+        {
+            simpleAssemblyName = simpleAssemblyName.Replace("Experiment", "");
+        }
+
         if (isSingleExperimentHead || isProjectTemplateHead)
+        {
             return $"SourceAssets/{simpleAssemblyName}/{folderPath}{type.Name}";
-        
+        }
+
         if (isAllExperimentHead)
+        {
             return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}{type.Name}";
+        }
 
         throw new InvalidOperationException("Unable to determine if running in a single or all experiment solution.");
     }

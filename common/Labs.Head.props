@@ -34,27 +34,27 @@
   <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
   <ItemGroup Condition="'$(IsAllExperimentHead)' == 'true'">
     <!-- These are also included in Labs.Samples.props, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
-    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\*.Sample\obj\**\*.md;$(RepositoryDirectory)**\**\samples\*.Sample\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
-    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.xaml" Exclude="$(RepositoryDirectory)**\**\samples\*.Sample\obj\**\*.xaml;$(RepositoryDirectory)**\**\samples\*.Sample\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.md;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.xaml" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.xaml;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
-    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.cs" Exclude="$(RepositoryDirectory)**\**\samples\*.Sample\obj\**\*.cs;$(RepositoryDirectory)**\**\samples\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
+    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.cs" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.cs;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
 
     <!-- Include markdown files from all samples so the head can access them in the source generator -->
-    <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\*.Sample\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\**\obj\**\*.md;$(RepositoryDirectory)**\**\samples\**\bin\**\*.md"/>
+    <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\**\obj\**\*.md;$(RepositoryDirectory)**\**\samples\**\bin\**\*.md"/>
   </ItemGroup>
 
   <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
   <ItemGroup Condition="'$(IsSingleExperimentHead)' == 'true' or '$(IsProjectTemplateHead)' == 'true'">
     <!-- These are also included in Labs.Samples.props, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
-    <Content Include="$(MSBuildProjectDirectory)\..\*.Sample\**\*.md" Exclude="$(MSBuildProjectDirectory)\..\*.Sample\obj\**\*.md;$(MSBuildProjectDirectory)\..\*.Sample\bin\**\*.md;$(MSBuildProjectDirectory)\..\**\SourceAssets\**\*.md" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
-    <Content Include="$(MSBuildProjectDirectory)\..\*.Sample\**\*.xaml" Exclude="$(MSBuildProjectDirectory)\..\*.Sample\obj\**\*.xaml;$(MSBuildProjectDirectory)\..\*.Sample\bin\**\*.xaml;$(MSBuildProjectDirectory)\..\**\SourceAssets\**\*.xaml" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(MSBuildProjectDirectory)\..\*.Samples\**\*.md" Exclude="$(MSBuildProjectDirectory)\..\*.Samples\obj\**\*.md;$(MSBuildProjectDirectory)\..\*.Samples\bin\**\*.md;$(MSBuildProjectDirectory)\..\**\SourceAssets\**\*.md" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(MSBuildProjectDirectory)\..\*.Samples\**\*.xaml" Exclude="$(MSBuildProjectDirectory)\..\*.Samples\obj\**\*.xaml;$(MSBuildProjectDirectory)\..\*.Samples\bin\**\*.xaml;$(MSBuildProjectDirectory)\..\**\SourceAssets\**\*.xaml" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
-    <Content Include="$(MSBuildProjectDirectory)\..\*.Sample\**\*.cs" Exclude="$(MSBuildProjectDirectory)\..\*.Sample\obj\**\*.cs;$(MSBuildProjectDirectory)\..\*.Sample\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
+    <Content Include="$(MSBuildProjectDirectory)\..\*.Samples\**\*.cs" Exclude="$(MSBuildProjectDirectory)\..\*.Samples\obj\**\*.cs;$(MSBuildProjectDirectory)\..\*.Samples\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
 
     <!-- Include markdown files from all samples so the head can access them in the source generator -->
-    <AdditionalFiles Include="$(MSBuildProjectDirectory)\..\*.Sample\**\*.md" Exclude="$(MSBuildProjectDirectory)\..\**\obj\**\*.md;$(MSBuildProjectDirectory)\..\**\bin\**\*.md"/>
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\..\*.Samples\**\*.md" Exclude="$(MSBuildProjectDirectory)\..\**\obj\**\*.md;$(MSBuildProjectDirectory)\..\**\bin\**\*.md"/>
   </ItemGroup>
 
   <PropertyGroup>

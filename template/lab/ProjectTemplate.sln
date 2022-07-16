@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTemplate.Uwp", "samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTemplate.Wasm", "samples\ProjectTemplate.Wasm\ProjectTemplate.Wasm.csproj", "{507C24FC-DD1C-4B91-BB6F-4A4CFB30A252}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTemplate.Sample", "samples\ProjectTemplate.Sample\ProjectTemplate.Sample.csproj", "{E648080E-263D-4920-9B3D-2F6BF541586C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTemplate.Samples", "samples\ProjectTemplate.Samples\ProjectTemplate.Samples.csproj", "{E648080E-263D-4920-9B3D-2F6BF541586C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{ACD20BEE-45EF-4CAB-BA06-40F38A0C98EA}"
 EndProject
@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7F03DDE8
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ProjectTemplate.Tests", "tests\ProjectTemplate.Tests\ProjectTemplate.Tests.shproj", "{19AC7A6A-B001-45AA-ACBE-0536F688DB74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTemplate.UnitTests.WinAppSdk", "tests\ProjectTemplate.UnitTests.WinAppSdk\ProjectTemplate.UnitTests.WinAppSdk.csproj", "{FE390707-A244-460A-BC1C-5559038A1975}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectTemplate.Tests.WinAppSdk", "tests\ProjectTemplate.Tests.WinAppSdk\ProjectTemplate.Tests.WinAppSdk.csproj", "{FE390707-A244-460A-BC1C-5559038A1975}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTemplate.UnitTests.Uwp", "tests\ProjectTemplate.UnitTests.Uwp\ProjectTemplate.UnitTests.Uwp.csproj", "{7134BD2E-0A74-4345-868A-E425FC452A89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTemplate.Tests.Uwp", "tests\ProjectTemplate.Tests.Uwp\ProjectTemplate.Tests.Uwp.csproj", "{7134BD2E-0A74-4345-868A-E425FC452A89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Labs Dependencies", "Labs Dependencies", "{D4DCFA4B-63B3-4D93-8C91-FBEE3B92E5A0}"
 EndProject

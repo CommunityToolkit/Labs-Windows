@@ -99,10 +99,10 @@ jobs:
         run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
       - name: Run experiment tests against UWP
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
+        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
 
       - name: Run experiment tests against WinAppSDK
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
+        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
 
       - name: Create test reports
         uses: dorny/test-reporter@v1
@@ -174,10 +174,10 @@ jobs:
         run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
       - name: Run experiment tests against UWP
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
+        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
 
       - name: Run experiment tests against WinAppSDK
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
+        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
 
       - name: Create test reports
         uses: dorny/test-reporter@v1
@@ -228,10 +228,10 @@ jobs:
         uses: darenm/Setup-VSTest@v1
 
       - name: Run tests in the generated experiment against UWP
-        run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.UnitTests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpUWP.trx"
+        run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpUWP.trx"
 
       - name: Run tests in the generated experiment against WinAppSDK
-        run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.UnitTests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpWinAppSdk.trx"
+        run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpWinAppSdk.trx"
 
       - name: Create test reports
         uses: dorny/test-reporter@v1

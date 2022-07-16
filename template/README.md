@@ -62,9 +62,15 @@ Labs requires long paths to be enabled. You'll want to modify the `HKEY_LOCAL_MA
 
 This may require a reboot.
 
+#### WebAssembly Sample Project
+
+Sometimes it can be tricky to run the WASM sample project head under Visual Studio with the default IIS run configuration. Use the drop-down within the run button itself to instead select the `ExperimentName.Wasm` configuration over `IIS Express`.
+
 #### Uno Templates
 
 It can be helpful to install the [Uno Platform Templates](https://marketplace.visualstudio.com/items?itemName=unoplatform.uno-platform-addin-2022) in order to use their templates when creating new Pages in Sample and Test projects.
+
+For instance, you never want to add a 'Content Page' or use the other Xamarin based templates, use UWP, WinUI 3/WinAppSDK, or (ideally) the Uno based item templates when adding new XAML pages/dictionaries to projects.
 
 #### Sample Page
 
