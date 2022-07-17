@@ -100,7 +100,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 var markdownFileData = data.Left.Right.Where(x => x != default).Distinct();
                 var currentAssembly = data.Right;
 
-                var isExecutingInSampleProject = currentAssembly?.EndsWith(".Sample") ?? false;
+                var isExecutingInSampleProject = currentAssembly?.EndsWith(".Samples") ?? false;
 
                 // Reconstruct sample metadata from attributes
                 var sampleMetadata = toolkitSampleAttributeData
