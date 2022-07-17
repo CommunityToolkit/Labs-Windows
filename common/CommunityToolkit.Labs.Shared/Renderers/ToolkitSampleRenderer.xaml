@@ -82,6 +82,7 @@
                   Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
                   CornerRadius="8,0,0,0">
                 <ContentControl x:Name="PageControl"
+                                MaxHeight="400"
                                 Margin="24"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
@@ -109,7 +110,8 @@
                                Text="Source code" />
                 </StackPanel>
             </muxc:Expander.Header>
-            <Pivot HorizontalAlignment="Stretch">
+            <Pivot MaxHeight="400"
+                   HorizontalAlignment="Stretch">
                 <Pivot.Resources>
                     <x:Double x:Key="PivotHeaderItemFontSize">14</x:Double>
                 </Pivot.Resources>

@@ -1,79 +1,20 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
-using CommunityToolkit.Labs.Core;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation.Collections;
-
-#if !WINAPPSDK
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-#else
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-#endif
-
+using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
 using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewItemSeparator = Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator;
 using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
-using CommunityToolkit.Labs.Shared.Renderers;
-using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 
-namespace CommunityToolkit.Labs.Shared;
+namespace CommunityToolkit.Labs.Shared.Helpers;
 
-/// <summary>
-/// Used to display all Community Toolkit Labs sample projects in one place.
-/// </summary>
-public sealed partial class NavigationPage : Page
+public static class NavigationViewHelper
 {
-    public NavigationPage()
-    {
-        this.InitializeComponent();
-    }
-
-    /// <summary>
-    /// Gets the items used for navigating.
-    /// </summary>
-    public ObservableCollection<NavigationViewItem> NavigationViewItems { get; } = new ObservableCollection<NavigationViewItem>();
-
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        var samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
-
-        if (samplePages is not null)
-        {
-            var categories = GenerateSampleNavItemTree(samplePages);
-
-            foreach (var item in categories)
-                NavigationViewItems.Add(item);
-        }
-
-        base.OnNavigatedTo(e);
-    }
-
-    private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs e)
-    {
-        var selected = (NavigationViewItem)e.SelectedItem;
-        var selectedMetadata = selected.Tag as ToolkitFrontMatter;
-
-        if (selectedMetadata is null)
-            return;
-
-        NavFrame.Navigate(typeof(ToolkitDocumentationRenderer), selectedMetadata);
-    }
-
-    private IEnumerable<NavigationViewItem> GenerateSampleNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+    public static IEnumerable<NavigationViewItem> GenerateNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
     {
         // Make categories
         var categoryData = GenerateCategoryNavItems(sampleMetadata);
@@ -87,7 +28,7 @@ public sealed partial class NavigationPage : Page
             {
                 // Make samples
                 var sampleNavigationItems = GenerateSampleNavItems(subcategoryItemData.SampleMetadata ?? Enumerable.Empty<ToolkitFrontMatter>());
-
+                subcategoryItemData.NavItem.MenuItems.Add(new NavigationViewItemSeparator());
                 foreach (var item in sampleNavigationItems)
                 {
                     // Add sample to subcategory
@@ -95,6 +36,7 @@ public sealed partial class NavigationPage : Page
                 }
 
                 // Add subcategory to category
+       
                 navData.NavItem.MenuItems.Add(subcategoryItemData.NavItem);
             }
 
@@ -103,19 +45,20 @@ public sealed partial class NavigationPage : Page
         }
     }
 
-    private IEnumerable<NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+    private static IEnumerable<NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
     {
         foreach (var metadata in sampleMetadata)
         {
             yield return new NavigationViewItem
             {
                 Content = metadata.Title,
+                Icon = new BitmapIcon() { ShowAsMonochrome = false, UriSource = new Uri("ms-appx:///Assets/Images/AutoSuggestBox.png") }, // TO DO: This is probably a property we need to add to ToolkitFrontMatter?
                 Tag = metadata,
             };
         }
     }
 
-    private IEnumerable<GroupNavigationItemData> GenerateSubcategoryNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+    private static IEnumerable<GroupNavigationItemData> GenerateSubcategoryNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
     {
         var samplesBySubcategory = sampleMetadata.GroupBy(x => x.Subcategory);
 
@@ -124,11 +67,13 @@ public sealed partial class NavigationPage : Page
             yield return new GroupNavigationItemData(new NavigationViewItem
             {
                 Content = subcategoryGroup.Key,
+                SelectsOnInvoked = false,
+                Style = (Style)App.Current.Resources["SubcategoryNavigationViewItemStyle"],
             }, subcategoryGroup.ToArray());
         }
     }
 
-    private IEnumerable<GroupNavigationItemData> GenerateCategoryNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+    private static IEnumerable<GroupNavigationItemData> GenerateCategoryNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
     {
         var samplesByCategory = sampleMetadata.GroupBy(x => x.Category);
 
@@ -137,6 +82,8 @@ public sealed partial class NavigationPage : Page
             yield return new GroupNavigationItemData(new NavigationViewItem
             {
                 Content = categoryGroup.Key,
+                Icon = new SymbolIcon() { Symbol = Symbol.Keyboard }, // TO DO: Helper that checks what icon belongs to what Category enum
+                SelectsOnInvoked = false,
             }, categoryGroup.ToArray());
         }
     }
@@ -144,4 +91,5 @@ public sealed partial class NavigationPage : Page
     /// <param name="NavItem">A navigation item to contain items in this group.</param>
     /// <param name="SampleMetadata">The samples that belong under <see cref="NavItem"/>.</param>
     private record GroupNavigationItemData(NavigationViewItem NavItem, IEnumerable<ToolkitFrontMatter> SampleMetadata);
+
 }

@@ -12,7 +12,7 @@ public sealed partial class App : Application
     // MacOS and iOS don't know the correct type without a full namespace declaration, confusing it with NSWindow and UIWindow.
     // Using static will not work.
 #if WINAPPSDK
-    private static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
+    public static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
 #else
     private static Windows.UI.Xaml.Window currentWindow = Windows.UI.Xaml.Window.Current;
 #endif
@@ -52,6 +52,7 @@ public sealed partial class App : Application
 #endif
             rootFrame.Navigate(typeof(AppLoadingView), e.Arguments);
 
+        SetTitleBar();
         // Ensure the current window is active
         currentWindow.Activate();
     }
@@ -64,5 +65,14 @@ public sealed partial class App : Application
     void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
     {
         throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+    }
+
+    private void SetTitleBar()
+    {
+#if WINDOWS_UWP
+        var viewTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+        viewTitleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
+        viewTitleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
+#endif
     }
 }

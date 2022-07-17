@@ -21,13 +21,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)AppLoadingView.xaml.cs">
       <DependentUpon>AppLoadingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TitleBar\TitleBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DocOrSampleTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationViewHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml.cs">
+      <DependentUpon>GettingStartedPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Polyfills\System.Runtime.CompilerServices\IsExternalInit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionsRenderer.xaml.cs">
       <DependentUpon>GeneratedSampleOptionsRenderer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)NavigationPage.xaml.cs">
-      <DependentUpon>NavigationPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitDocumentationRenderer.xaml.cs">
@@ -36,7 +41,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitSampleRenderer.xaml.cs">
       <DependentUpon>ToolkitSampleRenderer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)TabbedPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\TabbedPage.xaml.cs">
       <DependentUpon>TabbedPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -45,11 +53,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TitleBar\TitleBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionsRenderer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)NavigationPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\Shell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -61,16 +77,33 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Styles\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)TabbedPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\TabbedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\ItemTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\AutoSuggestBox.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ConnectedAnimation.png" />
+  <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.dark.png" />
+  <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\LabsIcon.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LockScreenLogo.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-200.png" />
