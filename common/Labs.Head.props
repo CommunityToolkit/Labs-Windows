@@ -60,4 +60,7 @@
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
+
+  <!-- Package Dependencies for UWP/WinAppSDK, Uno ones imported by Labs.Uno.props -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Dependencies.props" />
 </Project>

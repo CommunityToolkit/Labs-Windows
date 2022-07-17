@@ -1,4 +1,6 @@
 <Project>
+    <!-- This file is modified by common/Scripts/UseUnoWinUI.ps1 to switch between WinUI 2 and 3 under Uno Platform -->
+    <!-- All Uno-based heads and multitargeted library projects reference this file, while native (UWP/WinAppSdk) heads don't and shouldn't need to. -->
     <PropertyGroup>
         <IsWasmHead Condition="'$(IsWasmHead)' == '' AND '$(TargetFramework)' == '$(WasmHeadTargetFramework)'">True</IsWasmHead>
         <IsWpfHead Condition="'$(IsWpfHead)' == '' AND '$(TargetFramework)' == '$(WpfHeadTargetFramework)'">True</IsWpfHead>
@@ -50,4 +52,15 @@
     <ItemGroup Condition="'$(IsWasmHead)' == 'true'">
         <PackageReference Include="Uno.UI.WebAssembly" Version="4.2.6" />
     </ItemGroup>
+
+    <!--
+        Import Uno dependencies for all Uno heads.
+        The native equivalent can be found in Labs.Head.props.
+        This import must be inside THIS file to allow swapping between Uno.UI and Uno.UI.
+    -->
+    <Import Project="$(RepositoryDirectory)\common\Labs.Head.Uno.UI.Dependencies.props" Condition="'$(IsDeployableHead)' == 'true' AND Exists('$(RepositoryDirectory)\common\Labs.Head.Uno.UI.Dependencies.props')" />
+
+    <!-- Import Uno and native dependencies for all multitargeted library projects. -->
+    <Import Project="$(MSBuildProjectDirectory)\Dependencies.props" Condition="'$(IsDeployableHead)' != 'true' AND Exists('$(MSBuildProjectDirectory)\Dependencies.props')" />
+    <Import Project="$(MSBuildProjectDirectory)\Dependencies.Uno.UI.props" Condition="'$(IsDeployableHead)' != 'true' AND Exists('$(MSBuildProjectDirectory)\Dependencies.Uno.UI.props')" />
 </Project>

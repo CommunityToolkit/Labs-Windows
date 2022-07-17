@@ -1,0 +1,17 @@
+<!--
+    HOW TO USE THIS FILE
+    WinUI 2 under UWP uses TargetFramework uap10.0.*
+    WinUI 3 under WinAppSdk uses TargetFramework net6.0-windows10.*
+    However, under Uno-powered platforms, both WinUI 2 and 3 can share the same TargetFramework.
+    
+    MSBuild doesn't play nicely with this out of the box, so we've made it easy for you.
+    For .NET Standard packages, you can use the Nuget Package Manager in Visual Studio.
+    For any Uno packages built on WinUI 3, place the package references here (even if the package is multitargeted).
+    For non-Uno packages, see Labs.Head.Dependencies.props.
+-->
+<Project>
+    <!-- Uno / WinUI 3 -->
+    <ItemGroup Condition="'$(TargetFramework)' != '$(UwpTargetFramework)' AND '$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
+        <!--<PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.100-dev.15.g12261e2626" />-->
+    </ItemGroup>
+</Project>

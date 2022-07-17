@@ -7,8 +7,6 @@
 
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
-  <Import Project="Dependencies.WinUI2.props" />
-  <Import Project="Dependencies.WinUI3.props" />
 
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.WinUI.ProjectTemplateRns</RootNamespace>
