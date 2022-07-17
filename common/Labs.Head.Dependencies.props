@@ -12,11 +12,11 @@
 <Project>
     <!-- UWP WinUI 2 -->
     <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' == '$(UwpTargetFramework)'">
-        <!--<PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown" Version="7.1.2" />-->
+        <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown" Version="7.1.2" />
     </ItemGroup>
 
     <!-- WinAppSdk WinUI 3 -->
     <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">
-        <!--<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />-->
+        <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
     </ItemGroup>
 </Project>
