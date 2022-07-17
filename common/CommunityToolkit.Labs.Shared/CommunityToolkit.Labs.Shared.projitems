@@ -104,7 +104,6 @@
   <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.dark.png" />
   <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\LabsIcon.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Wallpaper1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LockScreenLogo.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-200.png" />
