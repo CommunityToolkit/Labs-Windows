@@ -17,11 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.scale-200.png" Link="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.scale-200.png" Link="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" Link="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\MedTile.scale-200.png" Link="Assets\AppIcon\MedTile.scale-200.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\AppList.scale-200.png" Link="Assets\AppIcon\AppList.scale-200.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\AppList.targetsize-24_altform-unplated.png" Link="Assets\AppIcon\AppList.targetsize-24_altform-unplated.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\StoreLogo.png" Link="Assets\AppIcon\StoreLogo.png" />
   </ItemGroup>
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
