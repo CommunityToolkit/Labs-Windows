@@ -35,6 +35,7 @@
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\Markdown\JavaScriptBackedControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\Markdown\MarkdownTextBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitDocumentationRenderer.xaml.cs">
       <DependentUpon>ToolkitDocumentationRenderer.xaml</DependentUpon>
@@ -113,5 +114,11 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsUno)' == 'true'">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Renderers\Markdown\marked.min.js" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsUno)' != 'true'">
+    <None Include="$(MSBuildThisFileDirectory)Renderers\Markdown\marked.min.js" />
   </ItemGroup>
 </Project>
