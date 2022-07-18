@@ -14,7 +14,7 @@
   <Properties>
     <DisplayName>CommunityToolkit Labs: ProjectTemplate Samples (WinAppSdk)</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\AppIcon\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -32,12 +32,12 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
       DisplayName="CommunityToolkit Labs: ProjectTemplate Sample"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png"
+        Square150x150Logo="Assets\AppIcon\MedTile.png"
+        Square44x44Logo="Assets\AppIcon\AppList.png"
         Description="CommunityToolkit Labs Samples"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\AppIcon\WideTile.png"/>
+        <uap:SplashScreen Image="Assets\AppIcon\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
