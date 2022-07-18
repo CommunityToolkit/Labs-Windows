@@ -20,7 +20,7 @@
     <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\MedTile.scale-200.png" Link="Assets\AppIcon\MedTile.scale-200.png" />
     <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\AppList.scale-200.png" Link="Assets\AppIcon\AppList.scale-200.png" />
     <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\AppList.targetsize-24_altform-unplated.png" Link="Assets\AppIcon\AppList.targetsize-24_altform-unplated.png" />
-    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\StoreLogo.png" Link="Assets\AppIcon\StoreLogo.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\AppIcon\StoreLogo.scale-200.png" Link="Assets\AppIcon\StoreLogo.png" />
   </ItemGroup>
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
