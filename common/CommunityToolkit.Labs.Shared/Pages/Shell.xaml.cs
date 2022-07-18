@@ -31,7 +31,7 @@ public sealed partial class Shell : Page
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
         SetBackground();
         SetupNavigationMenu();
-        base.OnNavigatedTo(e);
+        base.OnNavigatedTo(e); 
     }
 
 
@@ -153,6 +153,26 @@ public sealed partial class Shell : Page
                 }
             }
         }
+    }
+
+    private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            if (string.IsNullOrWhiteSpace(SearchBox.Text))
+            {
+                var list = SearchForSample(SearchBox.Text.ToLower());
+                SearchBox.ItemsSource = list;
+                // HideSamplePicker();
+                return;
+            }
+        }
+    }
+
+    private ToolkitFrontMatter[] SearchForSample(string query)
+    {
+        return samplePages?.Where(s => s.Title.ToLower().Contains(query) || s.Keywords.ToLower().Contains(query) || s.Category.ToString().ToLower().Contains(query) || s.Subcategory.ToString().ToLower().Contains(query))
+            .ToArray();
     }
 
     private void SetBackground()
