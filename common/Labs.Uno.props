@@ -1,1 +1,59 @@
+<Project>
+    <!-- This file is modified by common/Scripts/UseUnoWinUI.ps1 to switch between WinUI 2 and 3 under Uno Platform -->
+    <!-- All Uno-based heads and multitargeted library projects reference this file, while native (UWP/WinAppSdk) heads don't and shouldn't need to. -->
+    <PropertyGroup>
+        <IsWasmHead Condition="'$(IsWasmHead)' == '' AND '$(TargetFramework)' == '$(WasmHeadTargetFramework)'">True</IsWasmHead>
+        <IsWpfHead Condition="'$(IsWpfHead)' == '' AND '$(TargetFramework)' == '$(WpfHeadTargetFramework)'">True</IsWpfHead>
+        <IsGtkHead Condition="'$(IsGtkHead)' == '' AND '$(TargetFramework)' == '$(LinuxHeadTargetFramework)'">True</IsGtkHead>
 
+        <IsWasmLib Condition="'$(IsWasmLib)' == '' AND '$(TargetFramework)' == '$(WasmLibTargetFramework)'">True</IsWasmLib>
+        <IsWpfLib Condition="'$(IsWpfLib)' == '' AND '$(TargetFramework)' == '$(WpfLibTargetFramework)'">True</IsWpfLib>
+        <IsGtkLib Condition="'$(IsGtkLib)' == '' AND '$(TargetFramework)' == '$(LinuxLibTargetFramework)'">True</IsGtkLib>
+
+        <IsWasm Condition="'$(IsWasm)' == '' AND ('$(IsWasmHead)' == 'true' or '$(IsWasmLib)' == 'true')">True</IsWasm>
+        <IsWpf Condition="'$(IsWpf)' == '' AND ('$(IsWpfHead)' == 'true' or '$(IsWpfLib)' == 'true')">True</IsWpf>
+        <IsGtk Condition="'$(IsGtk)' == '' AND ('$(IsGtkHead)' == 'true' or '$(IsGtkLib)' == 'true')">True</IsGtk>
+
+        <IsDroid Condition="'$(IsDroid)' == '' AND '$(TargetFramework)' == '$(AndroidLibTargetFramework)'">True</IsDroid>
+        <IsMacOS Condition="'$(IsMacOS)' == '' AND '$(TargetFramework)' == '$(MacOSLibTargetFramework)'">True</IsMacOS>
+        <IsiOS Condition="'$(IsiOS)' == '' AND '$(TargetFramework)' == '$(iOSLibTargetFramework)'">True</IsiOS>
+
+        <IsUwp Condition="'$(IsUwp)' == '' AND '$(TargetFramework)' == '$(UwpTargetFramework)'">True</IsUwp>
+        <IsWinAppSdk Condition="'$(IsWinAppSdk)' == '' AND '$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">True</IsWinAppSdk>
+        
+        <IsUno Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true' OR '$(IsDroid)' == 'true' OR '$(IsMacOS)' == 'true' OR '$(IsiOS)' == 'true'">True</IsUno>
+
+        <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);</DefineConstants>
+
+        <PackageIdVariant>Uwp</PackageIdVariant>
+        <WinUIMajorVersion>2</WinUIMajorVersion>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(IsUno)' == 'true'">
+        <PackageReference Include="Uno.UI" Version="4.2.6" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true'">
+        <PackageReference Include="Uno.UI.RemoteControl" Version="4.2.6" Condition="'$(Configuration)'=='Debug'" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsGtkHead)' == 'true'">
+        <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.2.6" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsWpfHead)' == 'true'">
+        <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.2.6" />
+    </ItemGroup>
+    <PropertyGroup Condition="'$(IsWpfHead)' == 'true'">
+        <!-- Ignorable issue from SkiaSharp package, see: https://github.com/CommunityToolkit/Labs-Windows/pull/119#issuecomment-1125373091 -->
+        <NoWarn>NU1701</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(IsWasmHead)' == 'true'">
+        <PackageReference Include="Uno.UI.WebAssembly" Version="4.2.6" />
+    </ItemGroup>
+
+    <!-- Import Uno and native dependencies for all multitargeted library projects. -->
+    <Import Project="$(MSBuildProjectDirectory)\Dependencies.props" Condition="'$(IsDeployableHead)' != 'true' AND Exists('$(MSBuildProjectDirectory)\Dependencies.props')" />
+    <Import Project="$(MSBuildProjectDirectory)\Dependencies.Uno.UI.props" Condition="'$(IsDeployableHead)' != 'true' AND Exists('$(MSBuildProjectDirectory)\Dependencies.Uno.UI.props')" />
+</Project>

@@ -11,7 +11,8 @@
   
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
+  
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
     <EmbeddedResource Include="WasmScripts\AppManifest.js" />

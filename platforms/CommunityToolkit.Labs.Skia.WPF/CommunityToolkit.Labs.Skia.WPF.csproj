@@ -1,18 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
-  
-  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
 
   <PropertyGroup>
     <IsGtkHead>False</IsGtkHead>
     <IsWpfHead>True</IsWpfHead>
     <IsWpfLib>True</IsWpfLib>
     <IsWasmHead>False</IsWasmHead>
+    <IsDeployableHead>true</IsDeployableHead>
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>
   </PropertyGroup>
 
+  <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
