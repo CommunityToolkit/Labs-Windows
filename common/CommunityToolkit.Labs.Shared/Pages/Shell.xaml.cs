@@ -54,7 +54,6 @@ public sealed partial class Shell : Page
     /// </summary>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        NavigationFrame.Navigated += NavigationFrameOnNavigated;
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
         SetBackground();
         SetupNavigationMenu();
@@ -128,7 +127,7 @@ public sealed partial class Shell : Page
     private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
     {
         NavView.IsBackEnabled = NavigationFrame.CanGoBack;
-        titleBar.IsBackButtonVisible = NavigationFrame.CanGoBack;
+        appTitleBar.IsBackButtonVisible = NavigationFrame.CanGoBack;
 
         // Update the NavigationViewControl selection indicator
         if (navigationEventArgs.NavigationMode == NavigationMode.Back)
