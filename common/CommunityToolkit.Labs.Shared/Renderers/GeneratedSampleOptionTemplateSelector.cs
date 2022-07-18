@@ -4,14 +4,6 @@
 
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 
-#if WINAPPSDK
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-#else
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#endif
-
 namespace CommunityToolkit.Labs.Shared.Renderers;
 
 /// <summary>
