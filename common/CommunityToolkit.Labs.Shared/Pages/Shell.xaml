@@ -28,9 +28,11 @@
             <Frame x:Name="NavigationFrame"
                    Navigated="NavigationFrameOnNavigated" />
             <muxc:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox win:AutomationProperties.Name="Search"
+                <AutoSuggestBox x:Name="SearchBox"
+                                win:AutomationProperties.Name="Search"
                                 PlaceholderText="Search Labs"
-                                QueryIcon="Find" />
+                                QueryIcon="Find"
+                                TextChanged="SearchBox_TextChanged" />
             </muxc:NavigationView.AutoSuggestBox>
         </muxc:NavigationView>
     </Grid>
