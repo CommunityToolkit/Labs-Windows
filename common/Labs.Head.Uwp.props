@@ -1,5 +1,6 @@
 <Project>  
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.Dependencies.props" />
 
   <ItemGroup>
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />

@@ -1,0 +1,6 @@
+<!-- Nuget package dependencies for all deployable UWP project heads  -->
+<Project>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Markdown" Version="7.1.2" />
+    </ItemGroup>
+</Project>

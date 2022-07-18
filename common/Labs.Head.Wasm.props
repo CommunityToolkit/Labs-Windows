@@ -18,9 +18,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>$(WasmHeadTargetFramework)</TargetFramework>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <WasmShellILLinkerEnabled>true</WasmShellILLinkerEnabled>
   </PropertyGroup>
+  
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
     <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
