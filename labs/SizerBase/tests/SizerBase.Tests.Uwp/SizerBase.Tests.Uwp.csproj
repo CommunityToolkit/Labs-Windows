@@ -40,8 +40,8 @@
     <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <Link>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</Link>
     </Content>
-    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png">
-      <Link>Assets\StoreLogo.png</Link>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.scale-100.png">
+      <Link>Assets\StoreLogo.scale-100.png</Link>
     </Content>
   </ItemGroup>
 

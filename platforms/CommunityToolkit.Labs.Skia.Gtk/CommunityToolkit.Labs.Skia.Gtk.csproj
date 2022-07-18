@@ -22,7 +22,7 @@
     <EmbeddedResource Include="..\CommunityToolkit.Labs.UWP\Package.appxmanifest" LogicalName="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.scale-100.png" Link="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\Fonts\uno-fluentui-assets.ttf" />
   </ItemGroup>
   <ItemGroup>
