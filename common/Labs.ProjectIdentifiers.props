@@ -23,6 +23,16 @@
 
         <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);WINUI2;</DefineConstants>
 
+        <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);HAS_UNO;</DefineConstants>
+        <DefineConstants Condition="'$(IsUwp)' == 'true'">$(DefineConstants);WINDOWS_UWP;NETFX_CORE;</DefineConstants>
+        <DefineConstants Condition="'$(IsWinAppSdk)' == 'true'">$(DefineConstants);WINDOWS_WINAPPSDK;</DefineConstants>
+        <DefineConstants Condition="'$(IsWasm)' == 'true'">$(DefineConstants);__WASM__;HAS_UNO_WASM;</DefineConstants>
+        <DefineConstants Condition="'$(IsDroid)' == 'true'">$(DefineConstants);__ANDROID__;</DefineConstants>
+        <DefineConstants Condition="'$(IsiOS)' == 'true'">$(DefineConstants);__IOS__;</DefineConstants>
+        <DefineConstants Condition="'$(IsMacOS)' == 'true'">$(DefineConstants);__MACOS__;</DefineConstants>
+        <DefineConstants Condition="'$(IsWpf)' == 'true'">$(DefineConstants);HAS_UNO_SKIA;WINDOWS_WPF;</DefineConstants>
+        <DefineConstants Condition="'$(IsGtk)' == 'true'">$(DefineConstants);HAS_UNO_SKIA;__GTK__;</DefineConstants>
+
         <PackageIdVariant>Uwp</PackageIdVariant>
         <WinUIMajorVersion>2</WinUIMajorVersion>
     </PropertyGroup>
