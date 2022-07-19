@@ -21,7 +21,7 @@ public static class NavigationViewHelper
             {
                 // Make samples
                 var sampleNavigationItems = GenerateSampleNavItems(subcategoryItemData.SampleMetadata ?? Enumerable.Empty<ToolkitFrontMatter>());
-                subcategoryItemData.NavItem.MenuItems.Add(new NavigationViewItemSeparator());
+                subcategoryItemData.NavItem.MenuItems.Add(new MUXC.NavigationViewItemSeparator());
                 foreach (var item in sampleNavigationItems)
                 {
                     // Add sample to subcategory
@@ -38,11 +38,11 @@ public static class NavigationViewHelper
         }
     }
 
-    private static IEnumerable<NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+    private static IEnumerable<MUXC.NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
     {
         foreach (var metadata in sampleMetadata)
         {
-            yield return new NavigationViewItem
+            yield return new MUXC.NavigationViewItem
             {
                 Content = metadata.Title,
                 Icon = new BitmapIcon() { ShowAsMonochrome = false, UriSource = new Uri(IconHelper.GetSubcategoryIcon(metadata.Subcategory)) }, // TO DO: This is probably a property we need to add to ToolkitFrontMatter?

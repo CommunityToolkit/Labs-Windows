@@ -1,10 +1,30 @@
-﻿<ResourceDictionary x:Class="CommunityToolkit.Labs.Shared.ItemTemplates"
+<ResourceDictionary x:Class="CommunityToolkit.Labs.Shared.ItemTemplates"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="using:CommunityToolkit.Labs.Shared.Converters"
                     xmlns:meta="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
                     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
-    <DataTemplate x:Key="ControlItemTemplate"
+    <converters:SubcategoryToIconConverter x:Key="subcategoryToIconConverter" />
+
+    <DataTemplate x:Key="ControlItemAutoSuggestBoxTemplate"
+                  x:DataType="meta:ToolkitFrontMatter">
+        <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Width="16">
+                <Image.Source>
+                    <BitmapImage UriSource="{Binding Subcategory, Converter={StaticResource subcategoryToIconConverter}}" />
+                </Image.Source>
+            </Image>
+            <TextBlock Grid.Column="1"
+                       Text="{Binding Title}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ControlItemGridViewTemplate"
                   x:DataType="meta:ToolkitFrontMatter">
         <Grid x:Name="controlRoot"
               Width="360"
@@ -44,8 +64,11 @@
                 <Image x:Name="gridImage"
                        Width="48"
                        VerticalAlignment="Center"
-                       Source="ms-appx:///Assets/Images/AutoSuggestBox.png"
-                       Stretch="Uniform" />
+                       Stretch="Uniform">
+                    <Image.Source>
+                        <BitmapImage UriSource="{Binding Subcategory, Converter={StaticResource subcategoryToIconConverter}}" />
+                    </Image.Source>
+                </Image>
             </Grid>
 
 
