@@ -58,7 +58,7 @@ public partial class SettingsCard : ButtonBase
     /// <summary>
     /// Gets or sets an example string. A basic Description example.
     /// </summary>
-    public object Description
+    public new object Description
     {
         get => (object)GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
