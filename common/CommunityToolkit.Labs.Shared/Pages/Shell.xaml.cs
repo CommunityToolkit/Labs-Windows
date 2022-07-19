@@ -161,6 +161,7 @@ public sealed partial class Shell : Page
         {
             if (string.IsNullOrWhiteSpace(searchBox.Text))
             {
+                searchBox.ItemsSource = null;
                 return;
             }
             else
