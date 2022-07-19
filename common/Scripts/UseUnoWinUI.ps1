@@ -43,6 +43,8 @@ function ApplyWinUISwap([string] $filePath) {
     Write-Output "Updated $(Resolve-Path -Relative $filePath)"
 }
 
+Write-Output "Switching to WinUI $winUIMajorVersion";
+
 ApplyWinUISwap $PSScriptRoot\..\Labs.Head.Uno.props
 ApplyWinUISwap $PSScriptRoot\..\Labs.Uno.props
 ApplyWinUISwap $PSScriptRoot\..\Labs.ProjectIdentifiers.props
