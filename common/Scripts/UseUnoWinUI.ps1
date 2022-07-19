@@ -47,8 +47,10 @@ ApplyWinUISwap $PSScriptRoot/../Labs.Head.Uno.props
 ApplyWinUISwap $PSScriptRoot/../Labs.Uno.props
 
 if ($allowGitChanges.IsPresent) {
-    Write-Warning "Changes to the default Uno package settings in Labs can now be committed. Run this command again without the -allowGitChanges flag to disable committing further changes.";
+    Write-Warning "Changes to the default Uno package settings in Labs can now be committed.`r`nRun this command again without -allowGitChanges to disable committing further changes.";
 }
 else {
-    Write-Output "Changes to the default Uno package settings in Labs are now suppressed. To switch branches, run git reset --hard with a clean working tree.";
+    Write-Output "Changes to the default Uno package settings in Labs are now suppressed.`r`nTo switch branches, run `"git reset --hard`" with a clean working tree.";
 }
+
+Write-Output "Done"
