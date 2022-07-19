@@ -34,7 +34,7 @@ public partial class SettingsCard : ButtonBase
         nameof(Icon),
         typeof(object),
         typeof(SettingsCard),
-        new PropertyMetadata(defaultValue: null, (d, e) => ((SettingsCard)d).OnIconPropertyChanged((string)e.OldValue, (string)e.NewValue)));
+        new PropertyMetadata(defaultValue: null, (d, e) => ((SettingsCard)d).OnIconPropertyChanged((object)e.OldValue, (object)e.NewValue)));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="IsClickEnabled"/> property.
@@ -88,7 +88,7 @@ public partial class SettingsCard : ButtonBase
         // Do something with the changed value.
     }
 
-    protected virtual void OnIconPropertyChanged(string oldValue, string newValue)
+    protected virtual void OnIconPropertyChanged(object oldValue, object newValue)
     {
         OnIconChanged();
     }

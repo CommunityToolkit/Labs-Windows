@@ -14,7 +14,7 @@ namespace SettingsControlsExperiment.Samples;
 //    "Sand       : #e7a676",
 //    "Dull green : #5d7577")]
 
-[ToolkitSample(id: nameof(SettingsCardSample), "Customizable options", description: "A sample for showing how to create and use a templated control.")]
+[ToolkitSample(id: nameof(SettingsCardSample), "SettingsCard", description: "A sample for showing how SettingsCard can be static or clickable.")]
 public sealed partial class SettingsCardSample : Page
 {
     public SettingsCardSample()

@@ -54,9 +54,9 @@ public partial class SettingsCard : ButtonBase
     {
         if (self.IsClickEnabled)
         {
-            if (!string.IsNullOrEmpty(self.Title))
+            if (!string.IsNullOrEmpty(self.Header))
             {
-                AutomationProperties.SetName(this, self.Title);
+                AutomationProperties.SetName(this, self.Header);
             }
         }
         else
@@ -64,9 +64,9 @@ public partial class SettingsCard : ButtonBase
             if (self.Content != null && self.Content.GetType() != typeof(Button))
             {
                 // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-                if (!string.IsNullOrEmpty(self.Title))
+                if (!string.IsNullOrEmpty(self.Header))
                 {
-                    AutomationProperties.SetName((UIElement)self.Content, self.Title);
+                    AutomationProperties.SetName((UIElement)self.Content, self.Header);
                 }
             }
         }
