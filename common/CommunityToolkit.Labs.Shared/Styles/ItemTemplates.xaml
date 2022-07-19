@@ -7,11 +7,12 @@
 
     <converters:SubcategoryToIconConverter x:Key="subcategoryToIconConverter" />
 
+    <!-- Kind of not supported in Uno (at least directly like this) see https://github.com/unoplatform/uno/issues/7582 (and related root issue)
     <Style x:Key="IndentedGridViewItemStyle"
            BasedOn="{StaticResource DefaultGridViewItemStyle}"
            TargetType="GridViewItem">
         <Setter Property="Margin" Value="12,0,0,12" />
-    </Style>
+    </Style>-->
 
     <DataTemplate x:Key="ControlItemAutoSuggestBoxTemplate"
                   x:DataType="meta:ToolkitFrontMatter">
@@ -35,6 +36,7 @@
         <Grid x:Name="controlRoot"
               Width="360"
               Height="90"
+              Margin="8,0,0,8"
               Padding="8"
               Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
