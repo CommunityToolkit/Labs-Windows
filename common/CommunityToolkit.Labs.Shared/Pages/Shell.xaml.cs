@@ -155,24 +155,21 @@ public sealed partial class Shell : Page
         }
     }
 
-    private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    private void searchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
-            if (string.IsNullOrWhiteSpace(SearchBox.Text))
+            if (string.IsNullOrWhiteSpace(searchBox.Text))
             {
-                var list = SearchForSample(SearchBox.Text.ToLower());
-                SearchBox.ItemsSource = list;
+                return;
+            }
+            else { 
+                var query = searchBox.Text;
+                searchBox.ItemsSource = samplePages?.Where(s => s!.Title!.ToLower().Contains(query) || s!.Keywords!.ToLower().Contains(query) || s!.Category!.ToString().ToLower().Contains(query) || s!.Subcategory!.ToString().ToLower().Contains(query)).ToArray(); ;
                 // HideSamplePicker();
                 return;
             }
         }
-    }
-
-    private ToolkitFrontMatter[] SearchForSample(string query)
-    {
-        return samplePages?.Where(s => s.Title.ToLower().Contains(query) || s.Keywords.ToLower().Contains(query) || s.Category.ToString().ToLower().Contains(query) || s.Subcategory.ToString().ToLower().Contains(query))
-            .ToArray();
     }
 
     private void SetBackground()
