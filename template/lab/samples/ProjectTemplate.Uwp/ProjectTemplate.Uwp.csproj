@@ -7,6 +7,7 @@
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
   </PropertyGroup>
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
 
   <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.props" />
