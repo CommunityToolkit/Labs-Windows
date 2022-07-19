@@ -114,6 +114,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.dark.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\UnoPowered.dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\UnoPowered.light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-100_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-125.png" />
