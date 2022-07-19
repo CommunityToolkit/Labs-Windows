@@ -1,16 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
-  
-  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
   
   <PropertyGroup>
     <IsGtkHead>True</IsGtkHead>
     <IsWpfHead>False</IsWpfHead>
     <IsWasmHead>False</IsWasmHead>
+    <IsDeployableHead>true</IsDeployableHead>
   </PropertyGroup>
-  
+
+  <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
 
   <PropertyGroup>
     <OutputType Condition="'$(Configuration)'=='Release'">WinExe</OutputType>

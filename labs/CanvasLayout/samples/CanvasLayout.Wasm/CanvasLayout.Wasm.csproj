@@ -6,12 +6,13 @@
   </PropertyGroup>
 
   <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Wasm.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Wasm.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
   
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
+  
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
     <EmbeddedResource Include="WasmScripts\AppManifest.js" />

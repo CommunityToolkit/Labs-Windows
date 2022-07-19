@@ -1,0 +1,7 @@
+<!-- Nuget package dependencies for all deployable Uno project heads that use WinUI 3  -->
+<!-- Due to the quirks of non-sdk style projects, we cannot create a unified Dependencies.props for deployable head. -->
+<Project>
+    <ItemGroup>
+        <!--<PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.100-dev.15.g12261e2626" />-->
+    </ItemGroup>
+</Project>

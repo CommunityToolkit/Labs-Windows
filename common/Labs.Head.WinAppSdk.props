@@ -2,6 +2,8 @@
   <!-- Common properties needed for a labs project (WinAppSdk) -->
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
 
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.WinAppSdk.Dependencies.props" />
+  
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -11,7 +13,7 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
-    <DefineConstants>WINAPPSDK</DefineConstants>
+    <DefineConstants>WINAPPSDK;WINDOWS_WINAPPSDK</DefineConstants>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 

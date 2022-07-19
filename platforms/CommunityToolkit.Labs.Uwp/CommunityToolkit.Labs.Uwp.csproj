@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.props" />
 
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
