@@ -138,6 +138,7 @@
                 <GridView x:Name="controlsGridView"
                           IsItemClickEnabled="True"
                           ItemClick="controlsGridView_ItemClick"
+                          ItemContainerStyle="{StaticResource IndentedGridViewItemStyle}"
                           ItemTemplate="{StaticResource ControlItemGridViewTemplate}"
                           SelectionMode="None">
 

@@ -7,6 +7,10 @@
 
     <converters:SubcategoryToIconConverter x:Key="subcategoryToIconConverter" />
 
+    <Style x:Key="IndentedGridViewItemStyle" TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
+        <Setter Property="Margin" Value="12,0,0,12" />
+    </Style>
+
     <DataTemplate x:Key="ControlItemAutoSuggestBoxTemplate"
                   x:DataType="meta:ToolkitFrontMatter">
         <Grid ColumnSpacing="8">
