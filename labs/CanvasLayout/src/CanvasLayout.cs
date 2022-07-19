@@ -4,12 +4,6 @@
 
 namespace CommunityToolkit.Labs.WinUI;
 
-#if !WINAPPSDK
-using SwitchPresenter = Microsoft.Toolkit.Uwp.UI.Controls.SwitchPresenter;
-#else
-using SwitchPresenter = CommunityToolkit.WinUI.UI.Controls.SwitchPresenter;
-#endif
-
 public class CanvasLayout : MUXC.VirtualizingLayout
 {
 #region Setup / teardown
