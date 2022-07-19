@@ -12,8 +12,7 @@ subcategory: Layout
 # SettingsControls
 
 For more information about this experiment see:
-- Discussion: TODO: PASTE LINK HERE
-- Issue: TODO: PASTE LINK HERE
+- Discussion: https://github.com/CommunityToolkit/Labs-Windows/discussions/129
 
 SettingsCard is a control that can be used to display settings in your experience. It uses the default styling found in Windows 11 and is easy to use, meets all accesibility standards and will make your settings page look great!
 You can set the Header, Description, Icon and Content.
