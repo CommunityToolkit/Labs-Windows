@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.WinAppSdk.props" />
+
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
+
+  <PropertyGroup>
+    <RootNamepace>SettingsControlsExperiment.Samples</RootNamepace>
+    <AssemblyName>SettingsControlsExperiment.Samples.WinAppSdk</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SettingsControls.csproj" />
+    <ProjectReference Include="..\SettingsControls.Samples\SettingsControls.Samples.csproj" />
+  </ItemGroup>
+
+  <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+         Tools extension to be activated for this project even if the Windows App SDK Nuget
+         package has not yet been restored -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.props" />
+
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+
+  <PropertyGroup>
+    <RootNamespace>SettingsControlsExperiment.Samples</RootNamespace>
+    <AssemblyName>SettingsControlsExperiment.Samples.Uwp</AssemblyName>
+    <ProjectGuid>{90A27CD4-6F3E-4199-832C-05BD523A0B2A}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SettingsControls.csproj">
+      <Project>{241D7E27-E59B-46ED-B740-4170080FD101}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.SettingsControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SettingsControls.Samples\SettingsControls.Samples.csproj">
+      <Project>{8FB678AA-4DD9-41F0-90A2-A1F987771504}</Project>
+      <Name>SettingsControls.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <!-- Must be imported after any shared projects in non-sdk style projects -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+</Project>
