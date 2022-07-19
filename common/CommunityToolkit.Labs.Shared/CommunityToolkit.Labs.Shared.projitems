@@ -118,7 +118,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-200_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-400_altform-colorful_theme-light.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LockScreenLogo.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-100_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-125.png" />
@@ -129,6 +129,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-200_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-100_altform-colorful_theme-dark.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-100_altform-colorful_theme-light.png" />
@@ -144,6 +145,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-400_altform-colorful_theme-dark.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-100_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-125.png" />
@@ -154,6 +156,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-200_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-100_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-125.png" />
@@ -212,6 +215,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreDisplay-150.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreDisplay-300.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreDisplay-71.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-100_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-125.png" />
@@ -222,6 +226,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-200_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-400.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-100_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-125.png" />
