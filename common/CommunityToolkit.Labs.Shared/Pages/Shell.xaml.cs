@@ -163,10 +163,10 @@ public sealed partial class Shell : Page
             {
                 return;
             }
-            else { 
+            else
+            {
                 var query = searchBox.Text;
                 searchBox.ItemsSource = samplePages?.Where(s => s!.Title!.ToLower().Contains(query) || s!.Keywords!.ToLower().Contains(query) || s!.Category!.ToString().ToLower().Contains(query) || s!.Subcategory!.ToString().ToLower().Contains(query)).ToArray(); ;
-                // HideSamplePicker();
                 return;
             }
         }
@@ -178,6 +178,7 @@ public sealed partial class Shell : Page
         {
             var selectedSample = args.ChosenSuggestion as ToolkitFrontMatter;
             NavigateToSample(selectedSample);
+            searchBox.Text = string.Empty;
         }
         else
         {

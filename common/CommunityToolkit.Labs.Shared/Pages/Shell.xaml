@@ -35,6 +35,7 @@
                                 QuerySubmitted="searchBox_QuerySubmitted"
                                 PlaceholderText="Search Labs"
                                 QueryIcon="Find"
+                                UpdateTextOnSelect="False"
                                 TextChanged="searchBox_TextChanged" />
             </muxc:NavigationView.AutoSuggestBox>
         </muxc:NavigationView>
