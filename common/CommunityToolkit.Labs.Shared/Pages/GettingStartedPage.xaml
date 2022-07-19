@@ -138,7 +138,7 @@
                 <GridView x:Name="controlsGridView"
                           IsItemClickEnabled="True"
                           ItemClick="controlsGridView_ItemClick"
-                          ItemTemplate="{StaticResource ControlItemTemplate}"
+                          ItemTemplate="{StaticResource ControlItemGridViewTemplate}"
                           SelectionMode="None">
 
                     <GridView.Header>

@@ -172,6 +172,19 @@ public sealed partial class Shell : Page
         }
     }
 
+    private void searchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (args.ChosenSuggestion != null && args.ChosenSuggestion is ToolkitFrontMatter)
+        {
+            var selectedSample = args.ChosenSuggestion as ToolkitFrontMatter;
+            NavigateToSample(selectedSample);
+        }
+        else
+        {
+            return;
+        }
+    }
+
     private void SetBackground()
     {
 #if !WINAPPSDK
