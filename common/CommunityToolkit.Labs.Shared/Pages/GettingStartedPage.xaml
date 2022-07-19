@@ -29,7 +29,6 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
-          BorderThickness="1,1,0,0"
           CornerRadius="8,0,0,0">
 
         <Grid.RowDefinitions>
@@ -137,13 +136,15 @@
                 </Grid.RowDefinitions>
 
                 <GridView x:Name="controlsGridView"
+                          Margin="-12,0,0,0"
                           IsItemClickEnabled="True"
                           ItemClick="controlsGridView_ItemClick"
-                          ItemTemplate="{StaticResource ControlItemTemplate}"
+                          ItemContainerStyle="{StaticResource IndentedGridViewItemStyle}"
+                          ItemTemplate="{StaticResource ControlItemGridViewTemplate}"
                           SelectionMode="None">
 
                     <GridView.Header>
-                        <TextBlock Margin="0,0,0,16"
+                        <TextBlock Margin="12,0,0,16"
                                    Style="{StaticResource SubtitleTextBlockStyle}"
                                    Text="Current experiments in Labs" />
                     </GridView.Header>

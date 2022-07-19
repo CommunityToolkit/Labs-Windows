@@ -190,7 +190,7 @@
 
     <!--  THIS XAML IS FROM WINUI TITLEBAR EXPERIMENT  -->
     <Style TargetType="local:TitleBar">
-        <Setter Property="Height" Value="32" />
+        <Setter Property="Height" Value="{ThemeResource TitleBarCompactHeight}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:TitleBar">
