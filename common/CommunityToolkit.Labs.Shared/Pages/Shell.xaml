@@ -23,7 +23,8 @@
                            BackButtonClick="TitleBar_BackButtonClick"
                            Icon="ms-appx:///Assets/Images/LabsIcon.png" />
         <muxc:NavigationView x:Name="NavView"
-                             Grid.Row="2"
+                             Grid.Row="1"
+                             Margin="0,16,0,0"
                              IsBackButtonVisible="Collapsed"
                              ItemInvoked="NavView_ItemInvoked">
             <Frame x:Name="NavigationFrame"
