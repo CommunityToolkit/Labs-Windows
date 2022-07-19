@@ -81,3 +81,7 @@ If when adding a new page to the sample project you run into errors, try resetti
 If you are referring to a control from the system like `TextBlock`, the build system will automatically pick the system one on UWP or the WinUI 3 one in the Windows App SDK.
 
 However, if you need to refer to a component that was part of the WinUI 2 library like `NavigationView` or `ItemsRepeater`, then preface your C# code type with `MUXC.` to clarify you are referring to the WinUI 2 or WinUI 3 versions of the components. In XAML this is done automatically as the namespace is the same (and it is effectively ignored in the WinUI 3 case).
+
+#### DEP0600 error (WinAppSDK)
+
+Your experiment name is probably too long (max 32 characters), use a shorter more concise name when generating your template. See [this issue here](https://github.com/microsoft/microsoft-ui-xaml/issues/7059).

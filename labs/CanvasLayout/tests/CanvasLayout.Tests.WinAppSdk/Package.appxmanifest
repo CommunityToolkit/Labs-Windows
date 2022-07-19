@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="Labs.CanvasLayout.Tests.WinAppSdk"
+    Name="Labs.CanvasLayout.Tests.AppSdk"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 

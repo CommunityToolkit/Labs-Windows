@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.WinAppSdk.props" />
 
   <!-- Labs Test Config -->
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />

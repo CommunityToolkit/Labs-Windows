@@ -6,7 +6,7 @@ namespace CommunityToolkit.Labs.WinUI;
 
 public class CanvasLayout : MUXC.VirtualizingLayout
 {
-    #region Setup / teardown
+#region Setup / teardown
     protected override void InitializeForContextCore(MUXC.VirtualizingLayoutContext context)
     {
         base.InitializeForContextCore(context);
@@ -27,9 +27,9 @@ public class CanvasLayout : MUXC.VirtualizingLayout
         context.LayoutState = null;
     }
 
-    #endregion
+#endregion
 
-    #region Layout
+#region Layout
 
     protected override Size MeasureOverride(MUXC.VirtualizingLayoutContext context, Size availableSize)
     {
@@ -88,7 +88,7 @@ public class CanvasLayout : MUXC.VirtualizingLayout
         return finalSize;
     }
 
-    #endregion
+#endregion
 }
 
 internal class CanvasLayoutState

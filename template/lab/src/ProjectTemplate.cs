@@ -9,7 +9,7 @@ namespace CommunityToolkit.Labs.WinUI;
 /// It is provided as an example of how to inherit from another control like <see cref="Panel"/>.
 /// You can choose to start here or from the <see cref="ProjectTemplate_ClassicBinding"/> or <see cref="ProjectTemplate_xBind"/> example components. Remove unused components and rename as appropriate.
 /// </summary>
-public class ProjectTemplate : Panel
+public partial class ProjectTemplate : Panel
 {
     /// <summary>
     /// Identifies the <see cref="Orientation"/> property.
