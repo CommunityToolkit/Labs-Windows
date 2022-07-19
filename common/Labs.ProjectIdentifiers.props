@@ -34,7 +34,7 @@
         <DefineConstants Condition="'$(IsDroid)' == 'true'">$(DefineConstants);__ANDROID__;</DefineConstants>
         <DefineConstants Condition="'$(IsiOS)' == 'true'">$(DefineConstants);__IOS__;</DefineConstants>
         <DefineConstants Condition="'$(IsMacOS)' == 'true'">$(DefineConstants);__MACOS__;</DefineConstants>
-        <DefineConstants Condition="'$(IsWpf)' == 'true'">$(DefineConstants);HAS_UNO_SKIA;WINDOWS_WPF;</DefineConstants>
-        <DefineConstants Condition="'$(IsGtk)' == 'true'">$(DefineConstants);HAS_UNO_SKIA;__GTK__;</DefineConstants>
+        <DefineConstants Condition="'$(IsWpf)' == 'true'">$(DefineConstants);HAS_UNO_SKIA;__SKIA__;WINDOWS_WPF;</DefineConstants>
+        <DefineConstants Condition="'$(IsGtk)' == 'true'">$(DefineConstants);HAS_UNO_SKIA;__SKIA__;__GTK__;</DefineConstants>
     </PropertyGroup>
 </Project>
