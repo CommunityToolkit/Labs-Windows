@@ -29,7 +29,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png">
+    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.png">
       <Link>Assets\LockScreenLogo.scale-200.png</Link>
     </Content>
     <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\SplashScreen.scale-200.png">
