@@ -3,5 +3,6 @@
 <Project>
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
+        <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
     </ItemGroup>
 </Project>
