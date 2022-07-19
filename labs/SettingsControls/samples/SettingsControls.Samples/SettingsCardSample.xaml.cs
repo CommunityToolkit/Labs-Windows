@@ -21,4 +21,9 @@ public sealed partial class SettingsCardSample : Page
     {
         this.InitializeComponent();
     }
+
+    private async void OnCardClicked(object sender, RoutedEventArgs e)
+    {
+       await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.microsoft.com"));
+    }
 }

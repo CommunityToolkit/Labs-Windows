@@ -30,8 +30,9 @@
         </labs:SettingsCard>
 
         <labs:SettingsCard
-            Description="Clickable card"
-            Header="When IsClickEnabled the Click event can be used to trigger an action"
+            Click="OnCardClicked"
+            Description="When IsClickEnabled the Click event can be used to trigger an action"
+            Header="Clickable card"
             Icon="&#xE772;"
             IsClickEnabled="True"
             IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
@@ -39,6 +40,7 @@
         </labs:SettingsCard>
 
         <labs:SettingsCard
+            Click="OnCardClicked"
             Description="You can also have other custom content when the card is clickable"
             Header="Clickable + content"
             IsClickEnabled="True"
