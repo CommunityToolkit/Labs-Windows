@@ -3,7 +3,7 @@ Param (
     [ValidateSet('2', '3')]
     [string]$winUIMajorVersion,
     
-    [Parameter(HelpMessage = "Disables suppressing changes to the Labs.Uno.props and Labs.Head.Uno.props files in git, allowing changes to be committed.")] 
+    [Parameter(HelpMessage = "Disables suppressing changes to the affected files in git, allowing changes to be committed.")] 
     [switch]$allowGitChanges = $false
 )
 
@@ -40,11 +40,12 @@ function ApplyWinUISwap([string] $filePath) {
     }
 
     Set-Content -Force -Path $filePath -Value $fileContents;
+    Write-Output "Updated $(Resolve-Path -Relative $filePath)"
 }
 
-
-ApplyWinUISwap $PSScriptRoot/../Labs.Head.Uno.props
-ApplyWinUISwap $PSScriptRoot/../Labs.Uno.props
+ApplyWinUISwap $PSScriptRoot\..\Labs.Head.Uno.props
+ApplyWinUISwap $PSScriptRoot\..\Labs.Uno.props
+ApplyWinUISwap $PSScriptRoot\..\Labs.ProjectIdentifiers.props
 
 if ($allowGitChanges.IsPresent) {
     Write-Warning "Changes to the default Uno package settings in Labs can now be committed.`r`nRun this command again without -allowGitChanges to disable committing further changes.";
