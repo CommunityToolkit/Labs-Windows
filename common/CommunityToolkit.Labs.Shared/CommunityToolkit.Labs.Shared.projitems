@@ -103,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Control.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Empty.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Input.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Status.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Layout.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-125.png" />

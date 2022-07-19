@@ -13,9 +13,9 @@ public static class IconHelper
         IconElement? iconElement = null;
         switch (category)
         {
-            case ToolkitSampleCategory.Controls: iconElement = new FontIcon() { Glyph = "\uE0A2" }; break;
+            case ToolkitSampleCategory.Controls: iconElement = new FontIcon() { Glyph = "\uE73A" }; break;
             case ToolkitSampleCategory.Animations: iconElement = new FontIcon() { Glyph = "\uE945" }; break;
-            case ToolkitSampleCategory.Behaviors: iconElement = new FontIcon() { Glyph = "\uE16C" }; break; 
+            case ToolkitSampleCategory.Behaviors: iconElement = new FontIcon() { Glyph = "\uE2AC" }; break; 
         }
         return iconElement;
     }
@@ -27,8 +27,8 @@ public static class IconHelper
         {
             case ToolkitSampleSubcategory.None: imagePath = "ms-appx:///Assets/ControlIcons/Control.png"; break;
             case ToolkitSampleSubcategory.Layout: imagePath = "ms-appx:///Assets/ControlIcons/Layout.png"; break;
-            case ToolkitSampleSubcategory.Input: imagePath = "ms-appx:///Assets/ControlIcons/Layout.png"; break; // TO DO
-            case ToolkitSampleSubcategory.StatusAndInfo: imagePath = "ms-appx:///Assets/ControlIcons/Layout.png"; break; // TO DO
+            case ToolkitSampleSubcategory.Input: imagePath = "ms-appx:///Assets/ControlIcons/Input.png"; break;
+            case ToolkitSampleSubcategory.StatusAndInfo: imagePath = "ms-appx:///Assets/ControlIcons/Status.png"; break;
         }
         return imagePath;
     }
