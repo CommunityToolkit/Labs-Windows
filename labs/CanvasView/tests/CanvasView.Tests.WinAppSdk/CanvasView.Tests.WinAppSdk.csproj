@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.WinAppSdk.props" />
+
+  <!-- Labs Test Config -->
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
+
+  <PropertyGroup>
+    <RootNamespace>CanvasViewExperiment.Tests</RootNamespace>
+    <AssemblyName>CanvasViewExperiment.Tests.WinAppSdk</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.scale-200.png" Link="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.scale-200.png" Link="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.scale-200.png" Link="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" Link="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+  </ItemGroup>
+
+  <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+       Tools extension to be activated for this project even if the Windows App SDK Nuget
+       package has not yet been restored -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+
+  <!-- Needed Unit Testing helper base classes -->
+  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.Tests.Shared\CommunityToolkit.Labs.Tests.Shared.projitems" Label="Unit Testing Helpers" />
+  <!-- Include the unit test files themselves -->
+  <Import Project="..\CanvasView.Tests\CanvasView.Tests.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasView.csproj" />
+  </ItemGroup>
+</Project>
