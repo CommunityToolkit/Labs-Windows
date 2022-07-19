@@ -29,14 +29,16 @@ function ApplyWinUISwap([string] $filePath) {
         $fileContents = $fileContents -replace '<WinUIMajorVersion>2</WinUIMajorVersion>', '<WinUIMajorVersion>3</WinUIMajorVersion>';
         $fileContents = $fileContents -replace '<PackageIdVariant>Uwp</PackageIdVariant>', '<PackageIdVariant>WinUI</PackageIdVariant>';
         $fileContents = $fileContents -replace 'Uno.UI', 'Uno.WinUI';
-        $fileContents = $fileContents -replace '\$\(DefineConstants\);', '$(DefineConstants);WINAPPSDK;';
+
+        $fileContents = $fileContents -replace '\$\(DefineConstants\);WINUI2;', '$(DefineConstants);WINUI3;WINAPPSDK;';
     }
 
     if ($winUIMajorVersion -eq "2") {    
         $fileContents = $fileContents -replace '<WinUIMajorVersion>3</WinUIMajorVersion>', '<WinUIMajorVersion>2</WinUIMajorVersion>';
         $fileContents = $fileContents -replace '<PackageIdVariant>WinUI</PackageIdVariant>', '<PackageIdVariant>Uwp</PackageIdVariant>';
         $fileContents = $fileContents -replace 'Uno.WinUI', 'Uno.UI';
-        $fileContents = $fileContents -replace 'WINAPPSDK;', '';
+
+        $fileContents = $fileContents -replace '\$\(DefineConstants\);WINUI3;WINAPPSDK;', '$(DefineConstants);WINUI2;';
     }
 
     Set-Content -Force -Path $filePath -Value $fileContents;

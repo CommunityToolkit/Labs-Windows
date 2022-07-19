@@ -21,7 +21,7 @@
         
         <IsUno Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true' OR '$(IsDroid)' == 'true' OR '$(IsMacOS)' == 'true' OR '$(IsiOS)' == 'true'">true</IsUno>
 
-        <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);</DefineConstants>
+        <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);WINUI2;</DefineConstants>
 
         <PackageIdVariant>Uwp</PackageIdVariant>
         <WinUIMajorVersion>2</WinUIMajorVersion>
