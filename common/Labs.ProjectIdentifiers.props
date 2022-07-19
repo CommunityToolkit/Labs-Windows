@@ -21,7 +21,11 @@
         
         <IsUno Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true' OR '$(IsDroid)' == 'true' OR '$(IsMacOS)' == 'true' OR '$(IsiOS)' == 'true'">true</IsUno>
 
+        <!-- THIS AREA MODIFIED BY SCRIPTS -->
+        <PackageIdVariant>Uwp</PackageIdVariant>
+        <WinUIMajorVersion>2</WinUIMajorVersion>
         <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);WINUI2;</DefineConstants>
+        <!-- END SCRIPT AREA -->
 
         <DefineConstants Condition="'$(IsUno)' == 'true'">$(DefineConstants);HAS_UNO;</DefineConstants>
         <DefineConstants Condition="'$(IsUwp)' == 'true'">$(DefineConstants);WINDOWS_UWP;NETFX_CORE;</DefineConstants>
@@ -32,8 +36,5 @@
         <DefineConstants Condition="'$(IsMacOS)' == 'true'">$(DefineConstants);__MACOS__;</DefineConstants>
         <DefineConstants Condition="'$(IsWpf)' == 'true'">$(DefineConstants);HAS_UNO_SKIA;WINDOWS_WPF;</DefineConstants>
         <DefineConstants Condition="'$(IsGtk)' == 'true'">$(DefineConstants);HAS_UNO_SKIA;__GTK__;</DefineConstants>
-
-        <PackageIdVariant>Uwp</PackageIdVariant>
-        <WinUIMajorVersion>2</WinUIMajorVersion>
     </PropertyGroup>
 </Project>
