@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="Labs.SizerBase.Samples.WinAppSdk"
+    Name="Labs.SizerBase.AppSdk"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 

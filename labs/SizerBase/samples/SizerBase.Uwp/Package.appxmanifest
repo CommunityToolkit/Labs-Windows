@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="Labs.SizerBase.Samples.Uwp"
+    Name="Labs.SizerBase.Uwp"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
