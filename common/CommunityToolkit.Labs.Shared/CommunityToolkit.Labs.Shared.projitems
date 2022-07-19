@@ -102,13 +102,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Control.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Layout.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-125.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-150.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-400.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\AutoSuggestBox.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ConnectedAnimation.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.dark.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-100.png" />

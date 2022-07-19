@@ -3,10 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Core.SourceGenerators;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace CommunityToolkit.Labs.Shared.Helpers;
 
@@ -27,8 +23,8 @@ public static class IconHelper
         string imagePath = string.Empty;
         switch (subcategory)
         {
-            case ToolkitSampleSubcategory.None: imagePath = "ms-appx:///Assets/Images/AutoSuggestBox.png"; break;
-            case ToolkitSampleSubcategory.Layout: imagePath = "ms-appx:///Assets/Images/AutoSuggestBox.png"; break;
+            case ToolkitSampleSubcategory.None: imagePath = "ms-appx:///Assets/ControlIcons/Control.png"; break;
+            case ToolkitSampleSubcategory.Layout: imagePath = "ms-appx:///Assets/ControlIcons/Layout.png"; break;
         }
         return imagePath;
     }
