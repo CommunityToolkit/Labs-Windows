@@ -26,7 +26,6 @@
 
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
 
   <PropertyGroup>
     <RootNamepace>ProjectTemplateExperiment.Samples</RootNamepace>

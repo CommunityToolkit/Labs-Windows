@@ -21,5 +21,15 @@ public enum ToolkitSampleSubcategory : byte
     /// A sample that focuses on control layout.
     /// </summary>
     Layout,
+
+    /// <summary>
+    /// A sample that focuses on status and info behaviors.
+    /// </summary>
+    StatusAndInfo,
+
+    /// <summary>
+    /// A sample that focuses input controls.
+    /// </summary>
+    Input,
 }
 

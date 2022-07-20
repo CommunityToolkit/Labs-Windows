@@ -21,8 +21,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)AppLoadingView.xaml.cs">
       <DependentUpon>AppLoadingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\NavigateToUriAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TitleBar\TitleBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SubcategoryToIconConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DocOrSampleTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IconHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationViewHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml.cs">
       <DependentUpon>GettingStartedPage.xaml</DependentUpon>
@@ -100,15 +103,20 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Control.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Empty.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Input.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Status.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Layout.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-125.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-150.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-200.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-400.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\AutoSuggestBox.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ConnectedAnimation.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.dark.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\UnoPowered.dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\UnoPowered.light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-100.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-100_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-125.png" />

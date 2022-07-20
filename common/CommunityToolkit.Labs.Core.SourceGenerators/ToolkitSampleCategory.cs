@@ -13,4 +13,14 @@ public enum ToolkitSampleCategory : byte
     /// Various UI controls that the user sees and interacts with.
     /// </summary>
     Controls,
+
+    /// <summary>
+    /// Various animations and helpers.
+    /// </summary>
+    Animations,
+
+    /// <summary>
+    /// Various Behaviors.
+    /// </summary>
+    Behaviors,
 }

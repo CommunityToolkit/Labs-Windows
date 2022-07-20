@@ -2,19 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
-using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
-using NavigationViewItemSeparator = Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator;
-using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 
 namespace CommunityToolkit.Labs.Shared.Helpers;
 
 public static class NavigationViewHelper
 {
-    public static IEnumerable<NavigationViewItem> GenerateNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+    public static IEnumerable<MUXC.NavigationViewItem> GenerateNavItemTree(IEnumerable<ToolkitFrontMatter> sampleMetadata)
     {
         // Make categories
         var categoryData = GenerateCategoryNavItems(sampleMetadata);
@@ -28,7 +21,7 @@ public static class NavigationViewHelper
             {
                 // Make samples
                 var sampleNavigationItems = GenerateSampleNavItems(subcategoryItemData.SampleMetadata ?? Enumerable.Empty<ToolkitFrontMatter>());
-                subcategoryItemData.NavItem.MenuItems.Add(new NavigationViewItemSeparator());
+                subcategoryItemData.NavItem.MenuItems.Add(new MUXC.NavigationViewItemSeparator());
                 foreach (var item in sampleNavigationItems)
                 {
                     // Add sample to subcategory
@@ -45,14 +38,14 @@ public static class NavigationViewHelper
         }
     }
 
-    private static IEnumerable<NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
+    private static IEnumerable<MUXC.NavigationViewItem> GenerateSampleNavItems(IEnumerable<ToolkitFrontMatter> sampleMetadata)
     {
         foreach (var metadata in sampleMetadata)
         {
-            yield return new NavigationViewItem
+            yield return new MUXC.NavigationViewItem
             {
                 Content = metadata.Title,
-                Icon = new BitmapIcon() { ShowAsMonochrome = false, UriSource = new Uri("ms-appx:///Assets/Images/AutoSuggestBox.png") }, // TO DO: This is probably a property we need to add to ToolkitFrontMatter?
+                Icon = new BitmapIcon() { ShowAsMonochrome = false, UriSource = new Uri(IconHelper.GetSubcategoryIcon(metadata.Subcategory)) }, // TO DO: This is probably a property we need to add to ToolkitFrontMatter?
                 Tag = metadata,
             };
         }
@@ -64,7 +57,7 @@ public static class NavigationViewHelper
 
         foreach (var subcategoryGroup in samplesBySubcategory)
         {
-            yield return new GroupNavigationItemData(new NavigationViewItem
+            yield return new GroupNavigationItemData(new MUXC.NavigationViewItem
             {
                 Content = subcategoryGroup.Key,
                 SelectsOnInvoked = false,
@@ -79,10 +72,10 @@ public static class NavigationViewHelper
 
         foreach (var categoryGroup in samplesByCategory)
         {
-            yield return new GroupNavigationItemData(new NavigationViewItem
+            yield return new GroupNavigationItemData(new MUXC.NavigationViewItem
             {
                 Content = categoryGroup.Key,
-                Icon = new SymbolIcon() { Symbol = Symbol.Keyboard }, // TO DO: Helper that checks what icon belongs to what Category enum
+                Icon = IconHelper.GetCategoryIcon(categoryGroup.Key),
                 SelectsOnInvoked = false,
             }, categoryGroup.ToArray());
         }
@@ -90,6 +83,6 @@ public static class NavigationViewHelper
 
     /// <param name="NavItem">A navigation item to contain items in this group.</param>
     /// <param name="SampleMetadata">The samples that belong under <see cref="NavItem"/>.</param>
-    private record GroupNavigationItemData(NavigationViewItem NavItem, IEnumerable<ToolkitFrontMatter> SampleMetadata);
+    private record GroupNavigationItemData(MUXC.NavigationViewItem NavItem, IEnumerable<ToolkitFrontMatter> SampleMetadata);
 
 }

@@ -2,32 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.Core;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation.Collections;
-
-#if !WINAPPSDK
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-#else
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-#endif
-
-using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
-using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
-using NavigationViewItemSeparator = Microsoft.UI.Xaml.Controls.NavigationViewItemSeparator;
-using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 using CommunityToolkit.Labs.Shared.Renderers;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using CommunityToolkit.Labs.Shared.Helpers;
@@ -54,11 +28,10 @@ public sealed partial class Shell : Page
     /// </summary>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        NavigationFrame.Navigated += NavigationFrameOnNavigated;
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
         SetBackground();
         SetupNavigationMenu();
-        base.OnNavigatedTo(e);
+        base.OnNavigatedTo(e); 
     }
 
 
@@ -66,8 +39,8 @@ public sealed partial class Shell : Page
     {
         if (samplePages is not null)
         {
-            NavView.MenuItems.Add(new NavigationViewItem() { Content = "Get started", Icon = new SymbolIcon() { Symbol = Symbol.Home }, Tag = "GettingStarted" });
-            NavView.MenuItems.Add(new NavigationViewItemSeparator());
+            NavView.MenuItems.Add(new MUXC.NavigationViewItem() { Content = "Get started", Icon = new SymbolIcon() { Symbol = Symbol.Home }, Tag = "GettingStarted" });
+            NavView.MenuItems.Add(new MUXC.NavigationViewItemSeparator());
 
             // Populate menu with categories, subcategories and samples
             foreach (var item in NavigationViewHelper.GenerateNavItemTree(samplePages))
@@ -78,9 +51,9 @@ public sealed partial class Shell : Page
         }
     }
 
-    private void NavView_ItemInvoked(NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs args)
+    private void NavView_ItemInvoked(MUXC.NavigationView sender, MUXC.NavigationViewItemInvokedEventArgs args)
     {
-        var selectedItem = ((NavigationViewItem)args.InvokedItemContainer);
+        var selectedItem = (MUXC.NavigationViewItem)args.InvokedItemContainer;
 
         if (args.IsSettingsInvoked)
         {
@@ -128,7 +101,7 @@ public sealed partial class Shell : Page
     private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
     {
         NavView.IsBackEnabled = NavigationFrame.CanGoBack;
-        titleBar.IsBackButtonVisible = NavigationFrame.CanGoBack;
+        appTitleBar.IsBackButtonVisible = NavigationFrame.CanGoBack;
 
         // Update the NavigationViewControl selection indicator
         if (navigationEventArgs.NavigationMode == NavigationMode.Back)
@@ -153,15 +126,15 @@ public sealed partial class Shell : Page
     {
         foreach (object rawCategory in this.NavView.MenuItems)
         {
-            if (rawCategory is NavigationViewItem category)
+            if (rawCategory is MUXC.NavigationViewItem category)
             {
                 foreach (object rawSubcategory in category.MenuItems)
                 {
-                    if (rawSubcategory is NavigationViewItem subcategory)
+                    if (rawSubcategory is MUXC.NavigationViewItem subcategory)
                     {
                         foreach (object rawSample in subcategory.MenuItems)
                         {
-                            if (rawSample is NavigationViewItem sample)
+                            if (rawSample is MUXC.NavigationViewItem sample)
                             {
                                 if (sample.Tag != null)
                                 {
@@ -181,6 +154,41 @@ public sealed partial class Shell : Page
             }
         }
     }
+
+//// See AutoSuggestBox issue for WASM https://github.com/unoplatform/uno/issues/7778
+#if !HAS_UNO
+    private void searchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            if (string.IsNullOrWhiteSpace(searchBox.Text))
+            {
+                searchBox.ItemsSource = null;
+                return;
+            }
+            else
+            {
+                var query = searchBox.Text;
+                searchBox.ItemsSource = samplePages?.Where(s => s!.Title!.ToLower().Contains(query) || s!.Keywords!.ToLower().Contains(query) || s!.Category!.ToString().ToLower().Contains(query) || s!.Subcategory!.ToString().ToLower().Contains(query)).ToArray(); ;
+                return;
+            }
+        }
+    }
+
+    private void searchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (args.ChosenSuggestion != null && args.ChosenSuggestion is ToolkitFrontMatter)
+        {
+            var selectedSample = args.ChosenSuggestion as ToolkitFrontMatter;
+            NavigateToSample(selectedSample);
+            searchBox.Text = string.Empty;
+        }
+        else
+        {
+            return;
+        }
+    }
+#endif
 
     private void SetBackground()
     {
