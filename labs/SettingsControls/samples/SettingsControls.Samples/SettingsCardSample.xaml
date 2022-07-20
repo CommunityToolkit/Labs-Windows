@@ -11,7 +11,7 @@
                 Spacing="8">
         <labs:SettingsCard Description="Windows and apps might use your country or region to give you local content"
                            Header="Country or region"
-                           Icon="&#xF49A;"
+                           Icon="&#xE736;"
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <ComboBox SelectedIndex="0">
                 <ComboBoxItem>United States</ComboBoxItem>
@@ -31,7 +31,7 @@
         <labs:SettingsCard Click="OnCardClicked"
                            Description="When IsClickEnabled the Click event can be used to trigger an action"
                            Header="Clickable card"
-                           Icon="&#xE772;"
+                           Icon="&#xE7EF;"
                            IsClickEnabled="True"
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <FontIcon FontSize="14"
@@ -48,7 +48,7 @@
                 <Button Content="Add device"
                         Style="{StaticResource AccentButtonStyle}" />
                 <FontIcon FontSize="14"
-                          Glyph="&#xE097;" />
+                          Glyph="&#xE76C;" />
             </StackPanel>
         </labs:SettingsCard>
     </StackPanel>
