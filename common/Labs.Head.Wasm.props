@@ -6,11 +6,11 @@
     Because of this, this file must be import immediately after defining all other constant values.
    -->
   <PropertyGroup>
-    <IsGtkHead>False</IsGtkHead>
-    <IsWpfHead>False</IsWpfHead>
-    <IsWpfLib>False</IsWpfLib>
-    <IsWasmHead>True</IsWasmHead>
-    <IsWasmLib>False</IsWasmLib>
+    <IsGtkHead>false</IsGtkHead>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWpfLib>false</IsWpfLib>
+    <IsWasmHead>true</IsWasmHead>
+    <IsWasmLib>false</IsWasmLib>
   </PropertyGroup>
 
   <!-- Labs Platform Config -->

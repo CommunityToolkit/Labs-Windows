@@ -13,7 +13,7 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
-    <DefineConstants>WINAPPSDK;WINDOWS_WINAPPSDK</DefineConstants>
+    <DefineConstants>$(DefineConstants);WINAPPSDK;WINDOWS_WINAPPSDK;</DefineConstants>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 

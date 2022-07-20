@@ -5,9 +5,24 @@
   <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <PropertyGroup>
-    <IsDroid>true</IsDroid>
     <IsDeployableHead>true</IsDeployableHead>
+    <IsUno>true</IsUno>
+    <IsWasm>false</IsWasm>
+    <IsWasmHead>false</IsWasmHead>
+    <IsWasmLib>false</IsWasmLib>
+    <IsDroid>true</IsDroid>
+    <IsMacOS>false</IsMacOS>
+    <IsiOS>false</IsiOS>
+    <IsUwp>false</IsUwp>
+    <IsWinAppSdk>false</IsWinAppSdk>
+    <IsWpf>false</IsWpf>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWpfLib>false</IsWpfLib>
+    <IsGtk>false</IsGtk>
+    <IsGtkHead>false</IsGtkHead>
+    <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
 
   <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
