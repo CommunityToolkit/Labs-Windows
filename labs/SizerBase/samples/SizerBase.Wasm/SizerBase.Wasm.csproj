@@ -3,7 +3,7 @@
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
-    <IsUno>false</IsUno>
+    <IsUno>true</IsUno>
     <IsWasm>true</IsWasm>
     <IsWasmHead>false</IsWasmHead>
     <IsWasmLib>false</IsWasmLib>
