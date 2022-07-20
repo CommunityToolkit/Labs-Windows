@@ -6,7 +6,10 @@ using Microsoft.Xaml.Interactivity;
 
 namespace CommunityToolkit.Labs.Shared.Behaviors;
 
+//// TODO: Check with https://github.com/CommunityToolkit/Labs-Windows/issues/174
+#pragma warning disable CA1001 // Type 'NavigateToUriAction' owns disposable field(s) '__storeBackingField' but is not disposable. From Uno - Gtk, Skia/WPF, WASM
 public sealed partial class NavigateToUriAction : DependencyObject, IAction
+#pragma warning restore CA1001 // Type 'NavigateToUriAction' owns disposable field(s) '__storeBackingField' but is not disposable. From Uno - Gtk, Skia/WPF, WASM
 {
     /// <summary>
     /// Gets or sets the linked <see cref="NavigateUri"/> instance to invoke.
