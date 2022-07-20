@@ -23,4 +23,15 @@ namespace CommunityToolkit.Labs.Shared.Renderers;
 /// </summary>
 public partial class MarkdownTextBlock : ToolkitMTB
 {
+#if HAS_UNO
+    //// Polyfill dummy for event callback
+    #pragma warning disable CS0067 // Unused on purpose for polyfill
+    public event EventHandler<LinkClickedEventArgs>? LinkClicked;
+    #pragma warning restore CS0067 // Unused on purpose for polyfill
+#endif
 }
+
+#if HAS_UNO
+//// Polyfill dummy for event callback
+public class LinkClickedEventArgs : EventArgs { }
+#endif
