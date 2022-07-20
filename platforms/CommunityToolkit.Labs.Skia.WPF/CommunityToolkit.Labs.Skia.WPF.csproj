@@ -13,7 +13,7 @@
     <IsUwp>false</IsUwp>
     <IsWinAppSdk>false</IsWinAppSdk>
     <IsWpf>true</IsWpf>
-    <IsWpfHead>false</IsWpfHead>
+    <IsWpfHead>true</IsWpfHead>
     <IsWpfLib>true</IsWpfLib>
     <IsGtk>false</IsGtk>
     <IsGtkHead>false</IsGtkHead>
