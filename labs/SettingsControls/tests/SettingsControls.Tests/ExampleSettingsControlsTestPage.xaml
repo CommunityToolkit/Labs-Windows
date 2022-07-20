@@ -9,6 +9,6 @@
       mc:Ignorable="d">
 
     <Grid>
-        <labs:SettingsControls_ClassicBinding x:Name="SettingsControlsControl" />
+        <labs:SettingsCard x:Name="SettingsControlsControl" />
     </Grid>
 </Page>
