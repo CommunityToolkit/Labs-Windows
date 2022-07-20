@@ -1,0 +1,56 @@
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="SettingsControlsExperiment.Samples.SettingsCardSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <StackPanel Padding="20"
+                Spacing="8">
+        <labs:SettingsCard Description="Windows and apps might use your country or region to give you local content"
+                           Header="Country or region"
+                           Icon="&#xE736;"
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <ComboBox SelectedIndex="0">
+                <ComboBoxItem>United States</ComboBoxItem>
+                <ComboBoxItem>The Netherlands</ComboBoxItem>
+                <ComboBoxItem>Germany</ComboBoxItem>
+            </ComboBox>
+        </labs:SettingsCard>
+
+        <labs:SettingsCard Header="Preferred languages"
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <labs:SettingsCard.Description>
+                <HyperlinkButton Content="Learn more about Phone Link" />
+            </labs:SettingsCard.Description>
+            <Button Content="Open Phone Link" />
+        </labs:SettingsCard>
+
+        <labs:SettingsCard Click="OnCardClicked"
+                           Description="When IsClickEnabled the Click event can be used to trigger an action"
+                           Header="Clickable card"
+                           Icon="&#xE7EF;"
+                           IsClickEnabled="True"
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <FontIcon FontSize="14"
+                      Glyph="&#xE8A7;" />
+        </labs:SettingsCard>
+
+        <labs:SettingsCard Click="OnCardClicked"
+                           Description="You can also have other custom content when the card is clickable"
+                           Header="Clickable + content"
+                           IsClickEnabled="True"
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="12">
+                <Button Content="Add device"
+                        Style="{StaticResource AccentButtonStyle}" />
+                <FontIcon FontSize="14"
+                          Glyph="&#xE76C;" />
+            </StackPanel>
+        </labs:SettingsCard>
+    </StackPanel>
+</Page>
+
