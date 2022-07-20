@@ -62,7 +62,7 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
     partial class {methodSymbol.ContainingType.Name}
     {{
         [TestMethod]
-        public Task {methodSymbol.Name}_Test()
+        public Task {methodSymbol.Name}_{methodSymbol.ContainingType.Name}_Test()
         {{
             return EnqueueAsync({(isAsync || controlTypeSymbol is not null ? "async " : string.Empty)}() => {{
                 {(controlTypeSymbol is not null ? @$"
@@ -84,7 +84,7 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
 }}
 ";
 
-        context.AddSource($"{methodSymbol.Name}.g", source);
+        context.AddSource($"{methodSymbol.Name}_{methodSymbol.ContainingType.Name}.g", source);
     }
 
     private static bool ControlTypeInheritsFrameworkElement(ITypeSymbol controlType)
