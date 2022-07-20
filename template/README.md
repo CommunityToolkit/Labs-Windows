@@ -62,6 +62,10 @@ Labs requires long paths to be enabled. You'll want to modify the `HKEY_LOCAL_MA
 
 This may require a reboot.
 
+#### Updating NuGet Package
+
+Packages are manually versioned right now, [see this issue here](https://github.com/CommunityToolkit/Labs-Windows/issues/133). In order to update your NuGet package, update the `<Version>` tag in your library's `CommunityToolkit.Labs.WinUI.MyExperimentNameHere.csproj` file.
+
 #### WebAssembly Sample Project
 
 Sometimes it can be tricky to run the WASM sample project head under Visual Studio with the default IIS run configuration. Use the drop-down within the run button itself to instead select the `ExperimentName.Wasm` configuration over `IIS Express`.
