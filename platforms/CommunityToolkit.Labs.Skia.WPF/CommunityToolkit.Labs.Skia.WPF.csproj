@@ -2,11 +2,22 @@
   <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <PropertyGroup>
-    <IsGtkHead>False</IsGtkHead>
-    <IsWpfHead>True</IsWpfHead>
-    <IsWpfLib>True</IsWpfLib>
-    <IsWasmHead>False</IsWasmHead>
     <IsDeployableHead>true</IsDeployableHead>
+    <IsUno>true</IsUno>
+    <IsWasm>false</IsWasm>
+    <IsWasmHead>false</IsWasmHead>
+    <IsWasmLib>false</IsWasmLib>
+    <IsDroid>false</IsDroid>
+    <IsMacOS>false</IsMacOS>
+    <IsiOS>false</IsiOS>
+    <IsUwp>false</IsUwp>
+    <IsWinAppSdk>false</IsWinAppSdk>
+    <IsWpf>true</IsWpf>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWpfLib>true</IsWpfLib>
+    <IsGtk>false</IsGtk>
+    <IsGtkHead>false</IsGtkHead>
+    <IsGtkLib>false</IsGtkLib>
     <TargetFramework>$(WpfLibTargetFramework)</TargetFramework>
   </PropertyGroup>
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
