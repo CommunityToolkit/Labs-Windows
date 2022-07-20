@@ -30,14 +30,15 @@
             <Frame x:Name="NavigationFrame"
                    Navigated="NavigationFrameOnNavigated" />
             <muxc:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox x:Name="searchBox"
-                                win:AutomationProperties.Name="Search"
-                                ItemTemplate="{StaticResource ControlItemAutoSuggestBoxTemplate}"
-                                PlaceholderText="Search Labs"
-                                QueryIcon="Find"
-                                QuerySubmitted="searchBox_QuerySubmitted"
-                                TextChanged="searchBox_TextChanged"
-                                UpdateTextOnSelect="False" />
+                <!-- See AutoSuggestBox issue for WASM https://github.com/unoplatform/uno/issues/7778 -->
+                <win:AutoSuggestBox x:Name="searchBox"
+                                    win:AutomationProperties.Name="Search"
+                                    ItemTemplate="{StaticResource ControlItemAutoSuggestBoxTemplate}"
+                                    PlaceholderText="Search Labs"
+                                    QueryIcon="Find"
+                                    QuerySubmitted="searchBox_QuerySubmitted"
+                                    TextChanged="searchBox_TextChanged"
+                                    UpdateTextOnSelect="False" />
             </muxc:NavigationView.AutoSuggestBox>
         </muxc:NavigationView>
     </Grid>
