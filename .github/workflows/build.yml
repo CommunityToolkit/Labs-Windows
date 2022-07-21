@@ -76,7 +76,7 @@ jobs:
 
       - name: MSBuild
       # working-directory: ./
-        run: msbuild.exe Toolkit.Labs.All.sln /restore -p:Configuration=Release
+        run: msbuild.exe Toolkit.Labs.All.sln /restore -p:Configuration=Debug
 
       # Build All Packages
       - name: pack experiments
@@ -97,7 +97,7 @@ jobs:
         uses: darenm/Setup-VSTest@v1
 
       - name: Run SourceGenerators tests
-        run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
+        run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Debug/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
       - name: Run experiment tests against UWP
         run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
@@ -152,7 +152,7 @@ jobs:
 
       - name: MSBuild
        # working-directory: ./
-        run: msbuild.exe Toolkit.Labs.All.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+        run: msbuild.exe Toolkit.Labs.All.sln /restore /nowarn:MSB4011 -p:Configuration=Debug
 
       # Build All Packages
       - name: pack experiments
@@ -174,7 +174,7 @@ jobs:
         uses: darenm/Setup-VSTest@v1
 
       - name: Run SourceGenerators tests
-        run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
+        run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Debug/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
       - name: Run experiment tests against UWP
         run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
@@ -224,7 +224,7 @@ jobs:
 
       - name: MSBuild
         working-directory: ./labs/CiTestExp
-        run: msbuild.exe CiTestExp.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+        run: msbuild.exe CiTestExp.sln /restore /nowarn:MSB4011 -p:Configuration=Debug
 
       # Run tests
       - name: Setup VSTest Path
