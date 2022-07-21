@@ -195,6 +195,9 @@ jobs:
     needs: [Xaml-Style-Check]
     runs-on: windows-latest
 
+    permissions:
+      checks: write
+
     steps:
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
