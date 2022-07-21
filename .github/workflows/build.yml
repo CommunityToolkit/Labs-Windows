@@ -15,6 +15,11 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+  statuses: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -85,6 +90,7 @@ jobs:
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
+        if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
 
       - name: Push packages
@@ -160,6 +166,7 @@ jobs:
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
+        if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
 
       - name: Push packages
