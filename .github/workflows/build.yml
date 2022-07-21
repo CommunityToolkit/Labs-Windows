@@ -196,7 +196,7 @@ jobs:
     runs-on: windows-latest
 
     permissions:
-      checks: write
+      statuses: write
 
     steps:
       - name: Install .NET 6 SDK
