@@ -1,5 +1,5 @@
 
-# 🧪 Windows Community Toolkit Labs (Preview) 🧪
+# 🧪 Windows Community Toolkit Labs (Preview)
 
 ![Windows Community Toolkit Labs Social Image](common/ToolkitLabsSocial.png)
 
