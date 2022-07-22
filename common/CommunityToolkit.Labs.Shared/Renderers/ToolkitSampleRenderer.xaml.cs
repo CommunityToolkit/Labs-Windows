@@ -71,6 +71,13 @@ public sealed partial class ToolkitSampleRenderer : Page
     public static readonly DependencyProperty CSharpCodeProperty =
         DependencyProperty.Register(nameof(CSharpCode), typeof(string), typeof(ToolkitSampleRenderer), new PropertyMetadata(null));
 
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="IsTabbedMode"/> property.
+    /// </summary>
+    public static readonly DependencyProperty IsTabbedModeProperty =
+        DependencyProperty.Register(nameof(IsTabbedMode), typeof(bool), typeof(ToolkitSampleRenderer), new PropertyMetadata(false));
+
+
     public ToolkitSampleMetadata? Metadata
     {
         get { return (ToolkitSampleMetadata?)GetValue(MetadataProperty); }
@@ -113,6 +120,15 @@ public sealed partial class ToolkitSampleRenderer : Page
         set => SetValue(CSharpCodeProperty, value);
     }
 
+    /// <summary>
+    /// The mode of which the control renders. 
+    /// </summary>
+    public bool IsTabbedMode
+    {
+        get => (bool)GetValue(IsTabbedModeProperty);
+        set => SetValue(IsTabbedModeProperty, value);
+    }
+
     private static async void OnMetadataPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
     {
         if (dependencyObject is ToolkitSampleRenderer renderer &&
@@ -126,7 +142,6 @@ public sealed partial class ToolkitSampleRenderer : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
-
         Metadata = (ToolkitSampleMetadata)e.Parameter;
     }
 
@@ -244,4 +259,22 @@ public sealed partial class ToolkitSampleRenderer : Page
 
         throw new InvalidOperationException("Unable to determine if running in a single or all experiment solution.");
     }
+
+    private void ToolkitSampleRenderer_Loaded(object sender, RoutedEventArgs e)
+    {
+        VisualStateManager.GoToState(this, IsTabbedMode ? "Tabbed" : "Normal", true);
+    }
+
+    private void ThemeBtn_OnClick(object sender, RoutedEventArgs e)
+    { 
+    SourcodeExpander.IsExpanded = !SourcodeExpander.IsExpanded;
+    //if (this.ActualTheme == ElementTheme.Dark)
+    //{
+    //    this.RequestedTheme = ElementTheme.Light;
+    //}
+    //else
+    //{
+    //    this.RequestedTheme = ElementTheme.Dark;
+    //}
+}
 }
