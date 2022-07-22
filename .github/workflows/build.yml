@@ -91,6 +91,10 @@ jobs:
         if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
 
+      - uses: testspace-com/setup-testspace@v1
+        with:
+          domain: ${{ github.repository_owner }}
+
       # Run tests
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
@@ -105,9 +109,6 @@ jobs:
         run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
 
       - name: Create test reports
-        uses: testspace-com/setup-testspace@v1
-        with:
-          domain: ${{ github.repository_owner }}
         run: |
           testspace './TestResults/*.trx'
         if: always()
@@ -165,6 +166,10 @@ jobs:
       - name: Push packages
         if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
+        
+      - uses: testspace-com/setup-testspace@v1
+        with:
+          domain: ${{ github.repository_owner }}
 
       # Run tests
       - name: Setup VSTest Path
@@ -180,9 +185,6 @@ jobs:
         run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
 
       - name: Create test reports
-        with:
-          domain: ${{ github.repository_owner }}
-        uses: testspace-com/setup-testspace@v1
         run: |
           testspace './TestResults/*.trx'
         if: always()
@@ -222,6 +224,10 @@ jobs:
       - name: MSBuild
         working-directory: ./labs/CiTestExp
         run: msbuild.exe CiTestExp.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+        
+      - uses: testspace-com/setup-testspace@v1
+        with:
+          domain: ${{ github.repository_owner }}
 
       # Run tests
       - name: Setup VSTest Path
@@ -234,9 +240,6 @@ jobs:
         run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpWinAppSdk.trx"
 
       - name: Create test reports
-        uses: testspace-com/setup-testspace@v1
-        with:
-          domain: ${{ github.repository_owner }}
         run: |
           testspace './TestResults/*.trx'
         if: always()
