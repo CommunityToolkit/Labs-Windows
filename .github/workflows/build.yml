@@ -105,7 +105,7 @@ jobs:
         run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
 
       - name: Create test reports
-      - uses: testspace-com/setup-testspace@v1
+        uses: testspace-com/setup-testspace@v1
         with:
           domain: ${{ github.repository_owner }}
         run: |
@@ -182,7 +182,7 @@ jobs:
       - name: Create test reports
         with:
           domain: ${{ github.repository_owner }}
-      - uses: testspace-com/setup-testspace@v1
+        uses: testspace-com/setup-testspace@v1
         run: |
           testspace './TestResults/*.trx'
         if: always()
@@ -234,9 +234,9 @@ jobs:
         run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpWinAppSdk.trx"
 
       - name: Create test reports
+        uses: testspace-com/setup-testspace@v1
         with:
           domain: ${{ github.repository_owner }}
-      - uses: testspace-com/setup-testspace@v1
         run: |
           testspace './TestResults/*.trx'
         if: always()
