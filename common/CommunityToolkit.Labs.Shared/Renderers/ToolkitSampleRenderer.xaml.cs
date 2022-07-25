@@ -266,15 +266,19 @@ public sealed partial class ToolkitSampleRenderer : Page
     }
 
     private void ThemeBtn_OnClick(object sender, RoutedEventArgs e)
-    { 
-    SourcodeExpander.IsExpanded = !SourcodeExpander.IsExpanded;
-    //if (this.ActualTheme == ElementTheme.Dark)
-    //{
-    //    this.RequestedTheme = ElementTheme.Light;
-    //}
-    //else
-    //{
-    //    this.RequestedTheme = ElementTheme.Dark;
-    //}
-}
+    {
+        if (this.ActualTheme == ElementTheme.Dark)
+        {
+            this.RequestedTheme = ElementTheme.Light;
+        }
+        else
+        {
+            this.RequestedTheme = ElementTheme.Dark;
+        }
+    }
+
+    private void CodeBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        SourcecodeExpander.IsExpanded = !SourcecodeExpander.IsExpanded;
+    }
 }

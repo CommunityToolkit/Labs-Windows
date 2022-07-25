@@ -12,7 +12,7 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-          CornerRadius="{StaticResource ControlCornerRadius}">
+          CornerRadius="4">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -28,14 +28,14 @@
                 </VisualState>
                 <VisualState x:Name="Tabbed">
                     <VisualState.Setters>
-                        <!--<Setter Target="HeaderGrid.Visibility" Value="Collapsed" />-->
-
-
-                        <Setter Target="ButtonPanel.HorizontalAlignment" Value="Center" />
+                        <Setter Target="SampleCard.Background" Value="Transparent" />
+                        <Setter Target="SampleCardContent.Background" Value="Transparent" />
+                        <Setter Target="ToolBar.HorizontalAlignment" Value="Center" />
+                        <Setter Target="ToolBar.DefaultLabelPosition" Value="Right" />
                         <Setter Target="HeaderTxt.Visibility" Value="Collapsed" />
-                        <Setter Target="GHBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="GHBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="SourcodeExpander.Visibility" Value="Collapsed" />
+                        <Setter Target="GitHubBtn.Visibility" Value="Collapsed" />
+                        <Setter Target="CodeBtn.Visibility" Value="Collapsed" />
+                        <Setter Target="SourcecodeExpander.Visibility" Value="Collapsed" />
                         <Setter Target="SampleCard.BorderThickness" Value="0" />
                         <Setter Target="SampleCard.CornerRadius" Value="0" />
                     </VisualState.Setters>
@@ -45,36 +45,41 @@
             <VisualStateGroup x:Name="OrientationStates">
                 <VisualState x:Name="HorizontalSampleLayout">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint840Plus}" />
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint1008Plus}" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="VerticalSampleLayout">
                     <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint641Plus}" />
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="OptionsControl.HorizontalContentAlignment" Value="Left" />
-
                         <Setter Target="OptionsControl.(Grid.Row)" Value="2" />
                         <Setter Target="OptionsControl.(Grid.Column)" Value="0" />
                         <Setter Target="OptionsControl.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="OptionsControl.VerticalAlignment" Value="Bottom" />
+                        <Setter Target="PageControl.Margin" Value="12" />
+                        <Setter Target="OptionsControl.Margin" Value="12" />
+                        <Setter Target="HeaderTxt.Margin" Value="12,0,0,0" />
+                        <Setter Target="SourcecodeExpander.Padding" Value="12,12,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-
-
 
         <Grid x:Name="SampleCard"
               Grid.Row="1"
               VerticalAlignment="Stretch"
               Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-              BorderThickness="1,1,1,0"
-              CornerRadius="{StaticResource ControlCornerRadius}">
-            <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+              BorderThickness="1,1,1,1"
+              CornerRadius="4">
+            <Grid x:Name="SampleCardContent"
+                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                  CornerRadius="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="48" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -88,7 +93,6 @@
                       BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                       BorderThickness="0,0,0,1">
 
-
                     <TextBlock x:Name="HeaderTxt"
                                Margin="24,0,0,0"
                                VerticalAlignment="Center"
@@ -96,49 +100,44 @@
                                Style="{StaticResource BodyStrongTextBlockStyle}"
                                Text="{x:Bind Metadata.DisplayName}" />
 
-                    <StackPanel x:Name="ButtonPanel"
-                                Margin="0,0,16,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                Spacing="4">
+                    <CommandBar x:Name="ToolBar"
+                                DefaultLabelPosition="Collapsed"
+                                OverflowButtonVisibility="Collapsed">
+                        <AppBarButton x:Name="CodeBtn"
+                                      Click="CodeBtn_OnClick"
+                                      Label="View code"
+                                      ToolTipService.ToolTip="View code">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE943;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <!--  TO DO  -->
+                        <!--<AppBarButton ToolTipService.ToolTip="Toggle right-to-left"
+                            Label="Toggle right-to-left">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE1A0;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>-->
+                        <AppBarButton x:Name="ThemeBtn"
+                                      Click="ThemeBtn_OnClick"
+                                      Label="Toggle theme"
+                                      ToolTipService.ToolTip="Toggle theme">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE793;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="GitHubBtn"
+                                      ToolTipService.ToolTip="View sample on GitHub">
+                            <AppBarButton.Icon>
+                                <PathIcon Data="{StaticResource GithubIcon}" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar>
 
-                        <Button x:Name="RTLBtn"
-                                Height="32"
-                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                Style="{StaticResource SubtleButtonStyle}">
-                            <FontIcon FontSize="14"
-                                      Glyph="&#xE1A0;" />
-                        </Button>
-
-                        <Button x:Name="ThemeBtn"
-                                Height="32"
-                                Click="ThemeBtn_OnClick"
-                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                Style="{StaticResource SubtleButtonStyle}">
-                            <FontIcon FontSize="14"
-                                      Glyph="&#xE793;" />
-                        </Button>
-                        <Button x:Name="GHBtn"
-                                Padding="6,3,-2,2"
-                                Style="{StaticResource SubtleButtonStyle}"
-                                ToolTipService.ToolTip="View sample on GitHub">
-                            <PathIcon Margin="0"
-                                      VerticalAlignment="Center"
-                                      Data="{StaticResource GithubIcon}"
-                                      Foreground="{ThemeResource TextFillColorPrimaryBrush}">
-                                <PathIcon.RenderTransform>
-                                    <CompositeTransform ScaleX="0.6"
-                                                        ScaleY="0.6"
-                                                        TranslateY="5" />
-                                </PathIcon.RenderTransform>
-                            </PathIcon>
-                        </Button>
-                    </StackPanel>
                 </Grid>
                 <ContentControl x:Name="PageControl"
                                 Grid.Row="1"
-                                Padding="24,0,24,24"
+                                Padding="24"
                                 HorizontalAlignment="Left"
                                 Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
 
@@ -147,19 +146,22 @@
                 <ContentControl x:Name="OptionsControl"
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Margin="24,0,12,12"
+                                Margin="24,24,12,12"
                                 HorizontalAlignment="Left"
                                 Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}" />
             </Grid>
         </Grid>
 
-        <muxc:Expander x:Name="SourcodeExpander"
+        <muxc:Expander x:Name="SourcecodeExpander"
                        Grid.Row="2"
                        MinHeight="0"
                        Margin="0,-1,0,0"
-                       HorizontalAlignment="Stretch">
+                       Padding="12,0,12,0"
+                       HorizontalAlignment="Stretch"
+                       BorderThickness="0">
             <muxc:Expander.Resources>
                 <x:Double x:Key="ExpanderChevronButtonSize">0</x:Double>
+                <Thickness x:Key="ExpanderHeaderBorderThickness">0</Thickness>
             </muxc:Expander.Resources>
             <Pivot MaxHeight="400"
                    HorizontalAlignment="Stretch">
