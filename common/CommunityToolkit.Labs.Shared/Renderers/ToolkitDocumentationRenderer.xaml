@@ -39,7 +39,7 @@
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="LayoutVisualStates">
-                <VisualState x:Name="Left">
+                <VisualState x:Name="LeftMedium">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint1008Plus}" />
                     </VisualState.StateTriggers>
