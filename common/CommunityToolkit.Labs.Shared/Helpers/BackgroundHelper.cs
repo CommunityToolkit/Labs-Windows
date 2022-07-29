@@ -15,7 +15,7 @@ public static class BackgroundHelper
         BackdropMaterial.SetApplyToRootOrPageBackground(page, true);
 #else
         // TO DO: SET MICA THE WINAPPSDK WAY, FALLING BACK TO DEFAULT BACKGROUND FOR NOW
-        page.Background =  (SolidColorBrush)Resources["BackgroundColorBrush"];
+        page.Background = (SolidColorBrush)Application.Current.Resources["BackgroundColorBrush"];
 #endif
     }
 }
