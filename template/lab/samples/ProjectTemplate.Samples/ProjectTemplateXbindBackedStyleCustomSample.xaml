@@ -16,8 +16,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <StackPanel Padding="20"
-                Spacing="15">
+    <StackPanel Spacing="16">
         <labs:ProjectTemplate_xBind FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
                                     FontSize="{x:Bind TextSize, Mode=OneWay}"
                                     Foreground="{x:Bind TextForeground, Mode=OneWay}"
