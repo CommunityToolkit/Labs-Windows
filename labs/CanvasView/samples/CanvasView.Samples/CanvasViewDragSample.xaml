@@ -6,7 +6,6 @@
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:local="using:CanvasViewExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      MinHeight="400"
       mc:Ignorable="d">
 
     <labs:CanvasView ItemsSource="{x:Bind Rectangles}">

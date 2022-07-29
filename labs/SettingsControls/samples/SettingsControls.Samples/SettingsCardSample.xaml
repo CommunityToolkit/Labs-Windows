@@ -7,8 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <StackPanel Padding="20"
-                Spacing="8">
+    <StackPanel Spacing="6">
         <labs:SettingsCard Description="Windows and apps might use your country or region to give you local content"
                            Header="Country or region"
                            Icon="&#xE736;"
