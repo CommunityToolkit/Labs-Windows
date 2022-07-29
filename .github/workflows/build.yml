@@ -53,7 +53,7 @@ jobs:
         with:
           dotnet-version: '6.0.202'
         
-      - name: Install Testspace module
+      - name: Install Testspace Module
         uses: testspace-com/setup-testspace@v1
         with:
           domain: ${{ github.repository_owner }}
@@ -126,7 +126,7 @@ jobs:
         with:
           dotnet-version: '6.0.202'
         
-      - name: Install Testspace module
+      - name: Install Testspace Module
         uses: testspace-com/setup-testspace@v1
         with:
           domain: ${{ github.repository_owner }}
@@ -202,7 +202,7 @@ jobs:
         with:
           dotnet-version: '6.0.202'
         
-      - name: Install Testspace module
+      - name: Install Testspace Module
         uses: testspace-com/setup-testspace@v1
         with:
           domain: ${{ github.repository_owner }}
