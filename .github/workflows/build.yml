@@ -90,6 +90,7 @@ jobs:
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
+        if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
 
       - name: Push packages
@@ -167,6 +168,7 @@ jobs:
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
+        if: ${{github.ref == 'refs/heads/main'}}
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
 
       - name: Push packages
