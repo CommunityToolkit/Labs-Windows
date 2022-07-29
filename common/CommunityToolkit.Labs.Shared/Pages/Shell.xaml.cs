@@ -29,7 +29,7 @@ public sealed partial class Shell : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         samplePages = e.Parameter as IEnumerable<ToolkitFrontMatter>;
-        SetBackground();
+        BackgroundHelper.SetBackground(this);
         SetupNavigationMenu();
         base.OnNavigatedTo(e); 
     }
@@ -189,14 +189,4 @@ public sealed partial class Shell : Page
         }
     }
 #endif
-
-    private void SetBackground()
-    {
-#if !WINAPPSDK
-        BackdropMaterial.SetApplyToRootOrPageBackground(this, true);
-#else
-        // TO DO: SET MICA THE WINAPPSDK WAY, FALLING BACK TO DEFAULT BACKGROUND FOR NOW
-        this.Background =  (SolidColorBrush)Resources["BackgroundColorBrush"];
-#endif
-    }
 }
