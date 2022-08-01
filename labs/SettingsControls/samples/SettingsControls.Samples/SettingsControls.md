@@ -23,3 +23,7 @@ By setting the IsClickEnabled property you can turn the SettingsCard into a butt
 This can be useful whenever you want your settings component to e.g. navigate to a detail page or open an external link.
 
 > [!SAMPLE SettingsCardSample]
+
+
+The SettingsExpander can be used to group settings into a single card. SettingsExpanderItems can be added to display settings - the orientation can be set to Vertical, Left and Right.
+> [!SAMPLE SettingsExpanderSample]

@@ -5,10 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      Background="Red"
       mc:Ignorable="d">
 
-    <StackPanel Spacing="6">
+    <StackPanel Spacing="4">
         <labs:SettingsCard Description="Windows and apps might use your country or region to give you local content"
                            Header="Country or region"
                            Icon="&#xE736;"
@@ -19,17 +18,7 @@
                 <ComboBoxItem>Germany</ComboBoxItem>
             </ComboBox>
         </labs:SettingsCard>
-        <labs:SettingsCard Description="Windows and apps might use your country or region to give you local content"
-                           Header="Country or region"
-                           Icon="&#xE736;"
-                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
-            <ComboBox SelectedIndex="0">
-                <ComboBoxItem>United States</ComboBoxItem>
-                <ComboBoxItem>The Netherlands</ComboBoxItem>
-                <ComboBoxItem>Germany</ComboBoxItem>
-            </ComboBox>
-        </labs:SettingsCard>
-        <!--<labs:SettingsExpander Header="Test" Description="Double test" IsExpanded="True" />-->
+
         <labs:SettingsCard Header="Preferred languages"
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.Description>
@@ -39,28 +28,24 @@
         </labs:SettingsCard>
 
         <labs:SettingsCard Click="OnCardClicked"
-                           Description="When IsClickEnabled the Click event can be used to trigger an action"
+                           Description="With other custom content"
+                           Header="Clickable card"
+                           IsClickEnabled="True"
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+
+            <Button Content="Add device"
+                    Style="{StaticResource AccentButtonStyle}" />
+
+        </labs:SettingsCard>
+
+        <labs:SettingsCard ButtonIcon="&#xE7EF;"
+                           ButtonIconToolTip="Open in browser"
+                           Click="OnCardClicked"
+                           Description="The ButtonIcon can be customized"
                            Header="Clickable card"
                            Icon="&#xE7EF;"
                            IsClickEnabled="True"
-                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
-            <FontIcon FontSize="14"
-                      Glyph="&#xE8A7;" />
-        </labs:SettingsCard>
-
-        <labs:SettingsCard Click="OnCardClicked"
-                           Description="You can also have other custom content when the card is clickable"
-                           Header="Clickable + content"
-                           IsClickEnabled="True"
-                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
-            <StackPanel Orientation="Horizontal"
-                        Spacing="12">
-                <Button Content="Add device"
-                        Style="{StaticResource AccentButtonStyle}" />
-                <FontIcon FontSize="14"
-                          Glyph="&#xE76C;" />
-            </StackPanel>
-        </labs:SettingsCard>
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}" />
     </StackPanel>
 </Page>
 

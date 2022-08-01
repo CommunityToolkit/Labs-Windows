@@ -6,6 +6,10 @@
                     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
                     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SettingsControls/Resources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <x:String x:Key="SettingsExpanderChevronToolTip">Show all settings</x:String>
     <Thickness x:Key="SettingsExpanderHeaderPadding">16,16,0,16</Thickness>
 
@@ -259,9 +263,9 @@
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
                           CornerRadius="{TemplateBinding CornerRadius}">
-                        <Grid.BackgroundTransition>
-                            <BrushTransition Duration="0:0:0.083" />
-                        </Grid.BackgroundTransition>
+                        <win:Grid.BackgroundTransition>
+                            <win:BrushTransition Duration="0:0:0.083" />
+                        </win:Grid.BackgroundTransition>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -531,7 +535,7 @@
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    muxc:AnimatedIcon.State="NormalOff"
-                                                   AutomationProperties.AccessibilityView="Raw"
+                                                   win:AutomationProperties.AccessibilityView="Raw"
                                                    Foreground="{ThemeResource ExpanderChevronForeground}"
                                                    RenderTransformOrigin="0.5, 0.5">
                                     <animatedvisuals:AnimatedChevronUpDownSmallVisualSource />

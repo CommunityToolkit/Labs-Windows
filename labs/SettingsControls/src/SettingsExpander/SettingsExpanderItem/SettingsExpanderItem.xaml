@@ -1,17 +1,21 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+                    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SettingsControls/Resources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <!--  Implicitly applied default style  -->
-    <Style BasedOn="{StaticResource DefaultSettingsExpanderItemStyle}" TargetType="labs:SettingsExpanderItem" />
+    <Style BasedOn="{StaticResource DefaultSettingsExpanderItemStyle}"
+           TargetType="labs:SettingsExpanderItem" />
 
 
-    <Style x:Key="DefaultSettingsExpanderItemStyle" TargetType="labs:SettingsExpanderItem">
+    <Style x:Key="DefaultSettingsExpanderItemStyle"
+           TargetType="labs:SettingsExpanderItem">
         <Style.Setters>
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{ThemeResource SettingsControlForeground}" />
@@ -26,40 +30,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SettingsExpanderItem">
-                        <Grid
-                            x:Name="PART_RootGrid"
-                            MinHeight="50"
-                            Background="{ThemeResource ExpanderHeaderBackground}"
-                            BorderBrush="{ThemeResource SettingsControlBorderBrush}"
-                            BorderThickness="0,1,0,0">
-                            <Grid Padding="58,8,42,8">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <ContentPresenter
-                                    x:Name="PART_Header"
-                                    VerticalAlignment="Center"
-                                    Content="{TemplateBinding Header}" />
-                                <ContentPresenter
-                                    x:Name="PART_Content"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Content="{TemplateBinding Content}">
-                                    <ContentPresenter.Resources>
-                                        <Style BasedOn="{StaticResource RightAlignedCompactToggleSwitchStyle}" TargetType="ToggleSwitch" />
-
-                                        <!--  TO DO: This doesn't seem to work. Override the template of a ToggleSwitch making it right aligned  -->
-                                        <!--  TO DO: Set MinWidth of 116px on the hosted Content  -->
-
-                                    </ContentPresenter.Resources>
-                                </ContentPresenter>
-                            </Grid>
+                        <Grid x:Name="PART_RootGrid"
+                              MinHeight="50"
+                              Background="{ThemeResource ExpanderHeaderBackground}"
+                              BorderBrush="{ThemeResource SettingsControlBorderBrush}"
+                              BorderThickness="0,1,0,0">
 
 
                             <VisualStateManager.VisualStateGroups>
@@ -69,8 +44,10 @@
                                     <VisualState x:Name="Pressed" />
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Header" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsControlForegroundDisabled}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Header"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SettingsControlForegroundDisabled}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                         <VisualState.Setters>
@@ -97,6 +74,33 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
+                            <Grid Padding="58,8,42,8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <ContentPresenter x:Name="PART_Header"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding Header}" />
+                                <ContentPresenter x:Name="PART_Content"
+                                                  Grid.Column="1"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding Content}">
+                                    <ContentPresenter.Resources>
+                                        <Style BasedOn="{StaticResource RightAlignedCompactToggleSwitchStyle}"
+                                               TargetType="ToggleSwitch" />
+
+                                        <!--  TO DO: This doesn't seem to work. Override the template of a ToggleSwitch making it right aligned  -->
+                                        <!--  TO DO: Set MinWidth of 116px on the hosted Content  -->
+
+                                    </ContentPresenter.Resources>
+                                </ContentPresenter>
+                            </Grid>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

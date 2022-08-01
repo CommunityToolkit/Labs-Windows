@@ -16,7 +16,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SettingsExpanderSample.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="SettingsExpanderSample.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="SettingsExpanderSample.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <UpToDateCheckInput Remove="SettingsCardSample.xaml" />
+    <UpToDateCheckInput Remove="SettingsExpanderSample.xaml" />
   </ItemGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
@@ -29,5 +42,11 @@
     <Compile Update="SettingsCardSample.xaml.cs">
       <DependentUpon>SettingsCardSample.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="SettingsExpanderSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

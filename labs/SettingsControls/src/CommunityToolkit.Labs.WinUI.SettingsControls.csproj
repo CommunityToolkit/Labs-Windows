@@ -22,19 +22,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources.xaml" />
-    <None Remove="SettingsDescriptor\SettingsDescriptor.xaml" />
-    <None Remove="SettingsExpander\SettingsExpander.xaml" />
-    <None Remove="SettingsExpander\SettingsExpanderItem\SettingsExpanderItem.xaml" />
+    <None Update="Resources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="SettingsDescriptor\SettingsDescriptor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="SettingsExpander\SettingsExpander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="SettingsExpander\SettingsExpanderItem\SettingsExpanderItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Resources.xaml" />
-    <UpToDateCheckInput Remove="SettingsCard.xaml" />
-    <UpToDateCheckInput Remove="SettingsDescriptor\SettingsDescriptor.xaml" />
-    <UpToDateCheckInput Remove="SettingsExpander\SettingsExpander.xaml" />
-    <UpToDateCheckInput Remove="SettingsExpander\SettingsExpanderItem\SettingsExpanderItem.xaml" />
-  </ItemGroup>
-
-  <!-- XAML Pages are automatically included, and don't need to be specified here. -->
 </Project>
