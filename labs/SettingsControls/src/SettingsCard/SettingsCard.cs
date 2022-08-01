@@ -8,10 +8,8 @@ namespace CommunityToolkit.Labs.WinUI;
 /// This is an example control based off of the BoxPanel sample here: https://docs.microsoft.com/windows/apps/design/layout/boxpanel-example-custom-panel. If you need this similar sort of layout component for an application, see UniformGrid in the Toolkit.
 /// It is provided as an example of how to inherit from another control like <see cref="Panel"/>.
 /// </summary>
-[TemplateVisualState(Name = IconVisibleState, GroupName = IconStates)]
-[TemplateVisualState(Name = IconCollapsedState, GroupName = IconStates)]
-[TemplateVisualState(Name = DescriptionVisibleState, GroupName = DescriptionStates)]
-[TemplateVisualState(Name = DescriptionCollapsedState, GroupName = DescriptionStates)]
+[TemplateVisualState(Name = ButtonIconVisibleState, GroupName = ButtonIconStates)]
+[TemplateVisualState(Name = ButtonIconCollapsedState, GroupName = ButtonIconStates)]
 public partial class SettingsCard : ButtonBase
 {
     SettingsCard self;
@@ -20,13 +18,9 @@ public partial class SettingsCard : ButtonBase
     private const string PressedState = "Pressed";
     private const string DisabledState = "Disabled";
 
-    private const string IconStates = "IconStates";
-    private const string IconVisibleState = "IconVisible";
-    private const string IconCollapsedState = "IconCollapsed";
-
-    private const string DescriptionStates = "DescriptionStates";
-    private const string DescriptionVisibleState = "DescriptionVisible";
-    private const string DescriptionCollapsedState = "DescriptionCollapsed";
+    private const string ButtonIconStates = "ButtonIconStates";
+    private const string ButtonIconVisibleState = "ButtonIconVisible";
+    private const string ButtonIconCollapsedState = "ButtonIconCollapsed";
 
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsCard"/> class.
@@ -42,8 +36,7 @@ public partial class SettingsCard : ButtonBase
         base.OnApplyTemplate();
         IsEnabledChanged -= OnIsEnabledChanged;
         OnIsClickEnabledChanged();
-        OnIconChanged();
-        OnDescriptionChanged();
+        OnButtonIconChanged();
         VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
         RegisterAutomation();
 
@@ -52,22 +45,19 @@ public partial class SettingsCard : ButtonBase
 
     private void RegisterAutomation()
     {
-        if (self.IsClickEnabled)
+        if (!string.IsNullOrEmpty(Header))
         {
-            if (!string.IsNullOrEmpty(self.Header))
-            {
-                AutomationProperties.SetName(this, self.Header);
-            }
+            AutomationProperties.SetName(this, Header);
+            // TO DO: SET DESCRIPTION AS HELPTEXT?
         }
-        else
+
+        if (self.Content != null && self.Content.GetType() != typeof(Button))
         {
-            if (self.Content != null && self.Content.GetType() != typeof(Button))
+            // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
+            if (!string.IsNullOrEmpty(Header))
             {
-                // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-                if (!string.IsNullOrEmpty(self.Header))
-                {
-                    AutomationProperties.SetName((UIElement)self.Content, self.Header);
-                }
+                AutomationProperties.SetName((UIElement)self.Content, Header);
+                // TO DO: SET DESCRIPTION AS HELPTEXT?
             }
         }
     }
@@ -76,8 +66,6 @@ public partial class SettingsCard : ButtonBase
     {
         DisableButtonInteraction();
 
-        IsTabStop = true;
-        // UseSystemFocusVisuals = true;
         PointerEntered += Control_PointerEntered;
         PointerExited += Control_PointerExited;
         PointerPressed += Control_PointerPressed; // TO DO: THIS EVENT DOES NOT SEEM TO EXIST IN BUTTONBASE, ONLY UIELEMENT?
@@ -89,8 +77,6 @@ public partial class SettingsCard : ButtonBase
 
     private void DisableButtonInteraction()
     {
-        IsTabStop = false;
-        // UseSystemFocusVisuals = false;
         PointerEntered -= Control_PointerEntered;
         PointerExited -= Control_PointerExited;
         PointerPressed -= Control_PointerPressed;
@@ -151,7 +137,7 @@ public partial class SettingsCard : ButtonBase
 
     private void OnIsClickEnabledChanged()
     {
-        // TO DO: DISABLE THE CLICK EVENT
+        OnButtonIconChanged();
         if (IsClickEnabled)
         {
             EnableButtonInteraction();
@@ -162,27 +148,15 @@ public partial class SettingsCard : ButtonBase
         }
     }
 
-    private void OnIconChanged()
+    private void OnButtonIconChanged()
     {
-        if (self.Icon != null)
+        if (IsClickEnabled)
         {
-            VisualStateManager.GoToState(this, IconVisibleState, true);
+            VisualStateManager.GoToState(this, ButtonIconVisibleState, true);
         }
         else
         {
-            VisualStateManager.GoToState(this, IconCollapsedState, true);
-        }
-    }
-
-    private void OnDescriptionChanged()
-    {
-        if (self.Description != null)
-        {
-            VisualStateManager.GoToState(this, DescriptionVisibleState, true);
-        }
-        else
-        {
-            VisualStateManager.GoToState(this, DescriptionCollapsedState, true);
+            VisualStateManager.GoToState(this, ButtonIconCollapsedState, true);
         }
     }
 

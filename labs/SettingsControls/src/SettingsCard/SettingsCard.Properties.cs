@@ -16,7 +16,7 @@ public partial class SettingsCard : ButtonBase
         nameof(Header),
         typeof(string),
         typeof(SettingsCard),
-        new PropertyMetadata(defaultValue: string.Empty, (d, e) => ((SettingsCard)d).OnHeaderPropertyChanged((string)e.OldValue, (string)e.NewValue)));
+        new PropertyMetadata(defaultValue: string.Empty));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Description"/> property.
@@ -25,7 +25,7 @@ public partial class SettingsCard : ButtonBase
         nameof(Description),
         typeof(object),
         typeof(SettingsCard),
-        new PropertyMetadata(defaultValue: null, (d, e) => ((SettingsCard)d).OnDescriptionPropertyChanged((object)e.OldValue, (object)e.NewValue)));
+        new PropertyMetadata(defaultValue: null));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Icon"/> property.
@@ -34,7 +34,25 @@ public partial class SettingsCard : ButtonBase
         nameof(Icon),
         typeof(object),
         typeof(SettingsCard),
-        new PropertyMetadata(defaultValue: null, (d, e) => ((SettingsCard)d).OnIconPropertyChanged((object)e.OldValue, (object)e.NewValue)));
+        new PropertyMetadata(defaultValue: null));
+
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="ButtonIcon"/> property.
+    /// </summary>
+    public static readonly DependencyProperty ButtonIconProperty = DependencyProperty.Register(
+        nameof(ButtonIcon),
+        typeof(object),
+        typeof(SettingsCard),
+        new PropertyMetadata(defaultValue: "\ue76c"));
+
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="ButtonIconToolTip"/> property.
+    /// </summary>
+    public static readonly DependencyProperty ButtonIconToolTipProperty = DependencyProperty.Register(
+        nameof(ButtonIconToolTip),
+        typeof(string),
+        typeof(SettingsCard),
+        new PropertyMetadata(defaultValue: "More"));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="IsClickEnabled"/> property.
@@ -76,28 +94,30 @@ public partial class SettingsCard : ButtonBase
     }
 
     /// <summary>
+    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// </summary>
+    public object ButtonIcon
+    {
+        get => (object)GetValue(ButtonIconProperty);
+        set => SetValue(ButtonIconProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// </summary>
+    public string ButtonIconToolTip
+    {
+        get => (string)GetValue(ButtonIconToolTipProperty);
+        set => SetValue(ButtonIconToolTipProperty, value);
+    }
+
+    /// <summary>
     /// Gets or sets an example string. A basic Description example.
     /// </summary>
     public bool IsClickEnabled
     {
         get => (bool)GetValue(IsClickEnabledProperty);
         set => SetValue(IsClickEnabledProperty, value);
-    }
-
-
-    protected virtual void OnHeaderPropertyChanged(string oldValue, string newValue)
-    {
-        // Do something with the changed value.
-    }
-
-    protected virtual void OnIconPropertyChanged(object oldValue, object newValue)
-    {
-        OnIconChanged();
-    }
-
-    protected virtual void OnDescriptionPropertyChanged(object oldValue, object newValue)
-    {
-        OnDescriptionChanged();
     }
 
     protected virtual void OnIsClickEnabledPropertyChanged(bool oldValue, bool newValue)
