@@ -22,12 +22,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources.xaml" />
     <None Remove="SettingsDescriptor\SettingsDescriptor.xaml" />
     <None Remove="SettingsExpander\SettingsExpander.xaml" />
     <None Remove="SettingsExpander\SettingsExpanderItem\SettingsExpanderItem.xaml" />
   </ItemGroup>
 
   <ItemGroup>
+    <UpToDateCheckInput Remove="Resources.xaml" />
     <UpToDateCheckInput Remove="SettingsCard.xaml" />
     <UpToDateCheckInput Remove="SettingsDescriptor\SettingsDescriptor.xaml" />
     <UpToDateCheckInput Remove="SettingsExpander\SettingsExpander.xaml" />

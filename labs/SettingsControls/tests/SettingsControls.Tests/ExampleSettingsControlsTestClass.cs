@@ -14,11 +14,11 @@ public partial class ExampleSettingsControlsTestClass : VisualUITestBase
     [TestMethod]
     public void SimpleSynchronousExampleTest()
     {
-        var assembly = typeof(SettingsControls).Assembly;
-        var type = assembly.GetType(typeof(SettingsControls).FullName ?? string.Empty);
+        var assembly = typeof(SettingsCard).Assembly;
+        var type = assembly.GetType(typeof(SettingsCard).FullName ?? string.Empty);
 
-        Assert.IsNotNull(type, "Could not find SettingsControls type.");
-        Assert.AreEqual(typeof(SettingsControls), type, "Type of SettingsControls does not match expected type.");
+        Assert.IsNotNull(type, "Could not find SettingsCard type.");
+        Assert.AreEqual(typeof(SettingsCard), type, "Type of SettingsCard does not match expected type.");
     }
 
     // If you don't need access to UI objects directly, use this pattern.
@@ -45,7 +45,7 @@ public partial class ExampleSettingsControlsTestClass : VisualUITestBase
     [LabsUITestMethod]
     public void SimpleUIAttributeExampleTest()
     {
-        var component = new SettingsControls();
+        var component = new SettingsCard();
         Assert.IsNotNull(component);
     }
 
@@ -60,7 +60,7 @@ public partial class ExampleSettingsControlsTestClass : VisualUITestBase
 
         Assert.IsNotNull(component);
 
-        var componentByName = page.FindDescendant("SettingsControlsControl");
+        var componentByName = page.FindDescendant("SettingsCard");
 
         Assert.IsNotNull(componentByName);
     }
