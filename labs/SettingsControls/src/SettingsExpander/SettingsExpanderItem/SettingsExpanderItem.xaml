@@ -9,6 +9,7 @@
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SettingsControls/Resources.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <Thickness x:Key="SettingsExpanderItemPadding">58,8,42,8</Thickness>
     <!--  Implicitly applied default style  -->
     <Style BasedOn="{StaticResource DefaultSettingsExpanderItemStyle}"
            TargetType="labs:SettingsExpanderItem" />
@@ -17,10 +18,14 @@
     <Style x:Key="DefaultSettingsExpanderItemStyle"
            TargetType="labs:SettingsExpanderItem">
         <Style.Setters>
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="{ThemeResource ExpanderHeaderBackground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SettingsControlBorderBrush}" />
             <Setter Property="Foreground" Value="{ThemeResource SettingsControlForeground}" />
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="BorderThickness" Value="0,1,0,0" />
+            <Setter Property="MinHeight" Value="50" />
             <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Padding" Value="{StaticResource SettingsExpanderItemPadding}" />
             <!--<Setter Property="win:AutomationProperties.AutomationControlType" Value="Group" />
             <Setter Property="win:AutomationProperties.Name" Value="{TemplateBinding Header}" />-->
             <Setter Property="IsTabStop" Value="False" />
@@ -31,11 +36,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SettingsExpanderItem">
                         <Grid x:Name="PART_RootGrid"
-                              MinHeight="50"
-                              Background="{ThemeResource ExpanderHeaderBackground}"
-                              BorderBrush="{ThemeResource SettingsControlBorderBrush}"
-                              BorderThickness="0,1,0,0">
-
+                              MinHeight="{TemplateBinding MinHeight}"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -74,7 +78,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Grid Padding="58,8,42,8">
+                            <Grid Padding="{TemplateBinding Padding}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="Auto" />
@@ -84,13 +88,16 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <ContentPresenter x:Name="PART_Header"
-                                                  VerticalAlignment="Center"
-                                                  Content="{TemplateBinding Header}" />
+                                <TextBlock x:Name="PART_Header"
+                                           VerticalAlignment="Center"
+                                           Text="{TemplateBinding Header}"
+                                           TextWrapping="WrapWholeWords" />
+                                <!--  TO DO: WHEN THIS CONTENTALIGNMENT IS SET TO RIGHT AND THE HEADER PROERTY IS NOT SET, THE APP CRASHED  -->
                                 <ContentPresenter x:Name="PART_Content"
                                                   Grid.Column="1"
                                                   VerticalAlignment="Center"
-                                                  Content="{TemplateBinding Content}">
+                                                  Content="{TemplateBinding Content}"
+                                                  TextWrapping="WrapWholeWords">
                                     <ContentPresenter.Resources>
                                         <Style BasedOn="{StaticResource RightAlignedCompactToggleSwitchStyle}"
                                                TargetType="ToggleSwitch" />

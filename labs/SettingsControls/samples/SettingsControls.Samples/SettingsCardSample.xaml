@@ -43,7 +43,7 @@
                            Click="OnCardClicked"
                            Description="The ButtonIcon can be customized"
                            Header="Clickable card"
-                           Icon="&#xE7EF;"
+                           Icon="&#xe8a7;"
                            IsClickEnabled="True"
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}" />
     </StackPanel>
