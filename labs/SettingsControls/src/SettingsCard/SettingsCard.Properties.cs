@@ -77,7 +77,7 @@ public partial class SettingsCard : ButtonBase
     /// Gets or sets an example string. A basic Description example.
     /// </summary>
 #pragma warning disable CS0109 // Member does not hide an inherited member; new keyword is not required
-    public object Description
+    public new object Description
 #pragma warning restore CS0109 // Member does not hide an inherited member; new keyword is not required
     {
         get => (object)GetValue(DescriptionProperty);
