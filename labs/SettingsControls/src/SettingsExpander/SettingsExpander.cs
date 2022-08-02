@@ -5,94 +5,48 @@
 namespace CommunityToolkit.Labs.WinUI;
 public partial class SettingsExpander : ItemsControl
 {
+    SettingsExpander self;
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
+    /// Creates a new instance of the <see cref="SettingsExpander"/> class.
     /// </summary>
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        nameof(Header),
-        typeof(string),
-        typeof(SettingsExpander),
-        new PropertyMetadata(defaultValue: string.Empty));
-
-    /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Description"/> property.
-    /// </summary>
-    public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(
-        nameof(Description),
-        typeof(object),
-        typeof(SettingsExpander),
-        new PropertyMetadata(defaultValue: null));
-
-    /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Icon"/> property.
-    /// </summary>
-    public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-        nameof(Icon),
-        typeof(object),
-        typeof(SettingsExpander),
-        new PropertyMetadata(defaultValue: null));
-
-
-    /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
-    /// </summary>
-    public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(
-        nameof(Content),
-        typeof(object),
-        typeof(SettingsExpander),
-        new PropertyMetadata(defaultValue: null));
-
-
-    public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(
-     nameof(IsExpanded),
-     typeof(bool),
-     typeof(SettingsExpander),
-     new PropertyMetadata(defaultValue: false));
-
-
-    /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
-    /// </summary>
-    public string Header
+    public SettingsExpander()
     {
-        get => (string)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
+        this.DefaultStyleKey = typeof(SettingsExpander);
+
+        self = this;
+    }
+
+    /// <inheritdoc />
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+        RegisterAutomation();
+    }
+
+    private void RegisterAutomation()
+    {
+        if (!string.IsNullOrEmpty(self.Header))
+        {
+            AutomationProperties.SetName(this, self.Header);
+        }
+
+        if (self.Content != null && self.Content.GetType() != typeof(Button))
+        {
+            // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
+            if (!string.IsNullOrEmpty(self.Header))
+            {
+                AutomationProperties.SetName((UIElement)self.Content, self.Header);
+            }
+        }
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic Description example.
+    /// Creates AutomationPeer
     /// </summary>
-    public object Description
+    /// <returns>An automation peer for this <see cref="SettingsExpander"/>.</returns>
+    protected override AutomationPeer OnCreateAutomationPeer()
     {
-        get => (object)GetValue(DescriptionProperty);
-        set => SetValue(DescriptionProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
-    /// </summary>
-    public object Icon
-    {
-        get => (object)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets an example string. A basic Content example.
-    /// </summary>
-    public object Content
-    {
-        get => (object)GetValue(ContentProperty);
-        set => SetValue(ContentProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets an example string. A basic Content example.
-    /// </summary>
-    public bool IsExpanded
-    {
-        get => (bool)GetValue(IsExpandedProperty);
-        set => SetValue(IsExpandedProperty, value);
+        return new SettingsExpanderAutomationPeer(this);
     }
 }

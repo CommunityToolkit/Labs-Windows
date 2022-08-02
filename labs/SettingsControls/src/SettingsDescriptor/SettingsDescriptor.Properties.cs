@@ -46,7 +46,9 @@ public partial class SettingsDescriptor : ContentControl
     /// <summary>
     /// Gets or sets an example string. A basic Description example.
     /// </summary>
+#pragma warning disable CS0109 // Member does not hide an inherited member; new keyword is not required
     public object Description
+#pragma warning restore CS0109 // Member does not hide an inherited member; new keyword is not required
     {
         get => (object)GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
