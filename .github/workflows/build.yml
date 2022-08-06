@@ -24,6 +24,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Check LongPathsEnabled
+        run: |
+          (Get-ItemProperty "HKLM:System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
+
       # Needed until XAML Styler updates to .NET 6
       - name: Install .NET Core 3.1 SDK
         uses: actions/setup-dotnet@v1
@@ -48,6 +52,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Check LongPathsEnabled
+        run: |
+          (Get-ItemProperty "HKLM:System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
+    
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
@@ -122,6 +130,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Check LongPathsEnabled
+        run: |
+          (Get-ItemProperty "HKLM:System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
+    
       - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
