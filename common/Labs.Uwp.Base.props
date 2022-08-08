@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <!-- PR #211, see article: https://dev.to/mhmd_azeez/solving-nutcdriver-exe-returned-code-1-error-while-building-uwp-app-in-release-mode-2mc6 -->
+    <Use64Bitcompiler>true</Use64Bitcompiler>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>AppContainerExe</OutputType>
