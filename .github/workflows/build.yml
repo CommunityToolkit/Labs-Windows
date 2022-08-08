@@ -52,11 +52,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.202'
-        
-      - name: Install Testspace Module
-        uses: testspace-com/setup-testspace@v1
-        with:
-          domain: ${{ github.repository_owner }}
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -101,6 +96,11 @@ jobs:
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
 
+      - name: Install Testspace Module
+        uses: testspace-com/setup-testspace@v1
+        with:
+          domain: ${{ github.repository_owner }}
+
       - name: Run SourceGenerators tests
         run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
@@ -112,7 +112,7 @@ jobs:
 
       - name: Create test reports
         run: |
-          testspace './TestResults/*.trx'
+          testspace '[WinUI2]./TestResults/*.trx'
         if: always()
 
   # This workflow contains a single job called "Build-WinUI-3"
@@ -126,11 +126,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.202'
-        
-      - name: Install Testspace Module
-        uses: testspace-com/setup-testspace@v1
-        with:
-          domain: ${{ github.repository_owner }}
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -179,6 +174,11 @@ jobs:
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
 
+      - name: Install Testspace Module
+        uses: testspace-com/setup-testspace@v1
+        with:
+          domain: ${{ github.repository_owner }}
+
       - name: Run SourceGenerators tests
         run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
@@ -190,7 +190,7 @@ jobs:
 
       - name: Create test reports
         run: |
-          testspace './TestResults/*.trx'
+          testspace '[WinUI3]./TestResults/*.trx'
         if: always()
 
   # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
@@ -203,11 +203,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.202'
-        
-      - name: Install Testspace Module
-        uses: testspace-com/setup-testspace@v1
-        with:
-          domain: ${{ github.repository_owner }}
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -238,6 +233,11 @@ jobs:
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
 
+      - name: Install Testspace Module
+        uses: testspace-com/setup-testspace@v1
+        with:
+          domain: ${{ github.repository_owner }}
+
       - name: Run tests in the generated experiment against UWP
         run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpUWP.trx"
 
@@ -246,7 +246,7 @@ jobs:
 
       - name: Create test reports
         run: |
-          testspace './TestResults/*.trx'
+          testspace '[New Experiment]./TestResults/*.trx'
         if: always()
 
   wasm-linux:
