@@ -50,4 +50,14 @@ public partial class SettingsExpander : ItemsControl
     {
         return new SettingsExpanderAutomationPeer(this);
     }
+    protected override bool IsItemItsOwnContainerOverride(object item)
+    {
+        return item is SettingsExpanderItem;
+    }
+
+    /// <inheritdoc />
+    protected override DependencyObject GetContainerForItemOverride()
+    {
+        return new SettingsExpanderItem();
+    }
 }
