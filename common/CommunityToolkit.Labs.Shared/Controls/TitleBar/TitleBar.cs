@@ -98,6 +98,10 @@ public sealed partial class TitleBar : Control
 #if WINDOWS_UWP && !HAS_UNO
         Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         Window.Current.SetTitleBar(_dragRegion);
+
+        var viewTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+        viewTitleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
+        viewTitleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
         // NOT SUPPORTED IN UNO WASM
 #endif
     }

@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="CommunityToolkit.Labs.Shared.Pages.SettingsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -54,12 +54,13 @@
                                Text="Select which app theme to display" />
                 </StackPanel>
 
-                <ComboBox Grid.Column="2"
+                <ComboBox x:Name="ThemeSelectionBox"
+                          Grid.Column="2"
                           MinWidth="160"
                           SelectedIndex="0">
                     <x:String>System</x:String>
-                    <x:String>Dark</x:String>
                     <x:String>Light</x:String>
+                    <x:String>Dark</x:String>
                 </ComboBox>
             </Grid>
 

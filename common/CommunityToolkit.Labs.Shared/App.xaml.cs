@@ -2,6 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.Labs.Shared.Helpers;
+using Microsoft.UI.Xaml.Controls;
+using Windows.Storage;
+
 namespace CommunityToolkit.Labs.Shared;
 
 /// <summary>
@@ -14,7 +18,7 @@ public sealed partial class App : Application
 #if WINAPPSDK
     public static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
 #else
-    private static Windows.UI.Xaml.Window currentWindow = Windows.UI.Xaml.Window.Current;
+    public static Windows.UI.Xaml.Window currentWindow = Windows.UI.Xaml.Window.Current;
 #endif
 
     /// <summary>
@@ -55,6 +59,7 @@ public sealed partial class App : Application
         SetTitleBar();
         // Ensure the current window is active
         currentWindow.Activate();
+      
     }
 
     /// <summary>
@@ -70,9 +75,8 @@ public sealed partial class App : Application
     private void SetTitleBar()
     {
 #if WINDOWS_UWP
-        var viewTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
-        viewTitleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
-        viewTitleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
+      
 #endif
+        ThemeHelper.InitializeTheme(currentWindow);
     }
 }
