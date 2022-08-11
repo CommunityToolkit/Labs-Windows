@@ -22,16 +22,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Resources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="SettingsDescriptor\SettingsDescriptor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
+    <None Remove="HeaderedContentControl\HeaderedContentControl.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="HeaderedContentControl\HeaderedContentControl.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="SettingsExpander\SettingsExpander.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="SettingsExpander\SettingsExpanderItem\SettingsExpanderItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>

@@ -10,8 +10,10 @@
     <StackPanel Spacing="4">
         <labs:SettingsCard Description="Windows and apps might use your country or region to give you local content"
                            Header="Country or region"
-                           Icon="&#xE736;"
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <labs:SettingsCard.Icon>
+                <FontIcon Glyph="&#xE736;" />
+            </labs:SettingsCard.Icon>
             <ComboBox SelectedIndex="0">
                 <ComboBoxItem>United States</ComboBoxItem>
                 <ComboBoxItem>The Netherlands</ComboBoxItem>
@@ -38,14 +40,17 @@
 
         </labs:SettingsCard>
 
-        <labs:SettingsCard ButtonIcon="&#xE7EF;"
+        <labs:SettingsCard ButtonIcon="&#xe8a7;"
                            ButtonIconToolTip="Open in browser"
                            Click="OnCardClicked"
                            Description="The ButtonIcon can be customized"
                            Header="Clickable card"
-                           Icon="&#xe8a7;"
                            IsClickEnabled="True"
-                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}" />
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <labs:SettingsCard.Icon>
+                <FontIcon Glyph="&#xE7EF;" />
+            </labs:SettingsCard.Icon>
+        </labs:SettingsCard>
     </StackPanel>
 </Page>
 

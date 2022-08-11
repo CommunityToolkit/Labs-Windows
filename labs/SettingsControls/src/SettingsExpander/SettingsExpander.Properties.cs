@@ -11,9 +11,9 @@ public partial class SettingsExpander : ItemsControl
     /// </summary>
     public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
         nameof(Header),
-        typeof(string),
+        typeof(object),
         typeof(SettingsExpander),
-        new PropertyMetadata(defaultValue: string.Empty));
+        new PropertyMetadata(defaultValue: null));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Description"/> property.
@@ -29,7 +29,7 @@ public partial class SettingsExpander : ItemsControl
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
         nameof(Icon),
-        typeof(object),
+        typeof(IconElement),
         typeof(SettingsExpander),
         new PropertyMetadata(defaultValue: null));
 
@@ -48,24 +48,22 @@ public partial class SettingsExpander : ItemsControl
      nameof(IsExpanded),
      typeof(bool),
      typeof(SettingsExpander),
-     new PropertyMetadata(defaultValue: false));
+     new PropertyMetadata(defaultValue: false, (d, e) => ((SettingsExpander)d).OnIsExpandedChanged((bool)e.OldValue, (bool)e.NewValue)));
 
 
     /// <summary>
     /// Gets or sets an example string. A basic DependencyProperty example.
     /// </summary>
-    public string Header
+    public object Header
     {
-        get => (string)GetValue(HeaderProperty);
+        get => (object)GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
     }
 
     /// <summary>
     /// Gets or sets an example string. A basic Description example.
     /// </summary>
-#pragma warning disable CS0109 // Member does not hide an inherited member; new keyword is not required
-    public new object Description
-#pragma warning restore CS0109 // Member does not hide an inherited member; new keyword is not required
+    public object Description
     {
         get => (object)GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
@@ -74,9 +72,9 @@ public partial class SettingsExpander : ItemsControl
     /// <summary>
     /// Gets or sets an example string. A basic DependencyProperty example.
     /// </summary>
-    public object Icon
+    public IconElement Icon
     {
-        get => (object)GetValue(IconProperty);
+        get => (IconElement)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
@@ -96,5 +94,9 @@ public partial class SettingsExpander : ItemsControl
     {
         get => (bool)GetValue(IsExpandedProperty);
         set => SetValue(IsExpandedProperty, value);
+    }
+
+    protected virtual void OnIsExpandedChanged(bool oldValue, bool newValue)
+    {
     }
 }

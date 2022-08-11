@@ -7,7 +7,10 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace CommunityToolkit.Labs.WinUI;
-public partial class SettingsExpanderAutomationPeer : FrameworkElementAutomationPeer
+/// <summary>
+/// AutomationPeer for SettingsExpander
+/// </summary>
+public class SettingsExpanderAutomationPeer : FrameworkElementAutomationPeer
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsExpander"/> class.

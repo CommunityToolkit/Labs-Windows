@@ -5,16 +5,12 @@
 namespace CommunityToolkit.Labs.WinUI;
 public partial class SettingsExpander : ItemsControl
 {
-    SettingsExpander self;
-
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsExpander"/> class.
     /// </summary>
     public SettingsExpander()
     {
         this.DefaultStyleKey = typeof(SettingsExpander);
-
-        self = this;
     }
 
     /// <inheritdoc />
@@ -26,19 +22,24 @@ public partial class SettingsExpander : ItemsControl
 
     private void RegisterAutomation()
     {
-        if (!string.IsNullOrEmpty(self.Header))
+        if (Header.GetType() == typeof(string))
         {
-            AutomationProperties.SetName(this, self.Header);
-        }
-
-        if (self.Content != null && self.Content.GetType() != typeof(Button))
-        {
-            // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-            if (!string.IsNullOrEmpty(self.Header))
+            string? headerString = Header.ToString();
+            if (!string.IsNullOrEmpty(headerString))
             {
-                AutomationProperties.SetName((UIElement)self.Content, self.Header);
+                AutomationProperties.SetName(this, headerString);
+            }
+
+            if (Content != null && Content.GetType() != typeof(Button))
+            {
+                // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
+                if (!string.IsNullOrEmpty(headerString))
+                {
+                    AutomationProperties.SetName((UIElement)Content, headerString);
+                }
             }
         }
+
     }
 
     /// <summary>

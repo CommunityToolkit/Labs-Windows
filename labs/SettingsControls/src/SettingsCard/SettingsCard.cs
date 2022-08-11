@@ -8,59 +8,64 @@ namespace CommunityToolkit.Labs.WinUI;
 /// This is an example control based off of the BoxPanel sample here: https://docs.microsoft.com/windows/apps/design/layout/boxpanel-example-custom-panel. If you need this similar sort of layout component for an application, see UniformGrid in the Toolkit.
 /// It is provided as an example of how to inherit from another control like <see cref="Panel"/>.
 /// </summary>
-[TemplateVisualState(Name = ButtonIconVisibleState, GroupName = ButtonIconStates)]
-[TemplateVisualState(Name = ButtonIconCollapsedState, GroupName = ButtonIconStates)]
 public partial class SettingsCard : ButtonBase
 {
-    SettingsCard self;
     private const string NormalState = "Normal";
     private const string PointerOverState = "PointerOver";
     private const string PressedState = "Pressed";
     private const string DisabledState = "Disabled";
 
-    private const string ButtonIconStates = "ButtonIconStates";
-    private const string ButtonIconVisibleState = "ButtonIconVisible";
-    private const string ButtonIconCollapsedState = "ButtonIconCollapsed";
-
+    private const string ButtonIconPresenter = "PART_ButtonIconPresenter";
+    private const string HeaderPresenter = "PART_HeaderPresenter";
+    private const string DescriptionPresenter = "PART_DescriptionPresenter";
+    private const string IconPresenter = "PART_IconPresenter";
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsCard"/> class.
     /// </summary>
     public SettingsCard()
     {
         this.DefaultStyleKey = typeof(SettingsCard);
-        self = this;
     }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
         IsEnabledChanged -= OnIsEnabledChanged;
-        OnIsClickEnabledChanged();
         OnButtonIconChanged();
-        VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
+        OnHeaderChanged();
+        OnIconChanged();
+        OnDescriptionChanged();
+        OnIsClickEnabledChanged();
+        VisualStateManager.GoToState(this, IsEnabled ? NormalState : DisabledState, true);
         RegisterAutomation();
-
         IsEnabledChanged += OnIsEnabledChanged;
     }
 
+
+
     private void RegisterAutomation()
     {
-        if (!string.IsNullOrEmpty(Header))
+        if (Header != null && Header.GetType() == typeof(string))
         {
-            AutomationProperties.SetName(this, Header);
-            // TO DO: SET DESCRIPTION AS HELPTEXT?
-        }
-
-        if (self.Content != null && self.Content.GetType() != typeof(Button))
-        {
-            // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-            if (!string.IsNullOrEmpty(Header))
+            string? headerString = Header.ToString();
+            if (!string.IsNullOrEmpty(headerString))
             {
-                AutomationProperties.SetName((UIElement)self.Content, Header);
-                // TO DO: SET DESCRIPTION AS HELPTEXT?
+                AutomationProperties.SetName(this, headerString);
+            }
+
+            if (Content != null && Content.GetType() != typeof(Button))
+            {
+                // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
+                if (!string.IsNullOrEmpty(headerString))
+                {
+                    AutomationProperties.SetName((UIElement)Content, headerString);
+                }
             }
         }
     }
+
+
 
     private void EnableButtonInteraction()
     {
@@ -68,8 +73,6 @@ public partial class SettingsCard : ButtonBase
 
         PointerEntered += Control_PointerEntered;
         PointerExited += Control_PointerExited;
-        PointerPressed += Control_PointerPressed; // TO DO: THIS EVENT DOES NOT SEEM TO EXIST IN BUTTONBASE, ONLY UIELEMENT?
-        PointerReleased += Control_PointerReleased;
         PreviewKeyDown += Control_PreviewKeyDown;
         PreviewKeyUp += Control_PreviewKeyUp;
     }
@@ -79,8 +82,6 @@ public partial class SettingsCard : ButtonBase
     {
         PointerEntered -= Control_PointerEntered;
         PointerExited -= Control_PointerExited;
-        PointerPressed -= Control_PointerPressed;
-        PointerReleased -= Control_PointerReleased;
         PreviewKeyDown -= Control_PreviewKeyDown;
         PreviewKeyUp -= Control_PreviewKeyUp;
     }
@@ -103,12 +104,6 @@ public partial class SettingsCard : ButtonBase
         }
     }
 
-    public void Control_PointerReleased(object sender, PointerRoutedEventArgs e)
-    {
-        base.OnPointerReleased(e);
-        VisualStateManager.GoToState(this, NormalState, true);
-    }
-
     public void Control_PointerExited(object sender, PointerRoutedEventArgs e)
     {
         base.OnPointerExited(e);
@@ -120,11 +115,24 @@ public partial class SettingsCard : ButtonBase
         VisualStateManager.GoToState(this, PointerOverState, true);
     }
 
-    private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)
+    protected override void OnPointerPressed(PointerRoutedEventArgs e)
     {
-        base.OnPointerPressed(e);
-        VisualStateManager.GoToState(this, PressedState, true);
+        //  e.Handled = true;
+        if (IsClickEnabled)
+        {
+            base.OnPointerPressed(e);
+            VisualStateManager.GoToState(this, PressedState, true);
+        }
     }
+    protected override void OnPointerReleased(PointerRoutedEventArgs e)
+    {
+        if (IsClickEnabled)
+        {
+            base.OnPointerReleased(e);
+            VisualStateManager.GoToState(this, NormalState, true);
+        }
+    }
+
 
     /// <summary>
     /// Creates AutomationPeer
@@ -148,20 +156,48 @@ public partial class SettingsCard : ButtonBase
         }
     }
 
+    private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        VisualStateManager.GoToState(this, IsEnabled ? NormalState : DisabledState, true);
+    }
+
     private void OnButtonIconChanged()
     {
-        if (IsClickEnabled)
+        if (GetTemplateChild(ButtonIconPresenter) is FrameworkElement buttonIconPresenter)
         {
-            VisualStateManager.GoToState(this, ButtonIconVisibleState, true);
-        }
-        else
-        {
-            VisualStateManager.GoToState(this, ButtonIconCollapsedState, true);
+            buttonIconPresenter.Visibility = IsClickEnabled
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
     }
 
-    private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+    private void OnIconChanged()
     {
-        VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
+        if (GetTemplateChild(IconPresenter) is FrameworkElement iconPresenter)
+        {
+            iconPresenter.Visibility = Icon != null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
+    }
+
+    private void OnDescriptionChanged()
+    {
+        if (GetTemplateChild(DescriptionPresenter) is FrameworkElement descriptionPresenter)
+        {
+            descriptionPresenter.Visibility = Description != null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
+    }
+
+    private void OnHeaderChanged()
+    {
+        if (GetTemplateChild(HeaderPresenter) is FrameworkElement headerPresenter)
+        {
+            headerPresenter.Visibility = Header != null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
     }
 }

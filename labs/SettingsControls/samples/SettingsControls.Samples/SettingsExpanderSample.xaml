@@ -11,9 +11,11 @@
     <StackPanel Spacing="4">
         <labs:SettingsExpander Description="A picture background applies to your current desktop. A solid color or slideshow background apply to all your desktops."
                                Header="Personalize your background"
-                               Icon="&#xE91B;"
                                IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}"
                                IsExpanded="True">
+            <labs:SettingsExpander.Icon>
+                <FontIcon Glyph="&#xE91B;" />
+            </labs:SettingsExpander.Icon>
             <labs:SettingsExpander.Content>
                 <ComboBox SelectedIndex="0">
                     <ComboBoxItem>Picture</ComboBoxItem>
@@ -53,43 +55,16 @@
                     </GridView>
 
                 </labs:SettingsExpanderItem>
-                <labs:SettingsExpanderItem Header="A control that is right aligned (default)">
+                <labs:SettingsExpanderItem Description="A SettingsExpanderItem can have a description too!"
+                                           Header="A control that is right aligned (default)">
                     <Button Content="Browse photos" />
                 </labs:SettingsExpanderItem>
                 <labs:SettingsExpanderItem ContentAlignment="Left">
                     <CheckBox Content="A control that is left aligned" />
                 </labs:SettingsExpanderItem>
-            </labs:SettingsExpander.Items>
-        </labs:SettingsExpander>
-
-        <labs:SettingsExpander Description="Collapsed by default."
-                               Header="Personalize your background"
-                               IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}"
-                               IsExpanded="{x:Bind IsExpanderExpanded, Mode=OneWay}">
-            <labs:SettingsExpander.Content>
-                <Button Content="Click here"
-                        Style="{StaticResource AccentButtonStyle}" />
-            </labs:SettingsExpander.Content>
-            <labs:SettingsExpander.Items>
-                <labs:SettingsExpanderItem ContentAlignment="Left">
-                    <CheckBox Content="Setting" />
-                </labs:SettingsExpanderItem>
-                <labs:SettingsExpanderItem ContentAlignment="Left">
-                    <CheckBox Content="Setting" />
-                </labs:SettingsExpanderItem>
-                <labs:SettingsExpanderItem ContentAlignment="Left">
-                    <CheckBox Content="Setting" />
-                </labs:SettingsExpanderItem>
-                <labs:SettingsExpanderItem ContentAlignment="Left">
-                    <CheckBox Content="Setting" />
-                </labs:SettingsExpanderItem>
-                <labs:SettingsExpanderItem Header="Setting">
-                    <Slider MinWidth="160" />
-                </labs:SettingsExpanderItem>
-                <labs:SettingsExpanderItem Header="Setting">
-                    <Button Content="Click"
-                            Style="{StaticResource AccentButtonStyle}" />
-                </labs:SettingsExpanderItem>
+                <labs:SettingsExpanderItem ButtonIcon="&#xe8a7;"
+                                           Header="SettingsExpanderItem can be clicked as well"
+                                           IsClickEnabled="True" />
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
     </StackPanel>

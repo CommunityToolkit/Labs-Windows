@@ -4,69 +4,69 @@
 
 namespace CommunityToolkit.Labs.WinUI;
 
-[TemplateVisualState(Name = RightState, GroupName = ContentAlignmentStates)]
-[TemplateVisualState(Name = LeftState, GroupName = ContentAlignmentStates)]
-[TemplateVisualState(Name = VerticalState, GroupName = ContentAlignmentStates)]
-public partial class SettingsExpanderItem : ContentControl
+public partial class SettingsExpanderItem : SettingsCard
 {
-    SettingsExpanderItem self;
-    private const string NormalState = "Normal";
-    private const string DisabledState = "Disabled";
-
-    private const string ContentAlignmentStates = "ContentAlignmentStates";
     private const string RightState = "Right";
     private const string LeftState = "Left";
     private const string VerticalState = "Vertical";
+
+
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
+    /// </summary>
+    public static readonly DependencyProperty ContentAlignmentProperty = DependencyProperty.Register(
+        nameof(ContentAlignment),
+        typeof(ContentAlignment),
+        typeof(SettingsExpanderItem),
+        new PropertyMetadata(defaultValue: ContentAlignment.Right, (d, e) => ((SettingsExpanderItem)d).OnContentAlignmentPropertyChanged((ContentAlignment)e.OldValue, (ContentAlignment)e.NewValue)));
+
+    /// <summary>
+
+
+    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// </summary>
+    public ContentAlignment ContentAlignment
+    {
+        get => (ContentAlignment)GetValue(ContentAlignmentProperty);
+        set => SetValue(ContentAlignmentProperty, value);
+    }
+
+
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsExpanderItem"/> class.
     /// </summary>
     public SettingsExpanderItem()
     {
         this.DefaultStyleKey = typeof(SettingsExpanderItem);
-        self = this;
     }
 
     /// <inheritdoc />
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        IsEnabledChanged -= OnIsEnabledChanged;
-        RegisterAutomation();
-        VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
         OnContentAlignmentChanged();
-        IsEnabledChanged += OnIsEnabledChanged;
     }
-    private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+
+    protected virtual void OnContentAlignmentPropertyChanged(ContentAlignment oldValue, ContentAlignment newValue)
     {
-        VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
+        OnContentAlignmentChanged();
     }
 
     private void OnContentAlignmentChanged()
     {
-        switch (self.ContentAlignment)
+        switch (ContentAlignment)
         {
             case ContentAlignment.Right: VisualStateManager.GoToState(this, RightState, true); break;
             case ContentAlignment.Left: VisualStateManager.GoToState(this, LeftState, true); break;
             case ContentAlignment.Vertical: VisualStateManager.GoToState(this, VerticalState, true); break;
         }
     }
-
-    private void RegisterAutomation()
-    {
-        if (!string.IsNullOrEmpty(Header))
-        {
-            AutomationProperties.SetName(this, Header);
-            // TO DO: SET DESCRIPTION AS HELPTEXT
-        }
-
-        if (self.Content != null && self.Content.GetType() != typeof(Button))
-        {
-            // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-            if (!string.IsNullOrEmpty(Header))
-            {
-                AutomationProperties.SetName((UIElement)self.Content, Header);
-                // TO DO: SET DESCRIPTION AS HELPTEXT?
-            }
-        }
-    }
 }
+
+public enum ContentAlignment
+{
+    Right,
+    Left,
+    Vertical
+}
+

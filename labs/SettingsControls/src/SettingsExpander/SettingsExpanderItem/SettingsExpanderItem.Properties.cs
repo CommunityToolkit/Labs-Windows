@@ -4,54 +4,34 @@
 
 namespace CommunityToolkit.Labs.WinUI;
 
-public partial class SettingsExpanderItem : ContentControl
+/// <summary>
+/// <see cref="StyleSelector"/> used by <see cref=" SettingsExpanderItem"/> to choose the proper <see cref=" SettingsExpanderItem"/> container style (clickable or not).
+/// </summary>
+public class SettingsExpanderItemStyleSelector : StyleSelector
 {
+    /// <summary>
+    /// Gets or sets the <see cref="Style"/> of a token item.
+    /// </summary>
+    public Style DefaultStyle { get; set; }
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
+    /// Gets or sets the <see cref="Style"/> of a text entry item.
     /// </summary>
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        nameof(Header),
-        typeof(string),
-        typeof(SettingsExpanderItem),
-        new PropertyMetadata(defaultValue: string.Empty));
+    public Style ClickableStyle { get; set; }
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
+    /// Initializes a new instance of the <see cref="SettingsExpanderItemStyleSelector"/> class.
     /// </summary>
-    public static readonly DependencyProperty ContentAlignmentProperty = DependencyProperty.Register(
-        nameof(ContentAlignment),
-        typeof(ContentAlignment),
-        typeof(SettingsExpanderItem),
-        new PropertyMetadata(defaultValue: ContentAlignment.Right, (d, e) => ((SettingsExpanderItem)d).OnContentAlignmentPropertyChanged((ContentAlignment)e.OldValue, (ContentAlignment)e.NewValue)));
-
-    /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
-    /// </summary>
-    public string Header
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public SettingsExpanderItemStyleSelector()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
-        get => (string)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
     }
 
-    /// Gets or sets an example string. A basic DependencyProperty example.
-    /// </summary>
-    public ContentAlignment ContentAlignment
+    /// <inheritdoc/>
+    protected override Style SelectStyleCore(object item, DependencyObject container)
     {
-        get => (ContentAlignment)GetValue(ContentAlignmentProperty);
-        set => SetValue(ContentAlignmentProperty, value);
+        // TO DO: Check is IsClickEnabled is true => set return ClickableStyle
+        return DefaultStyle;
     }
-
-
-    protected virtual void OnContentAlignmentPropertyChanged(ContentAlignment oldValue, ContentAlignment newValue)
-    {
-        OnContentAlignmentChanged();
-    }
-}
-
-public enum ContentAlignment
-{
-    Right,
-    Left,
-    Vertical
 }
