@@ -14,33 +14,10 @@
     <AssemblyName>SizerBaseExperiment.Samples</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="GridSplitter.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="GridSplitterPage.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="GridSplitterPage.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="GridSplitterPage.xaml" />
-  </ItemGroup>
-
-  
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Page Update="GridSplitterPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 
 </Project>
