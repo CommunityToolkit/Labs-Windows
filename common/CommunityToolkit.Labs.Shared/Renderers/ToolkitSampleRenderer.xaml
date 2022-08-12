@@ -105,7 +105,7 @@
                                 DefaultLabelPosition="Collapsed"
                                 OverflowButtonVisibility="Collapsed">
 
-                        <!--  TO DO: This doesn't seem to work in Uno?  -->
+                        <!--  wasm:Visibility="Collapsed"  -->
                         <AppBarButton x:Name="ThemeBtn"
                                       Click="ThemeBtn_OnClick"
                                       Label="Toggle theme"
@@ -115,6 +115,7 @@
                             </AppBarButton.Icon>
                         </AppBarButton>
 
+                        <!--  wasm:Visibility="Collapsed"  -->
                         <AppBarButton x:Name="FlowDirectionBtn"
                                       Click="FlowDirectionBtn_OnClick"
                                       Label="Toggle flow direction"
