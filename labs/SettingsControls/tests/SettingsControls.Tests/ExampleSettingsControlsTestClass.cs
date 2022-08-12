@@ -56,13 +56,13 @@ public partial class ExampleSettingsControlsTestClass : VisualUITestBase
     public void SimpleUIExamplePageTest(ExampleSettingsControlsTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<SettingsCard>();
+        //var component = page.FindDescendant<SettingsCard>();
 
-        Assert.IsNotNull(component);
+        //Assert.IsNotNull(component);
 
-        var componentByName = page.FindDescendant("SettingsCard");
+        //var componentByName = page.FindDescendant("SettingsCard");
 
-        Assert.IsNotNull(componentByName);
+        //Assert.IsNotNull(componentByName);
     }
 
     // You can still do async work with a LabsUITestMethod as well.
