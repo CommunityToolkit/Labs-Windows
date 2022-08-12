@@ -213,36 +213,7 @@ namespace CommunityToolkit.Labs.WinUI;
 
         private void SetIconPosition()
         {
-            var position = "";
-
-            switch (this.IconPosition)
-            {
-                case IconPosition.LeftCenter:
-                    position = nameof(IconPosition.LeftCenter); break;
-                case IconPosition.LeftTop:
-                    position = nameof(IconPosition.LeftTop); break;
-                case IconPosition.LeftBottom:
-                    position = nameof(IconPosition.LeftBottom); break;
-                case IconPosition.TopCenter:
-                    position = nameof(IconPosition.TopCenter); break;
-                case IconPosition.TopLeft:
-                    position = nameof(IconPosition.TopLeft); break;
-                case IconPosition.TopRight:
-                    position = nameof(IconPosition.TopRight); break;
-                case IconPosition.RightCenter:
-                    position = nameof(IconPosition.RightCenter); break;
-                case IconPosition.RightTop:
-                    position = nameof(IconPosition.RightTop); break;
-                case IconPosition.RightBottom:
-                    position = nameof(IconPosition.RightBottom); break;
-                case IconPosition.BottomCenter:
-                    position = nameof(IconPosition.BottomCenter); break;
-                case IconPosition.BottomLeft:
-                    position = nameof(IconPosition.BottomLeft); break;
-                case IconPosition.BottomRight:
-                    position = nameof(IconPosition.BottomRight); break;
-            }
-            VisualStateManager.GoToState(this, position, true);
+            VisualStateManager.GoToState(this, nameof(this.IconPosition), true);
         }
     }
 
