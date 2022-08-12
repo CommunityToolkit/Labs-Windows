@@ -144,13 +144,13 @@
                                           Margin="{StaticResource HeaderedContentControlIconMargin}"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
+                                          win:HighContrastAdjustment="None"
+                                          win:IsTextScaleFactorEnabled="False"
                                           x:DeferLoadStrategy="Lazy"
                                           Content="{TemplateBinding Icon}"
                                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                           FontSize="{StaticResource HeaderedContentControlIconFontSize}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          HighContrastAdjustment="None"
-                                          IsTextScaleFactorEnabled="False" />
+                                          Foreground="{TemplateBinding Foreground}" />
                         <Grid Grid.Row="1"
                               Grid.Column="1">
 
@@ -165,11 +165,11 @@
 
                             <ContentPresenter x:Name="HeaderPresenter"
                                               Grid.ColumnSpan="2"
+                                              win:HighContrastAdjustment="None"
                                               x:DeferLoadStrategy="Lazy"
                                               Content="{TemplateBinding Header}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}"
                                               Foreground="{TemplateBinding Foreground}"
-                                              HighContrastAdjustment="None"
                                               TextWrapping="Wrap" />
 
                             <ContentPresenter x:Name="ContentPresenter"

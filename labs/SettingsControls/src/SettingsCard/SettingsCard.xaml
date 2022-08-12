@@ -148,9 +148,9 @@
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
                               CornerRadius="{TemplateBinding CornerRadius}">
-                            <Grid.BackgroundTransition>
-                                <BrushTransition Duration="0:0:0.083" />
-                            </Grid.BackgroundTransition>
+                            <win:Grid.BackgroundTransition>
+                                <win:BrushTransition Duration="0:0:0.083" />
+                            </win:Grid.BackgroundTransition>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
@@ -654,8 +654,8 @@
                                                       To="On">
 
                                         <Storyboard>
-                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KnobCurrentToOnOffset}"
-                                                                      TargetName="SwitchKnob" />
+                                            <win:RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KnobCurrentToOnOffset}"
+                                                                          TargetName="SwitchKnob" />
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobBounds"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <LinearDoubleKeyFrame KeyTime="{StaticResource ControlFasterAnimationDuration}"
@@ -706,8 +706,8 @@
                                                       To="Off">
 
                                         <Storyboard>
-                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KnobCurrentToOffOffset}"
-                                                                      TargetName="SwitchKnob" />
+                                            <win:RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KnobCurrentToOffOffset}"
+                                                                          TargetName="SwitchKnob" />
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobBounds"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <LinearDoubleKeyFrame KeyTime="{StaticResource ControlFasterAnimationDuration}"
@@ -731,8 +731,8 @@
                                                       To="Off">
 
                                         <Storyboard>
-                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KnobOnToOffOffset}"
-                                                                      TargetName="SwitchKnob" />
+                                            <win:RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KnobOnToOffOffset}"
+                                                                          TargetName="SwitchKnob" />
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition x:Name="OffToOnTransition"
@@ -741,8 +741,8 @@
                                                       To="On">
 
                                         <Storyboard>
-                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KnobOffToOnOffset}"
-                                                                      TargetName="SwitchKnob" />
+                                            <win:RepositionThemeAnimation FromHorizontalOffset="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KnobOffToOnOffset}"
+                                                                          TargetName="SwitchKnob" />
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobBounds"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <LinearDoubleKeyFrame KeyTime="{StaticResource ControlFasterAnimationDuration}"
