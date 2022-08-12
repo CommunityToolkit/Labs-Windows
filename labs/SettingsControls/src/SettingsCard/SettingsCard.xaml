@@ -649,7 +649,7 @@
 
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition x:Name="DraggingToOnTransition"
-                                                      GeneratedDuration="0"
+                                                      win:GeneratedDuration="0"
                                                       From="Dragging"
                                                       To="On">
 
@@ -679,7 +679,7 @@
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition x:Name="OnToDraggingTransition"
-                                                      GeneratedDuration="0"
+                                                      win:GeneratedDuration="0"
                                                       From="On"
                                                       To="Dragging">
                                         <Storyboard>
@@ -701,7 +701,7 @@
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition x:Name="DraggingToOffTransition"
-                                                      GeneratedDuration="0"
+                                                      win:GeneratedDuration="0"
                                                       From="Dragging"
                                                       To="Off">
 
@@ -726,7 +726,7 @@
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition x:Name="OnToOffTransition"
-                                                      GeneratedDuration="0"
+                                                      win:GeneratedDuration="0"
                                                       From="On"
                                                       To="Off">
 
@@ -736,7 +736,7 @@
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition x:Name="OffToOnTransition"
-                                                      GeneratedDuration="0"
+                                                      win:GeneratedDuration="0"
                                                       From="Off"
                                                       To="On">
 
