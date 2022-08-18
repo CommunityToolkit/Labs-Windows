@@ -11,6 +11,7 @@
     <PackageReleaseNotes>https://github.com/CommunityToolkit/Labs-Windows/releases</PackageReleaseNotes>
     <PackageIcon>Icon.png</PackageIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/Labs-Windows/main/nuget.png</PackageIconUrl>
+    <NoWarn>$(NoWarn);NU1505</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
