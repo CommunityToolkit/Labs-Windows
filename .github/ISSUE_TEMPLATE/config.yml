@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Issue with Existing Experiment
+    url: https://github.com/CommunityToolkit/Labs-Windows/issues?q=is%3Aopen+is%3Aissue+label%3A%22experiment+%3Atest_tube%3A%22
+    about: Please comment on existing Experiment issues with any problems which arise during their use.
+  - name: New Idea?
+    url: https://github.com/CommunityToolkit/Labs-Windows/discussions?discussions_q=category%3AExperiments+category%3AIdeas
+    about: Search existing experiments and ideas or contribute your own in our Discussion forum.
+  - name: Not sure where to start? Start a Discussion!
+    url: https://github.com/CommunityToolkit/Labs-Windows/discussions
+    about: I have a question about how to use something in the toolkit.    
+  - name: Discord
+    url: https://aka.ms/wct/discord
+    about: "Join the UWP Discord Server and talk to us in the #community-toolkit channel."
+  - name: Toolkit Questions
+    url: https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help
+    about: If you have general questions about how to use something in the toolkit, outside of Labs, see the main repo discussions.

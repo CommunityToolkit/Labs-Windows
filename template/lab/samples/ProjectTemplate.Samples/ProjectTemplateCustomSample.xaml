@@ -8,8 +8,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <StackPanel Padding="20"
-                Spacing="15">
+    <StackPanel Spacing="15">
         <labs:ProjectTemplate Orientation="{x:Bind local:ProjectTemplateCustomSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}">
             <TextBlock Text="1" />
             <TextBlock Text="2" />

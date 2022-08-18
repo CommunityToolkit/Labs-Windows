@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
+using CommunityToolkit.Labs.Shared.Helpers;
 
 #if !WINAPPSDK
 using Windows.UI.Xaml;
@@ -32,7 +33,10 @@ public sealed partial class TabbedPage : Page
     public TabbedPage()
     {
         this.InitializeComponent();
+
+        BackgroundHelper.SetBackground(this);
     }
+
 
     public ObservableCollection<object> Items { get; } = new();
 

@@ -43,5 +43,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="inputInjectionBrokered" />
   </Capabilities>
 </Package>
