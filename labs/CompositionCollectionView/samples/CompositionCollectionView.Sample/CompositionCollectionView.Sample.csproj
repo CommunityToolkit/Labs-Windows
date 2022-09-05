@@ -23,6 +23,10 @@
     <UpToDateCheckInput Remove="obj\bin\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\ceiling.bmp" />
+    <None Remove="Assets\floor.bmp" />
+    <None Remove="Assets\wall.bmp" />
+    <None Remove="Assets\wall.png" />
     <None Remove="CompositionCollectionView.md" />
     <None Remove="InteractionTrackerSample.xaml" />
     <None Remove="SwitchLayoutsSample.xaml" />
@@ -37,6 +41,12 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="InteractionTrackerSample.xaml" />
     <UpToDateCheckInput Remove="SwitchLayoutsSample.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\ceiling.bmp" />
+    <Content Include="Assets\floor.bmp" />
+    <Content Include="Assets\wall.bmp" />
+    <Content Include="Assets\wall.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CompositionCollectionView.csproj" />

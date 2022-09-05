@@ -63,6 +63,51 @@ public class AnimatableCompositionNodeSet : IDisposable
         }
     }
 
+
+    public AnimatableQuaternionCompositionNode GetOrCreateQuaternionNode(string id, Quaternion defaultValue)
+    {
+        if (_nodes.ContainsKey(id))
+        {
+            if (_nodes[id] is AnimatableQuaternionCompositionNode node)
+            {
+                return node;
+            }
+            else
+            {
+                throw new InvalidCastException("Node {id} is not a vector3 node");
+            }
+        }
+        else
+        {
+            var newNode = new AnimatableQuaternionCompositionNode(_compositor);
+            newNode.Value = defaultValue;
+            _nodes[id] = newNode;
+            return newNode;
+        }
+    }
+
+    public AnimatableMatrix4x4CompositionNode GetOrCreateMatrix4x4Node(string id, Matrix4x4 defaultValue)
+    {
+        if (_nodes.ContainsKey(id))
+        {
+            if (_nodes[id] is AnimatableMatrix4x4CompositionNode node)
+            {
+                return node;
+            }
+            else
+            {
+                throw new InvalidCastException("Node {id} is not a matrix4x4 node");
+            }
+        }
+        else
+        {
+            var newNode = new AnimatableMatrix4x4CompositionNode(_compositor);
+            newNode.Value = defaultValue;
+            _nodes[id] = newNode;
+            return newNode;
+        }
+    }
+
     protected virtual void Dispose(bool disposing)
     {
         if (!disposedValue)

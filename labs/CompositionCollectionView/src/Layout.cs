@@ -124,6 +124,12 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
         Deactivate();
 
         var newLayout = factory(this);
+
+        foreach(var behavior in _behaviors)
+        {
+            newLayout.AddBehavior(behavior);
+        }
+
         newLayout.Activate();
 
         TransferElements();

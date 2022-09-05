@@ -389,6 +389,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                 case ExpressionNodeType.Negate:
                     return
                         -(Children[0] as Vector4Node).Evaluate();
+                case ExpressionNodeType.Transform:
+                    return
+                        Vector4.Transform((Children[0] as Vector4Node).Evaluate(), (Children[1] as Matrix4x4Node).Evaluate());
                 case ExpressionNodeType.Multiply:
                     return (Children[0], Children[1]) switch
                     {
@@ -401,7 +404,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                     return
                         (Children[0] as Vector4Node).Evaluate() /
                         (Children[1] as Vector4Node).Evaluate();
-                case ExpressionNodeType.Vector3:
+                case ExpressionNodeType.Vector4:
                     return new Vector4(
                         (Children[0] as ScalarNode).Evaluate(),
                         (Children[1] as ScalarNode).Evaluate(),

@@ -344,6 +344,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                     return (Children[0] as BooleanNode).Evaluate() ? (Children[1] as ScalarNode).Evaluate() : (Children[2] as ScalarNode).Evaluate();
                 case ExpressionNodeType.Distance:
                     return Vector2.Distance((Children[0] as Vector2Node).Evaluate(), (Children[1] as Vector2Node).Evaluate());
+                case ExpressionNodeType.Clamp:
+                    return Math.Clamp((Children[0] as ScalarNode).Evaluate(),  (Children[1] as ScalarNode).Evaluate(), (Children[2] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Lerp:
                 {
                     var start = (Children[0] as ScalarNode).Evaluate();
