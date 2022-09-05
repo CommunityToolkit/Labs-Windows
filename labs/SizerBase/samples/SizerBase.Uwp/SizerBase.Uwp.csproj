@@ -1,12 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.props" />
+  
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <PropertyGroup>
-    <RootNamespace>SizerBase.Uwp</RootNamespace>
-    <AssemblyName>SizerBase.Uwp</AssemblyName>
-    <ProjectGuid>{1F1E15B8-C732-411C-9273-F48702E8E4E4}</ProjectGuid>
+    <IsDeployableHead>true</IsDeployableHead>
+    <IsUno>false</IsUno>
+    <IsWasm>false</IsWasm>
+    <IsWasmHead>false</IsWasmHead>
+    <IsWasmLib>false</IsWasmLib>
+    <IsDroid>false</IsDroid>
+    <IsMacOS>false</IsMacOS>
+    <IsiOS>false</IsiOS>
+    <IsUwp>true</IsUwp>
+    <IsWinAppSdk>false</IsWinAppSdk>
+    <IsWpf>false</IsWpf>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWpfLib>false</IsWpfLib>
+    <IsGtk>false</IsGtk>
+    <IsGtkHead>false</IsGtkHead>
+    <IsGtkLib>false</IsGtkLib>
+  </PropertyGroup>
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.props" />
+
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+
+  <PropertyGroup>
+    <RootNamespace>SizerBaseExperiment.Samples</RootNamespace>
+    <AssemblyName>SizerBaseExperiment.Samples.Uwp</AssemblyName>
+    <ProjectGuid>{F6A025B4-1F2A-4538-87F5-DF7F9C15950F}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -21,12 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj">
-      <Project>{5EFEA1FD-B8E4-4855-93CD-5874C7859B7D}</Project>
+      <Project>{52CD9ACD-0F86-4C74-883F-4E68BFFDBE05}</Project>
       <Name>CommunityToolkit.Labs.WinUI.SizerBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SizerBase.Sample\SizerBase.Sample.csproj">
-      <Project>{8A9BECBF-6518-4C8B-A305-5FA62C3B1886}</Project>
+    <ProjectReference Include="..\SizerBase.Samples\SizerBase.Samples.csproj">
+      <Project>{4300ED9F-D188-47AC-BC2B-017520A60042}</Project>
       <Name>SizerBase.Sample</Name>
     </ProjectReference>
   </ItemGroup>
+  <!-- Must be imported after any shared projects in non-sdk style projects -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
 </Project>

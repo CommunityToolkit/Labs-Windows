@@ -40,7 +40,7 @@ $sampleRefsPropsTemplate = Get-Content -Path $sampleRefsPropsTemplatePath;
 Write-Output "Loaded sample ProjectReference template from $sampleRefsPropsTemplatePath";
 
 # Add sample projects
-foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/labs/*/samples/*.Sample/*.Sample.csproj") {
+foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/labs/*/samples/*.Samples/*.Samples.csproj") {
   $relativePath = Resolve-Path -Relative -Path $sampleProjectPath;
   $relativePath = $relativePath.TrimStart('.\');
   $projectName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath);

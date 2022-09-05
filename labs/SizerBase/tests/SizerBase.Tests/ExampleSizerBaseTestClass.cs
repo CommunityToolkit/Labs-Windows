@@ -2,22 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.UnitTests;
-using CommunityToolkit.Labs.WinUI;
-using CommunityToolkit.Labs.WinUI.Automation.Peers;
 using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+using CommunityToolkit.Labs.Tests;
+using CommunityToolkit.Labs.WinUI.Automation.Peers;
 
-namespace SizerBase.Tests;
+namespace SizerBaseExperiment.Tests;
 
 [TestClass]
 public partial class ExampleSizerBaseTestClass : VisualUITestBase
 {
-    [TestMethod]
-    public void Just_an_example_test()
-    {
-        Assert.AreEqual(1, 1);
-    }
-
     [TestMethod]
     public async Task ShouldConfigureGridSplitterAutomationPeer()
     {

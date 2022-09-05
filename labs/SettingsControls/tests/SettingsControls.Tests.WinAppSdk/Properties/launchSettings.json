@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SettingsControls.Tests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SettingsControls.Tests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

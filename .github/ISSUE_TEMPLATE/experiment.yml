@@ -1,0 +1,113 @@
+name: Experiment Tracking Form
+description: (w/ Approved Discussion) Create an issue to track an approved experiment
+title: "🧪 [Experiment]"
+labels: ["experiment :test_tube:"]
+body:
+- type: markdown
+  attributes: 
+    value: |
+      ## Before you begin
+      🚨 **Please do not skip instructions**🚨
+      
+      This template is to be used with an approved experiment proposal in the [Discussions](https://github.com/CommunityToolkit/Labs-Windows/discussions).
+
+      This info is essential to help us process your experiment.
+
+- type: input
+  id: linked-discussion
+  validations:
+    required: true
+  attributes:
+    label: Approved from Discussion
+    description: Paste in a link to your approved discussion from https://github.com/CommunityToolkit/Labs-Windows/discussions
+    placeholder: "https://github.com/CommunityToolkit/Labs-Windows/discussions/###"
+    
+- type: textarea
+  id: problem-statement
+  validations: 
+    required: true
+  attributes: 
+    label: Problem Statement
+    description: Copy your problem statement description from your approved discussion.
+    placeholder: |
+      A clear and concise description of what the problem the experiment solves, starting with the user story.
+
+- type: textarea
+  id: overview-description
+  validations: 
+    required: true
+  attributes: 
+    label: Overview
+    description: What components/functions does this experiment add?
+    value: |
+      This experiment adds the following components:
+       - **Component One** a ...
+       - **Component Two** a ...
+
+- type: textarea
+  id: using-links
+  validations:
+    required: true
+  attributes: 
+    label: Using
+    description: Describe how to try out your component
+    value: |
+      You can try it out via the NuGet Packages here:
+       - UWP: https://dev.azure.com/dotnet/CommunityToolkit/_artifacts/feed/CommunityToolkit-Labs/NuGet/CommunityToolkit.Labs.Uwp.ExperimentName/overview/0.0.1
+       - WinUI 3: https://dev.azure.com/dotnet/CommunityToolkit/_artifacts/feed/CommunityToolkit-Labs/NuGet/CommunityToolkit.Labs.WinUI.ExperimentName/overview/0.0.1
+      Read more about [Preview Packages here](https://aka.ms/wct/wiki/previewpackages).
+
+- type: textarea
+  id: additional-info
+  attributes:
+    label: Additional info
+    description: Add any other context or screenshots about the feature request here.
+
+- type: checkboxes
+  id: implementation-requirements
+  attributes:
+    label: Implementation Requirements
+    description: Not all these items are required to submit a PR. This list is here to help track what is remaining to implement before a technical review and discussion of moving into the main repository can occur.
+    options:
+      - label: Working Prototype
+      - label: Feature Complete
+      - label: Documentation
+      - label: Samples
+      - label: Unit Tests
+      - label: Community Feedback / Usage Testimonies
+
+- type: checkboxes
+  id: tested-platforms
+  attributes:
+    label: Tested Platforms
+    description: Which platforms has your current experiment code been tested with (by you or someone in the community)?
+    options:
+      - label: UWP
+      - label: WinAppSDK / WinUI 3
+      - label: Web Assembly (WASM)
+      - label: Android
+      - label: iOS
+      - label: MacOS
+      - label: Linux / GTK
+
+- type: checkboxes
+  id: technical-review
+  attributes:
+    label: Technical Review
+    description: These items can sometimes be done ahead of time, but are usually started and completed after all implementation details are finished. You can _skip_ this section for now when opening a new experiment, though it's good to be familiar with these work items.
+    options:
+      - label: Accessibility Audit
+      - label: API/Naming Review
+      - label: Code Quality/Style
+      - label: Dependency Review
+      - label: Design/Style Review
+      - label: Final Approval
+
+- type: dropdown
+  id: contribution
+  attributes:
+    label: Community Help?
+    description: Would you like others to help you work on the deliverables for this experiment?
+    options:
+      - Yes
+      - No

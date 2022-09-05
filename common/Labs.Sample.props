@@ -1,5 +1,5 @@
 <Project>
-  <!-- Include cs and xaml files in compiled output -->
+  <!-- Include cs and xaml files in compiled output for reference in sample app -->
   <ItemGroup>
     <!-- In release mode, UWP already emits the raw XAML files to the final app package (with some modifications). -->
     <Content Condition="!('$(TargetFramework)' == '$(UwpTargetFramework)' AND '$(Configuration)' == 'Release')" Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />

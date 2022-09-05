@@ -71,6 +71,13 @@ public sealed partial class ToolkitSampleRenderer : Page
     public static readonly DependencyProperty CSharpCodeProperty =
         DependencyProperty.Register(nameof(CSharpCode), typeof(string), typeof(ToolkitSampleRenderer), new PropertyMetadata(null));
 
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="IsTabbedMode"/> property.
+    /// </summary>
+    public static readonly DependencyProperty IsTabbedModeProperty =
+        DependencyProperty.Register(nameof(IsTabbedMode), typeof(bool), typeof(ToolkitSampleRenderer), new PropertyMetadata(false));
+
+
     public ToolkitSampleMetadata? Metadata
     {
         get { return (ToolkitSampleMetadata?)GetValue(MetadataProperty); }
@@ -113,6 +120,15 @@ public sealed partial class ToolkitSampleRenderer : Page
         set => SetValue(CSharpCodeProperty, value);
     }
 
+    /// <summary>
+    /// The mode of which the control renders. 
+    /// </summary>
+    public bool IsTabbedMode
+    {
+        get => (bool)GetValue(IsTabbedModeProperty);
+        set => SetValue(IsTabbedModeProperty, value);
+    }
+
     private static async void OnMetadataPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
     {
         if (dependencyObject is ToolkitSampleRenderer renderer &&
@@ -126,7 +142,6 @@ public sealed partial class ToolkitSampleRenderer : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
-
         Metadata = (ToolkitSampleMetadata)e.Parameter;
     }
 
@@ -214,23 +229,56 @@ public sealed partial class ToolkitSampleRenderer : Page
         var typeNamespace = type.Namespace;
 
         if (string.IsNullOrWhiteSpace(simpleAssemblyName))
+        {
             throw new ArgumentException($"Unable to find assembly name for provided type {type}.", nameof(simpleAssemblyName));
+        }
 
         if (string.IsNullOrWhiteSpace(typeNamespace))
+        {
             throw new ArgumentException($"Unable to find namespace for provided type {type}.", nameof(typeNamespace));
+        }
 
-        var sampleName = simpleAssemblyName.Replace(".Sample", "");
 
         var folderPath = typeNamespace.Replace(simpleAssemblyName, "").Trim('.').Replace('.', '/');
         if (folderPath.Length != 0)
             folderPath += "/";
 
+        // Our assembly has 'ProjectTemplateExperiment.Samples', but our folders are 'ProjectTemplate.Samples'
+        simpleAssemblyName = simpleAssemblyName.Replace("Experiment", "");
+
         if (isSingleExperimentHead || isProjectTemplateHead)
+        {
             return $"SourceAssets/{simpleAssemblyName}/{folderPath}{type.Name}";
-        
+        }
+
         if (isAllExperimentHead)
+        {
+            var sampleName = simpleAssemblyName.Replace(".Samples", "");
             return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}{type.Name}";
+        }
 
         throw new InvalidOperationException("Unable to determine if running in a single or all experiment solution.");
+    }
+
+    private void ToolkitSampleRenderer_Loaded(object sender, RoutedEventArgs e)
+    {
+        VisualStateManager.GoToState(this, IsTabbedMode ? "Tabbed" : "Normal", true);
+    }
+
+    private void ThemeBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (this.ActualTheme == ElementTheme.Dark)
+        {
+            this.RequestedTheme = ElementTheme.Light;
+        }
+        else
+        {
+            this.RequestedTheme = ElementTheme.Dark;
+        }
+    }
+
+    private void CodeBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        SourcecodeExpander.IsExpanded = !SourcecodeExpander.IsExpanded;
     }
 }

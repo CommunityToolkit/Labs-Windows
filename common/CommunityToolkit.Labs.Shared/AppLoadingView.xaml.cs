@@ -6,6 +6,7 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation.Collections;
+using CommunityToolkit.Labs.Shared.Pages;
 
 #if !WINAPPSDK
 using Windows.System;
@@ -85,7 +86,7 @@ public sealed partial class AppLoadingView : Page
         }
 
 #if LABS_ALL_SAMPLES
-        ScheduleNavigate(typeof(NavigationPage), sampleDocs);
+        ScheduleNavigate(typeof(Shell), sampleDocs);
 #else
         var samples = FindReferencedSamples().ToArray();
 

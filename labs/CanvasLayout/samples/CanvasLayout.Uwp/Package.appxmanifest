@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="CommunityToolkit.Labs.Samples.CanvasLayout"
+    Name="Labs.CanvasLayout.Uwp"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="06468e41-5209-4cf5-9329-1b5c57aa1091" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="66707424-ED41-4A97-BB7F-17C72790230E" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>CommunityToolkit Labs: CanvasLayout Sample</DisplayName>
+    <DisplayName>CommunityToolkit Labs: CanvasLayout Samples (UWP)</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

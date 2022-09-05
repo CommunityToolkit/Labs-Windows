@@ -4,7 +4,7 @@
 
 using CommunityToolkit.Labs.Shared;
 
-namespace ProjectTemplate.Wasm;
+namespace ProjectTemplateExperiment.Samples.Wasm;
 
 public class Program
 {

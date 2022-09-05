@@ -1,5 +1,12 @@
 <Project>
 
+  <!-- Source generators -->
+  <ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Test Dependencies -->
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.2.8</Version>
@@ -13,6 +20,7 @@
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
 
+  <!-- Global Usings -->
   <ItemGroup>
     <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
     <Compile Include="$(RepositoryDirectory)common\GlobalUsings_Tests.cs" />

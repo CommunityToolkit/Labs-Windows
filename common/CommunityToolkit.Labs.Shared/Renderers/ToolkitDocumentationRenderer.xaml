@@ -1,8 +1,11 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="CommunityToolkit.Labs.Shared.Renderers.ToolkitDocumentationRenderer"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:behaviors="using:CommunityToolkit.Labs.Shared.Behaviors"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:CommunityToolkit.Labs.Shared"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
@@ -13,14 +16,14 @@
     <Page.Resources>
         <DataTemplate x:Key="DocumentTemplate"
                       x:DataType="x:String">
-            <TextBlock win:IsTextSelectionEnabled="True"
-                       Text="{Binding}"
-                       TextWrapping="WrapWholeWords" />
+            <renderer:MarkdownTextBlock Background="Transparent"
+                                        Text="{Binding}"
+                                        TextWrapping="WrapWholeWords" />
         </DataTemplate>
 
         <DataTemplate x:Key="SampleTemplate"
                       x:DataType="metadata:ToolkitSampleMetadata">
-            <renderer:ToolkitSampleRenderer Margin="0,0,0,24"
+            <renderer:ToolkitSampleRenderer Margin="0,24,0,24"
                                             Metadata="{Binding}" />
         </DataTemplate>
 
@@ -36,19 +39,33 @@
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="LayoutVisualStates">
-                <VisualState x:Name="WideLayout">
+                <VisualState x:Name="LeftMedium">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint840Plus}" />
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint1008Plus}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters />
                 </VisualState>
-                <VisualState x:Name="NarrowLayout">
+                <VisualState x:Name="LeftCompact">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint641Plus}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters />
+
+
+
+                </VisualState>
+
+
+                <VisualState x:Name="LeftMinimal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="DocItemsControl.Margin" Value="16,0,16,0" />
-                        <Setter Target="HeaderGrid.Margin" Value="16,16,16,0" />
+                        <Setter Target="DocItemsControl.Margin" Value="12,0,12,0" />
+                        <Setter Target="HeaderGrid.Margin" Value="12,0,12,32" />
+                        <Setter Target="HeaderText.FontSize" Value="16" />
+                        <Setter Target="HeaderText.FontWeight" Value="Bold" />
+                        <Setter Target="HeaderText.Margin" Value="32,10,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -65,14 +82,14 @@
 
         <ScrollViewer Grid.Row="1">
             <ItemsControl x:Name="DocItemsControl"
-                          Margin="40,0,40,0"
+                          Margin="24,0,24,0"
                           ItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
                           ItemsSource="{x:Bind DocsAndSamples, Mode=OneWay}" />
         </ScrollViewer>
 
         <!--  Header grid  -->
         <Grid x:Name="HeaderGrid"
-              Margin="40,16,40,16"
+              Margin="24,12,24,24"
               VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -103,8 +120,13 @@
                             <FontIcon FontSize="14"
                                       Glyph="&#xE130;" />
                             <TextBlock Margin="8,0,0,0"
-                                       Text="See the docs" />
+                                       Text="Documentation" />
                         </StackPanel>
+                        <interactivity:Interaction.Behaviors>
+                            <interactions:EventTriggerBehavior EventName="Click">
+                                <behaviors:NavigateToUriAction NavigateUri="https://aka.ms/toolkit/labs/windows" />
+                            </interactions:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
                     </Button>
                     <Button Grid.Column="1"
                             Style="{StaticResource AccentButtonStyle}">
@@ -120,8 +142,13 @@
                                 </PathIcon.RenderTransform>
                             </PathIcon>
                             <TextBlock Margin="-4,0,0,0"
-                                       Text="View in GitHub" />
+                                       Text="View code" />
                         </StackPanel>
+                        <interactivity:Interaction.Behaviors>
+                            <interactions:EventTriggerBehavior EventName="Click">
+                                <behaviors:NavigateToUriAction NavigateUri="https://aka.ms/toolkit/labs/windows" />
+                            </interactions:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
                     </Button>
                 </StackPanel>
 
@@ -131,7 +158,7 @@
                             Spacing="8">
                     <TextBlock VerticalAlignment="Center"
                                Style="{StaticResource CaptionTextBlockStyle}"
-                               Text="Jump to:" />
+                               Text="Sample:" />
                     <ComboBox x:Name="SampleSelectionBox"
                               ItemsSource="{x:Bind Samples, Mode=OneWay}"
                               SelectedIndex="0"
@@ -142,7 +169,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Height="32">
+                    <!--<Button Height="32">
                         <FontIcon FontSize="14"
                                   Glyph="&#xE1A0;" />
                     </Button>
@@ -150,7 +177,7 @@
                     <Button Height="32">
                         <FontIcon FontSize="14"
                                   Glyph="&#xE793;" />
-                    </Button>
+                    </Button>-->
                 </StackPanel>
             </Grid>
         </Grid>

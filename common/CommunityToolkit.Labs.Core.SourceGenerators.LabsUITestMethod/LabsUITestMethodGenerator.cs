@@ -36,11 +36,8 @@ public class LabsUITestMethodGenerator : IIncrementalGenerator
             
             .Where(static item => item.Attribute is not null && item.Symbol is IMethodSymbol)
             .Select(static (x, _) => (IMethodSymbol)x.Symbol)
-            
-            .Select(static (x, _) => (MethodSymbol: x, ControlTypeSymbol: GetControlTypeSymbolFromMethodParameters(x)))
 
-            .Where(static x => x.ControlTypeSymbol is not null)
-            .Select(static (x, _) => (x.MethodSymbol, ControlTypeSymbol: x.ControlTypeSymbol!));
+            .Select(static (x, _) => (MethodSymbol: x, ControlTypeSymbol: GetControlTypeSymbolFromMethodParameters(x)));
 
         // Generate source
         context.RegisterSourceOutput(methodAndPageTypeSymbols, (x, y) => GenerateTestMethod(x, y.MethodSymbol, y.ControlTypeSymbol));
@@ -65,9 +62,9 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
     partial class {methodSymbol.ContainingType.Name}
     {{
         [TestMethod]
-        public Task {methodSymbol.Name}_Test()
+        public Task {methodSymbol.Name}_{methodSymbol.ContainingType.Name}_Test()
         {{
-            return EnqueueAsync(async () => {{
+            return EnqueueAsync({(isAsync || controlTypeSymbol is not null ? "async " : string.Empty)}() => {{
                 {(controlTypeSymbol is not null ? @$"
                 // Create content
                 var testControl = new {controlTypeSymbol.GetFullyQualifiedName()}();
@@ -87,7 +84,7 @@ namespace {methodSymbol.ContainingType.ContainingNamespace}
 }}
 ";
 
-        context.AddSource($"{methodSymbol.Name}.g", source);
+        context.AddSource($"{methodSymbol.Name}_{methodSymbol.ContainingType.Name}.g", source);
     }
 
     private static bool ControlTypeInheritsFrameworkElement(ITypeSymbol controlType)

@@ -1,5 +1,5 @@
 var UnoAppManifest = {
-    splashScreenImage: "Assets/SplashScreen.scale-200.png",
+    splashScreenImage: "Assets/SplashScreen.png",
     splashScreenColor: "#fff",
-    displayName: "CommunityToolkit Labs: CanvasLayout Sample"
+    displayName: "Labs: CanvasLayout"
 }

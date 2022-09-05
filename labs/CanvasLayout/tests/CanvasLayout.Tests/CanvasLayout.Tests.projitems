@@ -3,12 +3,21 @@
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>2c7a065b-9349-4071-af95-e88f320a09a9</SharedGUID>
+    <SharedGUID>A09DC4AC-4111-440E-A188-E787CAE8C0B1</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>CanvasLayout.Tests</Import_RootNamespace>
+    <Import_RootNamespace>CanvasLayoutExperiment.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleCanvasLayoutTestClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExampleCanvasLayoutTestPage.xaml.cs">
+      <DependentUpon>ExampleCanvasLayoutTestPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)ExampleCanvasLayoutTestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

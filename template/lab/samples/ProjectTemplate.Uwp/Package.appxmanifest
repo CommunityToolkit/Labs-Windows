@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="Labs.Samples.ProjectTemplate.Uwp"
+    Name="Labs.ProjectTemplate.Uwp"
     Publisher="CN=CommunityToolkit"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="956F45AA-3810-48E9-8795-9051BBCC5C09" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>CommunityToolkit Labs: ProjectTemplate Sample</DisplayName>
+    <DisplayName>CommunityToolkit Labs: ProjectTemplate Samples (UWP)</DisplayName>
     <PublisherDisplayName>CommunityToolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
