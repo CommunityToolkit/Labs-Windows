@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CompositionCollectionView.Tests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CompositionCollectionView.Tests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
