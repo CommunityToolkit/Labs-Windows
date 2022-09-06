@@ -7,12 +7,7 @@
       and use the value directly.
     -->
     <TargetFrameworks>
-      $(NetStandardCommonTargetFramework);
       $(UwpTargetFramework);
-      $(WinAppSdkTargetFramework);
-      $(MacOSLibTargetFramework);
-      $(iOSLibTargetFramework);
-      $(AndroidLibTargetFramework);
     </TargetFrameworks>
 
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
