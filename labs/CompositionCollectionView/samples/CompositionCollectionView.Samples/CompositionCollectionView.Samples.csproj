@@ -18,6 +18,12 @@
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
+    <Content Include="Assets\ceiling.bmp" />
+    <Content Include="Assets\floor.bmp" />
+    <Content Include="Assets\wall.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CompositionCollectionView.csproj" />
   </ItemGroup>
 </Project>

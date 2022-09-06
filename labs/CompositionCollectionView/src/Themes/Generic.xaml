@@ -3,11 +3,6 @@
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
                     xmlns:compositioncollectionview="using:CommunityToolkit.Labs.WinUI.CompositionCollectionView">
 
-    <ResourceDictionary.MergedDictionaries>
-        <labs:CompositionCollectionViewStyle_xBind />
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.CompositionCollectionView/CompositionCollectionViewStyle_ClassicBinding.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
     <Style TargetType="compositioncollectionview:CompositionCollectionView" >
         <Setter Property="Template">
             <Setter.Value>

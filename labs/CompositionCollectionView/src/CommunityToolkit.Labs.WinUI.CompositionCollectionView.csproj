@@ -23,27 +23,11 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ExpressionsFork\ExpressionsFork.csproj" />
+  </ItemGroup>
+
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->
-  <ItemGroup>
-    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-    <Compile Update="**\*.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="obj\bin\**" />
-    <Content Remove="obj\bin\**" />
-    <EmbeddedResource Remove="obj\bin\**" />
-    <None Remove="obj\bin\**" />
-    <Page Remove="obj\bin\**" />
-    <UpToDateCheckInput Remove="obj\bin\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CompositionCollectionView.shproj" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Update="Behaviors\ElementInteractionTrackerBehavior.cs">
       <Generator>MSBuild:Compile</Generator>
