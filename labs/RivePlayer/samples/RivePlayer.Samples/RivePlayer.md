@@ -1,12 +1,12 @@
 ---
 title: RivePlayer
-author: githubaccount
-description: TODO: Your experiment's description here
-keywords: RivePlayer, Control, Layout
+author: rive-app
+description: Rive state machine animation player
+keywords: RivePlayer, State Machine, Animation, Vector
 dev_langs:
   - csharp
-category: Controls
-subcategory: Layout
+category: Animations
+subcategory: Input
 ---
 
 <!-- To know about all the available Markdown syntax, Check out https://docs.microsoft.com/contribute/markdown-reference -->
@@ -17,6 +17,6 @@ subcategory: Layout
 
 # RivePlayer
 
-TODO: Fill in information about this experiment and how to get started here...
+This is a high level control for playing a [Rive state machine](https://rive.app/features#state-machine) or animation. A state machine's specific [inputs](https://help.rive.app/editor/state-machine#inputs) can be declared in XAML as nested properties, and controlled interactively via code or data binding.
 
 > [!Sample RivePlayerCustomSample]

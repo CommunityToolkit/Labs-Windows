@@ -20,4 +20,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.Rive.RivePlayer.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="animated-login-screen.riv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
