@@ -10,7 +10,7 @@
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
 
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.WinUI.RivePlayerRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.WinUI.Rive</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>

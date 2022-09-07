@@ -4,6 +4,7 @@
 
 using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
 using CommunityToolkit.Labs.Tests;
+using CommunityToolkit.Labs.WinUI.Rive;
 
 namespace RivePlayerExperiment.Tests;
 

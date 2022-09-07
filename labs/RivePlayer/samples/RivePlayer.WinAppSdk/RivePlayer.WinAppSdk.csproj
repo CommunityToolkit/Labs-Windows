@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.RivePlayer.csproj" />
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.Rive.RivePlayer.csproj" />
     <ProjectReference Include="..\RivePlayer.Samples\RivePlayer.Samples.csproj" />
   </ItemGroup>
 

@@ -18,6 +18,6 @@
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.RivePlayer.csproj" />
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.Rive.RivePlayer.csproj" />
   </ItemGroup>
 </Project>

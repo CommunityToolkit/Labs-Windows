@@ -38,6 +38,6 @@
   <Import Project="..\RivePlayer.Tests\RivePlayer.Tests.projitems" Label="Shared" />
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.RivePlayer.csproj" />
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.Rive.RivePlayer.csproj" />
   </ItemGroup>
 </Project>
