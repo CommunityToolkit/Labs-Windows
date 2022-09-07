@@ -56,7 +56,7 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
     public void SimpleUIExamplePageTest(ExampleRivePlayerTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<RivePlayer_ClassicBinding>();
+        var component = page.FindDescendant<RivePlayer>();
 
         Assert.IsNotNull(component);
 
@@ -72,7 +72,7 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
         // This helper can be used to wait for a rendering pass to complete.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<RivePlayer_ClassicBinding>();
+        var component = page.FindDescendant<RivePlayer>();
 
         Assert.IsNotNull(component);
     }
@@ -87,7 +87,7 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
     {
         await EnqueueAsync(() =>
         {
-            var component = new RivePlayer_ClassicBinding();
+            var component = new RivePlayer();
             Assert.IsNotNull(component);
         });
     }
@@ -99,7 +99,7 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
     {
         await EnqueueAsync(async () =>
         {
-            var component = new RivePlayer_ClassicBinding();
+            var component = new RivePlayer();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -117,7 +117,7 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
     [LabsUITestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new RivePlayer_ClassicBinding();
+        var component = new RivePlayer();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 
