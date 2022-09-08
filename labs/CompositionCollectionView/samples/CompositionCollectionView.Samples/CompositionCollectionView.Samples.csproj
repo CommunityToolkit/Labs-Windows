@@ -14,11 +14,16 @@
     <RootNamespace>CompositionCollectionViewExperiment.Samples</RootNamespace>
     <AssemblyName>CompositionCollectionViewExperiment.Samples</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\face.png" />
+  </ItemGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
     <Content Include="Assets\ceiling.bmp" />
+    <Content Include="Assets\face.png" />
     <Content Include="Assets\floor.bmp" />
     <Content Include="Assets\wall.bmp" />
   </ItemGroup>
