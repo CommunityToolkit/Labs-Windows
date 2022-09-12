@@ -15,10 +15,6 @@
     <AssemblyName>CompositionCollectionViewExperiment.Samples</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Assets\face.png" />
-  </ItemGroup>
-  
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>

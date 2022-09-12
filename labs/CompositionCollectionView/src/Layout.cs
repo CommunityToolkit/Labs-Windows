@@ -224,10 +224,10 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
     protected virtual void OnDeactivated() { }
     protected virtual void OnElementsUpdated() { }
 
-    protected abstract void ConfigureElement(ElementReference<TId, TItem> element);
+    protected virtual void ConfigureElement(ElementReference<TId, TItem> element) { }
     protected virtual void CleanupElement(ElementReference<TId, TItem> element) { }
     public abstract Vector3Node GetElementPositionNode(ElementReference<TId, TItem> element);
-    public abstract ScalarNode GetElementScaleNode(ElementReference<TId, TItem> element);
+    public virtual ScalarNode GetElementScaleNode(ElementReference<TId, TItem> element) => 1;
 
     public virtual ScalarNode GetElementOpacityNode(ElementReference<TId, TItem> element) => 1;
     public virtual QuaternionNode GetElementOrientationNode(ElementReference<TId, TItem> element) => Quaternion.Identity;
@@ -236,7 +236,7 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
     //Invoked per-element as part of a source update, before its animation has been updated. The user is intended to update the composition property set/animation nodes
     public virtual void UpdateElementData(ElementReference<TId, TItem> element) { }
     //Invoked per-element as part of a source update, after its animation has been updated
-    public abstract void UpdateElement(ElementReference<TId, TItem> element);
+    public virtual void UpdateElement(ElementReference<TId, TItem> element) { }
 
 
     //Internal implementation, the copy constructor should copy the properties we want to maintain across layouts

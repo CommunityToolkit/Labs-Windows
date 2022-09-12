@@ -78,14 +78,6 @@ namespace CompositionCollectionView.Sample
 
             public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => 1;
 
-            protected override void ConfigureElement(ElementReference<uint, object?> element)
-            {
-            }
-
-            public override void UpdateElement(ElementReference<uint, object?> element)
-            {
-            }
-
             protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
                new(100,
                    Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
@@ -107,14 +99,6 @@ namespace CompositionCollectionView.Sample
             }
 
             public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => (float)Math.Pow(0.95f, element.Id);
-
-            protected override void ConfigureElement(ElementReference<uint, object?> element)
-            {
-            }
-
-            public override void UpdateElement(ElementReference<uint, object?> element)
-            {
-            }
 
             protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
                 new(100,

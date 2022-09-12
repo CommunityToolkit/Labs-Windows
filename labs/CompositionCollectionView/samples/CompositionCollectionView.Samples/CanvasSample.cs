@@ -5,6 +5,7 @@ using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 using CommunityToolkit.Labs.WinUI.CompositionCollectionView;
 using Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork;
+using System.Numerics;
 using System.Xml.Linq;
 
 #if !WINAPPSDK
@@ -31,23 +32,23 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace CompositionCollectionView.Sample
 {
-    [ToolkitSample(id: nameof(CompositionCollectionViewFirstSamplePage), "Simple layout", description: "Displaying elements in a simple layout.")]
-    public sealed partial class CompositionCollectionViewFirstSamplePage : Page
+    [ToolkitSample(id: nameof(CanvasSample), "Canvas layout", description: "DisplayS elements in a 2d canvas, animating between updates.")]
+    public sealed partial class CanvasSample : Page
     {
-        public CompositionCollectionViewFirstSamplePage()
+        public CanvasSample()
         {
             this.InitializeComponent();
 
-            var elements = new Dictionary<uint, object?>()
+            var elements = new Dictionary<uint, Vector2>()
             {
-                { 0, null },
-                { 1, null },
-                { 2, null },
-                { 3, null },
-                { 4, null }
+                { 0, Vector2.Zero },
+                { 1, Vector2.Zero },
+                { 2, Vector2.Zero },
+                { 3, Vector2.Zero },
+                { 4, Vector2.Zero }
             };
 
-            var layout = new SampleLayout((id) =>
+            var layout = new CanvasLayout((id) =>
                 new Rectangle()
                 {
                     Width = 100,
@@ -55,36 +56,38 @@ namespace CompositionCollectionView.Sample
                     Fill = new SolidColorBrush(Windows.UI.Colors.BlueViolet)
                 }
             , (_) => { });
+
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
 
-            addButton.Click += (object sender, RoutedEventArgs e) =>
+            rearrangeButton.Click += (object sender, RoutedEventArgs e) =>
             {
-                elements.Add((uint)elements.Count, null);
+                var rnd = new Random();
+
+                for(uint i =0; i< elements.Count; i++)
+                {
+                    elements[i] = new Vector2(
+                        (float)(rnd.NextDouble() * compositionCollectionView.ActualWidth),
+                        (float)(rnd.NextDouble() * compositionCollectionView.ActualHeight));
+                }
                 compositionCollectionView.UpdateSource(elements);
             };
         }
 
-        public class SampleLayout : Layout<uint, object?>
+        public class CanvasLayout : Layout<uint, Vector2>
         {
-            public SampleLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public CanvasLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {
             }
 
-            public override Vector3Node GetElementPositionNode(ElementReference<uint, object?> element)
+            public override Vector3Node GetElementPositionNode(ElementReference<uint, Vector2> element)
             {
-                return ExpressionFunctions.Vector3(element.Id * 120, 0, 0);
+                return new Vector3(element.Model.X, element.Model.Y, 0);
             }
 
-            public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => 1;
-
-            protected override void ConfigureElement(ElementReference<uint, object?> element)
-            {
-            }
-
-            public override void UpdateElement(ElementReference<uint, object?> element)
-            {
-            }
+            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, Vector2> element) =>
+               new(200,
+                   Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
     }
 }

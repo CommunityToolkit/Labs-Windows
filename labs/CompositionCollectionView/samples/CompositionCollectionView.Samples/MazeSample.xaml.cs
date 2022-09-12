@@ -110,17 +110,6 @@ namespace CompositionCollectionView.Sample
 
         public record Tile(TileType Type, int X, int Y);
 
-        //private (uint, Action<CompositionPropertySet, Dictionary<string, object>>) CreateElement(Tile tile)
-        //{
-        //    return (nextEntityId++, (_, dict) =>
-        //    {
-        //        dict[nameof(Tile.Type)] = tile.Type;
-        //        dict[nameof(Tile.X)] = tile.X;
-        //        dict[nameof(Tile.Y)] = tile.Y;
-        //    }
-        //    );
-        //}
-
         public abstract class MazeLayout : Layout<uint, Tile>
         {
             protected const string PositionNode = nameof(PositionNode);
@@ -180,14 +169,6 @@ namespace CompositionCollectionView.Sample
 
             public override ScalarNode GetElementScaleNode(ElementReference<uint, Tile> element)
             {
-                var camera = AnimatableNodes.GetOrCreateMatrix4x4Node(CameraTransformNode, Matrix4x4.Identity).Reference;
-                //return camera.Channel11;
-
-                //return RootPanelVisual.GetReference().Size.Y / TileWidth;
-
-                //return ExpressionFunctions.Transform(ExpressionFunctions.Vector4(1, 0, 0, 0), camera).X -
-                //    ExpressionFunctions.Transform(ExpressionFunctions.Vector4(0, 0, 0, 0), camera).X;
-
                 return AnimatableNodes.GetOrCreateScalarNode(ScaleNode, 1).Reference;
             }
 
@@ -217,10 +198,6 @@ namespace CompositionCollectionView.Sample
                 {
                     rect.Fill = TileControl.BrushFor(element.Model.Type);
                 }
-            }
-
-            public override void UpdateElement(ElementReference<uint, Tile> element)
-            {
             }
 
             protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, Tile> element) =>

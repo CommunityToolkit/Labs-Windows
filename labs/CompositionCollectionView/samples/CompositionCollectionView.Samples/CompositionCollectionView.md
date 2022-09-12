@@ -26,7 +26,11 @@ This facilitates the task of creating complex, performant layouts that are integ
 
 A layout can be as simple as this one, which calculates an static position for each element according to its properties:
 
-> [!SAMPLE CompositionCollectionViewFirstSamplePage]
+> [!SAMPLE BasicSample]
+
+The CompositionCollectionView can automatically animate the elements as the source is updated, the layouts only need to provide timing and easing information:
+
+> [!SAMPLE CanvasSample]
 
 While a CompositionCollectionView is only using one layout at a time, it can transition to any other layout on demand, implicitly animating the elements if desired.
 

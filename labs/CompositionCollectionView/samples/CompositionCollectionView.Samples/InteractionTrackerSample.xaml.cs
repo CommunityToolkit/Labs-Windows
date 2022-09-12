@@ -149,14 +149,6 @@ namespace CompositionCollectionView.Sample
             }
 
             public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => 1.5f - ExpressionFunctions.Abs(0.5f - ScrollProgress(element));
-
-            protected override void ConfigureElement(ElementReference<uint, object?> element)
-            {
-            }
-
-            public override void UpdateElement(ElementReference<uint, object?> element)
-            {
-            }
         }
     }
 }
