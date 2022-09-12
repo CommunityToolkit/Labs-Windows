@@ -6,24 +6,24 @@
 using System.Collections.Generic;
 
 namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
-public class ElementInteractionTrackerBehavior<TId> : LayoutBehavior<TId>
+public class ElementInteractionTrackerBehavior<TId, TItem> : LayoutBehavior<TId, TItem>
 {
-    Dictionary<TId, InteractionTrackerBehavior<TId>> _elementTrackers = new();
+    Dictionary<TId, InteractionTrackerBehavior<TId, TItem>> _elementTrackers = new();
 
-    public InteractionTrackerBehavior<TId> CreateTrackerFor(ElementReference<TId> element)
+    public InteractionTrackerBehavior<TId, TItem> CreateTrackerFor(ElementReference<TId, TItem> element)
     {
         if (TryGetTrackerFor(element.Id, out var tracker) && tracker is not null)
         {
             return tracker;
         }
 
-        tracker = new InteractionTrackerBehavior<TId>(element.Container);
+        tracker = new InteractionTrackerBehavior<TId, TItem>(element.Container);
         tracker.Configure(Layout);
         _elementTrackers[element.Id] = tracker;
         return tracker;
     }
 
-    public bool TryGetTrackerFor(TId id, out InteractionTrackerBehavior<TId>? tracker)
+    public bool TryGetTrackerFor(TId id, out InteractionTrackerBehavior<TId, TItem>? tracker)
     {
         return _elementTrackers.TryGetValue(id, out tracker);
     }

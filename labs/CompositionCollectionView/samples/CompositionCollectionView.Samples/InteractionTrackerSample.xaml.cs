@@ -40,50 +40,46 @@ namespace CompositionCollectionView.Sample
     {
         const int ElementWidth = 100;
 
-        private List<(uint, Action<CompositionPropertySet, Dictionary<string, object>>)> elements { get; init; } = new()
-            {
-                (0, (_, _)=>{ }),
-                (1, (_, _)=>{ }),
-                (2, (_, _)=>{ }),
-                (3, (_, _)=>{ }),
-                (4, (_, _)=>{ }),
-                (5, (_, _)=>{ })
-            };
-
         public InteractionTrackerSample()
         {
             this.InitializeComponent();
 
+            Dictionary<uint, object?> elements = new()
+            {
+                { 0, null },
+                { 1, null },
+                { 2, null },
+                { 3, null },
+                { 4, null }
+            };
+
             var layout = new LinearLayout((id) =>
-                new Rectangle()
-                {
-                    Width = ElementWidth,
-                    Height = ElementWidth,
-                    Fill = new SolidColorBrush(Colors.BlueViolet),
-                    Stroke = new SolidColorBrush(Colors.Gray),
-                    StrokeThickness = 2
-                }
-            , (_) => { });
+                    new Rectangle()
+                    {
+                        Width = ElementWidth,
+                        Height = ElementWidth,
+                        Fill = new SolidColorBrush(Colors.BlueViolet),
+                        Stroke = new SolidColorBrush(Colors.Gray),
+                        StrokeThickness = 2
+                    }
+                , (_) => { });
+
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
         }
 
-        public class LinearLayout : Layout<uint>
+        public class LinearLayout : Layout<uint, object?>
         {
             public LinearLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {
             }
 
-            public LinearLayout(Layout<uint> sourceLayout) : base(sourceLayout)
-            {
-            }
-
             protected override void OnActivated()
             {
-                if (TryGetBehavior<InteractionTrackerBehavior<uint>>() is null)
+                if (TryGetBehavior<InteractionTrackerBehavior<uint, object?>>() is null)
                 {
                     // Tracker can't be created until activation, we don't have access to the root panel until then
-                    var trackerBehavior = new InteractionTrackerBehavior<uint>(RootPanel);
+                    var trackerBehavior = new InteractionTrackerBehavior<uint, object?>(RootPanel);
                     AddBehavior(trackerBehavior);
 
                     var tracker = trackerBehavior.Tracker;
@@ -110,7 +106,7 @@ namespace CompositionCollectionView.Sample
                 if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
                 {
                     var position = e.GetCurrentPoint(RootPanel);
-                    GetBehavior<InteractionTrackerBehavior<uint>>().InteractionSource.TryRedirectForManipulation(position);
+                    GetBehavior<InteractionTrackerBehavior<uint, object?>>().InteractionSource.TryRedirectForManipulation(position);
                 }
             }
 
@@ -121,7 +117,7 @@ namespace CompositionCollectionView.Sample
 
             private void UpdateTrackerLimits()
             {
-                var trackerBehavior = GetBehavior<InteractionTrackerBehavior<uint>>();
+                var trackerBehavior = GetBehavior<InteractionTrackerBehavior<uint, object?>>();
 
                 var availableWidth = (float)RootPanel.ActualWidth - ElementWidth;
                 var elementsWidth = Elements.Count * ElementWidth * 1.2f;
@@ -130,18 +126,18 @@ namespace CompositionCollectionView.Sample
                 trackerBehavior.Tracker.MinPosition = new Vector3(-((float)RootPanel.ActualWidth - ElementWidth) / 2, 0, 0);
             }
 
-            private ScalarNode ScrollProgress(ElementReference<uint> element)
+            private ScalarNode ScrollProgress(ElementReference<uint, object?> element)
             {
                 var availableWidth = RootPanelVisual.GetReference().Size.X - ElementWidth;
 
                 return ExpressionFunctions.Clamp(
                             (element.Id * ElementWidth * 1.2f
-                             - GetBehavior<InteractionTrackerBehavior<uint>>().Tracker.GetReference().Position.X) / availableWidth,
+                             - GetBehavior<InteractionTrackerBehavior<uint, object?>>().Tracker.GetReference().Position.X) / availableWidth,
                             0,
                             1);
             }
 
-            public override Vector3Node GetElementPositionNode(ElementReference<uint> element)
+            public override Vector3Node GetElementPositionNode(ElementReference<uint, object?> element)
             {
                 var availableWidth = RootPanelVisual.GetReference().Size.X - ElementWidth;
 
@@ -152,13 +148,13 @@ namespace CompositionCollectionView.Sample
                 return ExpressionFunctions.Vector3(xPosition, yPosition, 0);
             }
 
-            public override ScalarNode GetElementScaleNode(ElementReference<uint> element) => 1.5f - ExpressionFunctions.Abs(0.5f - ScrollProgress(element));
+            public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => 1.5f - ExpressionFunctions.Abs(0.5f - ScrollProgress(element));
 
-            protected override void ConfigureElement(ElementReference<uint> element)
+            protected override void ConfigureElement(ElementReference<uint, object?> element)
             {
             }
 
-            public override void UpdateElement(ElementReference<uint> element)
+            public override void UpdateElement(ElementReference<uint, object?> element)
             {
             }
         }

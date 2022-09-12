@@ -18,7 +18,7 @@ namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
         private Canvas? _contentPanel;
         private ILayout? _layout;
         private Action? _pendingSourceUpdate;
-        public Layout<TId>? Layout<TId>() => _layout as Layout<TId>;
+        public Layout<TId, TItem>? Layout<TId, TItem>() => _layout as Layout<TId, TItem>;
 
         public delegate void LayoutChangedHandler(CompositionCollectionView sender, ILayout newLayout);
         public event LayoutChangedHandler? LayoutChanged;
@@ -39,15 +39,15 @@ namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
             }
         }
 
-        public void UpdateSource<TId>(IEnumerable<(TId id, Action<CompositionPropertySet, Dictionary<string, object?>> populateProperties)> source, Action? updateCallback = null)
+        public void UpdateSource<TId, TItem>(IDictionary<TId, TItem> source, Action? updateCallback = null)
         {
             if (_contentPanel is not null)
             {
-                (_layout as Layout<TId>)?.UpdateSource(source, updateCallback);
+                (_layout as Layout<TId, TItem>)?.UpdateSource(source, updateCallback);
             }
             else
             {
-                _pendingSourceUpdate = () => (_layout as Layout<TId>)?.UpdateSource(source);
+                _pendingSourceUpdate = () => (_layout as Layout<TId, TItem>)?.UpdateSource(source);
                 updateCallback?.Invoke();
             }
         }

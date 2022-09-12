@@ -7,7 +7,7 @@
       mc:Ignorable="d">
 
     <StackPanel>
-        <Button Click="Button_Click_Add" Margin="10">Add element</Button>
+        <Button x:Name="addButton" Margin="10">Add element</Button>
         <compositioncollectionview:CompositionCollectionView x:Name="compositionCollectionView" Width="600" Height="200"/>
     </StackPanel>
 </Page>

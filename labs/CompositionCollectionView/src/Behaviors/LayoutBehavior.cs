@@ -7,12 +7,12 @@
 using System;
 
 namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
-public abstract class LayoutBehavior<TId>
+public abstract class LayoutBehavior<TId, TItem>
 {
-    protected Layout<TId> Layout => _layout is null ? throw new InvalidOperationException("Behavior has not been added to any layout yet") : _layout;
-    private Layout<TId>? _layout = null;
+    protected Layout<TId, TItem> Layout => _layout is null ? throw new InvalidOperationException("Behavior has not been added to any layout yet") : _layout;
+    private Layout<TId, TItem>? _layout = null;
 
-    public void Configure(Layout<TId> layout)
+    public void Configure(Layout<TId, TItem> layout)
     {
         if (_layout != layout)
         {
@@ -21,8 +21,8 @@ public abstract class LayoutBehavior<TId>
         }
     }
 
-    virtual public void ConfigureElement(ElementReference<TId> element) { }
-    virtual public void CleanupElement(ElementReference<TId> element) { }
+    virtual public void ConfigureElement(ElementReference<TId, TItem> element) { }
+    virtual public void CleanupElement(ElementReference<TId, TItem> element) { }
 
     virtual public void OnConfigure() { }
     virtual public void OnActivated() { }

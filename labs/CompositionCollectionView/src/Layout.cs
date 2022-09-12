@@ -22,7 +22,7 @@ public interface ILayout
     void Activate(Panel panel);
 }
 
-public abstract partial class Layout<TId> : ILayout, IDisposable
+public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
 {
     public enum ElementAlignment { Start, Center, End };
 
@@ -36,7 +36,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
         AnimatableNodes = new AnimatableCompositionNodeSet(compositor);
     }
 
-    public Layout(Layout<TId> sourceLayout)
+    public Layout(Layout<TId, TItem> sourceLayout)
     {
         ParentLayout = sourceLayout;
 
@@ -117,7 +117,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
     public Action<ILayout, ILayout>? LayoutReplaced { get; set; }
 
     //Public methods
-    public T TransitionTo<T>(Func<Layout<TId>, T> factory) where T : Layout<TId>
+    public T TransitionTo<T>(Func<Layout<TId, TItem>, T> factory) where T : Layout<TId, TItem>
     {
         System.Diagnostics.Debug.Assert(IsActive);
 
@@ -125,7 +125,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
 
         var newLayout = factory(this);
 
-        foreach(var behavior in _behaviors)
+        foreach (var behavior in _behaviors)
         {
             newLayout.AddBehavior(behavior);
         }
@@ -212,7 +212,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
         }
     }
 
-    public ElementReference<TId>? GetElement(TId obId) =>
+    public ElementReference<TId, TItem>? GetElement(TId obId) =>
         Elements.TryGetValue(obId, out var element) ? element : null;
 
     //Protected properties
@@ -224,16 +224,19 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
     protected virtual void OnDeactivated() { }
     protected virtual void OnElementsUpdated() { }
 
-    protected virtual void PopulateInitialElementPropertySet(CompositionPropertySet elementPropertySet, Dictionary<string, object?> elementProperties) { }
-    protected abstract void ConfigureElement(ElementReference<TId> element);
-    protected virtual void CleanupElement(ElementReference<TId> element) { }
-    public abstract Vector3Node GetElementPositionNode(ElementReference<TId> element);
-    public abstract ScalarNode GetElementScaleNode(ElementReference<TId> element);
+    protected abstract void ConfigureElement(ElementReference<TId, TItem> element);
+    protected virtual void CleanupElement(ElementReference<TId, TItem> element) { }
+    public abstract Vector3Node GetElementPositionNode(ElementReference<TId, TItem> element);
+    public abstract ScalarNode GetElementScaleNode(ElementReference<TId, TItem> element);
 
-    public virtual ScalarNode GetElementOpacityNode(ElementReference<TId> element) => 1;
-    public virtual QuaternionNode GetElementOrientationNode(ElementReference<TId> element) => Quaternion.Identity;
-    public abstract void UpdateElement(ElementReference<TId> element);
-    protected virtual Transition? GetElementTransitionEasingFunction(ElementReference<TId> element) => null;
+    public virtual ScalarNode GetElementOpacityNode(ElementReference<TId, TItem> element) => 1;
+    public virtual QuaternionNode GetElementOrientationNode(ElementReference<TId, TItem> element) => Quaternion.Identity;
+    protected virtual Transition? GetElementTransitionEasingFunction(ElementReference<TId, TItem> element) => null;
+
+    //Invoked per-element as part of a source update, before its animation has been updated. The user is intended to update the composition property set/animation nodes
+    public virtual void UpdateElementData(ElementReference<TId, TItem> element) { }
+    //Invoked per-element as part of a source update, after its animation has been updated
+    public abstract void UpdateElement(ElementReference<TId, TItem> element);
 
 
     //Internal implementation, the copy constructor should copy the properties we want to maintain across layouts
@@ -254,7 +257,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
     public Panel RootPanel => GetVisualProperties().RootPanel;
     public Visual RootPanelVisual => GetVisualProperties().RootPanelVisual;
     public Compositor Compositor => GetVisualProperties().RootPanelVisual.Compositor;
-    protected Dictionary<TId, ElementReference<TId>> Elements { get; } = new Dictionary<TId, ElementReference<TId>>();
+    protected Dictionary<TId, ElementReference<TId, TItem>> Elements { get; } = new Dictionary<TId, ElementReference<TId, TItem>>();
     public BindableCompositionPropertySet Properties { private init; get; }
     public AnimatableCompositionNodeSet AnimatableNodes { private init; get; }
     //public bool IsUserInteractingWithTracker { get; private set; } = false;
@@ -270,9 +273,9 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
     //private PointerEventHandler? _rootPointerCaptureLostHandler;
 
 
-    public Layout<TId>? ParentLayout { get; private set; }
+    public Layout<TId, TItem>? ParentLayout { get; private set; }
 
-    protected List<LayoutBehavior<TId>> _behaviors = new List<LayoutBehavior<TId>>();
+    protected List<LayoutBehavior<TId, TItem>> _behaviors = new List<LayoutBehavior<TId, TItem>>();
 
     //internal static Dictionary<uint, LayoutPointer<TId>> ActiveTouchPointers { get; } = new();
 
@@ -280,7 +283,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
 
     private bool disposedValue;
 
-    private void ConfigureElementBehaviors(ElementReference<TId> elementReference)
+    private void ConfigureElementBehaviors(ElementReference<TId, TItem> elementReference)
     {
         foreach (var behavior in _behaviors)
         {
@@ -288,7 +291,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
         }
     }
 
-    private void CleanupElementBehaviors(ElementReference<TId> elementReference)
+    private void CleanupElementBehaviors(ElementReference<TId, TItem> elementReference)
     {
         foreach (var behavior in _behaviors)
         {
@@ -296,7 +299,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
         }
     }
 
-    public void ConfigureElementAnimation(ElementReference<TId> element, Visual? proxyVisual = null)
+    public void ConfigureElementAnimation(ElementReference<TId, TItem> element, Visual? proxyVisual = null)
     {
         var visual = proxyVisual ?? element.Visual;
 
@@ -318,7 +321,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
         }
     }
 
-    public void StopElementAnimation(ElementReference<TId> element)
+    public void StopElementAnimation(ElementReference<TId, TItem> element)
     {
         element.Visual.StopAnimation(Offset);
         element.Visual.StopAnimation(Scale);
@@ -326,31 +329,32 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
         element.Visual.StopAnimation(AnimationConstants.Orientation);
     }
 
-    public IEnumerable<ElementReference<TId>> GetElements() => Elements.Values;
+    public IEnumerable<ElementReference<TId, TItem>> GetElements() => Elements.Values;
 
     bool _isUpdatingSource = false;
-    private record SourceUpdate(Dictionary<TId, Action<CompositionPropertySet, Dictionary<string, object?>>> UpdatedElements, Action? Callback);
+    private record SourceUpdate(IDictionary<TId, TItem> UpdatedElements, Action? Callback);
     Queue<SourceUpdate> _pendingSourceUpdates = new();
 
-    public void UpdateSource(IEnumerable<(TId id, Action<CompositionPropertySet, Dictionary<string, object?>> populateProperties)> source, Action? updateCallback = null)
+    public void UpdateSource(IDictionary<TId, TItem> source, Action? updateCallback = null)
     {
-        var updatedElements = source.ToDictionary(pair => pair.id, pair => pair.populateProperties);
         if (!_isUpdatingSource)
         {
             _isUpdatingSource = true;
-            ProcessSourceUpdate(updatedElements, updateCallback);
+            ProcessSourceUpdate(source, updateCallback);
         }
         else
         {
-            _pendingSourceUpdates.Enqueue(new SourceUpdate(updatedElements, updateCallback));
+            _pendingSourceUpdates.Enqueue(new SourceUpdate(source, updateCallback));
         }
     }
 
-    public async void ProcessSourceUpdate(Dictionary<TId, Action<CompositionPropertySet, Dictionary<string, object?>>> updatedElements, Action? updateCallback)
+    public async void ProcessSourceUpdate(IDictionary<TId, TItem> updatedElements, Action? updateCallback)
     {
         List<Task<bool>> elementUpdateTask = new();
 
         System.Diagnostics.Debug.WriteLine("Process source update");
+
+        HashSet<TId> processedElements = new();
 
         foreach (var (id, element) in Elements.ToArray())
         {
@@ -360,12 +364,16 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
             }
             else
             {
-                UpdateAndTransitionElement(element);
+                UpdateAndTransitionElement(element, updatedElements[id]);
             }
         }
-        foreach (var (id, populateProperties) in updatedElements)
+        foreach (var (id, model) in updatedElements)
         {
-            InstantiateElement(id, populateProperties);
+            if (processedElements.Contains(id))
+            {
+                continue;
+            }
+            InstantiateElement(id, model);
         }
 
         updateCallback?.Invoke();
@@ -384,22 +392,13 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
 
         OnElementsUpdated();
 
-        void InstantiateElement(TId id, Action<CompositionPropertySet, Dictionary<string, object?>> populateProperties)
+        void InstantiateElement(TId id, TItem item)
         {
             var element = ElementFactory(id);
             RootPanel.Children.Add(element);
 
-            //var source = InitializeInteractionSource();
-
-            //var trackerOwner = new InteractionTrackerOwner();
-            //trackerOwner.OnInertiaStateEntered += InertiaStateEntered;
-
-            //var tracker = InteractionTracker.CreateWithOwner(source.Compositor, trackerOwner);
-            //tracker.InteractionSources.Add(source);
-
-            var elementReference = new ElementReference<TId>(id, element,/* source, tracker, trackerOwner,*/ this);
-            PopulateInitialElementPropertySet(elementReference.CompositionProperties, elementReference.Properties);
-            populateProperties(elementReference.CompositionProperties, elementReference.Properties);
+            var elementReference = new ElementReference<TId, TItem>(id, item, element,/* source, tracker, trackerOwner,*/ this);
+            UpdateElementData(elementReference);
             Elements[id] = elementReference;
 
             ConfigureElement(elementReference);
@@ -407,39 +406,24 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
 
             ConfigureElementAnimation(elementReference);
             UpdateElement(elementReference);
-
-
-            //VisualInteractionSource InitializeInteractionSource()
-            //{
-            //    var interactionSource = VisualInteractionSource.Create(ElementCompositionPreview.GetElementVisual(element));
-            //    interactionSource.PositionXSourceMode = InteractionSourceMode.EnabledWithInertia;
-            //    interactionSource.PositionYSourceMode = InteractionSourceMode.EnabledWithInertia;
-            //    interactionSource.ManipulationRedirectionMode = VisualInteractionSourceRedirectionMode.CapableTouchpadAndPointerWheel;
-            //    interactionSource.PositionXChainingMode = InteractionChainingMode.Always;
-            //    interactionSource.PositionYChainingMode = InteractionChainingMode.Always;
-            //    interactionSource.IsPositionXRailsEnabled = false;
-            //    interactionSource.IsPositionYRailsEnabled = false;
-            //    interactionSource.ScaleChainingMode = InteractionChainingMode.Always;
-            //    return interactionSource;
-            //}
         }
 
-        void DestroyElement(ElementReference<TId> element, TId id)
+        void DestroyElement(ElementReference<TId, TItem> element, TId id)
         {
             RootPanel.Children.Remove(element.Container);
             Elements.Remove(id);
             element.Dispose();
         }
 
-        void UpdateAndTransitionElement(ElementReference<TId> element)
+        void UpdateAndTransitionElement(ElementReference<TId, TItem> element, TItem newData)
         {
             var currentPosition = GetElementPositionValue(element);
             var currentScale = GetElementScaleValue(element);
             var currentOrientation = GetElementOrientationValue(element);
             var currentOpacity = GetElementOpacityValue(element);
 
-
-            updatedElements[element.Id](element.CompositionProperties, element.Properties);
+            element.Model = newData;
+            UpdateElementData(element);
 
             var transition = GetElementTransitionEasingFunction(element);
             if (transition is not null)
@@ -484,7 +468,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
 
 
             UpdateElement(element);
-            updatedElements.Remove(element.Id);
+            processedElements.Add(element.Id);
         }
     }
 
@@ -492,7 +476,7 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
 
     public virtual ElementAlignment HorizontalAlignment { get; set; }
 
-    protected void AddBehavior(LayoutBehavior<TId> behavior)
+    protected void AddBehavior(LayoutBehavior<TId, TItem> behavior)
     {
         if (IsActive)
         {
@@ -501,22 +485,22 @@ public abstract partial class Layout<TId> : ILayout, IDisposable
         _behaviors.Add(behavior);
     }
 
-    public T GetBehavior<T>() where T : LayoutBehavior<TId> =>
+    public T GetBehavior<T>() where T : LayoutBehavior<TId, TItem> =>
         _behaviors.OfType<T>().First();
 
-    public T? TryGetBehavior<T>() where T : LayoutBehavior<TId> =>
+    public T? TryGetBehavior<T>() where T : LayoutBehavior<TId, TItem> =>
         _behaviors.OfType<T>().FirstOrDefault();
 
-    protected void RemoveBehavior(LayoutBehavior<TId> behavior)
+    protected void RemoveBehavior(LayoutBehavior<TId, TItem> behavior)
     {
         _behaviors.Remove(behavior);
     }
 
     //todo add trackerPosition
-    public Vector3 GetElementPositionValue(ElementReference<TId> element, Vector3? trackerPosition = null) => GetElementPositionNode(element).Evaluate();
-    public float GetElementScaleValue(ElementReference<TId> element) => GetElementScaleNode(element).Evaluate();
-    public Quaternion GetElementOrientationValue(ElementReference<TId> element) => GetElementOrientationNode(element).Evaluate();
-    public float GetElementOpacityValue(ElementReference<TId> element) => GetElementOpacityNode(element).Evaluate();
+    public Vector3 GetElementPositionValue(ElementReference<TId, TItem> element, Vector3? trackerPosition = null) => GetElementPositionNode(element).Evaluate();
+    public float GetElementScaleValue(ElementReference<TId, TItem> element) => GetElementScaleNode(element).Evaluate();
+    public Quaternion GetElementOrientationValue(ElementReference<TId, TItem> element) => GetElementOrientationNode(element).Evaluate();
+    public float GetElementOpacityValue(ElementReference<TId, TItem> element) => GetElementOpacityNode(element).Evaluate();
 
     protected virtual void Dispose(bool disposing)
     {

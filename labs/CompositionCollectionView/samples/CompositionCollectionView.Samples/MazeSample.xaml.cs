@@ -41,16 +41,14 @@ namespace CompositionCollectionView.Sample
     [ToolkitSample(id: nameof(MazeSample), "Maze layout", description: "Layout driven by an interaction tracker.")]
     public sealed partial class MazeSample : Page
     {
-        enum TileType { Floor, Ceiling, HorizontalWall, VerticalWall, Goal }
+        public enum TileType { Floor, Ceiling, HorizontalWall, VerticalWall, Goal }
 
         const int TileWidth = 100;
         const int MazeSize = 10;
 
         static readonly Vector3 GoalPosition = new Vector3(9, 0, 0);
 
-        private uint nextEntityId;
-
-        private List<(uint, Action<CompositionPropertySet, Dictionary<string, object>>)> elements { get; init; }
+        private Dictionary<uint, Tile> elements { get; init; }
 
         public MazeSample()
         {
@@ -91,7 +89,7 @@ namespace CompositionCollectionView.Sample
 
             tiles.Add(new(TileType.Goal, (int)GoalPosition.X, (int)GoalPosition.Y));
 
-            elements = tiles.OrderBy(x => x.Y).Select(x => CreateElement(x)).ToList();
+            elements = tiles.OrderBy(x => x.Y).Select((x, i) => (index: (uint)i, element: x)).ToDictionary(x => x.index, x => x.element);
 
             var layout = new SpinningMazeLayout((id) => TileControl.Create(), (_) => { });
             compositionCollectionView.SetLayout(layout);
@@ -110,31 +108,31 @@ namespace CompositionCollectionView.Sample
                         ExpressionFunctions.CreateTranslation(ExpressionFunctions.Vector3(viewSize.X / 2, viewSize.Y / 2, 0)));
         }
 
-        private record Tile(TileType Type, int X, int Y);
+        public record Tile(TileType Type, int X, int Y);
 
-        private (uint, Action<CompositionPropertySet, Dictionary<string, object>>) CreateElement(Tile tile)
-        {
-            return (nextEntityId++, (_, dict) =>
-            {
-                dict[nameof(Tile.Type)] = tile.Type;
-                dict[nameof(Tile.X)] = tile.X;
-                dict[nameof(Tile.Y)] = tile.Y;
-            }
-            );
-        }
+        //private (uint, Action<CompositionPropertySet, Dictionary<string, object>>) CreateElement(Tile tile)
+        //{
+        //    return (nextEntityId++, (_, dict) =>
+        //    {
+        //        dict[nameof(Tile.Type)] = tile.Type;
+        //        dict[nameof(Tile.X)] = tile.X;
+        //        dict[nameof(Tile.Y)] = tile.Y;
+        //    }
+        //    );
+        //}
 
-        public abstract class MazeLayout : Layout<uint>
+        public abstract class MazeLayout : Layout<uint, Tile>
         {
             protected const string PositionNode = nameof(PositionNode);
             protected const string ScaleNode = nameof(ScaleNode);
             protected const string RotationNode = nameof(RotationNode);
             const string CameraTransformNode = nameof(CameraTransformNode);
 
-            public MazeLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public MazeLayout(Layout<uint, Tile> sourceLayout) : base(sourceLayout)
             {
             }
 
-            public MazeLayout(Layout<uint> sourceLayout) : base(sourceLayout)
+            public MazeLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {
             }
 
@@ -156,24 +154,20 @@ namespace CompositionCollectionView.Sample
             }
 
 
-            public override Vector3Node GetElementPositionNode(ElementReference<uint> element)
+            public override Vector3Node GetElementPositionNode(ElementReference<uint, Tile> element)
             {
-                element.Properties.TryGetValue(nameof(Tile.X), out var x);
-                element.Properties.TryGetValue(nameof(Tile.Y), out var y);
-                element.Properties.TryGetValue(nameof(Tile.Type), out var tileType);
-
-                var xPosition = tileType switch
+                var xPosition = element.Model.Type switch
                 {
-                    _ => (int)x! * TileWidth
+                    _ => element.Model.X * TileWidth
                 };
 
-                var yPosition = tileType switch
+                var yPosition = element.Model.Type switch
                 {
-                    TileType.Goal => ((int)y! + 0.5f) * TileWidth,
-                    _ => (int)y! * TileWidth
+                    TileType.Goal => (element.Model.Y + 0.5f) * TileWidth,
+                    _ => element.Model.Y * TileWidth
                 };
 
-                var height = tileType switch
+                var height = element.Model.Type switch
                 {
                     TileType.Floor => TileWidth,
                     _ => 0
@@ -184,7 +178,7 @@ namespace CompositionCollectionView.Sample
                 return ExpressionFunctions.Transform(ExpressionFunctions.Vector4(xPosition, height, yPosition, 1), camera).XYZ;
             }
 
-            public override ScalarNode GetElementScaleNode(ElementReference<uint> element)
+            public override ScalarNode GetElementScaleNode(ElementReference<uint, Tile> element)
             {
                 var camera = AnimatableNodes.GetOrCreateMatrix4x4Node(CameraTransformNode, Matrix4x4.Identity).Reference;
                 //return camera.Channel11;
@@ -197,9 +191,9 @@ namespace CompositionCollectionView.Sample
                 return AnimatableNodes.GetOrCreateScalarNode(ScaleNode, 1).Reference;
             }
 
-            public override QuaternionNode GetElementOrientationNode(ElementReference<uint> element)
+            public override QuaternionNode GetElementOrientationNode(ElementReference<uint, Tile> element)
             {
-                var localOrientation = element.Properties[nameof(Tile.Type)] switch
+                var localOrientation = element.Model.Type switch
                 {
                     TileType.Floor => Quaternion.CreateFromYawPitchRoll(0, MathF.PI / 2, 0),
                     TileType.Ceiling => Quaternion.CreateFromYawPitchRoll(0, MathF.PI / 2, 0),
@@ -217,26 +211,26 @@ namespace CompositionCollectionView.Sample
                 return cameraOrientation * localOrientation;
             }
 
-            protected override void ConfigureElement(ElementReference<uint> element)
+            protected override void ConfigureElement(ElementReference<uint, Tile> element)
             {
                 if (element.Container is Rectangle rect)
                 {
-                    rect.Fill = TileControl.BrushFor((TileType)element.Properties[nameof(Tile.Type)]!);
+                    rect.Fill = TileControl.BrushFor(element.Model.Type);
                 }
             }
 
-            public override void UpdateElement(ElementReference<uint> element)
+            public override void UpdateElement(ElementReference<uint, Tile> element)
             {
             }
 
-            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint> element) =>
+            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, Tile> element) =>
                    new(600,
                        Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
 
         public class SpinningMazeLayout : MazeLayout
         {
-            public SpinningMazeLayout(Layout<uint> sourceLayout) : base(sourceLayout)
+            public SpinningMazeLayout(Layout<uint, Tile> sourceLayout) : base(sourceLayout)
             {
             }
 
@@ -280,10 +274,9 @@ namespace CompositionCollectionView.Sample
                 TransitionTo(x => new TraversableMazeLayout(this));
             }
 
-            public override ScalarNode GetElementOpacityNode(ElementReference<uint> element)
+            public override ScalarNode GetElementOpacityNode(ElementReference<uint, Tile> element)
             {
-                element.Properties.TryGetValue(nameof(Tile.Type), out var tileType);
-                return tileType switch
+                return element.Model.Type switch
                 {
                     TileType.Ceiling => 0.3f,
                     _ => 1
@@ -298,7 +291,7 @@ namespace CompositionCollectionView.Sample
             {
             }
 
-            public TraversableMazeLayout(Layout<uint> sourceLayout) : base(sourceLayout)
+            public TraversableMazeLayout(Layout<uint, Tile> sourceLayout) : base(sourceLayout)
             {
             }
 
@@ -306,12 +299,12 @@ namespace CompositionCollectionView.Sample
             {
                 base.OnActivated();
 
-                var trackerBehavior = TryGetBehavior<InteractionTrackerBehavior<uint>>();
+                var trackerBehavior = TryGetBehavior<InteractionTrackerBehavior<uint, Tile>>();
 
                 if (trackerBehavior is null)
                 {
                     // Tracker can't be created until activation, we don't have access to the root panel until then
-                    trackerBehavior = new InteractionTrackerBehavior<uint>(RootPanel);
+                    trackerBehavior = new InteractionTrackerBehavior<uint, Tile>(RootPanel);
                     AddBehavior(trackerBehavior);
                 }
 
@@ -342,7 +335,7 @@ namespace CompositionCollectionView.Sample
             protected override void OnDeactivated()
             {
                 RootPanel.PointerPressed -= RootPointerPressed;
-                GetBehavior<InteractionTrackerBehavior<uint>>().TrackerOwner.OnIdleStateEntered -= this.OnTrackerIdleStateEntered;
+                GetBehavior<InteractionTrackerBehavior<uint, Tile>>().TrackerOwner.OnIdleStateEntered -= this.OnTrackerIdleStateEntered;
             }
 
             private void OnTrackerIdleStateEntered(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args)
@@ -358,7 +351,7 @@ namespace CompositionCollectionView.Sample
                 if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
                 {
                     var position = e.GetCurrentPoint(RootPanel);
-                    GetBehavior<InteractionTrackerBehavior<uint>>().InteractionSource.TryRedirectForManipulation(position);
+                    GetBehavior<InteractionTrackerBehavior<uint, Tile>>().InteractionSource.TryRedirectForManipulation(position);
                 }
             }
 
@@ -369,27 +362,21 @@ namespace CompositionCollectionView.Sample
 
             private void UpdateTrackerLimits()
             {
-                var trackerBehavior = GetBehavior<InteractionTrackerBehavior<uint>>();
+                var trackerBehavior = GetBehavior<InteractionTrackerBehavior<uint, Tile>>();
 
                 trackerBehavior.Tracker.MaxPosition = new Vector3(TileWidth * (MazeSize - 1), 0, 0);
                 trackerBehavior.Tracker.MinPosition = new Vector3(0, -TileWidth * (MazeSize - 1) + 20, 0);
             }
 
-            public override ScalarNode GetElementOpacityNode(ElementReference<uint> element)
+            public override ScalarNode GetElementOpacityNode(ElementReference<uint, Tile> element)
             {
-                element.Properties.TryGetValue(nameof(Tile.X), out var x);
-                element.Properties.TryGetValue(nameof(Tile.Y), out var y);
-                element.Properties.TryGetValue(nameof(Tile.Type), out var tileType);
-
-                return (x, y, tileType) switch
+                return element.Model switch
                 {
-                    (_, _, TileType.Ceiling) => 1,
-                    (_, _, TileType.Floor) => 1,
-                    (_, _, TileType.Goal) => 1,
-                    (0, _, TileType.VerticalWall) => 1,
-                    (MazeSize, _, TileType.VerticalWall) => 1,
-                    (_, 0, TileType.HorizontalWall) => 1,
-                    (_, MazeSize, TileType.HorizontalWall) => 1,
+                    { Type: TileType.Ceiling } => 1,
+                    { Type: TileType.Floor } => 1,
+                    { Type: TileType.Goal } => 1,
+                    { Type: TileType.VerticalWall } and ({ X: 0 } or { X: MazeSize }) => 1,
+                    { Type: TileType.HorizontalWall } and ({ Y: 0 } or { Y: MazeSize }) => 1,
                     _ => 0.3f
                 };
             }
@@ -397,7 +384,7 @@ namespace CompositionCollectionView.Sample
 
         private class TileControl
         {
-            private static ImageBrush WallBrush, CeilingBrush, FloorBrush, GoalBrush;
+            private static ImageBrush? WallBrush, CeilingBrush, FloorBrush, GoalBrush;
 
             public static Rectangle Create() => new Rectangle()
             {
@@ -428,7 +415,7 @@ namespace CompositionCollectionView.Sample
                 };
             }
 
-            public static ImageBrush BrushFor(TileType type) => type switch
+            public static ImageBrush? BrushFor(TileType type) => type switch
             {
                 TileType.Ceiling => CeilingBrush,
                 TileType.Floor => FloorBrush,

@@ -36,19 +36,18 @@ namespace CompositionCollectionView.Sample
     [ToolkitSample(id: nameof(SwitchLayoutsSample), "Layout transition", description: "Transition between different layouts.")]
     public sealed partial class SwitchLayoutsSample : Page
     {
-        private List<(uint, Action<CompositionPropertySet, Dictionary<string, object>>)> elements { get; init; } = new()
-            {
-                (0, (_, _)=>{ }),
-                (1, (_, _)=>{ }),
-                (2, (_, _)=>{ }),
-                (3, (_, _)=>{ }),
-                (4, (_, _)=>{ }),
-                (5, (_, _)=>{ })
-            };
-
         public SwitchLayoutsSample()
         {
             this.InitializeComponent();
+
+            Dictionary<uint, object?> elements = new()
+            {
+                { 0, null },
+                { 1, null },
+                { 2, null },
+                { 3, null },
+                { 4, null }
+            };
 
             var layout = new LinearLayout((id) =>
                 new Rectangle()
@@ -62,62 +61,62 @@ namespace CompositionCollectionView.Sample
             compositionCollectionView.UpdateSource(elements);
         }
 
-        public class LinearLayout : Layout<uint>
+        public class LinearLayout : Layout<uint, object?>
         {
             public LinearLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {
             }
 
-            public LinearLayout(Layout<uint> sourceLayout) : base(sourceLayout)
+            public LinearLayout(Layout<uint, object?> sourceLayout) : base(sourceLayout)
             {
             }
 
-            public override Vector3Node GetElementPositionNode(ElementReference<uint> element)
+            public override Vector3Node GetElementPositionNode(ElementReference<uint, object?> element)
             {
                 return ExpressionFunctions.Vector3(element.Id * 120, 0, 0);
             }
 
-            public override ScalarNode GetElementScaleNode(ElementReference<uint> element) => 1;
+            public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => 1;
 
-            protected override void ConfigureElement(ElementReference<uint> element)
+            protected override void ConfigureElement(ElementReference<uint, object?> element)
             {
             }
 
-            public override void UpdateElement(ElementReference<uint> element)
+            public override void UpdateElement(ElementReference<uint, object?> element)
             {
             }
 
-            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint> element) =>
+            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
                new(100,
                    Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
 
-        public class StackLayout : Layout<uint>
+        public class StackLayout : Layout<uint, object?>
         {
             public StackLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {
             }
 
-            public StackLayout(Layout<uint> sourceLayout) : base(sourceLayout)
+            public StackLayout(Layout<uint, object?> sourceLayout) : base(sourceLayout)
             {
             }
 
-            public override Vector3Node GetElementPositionNode(ElementReference<uint> element)
+            public override Vector3Node GetElementPositionNode(ElementReference<uint, object?> element)
             {
                 return ExpressionFunctions.Vector3(element.Id * 10, element.Id * 10, 0);
             }
 
-            public override ScalarNode GetElementScaleNode(ElementReference<uint> element) => (float)Math.Pow(0.95f, element.Id);
+            public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => (float)Math.Pow(0.95f, element.Id);
 
-            protected override void ConfigureElement(ElementReference<uint> element)
+            protected override void ConfigureElement(ElementReference<uint, object?> element)
             {
             }
 
-            public override void UpdateElement(ElementReference<uint> element)
+            public override void UpdateElement(ElementReference<uint, object?> element)
             {
             }
 
-            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint> element) =>
+            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
                 new(100,
                     Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
@@ -126,11 +125,11 @@ namespace CompositionCollectionView.Sample
         {
             if (sender is ToggleSwitch toggle)
             {
-                if (toggle.IsOn && compositionCollectionView.Layout<uint>() is LinearLayout currentLinearLayout)
+                if (toggle.IsOn && compositionCollectionView.Layout<uint, object?>() is LinearLayout currentLinearLayout)
                 {
                     currentLinearLayout.TransitionTo(_ => new StackLayout(currentLinearLayout));
                 }
-                else if (!toggle.IsOn && compositionCollectionView.Layout<uint>() is StackLayout currentStackLayout)
+                else if (!toggle.IsOn && compositionCollectionView.Layout<uint, object?>() is StackLayout currentStackLayout)
                 {
                     currentStackLayout.TransitionTo(_ => new LinearLayout(currentStackLayout));
                 }
