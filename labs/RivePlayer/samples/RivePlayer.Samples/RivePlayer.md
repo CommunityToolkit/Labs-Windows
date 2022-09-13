@@ -137,7 +137,7 @@ One example using Rive `TriggerInput` classes is binding it to click events of b
 <Rive:RivePlayer Width="600"
                  Height="600"
                  Source="https://public.rive.app/community/runtime-files/2244-4463-animated-login-screen.riv">
-		<Rive:TriggerInput Target="trigSuccess"
+    <Rive:TriggerInput Target="trigSuccess"
                        x:Name="SuccessTriggerInput" />
 </Rive:RivePlayer>
 <Button Content="Success">
