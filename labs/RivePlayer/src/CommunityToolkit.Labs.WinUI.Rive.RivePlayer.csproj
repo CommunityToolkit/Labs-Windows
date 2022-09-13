@@ -34,8 +34,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsUno)' == 'true'">
-    <PackageReference Include="Uno.Core" Version="4.0.1" />
-    <PackageReference Include="Uno.SkiaSharp.Views" Version="2.80.0-uno.493" />
+    <PackageReference Include="SkiaSharp.Views.Uno" Version="2.88.2" />
   </ItemGroup>
 
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->

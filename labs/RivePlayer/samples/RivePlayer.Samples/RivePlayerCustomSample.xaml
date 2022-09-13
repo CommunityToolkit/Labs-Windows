@@ -4,10 +4,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:Rive="using:CommunityToolkit.Labs.WinUI.Rive"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:RivePlayerExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:rive="using:CommunityToolkit.Labs.WinUI.Rive"
       mc:Ignorable="d">
 
     <Grid>
@@ -15,22 +15,22 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
-        <rive:RivePlayer Grid.Column="0"
+        <Rive:RivePlayer Grid.Column="0"
                          Width="600"
                          Height="600"
                          DrawInBackground="True"
                          Source="ms-appx:///animated-login-screen.riv">
-            <rive:BoolInput Target="isChecking"
+            <Rive:BoolInput Target="isChecking"
                             Value="{x:Bind IsChecking.IsChecked, Mode=OneWay}" />
-            <rive:NumberInput Target="numLook"
+            <Rive:NumberInput Target="numLook"
                               Value="{x:Bind NumLook.Value, Mode=OneWay}" />
-            <rive:BoolInput Target="isHandsUp"
+            <Rive:BoolInput Target="isHandsUp"
                             Value="{x:Bind IsHandsUp.IsChecked, Mode=OneWay}" />
-            <rive:TriggerInput x:Name="FailureTrigger"
+            <Rive:TriggerInput x:Name="FailureTrigger"
                                Target="trigFail" />
-            <rive:TriggerInput x:Name="SuccessTrigger"
+            <Rive:TriggerInput x:Name="SuccessTrigger"
                                Target="trigSuccess" />
-        </rive:RivePlayer>
+        </Rive:RivePlayer>
         <StackPanel Grid.Column="1"
                     Padding="20"
                     VerticalAlignment="Center"
@@ -44,8 +44,7 @@
                     Value="0" />
             <CheckBox x:Name="IsHandsUp"
                       Content="Hands Up" />
-            <Button x:Name="FailureButton"
-                    Content="Failure">
+            <Button Content="Failure">
                 <Interactivity:Interaction.Behaviors>
                     <Interactions:EventTriggerBehavior EventName="Click">
                         <Interactions:CallMethodAction MethodName="Fire"

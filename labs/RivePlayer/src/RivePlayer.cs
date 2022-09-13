@@ -23,7 +23,7 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 //
 // Rive state machines: https://rive.app/features#state-machine
 // State machine inputs: https://help.rive.app/editor/state-machine#inputs
-public sealed partial class RivePlayer : IDisposable
+public sealed partial class RivePlayer
 {
     private InvalidateTimer? _invalidateTimer;
     private CancellationTokenSource? _activeSourceFileLoader = null;
@@ -42,7 +42,13 @@ public sealed partial class RivePlayer : IDisposable
         this.PaintSurface += OnPaintSurface;
     }
 
-    void IDisposable.Dispose()
+    ~RivePlayer()
+    {
+        OnDispose(false);
+    }
+
+    // Called by the corresponding Dispose() method from RivePlayer.Platform.cs.
+    private void OnDispose(bool disposing)
     {
         if (_invalidateTimer != null)
         {

@@ -113,7 +113,7 @@ public class TriggerInput : StateMachineInput
         string? target = this.Target;
         if (!String.IsNullOrEmpty(target) && this.RivePlayer.TryGetTarget(out var rivePlayer))
         {
-            rivePlayer.FireTrigger(target);
+            rivePlayer.FireTrigger(target!);
         }
     }
 
