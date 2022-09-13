@@ -142,8 +142,8 @@ One example using Rive `TriggerInput` classes is binding it to click events of b
 </Rive:RivePlayer>
 <Button Content="Success">
     <Interactivity:Interaction.Behaviors>
-		    <Interactions:EventTriggerBehavior EventName="Click">
-				    <Interactions:CallMethodAction MethodName="Fire"
+        <Interactions:EventTriggerBehavior EventName="Click">
+            <Interactions:CallMethodAction MethodName="Fire"
                                            TargetObject="{x:Bind SuccessTriggerInput}" />
         </Interactions:EventTriggerBehavior>
     </Interactivity:Interaction.Behaviors>
