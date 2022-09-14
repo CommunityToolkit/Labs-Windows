@@ -3,7 +3,7 @@
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="MarqueeText.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.MarqueeText/MarqueeText.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
