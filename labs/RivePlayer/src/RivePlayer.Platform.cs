@@ -6,11 +6,16 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 
 // This file contains platform-specific customizations of RivePlayer.
 
-#if WINDOWS_WINAPPSDK
+#if WINDOWS_WINAPPSDK || HAS_UNO_WASM
 
+#if WINDOWS_WINAPPSDK
 using SkiaSharp.Views.Windows;
+#else
+using SkiaSharp.Views.UWP;
+#endif
 
 // WinAppSdk doesn't have SKSwapChainPanel yet.
+// SKSwapChainPanel doesn't work in WASM yet.
 public partial class RivePlayer : SKXamlCanvas, IDisposable
 {
     // SKXamlCanvas doesn't support rendering in a background thread.
