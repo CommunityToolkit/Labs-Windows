@@ -14,10 +14,20 @@
     <RootNamespace>MarqueeTextExperiment.Samples</RootNamespace>
     <AssemblyName>MarqueeTextExperiment.Samples</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="MarqueeTextSample.xaml" />
+  </ItemGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.MarqueeText.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="MarqueeTextSample.xaml.cs">
+      <DependentUpon>MarqueeTextSample.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
