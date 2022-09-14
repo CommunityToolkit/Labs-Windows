@@ -21,7 +21,7 @@ public partial class MarqueeText
         DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(MarqueeText), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
 
     private static readonly DependencyProperty BehaviorProperty =
-        DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(MarqueeText), new PropertyMetadata(false, BehaviorPropertyChanged));
+        DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(MarqueeText), new PropertyMetadata(0, BehaviorPropertyChanged));
 
     private static readonly DependencyProperty DirectionProperty =
         DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
@@ -34,8 +34,8 @@ public partial class MarqueeText
     /// </summary>
     public string Text
     {
-        get { return (string)GetValue(TextProperty); }
-        set { SetValue(TextProperty, value); }
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
     }
 
     /// <summary>
@@ -43,8 +43,8 @@ public partial class MarqueeText
     /// </summary>
     public double Speed
     {
-        get { return (double)GetValue(SpeedProperty); }
-        set { SetValue(SpeedProperty, value); }
+        get => (double)GetValue(SpeedProperty);
+        set => SetValue(SpeedProperty, value);
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ public partial class MarqueeText
     /// </summary>
     public RepeatBehavior RepeatBehavior
     {
-        get { return (RepeatBehavior)GetValue(RepeatBehaviorProperty); }
-        set { SetValue(RepeatBehaviorProperty, value); }
+        get => (RepeatBehavior)GetValue(RepeatBehaviorProperty);
+        set => SetValue(RepeatBehaviorProperty, value);
     }
 
     /// <summary>
@@ -61,8 +61,8 @@ public partial class MarqueeText
     /// </summary>
     public MarqueeBehavior Behavior
     {
-        get { return (MarqueeBehavior)GetValue(BehaviorProperty); }
-        set { SetValue(BehaviorProperty, value); }
+        get => (MarqueeBehavior)GetValue(BehaviorProperty);
+        set => SetValue(BehaviorProperty, value);
     }
 
     private bool IsTicker => Behavior == MarqueeBehavior.Ticker;
@@ -79,8 +79,8 @@ public partial class MarqueeText
     /// </remarks>
     public MarqueeDirection Direction
     {
-        get { return (MarqueeDirection)GetValue(DirectionProperty); }
-        set { SetValue(DirectionProperty, value); }
+        get => (MarqueeDirection)GetValue(DirectionProperty);
+        set => SetValue(DirectionProperty, value);
     }
 
     private bool IsDirectionHorizontal => Direction == MarqueeDirection.Left || Direction == MarqueeDirection.Right;
@@ -92,8 +92,8 @@ public partial class MarqueeText
     /// </summary>
     public TextDecorations TextDecorations
     {
-        get { return (TextDecorations)GetValue(TextDecorationsProperty); }
-        set { SetValue(TextDecorationsProperty, value); }
+        get => (TextDecorations)GetValue(TextDecorationsProperty);
+        set => SetValue(TextDecorationsProperty, value);
     }
 
     private static void BehaviorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
