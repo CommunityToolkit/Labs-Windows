@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MarqueeText.Tests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MarqueeText.Tests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
