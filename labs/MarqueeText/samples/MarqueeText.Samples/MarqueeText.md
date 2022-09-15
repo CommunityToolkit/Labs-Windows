@@ -6,7 +6,7 @@ keywords: Marquee, Control, Text
 dev_langs:
   - csharp
 category: Controls
-subcategory: Status and Info
+subcategory: StatusAndInfo
 ---
 
 # MarqueeText
