@@ -4,8 +4,10 @@
 
 namespace MarqueeTextExperiment.Samples;
 [ToolkitSample(id: nameof(MarqueeTextSample), "Templated control", description: "A sample for showing how to create and use a templated control.")]
-[ToolkitSampleMultiChoiceOption("MarqueeSpeed", "Speed", "64", "96", "128")]
-//[ToolkitSampleMultiChoiceOption("MarqueeMode", "Mode", "Ticker : 0", "Looping : 1", "Bouncing : 2")]
+[ToolkitSampleMultiChoiceOption("MarqueeSpeed", "Speed", "Slow : 64", "Medium : 96", "Fast : 128")]
+//[ToolkitSampleMultiChoiceOption("MarqueeMode", "Mode", "Ticker", "Looping", "Bouncing")]
+//[ToolkitSampleMultiChoiceOption("MarqueeDirection", "Direction", "Left", "Right", "Up", "Down")]
+[ToolkitSampleMultiChoiceOption("MarqueeRepeat", "Repeat", "Forever", "1x", "2x")]
 public sealed partial class MarqueeTextSample : Page
 {
     public MarqueeTextSample()

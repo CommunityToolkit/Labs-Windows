@@ -7,12 +7,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <StackPanel Spacing="16">
+    <StackPanel Padding="16">
         <labs:MarqueeText Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                           Speed="{x:Bind MarqueeSpeed, Mode=OneWay}"
                           Behavior="Looping"
                           Direction="Left"
-                          RepeatBehavior="2x"
+                          RepeatBehavior="{x:Bind MarqueeRepeat, Mode=OneWay}"
                           FontSize="18"/>
     </StackPanel>
 </Page>
