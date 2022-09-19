@@ -110,9 +110,9 @@ namespace CompositionCollectionView.Sample
                 new(100,
                     Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
 
-            public override void UpdateElementData(ElementReference<uint, object?> element)
+            protected override void ConfigureElement(ElementReference<uint, object?> element)
             {
-                Canvas.SetZIndex(element.Container, (int)element.Id);
+                element.Container.SetValue(Canvas.ZIndexProperty, -(int)element.Id);
             }
         }
 #endif
