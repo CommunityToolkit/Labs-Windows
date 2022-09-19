@@ -46,6 +46,7 @@ namespace CompositionCollectionView.Sample
                 { 3, null },
                 { 4, null }
             };
+            #if !WINAPPSDK
 
             var layout = new SampleLayout((id) =>
                 new Rectangle()
@@ -63,8 +64,10 @@ namespace CompositionCollectionView.Sample
                 elements.Add((uint)elements.Count, null);
                 compositionCollectionView.UpdateSource(elements);
             };
+            #endif
         }
 
+#if !WINAPPSDK
         public class SampleLayout : Layout<uint, object?>
         {
             public SampleLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
@@ -78,5 +81,6 @@ namespace CompositionCollectionView.Sample
 
             public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => 1;
         }
+#endif
     }
 }

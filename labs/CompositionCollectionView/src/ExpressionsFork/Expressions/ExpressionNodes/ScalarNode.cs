@@ -1,3 +1,4 @@
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
@@ -303,41 +304,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                 case ExpressionNodeType.Divide:
                     return (Children[0] as ScalarNode).Evaluate() / (Children[1] as ScalarNode).Evaluate();
                 case ExpressionNodeType.Min:
-                    return MathMin((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
+                    return (float)Math.Min((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Max:
-                    return MathMax((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
+                    return (float)Math.Max((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Absolute:
-                    return MathAbs((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Abs((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Sin:
-                    return MathSin((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Sin((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Cos:
-                    return MathCos((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Cos((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Asin:
-                    return MathAsin((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Asin((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Acos:
-                    return MathAcos((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Acos((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Atan:
-                    return MathAtan((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Atan((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Ceil:
-                    return MathCeiling((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Ceiling((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Floor:
-                    return MathFloor((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Floor((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Ln:
-                    return MathLog((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Log((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Log10:
-                    return MathLog10((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Log10((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Pow:
-                    return MathPow((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
+                    return (float)Math.Pow((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Round:
-                    return MathRound((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Round((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Square:
-                    return MathPow((Children[0] as ScalarNode).Evaluate(), 2);
+                    return (float)Math.Pow((Children[0] as ScalarNode).Evaluate(), 2);
                 case ExpressionNodeType.Sqrt:
-                    return MathSqrt((Children[0] as ScalarNode).Evaluate());
+                    return (float)Math.Sqrt((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.ToDegrees:
-                    return 180 * (Children[0] as ScalarNode).Evaluate() / MathPI;
+                    return 180 * (Children[0] as ScalarNode).Evaluate() / (float)Math.PI;
                 case ExpressionNodeType.ToRadians:
-                    return MathPI * (Children[0] as ScalarNode).Evaluate() / 180;
+                    return (float)Math.PI * (Children[0] as ScalarNode).Evaluate() / 180;
                 case ExpressionNodeType.Modulus:
                     return (Children[0] as ScalarNode).Evaluate() % (Children[1] as ScalarNode).Evaluate();
                 case ExpressionNodeType.Conditional:
@@ -345,7 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                 case ExpressionNodeType.Distance:
                     return Vector2.Distance((Children[0] as Vector2Node).Evaluate(), (Children[1] as Vector2Node).Evaluate());
                 case ExpressionNodeType.Clamp:
-                    return Math.Clamp((Children[0] as ScalarNode).Evaluate(),  (Children[1] as ScalarNode).Evaluate(), (Children[2] as ScalarNode).Evaluate());
+                    return (float)Math.Min(Math.Max((Children[0] as ScalarNode).Evaluate(),  (Children[1] as ScalarNode).Evaluate()), (Children[2] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Lerp:
                 {
                     var start = (Children[0] as ScalarNode).Evaluate();

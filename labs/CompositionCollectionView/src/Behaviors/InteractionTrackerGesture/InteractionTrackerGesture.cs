@@ -1,7 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
+#if !WINAPPSDK
 #nullable enable
 using System;
 using System.Collections.Generic;
@@ -72,6 +72,7 @@ public abstract class InteractionTrackerGesture<TId>
 
     public void PauseAnimation()
     {
+        if (PreviewControl is null) { return; }
         var visual = ElementCompositionPreview.GetElementVisual(PreviewControl);
         visual.StopAnimation(TransformMatrix);
         visual.StopAnimation(Opacity);
@@ -79,6 +80,10 @@ public abstract class InteractionTrackerGesture<TId>
 
     public void Restart()
     {
+        InteractionInProgress = false;
+        CompletionInProgress = false;
+
+        if (PreviewControl is null) { return; }
         var visual = ElementCompositionPreview.GetElementVisual(PreviewControl);
 
         var visibility = GetPreviewVisibility(_tracker);
@@ -91,8 +96,6 @@ public abstract class InteractionTrackerGesture<TId>
             0));
 
         PreviewControl?.ResetVisualState();
-        InteractionInProgress = false;
-        CompletionInProgress = false;
     }
 
     protected void InvokeGestureCompleted()
@@ -148,3 +151,4 @@ public abstract class InteractionTrackerGesture<TId, TPanningGesturePreview> : I
         PreviewControl = new TPanningGesturePreview();
     }
 }
+#endif

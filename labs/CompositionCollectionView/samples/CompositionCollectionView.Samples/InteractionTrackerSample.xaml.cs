@@ -44,6 +44,7 @@ namespace CompositionCollectionView.Sample
         {
             this.InitializeComponent();
 
+#if !WINAPPSDK
             Dictionary<uint, object?> elements = new()
             {
                 { 0, null },
@@ -58,7 +59,7 @@ namespace CompositionCollectionView.Sample
                     {
                         Width = ElementWidth,
                         Height = ElementWidth,
-                        Fill = new SolidColorBrush(Colors.BlueViolet),
+                        Fill = new SolidColorBrush(Colors.CornflowerBlue),
                         Stroke = new SolidColorBrush(Colors.Gray),
                         StrokeThickness = 2
                     }
@@ -66,8 +67,9 @@ namespace CompositionCollectionView.Sample
 
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
+#endif
         }
-
+#if !WINAPPSDK
         public class LinearLayout : Layout<uint, object?>
         {
             public LinearLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
@@ -143,12 +145,13 @@ namespace CompositionCollectionView.Sample
 
                 var xPosition = availableWidth * ScrollProgress(element);
 
-                var yPosition = 50 * ExpressionFunctions.Sin(ScrollProgress(element) * MathF.PI);
+                var yPosition = 50 * ExpressionFunctions.Sin(ScrollProgress(element) * (float)Math.PI);
 
                 return ExpressionFunctions.Vector3(xPosition, yPosition, 0);
             }
 
             public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => 1.5f - ExpressionFunctions.Abs(0.5f - ScrollProgress(element));
         }
+#endif
     }
 }

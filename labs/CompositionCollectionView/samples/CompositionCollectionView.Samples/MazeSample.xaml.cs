@@ -48,13 +48,16 @@ namespace CompositionCollectionView.Sample
 
         static readonly Vector3 GoalPosition = new Vector3(9, 0, 0);
 
+
+#if !WINAPPSDK
         private Dictionary<uint, Tile> elements { get; init; }
+#endif
 
         public MazeSample()
         {
             this.InitializeComponent();
 
-
+#if !WINAPPSDK
             List<Tile> tiles = new();
 
             for (int i = 0; i < MazeSize; i++)
@@ -106,10 +109,12 @@ namespace CompositionCollectionView.Sample
                         0.0f, 0.0f, 1.0f, -1.0f / viewSize.X,
                         0.0f, 0.0f, 0.0f, 1.0f) *
                         ExpressionFunctions.CreateTranslation(ExpressionFunctions.Vector3(viewSize.X / 2, viewSize.Y / 2, 0)));
+#endif
         }
 
         public record Tile(TileType Type, int X, int Y);
 
+#if !WINAPPSDK
         public abstract class MazeLayout : Layout<uint, Tile>
         {
             protected const string PositionNode = nameof(PositionNode);
@@ -176,9 +181,9 @@ namespace CompositionCollectionView.Sample
             {
                 var localOrientation = element.Model.Type switch
                 {
-                    TileType.Floor => Quaternion.CreateFromYawPitchRoll(0, MathF.PI / 2, 0),
-                    TileType.Ceiling => Quaternion.CreateFromYawPitchRoll(0, MathF.PI / 2, 0),
-                    TileType.VerticalWall => Quaternion.CreateFromYawPitchRoll(-MathF.PI / 2, 0, 0),
+                    TileType.Floor => Quaternion.CreateFromYawPitchRoll(0, (float)Math.PI / 2, 0),
+                    TileType.Ceiling => Quaternion.CreateFromYawPitchRoll(0, (float)Math.PI / 2, 0),
+                    TileType.VerticalWall => Quaternion.CreateFromYawPitchRoll((float)-Math.PI / 2, 0, 0),
                     TileType.HorizontalWall => Quaternion.Identity,
                     TileType.Goal => Quaternion.Identity,
                     _ => Quaternion.Identity
@@ -222,7 +227,7 @@ namespace CompositionCollectionView.Sample
                 var animation = Compositor.CreateVector3KeyFrameAnimation();
                 animation.Duration = TimeSpan.FromSeconds(5);
                 animation.InsertKeyFrame(0, Vector3.Zero);
-                animation.InsertKeyFrame(1, new Vector3(0, MathF.PI * 2, 0));
+                animation.InsertKeyFrame(1, new Vector3(0, (float)Math.PI * 2, 0));
                 animation.IterationBehavior = AnimationIterationBehavior.Forever;
 
                 var rotationNode = AnimatableNodes.GetOrCreateVector3Node(RotationNode, Vector3.Zero);
@@ -401,6 +406,8 @@ namespace CompositionCollectionView.Sample
             };
         }
 
+#endif
+
         private class Maze
         {
             public IReadOnlyList<Tile> Walls { get; init; }
@@ -413,8 +420,9 @@ namespace CompositionCollectionView.Sample
                 List<Tile> walls = new();
                 var r = new Random();
 
-                while (_pendingRooms.TryDequeue(out var room))
+                while (_pendingRooms.Count > 0)
                 {
+                    var room = _pendingRooms.Dequeue();
                     var attemptHorizontalWall = r.NextDouble() > 0.5f;
                     if (attemptHorizontalWall && room.Height > 1)
                     {

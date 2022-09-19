@@ -1,18 +1,24 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
 #nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+#if WINAPPSDK
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
+#else
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using static CommunityToolkit.Labs.WinUI.CompositionCollectionView.AnimationConstants;
+#endif
 
 namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
 public interface ILayout
@@ -22,6 +28,7 @@ public interface ILayout
     void Activate(Panel panel);
 }
 
+#if !WINAPPSDK
 public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
 {
     public enum ElementAlignment { Start, Center, End };
@@ -539,3 +546,4 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
         GC.SuppressFinalize(this);
     }
 }
+#endif

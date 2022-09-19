@@ -39,6 +39,7 @@ namespace CompositionCollectionView.Sample
         {
             this.InitializeComponent();
 
+#if !WINAPPSDK
             var elements = new Dictionary<uint, Vector2>()
             {
                 { 0, Vector2.Zero },
@@ -53,7 +54,7 @@ namespace CompositionCollectionView.Sample
                 {
                     Width = 100,
                     Height = 100,
-                    Fill = new SolidColorBrush(Windows.UI.Colors.BlueViolet)
+                    Fill = new SolidColorBrush(Windows.UI.Colors.CornflowerBlue)
                 }
             , (_) => { });
 
@@ -72,8 +73,10 @@ namespace CompositionCollectionView.Sample
                 }
                 compositionCollectionView.UpdateSource(elements);
             };
+#endif
         }
 
+#if !WINAPPSDK
         public class CanvasLayout : Layout<uint, Vector2>
         {
             public CanvasLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
@@ -89,5 +92,6 @@ namespace CompositionCollectionView.Sample
                new(200,
                    Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
+#endif
     }
 }

@@ -40,6 +40,7 @@ namespace CompositionCollectionView.Sample
         {
             this.InitializeComponent();
 
+#if !WINAPPSDK
             Dictionary<uint, object?> elements = new()
             {
                 { 0, null },
@@ -54,13 +55,15 @@ namespace CompositionCollectionView.Sample
                 {
                     Width = 100,
                     Height = 100,
-                    Fill = new SolidColorBrush(Windows.UI.Colors.BlueViolet)
+                    Fill = new SolidColorBrush(Windows.UI.Colors.CornflowerBlue)
                 }
             , (_) => { });
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
+#endif
         }
 
+#if !WINAPPSDK
         public class LinearLayout : Layout<uint, object?>
         {
             public LinearLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
@@ -104,9 +107,11 @@ namespace CompositionCollectionView.Sample
                 new(100,
                     Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
+#endif
 
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
+#if !WINAPPSDK
             if (sender is ToggleSwitch toggle)
             {
                 if (toggle.IsOn && compositionCollectionView.Layout<uint, object?>() is LinearLayout currentLinearLayout)
@@ -118,6 +123,8 @@ namespace CompositionCollectionView.Sample
                     currentStackLayout.TransitionTo(_ => new LinearLayout(currentStackLayout));
                 }
             }
+#endif
+
         }
     }
 }
