@@ -61,7 +61,7 @@ namespace CompositionCollectionView.Sample
                         Height = ElementWidth,
                         Fill = new SolidColorBrush(Colors.CornflowerBlue),
                         Stroke = new SolidColorBrush(Colors.Gray),
-                        StrokeThickness = 2
+                        StrokeThickness = 1
                     }
                 , (_) => { });
 

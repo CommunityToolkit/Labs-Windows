@@ -10,6 +10,7 @@ using System.Numerics;
 #if !WINAPPSDK
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -55,7 +56,9 @@ namespace CompositionCollectionView.Sample
                 {
                     Width = 100,
                     Height = 100,
-                    Fill = new SolidColorBrush(Windows.UI.Colors.CornflowerBlue)
+                    Fill = new SolidColorBrush(Windows.UI.Colors.CornflowerBlue),
+                    Stroke = new SolidColorBrush(Colors.Gray),
+                    StrokeThickness = 1
                 }
             , (_) => { });
             compositionCollectionView.SetLayout(layout);
@@ -106,6 +109,11 @@ namespace CompositionCollectionView.Sample
             protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
                 new(100,
                     Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
+
+            public override void UpdateElementData(ElementReference<uint, object?> element)
+            {
+                Canvas.SetZIndex(element.Container, (int)element.Id);
+            }
         }
 #endif
 
