@@ -16,7 +16,7 @@ using SkiaSharp.Views.UWP;
 
 // WinAppSdk doesn't have SKSwapChainPanel yet.
 // SKSwapChainPanel doesn't work in WASM yet.
-public partial class RivePlayer : SKXamlCanvas, IDisposable
+public partial class RivePlayer : SKXamlCanvas
 {
     // SKXamlCanvas doesn't support rendering in a background thread.
     public bool DrawInBackground { get; set; }
@@ -31,21 +31,11 @@ public partial class RivePlayer : SKXamlCanvas, IDisposable
 using SkiaSharp.Views.UWP;
 
 // SKSwapChainPanel performs better than SKXamlCanvas.
-public partial class RivePlayer : SKSwapChainPanel, IDisposable
+public partial class RivePlayer : SKSwapChainPanel
 {
     private void OnPaintSurface(object? sender, SKPaintGLSurfaceEventArgs e)
     {
         this.PaintNextAnimationFrame(e.Surface, e.BackendRenderTarget.Width, e.BackendRenderTarget.Height);
-    }
-#endif
-
-#if HAS_UNO
-    // FrameworkElement has a method named Dispose in Uno, which prevents us from implementing
-    // IDisposable.Dispose. We just have to wait until the destructor runs.
-#else
-    public void Dispose()
-    {
-        this.OnDispose(true);
     }
 #endif
 
@@ -63,4 +53,3 @@ public partial class RivePlayer : SKSwapChainPanel, IDisposable
 #endif
     }
 }
-

@@ -25,8 +25,8 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 // State machine inputs: https://help.rive.app/editor/state-machine#inputs
 public sealed partial class RivePlayer
 {
+    // Continuously invalidates the panel for repaint.
     private InvalidateTimer? _invalidateTimer;
-    private CancellationTokenSource? _activeSourceFileLoader = null;
 
     public RivePlayer()
     {
@@ -42,25 +42,6 @@ public sealed partial class RivePlayer
         this.PaintSurface += OnPaintSurface;
     }
 
-    ~RivePlayer()
-    {
-        OnDispose(false);
-    }
-
-    // Called by the corresponding Dispose() method from RivePlayer.Platform.cs.
-    private void OnDispose(bool disposing)
-    {
-        if (_invalidateTimer != null)
-        {
-            _invalidateTimer.Dispose();
-            _invalidateTimer = null;
-        }
-        if (_activeSourceFileLoader != null)
-        {
-            _activeSourceFileLoader.Dispose();
-            _activeSourceFileLoader = null;
-        }
-    }
 
     // Make Invalidate() accessible to InvalidationTimer.
     internal new void Invalidate()
@@ -84,64 +65,63 @@ public sealed partial class RivePlayer
         }
     }
 
-    private async void LoadSourceFileDataAsync(string uriString, CancellationToken cancellationToken)
+    // State machine inputs to set once the current async source load finishes.
+    // The null-ness of this object also tells us whether an async load operation is currently running.
+    private List<Action>? _deferredSMInputsDuringAsyncSourceLoad = null;
+
+    private async void LoadSourceFileDataAsync(string uriString, int sourceToken)
     {
-        if (!Uri.TryCreate(uriString, UriKind.Absolute, out var uri))
+        if (Uri.TryCreate(uriString, UriKind.Absolute, out var uri))
         {
-            return;
-        }
-        Stream? stream = null;
-        if (uri.Scheme == "http" || uri.Scheme == "https")
-        {
-            try
+            Stream? stream = null;
+            if (uri.Scheme == "http" || uri.Scheme == "https")
             {
-                HttpResponseMessage response = await new HttpClient().GetAsync(uri);
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    stream = await response.Content.ReadAsStreamAsync();
+                    HttpResponseMessage response = await new HttpClient().GetAsync(uri);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        stream = await response.Content.ReadAsStreamAsync();
+                    }
+                }
+                catch (HttpRequestException e)
+                {
+                    // TODO: Load a 404 file?
+                    Console.WriteLine("Failed to connect to " + uri.ToString());
+                    Console.WriteLine(e.ToString());
                 }
             }
-            catch (HttpRequestException e)
+            else if (uri.Scheme == "ms-appx")
             {
-                // TODO: Load a 404 file?
-                Console.WriteLine("Failed to connect to " + uri.ToString());
-                Console.WriteLine(e.ToString());
+                var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
+                if (file != null && sourceToken == _currentSourceToken)
+                {
+                    IBuffer buffer = await FileIO.ReadBufferAsync(file);
+                    stream = buffer.AsStream();
+                }
+            }
+            if (stream != null && sourceToken == _currentSourceToken)
+            {
+                byte[] data = new byte[stream.Length];
+                stream.Read(data, 0, data.Length);
+                stream.Dispose();  // Don't keep the file open.
+                sceneActionsQueue.Enqueue(() => UpdateScene(SceneUpdates.File, data));
+                // Apply deferred state machine inputs once the scene is fully loaded.
+                foreach (Action stateMachineInput in _deferredSMInputsDuringAsyncSourceLoad!)
+                {
+                    sceneActionsQueue.Enqueue(stateMachineInput);
+                }
             }
         }
-        else if (uri.Scheme == "ms-appx")
-        {
-            var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
-            if (file != null && !cancellationToken.IsCancellationRequested)
-            {
-                IBuffer buffer = await FileIO.ReadBufferAsync(file);
-                stream = buffer.AsStream();
-            }
-        }
-        if (stream != null && !cancellationToken.IsCancellationRequested)
-        {
-            byte[] data = new byte[stream.Length];
-            stream.Read(data, 0, data.Length);
-            stream.Dispose();  // Don't keep the file open.
-            sceneActionsQueue.Enqueue(() => UpdateScene(SceneUpdates.File, data));
-            // Apply deferred state machine inputs once the scene is fully loaded.
-            foreach (Action stateMachineInput in _deferredSMInputsDuringFileLoad!)
-            {
-                sceneActionsQueue.Enqueue(stateMachineInput);
-            }
-        }
-        _deferredSMInputsDuringFileLoad = null;
-        _activeSourceFileLoader = null;
+        _deferredSMInputsDuringAsyncSourceLoad = null;
     }
-
-    // State machine inputs to set once the current async file load finishes.
-    private List<Action>? _deferredSMInputsDuringFileLoad = null;
 
     private void EnqueueStateMachineInput(Action stateMachineInput)
     {
-        if (_deferredSMInputsDuringFileLoad != null)
+        if (_deferredSMInputsDuringAsyncSourceLoad != null)
         {
             // A source file is currently loading async. Don't set this input until it completes.
-            _deferredSMInputsDuringFileLoad.Add(stateMachineInput);
+            _deferredSMInputsDuringAsyncSourceLoad.Add(stateMachineInput);
         }
         else
         {
@@ -168,7 +148,7 @@ public sealed partial class RivePlayer
 
     private void HandlePointerEvent(PointerHandler handler, PointerRoutedEventArgs e)
     {
-        if (_activeSourceFileLoader != null)
+        if (_deferredSMInputsDuringAsyncSourceLoad != null)
         {
             // Ignore pointer events while a new scene is loading.
             return;
