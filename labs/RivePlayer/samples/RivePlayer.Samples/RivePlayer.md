@@ -23,6 +23,7 @@ A high-level runtime for the [Windows Community Toolkit](https://docs.microsoft.
 
 This library allows for control over Rive files with a high-level API for driving [state machines](https://help.rive.app/editor/state-machine) and animations.
 
+> [!Sample RivePlayerCustomSample]
 
 ## Getting Started
 
