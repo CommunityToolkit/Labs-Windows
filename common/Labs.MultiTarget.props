@@ -40,6 +40,13 @@
   <!-- Automatically include XAML pages within multi-targetted projects (source and samples) -->
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+
+    <Content Remove="**\*.xaml" />
+
+    <Page Update="**\*.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
+
     <Compile Update="**\*.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
