@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 internal static class DeconstructPolyfillExtensions
 {
     public static void Deconstruct<T1, T2>(

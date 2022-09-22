@@ -5,8 +5,8 @@
 #nullable enable
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
-public class ElementInteractionTrackerBehavior<TId, TItem> : LayoutBehavior<TId, TItem>
+namespace CommunityToolkit.Labs.WinUI;
+public class ElementInteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayoutBehavior<TId, TItem> where TId : notnull
 {
     Dictionary<TId, InteractionTrackerBehavior<TId, TItem>> _elementTrackers = new();
 

@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+using CommunityToolkit.Labs.WinUI;
 using Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork;
 using System.Numerics;
 
@@ -67,13 +67,13 @@ namespace CompositionCollectionView.Sample
         }
 
 #if !WINAPPSDK
-        public class LinearLayout : Layout<uint, object?>
+        public class LinearLayout : CompositionCollectionLayout<uint, object?>
         {
             public LinearLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {
             }
 
-            public LinearLayout(Layout<uint, object?> sourceLayout) : base(sourceLayout)
+            public LinearLayout(CompositionCollectionLayout<uint, object?> sourceLayout) : base(sourceLayout)
             {
             }
 
@@ -89,13 +89,13 @@ namespace CompositionCollectionView.Sample
                    Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
 
-        public class StackLayout : Layout<uint, object?>
+        public class StackLayout : CompositionCollectionLayout<uint, object?>
         {
             public StackLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {
             }
 
-            public StackLayout(Layout<uint, object?> sourceLayout) : base(sourceLayout)
+            public StackLayout(CompositionCollectionLayout<uint, object?> sourceLayout) : base(sourceLayout)
             {
             }
 

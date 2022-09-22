@@ -1,17 +1,14 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-#if !WINAPPSDK
 #nullable enable
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Numerics;
 using System.Text;
-using Windows.UI;
-using Windows.UI.Composition;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 
 public class BindableCompositionPropertySet : INotifyPropertyChanged, IDisposable
 {
@@ -25,11 +22,13 @@ public class BindableCompositionPropertySet : INotifyPropertyChanged, IDisposabl
         _propertySet = propertySet;
     }
 
+#if !WINAPPSDK
     public void InsertColor(string propertyName, Color value)
     {
         _propertySet.InsertColor(propertyName, value);
         OnPropertyChanged(propertyName);
     }
+#endif
 
     public void InsertMatrix3x2(string propertyName, Matrix3x2 value)
     {
@@ -81,7 +80,10 @@ public class BindableCompositionPropertySet : INotifyPropertyChanged, IDisposabl
 
     private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+#if !WINAPPSDK
     public CompositionGetValueStatus TryGetColor(string propertyName, out Color value) => _propertySet.TryGetColor(propertyName, out value);
+#endif
+
     public CompositionGetValueStatus TryGetMatrix3x2(string propertyName, out Matrix3x2 value) => _propertySet.TryGetMatrix3x2(propertyName, out value);
     public CompositionGetValueStatus TryGetMatrix4x4(string propertyName, out Matrix4x4 value) => _propertySet.TryGetMatrix4x4(propertyName, out value);
     public CompositionGetValueStatus TryGetQuaternion(string propertyName, out Quaternion value) => _propertySet.TryGetQuaternion(propertyName, out value);
@@ -124,4 +126,3 @@ public class BindableCompositionPropertySet : INotifyPropertyChanged, IDisposabl
     }
     #endregion
 }
-#endif

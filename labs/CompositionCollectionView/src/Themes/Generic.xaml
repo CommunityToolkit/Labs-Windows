@@ -1,12 +1,11 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:compositioncollectionview="using:CommunityToolkit.Labs.WinUI.CompositionCollectionView"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI">
 
-    <Style TargetType="compositioncollectionview:CompositionCollectionView">
+    <Style TargetType="labs:CompositionCollectionView">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="compositioncollectionview:CompositionCollectionView">
+                <ControlTemplate TargetType="labs:CompositionCollectionView">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">

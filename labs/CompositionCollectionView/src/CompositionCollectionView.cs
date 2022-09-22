@@ -11,7 +11,7 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml.Controls;
 
 // The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 
 
 public sealed class CompositionCollectionView : Control
@@ -19,7 +19,7 @@ public sealed class CompositionCollectionView : Control
     private Canvas? _contentPanel;
     private ILayout? _layout;
     private Action? _pendingSourceUpdate;
-    public Layout<TId, TItem>? Layout<TId, TItem>() => _layout as Layout<TId, TItem>;
+    public CompositionCollectionLayout<TId, TItem>? Layout<TId, TItem>() where TId : notnull => _layout as CompositionCollectionLayout<TId, TItem>;
 
     public delegate void LayoutChangedHandler(CompositionCollectionView sender, ILayout newLayout);
     public event LayoutChangedHandler? LayoutChanged;
@@ -40,15 +40,15 @@ public sealed class CompositionCollectionView : Control
         }
     }
 
-    public void UpdateSource<TId, TItem>(IDictionary<TId, TItem> source, Action? updateCallback = null)
+    public void UpdateSource<TId, TItem>(IDictionary<TId, TItem> source, Action? updateCallback = null) where TId : notnull
     {
         if (_contentPanel is not null)
         {
-            (_layout as Layout<TId, TItem>)?.UpdateSource(source, updateCallback);
+            (_layout as CompositionCollectionLayout<TId, TItem>)?.UpdateSource(source, updateCallback);
         }
         else
         {
-            _pendingSourceUpdate = () => (_layout as Layout<TId, TItem>)?.UpdateSource(source);
+            _pendingSourceUpdate = () => (_layout as CompositionCollectionLayout<TId, TItem>)?.UpdateSource(source);
             updateCallback?.Invoke();
         }
     }
@@ -94,7 +94,7 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Controls;
 
 // The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 
 
 public sealed class CompositionCollectionView : Control

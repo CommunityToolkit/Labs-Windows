@@ -5,7 +5,6 @@
 
 using System;
 using System.Numerics;
-using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
 {

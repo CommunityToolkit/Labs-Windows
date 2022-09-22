@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+using CommunityToolkit.Labs.WinUI;
 using Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork;
 using System.Numerics;
 using System.Xml.Linq;
@@ -115,14 +115,14 @@ namespace CompositionCollectionView.Sample
         public record Tile(TileType Type, int X, int Y);
 
 #if !WINAPPSDK
-        public abstract class MazeLayout : Layout<uint, Tile>
+        public abstract class MazeLayout : CompositionCollectionLayout<uint, Tile>
         {
             protected const string PositionNode = nameof(PositionNode);
             protected const string ScaleNode = nameof(ScaleNode);
             protected const string RotationNode = nameof(RotationNode);
             const string CameraTransformNode = nameof(CameraTransformNode);
 
-            public MazeLayout(Layout<uint, Tile> sourceLayout) : base(sourceLayout)
+            public MazeLayout(CompositionCollectionLayout<uint, Tile> sourceLayout) : base(sourceLayout)
             {
             }
 
@@ -212,7 +212,7 @@ namespace CompositionCollectionView.Sample
 
         public class SpinningMazeLayout : MazeLayout
         {
-            public SpinningMazeLayout(Layout<uint, Tile> sourceLayout) : base(sourceLayout)
+            public SpinningMazeLayout(CompositionCollectionLayout<uint, Tile> sourceLayout) : base(sourceLayout)
             {
             }
 
@@ -273,7 +273,7 @@ namespace CompositionCollectionView.Sample
             {
             }
 
-            public TraversableMazeLayout(Layout<uint, Tile> sourceLayout) : base(sourceLayout)
+            public TraversableMazeLayout(CompositionCollectionLayout<uint, Tile> sourceLayout) : base(sourceLayout)
             {
             }
 

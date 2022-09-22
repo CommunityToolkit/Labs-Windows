@@ -7,20 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-#if WINAPPSDK
-using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Hosting;
-#else
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using static CommunityToolkit.Labs.WinUI.CompositionCollectionView.AnimationConstants;
-#endif
+using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 public interface ILayout
 {
     Action<ILayout, ILayout>? LayoutReplaced { get; set; }
@@ -28,12 +17,11 @@ public interface ILayout
     void Activate(Panel panel);
 }
 
-#if !WINAPPSDK
-public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
+public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout, IDisposable where TId :notnull
 {
     public enum ElementAlignment { Start, Center, End };
 
-    public Layout(Func<TId, FrameworkElement> elementFactory, Action<string>? log)
+    public CompositionCollectionLayout(Func<TId, FrameworkElement> elementFactory, Action<string>? log)
     {
         ElementFactory = elementFactory;
         _log = log;
@@ -43,7 +31,7 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
         AnimatableNodes = new AnimatableCompositionNodeSet(compositor);
     }
 
-    public Layout(Layout<TId, TItem> sourceLayout)
+    public CompositionCollectionLayout(CompositionCollectionLayout<TId, TItem> sourceLayout)
     {
         ParentLayout = sourceLayout;
 
@@ -124,7 +112,7 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
     public Action<ILayout, ILayout>? LayoutReplaced { get; set; }
 
     //Public methods
-    public T TransitionTo<T>(Func<Layout<TId, TItem>, T> factory) where T : Layout<TId, TItem>
+    public T TransitionTo<T>(Func<CompositionCollectionLayout<TId, TItem>, T> factory) where T : CompositionCollectionLayout<TId, TItem>
     {
         System.Diagnostics.Debug.Assert(IsActive);
 
@@ -280,9 +268,9 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
     //private PointerEventHandler? _rootPointerCaptureLostHandler;
 
 
-    public Layout<TId, TItem>? ParentLayout { get; private set; }
+    public CompositionCollectionLayout<TId, TItem>? ParentLayout { get; private set; }
 
-    protected List<LayoutBehavior<TId, TItem>> _behaviors = new List<LayoutBehavior<TId, TItem>>();
+    protected List<CompositionCollectionLayoutBehavior<TId, TItem>> _behaviors = new List<CompositionCollectionLayoutBehavior<TId, TItem>>();
 
     //internal static Dictionary<uint, LayoutPointer<TId>> ActiveTouchPointers { get; } = new();
 
@@ -483,7 +471,7 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
 
     public virtual ElementAlignment HorizontalAlignment { get; set; }
 
-    protected void AddBehavior(LayoutBehavior<TId, TItem> behavior)
+    protected void AddBehavior(CompositionCollectionLayoutBehavior<TId, TItem> behavior)
     {
         if (IsActive)
         {
@@ -492,13 +480,13 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
         _behaviors.Add(behavior);
     }
 
-    public T GetBehavior<T>() where T : LayoutBehavior<TId, TItem> =>
+    public T GetBehavior<T>() where T : CompositionCollectionLayoutBehavior<TId, TItem> =>
         _behaviors.OfType<T>().First();
 
-    public T? TryGetBehavior<T>() where T : LayoutBehavior<TId, TItem> =>
+    public T? TryGetBehavior<T>() where T : CompositionCollectionLayoutBehavior<TId, TItem> =>
         _behaviors.OfType<T>().FirstOrDefault();
 
-    protected void RemoveBehavior(LayoutBehavior<TId, TItem> behavior)
+    protected void RemoveBehavior(CompositionCollectionLayoutBehavior<TId, TItem> behavior)
     {
         _behaviors.Remove(behavior);
     }
@@ -546,4 +534,3 @@ public abstract partial class Layout<TId, TItem> : ILayout, IDisposable
         GC.SuppressFinalize(this);
     }
 }
-#endif

@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Composition.Interactions;
 using Windows.UI.Xaml.Hosting;
-using static CommunityToolkit.Labs.WinUI.CompositionCollectionView.AnimationConstants;
+using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 public abstract class InteractionTrackerGesture<TId>
 {
     public event EventHandler? GestureCompleted;

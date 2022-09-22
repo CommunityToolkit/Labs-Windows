@@ -3,11 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
-using System;
-using System.Numerics;
-using Windows.UI.Composition;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 public static class AnimationConstants
 {
     // Strings for all the animatable properties of a composition visual

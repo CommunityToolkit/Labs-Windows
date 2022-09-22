@@ -1,20 +1,10 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-#if !WINAPPSDK
 #nullable enable
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Windows.UI.Composition;
-using Windows.UI.Composition.Interactions;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
-public record ElementReference<TId, TItem> : IDisposable
+namespace CommunityToolkit.Labs.WinUI;
+public record ElementReference<TId, TItem> : IDisposable where TId : notnull
 {
     private bool disposedValue;
 
@@ -23,10 +13,10 @@ public record ElementReference<TId, TItem> : IDisposable
     public Visual Visual { get; init; }
     public CompositionPropertySet CompositionProperties { get; init; }
     public AnimatableCompositionNodeSet AnimatableNodes { get; init; }
-    public Layout<TId, TItem> Layout { get; internal set; }
+    public CompositionCollectionLayout<TId, TItem> Layout { get; internal set; }
     public TItem Model { get; internal set; }
 
-    public ElementReference(TId id, TItem model, FrameworkElement container, Layout<TId, TItem> layout)
+    public ElementReference(TId id, TItem model, FrameworkElement container, CompositionCollectionLayout<TId, TItem> layout)
     {
         Id = id;
         Container = container;
@@ -37,7 +27,7 @@ public record ElementReference<TId, TItem> : IDisposable
         Model = model;
     }
 
-    internal void ReasignTo(Layout<TId, TItem> newLayout)
+    internal void ReasignTo(CompositionCollectionLayout<TId, TItem> newLayout)
     {
         Layout = newLayout;
     }
@@ -79,4 +69,3 @@ public record ElementReference<TId, TItem> : IDisposable
         GC.SuppressFinalize(this);
     }
 }
-#endif

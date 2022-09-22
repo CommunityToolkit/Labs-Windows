@@ -3,37 +3,35 @@
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
-#if !WINAPPSDK
 using System;
 using System.Numerics;
-using Windows.UI.Composition;
-using static CommunityToolkit.Labs.WinUI.CompositionCollectionView.AnimationConstants;
+using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
-public class AnimatableQuaternionCompositionNode : IDisposable
+namespace CommunityToolkit.Labs.WinUI;
+public class AnimatableMatrix4x4CompositionNode : IDisposable
 {
     private Visual _underlyingVisual;
     private bool disposedValue;
 
-    public Quaternion Value { get => _underlyingVisual.Orientation; set => _underlyingVisual.Orientation = value; }
+    public Matrix4x4 Value { get => _underlyingVisual.TransformMatrix; set => _underlyingVisual.TransformMatrix = value; }
 
 
-    public AnimatableQuaternionCompositionNode(Compositor compositor)
+    public AnimatableMatrix4x4CompositionNode(Compositor compositor)
     {
         _underlyingVisual = compositor.CreateShapeVisual();
     }
 
     public void Animate(CompositionAnimation animation)
     {
-        _underlyingVisual.StartAnimation(AnimationConstants.Orientation, animation);
+        _underlyingVisual.StartAnimation(TransformMatrix, animation);
     }
 
     public void Animate(ExpressionNode animation)
     {
-        _underlyingVisual.StartAnimation(AnimationConstants.Orientation, animation);
+        _underlyingVisual.StartAnimation(TransformMatrix, animation);
     }
 
-    public QuaternionNode Reference { get => _underlyingVisual.GetReference().Orientation; }
+    public Matrix4x4Node Reference { get => _underlyingVisual.GetReference().TransformMatrix; }
 
     protected virtual void Dispose(bool disposing)
     {
@@ -65,4 +63,3 @@ public class AnimatableQuaternionCompositionNode : IDisposable
         GC.SuppressFinalize(this);
     }
 }
-#endif

@@ -3,13 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
-#if !WINAPPSDK
 using System;
 using System.Numerics;
-using Windows.UI.Composition;
-using static CommunityToolkit.Labs.WinUI.CompositionCollectionView.AnimationConstants;
+using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 public class AnimatableVector3CompositionNode : IDisposable
 {
     private Visual _underlyingVisual;
@@ -65,4 +63,3 @@ public class AnimatableVector3CompositionNode : IDisposable
         GC.SuppressFinalize(this);
     }
 }
-#endif

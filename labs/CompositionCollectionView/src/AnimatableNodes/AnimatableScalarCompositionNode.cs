@@ -3,13 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
-#if !WINAPPSDK
 using System.Numerics;
-using Windows.UI.Composition;
-using static CommunityToolkit.Labs.WinUI.CompositionCollectionView.AnimationConstants;
+using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 
 public class AnimatableScalarCompositionNode : IDisposable
 {
@@ -66,4 +64,3 @@ public class AnimatableScalarCompositionNode : IDisposable
         GC.SuppressFinalize(this);
     }
 }
-#endif

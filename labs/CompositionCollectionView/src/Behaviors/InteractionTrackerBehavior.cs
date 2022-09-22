@@ -13,9 +13,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
-    public class InteractionTrackerBehavior<TId, TItem> : LayoutBehavior<TId, TItem>
-    {
+namespace CommunityToolkit.Labs.WinUI;
+    public class InteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayoutBehavior<TId, TItem> where TId : notnull
+{
         public VisualInteractionSource InteractionSource { get; init; }
         public InteractionTracker Tracker { get; init; }
         public InteractionTrackerOwner TrackerOwner { get; init; }

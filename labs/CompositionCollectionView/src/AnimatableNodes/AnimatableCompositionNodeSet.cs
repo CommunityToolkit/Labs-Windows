@@ -1,12 +1,10 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-#if !WINAPPSDK
 #nullable enable
 using System.Numerics;
-using Windows.UI.Composition;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 public class AnimatableCompositionNodeSet : IDisposable
 {
     private Dictionary<string, object> _nodes = new();
@@ -144,4 +142,3 @@ public class AnimatableCompositionNodeSet : IDisposable
         GC.SuppressFinalize(this);
     }
 }
-#endif

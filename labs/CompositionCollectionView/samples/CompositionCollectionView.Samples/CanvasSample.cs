@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+using CommunityToolkit.Labs.WinUI;
 using Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork;
 using System.Numerics;
 using System.Xml.Linq;
@@ -80,7 +80,7 @@ namespace CompositionCollectionView.Sample
         }
 
 #if !WINAPPSDK
-        public class CanvasLayout : Layout<uint, Vector2>
+        public class CanvasLayout : CompositionCollectionLayout<uint, Vector2>
         {
             public CanvasLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {

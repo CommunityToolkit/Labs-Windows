@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+using CommunityToolkit.Labs.WinUI;
 using Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork;
 using System.Xml.Linq;
 
@@ -68,7 +68,7 @@ namespace CompositionCollectionView.Sample
         }
 
 #if !WINAPPSDK
-        public class SampleLayout : Layout<uint, object?>
+        public class SampleLayout : CompositionCollectionLayout<uint, object?>
         {
             public SampleLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {

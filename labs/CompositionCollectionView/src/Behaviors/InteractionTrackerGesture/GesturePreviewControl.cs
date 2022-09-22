@@ -10,9 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Animation = CommunityToolkit.Labs.WinUI.CompositionCollectionView.AnimationConstants;
+using Animation = CommunityToolkit.Labs.WinUI.AnimationConstants;
 
-namespace CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+namespace CommunityToolkit.Labs.WinUI;
 public abstract class GesturePreviewControl : UserControl
 {
     private ScalarNode? _opacity;

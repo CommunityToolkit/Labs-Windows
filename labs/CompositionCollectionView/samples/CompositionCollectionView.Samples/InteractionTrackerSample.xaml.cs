@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using CommunityToolkit.Labs.WinUI.CompositionCollectionView;
+using CommunityToolkit.Labs.WinUI;
 using Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork;
 using System.Numerics;
 
@@ -70,7 +70,7 @@ namespace CompositionCollectionView.Sample
 #endif
         }
 #if !WINAPPSDK
-        public class LinearLayout : Layout<uint, object?>
+        public class LinearLayout : CompositionCollectionLayout<uint, object?>
         {
             public LinearLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
             {
