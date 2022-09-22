@@ -62,8 +62,7 @@ namespace CompositionCollectionView.Sample
                         Fill = new SolidColorBrush(Colors.CornflowerBlue),
                         Stroke = new SolidColorBrush(Colors.Gray),
                         StrokeThickness = 1
-                    }
-                , (_) => { });
+                    });
 
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
@@ -72,7 +71,7 @@ namespace CompositionCollectionView.Sample
 #if !WINAPPSDK
         public class LinearLayout : CompositionCollectionLayout<uint, object?>
         {
-            public LinearLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public LinearLayout(Func<uint, FrameworkElement> elementFactory) : base(elementFactory)
             {
             }
 
@@ -122,7 +121,7 @@ namespace CompositionCollectionView.Sample
                 var trackerBehavior = GetBehavior<InteractionTrackerBehavior<uint, object?>>();
 
                 var availableWidth = (float)RootPanel.ActualWidth - ElementWidth;
-                var elementsWidth = Elements.Count * ElementWidth * 1.2f;
+                var elementsWidth = Source.Count() * ElementWidth * 1.2f;
 
                 trackerBehavior.Tracker.MaxPosition = new Vector3(elementsWidth - ((float)RootPanel.ActualWidth + ElementWidth) / 2, 0, 0);
                 trackerBehavior.Tracker.MinPosition = new Vector3(-((float)RootPanel.ActualWidth - ElementWidth) / 2, 0, 0);

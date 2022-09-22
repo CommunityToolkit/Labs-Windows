@@ -94,7 +94,7 @@ namespace CompositionCollectionView.Sample
 
             elements = tiles.OrderBy(x => x.Y).Select((x, i) => (index: (uint)i, element: x)).ToDictionary(x => x.index, x => x.element);
 
-            var layout = new SpinningMazeLayout((id) => TileControl.Create(), (_) => { });
+            var layout = new SpinningMazeLayout((id) => TileControl.Create());
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
 
@@ -126,7 +126,7 @@ namespace CompositionCollectionView.Sample
             {
             }
 
-            public MazeLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public MazeLayout(Func<uint, FrameworkElement> elementFactory) : base(elementFactory)
             {
             }
 
@@ -205,7 +205,7 @@ namespace CompositionCollectionView.Sample
                 }
             }
 
-            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, Tile> element) =>
+            protected override ElementTransition GetElementTransitionEasingFunction(ElementReference<uint, Tile> element) =>
                    new(600,
                        Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
@@ -216,7 +216,7 @@ namespace CompositionCollectionView.Sample
             {
             }
 
-            public SpinningMazeLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public SpinningMazeLayout(Func<uint, FrameworkElement> elementFactory) : base(elementFactory)
             {
             }
 
@@ -269,7 +269,7 @@ namespace CompositionCollectionView.Sample
 
         public class TraversableMazeLayout : MazeLayout
         {
-            public TraversableMazeLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public TraversableMazeLayout(Func<uint, FrameworkElement> elementFactory) : base(elementFactory)
             {
             }
 

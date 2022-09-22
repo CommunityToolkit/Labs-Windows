@@ -58,8 +58,7 @@ namespace CompositionCollectionView.Sample
                     Fill = new SolidColorBrush(Windows.UI.Colors.CornflowerBlue),
                     Stroke = new SolidColorBrush(Colors.Gray),
                     StrokeThickness = 1
-                }
-            , (_) => { });
+                });
 
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
@@ -82,7 +81,7 @@ namespace CompositionCollectionView.Sample
 #if !WINAPPSDK
         public class CanvasLayout : CompositionCollectionLayout<uint, Vector2>
         {
-            public CanvasLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public CanvasLayout(Func<uint, FrameworkElement> elementFactory) : base(elementFactory)
             {
             }
 
@@ -91,7 +90,7 @@ namespace CompositionCollectionView.Sample
                 return new Vector3(element.Model.X, element.Model.Y, 0);
             }
 
-            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, Vector2> element) =>
+            protected override ElementTransition GetElementTransitionEasingFunction(ElementReference<uint, Vector2> element) =>
                new(200,
                    Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }

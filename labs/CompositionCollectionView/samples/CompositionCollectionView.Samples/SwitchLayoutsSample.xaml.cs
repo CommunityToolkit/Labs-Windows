@@ -59,8 +59,7 @@ namespace CompositionCollectionView.Sample
                     Fill = new SolidColorBrush(Windows.UI.Colors.CornflowerBlue),
                     Stroke = new SolidColorBrush(Colors.Gray),
                     StrokeThickness = 1
-                }
-            , (_) => { });
+                });
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
 #endif
@@ -69,7 +68,7 @@ namespace CompositionCollectionView.Sample
 #if !WINAPPSDK
         public class LinearLayout : CompositionCollectionLayout<uint, object?>
         {
-            public LinearLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public LinearLayout(Func<uint, FrameworkElement> elementFactory) : base(elementFactory)
             {
             }
 
@@ -84,14 +83,14 @@ namespace CompositionCollectionView.Sample
 
             public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => 1;
 
-            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
+            protected override ElementTransition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
                new(100,
                    Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
         }
 
         public class StackLayout : CompositionCollectionLayout<uint, object?>
         {
-            public StackLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public StackLayout(Func<uint, FrameworkElement> elementFactory) : base(elementFactory)
             {
             }
 
@@ -106,7 +105,7 @@ namespace CompositionCollectionView.Sample
 
             public override ScalarNode GetElementScaleNode(ElementReference<uint, object?> element) => (float)Math.Pow(0.95f, element.Id);
 
-            protected override Transition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
+            protected override ElementTransition GetElementTransitionEasingFunction(ElementReference<uint, object?> element) =>
                 new(100,
                     Window.Current.Compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.1f), new Vector2(0.25f, 1f)));
 

@@ -54,8 +54,7 @@ namespace CompositionCollectionView.Sample
                     Width = 100,
                     Height = 100,
                     Fill = new SolidColorBrush(Windows.UI.Colors.CornflowerBlue)
-                }
-            , (_) => { });
+                });
             compositionCollectionView.SetLayout(layout);
             compositionCollectionView.UpdateSource(elements);
 
@@ -70,7 +69,7 @@ namespace CompositionCollectionView.Sample
 #if !WINAPPSDK
         public class SampleLayout : CompositionCollectionLayout<uint, object?>
         {
-            public SampleLayout(Func<uint, FrameworkElement> elementFactory, Action<string> log) : base(elementFactory, log)
+            public SampleLayout(Func<uint, FrameworkElement> elementFactory) : base(elementFactory)
             {
             }
 
