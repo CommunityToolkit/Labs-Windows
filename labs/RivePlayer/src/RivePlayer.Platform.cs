@@ -12,10 +12,28 @@ using SkiaSharp.Views.UWP;
 namespace CommunityToolkit.Labs.WinUI.Rive;
 
 // This file contains platform-specific customizations of RivePlayer.
+[TemplatePart(Name = SkiaSurfacePartName, Type = typeof(ContentPresenter))]
 public partial class RivePlayer
 {
-    // SKXamlCanvas doesn't support rendering in a background thread.
-    public bool DrawInBackground { get; set; }
+    private const string SkiaSurfacePartName = "SkiaSurface";
+    ContentPresenter? _skiaSurface;
+    private bool _drawInBackground = false;
+
+    // Controls whether the RivePlayer should run its rendering and animation logic in a background
+    // thread. This cannot be modified after the control has finished loading.
+    public bool DrawInBackground
+    {
+        get => _drawInBackground;
+        set
+        {
+            if (_skiaSurface != null)
+            {
+                throw new InvalidOperationException(
+                    "RivePlayer.DrawInBackground cannot be modified after the control has finished loading.");
+            }
+            _drawInBackground = value;
+        }
+    }
 
     protected override void OnApplyTemplate()
     {
@@ -30,7 +48,10 @@ public partial class RivePlayer
             _skiaSurface.Content = xamlCanvas;
 #else
             // SKSwapChainPanel performs better than SKXamlCanvas.
-            var swapChainPanel = new SKSwapChainPanel();
+            var swapChainPanel = new SKSwapChainPanel
+            {
+                DrawInBackground = _drawInBackground
+            };
             swapChainPanel.PaintSurface += OnPaintSurface;
             _skiaSurface.Content = swapChainPanel;
 #endif

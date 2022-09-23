@@ -23,12 +23,8 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 //
 // Rive state machines: https://rive.app/features#state-machine
 // State machine inputs: https://help.rive.app/editor/state-machine#inputs
-[TemplatePart(Name = SkiaSurfacePartName, Type = typeof(ContentPresenter))]
 public sealed partial class RivePlayer : Control
 {
-    private const string SkiaSurfacePartName = "SkiaSurface";
-    ContentPresenter? _skiaSurface;
-
     // Continuously invalidates the panel for repaint.
     private InvalidateTimer? _invalidateTimer;
 
