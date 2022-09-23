@@ -2,7 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Windows;
+
+
 
 // These `InternalsVisibleTo` calls are intended to make it easier for
 // for any internal code to be testable in all the different test projects

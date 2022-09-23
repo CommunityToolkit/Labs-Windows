@@ -23,14 +23,17 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 //
 // Rive state machines: https://rive.app/features#state-machine
 // State machine inputs: https://help.rive.app/editor/state-machine#inputs
-public sealed partial class RivePlayer
+[TemplatePart(Name = SkiaSurfacePartName, Type = typeof(ContentPresenter))]
+public sealed partial class RivePlayer : Control
 {
+    private const string SkiaSurfacePartName = "SkiaSurface";
+    ContentPresenter? _skiaSurface;
+
     // Continuously invalidates the panel for repaint.
     private InvalidateTimer? _invalidateTimer;
 
     public RivePlayer()
     {
-        _invalidateTimer = new InvalidateTimer(this, fps:120);
         this.StateMachineInputCollection.SetRivePlayer(this);
         this.Loaded += OnLoaded;
         this.PointerPressed +=
@@ -39,14 +42,6 @@ public sealed partial class RivePlayer
             (object s, PointerRoutedEventArgs e) => HandlePointerEvent(_scene.PointerMove, e);
         this.PointerReleased +=
             (object s, PointerRoutedEventArgs e) => HandlePointerEvent(_scene.PointerUp, e);
-        this.PaintSurface += OnPaintSurface;
-    }
-
-
-    // Make Invalidate() accessible to InvalidationTimer.
-    internal new void Invalidate()
-    {
-        base.Invalidate();
     }
 
     private void OnXamlRootChanged(bool isHostVisible)
