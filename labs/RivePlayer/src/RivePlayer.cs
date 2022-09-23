@@ -34,6 +34,8 @@ public sealed partial class RivePlayer : Control
 
     public RivePlayer()
     {
+        this.DefaultStyleKey = typeof(RivePlayer);
+
         this.StateMachineInputCollection.SetRivePlayer(this);
         this.Loaded += OnLoaded;
         this.PointerPressed +=

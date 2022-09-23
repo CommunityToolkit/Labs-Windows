@@ -9,7 +9,18 @@
     <Style TargetType="Rive:RivePlayer">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="x:ContentPresenter" />
+                <ControlTemplate TargetType="Rive:RivePlayer">
+                    <ContentPresenter x:Name="SkiaSurface"
+                                      Background="{TemplateBinding Background}"
+                                      BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      Padding="{TemplateBinding Padding}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      AutomationProperties.AccessibilityView="Raw"/>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
