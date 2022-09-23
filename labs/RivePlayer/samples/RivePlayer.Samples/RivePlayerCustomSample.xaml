@@ -2,12 +2,12 @@
 <Page x:Class="RivePlayerExperiment.Samples.RivePlayerCustomSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
-      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:Rive="using:CommunityToolkit.Labs.WinUI.Rive"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
       xmlns:local="using:RivePlayerExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:rive="using:CommunityToolkit.Labs.WinUI.Rive"
       mc:Ignorable="d">
 
     <Grid>
@@ -15,22 +15,22 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
-        <Rive:RivePlayer Grid.Column="0"
+        <rive:RivePlayer Grid.Column="0"
                          Width="600"
                          Height="600"
                          DrawInBackground="True"
                          Source="ms-appx:///animated-login-screen.riv">
-            <Rive:BoolInput Target="isChecking"
+            <rive:BoolInput Target="isChecking"
                             Value="{x:Bind IsChecking.IsChecked, Mode=OneWay}" />
-            <Rive:NumberInput Target="numLook"
+            <rive:NumberInput Target="numLook"
                               Value="{x:Bind NumLook.Value, Mode=OneWay}" />
-            <Rive:BoolInput Target="isHandsUp"
+            <rive:BoolInput Target="isHandsUp"
                             Value="{x:Bind IsHandsUp.IsChecked, Mode=OneWay}" />
-            <Rive:TriggerInput x:Name="FailureTrigger"
+            <rive:TriggerInput x:Name="FailureTrigger"
                                Target="trigFail" />
-            <Rive:TriggerInput x:Name="SuccessTrigger"
+            <rive:TriggerInput x:Name="SuccessTrigger"
                                Target="trigSuccess" />
-        </Rive:RivePlayer>
+        </rive:RivePlayer>
         <StackPanel Grid.Column="1"
                     Padding="20"
                     VerticalAlignment="Center"
@@ -45,20 +45,20 @@
             <CheckBox x:Name="IsHandsUp"
                       Content="Hands Up" />
             <Button Content="Failure">
-                <Interactivity:Interaction.Behaviors>
-                    <Interactions:EventTriggerBehavior EventName="Click">
-                        <Interactions:CallMethodAction MethodName="Fire"
-                                                       TargetObject="{x:Bind FailureTrigger}" />
-                    </Interactions:EventTriggerBehavior>
-                </Interactivity:Interaction.Behaviors>
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <ic:CallMethodAction MethodName="Fire"
+                                             TargetObject="{x:Bind FailureTrigger}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
             </Button>
             <Button Content="Success">
-                <Interactivity:Interaction.Behaviors>
-                    <Interactions:EventTriggerBehavior EventName="Click">
-                        <Interactions:CallMethodAction MethodName="Fire"
-                                                       TargetObject="{x:Bind SuccessTrigger}" />
-                    </Interactions:EventTriggerBehavior>
-                </Interactivity:Interaction.Behaviors>
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <ic:CallMethodAction MethodName="Fire"
+                                             TargetObject="{x:Bind SuccessTrigger}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
             </Button>
         </StackPanel>
     </Grid>

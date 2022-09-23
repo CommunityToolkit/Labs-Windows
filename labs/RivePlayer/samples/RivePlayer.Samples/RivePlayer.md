@@ -32,7 +32,7 @@ To add the Rive API to your applications, include the namespace in your XAML:
 ```xml
 <Page 
     ...
-    xmlns:Rive="using:CommunityToolkit.Labs.WinUI.Rive"
+    xmlns:rive="using:CommunityToolkit.Labs.WinUI.Rive"
 >
 ```
 
@@ -40,7 +40,7 @@ Note: This package is built on the [RiveSharp](https://github.com/rive-app/rive-
 
 ## Classes
 
-### `<Rive:RivePlayer>`
+### `<rive:RivePlayer>`
 
 High-level UI control for rendering Rive content. It is declared in XAML files, and controlled via code or data-binding.
 
@@ -57,7 +57,7 @@ High-level UI control for rendering Rive content. It is declared in XAML files, 
 - `Animation` - (string) If `StateMachine` is empty, this is the name of the Rive animation to instantiate. If `Animation` is empty, and there is no `StateMachine` specified, nor a default state machine present in the Rive file, the default animation from the Rive file is instantiated.
 - `DrawInBackground` - (bool) Rive rendering executes in a different thread than the UI
 
-### `<Rive:BoolInput>`
+### `<rive:BoolInput>`
 
 High-level class for a state machine instance of a `boolean` input type. This should be nested under the `Rive:RivePlayer` element in XAML.
 
@@ -71,24 +71,24 @@ High-level class for a state machine instance of a `boolean` input type. This sh
 One example using Rive `BoolInput` classes is binding it to checkbox UI Elements elsewhere in XAML. See below for a code snippet of this:
 
 ```xml
-<Rive:RivePlayer Width="600"
+<rive:RivePlayer Width="600"
                  Height="600"
                  DrawInBackground="True"
                  Source="https://public.rive.app/community/runtime-files/2244-4463-animated-login-screen.riv">
-		<Rive:BoolInput Target="isChecking"
+		<rive:BoolInput Target="isChecking"
 		                Value="{x:Bind CheckboxExample.IsChecked, Mode=OneWay}" />
-</Rive:RivePlayer>
+</rive:RivePlayer>
 <CheckBox x:Name="CheckboxExample"
           Content="Example" />
 ```
 
-In the example above, we nest the `Rive:BoolInput` strictly under the `Rive:RivePlayer` markup.
+In the example above, we nest the `rive:BoolInput` strictly under the `rive:RivePlayer` markup.
 
 To create a reference to the boolean input named `isChecking` in the state machine of this Rive file, we set the `Target` property to that input name. Additionally, the `Value` property uses the `x:Bind` markup extension to bind a checkbox's `IsChecked` property to the boolean value of the state machine input.
 
 When the checkbox is toggled, the appropriate "checked" status will be set on the value of the `isChecking` state machine input and the state machine will respond accordingly.
 
-### `<Rive:NumberInput>`
+### `<rive:NumberInput>`
 
 High-level class for a state machine instance of a `double` input type. This should be nested under the `Rive:RivePlayer` element in XAML
 
@@ -102,25 +102,25 @@ High-level class for a state machine instance of a `double` input type. This sho
 One example using Rive `NumberInput` classes is binding it to slider range UI Elements elsewhere in XAML. See below for a code snippet of this:
 
 ```xml
-<Rive:RivePlayer Width="600"
+<rive:RivePlayer Width="600"
                  Height="600"
                  Source="https://public.rive.app/community/runtime-files/2244-4463-animated-login-screen.riv">
-    <Rive:NumberInput Target="numLook"
+    <rive:NumberInput Target="numLook"
                       Value="{x:Bind SliderRangeExample.Value, Mode=OneWay}" />
-</Rive:RivePlayer>
+</rive:RivePlayer>
 <Slider x:Name="SliderRangeExample"
         Maximum="100"
         Minimum="0"
         Value="0" />
 ```
 
-In the example above, we nest the `Rive:NumberInput` strictly under the `Rive:RivePlayer` markup.
+In the example above, we nest the `rive:NumberInput` strictly under the `rive:RivePlayer` markup.
 
 To create a reference to the number input named `numLook` in the state machine of this Rive file, we set the `Target` property to that input name. Additionally, the `Value` property uses the `x:Bind` markup extension to bind the slider's `Value` property to the number value of the state machine input.
 
 When the slider range value is changed, the new number value will be set on the value of the `numLook` state machine input and the state machine will respond accordingly.
 
-### `<Rive:TriggerInput>`
+### `<rive:TriggerInput>`
 
 High-level class for a state machine instance of a trigger input type. This should be nested under the `Rive:RivePlayer` element in XAML
 
@@ -135,29 +135,29 @@ One example using Rive `TriggerInput` classes is binding it to click events of b
 
 ```xml
 <!-- Example.xaml -->  
-<Rive:RivePlayer Width="600"
+<rive:RivePlayer Width="600"
                  Height="600"
                  Source="https://public.rive.app/community/runtime-files/2244-4463-animated-login-screen.riv">
-    <Rive:TriggerInput Target="trigSuccess"
+    <rive:TriggerInput Target="trigSuccess"
                        x:Name="SuccessTriggerInput" />
-</Rive:RivePlayer>
+</rive:RivePlayer>
 <Button Content="Success">
-    <Interactivity:Interaction.Behaviors>
-        <Interactions:EventTriggerBehavior EventName="Click">
-            <Interactions:CallMethodAction MethodName="Fire"
-                                           TargetObject="{x:Bind SuccessTriggerInput}" />
-        </Interactions:EventTriggerBehavior>
-    </Interactivity:Interaction.Behaviors>
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Click">
+            <ic:CallMethodAction MethodName="Fire"
+                                 TargetObject="{x:Bind SuccessTrigger}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
 </Button>
 ```
 
-In the example above, we nest the `Rive:TriggerInput` strictly under the `Rive:RivePlayer` markup.
+In the example above, we nest the `rive:TriggerInput` strictly under the `rive:RivePlayer` markup.
 
 To create a reference to the trigger input named `trigSuccess` in the state machine of this Rive file, we set the `Target` property to that input name. Additionally, the `x:Name` property defines the name for the class so that the button knows what to bind the click event to to "fire" the trigger.
 
 When the button is clicked, it will call into the `SuccessTriggerInput` input class and invoke the `Fire`  method on the `trigSuccess` Rive trigger input where the state machine will respond accordingly.
 
-Additionally in this example, we use the [EventTriggerBehavior](https://github.com/Microsoft/XamlBehaviors/wiki/EventTriggerBehavior) and [CallMethodAction](https://github.com/Microsoft/XamlBehaviors/wiki/CallMethodAction) APIs from the [XAML Behaviors](https://github.com/Microsoft/XamlBehaviors/wiki) package. You can reference this package as follows:
+Additionally in this example, we use the [EventTriggerBehavior](https://github.com/Microsoft/XamlBehaviors/wiki/EventTriggerBehavior) and [CallMethodAction](https://github.com/Microsoft/XamlBehaviors/wiki/CallMethodAction) APIs from the [XAML Behaviors](https://github.com/Microsoft/XamlBehaviors/wiki) package. You can reference this package by adding the following to your `Dependencies.props`:
 
 ```xml
 <!-- WinUI 2 / UWP -->
@@ -188,8 +188,8 @@ And to include the `Interactions` and `Interactivity` namespace and Behaviors AP
 ```xml
 <Page
     ...
-    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
 >
 ```
 
