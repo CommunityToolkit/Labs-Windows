@@ -25,10 +25,10 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 /// Rive state machines: https://rive.app/features#state-machine
 /// State machine inputs: https://help.rive.app/editor/state-machine#inputs
 /// </summary>
-public sealed partial class RivePlayer : Control
+public sealed partial class RivePlayer
 {
     // Continuously invalidates the panel for repaint.
-    private InvalidateTimer? _invalidateTimer;
+    private AnimationTimer? _animationTimer;
 
     public RivePlayer()
     {
@@ -46,17 +46,17 @@ public sealed partial class RivePlayer : Control
 
     private void OnXamlRootChanged(bool isHostVisible)
     {
-        if (_invalidateTimer == null)
+        if (_animationTimer == null)
         {
             return;
         }
         if (isHostVisible)
         {
-            _invalidateTimer.Start();
+            _animationTimer.Start();
         }
         else
         {
-            _invalidateTimer.Stop();
+            _animationTimer.Stop();
         }
     }
 

@@ -5,14 +5,14 @@
 namespace CommunityToolkit.Labs.WinUI.Rive;
 
 /// <summary>
-/// Continuously calls Invalidate() a <see cref="RivePlayer"/> at a fixed fps.
+/// Continuously calls <see cref="RivePlayer.InvalidateAnimation"/> at a fixed rate.
 /// </summary>
-internal partial class InvalidateTimer
+internal partial class AnimationTimer
 {
     private readonly RivePlayer rivePlayer;
     private readonly TimeSpan timeSpanPerFrame;
 
-    public InvalidateTimer(RivePlayer rivePlayer, double fps)
+    public AnimationTimer(RivePlayer rivePlayer, double fps)
     {
         this.rivePlayer = rivePlayer;
         timeSpanPerFrame = TimeSpan.FromSeconds(1.0 / fps);
@@ -23,7 +23,7 @@ internal partial class InvalidateTimer
     int _invalLoopContinuationToken = 0;
 
     /// <summary>
-    /// Begins continuous Invalidate() calls on the <see cref="RivePlayer"/>.
+    /// Begins continuous <see cref="RivePlayer.InvalidateAnimation"/> calls.
     /// </summary>
     public void Start()
     {
@@ -36,7 +36,7 @@ internal partial class InvalidateTimer
     }
 
     /// <summary>
-    /// Ends continuous Invalidate() calls on the <see cref="RivePlayer"/>.
+    /// Ends continuous <see cref="RivePlayer.InvalidateAnimation"/> calls.
     /// </summary>
     public void Stop()
     {
@@ -56,7 +56,7 @@ internal partial class InvalidateTimer
             {
                 break;
             }
-            rivePlayer.Invalidate();
+            rivePlayer.InvalidateAnimation();
             await Task.Delay(timeSpanPerFrame);
         }
     }

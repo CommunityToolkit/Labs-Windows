@@ -89,16 +89,23 @@ public partial class RivePlayer
         set => SetValue(StateMachineProperty, value);
     }
 
+    // Disable a warning about the "new" keyword not being required. On some Uno builds, RivePlayer
+    // inherits a property named "Animation" through its Control base class. To work around this, we
+    // always mark the Animation property as new.
+    #pragma warning disable CS0109
+
     /// <summary>
     /// If <see cref="StateMachine"/> is empty, this is the name of the Rive animation to instantiate.
     /// If `Animation` and `StateMachine` are both empty, and if a default state machine is not present
     /// in the Rive file, the default animation from the Rive file is instantiated.
     /// </summary>
-    public string Animation
+    public new string Animation
     {
         get => (string)GetValue(AnimationProperty);
         set => SetValue(AnimationProperty, value);
     }
+
+    #pragma warning restore CS0109
 
     /// <summary>
     /// Holds the collection of <see cref="StateMachineInput"/>. This can be populated directly from XAML:

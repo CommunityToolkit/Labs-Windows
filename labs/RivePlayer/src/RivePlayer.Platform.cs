@@ -13,7 +13,7 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 
 // This file contains platform-specific customizations of RivePlayer.
 [TemplatePart(Name = SkiaSurfacePartName, Type = typeof(ContentPresenter))]
-public partial class RivePlayer
+public partial class RivePlayer : Control
 {
     private const string SkiaSurfacePartName = "SkiaSurface";
     ContentPresenter? _skiaSurface;
@@ -58,12 +58,16 @@ public partial class RivePlayer
             swapChainPanel.PaintSurface += OnPaintSurface;
             _skiaSurface.Content = swapChainPanel;
 #endif
-            _invalidateTimer = new InvalidateTimer(this, fps: 120);
+            _animationTimer = new AnimationTimer(this, fps: 120);
         }
         base.OnApplyTemplate();
     }
 
-    internal void Invalidate()
+    /// <summary>
+    /// Schedules a repaint and a call to <see cref="PaintNextAnimationFrame"/>. Overlapping calls
+    /// between frame boundaries are coalesced.
+    /// </summary>
+    internal void InvalidateAnimation()
     {
 #if WINDOWS_WINAPPSDK || HAS_UNO_WASM
         var xamlCanvas = _skiaSurface?.Content as SKXamlCanvas;
