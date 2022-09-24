@@ -17,10 +17,12 @@ public partial class RivePlayer
 {
     private const string SkiaSurfacePartName = "SkiaSurface";
     ContentPresenter? _skiaSurface;
-    private bool _drawInBackground = false;
+    private bool _drawInBackground;
 
-    // Controls whether the RivePlayer should run its rendering and animation logic in a background
-    // thread. This cannot be modified after the control has finished loading.
+    /// <summary>
+    /// Controls whether the RivePlayer should run its rendering and animation logic in a background
+    /// thread. This cannot be modified after the control has finished loading.
+    /// </summary>
     public bool DrawInBackground
     {
         get => _drawInBackground;
@@ -35,6 +37,7 @@ public partial class RivePlayer
         }
     }
 
+    /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
         _skiaSurface = GetTemplateChild(SkiaSurfacePartName) as ContentPresenter;

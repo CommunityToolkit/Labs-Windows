@@ -4,11 +4,18 @@
 
 namespace CommunityToolkit.Labs.WinUI.Rive;
 
-// This base class wraps a custom, named state machine input value.
+/// <summary>
+/// This is the base class for objects that manage a custom, named state machine input value on a
+/// Rive state machine. An application can modify inputs on a state machine by setting the `Value`
+/// property of a `StateMachineInput`.
+/// </summary>
 public abstract partial class StateMachineInput : DependencyObject
 {
-    // The Target is what the input is named in the Rive state machine.
     private string? _target;
+
+    /// <summary>
+    /// Name of the input on the Rive state machine that this class will manage.
+    /// </summary>
     public string? Target
     {
         get => _target;
@@ -22,14 +29,20 @@ public abstract partial class StateMachineInput : DependencyObject
     private WeakReference<RivePlayer> _rivePlayer = new WeakReference<RivePlayer>(null!);
     protected WeakReference<RivePlayer> RivePlayer => _rivePlayer;
 
-    // Sets _rivePlayer to the given rivePlayer object and applies our input value to the state
-    // machine. Does nothing if _rivePlayer was already equal to rivePlayer.
+    /// <summary>
+    /// Establishes the <see cref="RivePlayer"/> whose state machine inputs this class will manage.
+    /// If <see cref="_rivePlayer"/> was not already equal to `rivePlayer`, the subclass also
+    /// applies the current `Value` on the state machine.
+    /// </summary>
     internal void SetRivePlayer(WeakReference<RivePlayer> rivePlayer)
     {
         _rivePlayer = rivePlayer;
         Apply();
     }
 
+    /// <summary>
+    /// Sets the subclass's current `Value` on the Rive state machine.
+    /// </summary>
     protected void Apply()
     {
         if (!String.IsNullOrEmpty(_target) && _rivePlayer.TryGetTarget(out var rivePlayer))
@@ -38,14 +51,23 @@ public abstract partial class StateMachineInput : DependencyObject
         }
     }
 
-    // Applies our input value to the rivePlayer's state machine.
+    /// <summary>
+    /// Sets the subclass's current `Value` on the Rive state machine.
+    /// </summary>
+    /// <param name="rivePlayer"><see cref="RivePlayer"/> whose state machine to modify.</param>
+    /// <param name="inputName">Name of the state machine input to modify.</param>
     protected abstract void Apply(RivePlayer rivePlayer, string inputName);
 }
 
+/// <summary>
+/// Manages a boolean input on a Rive state machine.
+/// </summary>
 [ContentProperty(Name = nameof(Value))]
 public class BoolInput : StateMachineInput
 {
-    // Define "Value" as a DependencyProperty so it can be data-bound.
+    /// <summary>
+    /// Identifies the <see cref="Value"/> property.
+    /// </summary>
     public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
         nameof(Value),
         typeof(bool),
@@ -53,6 +75,10 @@ public class BoolInput : StateMachineInput
         new PropertyMetadata(false, OnValueChanged)
     );
 
+    /// <summary>
+    /// Mirrors a boolean value on a Rive state machine. When this property is set, this class also
+    /// updates the corresponding value on the Rive state machine.
+    /// </summary>
     public bool? Value
     {
         get => (bool?)GetValue(ValueProperty);
@@ -64,6 +90,7 @@ public class BoolInput : StateMachineInput
         ((BoolInput)d).Apply();
     }
 
+    /// <inheritdoc/>
     protected override void Apply(RivePlayer rivePlayer, string inputName)
     {
         bool? boolean = this.Value;
@@ -74,10 +101,15 @@ public class BoolInput : StateMachineInput
     }
 }
 
+/// <summary>
+/// Manages a number (double) input on a Rive state machine.
+/// </summary>
 [ContentProperty(Name = nameof(Value))]
 public class NumberInput : StateMachineInput
 {
-    // Define "Value" as a DependencyProperty so it can be data-bound.
+    /// <summary>
+    /// Identifies the <see cref="Value"/> property.
+    /// </summary>
     private static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
         nameof(Value),
         typeof(double),
@@ -85,6 +117,10 @@ public class NumberInput : StateMachineInput
         new PropertyMetadata(null, OnValueChanged)
     );
 
+    /// <summary>
+    /// Mirrors a number (double) value on a Rive state machine. When this property is set, this
+    /// class also updates the corresponding value on the Rive state machine.
+    /// </summary>
     public double? Value
     {
         get => (double?)GetValue(ValueProperty);
@@ -96,6 +132,7 @@ public class NumberInput : StateMachineInput
         ((NumberInput)d).Apply();
     }
 
+    /// <inheritdoc/>
     protected override void Apply(RivePlayer rivePlayer, string inputName)
     {
         double? number = this.Value;
@@ -106,8 +143,15 @@ public class NumberInput : StateMachineInput
     }
 }
 
+/// <summary>
+/// Manages a trigger input on a Rive state machine. Unlike booleans and numbers, triggers do not
+/// have an underlying value. They can instead be thought of as "function calls" on a state machine.
+/// </summary>
 public class TriggerInput : StateMachineInput
 {
+    /// <summary>
+    /// Calls the trigger input on our underlying state machine.
+    /// </summary>
     public void Fire()
     {
         string? target = this.Target;
@@ -117,6 +161,8 @@ public class TriggerInput : StateMachineInput
         }
     }
 
-    // Triggers don't have any persistent data to apply.
+    /// <summary>
+    /// Does nothing -- triggers don't have an underlying value to apply.
+    /// </summary>
     protected override void Apply(RivePlayer rivePlayer, string inputName) { }
 }

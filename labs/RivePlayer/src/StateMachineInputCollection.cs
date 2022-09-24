@@ -4,14 +4,17 @@
 
 namespace CommunityToolkit.Labs.WinUI.Rive;
 
-// Manages a collection of StateMachineInput objects for RivePlayer. The [ContentProperty] tag
-// on RivePlayer instructs the XAML engine automatically route nested inputs through this
-// collection:
-//
-//   <rive:RivePlayer Source="...">
-//       <rive:BoolInput Target=... />
-//   </rive:RivePlayer>
-//
+/// <summary>
+/// Manages a collection of StateMachineInput objects for <see cref="RivePlayer"/>. The
+/// [ContentProperty] tag on RivePlayer instructs the XAML engine to automatically populate this
+/// collection with nested inputs:
+///
+///   <rive:RivePlayer Source="...">
+///       <!--  Adds this input to the StateMachineInputCollection.  -->
+///       <rive:BoolInput Target=... />
+///   </rive:RivePlayer>
+///
+/// </summary>
 public class StateMachineInputCollection : DependencyObjectCollection
 {
     public StateMachineInputCollection()
@@ -21,6 +24,11 @@ public class StateMachineInputCollection : DependencyObjectCollection
 
     private WeakReference<RivePlayer> _rivePlayer = new WeakReference<RivePlayer>(null!);
 
+    /// <summary>
+    /// Establishes the <see cref="RivePlayer"/> whose state machine inputs this class will manage.
+    /// If any given <see cref="StateMachineInput"/> was not already bound to this rive player, it also
+    /// applies its current `Value` to the state machine.
+    /// </summary>
     public void SetRivePlayer(RivePlayer? rivePlayer)
     {
         _rivePlayer = new WeakReference<RivePlayer>(rivePlayer!);

@@ -10,7 +10,9 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 [ContentProperty(Name = nameof(StateMachineInputCollection))]
 public partial class RivePlayer
 {
-    // Filename of the .riv file to open. Can be a file path or a URL.
+    /// <summary>
+    /// Identifies the <see cref="Source"/> property.
+    /// </summary>
     public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
         nameof(Source),
         typeof(string),
@@ -18,14 +20,9 @@ public partial class RivePlayer
         new PropertyMetadata(null, OnSourceNameChanged)
     );
 
-    public string Source
-    {
-        get => (string)GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
-
-    // Name of the artbord to load from the .riv file. If null or empty, the default artboard
-    // will be loaded.
+    /// <summary>
+    /// Identifies the <see cref="Artboard"/> property.
+    /// </summary>
     public static readonly DependencyProperty ArtboardProperty = DependencyProperty.Register(
         nameof(Artboard),
         typeof(string),
@@ -33,13 +30,9 @@ public partial class RivePlayer
         new PropertyMetadata(null, OnArtboardNameChanged)
     );
 
-    public string Artboard
-    {
-        get => (string)GetValue(ArtboardProperty);
-        set => SetValue(ArtboardProperty, value);
-    }
-
-    // Name of the state machine to load from the .riv file.
+    /// <summary>
+    /// Identifies the <see cref="StateMachine"/> property.
+    /// </summary>
     public static readonly DependencyProperty StateMachineProperty = DependencyProperty.Register(
         nameof(StateMachine),
         typeof(string),
@@ -47,13 +40,9 @@ public partial class RivePlayer
         new PropertyMetadata(null, OnStateMachineNameChanged)
     );
 
-    public string StateMachine
-    {
-        get => (string)GetValue(StateMachineProperty);
-        set => SetValue(StateMachineProperty, value);
-    }
-
-    // Name of the fallback animation to load from the .riv if StateMachine is null or empty.
+    /// <summary>
+    /// Identifies the <see cref="Animation"/> property.
+    /// </summary>
     public static readonly DependencyProperty AnimationProperty = DependencyProperty.Register(
         nameof(Animation),
         typeof(string),
@@ -61,12 +50,9 @@ public partial class RivePlayer
         new PropertyMetadata(null, OnAnimationNameChanged)
     );
 
-    public string Animation
-    {
-        get => (string)GetValue(AnimationProperty);
-        set => SetValue(AnimationProperty, value);
-    }
-
+    /// <summary>
+    /// Identifies the <see cref="StateMachineInputCollection"/> property.
+    /// </summary>
     public static readonly DependencyProperty StateMachineInputCollectionProperty = DependencyProperty.Register(
         nameof(StateMachineInputCollection),
         typeof(StateMachineInputCollection),
@@ -74,6 +60,56 @@ public partial class RivePlayer
         new PropertyMetadata(new StateMachineInputCollection(), OnStateMachineInputCollectionChanged)
     );
 
+    /// <summary>
+    /// URI to the `.riv` file to load into the app. Supported schemes are `http`, `https`, and `ms-appx`.
+    /// </summary>
+    public string Source
+    {
+        get => (string)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
+    }
+
+    /// <summary>
+    /// Name of the Rive artboard to instantiate. If empty, the default artboard from the Rive file is loaded.
+    /// will be loaded.
+    /// </summary>
+    public string Artboard
+    {
+        get => (string)GetValue(ArtboardProperty);
+        set => SetValue(ArtboardProperty, value);
+    }
+
+    /// <summary>
+    /// Name of the Rive state machine to instantiate from the artboard. If empty, the given
+    /// <see cref="Animation"/> or default state machine is instantiated.
+    /// </summary>
+    public string StateMachine
+    {
+        get => (string)GetValue(StateMachineProperty);
+        set => SetValue(StateMachineProperty, value);
+    }
+
+    /// <summary>
+    /// If <see cref="StateMachine"/> is empty, this is the name of the Rive animation to instantiate.
+    /// If `Animation` and `StateMachine` are both empty, and if a default state machine is not present
+    /// in the Rive file, the default animation from the Rive file is instantiated.
+    /// </summary>
+    public string Animation
+    {
+        get => (string)GetValue(AnimationProperty);
+        set => SetValue(AnimationProperty, value);
+    }
+
+    /// <summary>
+    /// Holds the collection of <see cref="StateMachineInput"/>. This can be populated directly from XAML:
+    ///
+    ///   <rive:RivePlayer Source="ms-appx:///mystatemachine.riv">
+    ///     <rive:BoolInput Target="inputNameInStateMachine" Value="True" />
+    ///     <rive:NumberInput Target="inputNameInStateMachine" Value="{x:Bind ...}" />
+    ///     <rive:TriggerInput Target="inputNameInStateMachine" x:Name="..." />
+    ///   </rive:RivePlayer>
+    ///
+    /// </summary>
     public StateMachineInputCollection StateMachineInputCollection
     {
         get => (StateMachineInputCollection)GetValue(StateMachineInputCollectionProperty);

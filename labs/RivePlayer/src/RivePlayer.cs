@@ -11,18 +11,20 @@ using Windows.Storage;
 
 namespace CommunityToolkit.Labs.WinUI.Rive;
 
-// This is a high level XAML control for playing a Rive state machine or animation. The state
-// machine's specific inputs can be declared as nested properties, and controlled interactively via
-// code or data binding:
-//
-//   <rive:RivePlayer Source="ms-appx:///mystatemachine.riv">
-//     <rive:BoolInput Target="inputNameInStateMachine" Value="True" />
-//     <rive:NumberInput Target="inputNameInStateMachine" Value="{x:Bind ...}" />
-//     <rive:TriggerInput Target="inputNameInStateMachine" x:Name="..." />
-//   </rive:RivePlayer>
-//
-// Rive state machines: https://rive.app/features#state-machine
-// State machine inputs: https://help.rive.app/editor/state-machine#inputs
+/// <summary>
+/// This is a high level XAML control for playing a Rive state machine or animation. The state
+/// machine's specific inputs can be declared as nested properties, and controlled interactively via
+/// code or data binding:
+///
+///   <rive:RivePlayer Source="ms-appx:///mystatemachine.riv">
+///     <rive:BoolInput Target="inputNameInStateMachine" Value="True" />
+///     <rive:NumberInput Target="inputNameInStateMachine" Value="{x:Bind ...}" />
+///     <rive:TriggerInput Target="inputNameInStateMachine" x:Name="..." />
+///   </rive:RivePlayer>
+///
+/// Rive state machines: https://rive.app/features#state-machine
+/// State machine inputs: https://help.rive.app/editor/state-machine#inputs
+/// </summary>
 public sealed partial class RivePlayer : Control
 {
     // Continuously invalidates the panel for repaint.

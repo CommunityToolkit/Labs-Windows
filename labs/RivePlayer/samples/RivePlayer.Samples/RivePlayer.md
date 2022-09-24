@@ -54,7 +54,7 @@ High-level UI control for rendering Rive content. It is declared in XAML files, 
 - `Source` - (string) URI to the `.riv` file to load into the app. Supported schemes are `http`, `https`, and `ms-appx`
 - `Artboard` - (string) Name of the Rive artboard to instantiate. If empty, the default artboard from the Rive file is loaded.
 - `StateMachine` - (string) Name of the Rive state machine to instantiate from the artboard. If empty, the given `Animation` or default state machine is instantiated.
-- `Animation` - (string) If `StateMachine` is empty, this is the name of the Rive animation to instantiate. If `Animation` is empty, and there is no `StateMachine` specified, nor a default state machine present in the Rive file, the default animation from the Rive file is instantiated.
+- `Animation` - (string) If `StateMachine` is empty, this is the name of the Rive animation to instantiate. If `Animation` and `StateMachine` are both empty, and if a default state machine is not present in the Rive file, the default animation from the Rive file is instantiated.
 - `DrawInBackground` - (bool) Rive rendering executes in a different thread than the UI
 
 ### `<rive:BoolInput>`

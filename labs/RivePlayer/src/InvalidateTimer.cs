@@ -2,14 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Timers;
-
 namespace CommunityToolkit.Labs.WinUI.Rive;
 
-// Continuously calls Invalidate() on the given RivePlayer at a set fps.
+/// <summary>
+/// Continuously calls Invalidate() a <see cref="RivePlayer"/> at a fixed fps.
+/// </summary>
 internal partial class InvalidateTimer
 {
     private readonly RivePlayer rivePlayer;
@@ -25,6 +22,9 @@ internal partial class InvalidateTimer
     // Incremented when the "InvalLoopAsync" should terminate.
     int _invalLoopContinuationToken = 0;
 
+    /// <summary>
+    /// Begins continuous Invalidate() calls on the <see cref="RivePlayer"/>.
+    /// </summary>
     public void Start()
     {
         if (_running)
@@ -35,6 +35,9 @@ internal partial class InvalidateTimer
         _running = true;
     }
 
+    /// <summary>
+    /// Ends continuous Invalidate() calls on the <see cref="RivePlayer"/>.
+    /// </summary>
     public void Stop()
     {
         if (!_running)
