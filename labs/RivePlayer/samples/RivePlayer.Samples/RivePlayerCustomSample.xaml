@@ -15,7 +15,8 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
-        <rive:RivePlayer Grid.Column="0"
+        <rive:RivePlayer x:Name="RivePlayer"
+                         Grid.Column="0"
                          Width="600"
                          Height="600"
                          DrawInBackground="True"
