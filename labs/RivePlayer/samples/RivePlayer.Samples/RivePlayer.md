@@ -156,7 +156,7 @@ To create a reference to the trigger input named `trigSuccess` in the state mach
 
 When the button is clicked, it will call into the `SuccessTriggerInput` input class and invoke the `Fire`  method on the `trigSuccess` Rive trigger input where the state machine will respond accordingly.
 
-Additionally in this example, we use the [EventTriggerBehavior](https://github.com/Microsoft/XamlBehaviors/wiki/EventTriggerBehavior) and [CallMethodAction](https://github.com/Microsoft/XamlBehaviors/wiki/CallMethodAction) APIs from the [XAML Behaviors](https://github.com/Microsoft/XamlBehaviors/wiki) package. You can reference this package by adding the following to your `Dependencies.props`:
+Additionally in this example, we use the [EventTriggerBehavior](https://github.com/Microsoft/XamlBehaviors/wiki/EventTriggerBehavior) and [CallMethodAction](https://github.com/Microsoft/XamlBehaviors/wiki/CallMethodAction) APIs from the [XAML Behaviors](https://github.com/Microsoft/XamlBehaviors/wiki) package. You can reference this package as follows:
 
 ```xml
 <!-- WinUI 2 / UWP -->
