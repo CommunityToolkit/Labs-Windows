@@ -21,7 +21,7 @@ subcategory: Input
 
 A high-level runtime for the [Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/) to use [Rive](https://rive.app) in Universal Windows Platform (UWP) applications.
 
-This library allows for control over Rive files with a high-level API for driving [state machines](https://help.rive.app/editor/state-machine) and animations.
+This library allows for control over Rive files with a high-level API for driving [state machines](https://help.rive.app/editor/state-machine).
 
 > [!Sample RivePlayerCustomSample]
 
@@ -53,8 +53,7 @@ High-level UI control for rendering Rive content. It is declared in XAML files, 
 - `Height` - (double) Height of the canvas
 - `Source` - (string) URI to the `.riv` file to load into the app. Supported schemes are `http`, `https`, and `ms-appx`
 - `Artboard` - (string) Name of the Rive artboard to instantiate. If empty, the default artboard from the Rive file is loaded.
-- `StateMachine` - (string) Name of the Rive state machine to instantiate from the artboard. If empty, the given `Animation` or default state machine is instantiated.
-- `Animation` - (string) If `StateMachine` is empty, this is the name of the Rive animation to instantiate. If `Animation` and `StateMachine` are both empty, and if a default state machine is not present in the Rive file, the default animation from the Rive file is instantiated.
+- `StateMachine` - (string) Name of the Rive state machine to instantiate from the artboard. If empty, the the default state machine is instantiated. If a state machine with the given name does not exist in the artboard, the runtime attempts to load a (deprecated) Rive animation of the same name.
 - `DrawInBackground` - (bool) Rive rendering executes in a different thread than the UI
 
 ### `<rive:BoolInput>`

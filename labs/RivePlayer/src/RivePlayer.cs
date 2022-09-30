@@ -12,9 +12,9 @@ using Windows.Storage;
 namespace CommunityToolkit.Labs.WinUI.Rive;
 
 /// <summary>
-/// This is a high level XAML control for playing a Rive state machine or animation. The state
-/// machine's specific inputs can be declared as nested properties, and controlled interactively via
-/// code or data binding:
+/// This is a high level XAML control for playing a Rive state machine. The state machine's specific
+/// inputs can be declared as nested properties, and controlled interactively via code or data
+/// binding:
 ///
 ///   <rive:RivePlayer Source="ms-appx:///mystatemachine.riv">
 ///     <rive:BoolInput Target="inputNameInStateMachine" Value="True" />
@@ -171,17 +171,19 @@ public sealed partial class RivePlayer
     // Source actions originating from other threads must be funneled through this queue.
     readonly ConcurrentQueue<Action> sceneActionsQueue = new ConcurrentQueue<Action>();
 
-    // This is the render-thread copy of the animation parameters. They are set via
-    // _sceneActionsQueue. _scene is then blah blah blah
+    /// <summary>
+    /// This is the render-thread copy of the state machine parameters. They are set via
+    /// <see cref="_sceneActionsQueue"/>, and applied when the rendering thread calls
+    /// <see cref="UpdateScene"/>
+    /// </summary>
     private string? _artboardName;
-    private string? _animationName;
     private string? _stateMachineName;
 
     private enum SceneUpdates
     {
         File = 3,
         Artboard = 2,
-        AnimationOrStateMachine = 1,
+        StateMachine = 1,
     };
 
     private DateTime? _lastPaintTime;
@@ -227,22 +229,13 @@ public sealed partial class RivePlayer
         {
             _scene.LoadArtboard(_artboardName);
         }
-        if (updates >= SceneUpdates.AnimationOrStateMachine)
+        if (updates >= SceneUpdates.StateMachine)
         {
-            if (!String.IsNullOrEmpty(_stateMachineName))
+            if (!_scene.LoadStateMachine(_stateMachineName))
             {
-                _scene.LoadStateMachine(_stateMachineName);
-            }
-            else if (!String.IsNullOrEmpty(_animationName))
-            {
-                _scene.LoadAnimation(_animationName);
-            }
-            else
-            {
-                if (!_scene.LoadStateMachine(null))
-                {
-                    _scene.LoadAnimation(null);
-                }
+                // A state machine with the given name didn't exist. Attempt to load a (deprecated)
+                // Rive animation of the same name instead.
+                _scene.LoadAnimation(_stateMachineName);
             }
         }
     }

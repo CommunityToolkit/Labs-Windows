@@ -41,16 +41,6 @@ public partial class RivePlayer
     );
 
     /// <summary>
-    /// Identifies the <see cref="Animation"/> property.
-    /// </summary>
-    public static readonly DependencyProperty AnimationProperty = DependencyProperty.Register(
-        nameof(Animation),
-        typeof(string),
-        typeof(RivePlayer),
-        new PropertyMetadata(null, OnAnimationNameChanged)
-    );
-
-    /// <summary>
     /// Identifies the <see cref="StateMachineInputCollection"/> property.
     /// </summary>
     public static readonly DependencyProperty StateMachineInputCollectionProperty = DependencyProperty.Register(
@@ -70,7 +60,8 @@ public partial class RivePlayer
     }
 
     /// <summary>
-    /// Name of the Rive artboard to instantiate. If empty, the default artboard from the Rive file is loaded.
+    /// Name of the Rive artboard to instantiate. If empty, the default artboard from the Rive file
+    /// is loaded.
     /// will be loaded.
     /// </summary>
     public string Artboard
@@ -80,32 +71,15 @@ public partial class RivePlayer
     }
 
     /// <summary>
-    /// Name of the Rive state machine to instantiate from the artboard. If empty, the given
-    /// <see cref="Animation"/> or default state machine is instantiated.
+    /// Name of the Rive state machine to instantiate from the artboard. If empty, the the default
+    /// state machine is instantiated. If a state machine with the given name does not exist in the
+    /// artboard, the runtime attempts to load a (deprecated) Rive animation of the same name.
     /// </summary>
     public string StateMachine
     {
         get => (string)GetValue(StateMachineProperty);
         set => SetValue(StateMachineProperty, value);
     }
-
-    // Disable a warning about the "new" keyword not being required. On some Uno builds, RivePlayer
-    // inherits a property named "Animation" through its Control base class. To work around this, we
-    // always mark the Animation property as new.
-    #pragma warning disable CS0109
-
-    /// <summary>
-    /// If <see cref="StateMachine"/> is empty, this is the name of the Rive animation to instantiate.
-    /// If `Animation` and `StateMachine` are both empty, and if a default state machine is not present
-    /// in the Rive file, the default animation from the Rive file is instantiated.
-    /// </summary>
-    public new string Animation
-    {
-        get => (string)GetValue(AnimationProperty);
-        set => SetValue(AnimationProperty, value);
-    }
-
-    #pragma warning restore CS0109
 
     /// <summary>
     /// Holds the collection of <see cref="StateMachineInput"/>. This can be populated directly from XAML:
@@ -172,19 +146,7 @@ public partial class RivePlayer
         }
         else
         {
-            player.sceneActionsQueue.Enqueue(() => player.UpdateScene(SceneUpdates.AnimationOrStateMachine));
-        }
-    }
-
-    private static void OnAnimationNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var player = (RivePlayer)d;
-        var newAnimationName = (string)e.NewValue;
-        player.sceneActionsQueue.Enqueue(() => player._animationName = newAnimationName);
-        // If a file is currently loading async, it will apply the new animation once it completes.
-        if (player._deferredSMInputsDuringAsyncSourceLoad == null)
-        {
-            player.sceneActionsQueue.Enqueue(() => player.UpdateScene(SceneUpdates.AnimationOrStateMachine));
+            player.sceneActionsQueue.Enqueue(() => player.UpdateScene(SceneUpdates.StateMachine));
         }
     }
 
