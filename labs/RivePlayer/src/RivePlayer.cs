@@ -155,9 +155,7 @@ public sealed partial class RivePlayer
         EnqueueStateMachineInput(() => _scene.FireTrigger(name));
     }
 
-    private delegate void PointerHandler(Vec2D pos);
-
-    private void HandlePointerEvent(PointerHandler handler, PointerRoutedEventArgs e)
+    private void HandlePointerEvent(Action<Vec2D> handler, PointerRoutedEventArgs e)
     {
         if (_deferredSMInputsDuringAsyncSourceLoad != null)
         {
