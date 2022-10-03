@@ -28,7 +28,7 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 public sealed partial class RivePlayer
 {
     // Source actions originating from other threads must be funneled through this queue.
-    private readonly ConcurrentQueue<Action> sceneActionsQueue = new ConcurrentQueue<Action>();
+    private readonly ConcurrentQueue<Action> sceneActionsQueue = new();
 
     // Continuously invalidates the panel for repaint.
     private AnimationTimer? _animationTimer;
