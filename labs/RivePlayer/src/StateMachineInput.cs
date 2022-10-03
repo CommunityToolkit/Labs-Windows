@@ -13,6 +13,8 @@ public abstract partial class StateMachineInput : DependencyObject
 {
     private string? _target;
 
+    private WeakReference<RivePlayer> _rivePlayer = new WeakReference<RivePlayer>(null!);
+
     /// <summary>
     /// Name of the input on the Rive state machine that this class will manage.
     /// </summary>
@@ -26,7 +28,6 @@ public abstract partial class StateMachineInput : DependencyObject
         }
     }
 
-    private WeakReference<RivePlayer> _rivePlayer = new WeakReference<RivePlayer>(null!);
     protected WeakReference<RivePlayer> RivePlayer => _rivePlayer;
 
     /// <summary>

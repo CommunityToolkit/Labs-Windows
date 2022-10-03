@@ -27,8 +27,28 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 /// </summary>
 public sealed partial class RivePlayer
 {
+    // Source actions originating from other threads must be funneled through this queue.
+    private readonly ConcurrentQueue<Action> sceneActionsQueue = new ConcurrentQueue<Action>();
+
     // Continuously invalidates the panel for repaint.
     private AnimationTimer? _animationTimer;
+
+    // State machine inputs to set once the current async source load finishes.
+    // The null-ness of this object also tells us whether an async load operation is currently running.
+    private List<Action>? _deferredSMInputsDuringAsyncSourceLoad = null;
+
+    // _scene is used on the render thread exclusively.
+    private Scene _scene = new Scene();
+
+    /// <summary>
+    /// This is the render-thread copy of the state machine parameters. They are set via
+    /// <see cref="_sceneActionsQueue"/>, and applied when the rendering thread calls
+    /// <see cref="UpdateScene"/>
+    /// </summary>
+    private string? _artboardName;
+    private string? _stateMachineName;
+
+    private DateTime? _lastPaintTime;
 
     public RivePlayer()
     {
@@ -59,10 +79,6 @@ public sealed partial class RivePlayer
             _animationTimer.Stop();
         }
     }
-
-    // State machine inputs to set once the current async source load finishes.
-    // The null-ness of this object also tells us whether an async load operation is currently running.
-    private List<Action>? _deferredSMInputsDuringAsyncSourceLoad = null;
 
     private async void LoadSourceFileDataAsync(string uriString, int sourceToken)
     {
@@ -165,29 +181,6 @@ public sealed partial class RivePlayer
         });
     }
 
-    // _scene is used on the render thread exclusively.
-    Scene _scene = new Scene();
-
-    // Source actions originating from other threads must be funneled through this queue.
-    readonly ConcurrentQueue<Action> sceneActionsQueue = new ConcurrentQueue<Action>();
-
-    /// <summary>
-    /// This is the render-thread copy of the state machine parameters. They are set via
-    /// <see cref="_sceneActionsQueue"/>, and applied when the rendering thread calls
-    /// <see cref="UpdateScene"/>
-    /// </summary>
-    private string? _artboardName;
-    private string? _stateMachineName;
-
-    private enum SceneUpdates
-    {
-        File = 3,
-        Artboard = 2,
-        StateMachine = 1,
-    };
-
-    private DateTime? _lastPaintTime;
-
     private void PaintNextAnimationFrame(SKSurface surface, int surfaceWidth, int surfaceHeight)
     {
         // Handle pending scene actions from the main thread.
@@ -252,4 +245,11 @@ public sealed partial class RivePlayer
         return Renderer.ComputeAlignment(Fit.Contain, Alignment.Center, frame,
                                          new AABB(0, 0, _scene.Width, _scene.Height));
     }
+
+    private enum SceneUpdates
+    {
+        File = 3,
+        Artboard = 2,
+        StateMachine = 1,
+    };
 }

@@ -10,6 +10,10 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 [ContentProperty(Name = nameof(StateMachineInputCollection))]
 public partial class RivePlayer
 {
+    // Monotonically increasing ID of the current Source. Increments everytime Source changes.
+    // This token is used to cancel pending async load operations when new ones are started.
+    private int _currentSourceToken = 0;
+
     /// <summary>
     /// Identifies the <see cref="Source"/> property.
     /// </summary>
@@ -96,10 +100,6 @@ public partial class RivePlayer
         get => (StateMachineInputCollection)GetValue(StateMachineInputCollectionProperty);
         set => SetValue(StateMachineInputCollectionProperty, value);
     }
-
-    // Monotonically increasing ID of the current Source. Increments everytime Source changes.
-    // This token is used to cancel pending async load operations when new ones are started.
-    int _currentSourceToken = 0;
 
     private static void OnSourceNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

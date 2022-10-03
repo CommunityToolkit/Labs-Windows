@@ -12,15 +12,17 @@ internal partial class AnimationTimer
     private readonly RivePlayer rivePlayer;
     private readonly TimeSpan timeSpanPerFrame;
 
+    private bool _running = false;
+
+    // Incremented when the "InvalLoopAsync" should terminate.
+    private int _invalLoopContinuationToken = 0;
+
+
     public AnimationTimer(RivePlayer rivePlayer, double fps)
     {
         this.rivePlayer = rivePlayer;
         timeSpanPerFrame = TimeSpan.FromSeconds(1.0 / fps);
     }
-
-    private bool _running = false;
-    // Incremented when the "InvalLoopAsync" should terminate.
-    int _invalLoopContinuationToken = 0;
 
     /// <summary>
     /// Begins continuous <see cref="RivePlayer.InvalidateAnimation"/> calls.

@@ -17,12 +17,12 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 /// </summary>
 public class StateMachineInputCollection : DependencyObjectCollection
 {
+    private WeakReference<RivePlayer> _rivePlayer = new WeakReference<RivePlayer>(null!);
+
     public StateMachineInputCollection()
     {
         VectorChanged += InputsVectorChanged;
     }
-
-    private WeakReference<RivePlayer> _rivePlayer = new WeakReference<RivePlayer>(null!);
 
     /// <summary>
     /// Establishes the <see cref="RivePlayer"/> whose state machine inputs this class will manage.
