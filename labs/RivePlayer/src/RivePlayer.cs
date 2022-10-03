@@ -97,10 +97,10 @@ public sealed partial class RivePlayer
             }
             if (stream != null && sourceToken == _currentSourceToken)
             {
-                byte[] data = new byte[stream.Length];
-                stream.Read(data, 0, data.Length);
+                var memoryStream = new MemoryStream();
+                await stream.CopyToAsync(memoryStream);
                 stream.Dispose();  // Don't keep the file open.
-                sceneActionsQueue.Enqueue(() => UpdateScene(SceneUpdates.File, data));
+                sceneActionsQueue.Enqueue(() => UpdateScene(SceneUpdates.File, memoryStream.ToArray()));
                 // Apply deferred state machine inputs once the scene is fully loaded.
                 foreach (Action stateMachineInput in _deferredSMInputsDuringAsyncSourceLoad!)
                 {
