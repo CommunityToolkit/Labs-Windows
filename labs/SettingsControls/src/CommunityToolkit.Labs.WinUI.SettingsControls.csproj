@@ -19,6 +19,7 @@
       This package contains SettingsControls.
     </Description>
     <Version>0.0.1</Version>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
