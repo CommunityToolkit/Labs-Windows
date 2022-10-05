@@ -267,8 +267,8 @@ jobs:
         shell: pwsh
         run: ./GenerateAllSolution.ps1
 
-      - name: Install ninja
-        run: apt-get install ninja-build
+      - name: Install ninja for WASM native dependencies
+        run: sudo apt-get install ninja-build
 
       # Issue with Comment Links currently, see: https://github.com/mrlacey/CommentLinks/issues/38
       # See launch.json configuration file for analogous command we're emulating here to build LINK: ../../.vscode/launch.json:CommunityToolkit.Labs.Wasm.csproj
