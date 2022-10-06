@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINDOWS_WINAPPSDK
-using SkiaSharp.Views.Windows;
-#else
-// SkiaSharp.Views.UWP is on Uno too.
+#if WINDOWS_UWP || (WINUI2 && HAS_UNO_WASM)
+ // WASM on WinUI2 needs SkiaSharp.Views.UWP too.
 using SkiaSharp.Views.UWP;
+#else
+using SkiaSharp.Views.Windows;
 #endif
 
 namespace CommunityToolkit.Labs.WinUI.Rive;
@@ -43,13 +43,7 @@ public partial class RivePlayer : Control
         _skiaSurface = GetTemplateChild(SkiaSurfacePartName) as ContentPresenter;
         if (_skiaSurface != null && _skiaSurface.Content == null)
         {
-#if WINDOWS_WINAPPSDK || HAS_UNO_WASM
-            // WinAppSdk doesn't have SKSwapChainPanel yet.
-            // SKSwapChainPanel doesn't work in WASM yet.
-            var xamlCanvas = new SKXamlCanvas();
-            xamlCanvas.PaintSurface += OnPaintSurface;
-            _skiaSurface.Content = xamlCanvas;
-#else
+#if WINDOWS_UWP
             // SKSwapChainPanel performs better than SKXamlCanvas.
             var swapChainPanel = new SKSwapChainPanel
             {
@@ -57,6 +51,12 @@ public partial class RivePlayer : Control
             };
             swapChainPanel.PaintSurface += OnPaintSurface;
             _skiaSurface.Content = swapChainPanel;
+#else
+            // WinAppSdk doesn't have SKSwapChainPanel yet.
+            // SKSwapChainPanel doesn't work in WASM yet.
+            var xamlCanvas = new SKXamlCanvas();
+            xamlCanvas.PaintSurface += OnPaintSurface;
+            _skiaSurface.Content = xamlCanvas;
 #endif
             _animationTimer = new AnimationTimer(this, fps: 120);
         }
@@ -69,24 +69,24 @@ public partial class RivePlayer : Control
     /// </summary>
     internal void InvalidateAnimation()
     {
-#if WINDOWS_WINAPPSDK || HAS_UNO_WASM
-        var xamlCanvas = _skiaSurface?.Content as SKXamlCanvas;
-        xamlCanvas?.Invalidate();
-#else
+#if WINDOWS_UWP
         var swapChainPanel = _skiaSurface?.Content as SKSwapChainPanel;
         swapChainPanel?.Invalidate();
+#else
+        var xamlCanvas = _skiaSurface?.Content as SKXamlCanvas;
+        xamlCanvas?.Invalidate();
 #endif
     }
 
-#if WINDOWS_WINAPPSDK || HAS_UNO_WASM
-    private void OnPaintSurface(object? sender, SKPaintSurfaceEventArgs e)
-    {
-        this.PaintNextAnimationFrame(e.Surface, e.Info.Width, e.Info.Height);
-    }
-#else
+#if WINDOWS_UWP
     private void OnPaintSurface(object? sender, SKPaintGLSurfaceEventArgs e)
     {
         this.PaintNextAnimationFrame(e.Surface, e.BackendRenderTarget.Width, e.BackendRenderTarget.Height);
+    }
+#else
+    private void OnPaintSurface(object? sender, SKPaintSurfaceEventArgs e)
+    {
+        this.PaintNextAnimationFrame(e.Surface, e.Info.Width, e.Info.Height);
     }
 #endif
 
