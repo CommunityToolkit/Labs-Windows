@@ -184,7 +184,7 @@
                             </ContentPresenter>
 
                             <ContentControl
-                                x:Name="PART_ButtonIconPresenter"
+                                x:Name="PART_ActionIconPresenter"
                                 Grid.Column="2"
                                 Width="{StaticResource SettingsCardActionButtonWidth}"
                                 Height="{StaticResource SettingsCardActionButtonHeight}"
@@ -194,16 +194,16 @@
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
                                 win:AutomationProperties.LocalizedControlType="button"
-                                Content="{TemplateBinding ButtonIcon}"
+                                Content="{TemplateBinding ActionIcon}"
                                 CornerRadius="{ThemeResource ControlCornerRadius}"
                                 FocusVisualMargin="-3"
                                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                 FontSize="11"
                                 IsTabStop="True"
-                                ToolTipService.ToolTip="{TemplateBinding ButtonIconToolTip}"
+                                ToolTipService.ToolTip="{TemplateBinding ActionIconToolTip}"
                                 UseSystemFocusVisuals="True"
                                 Visibility="Collapsed"/>
-                            <!--  win:AutomationProperties.Name="{TemplateBinding ButtonIconToolTip}"  -->
+                            <!--  win:AutomationProperties.Name="{TemplateBinding ActionIconToolTip}"  -->
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
@@ -238,7 +238,7 @@
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ButtonIconPresenter" Storyboard.TargetProperty="Foreground">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ActionIconPresenter" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Descriptor" Storyboard.TargetProperty="Foreground">
@@ -260,7 +260,7 @@
                                         <VisualState.Setters>
                                             <Setter Target="PART_Descriptor.Visibility" Value="Collapsed" />
                                             <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="0" />
-                                            <Setter Target="PART_ButtonIconPresenter.(Grid.Row)" Value="0" />
+                                            <Setter Target="PART_ActionIconPresenter.(Grid.Row)" Value="0" />
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
                                         </VisualState.Setters>
                                     </VisualState>

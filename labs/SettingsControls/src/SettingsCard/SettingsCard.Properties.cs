@@ -39,8 +39,8 @@ public partial class SettingsCard : ButtonBase
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="ButtonIcon"/> property.
     /// </summary>
-    public static readonly DependencyProperty ButtonIconProperty = DependencyProperty.Register(
-        nameof(ButtonIcon),
+    public static readonly DependencyProperty ActionIconProperty = DependencyProperty.Register(
+        nameof(ActionIcon),
         typeof(object),
         typeof(SettingsCard),
         new PropertyMetadata(defaultValue: "\ue974"));
@@ -48,8 +48,8 @@ public partial class SettingsCard : ButtonBase
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="ButtonIconToolTip"/> property.
     /// </summary>
-    public static readonly DependencyProperty ButtonIconToolTipProperty = DependencyProperty.Register(
-        nameof(ButtonIconToolTip),
+    public static readonly DependencyProperty ActionIconToolTipProperty = DependencyProperty.Register(
+        nameof(ActionIconToolTip),
         typeof(string),
         typeof(SettingsCard),
         new PropertyMetadata(defaultValue: "More"));
@@ -97,19 +97,19 @@ public partial class SettingsCard : ButtonBase
     /// <summary>
     /// Gets or sets the icon that is shown when IsClickEnabled is set to true.
     /// </summary>
-    public IconElement ButtonIcon
+    public IconElement ActionIcon
     {
-        get => (IconElement)GetValue(ButtonIconProperty);
-        set => SetValue(ButtonIconProperty, value);
+        get => (IconElement)GetValue(ActionIconProperty);
+        set => SetValue(ActionIconProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the tooltip of the ButtonIcon.
     /// </summary>
-    public string ButtonIconToolTip
+    public string ActionIconToolTip
     {
-        get => (string)GetValue(ButtonIconToolTipProperty);
-        set => SetValue(ButtonIconToolTipProperty, value);
+        get => (string)GetValue(ActionIconToolTipProperty);
+        set => SetValue(ActionIconToolTipProperty, value);
     }
 
     /// <summary>

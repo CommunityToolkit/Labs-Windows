@@ -15,7 +15,7 @@ public partial class SettingsCard : ButtonBase
     private const string PressedState = "Pressed";
     private const string DisabledState = "Disabled";
 
-    private const string ButtonIconPresenter = "PART_ButtonIconPresenter";
+    private const string ActionIconPresenter = "PART_ActionIconPresenter";
     private const string HeaderPresenter = "PART_HeaderPresenter";
     private const string DescriptionPresenter = "PART_DescriptionPresenter";
     private const string HeaderIconPresenter = "PART_HeaderIconPresenter";
@@ -163,7 +163,7 @@ public partial class SettingsCard : ButtonBase
 
     private void OnButtonIconChanged()
     {
-        if (GetTemplateChild(ButtonIconPresenter) is FrameworkElement buttonIconPresenter)
+        if (GetTemplateChild(ActionIconPresenter) is FrameworkElement buttonIconPresenter)
         {
             buttonIconPresenter.Visibility = IsClickEnabled
                 ? Visibility.Visible
