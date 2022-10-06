@@ -18,7 +18,7 @@ public partial class SettingsCard : ButtonBase
     private const string ButtonIconPresenter = "PART_ButtonIconPresenter";
     private const string HeaderPresenter = "PART_HeaderPresenter";
     private const string DescriptionPresenter = "PART_DescriptionPresenter";
-    private const string IconPresenter = "PART_IconPresenter";
+    private const string HeaderIconPresenter = "PART_HeaderIconPresenter";
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsCard"/> class.
     /// </summary>
@@ -34,7 +34,7 @@ public partial class SettingsCard : ButtonBase
         IsEnabledChanged -= OnIsEnabledChanged;
         OnButtonIconChanged();
         OnHeaderChanged();
-        OnIconChanged();
+        OnHeaderIconChanged();
         OnDescriptionChanged();
         OnIsClickEnabledChanged();
         VisualStateManager.GoToState(this, IsEnabled ? NormalState : DisabledState, true);
@@ -171,11 +171,11 @@ public partial class SettingsCard : ButtonBase
         }
     }
 
-    private void OnIconChanged()
+    private void OnHeaderIconChanged()
     {
-        if (GetTemplateChild(IconPresenter) is FrameworkElement iconPresenter)
+        if (GetTemplateChild(HeaderIconPresenter) is FrameworkElement headerIconPresenter)
         {
-            iconPresenter.Visibility = Icon != null
+            headerIconPresenter.Visibility = HeaderIcon != null
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }

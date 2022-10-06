@@ -25,10 +25,10 @@ public partial class SettingsExpander : ItemsControl
         new PropertyMetadata(defaultValue: null));
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Icon"/> property.
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="HeaderIcon"/> property.
     /// </summary>
-    public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-        nameof(Icon),
+    public static readonly DependencyProperty HeaderIconProperty = DependencyProperty.Register(
+        nameof(HeaderIcon),
         typeof(IconElement),
         typeof(SettingsExpander),
         new PropertyMetadata(defaultValue: null));
@@ -52,7 +52,7 @@ public partial class SettingsExpander : ItemsControl
 
 
     /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// Gets or sets the Header.
     /// </summary>
     public object Header
     {
@@ -61,7 +61,7 @@ public partial class SettingsExpander : ItemsControl
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic Description example.
+    /// Gets or sets the Description.
     /// </summary>
 #pragma warning disable CS0109 // Member does not hide an inherited member; new keyword is not required
     public new object Description
@@ -72,16 +72,16 @@ public partial class SettingsExpander : ItemsControl
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// Gets or sets the HeaderIcon.
     /// </summary>
-    public IconElement Icon
+    public IconElement HeaderIcon
     {
-        get => (IconElement)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
+        get => (IconElement)GetValue(HeaderIconProperty);
+        set => SetValue(HeaderIconProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic Content example.
+    /// Gets or sets the Content.
     /// </summary>
     public object Content
     {
@@ -90,7 +90,7 @@ public partial class SettingsExpander : ItemsControl
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic Content example.
+    /// Gets or sets the IsExpanded state.
     /// </summary>
     public bool IsExpanded
     {

@@ -60,9 +60,9 @@ public partial class ExampleSettingsControlsTestClass : VisualUITestBase
 
         //Assert.IsNotNull(component);
 
-        //var componentByName = page.FindDescendant("SettingsCard");
+        var componentByName = page.FindDescendant("settingsCard");
 
-        //Assert.IsNotNull(componentByName);
+        Assert.IsNotNull(componentByName);
     }
 
     // You can still do async work with a LabsUITestMethod as well.

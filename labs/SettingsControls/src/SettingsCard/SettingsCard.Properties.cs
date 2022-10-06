@@ -30,11 +30,11 @@ public partial class SettingsCard : ButtonBase
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Icon"/> property.
     /// </summary>
-    public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-        nameof(Icon),
+    public static readonly DependencyProperty HeaderIconProperty = DependencyProperty.Register(
+        nameof(HeaderIcon),
         typeof(IconElement),
         typeof(SettingsCard),
-        new PropertyMetadata(defaultValue: null, (d, e) => ((SettingsCard)d).OnIconPropertyChanged((IconElement)e.OldValue, (IconElement)e.NewValue)));
+        new PropertyMetadata(defaultValue: null, (d, e) => ((SettingsCard)d).OnHeaderIconPropertyChanged((IconElement)e.OldValue, (IconElement)e.NewValue)));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="ButtonIcon"/> property.
@@ -43,7 +43,7 @@ public partial class SettingsCard : ButtonBase
         nameof(ButtonIcon),
         typeof(object),
         typeof(SettingsCard),
-        new PropertyMetadata(defaultValue: "\ue76c"));
+        new PropertyMetadata(defaultValue: "\ue974"));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="ButtonIconToolTip"/> property.
@@ -66,7 +66,7 @@ public partial class SettingsCard : ButtonBase
 
 
     /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// Gets or sets the Header.
     /// </summary>
     public object Header
     {
@@ -75,7 +75,7 @@ public partial class SettingsCard : ButtonBase
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic Description example.
+    /// Gets or sets the description.
     /// </summary>
 #pragma warning disable CS0109 // Member does not hide an inherited member; new keyword is not required
     public new object Description
@@ -86,25 +86,25 @@ public partial class SettingsCard : ButtonBase
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// Gets or sets the main icon.
     /// </summary>
-    public IconElement Icon
+    public IconElement HeaderIcon
     {
-        get => (IconElement)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
+        get => (IconElement)GetValue(HeaderIconProperty);
+        set => SetValue(HeaderIconProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// Gets or sets the icon that is shown when IsClickEnabled is set to true.
     /// </summary>
-    public object ButtonIcon
+    public IconElement ButtonIcon
     {
-        get => (object)GetValue(ButtonIconProperty);
+        get => (IconElement)GetValue(ButtonIconProperty);
         set => SetValue(ButtonIconProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic DependencyProperty example.
+    /// Gets or sets the tooltip of the ButtonIcon.
     /// </summary>
     public string ButtonIconToolTip
     {
@@ -113,7 +113,7 @@ public partial class SettingsCard : ButtonBase
     }
 
     /// <summary>
-    /// Gets or sets an example string. A basic Description example.
+    /// Gets or sets if the card can be clicked.
     /// </summary>
     public bool IsClickEnabled
     {
@@ -125,9 +125,9 @@ public partial class SettingsCard : ButtonBase
     {
         OnIsClickEnabledChanged();
     }
-    protected virtual void OnIconPropertyChanged(IconElement oldValue, IconElement newValue)
+    protected virtual void OnHeaderIconPropertyChanged(IconElement oldValue, IconElement newValue)
     {
-        OnIconChanged();
+        OnHeaderIconChanged();
     }
 
     protected virtual void OnHeaderPropertyChanged(object oldValue, object newValue)
