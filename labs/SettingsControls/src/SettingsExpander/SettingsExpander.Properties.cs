@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 namespace CommunityToolkit.Labs.WinUI;
+
+[ContentProperty(Name = nameof(Content))]
 public partial class SettingsExpander : ItemsControl
 {
 
@@ -39,7 +41,7 @@ public partial class SettingsExpander : ItemsControl
     /// </summary>
     public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(
         nameof(Content),
-        typeof(object),
+        typeof(UIElement),
         typeof(SettingsExpander),
         new PropertyMetadata(defaultValue: null));
 
@@ -83,9 +85,9 @@ public partial class SettingsExpander : ItemsControl
     /// <summary>
     /// Gets or sets the Content.
     /// </summary>
-    public object Content
+    public UIElement Content
     {
-        get => (object)GetValue(ContentProperty);
+        get => (UIElement)GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
 
