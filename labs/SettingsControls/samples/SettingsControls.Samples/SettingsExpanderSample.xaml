@@ -11,7 +11,7 @@
         <labs:SettingsExpander Description="A picture background applies to your current desktop. A solid color or slideshow background apply to all your desktops."
                                Header="Personalize your background"
                                IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}"
-                               IsExpanded="True">
+                               IsExpanded="{x:Bind IsExpanderExpanded, Mode=TwoWay}">
             <labs:SettingsExpander.Icon>
                 <FontIcon Glyph="&#xE91B;" />
             </labs:SettingsExpander.Icon>
