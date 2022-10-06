@@ -66,11 +66,9 @@
                 <labs:SettingsExpanderItem ContentAlignment="Left">
                     <CheckBox Content="A control that is left aligned" />
                 </labs:SettingsExpanderItem>
-                <labs:SettingsExpanderItem Header="SettingsExpanderItem can be clicked as well" IsClickEnabled="True">
-                    <labs:SettingsExpanderItem.ActionIcon>
-                        <FontIcon FontSize="14" Glyph="&#xe8a7;" />
-                    </labs:SettingsExpanderItem.ActionIcon>
-                </labs:SettingsExpanderItem>
+                <labs:SettingsExpanderItem Header="SettingsExpanderItem can be clicked as well" IsClickEnabled="True"/>
+
+
                 <labs:SettingsExpanderItem
                     Header="SettingsExpanderItem can be disabled"
                     IsClickEnabled="True"
