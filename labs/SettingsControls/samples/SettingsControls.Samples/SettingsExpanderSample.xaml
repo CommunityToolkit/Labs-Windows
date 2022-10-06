@@ -18,14 +18,14 @@
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon Glyph="&#xE91B;" />
             </labs:SettingsExpander.HeaderIcon>
-            <labs:SettingsExpander.Content>
-                <ComboBox SelectedIndex="0">
-                    <ComboBoxItem>Picture</ComboBoxItem>
-                    <ComboBoxItem>Solid color</ComboBoxItem>
-                    <ComboBoxItem>Slideshow</ComboBoxItem>
-                    <ComboBoxItem>Windows spotlight</ComboBoxItem>
-                </ComboBox>
-            </labs:SettingsExpander.Content>
+            
+            <ComboBox SelectedIndex="0">
+                <ComboBoxItem>Picture</ComboBoxItem>
+                <ComboBoxItem>Solid color</ComboBoxItem>
+                <ComboBoxItem>Slideshow</ComboBoxItem>
+                <ComboBoxItem>Windows spotlight</ComboBoxItem>
+            </ComboBox>
+            
             <labs:SettingsExpander.Items>
                 <labs:SettingsExpanderItem ContentAlignment="Vertical" Header="Vertically aligned">
                     <GridView SelectedIndex="1">
