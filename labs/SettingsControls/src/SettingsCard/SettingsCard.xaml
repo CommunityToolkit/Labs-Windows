@@ -97,6 +97,13 @@
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
             <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
             <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="labs:StyleExtensions.Resources">
+                <Setter.Value>
+                    <ResourceDictionary>
+                        <Style BasedOn="{StaticResource RightAlignedCompactToggleSwitchStyle}" TargetType="ToggleSwitch" />
+                    </ResourceDictionary>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SettingsCard">
@@ -174,11 +181,7 @@
                                 VerticalAlignment="Center"
                                 HorizontalContentAlignment="Right"
                                 Content="{TemplateBinding Content}">
-                                <ContentPresenter.Resources>
-                                    <Style BasedOn="{StaticResource RightAlignedCompactToggleSwitchStyle}" TargetType="ToggleSwitch" />
-                                </ContentPresenter.Resources>
                                 <!--
-                                    TO DO: This doesn't seem to work. Override the template of a ToggleSwitch making it right aligned
                                     TO DO: Set MinWidth of 116px on the hosted Content: SettingsCardContentMinWidth
                                 -->
                             </ContentPresenter>

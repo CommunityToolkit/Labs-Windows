@@ -24,6 +24,13 @@
             </ComboBox>
         </labs:SettingsCard>
 
+        <labs:SettingsCard
+            Description="Control if a feature is enabled or disabled"
+            Header="Enable feature"
+            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <ToggleSwitch/>
+        </labs:SettingsCard>
+
         <labs:SettingsCard Header="Preferred languages" IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.Description>
                 <HyperlinkButton Content="Learn more about Phone Link" />

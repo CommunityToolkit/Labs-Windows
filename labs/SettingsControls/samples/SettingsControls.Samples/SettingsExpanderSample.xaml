@@ -67,7 +67,10 @@
                     <CheckBox Content="A control that is left aligned" />
                 </labs:SettingsExpanderItem>
                 <labs:SettingsExpanderItem Header="SettingsExpanderItem can be clicked as well" IsClickEnabled="True"/>
-
+                
+                <labs:SettingsExpanderItem Header="A togglable setting">
+                    <ToggleSwitch />
+                </labs:SettingsExpanderItem>
 
                 <labs:SettingsExpanderItem
                     Header="SettingsExpanderItem can be disabled"
