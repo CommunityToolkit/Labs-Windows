@@ -31,7 +31,13 @@ public class SettingsExpanderItemStyleSelector : StyleSelector
     /// <inheritdoc/>
     protected override Style SelectStyleCore(object item, DependencyObject container)
     {
-        // TO DO: Check is IsClickEnabled is true => set return ClickableStyle
-        return DefaultStyle;
+        if (((SettingsExpanderItem)item).IsClickEnabled)
+        {
+            return ClickableStyle;
+        }
+        else
+        {
+            return DefaultStyle;
+        }
     }
 }
