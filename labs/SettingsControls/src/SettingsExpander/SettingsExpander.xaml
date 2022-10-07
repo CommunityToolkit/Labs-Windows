@@ -77,8 +77,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SettingsExpander">
                         <muxc:Expander MaxWidth="{TemplateBinding MaxWidth}"
-                                       HorizontalAlignment="Stretch"
-                                       HorizontalContentAlignment="Stretch"
+                                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        IsExpanded="{TemplateBinding IsExpanded}"
                                        IsTabStop="False"
                                        Style="{StaticResource SettingsExpanderExpanderStyle}">
@@ -91,7 +91,8 @@
                                                    Description="{TemplateBinding Description}"
                                                    Header="{TemplateBinding Header}"
                                                    HeaderIcon="{TemplateBinding HeaderIcon}"
-                                                   IsClickEnabled="False" />
+                                                   IsClickEnabled="False"
+                                                   WrapThreshold="{TemplateBinding WrapThreshold}" />
                             </muxc:Expander.Header>
                             <muxc:Expander.Content>
                                 <ItemsPresenter TabFocusNavigation="Local" />
