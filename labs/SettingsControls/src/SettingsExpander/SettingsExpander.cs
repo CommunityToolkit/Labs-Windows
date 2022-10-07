@@ -52,12 +52,12 @@ public partial class SettingsExpander : ItemsControl
     }
     protected override bool IsItemItsOwnContainerOverride(object item)
     {
-        return item is SettingsExpanderItem;
+        return item is SettingsCard;
     }
 
     /// <inheritdoc />
     protected override DependencyObject GetContainerForItemOverride()
     {
-        return new SettingsExpanderItem();
+        return new SettingsCard();
     }
 }

@@ -15,7 +15,7 @@ namespace SettingsControlsExperiment.Samples;
 //    "Sand       : #e7a676",
 //    "Dull green : #5d7577")]
 
-[ToolkitSample(id: nameof(SettingsExpanderSample), "SettingsExpander", description: "The SettingsExpander can be used to group settings. SettingsExpanderItems can be customized in terms of alignment and content.")]
+[ToolkitSample(id: nameof(SettingsExpanderSample), "SettingsExpander", description: "The SettingsExpander can be used to group settings. SettingsCards can be customized in terms of alignment and content.")]
 public sealed partial class SettingsExpanderSample : Page
 {
     public SettingsExpanderSample()

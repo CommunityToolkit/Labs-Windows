@@ -5,7 +5,7 @@
 namespace CommunityToolkit.Labs.WinUI;
 
 /// <summary>
-/// <see cref="StyleSelector"/> used by <see cref=" SettingsExpanderItem"/> to choose the proper <see cref=" SettingsExpanderItem"/> container style (clickable or not).
+/// <see cref="StyleSelector"/> used by <see cref="SettingsExpander"/> to choose the proper <see cref="SettingsCard"/> container style (clickable or not).
 /// </summary>
 public class SettingsExpanderItemStyleSelector : StyleSelector
 {
@@ -31,7 +31,7 @@ public class SettingsExpanderItemStyleSelector : StyleSelector
     /// <inheritdoc/>
     protected override Style SelectStyleCore(object item, DependencyObject container)
     {
-        if (((SettingsExpanderItem)item).IsClickEnabled)
+        if (item is SettingsCard card && card.IsClickEnabled)
         {
             return ClickableStyle;
         }

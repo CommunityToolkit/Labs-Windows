@@ -25,6 +25,6 @@ This can be useful whenever you want your settings component to e.g. navigate to
 > [!SAMPLE SettingsCardSample]
 
 
-The SettingsExpander can be used to group settings into a single card. SettingsExpanderItems can be added to display settings - the orientation can be set to Vertical, Left and Right.
+The SettingsExpander can be used to group settings into a single card. SettingsCard items can be added to display settings - the orientation can be set to Vertical, Left and Right.
 
 > [!SAMPLE SettingsExpanderSample]
