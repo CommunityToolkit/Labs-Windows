@@ -60,7 +60,7 @@ public partial class ExampleSettingsControlsTestClass : VisualUITestBase
 
         //Assert.IsNotNull(component);
 
-        var componentByName = page.FindDescendant("settingsCard");
+        var componentByName = page.FindDescendant("SettingsControlsControl");
 
         Assert.IsNotNull(componentByName);
     }
