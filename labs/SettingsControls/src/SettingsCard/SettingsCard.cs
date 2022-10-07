@@ -15,6 +15,10 @@ public partial class SettingsCard : ButtonBase
     private const string PressedState = "Pressed";
     private const string DisabledState = "Disabled";
 
+    private const string RightState = "Right";
+    private const string LeftState = "Left";
+    private const string VerticalState = "Vertical";
+
     private const string ActionIconPresenter = "PART_ActionIconPresenter";
     private const string HeaderPresenter = "PART_HeaderPresenter";
     private const string DescriptionPresenter = "PART_DescriptionPresenter";
@@ -32,17 +36,18 @@ public partial class SettingsCard : ButtonBase
     {
         base.OnApplyTemplate();
         IsEnabledChanged -= OnIsEnabledChanged;
+        SizeChanged -= OnSizeChanged;
         OnButtonIconChanged();
         OnHeaderChanged();
         OnHeaderIconChanged();
         OnDescriptionChanged();
         OnIsClickEnabledChanged();
+        OnContentAlignmentChanged();
         VisualStateManager.GoToState(this, IsEnabled ? NormalState : DisabledState, true);
         RegisterAutomation();
         IsEnabledChanged += OnIsEnabledChanged;
+        SizeChanged += OnSizeChanged;
     }
-
-
 
     private void RegisterAutomation()
     {
@@ -64,8 +69,6 @@ public partial class SettingsCard : ButtonBase
             }
         }
     }
-
-
 
     private void EnableButtonInteraction()
     {
@@ -198,6 +201,29 @@ public partial class SettingsCard : ButtonBase
             headerPresenter.Visibility = Header != null
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+        }
+    }
+    private void OnContentAlignmentChanged()
+    {
+        switch (ContentAlignment)
+        {
+            case ContentAlignment.Right: VisualStateManager.GoToState(this, RightState, true); break;
+            case ContentAlignment.Left: VisualStateManager.GoToState(this, LeftState, true); break;
+            case ContentAlignment.Vertical: VisualStateManager.GoToState(this, VerticalState, true); break;
+        }
+    }
+    private void OnSizeChanged(object sender, SizeChangedEventArgs args)
+    {
+        if (ContentAlignment == ContentAlignment.Right)
+        {
+            if (this.ActualWidth < WrapThreshold)
+            {
+                VisualStateManager.GoToState(this, VerticalState, true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, RightState, true);
+            }           
         }
     }
 }

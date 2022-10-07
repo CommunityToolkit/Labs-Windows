@@ -9,9 +9,11 @@
 
     <StackPanel Spacing="4">
         <labs:SettingsCard x:Name="settingsCard"
+                           HorizontalAlignment="Stretch"
                            Description="Adjust the resolution to fit your connected display"
-                           Header="Display resolution"
-                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+                           Header="This card has an adaptive layout based on its width"
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}"
+                           WrapThreshold="460">
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE799;" />
             </labs:SettingsCard.HeaderIcon>

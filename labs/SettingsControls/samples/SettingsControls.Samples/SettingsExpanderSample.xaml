@@ -12,7 +12,8 @@
                                Description="A picture background applies to your current desktop. A solid color or slideshow background apply to all your desktops."
                                Header="Personalize your background"
                                IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}"
-                               IsExpanded="{x:Bind IsCardExpanded, Mode=OneWay}">
+                               IsExpanded="{x:Bind IsCardExpanded, Mode=OneWay}"
+                               WrapThreshold="500">
             <!--  TODO: This should be TwoWay bound but throws compile error in Uno.  -->
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon Glyph="&#xE91B;" />

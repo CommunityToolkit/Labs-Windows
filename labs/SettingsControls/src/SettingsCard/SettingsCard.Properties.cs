@@ -66,6 +66,28 @@ public partial class SettingsCard : ButtonBase
 
 
     /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
+    /// </summary>
+    public static readonly DependencyProperty ContentAlignmentProperty = DependencyProperty.Register(
+        nameof(ContentAlignment),
+        typeof(ContentAlignment),
+        typeof(SettingsCard),
+        new PropertyMetadata(defaultValue: ContentAlignment.Right, (d, e) => ((SettingsCard)d).OnContentAlignmentPropertyChanged((ContentAlignment)e.OldValue, (ContentAlignment)e.NewValue)));
+
+    /// <summary>
+
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="WrapThreshold"/> property.
+    /// </summary>
+    public static readonly DependencyProperty WrapThresholdProperty = DependencyProperty.Register(
+        nameof(WrapThreshold),
+        typeof(double),
+        typeof(SettingsCard),
+        new PropertyMetadata(defaultValue: 0.0));
+
+    /// <summary>
+
+    /// <summary>
     /// Gets or sets the Header.
     /// </summary>
     public object Header
@@ -121,6 +143,23 @@ public partial class SettingsCard : ButtonBase
         set => SetValue(IsClickEnabledProperty, value);
     }
 
+    /// Gets or sets the alignment of the Content
+    /// </summary>
+    public ContentAlignment ContentAlignment
+    {
+        get => (ContentAlignment)GetValue(ContentAlignmentProperty);
+        set => SetValue(ContentAlignmentProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the WrapThreshold of when the content should vertically align
+    /// </summary>
+    public double WrapThreshold
+    {
+        get => (double)GetValue(WrapThresholdProperty);
+        set => SetValue(WrapThresholdProperty, value);
+    }
+
     protected virtual void OnIsClickEnabledPropertyChanged(bool oldValue, bool newValue)
     {
         OnIsClickEnabledChanged();
@@ -139,4 +178,17 @@ public partial class SettingsCard : ButtonBase
     {
         OnDescriptionChanged();
     }
+
+    protected virtual void OnContentAlignmentPropertyChanged(ContentAlignment oldValue, ContentAlignment newValue)
+    {
+        OnContentAlignmentChanged();
+    }
+}
+
+
+public enum ContentAlignment
+{
+    Right,
+    Left,
+    Vertical
 }
