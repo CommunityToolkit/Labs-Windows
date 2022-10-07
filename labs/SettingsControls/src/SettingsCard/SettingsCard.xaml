@@ -71,6 +71,8 @@
     <x:Double x:Key="SettingsCardIconFontSize">20</x:Double>
     <x:Double x:Key="SettingsCardContentMinWidth">120</x:Double>
     <x:Double x:Key="SettingsCardRightSpacingMinWidth">0</x:Double>
+    <Thickness x:Key="SettingsCardHeaderIconMargin">2,0,20,0</Thickness>
+    <Thickness x:Key="SettingsCardVerticalHeaderContentSpacing">0,4,0,0</Thickness>
 
     <Style BasedOn="{StaticResource DefaultSettingsCardStyle}" TargetType="labs:SettingsCard" />
 
@@ -111,9 +113,9 @@
                             x:Name="PART_RootGrid"
                             MinHeight="{TemplateBinding MinHeight}"
                             Padding="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             muxc:AnimatedIcon.State="Normal"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             Background="{TemplateBinding Background}"
                             BackgroundSizing="{TemplateBinding BackgroundSizing}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -127,55 +129,58 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" MinWidth="{StaticResource SettingsCardRightSpacingMinWidth}" />
                             </Grid.ColumnDefinitions>
-                            <labs:HeaderedContentControl
-                                x:Name="PART_Descriptor"
-                                HorizontalAlignment="Left"
+                            <ContentPresenter
+                                x:Name="PART_HeaderIconPresenter"
+                                Grid.RowSpan="2"
+                                Margin="{StaticResource SettingsCardHeaderIconMargin}"
+                                Content="{TemplateBinding HeaderIcon}" />
+
+                            <StackPanel
+                                Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Header="{TemplateBinding Header}"
-                                Icon="{TemplateBinding HeaderIcon}">
-                                <!--  Customization should happen by overriding the HeaderedContentControlIconMargin resource. Unfortunately, overriding does not seem to work here :(  -->
-                                <labs:HeaderedContentControl.Resources>
-                                    <Thickness x:Key="HeaderedContentControlIconMargin">2,0,20,0</Thickness>
-                                </labs:HeaderedContentControl.Resources>
-                                <labs:HeaderedContentControl.Content>
-                                    <ContentPresenter
-                                        x:Name="PART_DescriptionPresenter"
-                                        Content="{TemplateBinding Description}"
-                                        Margin="0,0,12,0"
-                                        FontSize="{StaticResource SettingsCardDescriptionFontSize}"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        TextWrapping="Wrap">
-                                        <ContentPresenter.Resources>
-                                            <Style BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock">
-                                                <Style.Setters>
-                                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                                </Style.Setters>
-                                            </Style>
-                                            <Style BasedOn="{StaticResource DefaultHyperlinkButtonStyle}" TargetType="HyperlinkButton">
-                                                <Style.Setters>
-                                                    <Setter Property="FontSize" Value="{StaticResource SettingsCardDescriptionFontSize}" />
-                                                    <Setter Property="Padding" Value="0,0,0,-1" />
-                                                </Style.Setters>
-                                            </Style>
-                                            <Style TargetType="Hyperlink">
-                                                <Style.Setters>
-                                                    <Setter Property="UnderlineStyle" Value="None" />
-                                                    <Setter Property="TextDecorations" Value="None" />
-                                                </Style.Setters>
-                                            </Style>
-                                        </ContentPresenter.Resources>
-                                    </ContentPresenter>
-                                </labs:HeaderedContentControl.Content>
-                            </labs:HeaderedContentControl>
+                                Orientation="Vertical">
+                                <ContentPresenter
+                                    x:Name="PART_HeaderPresenter"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    Content="{TemplateBinding Header}" />
+
+                                <ContentPresenter
+                                    x:Name="PART_DescriptionPresenter"
+                                    Content="{TemplateBinding Description}"
+                                    FontSize="{StaticResource SettingsCardDescriptionFontSize}"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    TextWrapping="Wrap">
+                                    <ContentPresenter.Resources>
+                                        <Style BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock">
+                                            <Style.Setters>
+                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                            </Style.Setters>
+                                        </Style>
+                                        <Style BasedOn="{StaticResource DefaultHyperlinkButtonStyle}" TargetType="HyperlinkButton">
+                                            <Style.Setters>
+                                                <Setter Property="FontSize" Value="{StaticResource SettingsCardDescriptionFontSize}" />
+                                                <Setter Property="Padding" Value="0,0,0,-1" />
+                                            </Style.Setters>
+                                        </Style>
+                                        <Style TargetType="Hyperlink">
+                                            <Style.Setters>
+                                                <Setter Property="UnderlineStyle" Value="None" />
+                                                <Setter Property="TextDecorations" Value="None" />
+                                            </Style.Setters>
+                                        </Style>
+                                    </ContentPresenter.Resources>
+                                </ContentPresenter>
+                            </StackPanel>
 
                             <ContentPresenter
                                 x:Name="PART_ContentPresenter"
-                                Grid.Column="1"
+                                Grid.Column="2"
                                 MinWidth="{StaticResource SettingsCardContentMinWidth}"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
@@ -188,7 +193,7 @@
 
                             <ContentControl
                                 x:Name="PART_ActionIconPresenter"
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Width="{StaticResource SettingsCardActionButtonWidth}"
                                 Height="{StaticResource SettingsCardActionButtonHeight}"
                                 Margin="4,0,-8,0"
@@ -205,7 +210,7 @@
                                 IsTabStop="True"
                                 ToolTipService.ToolTip="{TemplateBinding ActionIconToolTip}"
                                 UseSystemFocusVisuals="True"
-                                Visibility="Collapsed"/>
+                                Visibility="Collapsed" />
                             <!--  win:AutomationProperties.Name="{TemplateBinding ActionIconToolTip}"  -->
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -231,7 +236,13 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBorderBrushPressed}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Descriptor" Storyboard.TargetProperty="Foreground">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DescriptionPresenter" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
@@ -244,7 +255,10 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ActionIconPresenter" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Descriptor" Storyboard.TargetProperty="Foreground">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderPresenter" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DescriptionPresenter" Storyboard.TargetProperty="Foreground">
@@ -261,7 +275,9 @@
                                     <VisualState x:Name="Right" />
                                     <VisualState x:Name="Left">
                                         <VisualState.Setters>
-                                            <Setter Target="PART_Descriptor.Visibility" Value="Collapsed" />
+                                            <Setter Target="PART_HeaderIconPresenter.Visibility" Value="Collapsed" />
+                                            <Setter Target="PART_DescriptionPresenter.Visibility" Value="Collapsed" />
+                                            <Setter Target="PART_HeaderPresenter.Visibility" Value="Collapsed" />
                                             <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="0" />
                                             <Setter Target="PART_ActionIconPresenter.(Grid.Row)" Value="0" />
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
@@ -270,9 +286,9 @@
                                     <VisualState x:Name="Vertical">
                                         <VisualState.Setters>
                                             <Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-                                            <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="0" />
+                                            <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
-                                            <Setter Target="PART_ContentPresenter.Margin" Value="0,4,0,0" />
+                                            <Setter Target="PART_ContentPresenter.Margin" Value="{StaticResource SettingsCardVerticalHeaderContentSpacing}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
