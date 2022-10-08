@@ -7,7 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <StackPanel Spacing="4">
+    <StackPanel Spacing="3">
         <labs:SettingsExpander x:Name="settingsCard"
                                Description="A picture background applies to your current desktop. A solid color or slideshow background apply to all your desktops."
                                Header="Personalize your background"
