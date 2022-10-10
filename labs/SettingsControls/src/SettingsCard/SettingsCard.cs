@@ -205,25 +205,25 @@ public partial class SettingsCard : ButtonBase
     }
     private void OnContentAlignmentChanged()
     {
-        switch (ContentAlignment)
-        {
-            case ContentAlignment.Right: VisualStateManager.GoToState(this, RightState, true); break;
-            case ContentAlignment.Left: VisualStateManager.GoToState(this, LeftState, true); break;
-            case ContentAlignment.Vertical: VisualStateManager.GoToState(this, VerticalState, true); break;
-        }
+        //switch (ContentAlignment)
+        //{
+        //    case ContentAlignment.Right: VisualStateManager.GoToState(this, RightState, true); break;
+        //    case ContentAlignment.Left: VisualStateManager.GoToState(this, LeftState, true); break;
+        //    case ContentAlignment.Vertical: VisualStateManager.GoToState(this, VerticalState, true); break;
+        //}
     }
     private void OnSizeChanged(object sender, SizeChangedEventArgs args)
     {
-        if (ContentAlignment == ContentAlignment.Right)
-        {
-            if (this.ActualWidth < WrapThreshold)
-            {
-                VisualStateManager.GoToState(this, VerticalState, true);
-            }
-            else
-            {
-                VisualStateManager.GoToState(this, RightState, true);
-            }           
-        }
+        //if (ContentAlignment == ContentAlignment.Right)
+        //{
+        //    if (this.ActualWidth < WrapThreshold)
+        //    {
+        //        VisualStateManager.GoToState(this, VerticalState, true);
+        //    }
+        //    else
+        //    {
+        //        VisualStateManager.GoToState(this, RightState, true);
+        //    }           
+        //}
     }
 }

@@ -3,6 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
                     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+                 
                     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <ResourceDictionary.ThemeDictionaries>
@@ -108,7 +109,8 @@
     <x:Double x:Key="SettingsCardRightSpacingMinWidth">0</x:Double>
     <Thickness x:Key="SettingsCardHeaderIconMargin">2,0,20,0</Thickness>
     <Thickness x:Key="SettingsCardVerticalHeaderContentSpacing">0,4,0,0</Thickness>
-
+    <x:Double x:Key="SettingsCardWrapThreshold">600</x:Double>
+    
     <Style BasedOn="{StaticResource DefaultSettingsCardStyle}"
            TargetType="labs:SettingsCard" />
 
@@ -259,6 +261,9 @@
                                 <VisualStateGroup x:Name="ContentAlignmentStates">
                                     <VisualState x:Name="Right" />
                                     <VisualState x:Name="Left">
+                                        <VisualState.StateTriggers>
+                                            <labs:IsEqualStateTrigger Value="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" To="Left" />
+                                        </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="PART_HeaderIconPresenter.Visibility" Value="Collapsed" />
                                             <Setter Target="PART_DescriptionPresenter.Visibility" Value="Collapsed" />
@@ -268,7 +273,22 @@
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
                                         </VisualState.Setters>
                                     </VisualState>
+                                    <VisualState x:Name="RightWrapped">
+                                        <VisualState.StateTriggers>
+                                            <labs:ControlSizeTrigger MaxWidth="{StaticResource SettingsCardWrapThreshold}" TargetElement="{Binding ElementName=PART_RootGrid}" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
+                                            <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
+                                            <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
+                                            <Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Left" />
+                                            <Setter Target="PART_ContentPresenter.Margin" Value="{StaticResource SettingsCardVerticalHeaderContentSpacing}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
                                     <VisualState x:Name="Vertical">
+                                        <VisualState.StateTriggers>
+                                            <labs:IsEqualStateTrigger Value="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" To="Vertical" />
+                                        </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
                                             <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
