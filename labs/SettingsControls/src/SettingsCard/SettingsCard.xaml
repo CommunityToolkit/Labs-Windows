@@ -279,7 +279,7 @@
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-                                            <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
+                                            <!--<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />-->
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
                                             <Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Left" />
                                             <Setter Target="PART_ContentPresenter.Margin" Value="{StaticResource SettingsCardVerticalHeaderContentSpacing}" />
@@ -291,7 +291,7 @@
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-                                            <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
+                                            <!--<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />-->
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
                                             <Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Left" />
                                             <Setter Target="PART_ContentPresenter.Margin" Value="{StaticResource SettingsCardVerticalHeaderContentSpacing}" />
