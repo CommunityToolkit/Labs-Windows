@@ -2,10 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace CommunityToolkit.Labs.WinUI;
 public partial class SettingsCard : ButtonBase
 {
@@ -28,7 +24,7 @@ public partial class SettingsCard : ButtonBase
         new PropertyMetadata(defaultValue: null, (d, e) => ((SettingsCard)d).OnDescriptionPropertyChanged((object)e.OldValue, (object)e.NewValue)));
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Icon"/> property.
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="HeaderIcon"/> property.
     /// </summary>
     public static readonly DependencyProperty HeaderIconProperty = DependencyProperty.Register(
         nameof(HeaderIcon),
@@ -37,7 +33,7 @@ public partial class SettingsCard : ButtonBase
         new PropertyMetadata(defaultValue: null, (d, e) => ((SettingsCard)d).OnHeaderIconPropertyChanged((IconElement)e.OldValue, (IconElement)e.NewValue)));
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="ButtonIcon"/> property.
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="ActionIcon"/> property.
     /// </summary>
     public static readonly DependencyProperty ActionIconProperty = DependencyProperty.Register(
         nameof(ActionIcon),
@@ -46,14 +42,13 @@ public partial class SettingsCard : ButtonBase
         new PropertyMetadata(defaultValue: "\ue974"));
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="ButtonIconToolTip"/> property.
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="ActionIconToolTip"/> property.
     /// </summary>
     public static readonly DependencyProperty ActionIconToolTipProperty = DependencyProperty.Register(
         nameof(ActionIconToolTip),
         typeof(string),
         typeof(SettingsCard),
         new PropertyMetadata(defaultValue: "More"));
-
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="IsClickEnabled"/> property.
@@ -66,26 +61,13 @@ public partial class SettingsCard : ButtonBase
 
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="ContentAlignment"/> property.
     /// </summary>
     public static readonly DependencyProperty ContentAlignmentProperty = DependencyProperty.Register(
         nameof(ContentAlignment),
         typeof(ContentAlignment),
         typeof(SettingsCard),
-        new PropertyMetadata(defaultValue: ContentAlignment.Right, (d, e) => ((SettingsCard)d).OnContentAlignmentPropertyChanged((ContentAlignment)e.OldValue, (ContentAlignment)e.NewValue)));
-
-    /// <summary>
-
-    /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="WrapThreshold"/> property.
-    /// </summary>
-    public static readonly DependencyProperty WrapThresholdProperty = DependencyProperty.Register(
-        nameof(WrapThreshold),
-        typeof(double),
-        typeof(SettingsCard),
-        new PropertyMetadata(defaultValue: 0.0));
-
-    /// <summary>
+        new PropertyMetadata(defaultValue: ContentAlignment.Right));
 
     /// <summary>
     /// Gets or sets the Header.
@@ -108,7 +90,7 @@ public partial class SettingsCard : ButtonBase
     }
 
     /// <summary>
-    /// Gets or sets the main icon.
+    /// Gets or sets the icon on the left.
     /// </summary>
     public IconElement HeaderIcon
     {
@@ -126,7 +108,7 @@ public partial class SettingsCard : ButtonBase
     }
 
     /// <summary>
-    /// Gets or sets the tooltip of the ButtonIcon.
+    /// Gets or sets the tooltip of the ActionIcon.
     /// </summary>
     public string ActionIconToolTip
     {
@@ -143,21 +125,13 @@ public partial class SettingsCard : ButtonBase
         set => SetValue(IsClickEnabledProperty, value);
     }
 
+    /// <summary>
     /// Gets or sets the alignment of the Content
     /// </summary>
     public ContentAlignment ContentAlignment
     {
         get => (ContentAlignment)GetValue(ContentAlignmentProperty);
         set => SetValue(ContentAlignmentProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the WrapThreshold of when the content should vertically align
-    /// </summary>
-    public double WrapThreshold
-    {
-        get => (double)GetValue(WrapThresholdProperty);
-        set => SetValue(WrapThresholdProperty, value);
     }
 
     protected virtual void OnIsClickEnabledPropertyChanged(bool oldValue, bool newValue)
@@ -178,17 +152,20 @@ public partial class SettingsCard : ButtonBase
     {
         OnDescriptionChanged();
     }
-
-    protected virtual void OnContentAlignmentPropertyChanged(ContentAlignment oldValue, ContentAlignment newValue)
-    {
-        OnContentAlignmentChanged();
-    }
 }
-
 
 public enum ContentAlignment
 {
+    /// <summary>
+    /// The Content is aligned to the right. Default state.
+    /// </summary>
     Right,
+    /// <summary>
+    /// The Content is left-aligned while the Header, HeaderIcon and Description are collapsed. This is commonly used for Content types such as CheckBoxes, RadioButtons and custom layouts.
+    /// </summary>
     Left,
+    /// <summary>
+    /// The Content is vertically aligned.
+    /// </summary>
     Vertical
 }

@@ -10,12 +10,12 @@ namespace CommunityToolkit.Labs.WinUI;
 public class SettingsExpanderItemStyleSelector : StyleSelector
 {
     /// <summary>
-    /// Gets or sets the <see cref="Style"/> of a token item.
+    /// Gets or sets the default <see cref="Style"/>.
     /// </summary>
     public Style DefaultStyle { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="Style"/> of a text entry item.
+    /// Gets or sets the <see cref="Style"/> when clickable.
     /// </summary>
     public Style ClickableStyle { get; set; }
 

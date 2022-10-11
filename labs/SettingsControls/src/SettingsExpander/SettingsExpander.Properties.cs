@@ -7,7 +7,6 @@ namespace CommunityToolkit.Labs.WinUI;
 [ContentProperty(Name = nameof(Content))]
 public partial class SettingsExpander : ItemsControl
 {
-
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
     /// </summary>
@@ -45,21 +44,14 @@ public partial class SettingsExpander : ItemsControl
         typeof(SettingsExpander),
         new PropertyMetadata(defaultValue: null));
 
-
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="IsExpanded"/> property.
+    /// </summary>
     public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(
      nameof(IsExpanded),
      typeof(bool),
      typeof(SettingsExpander),
-     new PropertyMetadata(defaultValue: false, (d, e) => ((SettingsExpander)d).OnIsExpandedChanged((bool)e.OldValue, (bool)e.NewValue)));
-
-    /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="WrapThreshold"/> property.
-    /// </summary>
-    public static readonly DependencyProperty WrapThresholdProperty = DependencyProperty.Register(
-        nameof(WrapThreshold),
-        typeof(double),
-        typeof(SettingsExpander),
-        new PropertyMetadata(defaultValue: 0.0));
+     new PropertyMetadata(defaultValue: false));
 
     /// <summary>
     /// 
@@ -108,17 +100,5 @@ public partial class SettingsExpander : ItemsControl
     {
         get => (bool)GetValue(IsExpandedProperty);
         set => SetValue(IsExpandedProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the WrapThreshold of when the content should vertically align
-    /// </summary>
-    public double WrapThreshold
-    {
-        get => (double)GetValue(WrapThresholdProperty);
-        set => SetValue(WrapThresholdProperty, value);
-    }
-    protected virtual void OnIsExpandedChanged(bool oldValue, bool newValue)
-    {
     }
 }

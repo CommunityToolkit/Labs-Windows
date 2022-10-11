@@ -6,7 +6,7 @@ namespace CommunityToolkit.Labs.WinUI;
 public partial class SettingsExpander : ItemsControl
 {
     /// <summary>
-    /// Creates a new instance of the <see cref="SettingsExpander"/> class.
+    /// The SettingsExpander is a collapsable control to host multiple SettingsCards.
     /// </summary>
     public SettingsExpander()
     {
@@ -45,7 +45,7 @@ public partial class SettingsExpander : ItemsControl
     /// <summary>
     /// Creates AutomationPeer
     /// </summary>
-    /// <returns>An automation peer for this <see cref="SettingsExpander"/>.</returns>
+    /// <returns>An automation peer for <see cref="SettingsExpander"/>.</returns>
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new SettingsExpanderAutomationPeer(this);

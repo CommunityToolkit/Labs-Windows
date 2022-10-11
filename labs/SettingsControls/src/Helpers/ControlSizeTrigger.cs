@@ -173,7 +173,8 @@ public class ControlSizeTrigger : StateTriggerBase
             SetActive(false);
             return;
         }
-
+ 
+        System.Diagnostics.Debug.WriteLine(TargetElement.ActualWidth + " - " + MaxWidth);
         bool activate = MinWidth <= TargetElement.ActualWidth &&
                         TargetElement.ActualWidth < MaxWidth &&
                         MinHeight <= TargetElement.ActualHeight &&
