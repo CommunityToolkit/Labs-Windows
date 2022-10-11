@@ -5,8 +5,8 @@
 namespace CommunityToolkit.Labs.WinUI;
 
 /// <summary>
-/// This is an example control based off of the BoxPanel sample here: https://docs.microsoft.com/windows/apps/design/layout/boxpanel-example-custom-panel. If you need this similar sort of layout component for an application, see UniformGrid in the Toolkit.
-/// It is provided as an example of how to inherit from another control like <see cref="Panel"/>.
+/// This is the base control to create consistent settings experiences, inline with the Windows 11 design language.
+/// A SettingsCard can also be hosted within a SettingsExpander.
 /// </summary>
 public partial class SettingsCard : ButtonBase
 {
@@ -36,17 +36,14 @@ public partial class SettingsCard : ButtonBase
     {
         base.OnApplyTemplate();
         IsEnabledChanged -= OnIsEnabledChanged;
-        SizeChanged -= OnSizeChanged;
         OnButtonIconChanged();
         OnHeaderChanged();
         OnHeaderIconChanged();
         OnDescriptionChanged();
         OnIsClickEnabledChanged();
-        OnContentAlignmentChanged();
         VisualStateManager.GoToState(this, IsEnabled ? NormalState : DisabledState, true);
         RegisterAutomation();
         IsEnabledChanged += OnIsEnabledChanged;
-        SizeChanged += OnSizeChanged;
     }
 
     private void RegisterAutomation()
@@ -80,7 +77,6 @@ public partial class SettingsCard : ButtonBase
         PreviewKeyUp += Control_PreviewKeyUp;
     }
 
-
     private void DisableButtonInteraction()
     {
         PointerEntered -= Control_PointerEntered;
@@ -88,8 +84,6 @@ public partial class SettingsCard : ButtonBase
         PreviewKeyDown -= Control_PreviewKeyDown;
         PreviewKeyUp -= Control_PreviewKeyUp;
     }
-
-
 
     private void Control_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
     {
@@ -117,7 +111,6 @@ public partial class SettingsCard : ButtonBase
         base.OnPointerEntered(e);
         VisualStateManager.GoToState(this, PointerOverState, true);
     }
-
     protected override void OnPointerPressed(PointerRoutedEventArgs e)
     {
         //  e.Handled = true;
@@ -136,11 +129,10 @@ public partial class SettingsCard : ButtonBase
         }
     }
 
-
     /// <summary>
     /// Creates AutomationPeer
     /// </summary>
-    /// <returns>An automation peer for this <see cref="SettingsCard"/>.</returns>
+    /// <returns>An automation peer for <see cref="SettingsCard"/>.</returns>
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new SettingsCardAutomationPeer(this);
@@ -202,28 +194,5 @@ public partial class SettingsCard : ButtonBase
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }
-    }
-    private void OnContentAlignmentChanged()
-    {
-        //switch (ContentAlignment)
-        //{
-        //    case ContentAlignment.Right: VisualStateManager.GoToState(this, RightState, true); break;
-        //    case ContentAlignment.Left: VisualStateManager.GoToState(this, LeftState, true); break;
-        //    case ContentAlignment.Vertical: VisualStateManager.GoToState(this, VerticalState, true); break;
-        //}
-    }
-    private void OnSizeChanged(object sender, SizeChangedEventArgs args)
-    {
-        //if (ContentAlignment == ContentAlignment.Right)
-        //{
-        //    if (this.ActualWidth < WrapThreshold)
-        //    {
-        //        VisualStateManager.GoToState(this, VerticalState, true);
-        //    }
-        //    else
-        //    {
-        //        VisualStateManager.GoToState(this, RightState, true);
-        //    }           
-        //}
     }
 }
