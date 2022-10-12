@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINDOWS_UWP || (WINUI2 && HAS_UNO_WASM)
+#if !WINAPPSDK
  // WASM on WinUI2 needs SkiaSharp.Views.UWP too.
 using SkiaSharp.Views.UWP;
 #else
