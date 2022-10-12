@@ -23,14 +23,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="HeaderedContentControl\HeaderedContentControl.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="HeaderedContentControl\HeaderedContentControl.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="SettingsExpander\SettingsExpander.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
