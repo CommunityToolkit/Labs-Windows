@@ -7,4 +7,3 @@
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SettingsControls/SettingsExpander/SettingsExpander.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
-

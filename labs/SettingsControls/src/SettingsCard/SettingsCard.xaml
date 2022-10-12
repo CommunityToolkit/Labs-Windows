@@ -107,7 +107,7 @@
     <x:Double x:Key="SettingsCardContentMinWidth">120</x:Double>
     <Thickness x:Key="SettingsCardHeaderIconMargin">2,0,20,0</Thickness>
     <Thickness x:Key="SettingsCardVerticalHeaderContentSpacing">0,4,0,0</Thickness>
-    <x:Double x:Key="SettingsCardWrapThreshold">600</x:Double>
+    <x:Double x:Key="SettingsCardWrapThreshold">460</x:Double>
 
     <Style BasedOn="{StaticResource DefaultSettingsCardStyle}"
            TargetType="labs:SettingsCard" />
