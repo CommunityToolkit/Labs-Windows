@@ -274,7 +274,7 @@
                                     </VisualState>
                                     <VisualState x:Name="RightWrapped">
                                         <VisualState.StateTriggers>
-                                            <labs:ControlSizeTrigger MaxWidth="{StaticResource SettingsCardWrapThreshold}"
+                                            <labs:ControlSizeTrigger MaxWidth="{ThemeResource SettingsCardWrapThreshold}"
                                                                      TargetElement="{Binding ElementName=PART_RootGrid}" />
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
