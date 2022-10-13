@@ -5,6 +5,7 @@
 namespace SettingsControlsExperiment.Samples;
 
 [ToolkitSampleBoolOption("IsCardEnabled", "Is Enabled", true)]
+[ToolkitSampleBoolOption("IsCardExpanded", "Is Expanded", false)]
 // Single values without a colon are used for both label and value.
 // To provide a different label for the value, separate with a colon surrounded by a single space on both sides ("label : value").
 //[ToolkitSampleMultiChoiceOption("TextSize", title: "Text size", "Small : 12", "Normal : 16", "Big : 32")]
@@ -14,16 +15,11 @@ namespace SettingsControlsExperiment.Samples;
 //    "Sand       : #e7a676",
 //    "Dull green : #5d7577")]
 
-[ToolkitSample(id: nameof(SettingsCardSample), "SettingsCard", description: "A sample for showing how SettingsCard can be static or clickable.")]
-public sealed partial class SettingsCardSample : Page
+[ToolkitSample(id: nameof(SettingsExpanderSample), "SettingsExpander", description: "The SettingsExpander can be used to group settings. SettingsCards can be customized in terms of alignment and content.")]
+public sealed partial class SettingsExpanderSample : Page
 {
-    public SettingsCardSample()
+    public SettingsExpanderSample()
     {
         this.InitializeComponent();
-    }
-
-    private async void OnCardClicked(object sender, RoutedEventArgs e)
-    {
-        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.microsoft.com"));
     }
 }

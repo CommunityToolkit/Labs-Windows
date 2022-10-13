@@ -18,12 +18,13 @@
     <Description>
       This package contains SettingsControls.
     </Description>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="SettingsCard.xaml" />
+    <None Update="SettingsExpander\SettingsExpander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
-
-  <!-- XAML Pages are automatically included, and don't need to be specified here. -->
 </Project>

@@ -5,68 +5,63 @@
 namespace CommunityToolkit.Labs.WinUI;
 
 /// <summary>
-/// This is an example control based off of the BoxPanel sample here: https://docs.microsoft.com/windows/apps/design/layout/boxpanel-example-custom-panel. If you need this similar sort of layout component for an application, see UniformGrid in the Toolkit.
-/// It is provided as an example of how to inherit from another control like <see cref="Panel"/>.
+/// This is the base control to create consistent settings experiences, inline with the Windows 11 design language.
+/// A SettingsCard can also be hosted within a SettingsExpander.
 /// </summary>
-[TemplateVisualState(Name = IconVisibleState, GroupName = IconStates)]
-[TemplateVisualState(Name = IconCollapsedState, GroupName = IconStates)]
-[TemplateVisualState(Name = DescriptionVisibleState, GroupName = DescriptionStates)]
-[TemplateVisualState(Name = DescriptionCollapsedState, GroupName = DescriptionStates)]
 public partial class SettingsCard : ButtonBase
 {
-    SettingsCard self;
     private const string NormalState = "Normal";
     private const string PointerOverState = "PointerOver";
     private const string PressedState = "Pressed";
     private const string DisabledState = "Disabled";
 
-    private const string IconStates = "IconStates";
-    private const string IconVisibleState = "IconVisible";
-    private const string IconCollapsedState = "IconCollapsed";
+    private const string RightState = "Right";
+    private const string LeftState = "Left";
+    private const string VerticalState = "Vertical";
 
-    private const string DescriptionStates = "DescriptionStates";
-    private const string DescriptionVisibleState = "DescriptionVisible";
-    private const string DescriptionCollapsedState = "DescriptionCollapsed";
-
+    private const string ActionIconPresenter = "PART_ActionIconPresenter";
+    private const string HeaderPresenter = "PART_HeaderPresenter";
+    private const string DescriptionPresenter = "PART_DescriptionPresenter";
+    private const string HeaderIconPresenter = "PART_HeaderIconPresenter";
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsCard"/> class.
     /// </summary>
     public SettingsCard()
     {
         this.DefaultStyleKey = typeof(SettingsCard);
-        self = this;
     }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
         IsEnabledChanged -= OnIsEnabledChanged;
-        OnIsClickEnabledChanged();
-        OnIconChanged();
+        OnButtonIconChanged();
+        OnHeaderChanged();
+        OnHeaderIconChanged();
         OnDescriptionChanged();
-        VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
+        OnIsClickEnabledChanged();
+        VisualStateManager.GoToState(this, IsEnabled ? NormalState : DisabledState, true);
         RegisterAutomation();
-
         IsEnabledChanged += OnIsEnabledChanged;
     }
 
     private void RegisterAutomation()
     {
-        if (self.IsClickEnabled)
+        if (Header != null && Header.GetType() == typeof(string))
         {
-            if (!string.IsNullOrEmpty(self.Header))
+            string? headerString = Header.ToString();
+            if (!string.IsNullOrEmpty(headerString))
             {
-                AutomationProperties.SetName(this, self.Header);
+                AutomationProperties.SetName(this, headerString);
             }
-        }
-        else
-        {
-            if (self.Content != null && self.Content.GetType() != typeof(Button))
+
+            if (Content != null && Content.GetType() != typeof(Button))
             {
                 // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-                if (!string.IsNullOrEmpty(self.Header))
+                if (!string.IsNullOrEmpty(headerString))
                 {
-                    AutomationProperties.SetName((UIElement)self.Content, self.Header);
+                    AutomationProperties.SetName((UIElement)Content, headerString);
                 }
             }
         }
@@ -76,30 +71,19 @@ public partial class SettingsCard : ButtonBase
     {
         DisableButtonInteraction();
 
-        IsTabStop = true;
-        // UseSystemFocusVisuals = true;
         PointerEntered += Control_PointerEntered;
         PointerExited += Control_PointerExited;
-        PointerPressed += Control_PointerPressed; // TO DO: THIS EVENT DOES NOT SEEM TO EXIST IN BUTTONBASE, ONLY UIELEMENT?
-        PointerReleased += Control_PointerReleased;
         PreviewKeyDown += Control_PreviewKeyDown;
         PreviewKeyUp += Control_PreviewKeyUp;
     }
 
-
     private void DisableButtonInteraction()
     {
-        IsTabStop = false;
-        // UseSystemFocusVisuals = false;
         PointerEntered -= Control_PointerEntered;
         PointerExited -= Control_PointerExited;
-        PointerPressed -= Control_PointerPressed;
-        PointerReleased -= Control_PointerReleased;
         PreviewKeyDown -= Control_PreviewKeyDown;
         PreviewKeyUp -= Control_PreviewKeyUp;
     }
-
-
 
     private void Control_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
     {
@@ -117,12 +101,6 @@ public partial class SettingsCard : ButtonBase
         }
     }
 
-    public void Control_PointerReleased(object sender, PointerRoutedEventArgs e)
-    {
-        base.OnPointerReleased(e);
-        VisualStateManager.GoToState(this, NormalState, true);
-    }
-
     public void Control_PointerExited(object sender, PointerRoutedEventArgs e)
     {
         base.OnPointerExited(e);
@@ -133,17 +111,28 @@ public partial class SettingsCard : ButtonBase
         base.OnPointerEntered(e);
         VisualStateManager.GoToState(this, PointerOverState, true);
     }
-
-    private void Control_PointerPressed(object sender, PointerRoutedEventArgs e)
+    protected override void OnPointerPressed(PointerRoutedEventArgs e)
     {
-        base.OnPointerPressed(e);
-        VisualStateManager.GoToState(this, PressedState, true);
+        //  e.Handled = true;
+        if (IsClickEnabled)
+        {
+            base.OnPointerPressed(e);
+            VisualStateManager.GoToState(this, PressedState, true);
+        }
+    }
+    protected override void OnPointerReleased(PointerRoutedEventArgs e)
+    {
+        if (IsClickEnabled)
+        {
+            base.OnPointerReleased(e);
+            VisualStateManager.GoToState(this, NormalState, true);
+        }
     }
 
     /// <summary>
     /// Creates AutomationPeer
     /// </summary>
-    /// <returns>An automation peer for this <see cref="SettingsCard"/>.</returns>
+    /// <returns>An automation peer for <see cref="SettingsCard"/>.</returns>
     protected override AutomationPeer OnCreateAutomationPeer()
     {
         return new SettingsCardAutomationPeer(this);
@@ -151,7 +140,7 @@ public partial class SettingsCard : ButtonBase
 
     private void OnIsClickEnabledChanged()
     {
-        // TO DO: DISABLE THE CLICK EVENT
+        OnButtonIconChanged();
         if (IsClickEnabled)
         {
             EnableButtonInteraction();
@@ -162,32 +151,48 @@ public partial class SettingsCard : ButtonBase
         }
     }
 
-    private void OnIconChanged()
+    private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (self.Icon != null)
+        VisualStateManager.GoToState(this, IsEnabled ? NormalState : DisabledState, true);
+    }
+
+    private void OnButtonIconChanged()
+    {
+        if (GetTemplateChild(ActionIconPresenter) is FrameworkElement buttonIconPresenter)
         {
-            VisualStateManager.GoToState(this, IconVisibleState, true);
+            buttonIconPresenter.Visibility = IsClickEnabled
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
-        else
+    }
+
+    private void OnHeaderIconChanged()
+    {
+        if (GetTemplateChild(HeaderIconPresenter) is FrameworkElement headerIconPresenter)
         {
-            VisualStateManager.GoToState(this, IconCollapsedState, true);
+            headerIconPresenter.Visibility = HeaderIcon != null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
     }
 
     private void OnDescriptionChanged()
     {
-        if (self.Description != null)
+        if (GetTemplateChild(DescriptionPresenter) is FrameworkElement descriptionPresenter)
         {
-            VisualStateManager.GoToState(this, DescriptionVisibleState, true);
-        }
-        else
-        {
-            VisualStateManager.GoToState(this, DescriptionCollapsedState, true);
+            descriptionPresenter.Visibility = Description != null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
     }
 
-    private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+    private void OnHeaderChanged()
     {
-        VisualStateManager.GoToState(this, self.IsEnabled ? NormalState : DisabledState, true);
+        if (GetTemplateChild(HeaderPresenter) is FrameworkElement headerPresenter)
+        {
+            headerPresenter.Visibility = Header != null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
     }
 }
