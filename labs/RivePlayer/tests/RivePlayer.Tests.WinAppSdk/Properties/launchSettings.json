@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RivePlayer.Tests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "RivePlayer.Tests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
