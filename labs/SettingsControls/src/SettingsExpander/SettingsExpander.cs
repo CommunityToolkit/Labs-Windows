@@ -22,7 +22,7 @@ public partial class SettingsExpander : ItemsControl
 
     private void RegisterAutomation()
     {
-        if (Header.GetType() == typeof(string))
+        if (Header != null && Header.GetType() == typeof(string))
         {
             string? headerString = Header.ToString();
             if (!string.IsNullOrEmpty(headerString))
