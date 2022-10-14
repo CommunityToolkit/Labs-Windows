@@ -15,10 +15,6 @@ public partial class SettingsCard : ButtonBase
     private const string PressedState = "Pressed";
     private const string DisabledState = "Disabled";
 
-    private const string RightState = "Right";
-    private const string LeftState = "Left";
-    private const string VerticalState = "Vertical";
-
     private const string ActionIconPresenter = "PART_ActionIconPresenter";
     private const string HeaderPresenter = "PART_HeaderPresenter";
     private const string DescriptionPresenter = "PART_DescriptionPresenter";

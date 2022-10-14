@@ -16,9 +16,9 @@
   <PropertyGroup>
     <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).SettingsControls</PackageId>
     <Description>
-      This package contains SettingsControls.
+      This package contains the SettingsCard and SettingsExpander controls.
     </Description>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
