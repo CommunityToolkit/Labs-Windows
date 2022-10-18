@@ -34,6 +34,10 @@
         <labs:SettingsCard Description="Control if a feature is enabled or disabled"
                            Header="Enable feature"
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+            <labs:SettingsCard.HeaderIcon>
+                <BitmapIcon ShowAsMonochrome="False"
+                            UriSource="https://raw.githubusercontent.com/microsoft/PowerToys/main/src/settings-ui/Settings.UI/Assets/FluentIcons/FluentIconsImageResizer.png" />
+            </labs:SettingsCard.HeaderIcon>
             <ToggleSwitch />
         </labs:SettingsCard>
 
