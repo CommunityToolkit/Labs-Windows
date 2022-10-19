@@ -30,9 +30,7 @@
                 <ComboBoxItem>2048 x 1536</ComboBoxItem>
                 <ComboBoxItem>1920 x 1440</ComboBoxItem>
             </ComboBox>
-
         </labs:SettingsCard>
-
 
         <labs:SettingsCard
             Description="Control if a feature is enabled or disabled"
@@ -69,7 +67,7 @@
             ActionIconToolTip="Open in browser"
             Click="OnCardClicked"
             Description="The ActionIcon can be customized"
-            Header="Clickable card"
+            Header="Header property"
             IsClickEnabled="True"
             IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.HeaderIcon>

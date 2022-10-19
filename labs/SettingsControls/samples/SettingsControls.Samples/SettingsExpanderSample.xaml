@@ -79,6 +79,11 @@
                                   Glyph="&#xe8a7;" />
                     </labs:SettingsCard.ActionIcon>
                 </labs:SettingsCard>
+                <labs:SettingsCard Header="Custom indention" Description="You can override the SettingsCardLeftIndention.">
+                    <labs:SettingsCard.Resources>
+                        <x:Double x:Key="SettingsCardLeftIndention">48</x:Double>
+                    </labs:SettingsCard.Resources>
+                </labs:SettingsCard>
             </labs:SettingsExpander.Items>
         </labs:SettingsExpander>
     </StackPanel>
