@@ -26,7 +26,8 @@
             </ComboBox>
 
             <labs:SettingsExpander.Items>
-                <labs:SettingsCard ContentAlignment="Vertical"
+                <labs:SettingsCard HorizontalContentAlignment="Left"
+                                   ContentAlignment="Vertical"
                                    Header="Vertically aligned">
                     <GridView SelectedIndex="1">
                         <GridViewItem>

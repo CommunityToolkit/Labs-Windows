@@ -22,7 +22,7 @@
            TargetType="labs:SettingsCard">
         <Style.Setters>
             <Setter Property="BorderThickness" Value="{StaticResource SettingsExpanderItemBorderThickness}" />
-            <Setter Property="MinHeight" Value="50" />
+            <Setter Property="MinHeight" Value="52" />
             <Setter Property="Padding" Value="{StaticResource SettingsExpanderItemPadding}" />
             <Setter Property="CornerRadius" Value="0" />
         </Style.Setters>
@@ -254,7 +254,7 @@
                                     BorderThickness="{StaticResource ExpanderContentDownBorderThickness}"
                                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomCornerRadiusFilterConverter}}"
                                     Visibility="Collapsed">
-                                <ContentPresenter Margin="0,-1,0,0"
+                                <ContentPresenter Margin="0,-2,0,0"
                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   Content="{TemplateBinding Content}"
