@@ -69,6 +69,7 @@
     <x:Double x:Key="SettingsCardActionButtonHeight">32</x:Double>
     <x:Double x:Key="SettingsCardDescriptionFontSize">12</x:Double>
     <x:Double x:Key="SettingsCardIconMaxSize">20</x:Double>
+    <x:Double x:Key="SettingsCardLeftIndention">0</x:Double>
     <x:Double x:Key="SettingsCardContentMinWidth">120</x:Double>
     <Thickness x:Key="SettingsCardHeaderIconMargin">2,0,20,0</Thickness>
     <Thickness x:Key="SettingsCardVerticalHeaderContentSpacing">0,4,0,0</Thickness>
@@ -131,7 +132,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" MinWidth="{ThemeResource SettingsCardLeftIndention}" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
