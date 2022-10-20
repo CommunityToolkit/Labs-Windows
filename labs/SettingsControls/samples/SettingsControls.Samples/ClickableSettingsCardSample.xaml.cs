@@ -14,11 +14,16 @@ namespace SettingsControlsExperiment.Samples;
 //    "Sand       : #e7a676",
 //    "Dull green : #5d7577")]
 
-[ToolkitSample(id: nameof(SettingsCardSample), "SettingsCard", description: "A sample for showing how SettingsCard can be static or clickable.")]
-public sealed partial class SettingsCardSample : Page
+[ToolkitSample(id: nameof(ClickableSettingsCardSample), "ClickableSettingsCardSample", description: "A sample for showing how SettingsCard can be static or clickable.")]
+public sealed partial class ClickableSettingsCardSample : Page
 {
-    public SettingsCardSample()
+    public ClickableSettingsCardSample()
     {
         this.InitializeComponent();
+    }
+
+    private async void OnCardClicked(object sender, RoutedEventArgs e)
+    {
+        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.microsoft.com"));
     }
 }

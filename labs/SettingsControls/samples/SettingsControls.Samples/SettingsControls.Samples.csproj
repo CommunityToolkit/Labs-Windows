@@ -17,6 +17,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BlankPage1.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="ClickableSettingsCardSample.xaml" />
+    <Content Remove="SettingsCardSample - Copy.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClickableSettingsCardSample.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="ClickableSettingsCardSample.xaml" />
     <UpToDateCheckInput Remove="SettingsCardSample.xaml" />
     <UpToDateCheckInput Remove="SettingsExpanderSample.xaml" />
   </ItemGroup>
@@ -37,5 +51,11 @@
     <Compile Update="SettingsExpanderSample.xaml.cs">
       <DependentUpon>SettingsExpanderSample.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="ClickableSettingsCardSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

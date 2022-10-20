@@ -7,75 +7,63 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <StackPanel Spacing="3">
+    <StackPanel Spacing="4">
 
         <TextBlock
-            Margin="1,0,0,5"
+            Margin="1,0,0,4"
             Style="{StaticResource BodyStrongTextBlockStyle}"
             Text="Group of settings" />
         <labs:SettingsCard
             x:Name="settingsCard"
-            HorizontalAlignment="Stretch"
-            Description="This card has set the WrapThreshold to 520 so it wraps the Content on resizing"
-            Header="Adjust the resolution to fit your connected display"
+            Description="This is a default card, with the Header, HeaderIcon, Description and Content set."
+            Header="This is the Header"
             IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
-            <labs:SettingsCard.Resources>
-                <x:Double x:Key="SettingsCardWrapThreshold">720</x:Double>
-            </labs:SettingsCard.Resources>
             <labs:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE799;" />
             </labs:SettingsCard.HeaderIcon>
             <ComboBox SelectedIndex="0">
-                <ComboBoxItem>(2496 x 1664 (Recommended)</ComboBoxItem>
-                <ComboBoxItem>2048 x 1536</ComboBoxItem>
-                <ComboBoxItem>1920 x 1440</ComboBoxItem>
+                <ComboBoxItem>Option 1</ComboBoxItem>
+                <ComboBoxItem>Option 2</ComboBoxItem>
+                <ComboBoxItem>Option 3</ComboBoxItem>
             </ComboBox>
         </labs:SettingsCard>
 
         <labs:SettingsCard
-            Description="Control if a feature is enabled or disabled"
-            Header="Enable feature"
+            Description="You can use a FontIcon, SymbolIcon or BitmapIcon to set the cards HeaderIcon."
+            Header="Icon options"
             IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.HeaderIcon>
-                <BitmapIcon ShowAsMonochrome="False" UriSource="https://raw.githubusercontent.com/microsoft/PowerToys/main/src/settings-ui/Settings.UI/Assets/FluentIcons/FluentIconsImageResizer.png" />
+                <BitmapIcon
+                    ShowAsMonochrome="False"
+                    UriSource="https://raw.githubusercontent.com/microsoft/PowerToys/main/src/settings-ui/Settings.UI/Assets/FluentIcons/FluentIconsImageResizer.png" />
             </labs:SettingsCard.HeaderIcon>
             <ToggleSwitch />
         </labs:SettingsCard>
 
-        <labs:SettingsCard Header="Preferred languages" IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
+        <labs:SettingsCard
+            Header="A card with custom objects as its Description"
+            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.Description>
                 <HyperlinkButton Content="Learn more about Phone Link" />
             </labs:SettingsCard.Description>
-            <Button Content="Open Phone Link" />
-        </labs:SettingsCard>
-
-        <TextBlock
-            Margin="1,29,0,5"
-            Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="Another group of settings" />
-
-        <labs:SettingsCard
-            Click="OnCardClicked"
-            Description="With other custom content"
-            Header="Clickable card"
-            IsClickEnabled="True"
-            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
-            <Button Content="Add device" Style="{StaticResource AccentButtonStyle}" />
+            <Button
+                Content="Open Phone Link"
+                Style="{StaticResource AccentButtonStyle}" />
         </labs:SettingsCard>
 
         <labs:SettingsCard
-            ActionIconToolTip="Open in browser"
-            Click="OnCardClicked"
-            Description="The ActionIcon can be customized"
-            Header="Header property"
-            IsClickEnabled="True"
+            Description="When resizing a SettingsCard, the Content will wrap vertically. You can override this breakpoint by setting."
+            Header="Adaptive layouts"
             IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.HeaderIcon>
-                <FontIcon Glyph="&#xE7EF;" />
+                <FontIcon Glyph="&#xE745;" />
             </labs:SettingsCard.HeaderIcon>
-            <labs:SettingsCard.ActionIcon>
-                <FontIcon FontSize="14" Glyph="&#xe8a7;" />
-            </labs:SettingsCard.ActionIcon>
+            <labs:SettingsCard.Resources>
+                <x:Double x:Key="SettingsCardWrapThreshold">800</x:Double>
+            </labs:SettingsCard.Resources>
+            <Button
+                Content="This control will wrap vertically!"
+                Style="{StaticResource AccentButtonStyle}" />
         </labs:SettingsCard>
     </StackPanel>
 </Page>
