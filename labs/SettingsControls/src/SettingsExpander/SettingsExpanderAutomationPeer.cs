@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace CommunityToolkit.Labs.WinUI;
@@ -27,7 +28,7 @@ public class SettingsExpanderAutomationPeer : FrameworkElementAutomationPeer
     /// <returns>The control type.</returns>
     protected override AutomationControlType GetAutomationControlTypeCore()
     {
-        return AutomationControlType.Group;
+        return AutomationControlType.Button;
     }
 
     /// <summary>
@@ -42,5 +43,25 @@ public class SettingsExpanderAutomationPeer : FrameworkElementAutomationPeer
             System.Diagnostics.Debug.WriteLine("SettingsCardAutomationPeer.GetClassNameCore returns " + classNameCore);
 #endif
         return classNameCore;
+    }
+
+    /// <summary>
+    /// Raises the property changed event for this AutomationPeer for the provided identifier.
+    /// Narrator does not announce this due to: https://github.com/microsoft/microsoft-ui-xaml/issues/3469
+    /// </summary>
+    /// <param name="newValue">New Expanded state</param>
+    public void RaiseExpandedChangedEvent(bool newValue)
+    {
+        ExpandCollapseState newState = (newValue == true) ?
+          ExpandCollapseState.Expanded :
+          ExpandCollapseState.Collapsed;
+
+        ExpandCollapseState oldState = (newState == ExpandCollapseState.Expanded) ?
+          ExpandCollapseState.Collapsed :
+          ExpandCollapseState.Expanded;
+
+        #if !HAS_UNO
+        RaisePropertyChangedEvent(ExpandCollapsePatternIdentifiers.ExpandCollapseStateProperty, oldState, newState);
+        #endif
     }
 }

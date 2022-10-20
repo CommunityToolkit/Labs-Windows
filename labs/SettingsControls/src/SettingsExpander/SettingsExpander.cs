@@ -60,4 +60,9 @@ public partial class SettingsExpander : ItemsControl
     {
         return new SettingsCard();
     }
+    private void OnIsExpandedChanged(bool oldValue, bool newValue)
+    {
+        var peer = FrameworkElementAutomationPeer.FromElement(this) as SettingsExpanderAutomationPeer;
+        peer?.RaiseExpandedChangedEvent(newValue);
+    }
 }
