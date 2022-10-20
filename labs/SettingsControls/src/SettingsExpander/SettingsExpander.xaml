@@ -523,6 +523,7 @@
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
+                                        win:AutomationProperties.Name="{StaticResource SettingsExpanderChevronToolTip}"
                                         Background="{ThemeResource ExpanderChevronBackground}"
                                         BorderBrush="{ThemeResource ExpanderChevronBorderBrush}"
                                         BorderThickness="{ThemeResource ExpanderChevronBorderThickness}"
@@ -531,10 +532,6 @@
                                         IsTabStop="True"
                                         ToolTipService.ToolTip="{StaticResource SettingsExpanderChevronToolTip}"
                                         UseSystemFocusVisuals="True">
-                            <!--
-                                win:AutomationProperties.Name="{StaticResource SettingsExpanderChevronToolTip}"
-                                win:AutomationProperties.AutomationControlType="Button"
-                            -->
                             <muxc:AnimatedIcon x:Name="ExpandCollapseChevron"
                                                Width="16"
                                                Height="16"

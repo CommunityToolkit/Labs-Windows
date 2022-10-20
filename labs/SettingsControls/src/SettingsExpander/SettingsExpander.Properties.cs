@@ -51,7 +51,7 @@ public partial class SettingsExpander : ItemsControl
      nameof(IsExpanded),
      typeof(bool),
      typeof(SettingsExpander),
-     new PropertyMetadata(defaultValue: false));
+     new PropertyMetadata(defaultValue: false, (d, e) => ((SettingsExpander)d).OnIsExpandedPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
 
     /// <summary>
     /// 
@@ -100,5 +100,9 @@ public partial class SettingsExpander : ItemsControl
     {
         get => (bool)GetValue(IsExpandedProperty);
         set => SetValue(IsExpandedProperty, value);
+    }
+    protected virtual void OnIsExpandedPropertyChanged(bool oldValue, bool newValue)
+    {
+        OnIsExpandedChanged(oldValue, newValue);
     }
 }
