@@ -15,25 +15,6 @@
     <AssemblyName>SettingsControlsExperiment.Samples</AssemblyName>
     <LangVersion>10.0</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="BlankPage1.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="ClickableSettingsCardSample.xaml" />
-    <Content Remove="SettingsCardSample - Copy.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="ClickableSettingsCardSample.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="ClickableSettingsCardSample.xaml" />
-    <UpToDateCheckInput Remove="SettingsCardSample.xaml" />
-    <UpToDateCheckInput Remove="SettingsExpanderSample.xaml" />
-  </ItemGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
