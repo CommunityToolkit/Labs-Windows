@@ -3,14 +3,22 @@
 // See the LICENSE file in the project root for more information.
 
 namespace CommunityToolkit.Labs.WinUI;
-public partial class SettingsExpander : ItemsControl
+
+[TemplatePart(Name = PART_ItemsRepeater, Type = typeof(MUXC.ItemsRepeater))]
+public partial class SettingsExpander : Control
 {
+    private const string PART_ItemsRepeater = "PART_ItemsRepeater";
+
+    private MUXC.ItemsRepeater? _itemsRepeater;
+
     /// <summary>
     /// The SettingsExpander is a collapsable control to host multiple SettingsCards.
     /// </summary>
     public SettingsExpander()
     {
         this.DefaultStyleKey = typeof(SettingsExpander);
+
+        Items = new List<object>();
     }
 
     /// <inheritdoc />
@@ -18,6 +26,21 @@ public partial class SettingsExpander : ItemsControl
     {
         base.OnApplyTemplate();
         RegisterAutomation();
+
+        if (_itemsRepeater != null)
+        {
+            _itemsRepeater.ElementPrepared -= this.ItemsRepeater_ElementPrepared;
+        }
+
+        _itemsRepeater = GetTemplateChild(PART_ItemsRepeater) as MUXC.ItemsRepeater;
+
+        if (_itemsRepeater != null)
+        {
+            _itemsRepeater.ElementPrepared += this.ItemsRepeater_ElementPrepared;
+
+            // Update it's source based on our current items properties.
+            OnItemsConnectedPropertyChanged(this, null!); // Can't get it to accept type here? (DependencyPropertyChangedEventArgs)EventArgs.Empty
+        }
     }
 
     private void RegisterAutomation()
@@ -50,16 +73,7 @@ public partial class SettingsExpander : ItemsControl
     {
         return new SettingsExpanderAutomationPeer(this);
     }
-    protected override bool IsItemItsOwnContainerOverride(object item)
-    {
-        return item is SettingsCard;
-    }
 
-    /// <inheritdoc />
-    protected override DependencyObject GetContainerForItemOverride()
-    {
-        return new SettingsCard();
-    }
     private void OnIsExpandedChanged(bool oldValue, bool newValue)
     {
         var peer = FrameworkElementAutomationPeer.FromElement(this) as SettingsExpanderAutomationPeer;

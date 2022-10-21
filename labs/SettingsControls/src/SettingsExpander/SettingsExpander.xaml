@@ -90,7 +90,13 @@
                                                    IsClickEnabled="False" />
                             </muxc:Expander.Header>
                             <muxc:Expander.Content>
-                                <ItemsPresenter TabFocusNavigation="Local" />
+                                <muxc:ItemsRepeater x:Name="PART_ItemsRepeater"
+                                                    ItemTemplate="{Binding ItemTemplate, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                    TabFocusNavigation="Local">
+                                    <muxc:ItemsRepeater.Layout>
+                                        <muxc:StackLayout />
+                                    </muxc:ItemsRepeater.Layout>
+                                </muxc:ItemsRepeater>
                             </muxc:Expander.Content>
                         </muxc:Expander>
                     </ControlTemplate>
