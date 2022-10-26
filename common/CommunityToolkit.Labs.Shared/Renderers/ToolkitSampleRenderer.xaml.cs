@@ -277,6 +277,20 @@ public sealed partial class ToolkitSampleRenderer : Page
         }
     }
 
+    private void FlowDirectionBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+#if !HAS_UNO
+        if (PageControl.FlowDirection == FlowDirection.LeftToRight)
+        {
+            PageControl.FlowDirection = FlowDirection.RightToLeft;
+        }
+        else
+        {
+            PageControl.FlowDirection = FlowDirection.LeftToRight;
+        }
+#endif
+    }
+
     private void CodeBtn_OnClick(object sender, RoutedEventArgs e)
     {
         SourcecodeExpander.IsExpanded = !SourcecodeExpander.IsExpanded;
