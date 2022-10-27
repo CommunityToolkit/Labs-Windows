@@ -5,6 +5,10 @@
 using System.Numerics;
 
 namespace CommunityToolkit.Labs.WinUI;
+
+//The possible states of the tracker as documented in https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.composition.interactions.interactiontracker?view=windows-app-sdk-1.1#interactiontracker-states-and-transitions
+public enum InteractionTrackerState { Idle, Inertia, Interacting, CustomAnimation };
+
 public class InteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayoutBehavior<TId, TItem> where TId : notnull
 {
     public VisualInteractionSource InteractionSource { get; init; }
@@ -114,9 +118,6 @@ public class InteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayou
 
     override public void OnActivated()
     {
-        TrackerOwner.OnInertiaStateEntered += InertiaStateEntered;
-        TrackerOwner.OnInteractingStateEntered += InteractingStateEntered;
-
         foreach (var gesture in _gestures)
         {
             RegisterGestureHandlers(gesture);
@@ -125,42 +126,26 @@ public class InteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayou
 
     override public void OnDeactivated()
     {
-        TrackerOwner.OnInertiaStateEntered -= InertiaStateEntered;
-        TrackerOwner.OnInteractingStateEntered -= InteractingStateEntered;
-
         for (var i = _gestures.Count - 1; i >= 0; i--)
         {
             RemoveGesture(_gestures[i]);
         }
     }
 
-    private void InteractingStateEntered(InteractionTracker _, InteractionTrackerInteractingStateEnteredArgs _2)
-    {
-        IsUserInteracting = true;
-    }
-
-    private void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args)
-    {
-        IsUserInteracting = false;
-    }
-
-    //The possible states of the tracker as documented in https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.composition.interactions.interactiontracker?view=windows-app-sdk-1.1#interactiontracker-states-and-transitions
-    public enum State { Idle, Inertia, Interacting, CustomAnimation };
-
     public class InteractionTrackerOwner : IInteractionTrackerOwner
     {
-        public State CurrentState { get; private set; }
+        public InteractionTrackerState CurrentState { get; private set; }
 
-        public delegate void CustomAnimationStateEnteredHandler(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args, State previousState);
+        public delegate void CustomAnimationStateEnteredHandler(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args, InteractionTrackerState previousState);
         public event CustomAnimationStateEnteredHandler? OnCustomAnimationStateEntered;
 
-        public delegate void IdleStateEnteredHandler(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args, State previousState);
+        public delegate void IdleStateEnteredHandler(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args, InteractionTrackerState previousState);
         public event IdleStateEnteredHandler? OnIdleStateEntered;
 
-        public delegate void InertiaStateEnteredHandler(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args, State previousState);
+        public delegate void InertiaStateEnteredHandler(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args, InteractionTrackerState previousState);
         public event InertiaStateEnteredHandler? OnInertiaStateEntered;
 
-        public delegate void InteractingStateEnteredHandler(InteractionTracker sender, InteractionTrackerInteractingStateEnteredArgs args, State previousState);
+        public delegate void InteractingStateEnteredHandler(InteractionTracker sender, InteractionTrackerInteractingStateEnteredArgs args, InteractionTrackerState previousState);
         public event InteractingStateEnteredHandler? OnInteractingStateEntered;
 
         public delegate void RequestIgnoredHandler(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args);
@@ -172,25 +157,25 @@ public class InteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayou
         public void CustomAnimationStateEntered(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args)
         {
             OnCustomAnimationStateEntered?.Invoke(sender, args, CurrentState);
-            CurrentState = State.CustomAnimation;
+            CurrentState = InteractionTrackerState.CustomAnimation;
         }
 
         public void IdleStateEntered(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args)
         {
             OnIdleStateEntered?.Invoke(sender, args, CurrentState);
-            CurrentState = State.Idle;
+            CurrentState = InteractionTrackerState.Idle;
         }
 
         public void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args)
         {
             OnInertiaStateEntered?.Invoke(sender, args, CurrentState);
-            CurrentState = State.Inertia;
+            CurrentState = InteractionTrackerState.Inertia;
         }
 
         public void InteractingStateEntered(InteractionTracker sender, InteractionTrackerInteractingStateEnteredArgs args)
         {
             OnInteractingStateEntered?.Invoke(sender, args, CurrentState);
-            CurrentState = State.Interacting;
+            CurrentState = InteractionTrackerState.Interacting;
         }
 
         public void RequestIgnored(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args) => OnRequestIgnored?.Invoke(sender, args);

@@ -4,7 +4,6 @@
 #nullable enable
 using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
-
 namespace CommunityToolkit.Labs.WinUI;
 public abstract class InteractionTrackerGesture<TId>
 {
@@ -105,14 +104,14 @@ public abstract class InteractionTrackerGesture<TId>
         OnValuesChanged(tracker, args);
     }
 
-    public void InteractingStateEntered(InteractionTracker _, InteractionTrackerInteractingStateEnteredArgs _1)
+    public void InteractingStateEntered(InteractionTracker _, InteractionTrackerInteractingStateEnteredArgs _1, InteractionTrackerState _3)
     {
         InteractionInProgress = true;
         InertiaInProgress = false;
         InteractionStartedTime = DateTime.Now;
     }
 
-    public void InertiaStateEntered(InteractionTracker tracker, InteractionTrackerInertiaStateEnteredArgs args)
+    public void InertiaStateEntered(InteractionTracker tracker, InteractionTrackerInertiaStateEnteredArgs args, InteractionTrackerState _)
     {
         if (_isDisabled)
         {
