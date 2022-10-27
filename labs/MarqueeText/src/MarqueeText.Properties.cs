@@ -83,9 +83,9 @@ public partial class MarqueeText
         set => SetValue(DirectionProperty, value);
     }
 
-    private bool IsDirectionHorizontal => Direction == MarqueeDirection.Left || Direction == MarqueeDirection.Right;
+    private bool IsDirectionHorizontal => Direction is MarqueeDirection.Left or MarqueeDirection.Right;
 
-    private bool IsDirectionInverse => Direction == MarqueeDirection.Up || Direction == MarqueeDirection.Right;
+    private bool IsDirectionInverse => Direction is MarqueeDirection.Up or MarqueeDirection.Right;
 
     /// <summary>
     /// Gets or sets a value that indicates what decorations are applied to the text.
