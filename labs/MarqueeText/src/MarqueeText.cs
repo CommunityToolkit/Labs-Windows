@@ -93,7 +93,9 @@ public partial class MarqueeText : Control
         {
             MarqueeBehavior.Ticker => TickerVisualStateName,
             MarqueeBehavior.Looping => LoopingVisualStateName,
+#if !HAS_UNO
             MarqueeBehavior.Bouncing => BouncingVisualStateName,
+#endif
             _ => TickerVisualStateName,
         };
     }
@@ -223,7 +225,9 @@ public partial class MarqueeText : Control
         {
             Duration = duration,
             RepeatBehavior = RepeatBehavior,
+#if !HAS_UNO
             AutoReverse = IsBouncing,
+#endif
         };
 
         _marqueeStoryboard.Completed += StoryBoard_Completed;
@@ -232,7 +236,9 @@ public partial class MarqueeText : Control
         {
             Duration = duration,
             RepeatBehavior = RepeatBehavior,
+#if !HAS_UNO
             AutoReverse = IsBouncing,
+#endif
         };
         var frame1 = new DiscreteDoubleKeyFrame
         {

@@ -69,13 +69,17 @@ public partial class MarqueeText
 
     private bool IsLooping => Behavior == MarqueeBehavior.Looping;
 
+#if !HAS_UNO
     private bool IsBouncing => Behavior == MarqueeBehavior.Bouncing;
+#else
+    private bool IsBouncing => false;
+#endif
 
     /// <summary>
     /// Gets or sets a value indicating whether or not the marquee text wraps.
     /// </summary>
     /// <remarks>
-    /// Wrappping text won't scroll if the text can already fit in the screen.
+    /// Wrapping text won't scroll if the text can already fit in the screen.
     /// </remarks>
     public MarqueeDirection Direction
     {
@@ -125,8 +129,8 @@ public partial class MarqueeText
         bool active = control._isActive;
         var oldDirection = (MarqueeDirection)e.OldValue;
         var newDirection = (MarqueeDirection)e.NewValue;
-        bool oldAxisX = oldDirection == MarqueeDirection.Left || oldDirection == MarqueeDirection.Right;
-        bool newAxisX = newDirection == MarqueeDirection.Left || newDirection == MarqueeDirection.Right;
+        bool oldAxisX = oldDirection is MarqueeDirection.Left or MarqueeDirection.Right;
+        bool newAxisX = newDirection is MarqueeDirection.Left or MarqueeDirection.Right;
 
         VisualStateManager.GoToState(control, GetVisualStateName(newDirection), true);
 
