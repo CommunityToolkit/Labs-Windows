@@ -2,15 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #nullable enable
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
-using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
 namespace CommunityToolkit.Labs.WinUI;
-public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout, IDisposable where TId :notnull
+public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout, IDisposable where TId : notnull
 {
     /// <summary>
     /// Invoked only once, when a CompositionCollectionView transitions to this layout
@@ -50,9 +45,18 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
     public virtual void UpdateElement(ElementReference<TId, TItem> element) { }
 
 
-    public abstract Vector3Node GetElementPositionNode(ElementReference<TId, TItem> element);
+    public virtual Vector3Node GetElementPositionNode(ElementReference<TId, TItem> element) => Vector3.Zero;
     public virtual ScalarNode GetElementScaleNode(ElementReference<TId, TItem> element) => 1;
     public virtual ScalarNode GetElementOpacityNode(ElementReference<TId, TItem> element) => 1;
     public virtual QuaternionNode GetElementOrientationNode(ElementReference<TId, TItem> element) => Quaternion.Identity;
     protected virtual ElementTransition? GetElementTransitionEasingFunction(ElementReference<TId, TItem> element) => null;
+
+    // These methods have a default implementation evaluates the value of the node returned by the layout and should
+    // be good enough for more cases. It should only be overriden when evaluating the nodes is not always enough to determine the latest value,
+    // e.g. if the node depends on a reference to another node which is also animated through composition and returns a stale value when evaluated
+    public virtual Vector3 GetElementPositionValue(ElementReference<TId, TItem> element) => GetElementPositionNode(element).Evaluate();
+    public virtual float GetElementScaleValue(ElementReference<TId, TItem> element) => GetElementScaleNode(element).Evaluate();
+    public virtual Quaternion GetElementOrientationValue(ElementReference<TId, TItem> element) => GetElementOrientationNode(element).Evaluate();
+    public virtual float GetElementOpacityValue(ElementReference<TId, TItem> element) => GetElementOpacityNode(element).Evaluate();
+
 }

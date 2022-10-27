@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
-using System;
 using System.Numerics;
 using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
@@ -12,9 +11,29 @@ public class AnimatableVector3CompositionNode : IDisposable
 {
     private Visual _underlyingVisual;
     private bool disposedValue;
+    private Vector3Node? _currentAnimationNode = null;
 
-    public Vector3 Value { get => _underlyingVisual.Offset; set => _underlyingVisual.Offset = value; }
-
+    public Vector3 Value
+    {
+        get
+        {
+            if (_currentAnimationNode is not null)
+            {
+                // When the node value is being driven by a ongoing scalarnode animation, reading the property might return a stale value,
+                // so we instead evaluate the original expression to get the most accurate value
+                return _currentAnimationNode.Evaluate();
+            }
+            else
+            {
+                return _underlyingVisual.Offset;
+            }
+        }
+        set
+        {
+            _underlyingVisual.Offset = value;
+            _currentAnimationNode = null;
+        }
+    }
 
     public AnimatableVector3CompositionNode(Compositor compositor)
     {
@@ -23,11 +42,13 @@ public class AnimatableVector3CompositionNode : IDisposable
 
     public void Animate(CompositionAnimation animation)
     {
+        _currentAnimationNode = null;
         _underlyingVisual.StartAnimation(Offset, animation);
     }
 
-    public void Animate(ExpressionNode animation)
+    public void Animate(Vector3Node animation)
     {
+        _currentAnimationNode = animation;
         _underlyingVisual.StartAnimation(Offset, animation);
     }
 
@@ -41,6 +62,7 @@ public class AnimatableVector3CompositionNode : IDisposable
             {
                 // TODO: dispose managed state (managed objects)
                 _underlyingVisual.Dispose();
+                _currentAnimationNode?.Dispose();
             }
 
             // TODO: free unmanaged resources (unmanaged objects) and override finalizer

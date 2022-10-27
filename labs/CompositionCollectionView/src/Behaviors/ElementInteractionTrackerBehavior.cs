@@ -1,9 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-#if !WINAPPSDK
 #nullable enable
-using System.Collections.Generic;
 
 namespace CommunityToolkit.Labs.WinUI;
 public class ElementInteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayoutBehavior<TId, TItem> where TId : notnull
@@ -28,11 +26,6 @@ public class ElementInteractionTrackerBehavior<TId, TItem> : CompositionCollecti
         return _elementTrackers.TryGetValue(id, out tracker);
     }
 
-    //override public void CleanupElement(ElementReference<TId> element)
-    //{
-    //    _elementTrackers.Remove(element.Id);
-    //}
-
     override public void OnActivated()
     {
         foreach (var tracker in _elementTrackers)
@@ -49,4 +42,3 @@ public class ElementInteractionTrackerBehavior<TId, TItem> : CompositionCollecti
         }
     }
 }
-#endif

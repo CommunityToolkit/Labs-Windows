@@ -2,11 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #nullable enable
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
 namespace CommunityToolkit.Labs.WinUI;
@@ -64,9 +60,12 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
         }
     }
 
-    public T TransitionTo<T>(Func<CompositionCollectionLayout<TId, TItem>, T> factory) where T : CompositionCollectionLayout<TId, TItem>
+    public T TransitionTo<T>(Func<CompositionCollectionLayout<TId, TItem>, T> factory, bool animateTransition = true) where T : CompositionCollectionLayout<TId, TItem>
     {
-        System.Diagnostics.Debug.Assert(IsActive);
+        if (!IsActive)
+        {
+            throw new InvalidOperationException("TransitionTo can only be used in active layouts. You might have already transitioned away from this layout.");
+        }
 
         Deactivate();
 
@@ -107,8 +106,7 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
                 var currentOrientation = GetElementOrientationValue(element);
                 var currentOpacity = GetElementOpacityValue(element);
 
-                var transition = newLayout.GetElementTransitionEasingFunction(element);
-                if (transition is not null)
+                if (animateTransition && newLayout.GetElementTransitionEasingFunction(element) is ElementTransition transition)
                 {
                     TaskCompletionSource<bool> tsc = new();
                     newLayout.StopElementAnimation(element);

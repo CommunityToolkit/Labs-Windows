@@ -2,15 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 #nullable enable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
-using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
 namespace CommunityToolkit.Labs.WinUI;
-public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout, IDisposable where TId :notnull
+public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout, IDisposable where TId : notnull
 {
     private List<CompositionCollectionLayoutBehavior<TId, TItem>> _behaviors = new();
 
@@ -20,6 +14,12 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
         {
             behavior.Configure(this);
         }
+
+        if (_behaviors.Contains(behavior))
+        {
+            return;
+        }
+
         _behaviors.Add(behavior);
     }
 

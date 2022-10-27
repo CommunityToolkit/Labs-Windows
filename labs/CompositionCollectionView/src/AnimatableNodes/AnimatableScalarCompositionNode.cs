@@ -13,8 +13,29 @@ public class AnimatableScalarCompositionNode : IDisposable
 {
     private Visual _underlyingVisual;
     private bool disposedValue;
+    private ScalarNode? _currentAnimationNode = null;
 
-    public float Value { get => _underlyingVisual.Offset.X; set => _underlyingVisual.Offset = new Vector3(value, 0, 0); }
+    public float Value
+    {
+        get
+        {
+            if (_currentAnimationNode is not null)
+            {
+                // When the node value is being driven by a ongoing scalarnode animation, reading the property might return a stale value,
+                // so we instead evaluate the original expression to get the most accurate value
+                return _currentAnimationNode.Evaluate();
+            }
+            else
+            {
+                return _underlyingVisual.Offset.X;
+            }
+        }
+        set
+        {
+            _underlyingVisual.Offset = new Vector3(value, 0, 0);
+            _currentAnimationNode = null;
+        }
+    }
 
 
     public AnimatableScalarCompositionNode(Compositor compositor)
@@ -24,11 +45,13 @@ public class AnimatableScalarCompositionNode : IDisposable
 
     public void Animate(CompositionAnimation animation)
     {
+        _currentAnimationNode = null;
         _underlyingVisual.StartAnimation(Offset.X, animation);
     }
 
-    public void Animate(ExpressionNode animation)
+    public void Animate(ScalarNode animation)
     {
+        _currentAnimationNode = animation;
         _underlyingVisual.StartAnimation(Offset.X, animation);
     }
 
@@ -42,6 +65,7 @@ public class AnimatableScalarCompositionNode : IDisposable
             {
                 // TODO: dispose managed state (managed objects)
                 _underlyingVisual.Dispose();
+                _currentAnimationNode?.Dispose();
             }
 
             // TODO: free unmanaged resources (unmanaged objects) and override finalizer
