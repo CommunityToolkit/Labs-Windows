@@ -13,11 +13,8 @@
   <PropertyGroup>
     <RootNamespace>SettingsControlsExperiment.Samples</RootNamespace>
     <AssemblyName>SettingsControlsExperiment.Samples</AssemblyName>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="SettingsCardSample.xaml" />
-  </ItemGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
@@ -29,5 +26,17 @@
     <Compile Update="SettingsCardSample.xaml.cs">
       <DependentUpon>SettingsCardSample.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="SettingsExpanderSample.xaml.cs">
+      <DependentUpon>SettingsExpanderSample.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="ClickableSettingsCardSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>
