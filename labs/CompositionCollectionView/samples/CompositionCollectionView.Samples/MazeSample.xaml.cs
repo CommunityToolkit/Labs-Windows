@@ -1,12 +1,8 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-using CommunityToolkit.Labs.Core.SourceGenerators;
-using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using CommunityToolkit.Labs.WinUI;
 using Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork;
 using System.Numerics;
-using System.Xml.Linq;
 
 #if !WINAPPSDK
 using Windows.Foundation;
@@ -320,7 +316,7 @@ namespace CompositionCollectionView.Sample
                 GetBehavior<InteractionTrackerBehavior<uint, Tile>>().TrackerOwner.OnIdleStateEntered -= this.OnTrackerIdleStateEntered;
             }
 
-            private void OnTrackerIdleStateEntered(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args)
+            private void OnTrackerIdleStateEntered(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args, InteractionTrackerState previousState)
             {
                 if (Vector3.Distance(sender.Position, new Vector3(GoalPosition.X * TileWidth, -GoalPosition.Y * TileWidth, 0)) < TileWidth)
                 {
