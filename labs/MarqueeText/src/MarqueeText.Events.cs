@@ -33,9 +33,9 @@ public partial class MarqueeText
             _marqueeContainer.SizeChanged -= Container_SizeChanged;
         }
 
-        if (this._marqueeStoryboard is not null)
+        if (_marqueeStoryboard is not null)
         {
-            this._marqueeStoryboard.Completed -= StoryBoard_Completed;
+            _marqueeStoryboard.Completed -= StoryBoard_Completed;
         }
     }
 
@@ -43,11 +43,14 @@ public partial class MarqueeText
     {
         if (_marqueeContainer is not null)
         {
-            RectangleGeometry clip = new RectangleGeometry();
-            clip.Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height);
-            _marqueeContainer.Clip = clip;
+            // Clip the marquee within its bounds
+            _marqueeContainer.Clip = new RectangleGeometry
+            {
+                Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
+            };
         }
 
+        // The marquee should run when the size changes in case the text gets cutoff
         StartMarquee();
     }
 

@@ -22,8 +22,10 @@ public enum MarqueeBehavior
     /// </remarks>
     Looping,
 
+#if !HAS_UNO
     /// <summary>
     /// The text bounces back and forth across the screen.
     /// </summary>
     Bouncing,
+#endif
 }
