@@ -85,14 +85,14 @@ public sealed partial class AppLoadingView : Page
             return;
         }
 
-//#if LABS_ALL_SAMPLES
-//        ScheduleNavigate(typeof(Shell), sampleDocs);
-//#else
+#if LABS_ALL_SAMPLES
+        ScheduleNavigate(typeof(Shell), sampleDocs);
+#else
         var samples = FindReferencedSamples().ToArray();
 
         (IEnumerable<ToolkitSampleMetadata> Samples, IEnumerable<ToolkitFrontMatter> Docs, bool AreDocsFirst) displayInfo = (samples, sampleDocs, false);
         ScheduleNavigate(typeof(TabbedPage), displayInfo);
-//#endif
+#endif
     }
 
     // Needed because Frame.Navigate doesn't work inside of the OnNavigatedTo override.
