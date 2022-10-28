@@ -8,22 +8,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <ScrollViewer>
-        <labs:SettingsExpander Description="The SettingsExpander can use ItemsSource to define its Items."
-                               Header="Settings Expander with ItemsSource"
-                               ItemsSource="{x:Bind MyDataSet}">
-            <labs:SettingsExpander.HeaderIcon>
-                <FontIcon Glyph="&#xEA37;" />
-            </labs:SettingsExpander.HeaderIcon>
-            <labs:SettingsExpander.ItemTemplate>
-                <DataTemplate x:DataType="local:MyDataModel">
-                    <labs:SettingsCard Description="{x:Bind Info}"
-                                       Header="{x:Bind Name}">
-                        <HyperlinkButton Content="{x:Bind LinkDescription}"
-                                         NavigateUri="{x:Bind Url}" />
-                    </labs:SettingsCard>
-                </DataTemplate>
-            </labs:SettingsExpander.ItemTemplate>
-        </labs:SettingsExpander>
-    </ScrollViewer>
+    <labs:SettingsExpander Description="The SettingsExpander can use ItemsSource to define its Items."
+                           Header="Settings Expander with ItemsSource"
+                           ItemsSource="{x:Bind MyDataSet}">
+        <labs:SettingsExpander.HeaderIcon>
+            <FontIcon Glyph="&#xEA37;" />
+        </labs:SettingsExpander.HeaderIcon>
+        <labs:SettingsExpander.ItemTemplate>
+            <DataTemplate x:DataType="local:MyDataModel">
+                <labs:SettingsCard Description="{x:Bind Info}"
+                                   Header="{x:Bind Name}">
+                    <HyperlinkButton Content="{x:Bind LinkDescription}"
+                                     NavigateUri="{x:Bind Url}" />
+                </labs:SettingsCard>
+            </DataTemplate>
+        </labs:SettingsExpander.ItemTemplate>
+    </labs:SettingsExpander>
 </Page>

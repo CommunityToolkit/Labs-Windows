@@ -72,7 +72,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SettingsExpander">
-                        <muxc:Expander MaxWidth="{TemplateBinding MaxWidth}"
+                        <muxc:Expander x:Name="PART_Expander"
+                                       MaxWidth="{TemplateBinding MaxWidth}"
                                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        IsExpanded="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
