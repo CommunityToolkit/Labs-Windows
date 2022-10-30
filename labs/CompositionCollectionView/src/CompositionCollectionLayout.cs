@@ -7,7 +7,9 @@ using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 namespace CommunityToolkit.Labs.WinUI;
 public interface ILayout
 {
-    Action<ILayout, ILayout>? LayoutReplaced { get; set; }
+
+    public delegate void LayoutReplacedHandler(ILayout startLayout, ILayout endLayout, bool isAnimated);
+    public event LayoutReplacedHandler? LayoutReplaced;
 
     void Activate(Panel panel);
 }
@@ -38,7 +40,7 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
     public IEnumerable<TId> Source => _elements.Keys;
     public IEnumerable<ElementReference<TId, TItem>> Elements => _elements.Values;
 
-    public Action<ILayout, ILayout>? LayoutReplaced { get; set; }
+    public event ILayout.LayoutReplacedHandler? LayoutReplaced;
     public Panel RootPanel => GetVisualProperties().RootPanel;
     public Visual RootPanelVisual => GetVisualProperties().RootPanelVisual;
     public Compositor Compositor => GetVisualProperties().RootPanelVisual.Compositor;
@@ -46,7 +48,6 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
     public AnimatableCompositionNodeSet AnimatableNodes { private init; get; }
 
     public CompositionCollectionLayout<TId, TItem>? ParentLayout { get; private set; }
-
 
     public bool IsActive { get; private set; } = false;
 

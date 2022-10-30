@@ -15,9 +15,6 @@ public class InteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayou
     public InteractionTracker Tracker { get; init; }
     public InteractionTrackerOwner TrackerOwner { get; init; }
 
-    public bool IsUserInteracting { get; private set; } = false;
-
-
     private List<InteractionTrackerGesture<TId>> _gestures = new List<InteractionTrackerGesture<TId>>();
 
     public InteractionTrackerBehavior(FrameworkElement root)

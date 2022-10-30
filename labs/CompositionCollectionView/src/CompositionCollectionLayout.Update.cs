@@ -96,17 +96,17 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
 
         void UpdateAndTransitionElement(ElementReference<TId, TItem> element, TItem newData)
         {
-            var currentPosition = GetElementPositionValue(element);
-            var currentScale = GetElementScaleValue(element);
-            var currentOrientation = GetElementOrientationValue(element);
-            var currentOpacity = GetElementOpacityValue(element);
-
             element.Model = newData;
             UpdateElementData(element);
 
             var transition = GetElementTransitionEasingFunction(element);
             if (transition is not null)
             {
+                var currentPosition = GetElementPositionValue(element);
+                var currentScale = GetElementScaleValue(element);
+                var currentOrientation = GetElementOrientationValue(element);
+                var currentOpacity = GetElementOpacityValue(element);
+
                 TaskCompletionSource<bool> tsc = new();
                 StopElementAnimation(element);
 
@@ -144,7 +144,6 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
 
                 elementUpdateTask.Add(tsc.Task);
             }
-
 
             UpdateElement(element);
             processedElements.Add(element.Id);

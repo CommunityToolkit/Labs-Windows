@@ -3,12 +3,6 @@
 // See the LICENSE file in the project root for more information.
 #nullable enable
 
-#if !WINAPPSDK
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Windows.UI.Composition;
-using Windows.UI.Xaml.Controls;
 
 // The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
 namespace CommunityToolkit.Labs.WinUI;
@@ -21,7 +15,7 @@ public sealed class CompositionCollectionView : Control
     private Action? _pendingSourceUpdate;
     public CompositionCollectionLayout<TId, TItem>? Layout<TId, TItem>() where TId : notnull => _layout as CompositionCollectionLayout<TId, TItem>;
 
-    public delegate void LayoutChangedHandler(CompositionCollectionView sender, ILayout newLayout);
+    public delegate void LayoutChangedHandler(CompositionCollectionView sender, ILayout newLayout, bool isAnimated);
     public event LayoutChangedHandler? LayoutChanged;
 
     public CompositionCollectionView()
@@ -53,7 +47,7 @@ public sealed class CompositionCollectionView : Control
         }
     }
 
-    private void OnLayoutReplaced(ILayout sender, ILayout newLayout)
+    private void OnLayoutReplaced(ILayout sender, ILayout newLayout, bool isAnimated)
     {
         if (_layout is not null)
         {
@@ -62,7 +56,7 @@ public sealed class CompositionCollectionView : Control
 
         _layout = newLayout;
         _layout.LayoutReplaced += OnLayoutReplaced;
-        LayoutChanged?.Invoke(this, _layout);
+        LayoutChanged?.Invoke(this, _layout, isAnimated);
     }
 
     protected override void OnApplyTemplate()
@@ -82,46 +76,3 @@ public sealed class CompositionCollectionView : Control
         }
     }
 }
-
-#endif
-
-//Empty WINAPPSDK implementation just to get builds working
-#if WINAPPSDK
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml.Controls;
-
-// The Templated Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234235
-namespace CommunityToolkit.Labs.WinUI;
-
-
-public sealed class CompositionCollectionView : Control
-{
-    public delegate void LayoutChangedHandler(CompositionCollectionView sender, ILayout newLayout);
-
-    public event LayoutChangedHandler? LayoutChanged;
-
-    public CompositionCollectionView()
-    {
-        this.DefaultStyleKey = typeof(CompositionCollectionView);
-    }
-
-    public void SetLayout(ILayout layout)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void UpdateSource<TId, TItem>(IDictionary<TId, TItem> source, Action? updateCallback = null)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void OnLayoutReplaced(ILayout sender, ILayout newLayout)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-#endif

@@ -80,7 +80,7 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
 
         TransferElements();
 
-        LayoutReplaced?.Invoke(this, newLayout);
+        LayoutReplaced?.Invoke(this, newLayout, animateTransition);
 
         return newLayout;
 
