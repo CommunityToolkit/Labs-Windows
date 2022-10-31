@@ -7,7 +7,7 @@ namespace CommunityToolkit.Labs.WinUI.Internal;
 /// <summary>
 /// A <see cref="ContentPresenter"/> which also can restyle it's realized <see cref="ContentPresenter.Content"/> with a <see cref="StyleSelector"/> using the <see cref="ContentStyleSelector"/> property. Currently, only checked once on loading.
 /// </summary>
-public sealed class StyledContentPresenter : ContentPresenter
+public sealed partial class StyledContentPresenter : ContentPresenter
 {
     public StyleSelector ContentStyleSelector
     {
