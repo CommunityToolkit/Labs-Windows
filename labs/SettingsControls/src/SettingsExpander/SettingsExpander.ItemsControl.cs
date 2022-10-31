@@ -46,27 +46,10 @@ public partial class SettingsExpander
 
     private static void OnItemsConnectedPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
     {
-        if (dependencyObject is SettingsExpander expander && expander._itemsRepeater is not null)
+        if (dependencyObject is SettingsExpander expander && expander._itemsControl is not null)
         {
-            var datasource = expander.ItemsSource;
-
-            if (datasource is null)
-            {
-                datasource = expander.Items;
-            }
-
-            expander._itemsRepeater.ItemsSource = datasource;
-        }
-    }
-
-    private void ItemsRepeater_ElementPrepared(MUXC.ItemsRepeater sender, MUXC.ItemsRepeaterElementPreparedEventArgs args)
-    {
-        if (ItemContainerStyleSelector != null &&
-            args.Element is FrameworkElement element &&
-            element.ReadLocalValue(FrameworkElement.StyleProperty) == DependencyProperty.UnsetValue)
-        {
-            // TODO: Get item from args.Index?
-            element.Style = ItemContainerStyleSelector.SelectStyle(null, element);
+            // Set inner ItemsSource by default to ItemsSource; unless not defined, then favor Items.
+            expander._itemsControl.ItemsSource = expander.ItemsSource ?? expander.Items;
         }
     }
 }

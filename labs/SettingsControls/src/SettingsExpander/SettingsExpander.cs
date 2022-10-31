@@ -4,15 +4,14 @@
 
 namespace CommunityToolkit.Labs.WinUI;
 
-[TemplatePart(Name = PART_ItemsRepeater, Type = typeof(MUXC.ItemsRepeater))]
-[TemplatePart(Name = PART_Expander, Type = typeof(MUXC.Expander))]
+// TODO: Ideally would use ItemsRepeater here, but it has a layout issue trying to request all the available horizontal space. TODO: File WinUI bug.
+[TemplatePart(Name = PART_ItemsControl, Type = typeof(ItemsControl))]
 public partial class SettingsExpander : Control
 {
-    private const string PART_Expander = "PART_Expander";
-    private const string PART_ItemsRepeater = "PART_ItemsRepeater";
+    private const string PART_ItemsControl = "PART_ItemsControl";
 
-    private MUXC.Expander? _expander;
-    private MUXC.ItemsRepeater? _itemsRepeater;
+    //// We need a reference to the Items Control to set it's source dynamically between ItemsSource or Items depending on what's defined. ItemsSource takes precedence.
+    private ItemsControl? _itemsControl;
 
     /// <summary>
     /// The SettingsExpander is a collapsable control to host multiple SettingsCards.
@@ -30,39 +29,12 @@ public partial class SettingsExpander : Control
         base.OnApplyTemplate();
         RegisterAutomation();
 
-        if (_expander != null)
+        _itemsControl = GetTemplateChild(PART_ItemsControl) as ItemsControl;
+
+        if (_itemsControl != null)
         {
-            _expander.Expanding -= this.Expander_Expanding;
-        }
-
-        if (_itemsRepeater != null)
-        {
-            _itemsRepeater.ElementPrepared -= this.ItemsRepeater_ElementPrepared;
-        }
-
-        _expander = GetTemplateChild(PART_Expander) as MUXC.Expander;
-        _itemsRepeater = GetTemplateChild(PART_ItemsRepeater) as MUXC.ItemsRepeater;
-
-        if (_expander != null)
-        {
-            _expander.Expanding += this.Expander_Expanding;
-        }
-
-        if (_itemsRepeater != null)
-        {
-            _itemsRepeater.ElementPrepared += this.ItemsRepeater_ElementPrepared;
-
             // Update it's source based on our current items properties.
             OnItemsConnectedPropertyChanged(this, null!); // Can't get it to accept type here? (DependencyPropertyChangedEventArgs)EventArgs.Empty
-        }
-    }
-
-    private void Expander_Expanding(MUXC.Expander sender, MUXC.ExpanderExpandingEventArgs args)
-    {
-        // TODO: File WinUI bug as ItemsRepeater is trying to request all available horizontal space even if its items don't require it.
-        if (_itemsRepeater != null)
-        {
-            _itemsRepeater.MaxWidth = this.ActualWidth;
         }
     }
 
