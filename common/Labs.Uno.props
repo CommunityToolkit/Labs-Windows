@@ -2,19 +2,19 @@
     <!-- This file is modified by common/Scripts/UseUnoWinUI.ps1 to switch between WinUI 2 and 3 under Uno Platform -->
     <!-- All Uno-based heads and multitargeted library projects reference this file, while native (UWP/WinAppSdk) heads don't and shouldn't need to. -->
     <ItemGroup Condition="'$(IsUno)' == 'true'">
-        <PackageReference Include="Uno.UI" Version="4.4.13" />
+        <PackageReference Include="Uno.UI" Version="4.6.18" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true'">
-        <PackageReference Include="Uno.UI.RemoteControl" Version="4.4.13" Condition="'$(Configuration)'=='Debug'" />
+        <PackageReference Include="Uno.UI.RemoteControl" Version="4.6.18" Condition="'$(Configuration)'=='Debug'" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsGtkHead)' == 'true'">
-        <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.4.13" />
+        <PackageReference Include="Uno.UI.Skia.Gtk" Version="4.6.18" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsWpfHead)' == 'true'">
-        <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.4.13" />
+        <PackageReference Include="Uno.UI.Skia.Wpf" Version="4.6.18" />
     </ItemGroup>
     <PropertyGroup Condition="'$(IsWpfHead)' == 'true'">
         <!-- Ignorable issue from SkiaSharp package, see: https://github.com/CommunityToolkit/Labs-Windows/pull/119#issuecomment-1125373091 -->
@@ -22,7 +22,7 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(IsWasmHead)' == 'true'">
-        <PackageReference Include="Uno.UI.WebAssembly" Version="4.4.13" />
+        <PackageReference Include="Uno.UI.WebAssembly" Version="4.6.18" />
     </ItemGroup>
 
     <!-- Import Uno and native dependencies for all multitargeted library projects. -->
