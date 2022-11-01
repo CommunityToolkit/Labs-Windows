@@ -5,7 +5,7 @@
 namespace CommunityToolkit.Labs.WinUI;
 
 [ContentProperty(Name = nameof(Content))]
-public partial class SettingsExpander : ItemsControl
+public partial class SettingsExpander
 {
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
