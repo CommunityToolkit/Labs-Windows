@@ -379,12 +379,14 @@
                                             <Style.Setters>
                                                 <Setter Property="FontSize" Value="{ThemeResource SettingsCardDescriptionFontSize}" />
                                                 <Setter Property="Padding" Value="0,0,0,-1" />
+                                                <Setter Property="FontWeight" Value="SemiBold" />
                                             </Style.Setters>
                                         </Style>
                                         <Style TargetType="Hyperlink">
                                             <Style.Setters>
                                                 <Setter Property="UnderlineStyle" Value="None" />
                                                 <Setter Property="TextDecorations" Value="None" />
+                                                <Setter Property="FontWeight" Value="SemiBold" />
                                             </Style.Setters>
                                         </Style>
                                     </ContentPresenter.Resources>

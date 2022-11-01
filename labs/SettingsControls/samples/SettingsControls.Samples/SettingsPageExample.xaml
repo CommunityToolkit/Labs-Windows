@@ -7,7 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
     <ScrollViewer>
-        <StackPanel Spacing="4">
+        <StackPanel Spacing="4" HorizontalAlignment="Stretch" MaxWidth="1000">
             <!--  TODO: @Niels - I just copied everything here, not sure if any values need adjusting. We should probably use this as a place to have more bespoke examples of each type of content like Slider, ComboBox, TextBox, etc...  -->
             <TextBlock Margin="1,0,0,4"
                        Style="{StaticResource BodyStrongTextBlockStyle}"
