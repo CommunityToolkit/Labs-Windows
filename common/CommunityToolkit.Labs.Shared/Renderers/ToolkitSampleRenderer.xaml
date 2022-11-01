@@ -12,12 +12,9 @@
       Loaded="ToolkitSampleRenderer_Loaded"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-          CornerRadius="4">
-
+    <Grid CornerRadius="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
@@ -29,15 +26,13 @@
                 </VisualState>
                 <VisualState x:Name="Tabbed">
                     <VisualState.Setters>
-                        <Setter Target="SampleCard.Background" Value="Transparent" />
-                        <Setter Target="SampleCardContent.Background" Value="Transparent" />
-                        <Setter Target="ToolBar.HorizontalAlignment" Value="Right" />
                         <Setter Target="ToolBar.DefaultLabelPosition" Value="Right" />
-                        <Setter Target="HeaderTxt.Visibility" Value="Collapsed" />
                         <Setter Target="CodeBtn.Visibility" Value="Collapsed" />
+                        <Setter Target="SeperatorLine.Visibility" Value="Collapsed" />
                         <Setter Target="SourcecodeExpander.Visibility" Value="Collapsed" />
                         <Setter Target="SampleCard.BorderThickness" Value="0" />
                         <Setter Target="SampleCard.CornerRadius" Value="0" />
+                        <Setter Target="ThemeBG.CornerRadius" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -54,112 +49,112 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="OptionsControl.HorizontalContentAlignment" Value="Left" />
-                        <Setter Target="OptionsControl.(Grid.Row)" Value="2" />
-                        <Setter Target="OptionsControl.(Grid.Column)" Value="0" />
-                        <Setter Target="OptionsControl.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="OptionsControl.VerticalAlignment" Value="Bottom" />
-                        <Setter Target="SeperatorLine.Visibility" Value="Collapsed" />
-                        <Setter Target="PageControl.Padding" Value="12" />
-                        <Setter Target="OptionsControl.Margin" Value="12" />
-                        <Setter Target="HeaderTxt.Margin" Value="12,0,0,0" />
-                        <Setter Target="SourcecodeExpander.Padding" Value="12,12,0,0" />
+                        <Setter Target="OptionsPanel.(Grid.Row)" Value="1" />
+                        <Setter Target="OptionsPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="ToolBar.(Grid.Row)" Value="1" />
+                        <Setter Target="ThemeBG.CornerRadius" Value="0" />
+                        <Setter Target="PageControl.Padding" Value="16,16,16,32" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
         <Grid x:Name="SampleCard"
-              Grid.Row="1"
               VerticalAlignment="Stretch"
-              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              Background="{ThemeResource LayerFillColorDefaultBrush}"
               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
               BorderThickness="1,1,1,1"
-              CornerRadius="4">
-            <Grid x:Name="SampleCardContent"
-                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                  CornerRadius="4">
+              CornerRadius="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="OptionsPanel"
+                  Grid.Column="1"
+                  VerticalAlignment="Stretch"
+                  Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="1,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <CommandBar x:Name="ToolBar"
+                            DefaultLabelPosition="Collapsed"
+                            OverflowButtonVisibility="Collapsed">
+                    <!--  wasm:Visibility="Collapsed"  -->
+                    <AppBarButton x:Name="ThemeBtn"
+                                  Click="ThemeBtn_OnClick"
+                                  Label="Toggle theme"
+                                  Style="{StaticResource SmallAppBarButtonStyle}"
+                                  ToolTipService.ToolTip="Toggle theme">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE793;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
 
-
-                <Grid Grid.ColumnSpan="2"
-                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                      BorderThickness="0,0,0,1">
-
-                    <TextBlock x:Name="HeaderTxt"
-                               Margin="24,0,0,0"
-                               VerticalAlignment="Center"
-                               FontSize="15"
-                               Style="{StaticResource BodyStrongTextBlockStyle}"
-                               Text="{x:Bind Metadata.DisplayName}" />
-
-                    <CommandBar x:Name="ToolBar"
-                                DefaultLabelPosition="Collapsed"
-                                OverflowButtonVisibility="Collapsed">
-
-                        <!--  wasm:Visibility="Collapsed"  -->
-                        <AppBarButton x:Name="ThemeBtn"
-                                      Click="ThemeBtn_OnClick"
-                                      Label="Toggle theme"
-                                      ToolTipService.ToolTip="Toggle theme">
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE793;" />
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-
-                        <!--  wasm:Visibility="Collapsed"  -->
-                        <AppBarButton x:Name="FlowDirectionBtn"
-                                      Click="FlowDirectionBtn_OnClick"
-                                      Label="Toggle flow direction"
-                                      ToolTipService.ToolTip="Toggle right-to-left">
-
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE1A0;" />
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                        <AppBarSeparator x:Name="SeperatorLine" />
-                        <AppBarButton x:Name="CodeBtn"
-                                      Click="CodeBtn_OnClick"
-                                      Label="View code"
-                                      ToolTipService.ToolTip="View code">
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE943;" />
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                        <!--  TO DO: What URL to link to?  -->
-                        <!--<AppBarButton x:Name="GitHubBtn"
+                    <!--  wasm:Visibility="Collapsed"  -->
+                    <AppBarButton x:Name="FlowDirectionBtn"
+                                  Click="FlowDirectionBtn_OnClick"
+                                  Label="Toggle direction"
+                                  Style="{StaticResource SmallAppBarButtonStyle}"
+                                  ToolTipService.ToolTip="Toggle right-to-left">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE1A0;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarSeparator x:Name="SeperatorLine" />
+                    <AppBarButton x:Name="CodeBtn"
+                                  Click="CodeBtn_OnClick"
+                                  Label="View code"
+                                  Style="{StaticResource SmallAppBarButtonStyle}"
+                                  ToolTipService.ToolTip="View code">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE943;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <!--  TO DO: What URL to link to?  -->
+                    <!--<AppBarButton x:Name="GitHubBtn"
                                       ToolTipService.ToolTip="View sample on GitHub"
-                                      Visibility="Collapsed">
+                                      Visibility="Collapsed"
+                                      Style="{StaticResource SmallAppBarButtonStyle}">
                             <AppBarButton.Icon>
                                 <PathIcon Data="{StaticResource GithubIcon}" />
                             </AppBarButton.Icon>
                         </AppBarButton>-->
-                    </CommandBar>
-
-                </Grid>
-                <ContentControl x:Name="PageControl"
-                                Grid.Row="1"
-                                Padding="24"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
+                </CommandBar>
 
 
-                <!--  Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" TO DO: HIDE CONTROL WHEN EMPTY (TO REMOVE GAP)?  -->
+                <Rectangle Height="1"
+                           VerticalAlignment="Bottom"
+                           Fill="{ThemeResource CardStrokeColorDefaultBrush}" />
                 <ContentControl x:Name="OptionsControl"
                                 Grid.Row="1"
-                                Grid.Column="1"
-                                Margin="24,24,12,12"
+                                MinWidth="240"
+                                Margin="16"
                                 HorizontalAlignment="Left"
                                 Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}" />
+            </Grid>
+
+
+            <Grid x:Name="ContentPageHolder">
+                <!--  A solidbackground we enable when toggling themes. WinUI uses a lot of translucent brushes and might look weird  -->
+                <Border x:Name="ThemeBG"
+                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                        CornerRadius="8,0,0,8"
+                        Visibility="Collapsed" />
+                <ContentControl x:Name="PageControl"
+                                Grid.Row="1"
+                                Padding="16,16,32,16"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
             </Grid>
         </Grid>
 
@@ -167,7 +162,7 @@
                        Grid.Row="2"
                        MinHeight="0"
                        Margin="0,-1,0,0"
-                       Padding="12,0,12,0"
+                       Padding="16,0,16,0"
                        HorizontalAlignment="Stretch"
                        BorderThickness="0">
             <muxc:Expander.Resources>
