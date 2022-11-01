@@ -18,7 +18,7 @@ public partial class SettingsCard : ButtonBase
     private const string ActionIconPresenter = "PART_ActionIconPresenter";
     private const string HeaderPresenter = "PART_HeaderPresenter";
     private const string DescriptionPresenter = "PART_DescriptionPresenter";
-    private const string HeaderIconPresenter = "PART_HeaderIconPresenter";
+    private const string HeaderIconPresenter = "PART_HeaderIconPresenterHolder";
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsCard"/> class.
     /// </summary>

@@ -103,7 +103,8 @@
     <x:Double x:Key="SettingsCardActionButtonWidth">32</x:Double>
     <x:Double x:Key="SettingsCardActionButtonHeight">32</x:Double>
     <x:Double x:Key="SettingsCardDescriptionFontSize">12</x:Double>
-    <x:Double x:Key="SettingsCardIconMaxSize">20</x:Double>
+    <x:Double x:Key="SettingsCardHeaderIconMaxSize">20</x:Double>
+    <x:Double x:Key="SettingsCardActionIconMaxSize">13</x:Double>
     <x:Double x:Key="SettingsCardLeftIndention">0</x:Double>
     <x:Double x:Key="SettingsCardContentMinWidth">120</x:Double>
     <Thickness x:Key="SettingsCardHeaderIconMargin">2,0,20,0</Thickness>
@@ -303,7 +304,7 @@
                                                                       To="Left" />
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
-                                            <Setter Target="PART_HeaderIconPresenter.Visibility" Value="Collapsed" />
+                                            <Setter Target="PART_HeaderIconPresenterHolder.Visibility" Value="Collapsed" />
                                             <Setter Target="PART_DescriptionPresenter.Visibility" Value="Collapsed" />
                                             <Setter Target="PART_HeaderPresenter.Visibility" Value="Collapsed" />
                                             <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="0" />
@@ -340,13 +341,15 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
 
-                            <ContentPresenter x:Name="PART_HeaderIconPresenter"
-                                              Grid.RowSpan="1"
-                                              MaxWidth="{ThemeResource SettingsCardIconMaxSize}"
-                                              MaxHeight="{ThemeResource SettingsCardIconMaxSize}"
-                                              Margin="{ThemeResource SettingsCardHeaderIconMargin}"
-                                              win:HighContrastAdjustment="None"
-                                              Content="{TemplateBinding HeaderIcon}" />
+                            <Viewbox x:Name="PART_HeaderIconPresenterHolder"
+                                     Grid.RowSpan="1"
+                                     MaxWidth="{ThemeResource SettingsCardHeaderIconMaxSize}"
+                                     MaxHeight="{ThemeResource SettingsCardHeaderIconMaxSize}"
+                                     Margin="{ThemeResource SettingsCardHeaderIconMargin}">
+                                <ContentPresenter x:Name="PART_HeaderIconPresenter"
+                                                  win:HighContrastAdjustment="None"
+                                                  Content="{TemplateBinding HeaderIcon}" />
+                            </Viewbox>
 
                             <StackPanel Grid.Column="1"
                                         Margin="0,0,12,0"
@@ -409,15 +412,19 @@
                                             win:AutomationProperties.LocalizedControlType="button"
                                             win:AutomationProperties.Name="{TemplateBinding ActionIconToolTip}"
                                             win:HighContrastAdjustment="None"
-                                            Content="{TemplateBinding ActionIcon}"
                                             CornerRadius="{ThemeResource ControlCornerRadius}"
                                             FocusVisualMargin="-3"
                                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                            FontSize="11"
                                             IsTabStop="True"
                                             ToolTipService.ToolTip="{TemplateBinding ActionIconToolTip}"
                                             UseSystemFocusVisuals="True"
-                                            Visibility="Collapsed" />
+                                            Visibility="Collapsed">
+                                <Viewbox MaxWidth="{ThemeResource SettingsCardActionIconMaxSize}"
+                                         MaxHeight="{ThemeResource SettingsCardActionIconMaxSize}">
+                                    <ContentPresenter win:HighContrastAdjustment="None"
+                                                      Content="{TemplateBinding ActionIcon}" />
+                                </Viewbox>
+                            </ContentControl>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
