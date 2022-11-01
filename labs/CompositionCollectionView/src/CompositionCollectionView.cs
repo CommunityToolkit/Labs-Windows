@@ -34,16 +34,15 @@ public sealed class CompositionCollectionView : Control
         }
     }
 
-    public void UpdateSource<TId, TItem>(IDictionary<TId, TItem> source, Action? updateCallback = null) where TId : notnull
+    public async Task UpdateSource<TId, TItem>(IDictionary<TId, TItem> source, bool animate = true) where TId : notnull
     {
-        if (_contentPanel is not null)
+        if (_contentPanel is not null && _layout as CompositionCollectionLayout<TId, TItem> is CompositionCollectionLayout<TId, TItem> layout)
         {
-            (_layout as CompositionCollectionLayout<TId, TItem>)?.UpdateSource(source, updateCallback);
+            await layout.UpdateSource(source, animate);
         }
         else
         {
-            _pendingSourceUpdate = () => (_layout as CompositionCollectionLayout<TId, TItem>)?.UpdateSource(source);
-            updateCallback?.Invoke();
+            _pendingSourceUpdate = () => (_layout as CompositionCollectionLayout<TId, TItem>)?.UpdateSource(source, animate);
         }
     }
 

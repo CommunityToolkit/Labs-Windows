@@ -12,24 +12,29 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
 
     bool _isUpdatingSource = false;
 
-    private record SourceUpdate(IDictionary<TId, TItem> UpdatedElements, Action? Callback);
+    private record SourceUpdate(IDictionary<TId, TItem> UpdatedElements, TaskCompletionSource<bool> TaskCompletion, bool Animated);
     Queue<SourceUpdate> _pendingSourceUpdates = new();
 
-    //todo change callback to await + taskcompletionsource
-    public void UpdateSource(IDictionary<TId, TItem> source, Action? updateCallback = null)
+    public async Task UpdateSource(IDictionary<TId, TItem> source, bool animate)
     {
+        var tcs = new TaskCompletionSource<bool>();
+
         if (!_isUpdatingSource)
         {
             _isUpdatingSource = true;
-            ProcessSourceUpdate(source, updateCallback);
+            ProcessSourceUpdate(source, tcs, animate);
         }
         else
         {
-            _pendingSourceUpdates.Enqueue(new SourceUpdate(source, updateCallback));
+            _pendingSourceUpdates.Enqueue(new SourceUpdate(source, tcs, animate));
         }
+
+        await tcs.Task;
     }
 
-    public async void ProcessSourceUpdate(IDictionary<TId, TItem> updatedElements, Action? updateCallback)
+    private HashSet<AnimatableScalarCompositionNode> _ongoingSourceUpdateAnimation = new();
+
+    public async void ProcessSourceUpdate(IDictionary<TId, TItem> updatedElements, TaskCompletionSource<bool> taskCompletion, bool animate)
     {
         List<Task<bool>> elementUpdateTask = new();
 
@@ -55,21 +60,24 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
             InstantiateElement(id, model);
         }
 
-        updateCallback?.Invoke();
+        OnElementsUpdated();
 
-        await Task.WhenAll(elementUpdateTask);
+        taskCompletion.SetResult(true);
+
+        if (elementUpdateTask.Any())
+        {
+            await Task.WhenAll(elementUpdateTask);
+        }
 
         if (_pendingSourceUpdates.Count > 0)
         {
             var update = _pendingSourceUpdates.Dequeue();
-            ProcessSourceUpdate(update.UpdatedElements, update.Callback);
+            ProcessSourceUpdate(update.UpdatedElements, update.TaskCompletion, update.Animated);
         }
         else
         {
             _isUpdatingSource = false;
         }
-
-        OnElementsUpdated();
 
         void InstantiateElement(TId id, TItem item)
         {
@@ -96,11 +104,7 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
 
         void UpdateAndTransitionElement(ElementReference<TId, TItem> element, TItem newData)
         {
-            element.Model = newData;
-            UpdateElementData(element);
-
-            var transition = GetElementTransitionEasingFunction(element);
-            if (transition is not null)
+            if (animate && GetElementTransitionEasingFunction(element) is ElementTransition transition)
             {
                 var currentPosition = GetElementPositionValue(element);
                 var currentScale = GetElementScaleValue(element);
@@ -110,6 +114,9 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
                 TaskCompletionSource<bool> tsc = new();
                 StopElementAnimation(element);
 
+                element.Model = newData;
+                UpdateElementData(element);
+
                 var progressAnimation = Compositor.CreateScalarKeyFrameAnimation();
                 progressAnimation.Duration = TimeSpan.FromMilliseconds(transition.Length);
                 progressAnimation.StopBehavior = AnimationStopBehavior.SetToFinalValue;
@@ -117,6 +124,7 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
                 progressAnimation.InsertKeyFrame(1, 1f, transition.EasingFunction);
 
                 var animProgressNode = new AnimatableScalarCompositionNode(Compositor);
+                _ongoingSourceUpdateAnimation.Add(animProgressNode);
 
                 element.Visual.StartAnimation(Offset, ExpressionFunctions.Lerp(currentPosition, GetElementPositionNode(element), animProgressNode.Reference));
                 var scale = GetElementScaleNode(element);
@@ -136,6 +144,8 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
                     batch.Dispose();
                     animProgressNode.Dispose();
                     progressAnimation.Dispose();
+
+                    _ongoingSourceUpdateAnimation.Remove(animProgressNode);
                 };
 
                 animProgressNode.Animate(progressAnimation);
@@ -143,6 +153,11 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
                 batch.End();
 
                 elementUpdateTask.Add(tsc.Task);
+            }
+            else
+            {
+                element.Model = newData;
+                UpdateElementData(element);
             }
 
             UpdateElement(element);
