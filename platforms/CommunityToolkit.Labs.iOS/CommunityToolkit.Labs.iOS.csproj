@@ -57,7 +57,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchExtraArgs>--setenv=MONO_LOG_LEVEL=debug --setenv=MONO_LOG_MASK=gc --registrar:static --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
+    <MtouchExtraArgs>--setenv=MONO_LOG_LEVEL=debug --setenv=MONO_LOG_MASK=gc --setenv=MONO_GC_PARAMS=soft-heap-limit=512m,nursery-size=64m,evacuation-threshold=66,major=marksweep,concurrent-sweep</MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>portable</DebugType>
@@ -202,4 +202,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+
+  <!-- Workaround for https://github.com/unoplatform/uno/issues/9430 -->
+  <PropertyGroup>
+    <MtouchExtraArgs>$(MtouchExtraArgs) --registrar:static</MtouchExtraArgs>
+  </PropertyGroup>
 </Project>
