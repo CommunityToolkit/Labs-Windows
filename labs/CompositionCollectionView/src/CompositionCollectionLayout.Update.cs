@@ -97,6 +97,8 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
 
         void DestroyElement(ElementReference<TId, TItem> element, TId id)
         {
+            CleanupElement(element);
+            CleanupElementBehaviors(element);
             RootPanel.Children.Remove(element.Container);
             _elements.Remove(id);
             element.Dispose();

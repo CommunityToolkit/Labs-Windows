@@ -45,7 +45,7 @@ public class InteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayou
         }
     }
 
-    public virtual void AddGesture(InteractionTrackerGesture<TId> gesture)
+    public void AddGesture(InteractionTrackerGesture<TId> gesture)
     {
         if (gesture.PreviewControl is { })
         {
@@ -62,6 +62,8 @@ public class InteractionTrackerBehavior<TId, TItem> : CompositionCollectionLayou
 
         _gestures.Add(gesture);
     }
+
+    public InteractionTrackerGesture<TId>? GetGesture<T>() where T : InteractionTrackerGesture<TId> => _gestures.OfType<T>().FirstOrDefault();
 
     public void RemoveGesture(InteractionTrackerGesture<TId> gesture)
     {
