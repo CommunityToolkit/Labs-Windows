@@ -24,9 +24,7 @@ function CreateVsCodeLaunchConfigJson {
       `"/p:UnoSourceGeneratorUseGenerationHost=true`",
       `"/p:UnoSourceGeneratorUseGenerationController=false`",
       `"/p:UnoRemoteControlPort=443`",
-      `"--project=`$`{workspaceFolder`}/labs/$projectName/samples/$projectName.Wasm/$projectName.Wasm.csproj`",
-      `"-p:TargetFrameworks=netstandard2.0`",
-      `"-p:TargetFramework=net5.0`"
+      `"--project=`$`{workspaceFolder`}/labs/$projectName/samples/$projectName.Wasm/$projectName.Wasm.csproj`"
     ],
     `"presentation`": {
       `"group`": `"2`"
