@@ -20,12 +20,12 @@ public class AnimatableVector3CompositionNode : IDisposable
             if (_currentAnimationNode is not null)
             {
                 // When the node value is being driven by a ongoing scalarnode animation, reading the property might return a stale value,
-                // so we instead evaluate the original expression to get the most accurate value
+                // so we instead default to evaluating the original expression to get the most accurate value
                 return _currentAnimationNode.Evaluate();
             }
             else
             {
-                return _underlyingVisual.Offset;
+                return ComposerValue;
             }
         }
         set
@@ -34,6 +34,8 @@ public class AnimatableVector3CompositionNode : IDisposable
             _currentAnimationNode = null;
         }
     }
+
+    public Vector3 ComposerValue => _underlyingVisual.Offset;
 
     public AnimatableVector3CompositionNode(Compositor compositor)
     {

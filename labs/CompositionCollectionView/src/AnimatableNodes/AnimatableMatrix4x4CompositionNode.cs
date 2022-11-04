@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
-using System;
 using System.Numerics;
 using static CommunityToolkit.Labs.WinUI.AnimationConstants;
 
@@ -12,9 +11,31 @@ public class AnimatableMatrix4x4CompositionNode : IDisposable
 {
     private Visual _underlyingVisual;
     private bool disposedValue;
+    private Matrix4x4Node? _currentAnimationNode = null;
 
-    public Matrix4x4 Value { get => _underlyingVisual.TransformMatrix; set => _underlyingVisual.TransformMatrix = value; }
+    public Matrix4x4 Value
+    {
+        get
+        {
+            if (_currentAnimationNode is not null)
+            {
+                // When the node value is being driven by a ongoing scalarnode animation, reading the property might return a stale value,
+                // so we instead default to evaluating the original expression to get the most accurate value
+                return _currentAnimationNode.Evaluate();
+            }
+            else
+            {
+                return ComposerValue;
+            }
+        }
+        set
+        {
+            _underlyingVisual.TransformMatrix = value;
+            _currentAnimationNode = null;
+        }
+    }
 
+    public Matrix4x4 ComposerValue => _underlyingVisual.TransformMatrix;
 
     public AnimatableMatrix4x4CompositionNode(Compositor compositor)
     {
@@ -23,11 +44,13 @@ public class AnimatableMatrix4x4CompositionNode : IDisposable
 
     public void Animate(CompositionAnimation animation)
     {
+        _currentAnimationNode = null;
         _underlyingVisual.StartAnimation(TransformMatrix, animation);
     }
 
-    public void Animate(ExpressionNode animation)
+    public void Animate(Matrix4x4Node animation)
     {
+        _currentAnimationNode = animation;
         _underlyingVisual.StartAnimation(TransformMatrix, animation);
     }
 
@@ -41,6 +64,7 @@ public class AnimatableMatrix4x4CompositionNode : IDisposable
             {
                 // TODO: dispose managed state (managed objects)
                 _underlyingVisual.Dispose();
+                _currentAnimationNode?.Dispose();
             }
 
             // TODO: free unmanaged resources (unmanaged objects) and override finalizer
