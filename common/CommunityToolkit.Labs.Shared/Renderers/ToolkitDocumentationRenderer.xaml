@@ -175,7 +175,7 @@
                           IsOpen="True">
                 <muxc:InfoBar.ActionButton>
                     <HyperlinkButton Content="Learn how you can use this experiment in your app"
-                                     NavigateUri="https://github.com/CommunityToolkit/WindowsCommunityToolkit/wiki/Preview-Packages#toolkit-labs-" />
+                                     NavigateUri="https://aka.ms/wct/wiki/previewpackages" />
                 </muxc:InfoBar.ActionButton>
             </muxc:InfoBar>
         </Grid>
