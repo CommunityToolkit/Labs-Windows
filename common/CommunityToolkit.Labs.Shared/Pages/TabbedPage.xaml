@@ -29,9 +29,6 @@
             </muxc:TabViewItem>
         </DataTemplate>
 
-
-
-
         <DataTemplate x:Key="SampleTemplate"
                       x:DataType="metadata:ToolkitSampleMetadata">
             <muxc:TabViewItem Header="{x:Bind DisplayName}"
@@ -65,11 +62,6 @@
                       VerticalContentAlignment="Stretch"
                       IsAddTabButtonVisible="False"
                       TabItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
-                      TabItemsSource="{x:Bind Items}">
-            <muxc:TabView.Resources>
-                <StaticResource x:Key="TabViewItemHeaderBackgroundSelected"
-                                ResourceKey="SolidBackgroundFillColorBaseBrush" />
-            </muxc:TabView.Resources>
-        </muxc:TabView>
+                      TabItemsSource="{x:Bind Items}" />
     </Grid>
 </Page>

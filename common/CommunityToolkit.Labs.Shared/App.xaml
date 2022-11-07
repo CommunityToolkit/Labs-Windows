@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary Source="/Styles/Buttons.xaml" />
+                <ResourceDictionary Source="/Styles/Colors.xaml" />
                 <ResourceDictionary Source="/Styles/ItemTemplates.xaml" />
                 <ResourceDictionary Source="/Controls/TitleBar/TitleBar.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -28,6 +29,7 @@
 
             <!--  Breakpoints  -->
             <x:Double x:Key="Breakpoint1008Plus">1008</x:Double>
+            <x:Double x:Key="Breakpoint840Plus">840</x:Double>
             <x:Double x:Key="Breakpoint641Plus">641</x:Double>
         </ResourceDictionary>
     </Application.Resources>
