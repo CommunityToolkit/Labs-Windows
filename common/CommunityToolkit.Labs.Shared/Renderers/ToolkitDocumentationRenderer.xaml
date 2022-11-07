@@ -174,7 +174,7 @@
                           IsClosable="False"
                           IsOpen="True">
                 <muxc:InfoBar.ActionButton>
-                    <HyperlinkButton Content="Learn more how you can use this experiment in your app"
+                    <HyperlinkButton Content="Learn how you can use this experiment in your app"
                                      NavigateUri="https://github.com/CommunityToolkit/WindowsCommunityToolkit/wiki/Preview-Packages#toolkit-labs-" />
                 </muxc:InfoBar.ActionButton>
             </muxc:InfoBar>
