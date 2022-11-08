@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="CommunityToolkit.Labs.Shared.Renderers.ToolkitDocumentationRenderer"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,6 +9,7 @@
       xmlns:local="using:CommunityToolkit.Labs.Shared"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:renderer="using:CommunityToolkit.Labs.Shared.Renderers"
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       mc:Ignorable="d">
@@ -24,7 +25,7 @@
 
         <DataTemplate x:Key="SampleTemplate"
                       x:DataType="metadata:ToolkitSampleMetadata">
-            <renderer:ToolkitSampleRenderer Margin="0,24,0,24"
+            <renderer:ToolkitSampleRenderer Margin="0,32,0,32"
                                             Metadata="{Binding}" />
         </DataTemplate>
 
@@ -51,19 +52,15 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint641Plus}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters />
-
-
-
                 </VisualState>
-
 
                 <VisualState x:Name="LeftMinimal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="DocItemsControl.Margin" Value="12,0,12,0" />
-                        <Setter Target="HeaderGrid.Margin" Value="12,0,12,32" />
+                        <Setter Target="DocItemsControl.Margin" Value="16,0,16,0" />
+                        <Setter Target="HeaderGrid.Margin" Value="16,0,16,32" />
                         <Setter Target="HeaderText.FontSize" Value="16" />
                         <Setter Target="HeaderText.FontWeight" Value="Bold" />
                         <Setter Target="HeaderText.Margin" Value="32,10,0,0" />
@@ -83,16 +80,17 @@
 
         <ScrollViewer Grid.Row="1">
             <ItemsControl x:Name="DocItemsControl"
-                          Margin="24,0,24,0"
+                          Margin="40,0,40,0"
                           ItemTemplateSelector="{StaticResource DocOrSampleTemplateSelector}"
                           ItemsSource="{x:Bind DocsAndSamples, Mode=OneWay}" />
         </ScrollViewer>
 
         <!--  Header grid  -->
         <Grid x:Name="HeaderGrid"
-              Margin="24,12,24,24"
+              Margin="40,24,40,40"
               VerticalAlignment="Top">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -115,8 +113,7 @@
 
                 <StackPanel Orientation="Horizontal"
                             Spacing="8">
-                    <Button Grid.Column="0"
-                            Style="{StaticResource AccentButtonStyle}">
+                    <Button Grid.Column="0">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon FontSize="14"
                                       Glyph="&#xE130;" />
@@ -129,8 +126,7 @@
                             </interactions:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </Button>
-                    <Button Grid.Column="1"
-                            Style="{StaticResource AccentButtonStyle}">
+                    <Button Grid.Column="1">
                         <StackPanel Orientation="Horizontal">
                             <PathIcon Margin="-3"
                                       VerticalAlignment="Center"
@@ -161,6 +157,7 @@
                                Style="{StaticResource CaptionTextBlockStyle}"
                                Text="Sample:" />
                     <ComboBox x:Name="SampleSelectionBox"
+                              MinWidth="160"
                               ItemsSource="{x:Bind Samples, Mode=OneWay}"
                               SelectedIndex="0"
                               SelectionChanged="SampleSelectionBox_SelectionChanged">
@@ -170,17 +167,18 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <!--<Button Height="32">
-                        <FontIcon FontSize="14"
-                                  Glyph="&#xE1A0;" />
-                    </Button>
-
-                    <Button Height="32">
-                        <FontIcon FontSize="14"
-                                  Glyph="&#xE793;" />
-                    </Button>-->
                 </StackPanel>
             </Grid>
+            <muxc:InfoBar Title="Experimental"
+                          Grid.Row="3"
+                          Margin="0,16,0,0"
+                          IsClosable="False"
+                          IsOpen="True">
+                <muxc:InfoBar.ActionButton>
+                    <HyperlinkButton Content="Learn how you can use this experiment in your app"
+                                     NavigateUri="https://aka.ms/wct/wiki/previewpackages" />
+                </muxc:InfoBar.ActionButton>
+            </muxc:InfoBar>
         </Grid>
     </Grid>
 </Page>

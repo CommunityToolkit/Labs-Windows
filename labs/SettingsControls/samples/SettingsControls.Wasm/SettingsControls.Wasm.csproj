@@ -18,6 +18,7 @@
     <IsGtk>false</IsGtk>
     <IsGtkHead>false</IsGtkHead>
     <IsGtkLib>false</IsGtkLib>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
 
