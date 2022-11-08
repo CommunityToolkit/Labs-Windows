@@ -8,6 +8,15 @@ public class ElementInteractionTrackerBehavior<TId, TItem> : CompositionCollecti
 {
     Dictionary<TId, InteractionTrackerBehavior<TId, TItem>> _elementTrackers = new();
 
+    public override void Configure(CompositionCollectionLayout<TId, TItem> layout)
+    {
+        base.Configure(layout);
+        foreach (var tracker in _elementTrackers)
+        {
+            tracker.Value.Configure(layout);
+        }
+    }
+
     public InteractionTrackerBehavior<TId, TItem> CreateTrackerFor(ElementReference<TId, TItem> element)
     {
         if (TryGetTrackerFor(element.Id, out var tracker) && tracker is not null)

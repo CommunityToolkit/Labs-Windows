@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 #nullable enable
 
-using System;
 
 namespace CommunityToolkit.Labs.WinUI;
 public abstract class CompositionCollectionLayoutBehavior<TId, TItem> where TId : notnull
@@ -11,7 +10,7 @@ public abstract class CompositionCollectionLayoutBehavior<TId, TItem> where TId 
     protected CompositionCollectionLayout<TId, TItem> Layout => _layout is null ? throw new InvalidOperationException("Behavior has not been added to any layout yet") : _layout;
     private CompositionCollectionLayout<TId, TItem>? _layout = null;
 
-    public void Configure(CompositionCollectionLayout<TId, TItem> layout)
+    public virtual void Configure(CompositionCollectionLayout<TId, TItem> layout)
     {
         if (_layout != layout)
         {
