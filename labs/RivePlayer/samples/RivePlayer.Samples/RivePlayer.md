@@ -27,6 +27,25 @@ This library allows for control over Rive files with a high-level API for drivin
 
 ## Getting Started
 
+### Installing the package
+
+To add RivePlayer from Windows Toolkit Labs, you can use the NuGet Package Manager:
+- Add the `CommunityToolkit-Labs` package via the NuGet Package Manager in Visual Studio. [See more here](https://dev.azure.com/dotnet/CommunityToolkit/_artifacts/feed/CommunityToolkit-Labs/connect/visual%20studio)
+- **(Recommended: UWP)** Install the RivePlayer with the Package Manager Console. See more on the [artifacts page](https://dev.azure.com/dotnet/CommunityToolkit/_artifacts/feed/CommunityToolkit-Labs/NuGet/CommunityToolkit.Labs.Uwp.RivePlayer/overview/0.0.1)
+
+```
+// Replace with the appropriate version at the end
+Install-Package CommunityToolkit.Labs.Uwp.RivePlayer -version 0.0.1
+```
+- (WinUI) Install the RivePlayer with the Package Manager Console. See more on the [artifacts page](https://dev.azure.com/dotnet/CommunityToolkit/_artifacts/feed/CommunityToolkit-Labs/NuGet/CommunityToolkit.Labs.WinUI.RivePlayer/overview/0.0.1)
+
+```
+// Replace with the appropriate version at the end
+Install-Package CommunityToolkit.Labs.WinUI.RivePlayer -version 0.0.1
+```
+
+### Adding RivePlayer to your app
+
 To add the Rive API to your applications, include the namespace in your XAML:
 
 ```xml
