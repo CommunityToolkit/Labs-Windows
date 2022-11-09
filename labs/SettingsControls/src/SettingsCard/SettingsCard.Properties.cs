@@ -37,7 +37,7 @@ public partial class SettingsCard : ButtonBase
     /// </summary>
     public static readonly DependencyProperty ActionIconProperty = DependencyProperty.Register(
         nameof(ActionIcon),
-        typeof(object),
+        typeof(IconElement),
         typeof(SettingsCard),
         new PropertyMetadata(defaultValue: "\ue974"));
 

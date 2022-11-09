@@ -8,17 +8,22 @@ namespace CommunityToolkit.Labs.WinUI;
 /// This is the base control to create consistent settings experiences, inline with the Windows 11 design language.
 /// A SettingsCard can also be hosted within a SettingsExpander.
 /// </summary>
+
+[TemplatePart(Name = ActionIconPresenter, Type = typeof(ContentControl))]
+[TemplatePart(Name = HeaderPresenter, Type = typeof(ContentPresenter))]
+[TemplatePart(Name = DescriptionPresenter, Type = typeof(ContentPresenter))]
+[TemplatePart(Name = HeaderIconPresenterHolder, Type = typeof(Viewbox))]
 public partial class SettingsCard : ButtonBase
 {
-    private const string NormalState = "Normal";
-    private const string PointerOverState = "PointerOver";
-    private const string PressedState = "Pressed";
-    private const string DisabledState = "Disabled";
+    internal const string NormalState = "Normal";
+    internal const string PointerOverState = "PointerOver";
+    internal const string PressedState = "Pressed";
+    internal const string DisabledState = "Disabled";
 
-    private const string ActionIconPresenter = "PART_ActionIconPresenter";
-    private const string HeaderPresenter = "PART_HeaderPresenter";
-    private const string DescriptionPresenter = "PART_DescriptionPresenter";
-    private const string HeaderIconPresenter = "PART_HeaderIconPresenter";
+    internal const string ActionIconPresenter = "PART_ActionIconPresenter";
+    internal const string HeaderPresenter = "PART_HeaderPresenter";
+    internal const string DescriptionPresenter = "PART_DescriptionPresenter";
+    internal const string HeaderIconPresenterHolder = "PART_HeaderIconPresenterHolder";
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsCard"/> class.
     /// </summary>
@@ -164,7 +169,7 @@ public partial class SettingsCard : ButtonBase
 
     private void OnHeaderIconChanged()
     {
-        if (GetTemplateChild(HeaderIconPresenter) is FrameworkElement headerIconPresenter)
+        if (GetTemplateChild(HeaderIconPresenterHolder) is FrameworkElement headerIconPresenter)
         {
             headerIconPresenter.Visibility = HeaderIcon != null
                 ? Visibility.Visible
