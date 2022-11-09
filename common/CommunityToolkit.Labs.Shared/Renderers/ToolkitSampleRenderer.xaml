@@ -10,7 +10,7 @@
       xmlns:wasm="http://uno.ui/wasm"
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       Loaded="ToolkitSampleRenderer_Loaded"
-      mc:Ignorable="d">
+      mc:Ignorable="d wasm">
 
     <Grid CornerRadius="0">
         <Grid.RowDefinitions>
@@ -177,13 +177,15 @@
 
                 <PivotItem Header="XAML">
                     <ScrollViewer>
-                        <TextBlock win:IsTextSelectionEnabled="True"
+                        <TextBlock wasm:IsTextSelectionEnabled="True"
+                                   win:IsTextSelectionEnabled="True"
                                    Text="{x:Bind XamlCode, Mode=OneWay}" />
                     </ScrollViewer>
                 </PivotItem>
                 <PivotItem Header="C#">
                     <ScrollViewer>
-                        <TextBlock win:IsTextSelectionEnabled="True"
+                        <TextBlock wasm:IsTextSelectionEnabled="True"
+                                   win:IsTextSelectionEnabled="True"
                                    Text="{x:Bind CSharpCode, Mode=OneWay}" />
                     </ScrollViewer>
                 </PivotItem>
