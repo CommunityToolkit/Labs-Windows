@@ -156,7 +156,7 @@ public sealed partial class ToolkitSampleRenderer : Page
         CSharpCode = await GetMetadataFileContents(Metadata, "xaml.cs");
 
         var sampleControlInstance = (UIElement)Metadata.SampleControlFactory();
-
+       
         // Custom control-based sample options.
         if (Metadata.SampleOptionsPaneType is not null && Metadata.SampleOptionsPaneFactory is not null)
         {
@@ -267,14 +267,24 @@ public sealed partial class ToolkitSampleRenderer : Page
 
     private void ThemeBtn_OnClick(object sender, RoutedEventArgs e)
     {
-        if (this.ActualTheme == ElementTheme.Dark)
+        if (ContentPageHolder.ActualTheme == ElementTheme.Dark)
         {
-            this.RequestedTheme = ElementTheme.Light;
+            ContentPageHolder.RequestedTheme = ElementTheme.Light;
         }
         else
         {
-            this.RequestedTheme = ElementTheme.Dark;
+            ContentPageHolder.RequestedTheme = ElementTheme.Dark;
         }
+
+        if (this.ActualTheme != ContentPageHolder.RequestedTheme)
+        {
+            ThemeBG.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            ThemeBG.Visibility = Visibility.Collapsed;
+        }
+
     }
 
     private void FlowDirectionBtn_OnClick(object sender, RoutedEventArgs e)
