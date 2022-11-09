@@ -18,7 +18,7 @@
     <Description>
       This package contains RivePlayer.
     </Description>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
   </PropertyGroup>
 
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->
