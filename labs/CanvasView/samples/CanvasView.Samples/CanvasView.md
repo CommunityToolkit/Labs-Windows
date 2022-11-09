@@ -13,11 +13,6 @@ labs-issue: 212
 
 # CanvasView
 
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/3716
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/212
-
 CanvasView is an ItemsControl which uses a Canvas for the layout of its items.
 
 It which provides built-in support for presenting a collection of items bound to specific coordinates and drag-and-drop support of those items.
