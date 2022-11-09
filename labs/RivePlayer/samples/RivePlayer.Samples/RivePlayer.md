@@ -11,15 +11,9 @@ labs-discussion: 309
 labs-issue: 0
 ---
 
-<!-- To know about all the available Markdown syntax, Check out https://docs.microsoft.com/contribute/markdown-reference -->
-<!-- Ensure you remove all comments before submission, to ensure that there are no formatting issues when displaying this page.  -->
-<!-- It is recommended to check how the Documentation will look in the sample app, before Merging a PR -->
-<!-- **Note:** All links to other docs.microsoft.com pages should be relative without locale, i.e. for the one above would be /contribute/markdown-reference -->
-<!-- Included images should be optimized for size and not include any Intellectual Property references. -->
-
 # RivePlayer
 
-![Rive hero image](https://rive-app.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fff44ed5f-1eea-4154-81ef-84547e61c3fd%2Frive_notion.png?table=block&id=f198cab2-c0bc-4ce8-970c-42220379bcf3&spaceId=9c949665-9ad9-445f-b9c4-5ee204f8b60c&width=2000&userId=&cache=v2)
+![Rive hero image](https://rive-app.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fff44ed5f-1eea-4154-81ef-84547e61c3fd%2Frive_notion.png?table=block&id=f198cab2-c0bc-4ce8-970c-42220379bcf3&spaceId=9c949665-9ad9-445f-b9c4-5ee204f8b60c&width=512&userId=&cache=v2)
 
 A high-level runtime for the [Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/) to use [Rive](https://rive.app) in Universal Windows Platform (UWP) applications.
 
