@@ -1,4 +1,4 @@
-<Project>  
+<Project>
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.Dependencies.props" />
 
@@ -8,5 +8,18 @@
 
   <PropertyGroup>
     <TargetFramework>$(UwpTargetFramework)</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+
+    <!-- Workarounds for ILT0005: https://github.com/CommunityToolkit/Labs-Windows/issues/245#issuecomment-1294082426 -->
+    <Use64BitCompiler>true</Use64BitCompiler>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+
+    <SingleThreadNUTC>true</SingleThreadNUTC>
+    <EnableGatekeeperAnalysis>true</EnableGatekeeperAnalysis>
+    <ShortcutGenericAnalysis>true</ShortcutGenericAnalysis>    <!-- Can help stop runaway analysis of generic types and reduce overall generation requirements. -->
+    <OutOfProcPDB>true</OutOfProcPDB>    <!-- Opt-in to generate PDB's out of process -->
   </PropertyGroup>
 </Project>
