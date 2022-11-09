@@ -7,6 +7,8 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+labs-discussion: 96
+labs-issue: 101
 ---
 
 # GridSplitter

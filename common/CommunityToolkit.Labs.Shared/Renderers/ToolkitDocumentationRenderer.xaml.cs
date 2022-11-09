@@ -188,7 +188,6 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         }
     }
 
-
 #if HAS_UNO
     private void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
     {
@@ -213,4 +212,12 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         }
     }
 #endif
+
+    public static Uri ToLabsUri(string path, int id) => new Uri($"https://github.com/CommunityToolkit/Labs-Windows/{path}/{id}");
+
+    public static Visibility IsIdValid(int id) => id switch
+    {
+        <= 0 => Visibility.Collapsed,
+        _ => Visibility.Visible,
+    };
 }

@@ -7,14 +7,11 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+labs-discussion: 129
+labs-issue: 216
 ---
 
 # Settings Page Example
-
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/Labs-Windows/discussions/129
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/216
 
 This example uses `SettingsCard` and `SettingsExpander` to showcase a complete Windows 11 style settings page.
 

@@ -7,14 +7,11 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+labs-discussion: 96
+labs-issue: 101
 ---
 
 # Sizer Controls
-
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/Labs-Windows/discussions/96
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/101
 
 The Sizer controls consist of the following:
 

@@ -7,14 +7,11 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+labs-discussion: 96
+labs-issue: 101
 ---
 
 # ContentSizer
-
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/Labs-Windows/discussions/96
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/101
 
 The ContentSizer is a control which can be used to resize any element, usually its parent. If you are using a `Grid`, use [GridSplitter](GridSplitter.md) instead.
 

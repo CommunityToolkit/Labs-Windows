@@ -29,6 +29,12 @@ public partial class ToolkitSampleMetadataGenerator
     private const string FrontMatterRegexSubcategoryExpression = @"^subcategory:\s*(?<subcategory>.*)$";
     private static readonly Regex FrontMatterRegexSubcategory = new Regex(FrontMatterRegexSubcategoryExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
+    private const string FrontMatterRegexDiscussionIdExpression = @"^labs-discussion:\s*(?<discussionId>.*)$";
+    private static readonly Regex FrontMatterRegexDiscussionId = new Regex(FrontMatterRegexDiscussionIdExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+    private const string FrontMatterRegexIssueIdExpression = @"^labs-issue:\s*(?<issueId>.*)$";
+    private static readonly Regex FrontMatterRegexIssueId = new Regex(FrontMatterRegexIssueIdExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
     private const string MarkdownRegexSampleTagExpression = @"^>\s*\[!SAMPLE\s*(?<sampleid>.*)\s*\]\s*$";
     private static readonly Regex MarkdownRegexSampleTag = new Regex(MarkdownRegexSampleTagExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
@@ -105,9 +111,12 @@ public partial class ToolkitSampleMetadataGenerator
                 var category = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexCategory, "category");
                 var subcategory = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexSubcategory, "subcategory");
 
+                var discussion = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexDiscussionId, "discussionId")?.Trim();
+                var issue = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexIssueId, "issueId")?.Trim();
+
                 // Check we have all the fields we expect to continue (errors will have been spit out otherwise already from the ParseYamlField method)
                 if (title == null || description == null || keywords == null ||
-                        category == null || subcategory == null)
+                        category == null || subcategory == null || discussion == null || issue == null)
                 {
                     return null;
                 }
@@ -159,6 +168,28 @@ public partial class ToolkitSampleMetadataGenerator
                             file.Path));
                 }
 
+                if (!int.TryParse(discussion, out var discussionId) || discussionId < 0)
+                {
+                    ctx.ReportDiagnostic(
+                        Diagnostic.Create(
+                            DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
+                            Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                            file.Path,
+                            "Can't parse labs-discussion field, must be a positive integer or zero."));
+                    return null;
+                }
+
+                if (!int.TryParse(issue, out var issueId) || issueId < 0)
+                {
+                    ctx.ReportDiagnostic(
+                        Diagnostic.Create(
+                            DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
+                            Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
+                            file.Path,
+                            "Can't parse labs-issue field, must be a positive integer or zero."));
+                    return null;
+                }
+
                 // Finally, construct the complete object.
                 return new ToolkitFrontMatter()
                 {
@@ -168,13 +199,15 @@ public partial class ToolkitSampleMetadataGenerator
                     Category = categoryValue,
                     Subcategory = subcategoryValue,
                     FilePath = filepath,
-                    SampleIdReferences = sampleids.ToArray()
+                    SampleIdReferences = sampleids.ToArray(),
+                    DiscussionId = discussionId,
+                    IssueId = issueId,
                 };
             }
         }).OfType<ToolkitFrontMatter>().ToImmutableArray();
     }
 
-    private string? ParseYamlField(ref SourceProductionContext ctx, string filepath, ref string content, Regex pattern, string fieldname)
+    private string? ParseYamlField(ref SourceProductionContext ctx, string filepath, ref string content, Regex pattern, string captureGroupName)
     {
         var match = pattern.Match(content);
 
@@ -185,11 +218,11 @@ public partial class ToolkitSampleMetadataGenerator
                     DiagnosticDescriptors.MarkdownYAMLFrontMatterMissingField,
                     Location.Create(filepath, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
                     filepath,
-                    fieldname));
+                    captureGroupName));
             return null;
         }
 
-        return match.Groups[fieldname].Value.Trim();
+        return match.Groups[captureGroupName].Value.Trim();
     }
 
     private void CreateDocumentRegistry(SourceProductionContext ctx, ImmutableArray<ToolkitFrontMatter> matter)
@@ -223,6 +256,6 @@ public static class ToolkitDocumentRegistry
         var categoryParam = $"{nameof(ToolkitSampleCategory)}.{metadata.Category}";
         var subcategoryParam = $"{nameof(ToolkitSampleSubcategory)}.{metadata.Subcategory}";
 
-        return @$"yield return new {typeof(ToolkitFrontMatter).FullName}() {{ Title = ""{metadata.Title}"", Author = ""{metadata.Author}"", Description = ""{metadata.Description}"", Keywords = ""{metadata.Keywords}"", Category = {categoryParam}, Subcategory = {subcategoryParam}, FilePath = @""{metadata.FilePath}"", SampleIdReferences = new string[] {{ ""{string.Join("\",\"", metadata.SampleIdReferences)}"" }} }};"; // TODO: Add list of sample ids in document
+        return @$"yield return new {typeof(ToolkitFrontMatter).FullName}() {{ Title = ""{metadata.Title}"", Author = ""{metadata.Author}"", Description = ""{metadata.Description}"", Keywords = ""{metadata.Keywords}"", Category = {categoryParam}, Subcategory = {subcategoryParam}, DiscussionId = {metadata.DiscussionId}, IssueId = {metadata.IssueId}, FilePath = @""{metadata.FilePath}"", SampleIdReferences = new string[] {{ ""{string.Join("\",\"", metadata.SampleIdReferences)}"" }} }};"; // TODO: Add list of sample ids in document
     }
 }

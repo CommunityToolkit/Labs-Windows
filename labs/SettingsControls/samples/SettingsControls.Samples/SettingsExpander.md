@@ -7,14 +7,11 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+labs-discussion: 129
+labs-issue: 216
 ---
 
 # SettingsExpander
-
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/Labs-Windows/discussions/129
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/216
 
 The `SettingsExpander` can be used to group multiple `SettingsCard`s into a single collapsable group.
 

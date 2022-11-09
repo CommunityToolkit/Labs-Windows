@@ -7,14 +7,11 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+labs-discussion: 96
+labs-issue: 101
 ---
 
 # PropertySizer
-
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/Labs-Windows/discussions/96
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/101
 
 The PropertySizer is a control which can be used to manipulate the value of another <c>double</c> based property. For instance manipulating the <c>OpenPaneLength</c> of a <c>NavigationView</c> control. If you are using a <see cref="Grid"/>, use <see cref="GridSplitter"/> instead.
 

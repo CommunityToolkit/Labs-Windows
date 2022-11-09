@@ -26,8 +26,9 @@ public static class IconHelper
         switch (subcategory)
         {
             case ToolkitSampleSubcategory.None: imagePath = "ms-appx:///Assets/ControlIcons/Control.png"; break;
-            case ToolkitSampleSubcategory.Layout: imagePath = "ms-appx:///Assets/ControlIcons/Layout.png"; break;
             case ToolkitSampleSubcategory.Input: imagePath = "ms-appx:///Assets/ControlIcons/Input.png"; break;
+            case ToolkitSampleSubcategory.Layout: imagePath = "ms-appx:///Assets/ControlIcons/Layout.png"; break;
+            case ToolkitSampleSubcategory.Media: imagePath = "ms-appx:///Assets/ControlIcons/Control.png"; break;
             case ToolkitSampleSubcategory.StatusAndInfo: imagePath = "ms-appx:///Assets/ControlIcons/Status.png"; break;
         }
         return imagePath;
