@@ -134,26 +134,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
             _constParamMap[parameterName] = value;
         }
 
-        /// <summary>
-        /// Releases all resources used by this ExpressionNode.
-        /// </summary>
+        private bool disposedValue;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                    _objRefList = null;
+                    _compObjToParamNameMap = null;
+                    _constParamMap = null;
+                    Subchannels = null;
+                    PropertyName = null;
+                    NodeType = ExpressionNodeType.Count;
+
+                    // Note: we don't recursively dispose all child nodes, as those nodes could be in use by a different Expression
+                    Children = null;
+
+                    if (ExpressionAnimation != null)
+                    {
+                        ExpressionAnimation.Dispose();
+                        ExpressionAnimation = null;
+                    }
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
+            }
+        }
+
+
         public void Dispose()
         {
-            _objRefList = null;
-            _compObjToParamNameMap = null;
-            _constParamMap = null;
-            Subchannels = null;
-            PropertyName = null;
-            NodeType = ExpressionNodeType.Count;
-
-            // Note: we don't recursively dispose all child nodes, as those nodes could be in use by a different Expression
-            Children = null;
-
-            if (ExpressionAnimation != null)
-            {
-                ExpressionAnimation.Dispose();
-                ExpressionAnimation = null;
-            }
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
