@@ -15,6 +15,7 @@
       $(AndroidLibTargetFramework);
     </TargetFrameworks>
 
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
     <DefineConstants Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'">$(DefineConstants);WINAPPSDK</DefineConstants>
