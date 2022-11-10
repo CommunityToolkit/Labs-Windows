@@ -7,14 +7,11 @@ dev_langs:
   - csharp
 category: Behaviors
 subcategory: StatusAndInfo
+labs-discussion: 312
+labs-issue: 210
 ---
 
 # StackedNotificationsBehavior
-
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4194
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/210
 
 A behavior to add stacked notifications to a WinUI InfoBar control.
 

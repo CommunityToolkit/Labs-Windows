@@ -19,6 +19,7 @@
 #if __WASM__
 using Markdig;
 using Uno.Foundation.Interop;
+using Uno.UI.Runtime.WebAssembly;
 #endif
 
 namespace CommunityToolkit.Labs.Shared.Renderers;
@@ -27,28 +28,20 @@ namespace CommunityToolkit.Labs.Shared.Renderers;
 /// Provide an abstraction around the Toolkit MarkdownTextBlock for both UWP and WinUI 3 in the same namespace (until 8.0) as well as a polyfill for WebAssembly/WASM.
 /// </summary>
 #if __WASM__
-public partial class MarkdownTextBlock : Control
+[HtmlElement("div")]
+public partial class MarkdownTextBlock : TextBlock
 {
-    public string Text
-    {
-        get { return (string)GetValue(TextProperty); }
-        set { SetValue(TextProperty, value); }
-    }
-
-    public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register(nameof(Text), typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null, MarkdownTextChanged));
-
-    private static void MarkdownTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is MarkdownTextBlock mtb && mtb.IsLoaded)
-        {
-            mtb.UpdateText(e.NewValue as string ?? string.Empty);
-        }
-    }
-
     public MarkdownTextBlock()
     {
         Loaded += this.MarkdownTextBlock_Loaded;
+    }
+
+    protected override void OnTextChanged(string oldValue, string newValue)
+    {
+        if (IsLoaded)
+        {
+            UpdateText(newValue);
+        }
     }
 
     private void MarkdownTextBlock_Loaded(object sender, RoutedEventArgs e)
@@ -61,7 +54,7 @@ public partial class MarkdownTextBlock : Control
     #nullable enable
     private void HtmlElementResized(object? sender, EventArgs e)
     {
-        this.UpdateLayout();
+        this.InvalidateMeasure();
     }
 
     private void UpdateText(string markdown)
@@ -78,6 +71,8 @@ public partial class MarkdownTextBlock : Control
         }        
 
         this.SetHtmlContent(Markdown.ToHtml(markdown));
+
+        this.InvalidateMeasure();
     }
 
     protected override Size MeasureOverride(Size availableSize)
@@ -86,17 +81,29 @@ public partial class MarkdownTextBlock : Control
 
         return size;
     }
-}
-#else
-public partial class MarkdownTextBlock : ToolkitMTB
-{
-#if HAS_UNO
+
     //// Polyfill dummy for event callback
     #pragma warning disable CS0067 // Unused on purpose for polyfill
     public event EventHandler<LinkClickedEventArgs>? LinkClicked;
     #pragma warning restore CS0067 // Unused on purpose for polyfill
-#endif
 }
+#else
+public partial class MarkdownTextBlock : ToolkitMTB
+{
+    #if !HAS_UNO
+    public MarkdownTextBlock()
+    {
+        // Note: TODO: We can't use win:IsTextSelectionEnabled in XAML, for some reason getting a UWP compiler issue...? Maybe confused by inheritance?
+        IsTextSelectionEnabled = true;
+    }
+    #else
+    //// Polyfill dummy for event callback
+    #pragma warning disable CS0067 // Unused on purpose for polyfill
+    public event EventHandler<LinkClickedEventArgs>? LinkClicked;
+    #pragma warning restore CS0067 // Unused on purpose for polyfill
+    #endif
+}
+#endif
 
 #if HAS_UNO
 //// Polyfill dummy for event callback

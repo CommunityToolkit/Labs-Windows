@@ -191,7 +191,8 @@ public sealed partial class ToolkitDocumentationRenderer : Page
 #if HAS_UNO
     private void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
     {
-        // No-op - TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/151
+        // No-op - WASM handles via browser 'a' tag, Windows has handler below.
+        // TODO: For other platforms
     }
 #elif !HAS_UNO
     private async void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
