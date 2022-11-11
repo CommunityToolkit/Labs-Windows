@@ -7,7 +7,7 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 0
+labs-discussion: 310
 labs-issue: 212
 ---
 
