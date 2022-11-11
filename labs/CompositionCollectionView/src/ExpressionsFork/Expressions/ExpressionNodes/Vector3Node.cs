@@ -344,6 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                         nameof(Visual.Offset) => (reference as Visual).Offset,
                         nameof(Visual.RotationAxis) => (reference as Visual).RotationAxis,
                         nameof(Visual.CenterPoint) => (reference as Visual).CenterPoint,
+                        nameof(Visual.Scale) => (reference as Visual).Scale,
                         _ => GetProperty()
                     };
 
