@@ -68,7 +68,9 @@ public partial class MarkdownTextBlock : TextBlock
         else
         {
             this.SetCssStyle("fontFamily", "Segoe UI");
-        }        
+        }
+
+        this.SetCssClass("fluent-hyperlink-style");
 
         this.SetHtmlContent(Markdown.ToHtml(markdown));
 
