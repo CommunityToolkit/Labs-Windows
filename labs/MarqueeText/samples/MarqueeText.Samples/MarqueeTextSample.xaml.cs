@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 namespace MarqueeTextExperiment.Samples;
-[ToolkitSample(id: nameof(MarqueeTextSample), "Templated control", description: "A sample for showing how to create and use a templated control.")]
+[ToolkitSample(id: nameof(MarqueeTextSample), "MarqueeText", description: "A control for scrolling text in a marquee fashion.")]
 [ToolkitSampleMultiChoiceOption("MarqueeSpeed", "Speed", "Slow : 64", "Medium : 96", "Fast : 128")]
 //[ToolkitSampleMultiChoiceOption("MarqueeMode", "Mode", "Ticker", "Looping", "Bouncing")]
 //[ToolkitSampleMultiChoiceOption("MarqueeDirection", "Direction", "Left", "Right", "Up", "Down")]
