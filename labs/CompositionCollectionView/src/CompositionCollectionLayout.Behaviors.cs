@@ -8,7 +8,7 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
 {
     private List<CompositionCollectionLayoutBehavior<TId, TItem>> _behaviors = new();
 
-    protected void AddBehavior(CompositionCollectionLayoutBehavior<TId, TItem> behavior)
+    public void AddBehavior(CompositionCollectionLayoutBehavior<TId, TItem> behavior)
     {
         if (IsActive)
         {
@@ -29,7 +29,7 @@ public abstract partial class CompositionCollectionLayout<TId, TItem> : ILayout,
     public T? TryGetBehavior<T>() where T : CompositionCollectionLayoutBehavior<TId, TItem> =>
         _behaviors.OfType<T>().FirstOrDefault();
 
-    protected void RemoveBehavior(CompositionCollectionLayoutBehavior<TId, TItem> behavior)
+    public void RemoveBehavior(CompositionCollectionLayoutBehavior<TId, TItem> behavior)
     {
         _behaviors.Remove(behavior);
     }
