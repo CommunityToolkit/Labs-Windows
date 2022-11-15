@@ -55,12 +55,9 @@ public partial class SettingsCard : ButtonBase
             if (!string.IsNullOrEmpty(headerString))
             {
                 AutomationProperties.SetName(this, headerString);
-            }
 
-            if (Content != null && Content.GetType() != typeof(Button))
-            {
-                // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-                if (!string.IsNullOrEmpty(headerString))
+                // We don't want to override an AutomationProperties.Name that is manually set, or if the Content basetype is of type ButtonBase (the ButtonBase.Content will be used then)
+                if (Content != null && string.IsNullOrEmpty(AutomationProperties.GetName((UIElement)Content)) && Content.GetType().BaseType != typeof(ButtonBase))
                 {
                     AutomationProperties.SetName((UIElement)Content, headerString);
                 }
