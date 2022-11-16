@@ -14,4 +14,9 @@
     <ProjectCapability Include="TestContainer" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <!-- Removed in 1.1+, see this bug: https://developercommunity.visualstudio.com/t/Windows-App-SDK-11-Unit-Tests-not-laun/10192460 -->
+    <WindowsAppContainer>true</WindowsAppContainer>
+  </PropertyGroup>
+
 </Project>
