@@ -14,7 +14,6 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
 
     <!-- Workarounds for ILT0005: https://github.com/CommunityToolkit/Labs-Windows/issues/245#issuecomment-1294082426 -->
-    <Use64BitCompiler>true</Use64BitCompiler>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
 
     <SingleThreadNUTC>true</SingleThreadNUTC>
