@@ -9,8 +9,4 @@
   <PropertyGroup>
     <TargetFramework>$(UwpTargetFramework)</TargetFramework>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
 </Project>
