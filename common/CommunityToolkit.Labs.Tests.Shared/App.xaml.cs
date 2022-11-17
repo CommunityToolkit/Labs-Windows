@@ -26,6 +26,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using System.Runtime.InteropServices;
 #endif
 
 namespace CommunityToolkit.Labs.Tests;
@@ -39,6 +40,22 @@ public sealed partial class App : Application
     // Using static will not work.
 #if WINAPPSDK
     private static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int Left;        // x position of upper-left corner
+        public int Top;         // y position of upper-left corner
+        public int Right;       // x position of lower-right corner
+        public int Bottom;      // y position of lower-right corner
+    }
+
+    [DllImport("user32.dll")]
+    static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+
+    [DllImport("user32", ExactSpelling = true, SetLastError = true)]
+    internal static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] ref RECT rect, [MarshalAs(UnmanagedType.U4)] int cPoints);
 
     private static AppWindow GetAppWindow(Microsoft.UI.Xaml.Window window)
     {
@@ -56,6 +73,22 @@ public sealed partial class App : Application
     public static Rect Bounds { get
         {
             var appWindow = GetAppWindow(currentWindow);
+
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(currentWindow);
+
+            // Get client area position
+            RECT ir = new RECT();
+            MapWindowPoints(hWnd, IntPtr.Zero, ref ir, 1);
+
+            RECT rct;
+
+            // And size
+            if (GetClientRect(hWnd, out rct))
+            {
+                return new Rect(ir.Left, ir.Top, rct.Right - rct.Left, rct.Bottom - rct.Top);
+            }
+
+            // AppWindow uses GetWindowRect which includes the chrome, not what we want... TODO: File bug currentWindow.Bounds should be the same between the two platforms. Should AppWindow also have Bounds?
             var position = appWindow.Position;
             var size = appWindow.Size;
             return new Rect(position.X, position.Y, size.Width, size.Height);
