@@ -40,7 +40,7 @@ public partial class SettingsExpander
     /// </summary>
     public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(
         nameof(Content),
-        typeof(UIElement),
+        typeof(object),
         typeof(SettingsExpander),
         new PropertyMetadata(defaultValue: null));
 
@@ -87,9 +87,9 @@ public partial class SettingsExpander
     /// <summary>
     /// Gets or sets the Content.
     /// </summary>
-    public UIElement Content
+    public object Content
     {
-        get => (UIElement)GetValue(ContentProperty);
+        get => (object)GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
 

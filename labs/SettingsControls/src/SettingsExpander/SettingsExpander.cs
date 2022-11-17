@@ -30,21 +30,11 @@ public partial class SettingsExpander : ItemsControl
         if (Header != null && Header.GetType() == typeof(string))
         {
             string? headerString = Header.ToString();
-            if (!string.IsNullOrEmpty(headerString))
+            if (!string.IsNullOrEmpty(headerString) && string.IsNullOrEmpty(AutomationProperties.GetName(this)))
             {
                 AutomationProperties.SetName(this, headerString);
             }
-
-            if (Content != null && Content.GetType() != typeof(Button))
-            {
-                // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-                if (!string.IsNullOrEmpty(headerString))
-                {
-                    AutomationProperties.SetName((UIElement)Content, headerString);
-                }
-            }
         }
-
     }
 
     /// <summary>
