@@ -12,13 +12,5 @@
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-
-    <!-- Workarounds for ILT0005: https://github.com/CommunityToolkit/Labs-Windows/issues/245#issuecomment-1294082426 -->
-    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
-
-    <SingleThreadNUTC>true</SingleThreadNUTC>
-    <EnableGatekeeperAnalysis>true</EnableGatekeeperAnalysis>
-    <ShortcutGenericAnalysis>true</ShortcutGenericAnalysis>    <!-- Can help stop runaway analysis of generic types and reduce overall generation requirements. -->
-    <OutOfProcPDB>true</OutOfProcPDB>    <!-- Opt-in to generate PDB's out of process -->
   </PropertyGroup>
 </Project>
