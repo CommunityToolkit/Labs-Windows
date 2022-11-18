@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "StackedNotificationsBehavior.Tests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "StackedNotificationsBehavior.Tests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-<Project>  
+<Project>
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.Dependencies.props" />
 

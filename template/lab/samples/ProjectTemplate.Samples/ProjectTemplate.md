@@ -18,6 +18,7 @@ subcategory: Layout
 # ProjectTemplate
 
 For more information about this experiment see:
+
 - Discussion: TODO: PASTE LINK HERE
 - Issue: TODO: PASTE LINK HERE
 

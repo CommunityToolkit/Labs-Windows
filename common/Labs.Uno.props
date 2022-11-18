@@ -4,6 +4,9 @@
     <ItemGroup Condition="'$(IsUno)' == 'true'">
         <PackageReference Include="Uno.UI" Version="4.6.18" />
     </ItemGroup>
+    <PropertyGroup Condition="'$(IsUno)' == 'true'">
+        <UnoUIUseRoslynSourceGenerators>true</UnoUIUseRoslynSourceGenerators>
+    </PropertyGroup>
 
     <ItemGroup Condition="'$(IsWasm)' == 'true' OR '$(IsWpf)' == 'true' OR '$(IsGtk)' == 'true'">
         <PackageReference Include="Uno.UI.RemoteControl" Version="4.6.18" Condition="'$(Configuration)'=='Debug'" />

@@ -10,15 +10,15 @@
   <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
 
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.WinUI.SizerBaseRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.Labs.WinUI.StackedNotificationsBehaviorRns</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).SizerBase</PackageId>
+    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).StackedNotificationsBehavior</PackageId>
     <Description>
-      This package contains SizerBase.
+      This package contains StackedNotificationsBehavior.
     </Description>
-    <Version>0.0.3</Version>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->
