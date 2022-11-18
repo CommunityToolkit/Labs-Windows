@@ -3,7 +3,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
@@ -345,7 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                 case ExpressionNodeType.Distance:
                     return Vector2.Distance((Children[0] as Vector2Node).Evaluate(), (Children[1] as Vector2Node).Evaluate());
                 case ExpressionNodeType.Clamp:
-                    return (float)Math.Min(Math.Max((Children[0] as ScalarNode).Evaluate(),  (Children[1] as ScalarNode).Evaluate()), (Children[2] as ScalarNode).Evaluate());
+                    return (float)Math.Min(Math.Max((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate()), (Children[2] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Lerp:
                 {
                     var start = (Children[0] as ScalarNode).Evaluate();
@@ -353,7 +352,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                     var progress = (Children[2] as ScalarNode).Evaluate();
                     return start + (progress * (end - start));
                 }
-
+                case ExpressionNodeType.Length:
+                    return Children[0] switch
+                    {
+                        Vector2Node v2 => v2.Evaluate().Length(),
+                        Vector3Node v3 => v3.Evaluate().Length(),
+                        Vector4Node v4 => v4.Evaluate().Length(),
+                        _ => throw new NotImplementedException()
+                    };
                 case ExpressionNodeType.Swizzle:
                     return Children[0] switch
                     {
@@ -379,7 +385,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                         _ => throw new NotImplementedException()
                     };
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException($"Operation ${NodeType} not implemented for ScalarNode");
             }
         }
     }

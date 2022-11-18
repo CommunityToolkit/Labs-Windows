@@ -3,8 +3,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
 {
     // Ignore warning: 'ColorNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
@@ -129,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                         (Children[1] as ColorNode).Evaluate() :
                         (Children[2] as ColorNode).Evaluate();
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException($"Operation ${NodeType} not implemented for ColorNode");
             }
         }
     }

@@ -3,7 +3,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
@@ -480,7 +479,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                         Children[0].EvaluateSubchannel(Subchannels[14]),
                         Children[0].EvaluateSubchannel(Subchannels[15]));
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException($"Operation ${NodeType} not implemented for Matrix4x4Node");
             }
         }
     }

@@ -3,7 +3,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
@@ -413,7 +412,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                 case ExpressionNodeType.Swizzle:
                     return new Vector4(Children[0].EvaluateSubchannel(Subchannels[0]), Children[0].EvaluateSubchannel(Subchannels[1]), Children[0].EvaluateSubchannel(Subchannels[2]), Children[0].EvaluateSubchannel(Subchannels[3]));
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException($"Operation ${NodeType} not implemented for Vector4Node");
             }
         }
     }

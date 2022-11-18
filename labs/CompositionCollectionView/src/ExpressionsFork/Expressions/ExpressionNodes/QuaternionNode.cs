@@ -3,7 +3,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
@@ -190,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                 case ExpressionNodeType.Swizzle:
                     return new Quaternion(this.EvaluateSubchannel(Subchannels[0]), this.EvaluateSubchannel(Subchannels[1]), this.EvaluateSubchannel(Subchannels[2]), this.EvaluateSubchannel(Subchannels[4]));
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException($"Operation ${NodeType} not implemented for QuaternionNode");
             }
         }
     }

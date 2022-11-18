@@ -3,8 +3,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
 {
     // Ignore warning: 'BooleanNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
@@ -174,22 +172,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                         (Children[1] as BooleanNode).Evaluate() :
                         (Children[2] as BooleanNode).Evaluate();
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException($"Operation ${NodeType} not implemented for BooleanNode");
             }
 
             bool Equals(ExpressionNode e1, ExpressionNode e2) => (e1, e2) switch
-                {
-                    (BooleanNode n1, BooleanNode n2) => n1.Evaluate() == n2.Evaluate(),
-                    (ScalarNode n1, ScalarNode n2) => n1.Evaluate() == n2.Evaluate(),
-                    (Vector2Node n1, Vector2Node n2) => n1.Evaluate() == n2.Evaluate(),
-                    (Vector3Node n1, Vector3Node n2) => n1.Evaluate() == n2.Evaluate(),
-                    (Vector4Node n1, Vector4Node n2) => n1.Evaluate() == n2.Evaluate(),
-                    (ColorNode n1, ColorNode n2) => n1.Evaluate() == n2.Evaluate(),
-                    (QuaternionNode n1, QuaternionNode n2) => n1.Evaluate() == n2.Evaluate(),
-                    (Matrix3x2Node n1, Matrix3x2Node n2) => n1.Evaluate() == n2.Evaluate(),
-                    (Matrix4x4Node n1, Matrix4x4Node n2) => n1.Evaluate() == n2.Evaluate(),
-                    _ => false
-                };
+            {
+                (BooleanNode n1, BooleanNode n2) => n1.Evaluate() == n2.Evaluate(),
+                (ScalarNode n1, ScalarNode n2) => n1.Evaluate() == n2.Evaluate(),
+                (Vector2Node n1, Vector2Node n2) => n1.Evaluate() == n2.Evaluate(),
+                (Vector3Node n1, Vector3Node n2) => n1.Evaluate() == n2.Evaluate(),
+                (Vector4Node n1, Vector4Node n2) => n1.Evaluate() == n2.Evaluate(),
+                (ColorNode n1, ColorNode n2) => n1.Evaluate() == n2.Evaluate(),
+                (QuaternionNode n1, QuaternionNode n2) => n1.Evaluate() == n2.Evaluate(),
+                (Matrix3x2Node n1, Matrix3x2Node n2) => n1.Evaluate() == n2.Evaluate(),
+                (Matrix4x4Node n1, Matrix4x4Node n2) => n1.Evaluate() == n2.Evaluate(),
+                _ => false
+            };
         }
     }
 #pragma warning restore CS0660, CS0661

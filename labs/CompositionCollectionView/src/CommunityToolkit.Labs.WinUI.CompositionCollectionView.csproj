@@ -18,7 +18,7 @@
     <Description>
       This package contains CompositionCollectionView.
     </Description>
-    <Version>0.0.25</Version>
+    <Version>0.0.26</Version>
     <Nullable>warnings</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
