@@ -20,6 +20,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputSimulator.Bounds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputSimulator.Touch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputSimulator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VisualUITestBase.cs" />
