@@ -27,9 +27,8 @@ public partial class SettingsExpander : ItemsControl
 
     private void RegisterAutomation()
     {
-        if (Header != null && Header.GetType() == typeof(string))
+        if (Header is string headerString && headerString != string.Empty)
         {
-            string? headerString = Header.ToString();
             if (!string.IsNullOrEmpty(headerString) && string.IsNullOrEmpty(AutomationProperties.GetName(this)))
             {
                 AutomationProperties.SetName(this, headerString);
