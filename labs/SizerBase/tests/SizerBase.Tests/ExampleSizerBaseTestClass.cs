@@ -69,11 +69,14 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
         // Get location to button.
         var location = App.ContentRoot.CoordinatesTo(button); // TODO: Write a `CoordinatesToCenter` helper?
 
-        SimulateInput.StartTouch();
+        // TODO: Make an extension method on window for this to be like: App.CurrentWindow.InjectInput()...
+        InputSimulator sim = new(App.CurrentWindow);
+
+        sim.StartTouch();
         // Offset location slightly to ensure we're inside the button.
-        var pointerId = SimulateInput.TouchDown(new Point(location.X + 25, location.Y + 25));
+        var pointerId = sim.TouchDown(new Point(location.X + 25, location.Y + 25));
         await Task.Delay(50);
-        SimulateInput.TouchUp(pointerId);
+        sim.TouchUp(pointerId);
 
         // Ensure UI event is processed by our button
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
@@ -83,6 +86,6 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
 
         Assert.IsTrue(testControl.WasButtonClicked, "Button wasn't clicked.");
 
-        SimulateInput.StopTouch();
+        sim.StopTouch();
     }
 }

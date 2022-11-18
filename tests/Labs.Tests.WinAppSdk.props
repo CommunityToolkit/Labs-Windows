@@ -8,6 +8,7 @@
       <ExcludeAssets>build</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2"/>
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.104-beta" PrivateAssets="all"/>
   </ItemGroup>
 
   <ItemGroup>

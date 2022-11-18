@@ -4,14 +4,31 @@
 
 using Windows.UI.Input.Preview.Injection;
 
+#if WINAPPSDK
+using MainWindow = Microsoft.UI.Xaml.Window;
+#else
+using MainWindow = Windows.UI.Xaml.Window;
+#endif
+
 namespace CommunityToolkit.Labs.Tests;
 
-public static class SimulateInput
+public partial class InputSimulator
 {
     private static InputInjector _input = InputInjector.TryCreate();
     private static uint _currentPointerId = 0;
 
-    public static void StartTouch()
+    private WeakReference<MainWindow> _currentWindowRef;
+
+    /// <summary>
+    /// Create a new <see cref="InputSimulator"/> helper class for the current window. All positions provided to this API will use the client space of the provided window's top-left as an origin point.
+    /// </summary>
+    /// <param name="currentWindow">Window to simulate input on, used as a reference for client-space coordinates.</param>
+    public InputSimulator(MainWindow currentWindow)
+    {
+        _currentWindowRef = new(currentWindow);
+    }
+
+    public void StartTouch()
     {
         Assert.IsNotNull(_input);
 
@@ -24,7 +41,7 @@ public static class SimulateInput
     /// </summary>
     /// <param name="point"></param>
     /// <returns></returns>
-    public static uint TouchDown(Point point)
+    public uint TouchDown(Point point)
     {
         // Create a unique pointer ID for the injected touch pointer.
         // Multiple input pointers would require more robust handling.
@@ -70,7 +87,7 @@ public static class SimulateInput
         return pointerId;
     }
 
-    public static void TouchMove(uint pointerId, int cX, int cY)
+    public void TouchMove(uint pointerId, int cX, int cY)
     {
         // Create a touch data point for pointer up.
         List<InjectedInputTouchInfo> touchData = new()
@@ -105,7 +122,7 @@ public static class SimulateInput
         _input.InjectTouchInput(touchData);
     }
 
-    public static void TouchUp(uint pointerId)
+    public void TouchUp(uint pointerId)
     {
         Assert.IsNotNull(_input);
 
@@ -126,23 +143,9 @@ public static class SimulateInput
         _input.InjectTouchInput(touchData);
     }
 
-    public static void StopTouch()
+    public void StopTouch()
     {
         // Shut down the virtual input device.
         _input.UninitializeTouchInjection();
-    }
-
-    private static Point TranslatePointForWindow(Point point)
-    {
-        // TODO: Do we want a ToPoint extension in the Toolkit? (is there an existing enum we can use to specify which corner/point of the rect? e.g. topleft, center, middleright, etc...?
-
-        // Get the top left screen coordinates of the app window rect.
-        Point appBoundsTopLeft = new Point(App.Bounds.Left, App.Bounds.Top);
-
-        // Create the point for input injection and calculate its screen location.
-        return new Point(
-                appBoundsTopLeft.X + point.X,
-                appBoundsTopLeft.Y + point.Y);
-
     }
 }

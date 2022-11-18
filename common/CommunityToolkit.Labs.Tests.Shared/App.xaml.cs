@@ -39,72 +39,16 @@ public sealed partial class App : Application
     // MacOS and iOS don't know the correct type without a full namespace declaration, confusing it with NSWindow and UIWindow.
     // Using static will not work.
 #if WINAPPSDK
-    private static Microsoft.UI.Xaml.Window currentWindow = Microsoft.UI.Xaml.Window.Current;
-
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct RECT
-    {
-        public int Left;        // x position of upper-left corner
-        public int Top;         // y position of upper-left corner
-        public int Right;       // x position of lower-right corner
-        public int Bottom;      // y position of lower-right corner
-    }
-
-    [DllImport("user32.dll")]
-    static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
-
-    [DllImport("user32", ExactSpelling = true, SetLastError = true)]
-    internal static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] ref RECT rect, [MarshalAs(UnmanagedType.U4)] int cPoints);
-
-    private static AppWindow GetAppWindow(Microsoft.UI.Xaml.Window window)
-    {
-        // From: https://docs.microsoft.com/en-us/windows/apps/windows-app-sdk/windowing/windowing-overview#code-example
-        // Retrieve the window handle (HWND) of the current (XAML) WinUI 3 window.
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-
-        // Retrieve the WindowId that corresponds to hWnd.
-        var windowId = Win32Interop.GetWindowIdFromWindow(hWnd);
-
-        // Lastly, retrieve the AppWindow for the current (XAML) WinUI 3 window.
-        return AppWindow.GetFromWindowId(windowId);
-    }
-
-    public static Rect Bounds { get
-        {
-            var appWindow = GetAppWindow(currentWindow);
-
-            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(currentWindow);
-
-            // Get client area position
-            RECT ir = new RECT();
-            MapWindowPoints(hWnd, IntPtr.Zero, ref ir, 1);
-
-            RECT rct;
-
-            // And size
-            if (GetClientRect(hWnd, out rct))
-            {
-                return new Rect(ir.Left, ir.Top, rct.Right - rct.Left, rct.Bottom - rct.Top);
-            }
-
-            // AppWindow uses GetWindowRect which includes the chrome, not what we want... TODO: File bug currentWindow.Bounds should be the same between the two platforms. Should AppWindow also have Bounds?
-            var position = appWindow.Position;
-            var size = appWindow.Size;
-            return new Rect(position.X, position.Y, size.Width, size.Height);
-        }
-    }
+    public static Microsoft.UI.Xaml.Window CurrentWindow = Microsoft.UI.Xaml.Window.Current;
 #else
-    private static Windows.UI.Xaml.Window currentWindow = Windows.UI.Xaml.Window.Current;
-
-    public static Rect Bounds => currentWindow.Bounds;
+    public static Windows.UI.Xaml.Window CurrentWindow = Windows.UI.Xaml.Window.Current;
 #endif
 
     // Holder for test content to abstract Window.Current.Content
     public static FrameworkElement? ContentRoot
     {
-        get => currentWindow.Content as FrameworkElement;
-        set => currentWindow.Content = value;
+        get => CurrentWindow.Content as FrameworkElement;
+        set => CurrentWindow.Content = value;
     }
 
     // Abstract CoreApplication.MainView.DispatcherQueue
@@ -115,7 +59,7 @@ public sealed partial class App : Application
 #if !WINAPPSDK
             return CoreApplication.MainView.DispatcherQueue;
 #else
-            return currentWindow.DispatcherQueue;
+            return CurrentWindow.DispatcherQueue;
 #endif
         }
     }
@@ -137,15 +81,15 @@ public sealed partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
 #if WINAPPSDK
-        currentWindow = new Window();
+        CurrentWindow = new Window();
 #endif
 
         // Do not repeat app initialization when the Window already has content,
         // just ensure that the window is active
-        if (currentWindow.Content is not Frame rootFrame)
+        if (CurrentWindow.Content is not Frame rootFrame)
         {
             // Create a Frame to act as the navigation context and navigate to the first page
-            currentWindow.Content = rootFrame = new Frame();
+            CurrentWindow.Content = rootFrame = new Frame();
 
             rootFrame.NavigationFailed += OnNavigationFailed;
         }
@@ -153,7 +97,7 @@ public sealed partial class App : Application
         ////Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
 
         // Ensure the current window is active
-        currentWindow.Activate();
+        CurrentWindow.Activate();
 
 #if !WINAPPSDK
         Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);

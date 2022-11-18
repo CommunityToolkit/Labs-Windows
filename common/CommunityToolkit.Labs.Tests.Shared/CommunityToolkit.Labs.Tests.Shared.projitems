@@ -18,8 +18,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputSimulator.Bounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SimulateInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputSimulator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VisualUITestBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)NativeMethods.txt" />
   </ItemGroup>
 </Project>
