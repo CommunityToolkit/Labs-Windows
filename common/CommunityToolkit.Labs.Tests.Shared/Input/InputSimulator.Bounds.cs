@@ -41,7 +41,7 @@ public partial class InputSimulator
         }
     }
 #else
-    private Rect Bounds => currentWindow.Bounds;
+    private Rect Bounds => _currentWindowRef.TryGetTarget(out Window window) ? window.Bounds : default;
 #endif
 
     private Point TranslatePointForWindow(Point point)
