@@ -4,7 +4,7 @@
 
 namespace SettingsControlsExperiment.Samples;
 
-[ToolkitSampleBoolOption("IsCardEnabled", "IsEnabled", true)]
+[ToolkitSampleBoolOption("IsCardEnabled", "Is Enabled", true)]
 // Single values without a colon are used for both label and value.
 // To provide a different label for the value, separate with a colon surrounded by a single space on both sides ("label : value").
 //[ToolkitSampleMultiChoiceOption("TextSize", title: "Text size", "Small : 12", "Normal : 16", "Big : 32")]
@@ -20,10 +20,5 @@ public sealed partial class SettingsCardSample : Page
     public SettingsCardSample()
     {
         this.InitializeComponent();
-    }
-
-    private async void OnCardClicked(object sender, RoutedEventArgs e)
-    {
-        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.microsoft.com"));
     }
 }

@@ -5,45 +5,32 @@
                     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
                     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
-    <Thickness x:Key="SubtleIconButtonBorderThemeThickness">1</Thickness>
-    <!--  rest  -->
-    <StaticResource x:Key="SubtleIconButtonForeground"
-                    ResourceKey="TextFillColorPrimaryBrush" />
-    <StaticResource x:Key="SubtleIconButtonBackground"
-                    ResourceKey="ControlFillColorTransparentBrush" />
-    <StaticResource x:Key="SubtleIconButtonBorderBrush"
-                    ResourceKey="ControlFillColorTransparentBrush" />
-    <!--  hover  -->
-    <StaticResource x:Key="SubtleIconButtonForegroundPointerOver"
-                    ResourceKey="TextFillColorPrimaryBrush" />
-    <StaticResource x:Key="SubtleIconButtonBackgroundPointerOver"
-                    ResourceKey="SubtleFillColorSecondaryBrush" />
-    <StaticResource x:Key="SubtleIconButtonBorderBrushPointerOver"
-                    ResourceKey="SubtleFillColorSecondaryBrush" />
-    <!--  pressed  -->
-    <StaticResource x:Key="SubtleIconButtonForegroundPressed"
-                    ResourceKey="TextFillColorSecondaryBrush" />
-    <StaticResource x:Key="SubtleIconButtonBackgroundPressed"
-                    ResourceKey="SubtleFillColorTertiaryBrush" />
-    <StaticResource x:Key="SubtleIconButtonBorderBrushPressed"
-                    ResourceKey="SubtleFillColorTertiaryBrush" />
-    <!--  disabled  -->
-    <StaticResource x:Key="SubtleIconButtonForegroundDisabled"
-                    ResourceKey="TextFillColorDisabledBrush" />
-    <StaticResource x:Key="SubtleIconButtonBackgroundDisabled"
-                    ResourceKey="ControlFillColorTransparentBrush" />
-    <StaticResource x:Key="SubtleIconButtonBorderBrushDisabled"
-                    ResourceKey="ControlFillColorTransparentBrush" />
-    <!--  Doesn't work with Uno  -->
-    <win:BrushTransition x:Name="DefaultBackgroundTransition"
-                         Duration="0:0:0.083" />
+
+    <SolidColorBrush x:Key="SubtleButtonBackground"
+                     Color="{ThemeResource SubtleFillColorTransparent}" />
+    <SolidColorBrush x:Key="SubtleButtonBackgroundPointerOver"
+                     Color="{ThemeResource SubtleFillColorSecondary}" />
+    <SolidColorBrush x:Key="SubtleButtonBackgroundPressed"
+                     Color="{ThemeResource SubtleFillColorTertiary}" />
+    <SolidColorBrush x:Key="SubtleButtonBackgroundDisabled"
+                     Color="{ThemeResource ControlFillColorDisabled}" />
+
+    <SolidColorBrush x:Key="SubtleButtonForeground"
+                     Color="{ThemeResource TextFillColorPrimary}" />
+    <SolidColorBrush x:Key="SubtleButtonForegroundPointerOver"
+                     Color="{ThemeResource TextFillColorPrimary}" />
+    <SolidColorBrush x:Key="SubtleButtonForegroundPressed"
+                     Color="{ThemeResource TextFillColorSecondary}" />
+    <SolidColorBrush x:Key="SubtleButtonForegroundDisabled"
+                     Color="{ThemeResource TextFillColorDisabled}" />
+
     <Style x:Key="SubtleButtonStyle"
            TargetType="Button">
-        <Setter Property="Background" Value="{ThemeResource SubtleIconButtonBackground}" />
+        <Setter Property="Background" Value="{ThemeResource SubtleButtonBackground}" />
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
-        <Setter Property="Foreground" Value="{ThemeResource SubtleIconButtonForeground}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SubtleIconButtonBorderBrush}" />
-        <Setter Property="BorderThickness" Value="{ThemeResource SubtleIconButtonBorderThemeThickness}" />
+        <Setter Property="Foreground" Value="{ThemeResource SubtleButtonForeground}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="{StaticResource ButtonPadding}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -59,6 +46,8 @@
                                       Padding="{TemplateBinding Padding}"
                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      muxc:AnimatedIcon.State="Normal"
+                                      win:AutomationProperties.AccessibilityView="Raw"
                                       Background="{TemplateBinding Background}"
                                       BackgroundSizing="{TemplateBinding BackgroundSizing}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
@@ -67,29 +56,29 @@
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       ContentTransitions="{TemplateBinding ContentTransitions}"
                                       CornerRadius="{TemplateBinding CornerRadius}">
+                        <win:ContentPresenter.BackgroundTransition>
+                            <win:BrushTransition Duration="0:0:0.083" />
+                        </win:ContentPresenter.BackgroundTransition>
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
-
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonBackgroundPointerOver}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonBorderBrushPointerOver}" />
+                                                                    Value="{ThemeResource SubtleButtonBackgroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonForegroundPointerOver}" />
+                                                                    Value="{ThemeResource SubtleButtonForegroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="PointerOver" />
+                                    </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Pressed">
@@ -97,19 +86,17 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonBackgroundPressed}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonBorderBrushPressed}" />
+                                                                    Value="{ThemeResource SubtleButtonBackgroundPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonForegroundPressed}" />
+                                                                    Value="{ThemeResource SubtleButtonForegroundPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Pressed" />
+                                    </VisualState.Setters>
                                 </VisualState>
 
                                 <VisualState x:Name="Disabled">
@@ -117,19 +104,18 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonBackgroundDisabled}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonBorderBrushDisabled}" />
+                                                                    Value="{ThemeResource SubtleButtonBackgroundDisabled}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleIconButtonForegroundDisabled}" />
+                                                                    Value="{ThemeResource SubtleButtonForegroundDisabled}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
+                                    <VisualState.Setters>
+                                        <!--  DisabledVisual Should be handled by the control, not the animated icon.  -->
+                                        <Setter Target="ContentPresenter.(muxc:AnimatedIcon.State)" Value="Normal" />
+                                    </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
@@ -353,12 +339,18 @@
         </Setter>
     </Style>
 
-    <Style x:Name="SubcategoryNavigationViewItemStyle"
+    <Style x:Key="SubcategoryNavigationViewItemStyle"
            TargetType="muxc:NavigationViewItem">
         <Setter Property="FontFamily" Value="XamlAutoFontFamily" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Padding" Value="30,0,0,0" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <!--<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />-->
+    </Style>
+
+    <Style x:Key="SmallAppBarButtonStyle"
+           BasedOn="{StaticResource DefaultAppBarButtonStyle}"
+           TargetType="AppBarButton">
+        <Setter Property="Width" Value="36" />
     </Style>
 </ResourceDictionary>
