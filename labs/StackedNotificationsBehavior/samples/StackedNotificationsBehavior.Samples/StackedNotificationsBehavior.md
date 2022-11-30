@@ -7,8 +7,8 @@ dev_langs:
   - csharp
 category: Behaviors
 subcategory: StatusAndInfo
-labs-discussion: 312
-labs-issue: 210
+discussion-id: 312
+issue-id: 210
 ---
 
 # StackedNotificationsBehavior

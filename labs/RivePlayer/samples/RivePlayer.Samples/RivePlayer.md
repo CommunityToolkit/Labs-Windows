@@ -7,8 +7,8 @@ dev_langs:
   - csharp
 category: Animations
 subcategory: Media
-labs-discussion: 309
-labs-issue: 0
+discussion-id: 309
+issue-id: 0
 ---
 
 # RivePlayer

@@ -7,8 +7,8 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 96
-labs-issue: 101
+discussion-id: 96
+issue-id: 101
 ---
 
 # PropertySizer

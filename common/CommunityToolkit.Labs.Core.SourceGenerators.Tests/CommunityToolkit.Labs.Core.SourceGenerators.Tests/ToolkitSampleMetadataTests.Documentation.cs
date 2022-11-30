@@ -48,8 +48,8 @@ public partial class ToolkitSampleMetadataTests
     [DataRow(4, DisplayName = "Keywords")]
     [DataRow(7, DisplayName = "Category")]
     [DataRow(8, DisplayName = "Subcategory")]
-    [DataRow(9, DisplayName = "Labs Discussion")]
-    [DataRow(10, DisplayName = "Labs Issue")]
+    [DataRow(9, DisplayName = "GitHub Discussion Id")]
+    [DataRow(10, DisplayName = "GitHub Issue Id")]
     [TestMethod]
     public void MissingFrontMatterField(int removeline)
     {
@@ -62,8 +62,8 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 0
-labs-issue: 0
+discussion-id: 0
+issue-id: 0
 ---
 # This is some test documentation...
 > [!SAMPLE Sample]
@@ -89,8 +89,8 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 0
-labs-issue: 0
+discussion-id: 0
+issue-id: 0
 ---
 # This is some test documentation...
 > [!SAMPLE SampINVALIDle]
@@ -114,8 +114,8 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 0
-labs-issue: 0
+discussion-id: 0
+issue-id: 0
 ---
 # This is some test documentation...
 Without any sample.";
@@ -137,8 +137,8 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 0
-labs-issue: 0
+discussion-id: 0
+issue-id: 0
 ---
 # This is some test documentation...
 Which is valid.
@@ -159,8 +159,8 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: https://github.com/1234
-labs-issue: 0
+discussion-id: https://github.com/1234
+issue-id: 0
 ---
 # This is some test documentation...
 Without an invalid discussion id.";
@@ -182,8 +182,8 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 0
-labs-issue: https://github.com/1234
+discussion-id: 0
+issue-id: https://github.com/1234
 ---
 # This is some test documentation...
 Without an invalid discussion id.";

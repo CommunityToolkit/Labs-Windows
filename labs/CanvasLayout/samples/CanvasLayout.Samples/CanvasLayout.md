@@ -7,8 +7,8 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 311
-labs-issue: 213
+discussion-id: 311
+issue-id: 213
 ---
 
 # CanvasLayout

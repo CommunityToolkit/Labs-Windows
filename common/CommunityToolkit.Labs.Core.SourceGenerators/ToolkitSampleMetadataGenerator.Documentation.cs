@@ -29,10 +29,10 @@ public partial class ToolkitSampleMetadataGenerator
     private const string FrontMatterRegexSubcategoryExpression = @"^subcategory:\s*(?<subcategory>.*)$";
     private static readonly Regex FrontMatterRegexSubcategory = new Regex(FrontMatterRegexSubcategoryExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-    private const string FrontMatterRegexDiscussionIdExpression = @"^labs-discussion:\s*(?<discussionId>.*)$";
+    private const string FrontMatterRegexDiscussionIdExpression = @"^discussion-id:\s*(?<discussionid>.*)$";
     private static readonly Regex FrontMatterRegexDiscussionId = new Regex(FrontMatterRegexDiscussionIdExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-    private const string FrontMatterRegexIssueIdExpression = @"^labs-issue:\s*(?<issueId>.*)$";
+    private const string FrontMatterRegexIssueIdExpression = @"^issue-id:\s*(?<issueid>.*)$";
     private static readonly Regex FrontMatterRegexIssueId = new Regex(FrontMatterRegexIssueIdExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
     private const string MarkdownRegexSampleTagExpression = @"^>\s*\[!SAMPLE\s*(?<sampleid>.*)\s*\]\s*$";
@@ -111,8 +111,9 @@ public partial class ToolkitSampleMetadataGenerator
                 var category = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexCategory, "category");
                 var subcategory = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexSubcategory, "subcategory");
 
-                var discussion = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexDiscussionId, "discussionId")?.Trim();
-                var issue = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexIssueId, "issueId")?.Trim();
+                // TODO: Should these just be optional?
+                var discussion = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexDiscussionId, "discussionid")?.Trim();
+                var issue = ParseYamlField(ref ctx, file.Path, ref frontmatter, FrontMatterRegexIssueId, "issueid")?.Trim();
 
                 // Check we have all the fields we expect to continue (errors will have been spit out otherwise already from the ParseYamlField method)
                 if (title == null || description == null || keywords == null ||
@@ -175,7 +176,7 @@ public partial class ToolkitSampleMetadataGenerator
                             DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
                             Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
                             file.Path,
-                            "Can't parse labs-discussion field, must be a positive integer or zero."));
+                            "Can't parse discussion-id field, must be a positive integer or zero."));
                     return null;
                 }
 
@@ -186,7 +187,7 @@ public partial class ToolkitSampleMetadataGenerator
                             DiagnosticDescriptors.MarkdownYAMLFrontMatterException,
                             Location.Create(file.Path, TextSpan.FromBounds(0, 1), new LinePositionSpan(LinePosition.Zero, LinePosition.Zero)),
                             file.Path,
-                            "Can't parse labs-issue field, must be a positive integer or zero."));
+                            "Can't parse issue-id field, must be a positive integer or zero."));
                     return null;
                 }
 

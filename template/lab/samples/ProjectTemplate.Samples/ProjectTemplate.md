@@ -7,8 +7,8 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 0
-labs-issue: 0
+discussion-id: 0
+issue-id: 0
 ---
 
 <!-- To know about all the available Markdown syntax, Check out https://docs.microsoft.com/contribute/markdown-reference -->

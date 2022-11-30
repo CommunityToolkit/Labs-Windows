@@ -7,8 +7,8 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 310
-labs-issue: 212
+discussion-id: 310
+issue-id: 212
 ---
 
 # CanvasView

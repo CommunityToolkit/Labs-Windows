@@ -7,8 +7,8 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
-labs-discussion: 129
-labs-issue: 216
+discussion-id: 129
+issue-id: 216
 ---
 
 # SettingsCard
