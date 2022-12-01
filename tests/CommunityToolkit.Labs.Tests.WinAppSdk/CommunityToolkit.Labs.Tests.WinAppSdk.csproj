@@ -41,5 +41,5 @@
   <Import Project="..\..\labs\**\*.Tests.projitems" Label="Shared" />
 
   <!-- Include all base code to be tested -->
-  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\AllGeneratedProjectReferences.props" />
 </Project>

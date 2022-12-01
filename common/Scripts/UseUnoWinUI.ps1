@@ -58,4 +58,4 @@ else {
     Write-Output "Changes to the default Uno package settings in Labs are now suppressed.`r`nTo switch branches, run `"git reset --hard`" with a clean working tree.";
 }
 
-Write-Output "Done"
+Write-Output "Done, switched to WinUI $winUIMajorVersion"

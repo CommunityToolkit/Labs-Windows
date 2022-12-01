@@ -29,7 +29,7 @@
 
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\AllGeneratedProjectReferences.props" />
   
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.Uwp</RootNamespace>
