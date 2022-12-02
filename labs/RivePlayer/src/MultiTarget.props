@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+      <!--
+          MultiTarget is a custom property that indicates which target a project is designed to be built for / run on.
+          Used by tooling to dynamically generate optimized solutions, build scripts, and nuget packages based on preferences and capabilities of available projects.
+      -->
+      <MultiTarget>uwp;wasdk;wpf;wasm;</MultiTarget>
+  </PropertyGroup>
+</Project>
