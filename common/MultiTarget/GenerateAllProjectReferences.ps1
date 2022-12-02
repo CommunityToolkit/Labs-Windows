@@ -19,6 +19,8 @@ Param (
 $templateContents = Get-Content -Path $templatePath;
 Write-Output "Loaded template from $(Resolve-Path $templatePath)";
 
+mkdir $projectPropsOutputDir -ErrorAction SilentlyContinue | Out-Null;
+
 # Discover projects in provided paths
 foreach ($path in $projectDirectories) {
   foreach ($projectPath in Get-ChildItem -Recurse -Path $path) {
@@ -26,7 +28,7 @@ foreach ($path in $projectDirectories) {
     $relativePath = $relativePath.TrimStart('.\');
     $projectName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath);
   
-    Write-Host "Generating project references for $projectName";
+    Write-Output "Generating project references for $projectName";
   
     & $PSScriptRoot\GenerateMultiTargetAwareProjectReferenceProps.ps1 $projectPath "$projectPropsOutputDir/$projectName.props";
     $projectReferenceDefinition = "<Import Project=`"`$(RepositoryDirectory)/common/MultiTarget/Generated/$projectName.props`" />";
