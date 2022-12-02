@@ -5,26 +5,17 @@
       Used by tooling to dynamically generate optimized solutions, build scripts, and nuget packages based on preferences and capabilities of available projects.
     -->
     <MultiTarget Condition="'$(MultiTarget)' == ''">uwp;wasdk;wpf;wasm;linuxgtk;macos;ios;android;</MultiTarget>
-<!-- 
+
     <TargetFrameworks Condition="$(MultiTarget.Contains('uwp')) == 'true'">$(TargetFrameworks);$(UwpTargetFramework)</TargetFrameworks>
-    <TargetFrameworks Condition="$(MultiTarget.Contains('wasdk')) == 'true'">$(TargetFrameworks);$(WinAppSdkTargetFramework)</TargetFrameworks> -->
+    <TargetFrameworks Condition="$(MultiTarget.Contains('wasdk')) == 'true'">$(TargetFrameworks);$(WinAppSdkTargetFramework)</TargetFrameworks>
     <!--
       TargetFrameworks for WasmLibTargetFramework, WpfLibTargetFramework, and LinuxLibTargetFramework all use the same value.
       Duplicate values can't be removed during the evaluation phase without breaking things, so we use the value directly.
     -->
-<!--     <TargetFrameworks Condition="$(MultiTarget.Contains('wasm')) == 'true' OR $(MultiTarget.Contains('wpf')) == 'true' OR $(MultiTarget.Contains('linuxgtk')) == 'true'">$(TargetFrameworks);$(NetStandardCommonTargetFramework)</TargetFrameworks>
+    <TargetFrameworks Condition="$(MultiTarget.Contains('wasm')) == 'true' OR $(MultiTarget.Contains('wpf')) == 'true' OR $(MultiTarget.Contains('linuxgtk')) == 'true'">$(TargetFrameworks);$(NetStandardCommonTargetFramework)</TargetFrameworks>
     <TargetFrameworks Condition="$(MultiTarget.Contains('macos')) == 'true'">$(TargetFrameworks);$(MacOSLibTargetFramework)</TargetFrameworks>
     <TargetFrameworks Condition="$(MultiTarget.Contains('ios')) == 'true'">$(TargetFrameworks);$(iOSLibTargetFramework)</TargetFrameworks>
-    <TargetFrameworks Condition="$(MultiTarget.Contains('android')) == 'true'">$(TargetFrameworks);$(AndroidLibTargetFramework)</TargetFrameworks> -->
-
-    <TargetFrameworks>
-      $(NetStandardCommonTargetFramework);
-      $(UwpTargetFramework);
-      $(WinAppSdkTargetFramework);
-      $(MacOSLibTargetFramework);
-      $(iOSLibTargetFramework);
-      $(AndroidLibTargetFramework);
-    </TargetFrameworks>
+    <TargetFrameworks Condition="$(MultiTarget.Contains('android')) == 'true'">$(TargetFrameworks);$(AndroidLibTargetFramework)</TargetFrameworks>
 
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>

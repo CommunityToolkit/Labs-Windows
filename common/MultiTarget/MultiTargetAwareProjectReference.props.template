@@ -6,28 +6,23 @@
 	<Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
 	<Import Project="$(RepositoryDirectory)/common/MultiTarget/Defaults.props"/>
 
-	<PropertyGroup>
-		<ProjectFileName>[ProjectFileName]</ProjectFileName>
-		<ProjectRoot>[ProjectRoot]</ProjectRoot>
-	</PropertyGroup>
-
 	<!-- Import custom targets for project -->
-	<Import Condition="Exists('$(ProjectRoot)\MultiTarget.props')" Project="$(ProjectRoot)\MultiTarget.props" />
+	<Import Condition="Exists('[ProjectRoot]\MultiTarget.props')" Project="[ProjectRoot]\MultiTarget.props" />
 
 	<!-- Restore defaults if not found -->
-	<PropertyGroup Condition="Exists('$(ProjectRoot)\MultiTarget.props') == 'false'">
+	<PropertyGroup Condition="Exists('[ProjectRoot]\MultiTarget.props') == 'false'">
 		<MultiTarget>$(MultiTargetDefaults)</MultiTarget>
 	</PropertyGroup>
 
 	<!-- Before importing, check that the imported project works on the current framework -->
-	<ItemGroup Condition="(('$(IsWasm)' == 'true' AND $(MultiTarget.Contains('wasm')) == 'true')) OR
-						  (('$(IsUwp)' == 'true' AND $(MultiTarget.Contains('uwp')) == 'true')) OR
-						  (('$(IsWinAppSdk)' == 'true' AND $(MultiTarget.Contains('wasdk')) == 'true')) OR
-						  (('$(IsWpf)' == 'true' AND $(MultiTarget.Contains('wpf')) == 'true')) OR
-						  (('$(IsGtk)' == 'true' AND $(MultiTarget.Contains('linuxgtk')) == 'true')) OR
-						  (('$(IsMacOS)' == 'true' AND $(MultiTarget.Contains('macos')) == 'true')) OR
-						  (('$(IsiOS)' == 'true' AND $(MultiTarget.Contains('ios')) == 'true')) OR
-						  (('$(IsWinAppSdk)' == 'true' AND $(MultiTarget.Contains('android')) == 'true'))">
-		<ProjectReference Include="$(ProjectRoot)\$(ProjectFileName)" />
+	<ItemGroup Condition="($(IsWasm) == 'true' AND [CanTargetWasm] == 'true') OR
+						  ($(IsUwp) == 'true' AND [CanTargetUwp] == 'true') OR
+						  ($(IsWinAppSdk) == 'true' AND [CanTargetWasdk] == 'true') OR
+						  ($(IsWpf) == 'true' AND [CanTargetWpf] == 'true') OR
+						  ($(IsGtk) == 'true' AND [CanTargetLinuxGtk] == 'true') OR
+						  ($(IsMacOS) == 'true' AND [CanTargetMacOS] == 'true') OR
+						  ($(IsiOS) == 'true' AND [CanTargetiOS] == 'true') OR
+						  ($(IsWinAppSdk) == 'true' AND [CanTargetWinAppSdk] == 'true')">
+		<ProjectReference Include="[ProjectRoot]\[ProjectFileName]" />
 	</ItemGroup>
 </Project>
