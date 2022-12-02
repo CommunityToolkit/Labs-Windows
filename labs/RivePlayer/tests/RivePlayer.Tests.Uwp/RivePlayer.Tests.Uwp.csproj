@@ -18,7 +18,6 @@
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Properties\Default.rd.xml" />
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
