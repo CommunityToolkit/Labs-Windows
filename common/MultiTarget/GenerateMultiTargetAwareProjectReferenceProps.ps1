@@ -29,7 +29,6 @@ $templateContents = $templateContents -replace [regex]::escape($projectFileNameP
 $projectDirectory = [System.IO.Path]::GetDirectoryName($relativeProjectPath);
 $templateContents = $templateContents -replace [regex]::escape($projectRootPlaceholder), $projectDirectory;
 
-
 function LoadMultiTargetsFrom([string] $path) {
     $fileContents = "";
 
@@ -58,9 +57,16 @@ function LoadMultiTargetsFrom([string] $path) {
 
 # Load multitarget preferences for project
 $multiTargets = LoadMultiTargetsFrom("$projectDirectory\MultiTargets.props");
+$multiTargets = $multiTargets.Split(';');
 
-
-$templateContents = $templateContents -replace [regex]::escape("[CanTargetWasm]"), $multiTargets.Contains("wasm").ToString();
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetWasm]"), "'$($multiTargets.Contains("wasm").ToString().ToLower())'";
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetUwp]"), "'$($multiTargets.Contains("uwp").ToString().ToLower())'";
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetWasdk]"), "'$($multiTargets.Contains("wasdk").ToString().ToLower())'";
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetWpf]"), "'$($multiTargets.Contains("wpf").ToString().ToLower())'";
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetLinuxGtk]"), "'$($multiTargets.Contains("linuxgtk").ToString().ToLower())'";
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetMacOS]"), "'$($multiTargets.Contains("macos").ToString().ToLower())'";
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetiOS]"), "'$($multiTargets.Contains("ios").ToString().ToLower())'";
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetDroid]"), "'$($multiTargets.Contains("droid").ToString().ToLower())'";
 
 # Save to disk
 Set-Content -Path $outputPath -Value $templateContents;

@@ -4,15 +4,6 @@
  -->
 <Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-	<Import Project="$(RepositoryDirectory)/common/MultiTarget/Defaults.props"/>
-
-	<!-- Import custom targets for project -->
-	<Import Condition="Exists('[ProjectRoot]\MultiTarget.props')" Project="[ProjectRoot]\MultiTarget.props" />
-
-	<!-- Restore defaults if not found -->
-	<PropertyGroup Condition="Exists('[ProjectRoot]\MultiTarget.props') == 'false'">
-		<MultiTarget>$(MultiTargetDefaults)</MultiTarget>
-	</PropertyGroup>
 
 	<!-- Before importing, check that the imported project works on the current framework -->
 	<ItemGroup Condition="($(IsWasm) == 'true' AND [CanTargetWasm] == 'true') OR
@@ -22,7 +13,7 @@
 						  ($(IsGtk) == 'true' AND [CanTargetLinuxGtk] == 'true') OR
 						  ($(IsMacOS) == 'true' AND [CanTargetMacOS] == 'true') OR
 						  ($(IsiOS) == 'true' AND [CanTargetiOS] == 'true') OR
-						  ($(IsWinAppSdk) == 'true' AND [CanTargetWinAppSdk] == 'true')">
+						  ($(IsDroid) == 'true' AND [CanTargetDroid] == 'true')">
 		<ProjectReference Include="[ProjectRoot]\[ProjectFileName]" />
 	</ItemGroup>
 </Project>
