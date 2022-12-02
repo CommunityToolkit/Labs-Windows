@@ -33,31 +33,31 @@ function LoadMultiTargetsFrom([string] $path) {
     $fileContents = "";
 
     # If file does not exist
-    if ((Test-Path $path) -eq $false)
-    {
+    if ($false -eq (Test-Path -Path $path -PathType Leaf)) {
         # Load defaults
         $fileContents = Get-Content $multiTargetDefaultPropsPath -ErrorAction Stop;
     }
-    else 
-    {
+    else {
         # Load requested file
         $fileContents = Get-Content $path -ErrorAction Stop;
     }
 
     # Parse file contents
-	$regex = Select-String -Pattern '<MultiTarget>(.+?)<\/MultiTarget>' -InputObject $fileContents;
+    $regex = Select-String -Pattern '<MultiTarget>(.+?)<\/MultiTarget>' -InputObject $fileContents;
 
-	if ($null -eq $regex -or $null -eq $regex.Matches -or $null -eq $regex.Matches.Groups -or $regex.Matches.Groups.Length -lt 2) {
-		Write-Error "Couldn't get MultiTarget property from $path";
-		exit(-1);
-	}
+    if ($null -eq $regex -or $null -eq $regex.Matches -or $null -eq $regex.Matches.Groups -or $regex.Matches.Groups.Length -lt 2) {
+        Write-Error "Couldn't get MultiTarget property from $path";
+        exit(-1);
+    }
 
-	return $regex.Matches.Groups[1].Value;
+    return $regex.Matches.Groups[1].Value;
 }
 
 # Load multitarget preferences for project
-$multiTargets = LoadMultiTargetsFrom("$projectDirectory\MultiTargets.props");
+$multiTargets = LoadMultiTargetsFrom("$projectDirectory\MultiTarget.props");
 $multiTargets = $multiTargets.Split(';');
+
+Write-Host "Generating project references for $([System.IO.Path]::GetFileNameWithoutExtension($csprojFileName)): $($multiTargets -Join ', ')"
 
 $templateContents = $templateContents -replace [regex]::escape("[CanTargetWasm]"), "'$($multiTargets.Contains("wasm").ToString().ToLower())'";
 $templateContents = $templateContents -replace [regex]::escape("[CanTargetUwp]"), "'$($multiTargets.Contains("uwp").ToString().ToLower())'";
@@ -66,7 +66,7 @@ $templateContents = $templateContents -replace [regex]::escape("[CanTargetWpf]")
 $templateContents = $templateContents -replace [regex]::escape("[CanTargetLinuxGtk]"), "'$($multiTargets.Contains("linuxgtk").ToString().ToLower())'";
 $templateContents = $templateContents -replace [regex]::escape("[CanTargetMacOS]"), "'$($multiTargets.Contains("macos").ToString().ToLower())'";
 $templateContents = $templateContents -replace [regex]::escape("[CanTargetiOS]"), "'$($multiTargets.Contains("ios").ToString().ToLower())'";
-$templateContents = $templateContents -replace [regex]::escape("[CanTargetDroid]"), "'$($multiTargets.Contains("droid").ToString().ToLower())'";
+$templateContents = $templateContents -replace [regex]::escape("[CanTargetDroid]"), "'$($multiTargets.Contains("android").ToString().ToLower())'";
 
 # Save to disk
 Set-Content -Path $outputPath -Value $templateContents;

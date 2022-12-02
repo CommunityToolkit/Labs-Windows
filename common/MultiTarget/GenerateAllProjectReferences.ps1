@@ -27,9 +27,7 @@ foreach ($path in $projectDirectories) {
     $relativePath = Resolve-Path -Relative -Path $projectPath;
     $relativePath = $relativePath.TrimStart('.\');
     $projectName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath);
-  
-    Write-Output "Generating project references for $projectName";
-  
+    
     & $PSScriptRoot\GenerateMultiTargetAwareProjectReferenceProps.ps1 $projectPath "$projectPropsOutputDir/$projectName.props";
     $projectReferenceDefinition = "<Import Project=`"`$(RepositoryDirectory)/common/MultiTarget/Generated/$projectName.props`" />";
   
