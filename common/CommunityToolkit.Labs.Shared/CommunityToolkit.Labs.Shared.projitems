@@ -253,4 +253,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-400_altform-colorful_theme-light.png" />
     <Content Include="$(MSBuildThisFileDirectory)LinkerConfig.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)WasmCSS\Fonts.css" />
+  </ItemGroup>
 </Project>

@@ -31,7 +31,6 @@
   <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
 
   <ItemGroup>
-    <EmbeddedResource Include="WasmCSS\Fonts.css" />
     <EmbeddedResource Include="WasmScripts\AppManifest.js" />
   </ItemGroup>
 </Project>
