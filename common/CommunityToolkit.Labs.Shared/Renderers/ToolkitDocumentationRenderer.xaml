@@ -125,7 +125,7 @@
                         </StackPanel>
                         <interactivity:Interaction.Behaviors>
                             <interactions:EventTriggerBehavior EventName="Click">
-                                <behaviors:NavigateToUriAction NavigateUri="{x:Bind renderer:ToolkitDocumentationRenderer.ToLabsUri('discussions', Metadata.DiscussionId), Mode=OneWay}" />
+                                <behaviors:NavigateToUriAction NavigateUri="{x:Bind renderer:ToolkitDocumentationRenderer.ToGitHubUri('discussions', Metadata.DiscussionId), Mode=OneWay}" />
                             </interactions:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </Button>
@@ -147,7 +147,7 @@
                         </StackPanel>
                         <interactivity:Interaction.Behaviors>
                             <interactions:EventTriggerBehavior EventName="Click">
-                                <behaviors:NavigateToUriAction NavigateUri="{x:Bind renderer:ToolkitDocumentationRenderer.ToLabsUri('issues', Metadata.IssueId), Mode=OneWay}" />
+                                <behaviors:NavigateToUriAction NavigateUri="{x:Bind renderer:ToolkitDocumentationRenderer.ToGitHubUri('issues', Metadata.IssueId), Mode=OneWay}" />
                             </interactions:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </Button>

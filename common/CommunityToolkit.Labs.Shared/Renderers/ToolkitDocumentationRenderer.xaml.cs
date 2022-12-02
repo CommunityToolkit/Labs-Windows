@@ -24,6 +24,7 @@ public sealed partial class ToolkitDocumentationRenderer : Page
 {
     private const string MarkdownRegexSampleTagExpression = @"^>\s*\[!SAMPLE\s*(?<sampleid>.*)\s*\]\s*$";
     private static readonly Regex MarkdownRegexSampleTag = new Regex(MarkdownRegexSampleTagExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+    private static string? ProjectUrl = null;
 
     public ToolkitDocumentationRenderer()
     {
@@ -82,6 +83,13 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         base.OnNavigatedTo(e);
 
         Metadata = (ToolkitFrontMatter)e.Parameter;
+
+        if (ProjectUrl == null)
+        {
+            ProjectUrl = Assembly.GetExecutingAssembly()?.GetCustomAttribute<CommunityToolkit.Attributes.PackageProjectUrlAttribute>()?.PackageProjectUrl;
+        }
+
+        // TODO: If ProjectUrl is still null should we log an error?
     }
 
     private async Task LoadData()
@@ -214,7 +222,7 @@ public sealed partial class ToolkitDocumentationRenderer : Page
     }
 #endif
 
-    public static Uri ToLabsUri(string path, int id) => new Uri($"https://github.com/CommunityToolkit/Labs-Windows/{path}/{id}");
+    public static Uri ToGitHubUri(string path, int id) => new Uri($"{ProjectUrl}/{path}/{id}");
 
     public static Visibility IsIdValid(int id) => id switch
     {

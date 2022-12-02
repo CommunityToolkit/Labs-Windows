@@ -111,6 +111,9 @@
         <_Parameter1>CommitHash</_Parameter1>
         <_Parameter2>$(SourceRevisionId)</_Parameter2>
       </AssemblyAttributes>
+      <AssemblyAttributes Include="CommunityToolkit.Attributes.PackageProjectUrlAttribute">
+        <_Parameter1>$(PackageProjectUrl)</_Parameter1>
+      </AssemblyAttributes>
     </ItemGroup>
 
     <!-- Extra attributes specific to platforms -->

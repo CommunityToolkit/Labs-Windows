@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\BackgroundHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IconHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationViewHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\PackageProjectUrlAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml.cs">
       <DependentUpon>GettingStartedPage.xaml</DependentUpon>
     </Compile>
