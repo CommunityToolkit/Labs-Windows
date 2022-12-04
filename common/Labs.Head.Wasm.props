@@ -17,6 +17,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(WasmHeadTargetFramework)</TargetFramework>
+ <WasmShellWebAppBasePath>/</WasmShellWebAppBasePath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
