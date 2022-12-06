@@ -28,6 +28,14 @@ public sealed partial class ToolkitDocumentationRenderer : Page
 
     public ToolkitDocumentationRenderer()
     {
+        // Check and Cache here before we use in XAML.
+        if (ProjectUrl == null)
+        {
+            ProjectUrl = Assembly.GetExecutingAssembly()?.GetCustomAttribute<CommunityToolkit.Attributes.PackageProjectUrlAttribute>()?.PackageProjectUrl;
+        }
+
+        // TODO: If ProjectUrl is null should we log an error?
+
         this.InitializeComponent();
     }
 
@@ -83,13 +91,6 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         base.OnNavigatedTo(e);
 
         Metadata = (ToolkitFrontMatter)e.Parameter;
-
-        if (ProjectUrl == null)
-        {
-            ProjectUrl = Assembly.GetExecutingAssembly()?.GetCustomAttribute<CommunityToolkit.Attributes.PackageProjectUrlAttribute>()?.PackageProjectUrl;
-        }
-
-        // TODO: If ProjectUrl is still null should we log an error?
     }
 
     private async Task LoadData()
