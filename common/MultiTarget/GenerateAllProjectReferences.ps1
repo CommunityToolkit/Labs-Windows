@@ -2,6 +2,9 @@ Param (
   [Parameter(HelpMessage = "The directory where props files for discovered projects should be saved.")] 
   [string]$projectPropsOutputDir = "$PSScriptRoot/Generated",
 
+  [Parameter(HelpMessage = "Filters projects that have paths which match the provided string.")]
+  [string]$Exclude = "*template*",
+
   [Parameter(HelpMessage = "The path to a props file that will be populated with project imports for all discovered projects.")] 
   [string]$outputPath = "$projectPropsOutputDir/AllGeneratedProjectReferences.props",
 
@@ -23,14 +26,10 @@ mkdir $projectPropsOutputDir -ErrorAction SilentlyContinue | Out-Null;
 
 # Discover projects in provided paths
 foreach ($path in $projectDirectories) {
-  foreach ($projectPath in Get-ChildItem -Recurse -Path $path) {
+  foreach ($projectPath in Get-ChildItem -Recurse -Path $path -Exclude $Exclude) {
     $relativePath = Resolve-Path -Relative -Path $projectPath;
     $relativePath = $relativePath.TrimStart('.\');
     $projectName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath);
-
-    if ($projectName.ToLower().EndsWith("template")) {  
-      continue;
-    }
     
     & $PSScriptRoot\GenerateMultiTargetAwareProjectReferenceProps.ps1 $projectPath "$projectPropsOutputDir/$projectName.props";
     $projectReferenceDefinition = "<Import Project=`"`$(RepositoryDirectory)/common/MultiTarget/Generated/$projectName.props`" />";
