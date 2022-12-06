@@ -66,7 +66,7 @@
 
   <!-- https://stackoverflow.com/questions/10980249/msbuild-task-for-setting-custom-attribute-in-assemblyinfo-cs -->
   <!-- https://gist.github.com/KirillOsenkov/f20cb84d37a89b01db63f8aafe03f19b -->
-  <Target Name="AddAssemblyAttributes" BeforeTargets="BeforeBuild">
+  <Target Name="AddAssemblyAttributes" BeforeTargets="BeforeCompile">
     <PropertyGroup>
       <GeneratedAssemblyInfoPath>$(IntermediateOutputPath)AssemblyInfo.g.cs</GeneratedAssemblyInfoPath>
     </PropertyGroup>
