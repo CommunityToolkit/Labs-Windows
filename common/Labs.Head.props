@@ -22,9 +22,6 @@
 
   <ItemGroup>    
     <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
-
-    <!-- Auto Generated Below -->
-    <Compile Include="$(MSBuildProjectDirectory)\AssemblyInfo.g.cs" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -68,7 +65,12 @@
   </PropertyGroup>
 
   <!-- https://stackoverflow.com/questions/10980249/msbuild-task-for-setting-custom-attribute-in-assemblyinfo-cs -->
+  <!-- https://gist.github.com/KirillOsenkov/f20cb84d37a89b01db63f8aafe03f19b -->
   <Target Name="AddAssemblyAttributes" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <GeneratedAssemblyInfoPath>$(IntermediateOutputPath)AssemblyInfo.g.cs</GeneratedAssemblyInfoPath>
+    </PropertyGroup>
+    
     <ItemGroup>
       <!-- Add our own AssemblyInfo.cs standard attributes -->
       <AssemblyAttributes Include="AssemblyTitle">
@@ -126,7 +128,11 @@
       </AssemblyAttributes>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Include="$(GeneratedAssemblyInfoPath)" />
+    </ItemGroup>
+
     <!-- Write out new auto-generated AssemblyInfo.g.cs file -->
-    <WriteCodeFragment Language="C#" OutputFile="AssemblyInfo.g.cs" AssemblyAttributes="@(AssemblyAttributes)" /> <!-- TODO: Not sure if we can tuck this away into a better folder or just obj/bin? -->
+    <WriteCodeFragment Language="C#" OutputFile="$(GeneratedAssemblyInfoPath)" AssemblyAttributes="@(AssemblyAttributes)" />
   </Target>
 </Project>
