@@ -22,7 +22,8 @@ Param (
 $templateContents = Get-Content -Path $templatePath;
 Write-Output "Loaded template from $(Resolve-Path $templatePath)";
 
-mkdir $projectPropsOutputDir -ErrorAction SilentlyContinue | Out-Null;
+# Create output folder if not exists
+New-Item -ItemType Directory -Force -Path $projectPropsOutputDir -ErrorAction SilentlyContinue | Out-Null;
 
 # Discover projects in provided paths
 foreach ($path in $projectDirectories) {
