@@ -20,7 +20,7 @@
     <Analyzer Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Labs.Core.SourceGenerators.dll" />
   </ItemGroup>
 
-  <ItemGroup>    
+  <ItemGroup>
     <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
   </ItemGroup>
 
