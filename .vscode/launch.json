@@ -27,7 +27,7 @@
       "type": "PowerShell",
       "request": "launch",
       "name": "Discover samples",
-      "script": "${workspaceFolder}/DiscoverSamples.ps1",
+      "script": "${workspaceFolder}/common/MultiTarget/GenerateAllProjectReferences.ps1; ${workspaceFolder}/common/GenerateVSCodeLaunchConfig.ps1; ",
       "presentation": {
         "group": "2",
         "order": 2
