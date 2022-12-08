@@ -14,9 +14,7 @@
         "/p:UnoSourceGeneratorUseGenerationHost=true",
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
-        "--project=${workspaceFolder}/platforms/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
-        "-p:TargetFrameworks=netstandard2.0",
-        "-p:TargetFramework=net5.0"
+        "--project=${workspaceFolder}/platforms/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj"
       ],
       "presentation": {
         "group": "1",
