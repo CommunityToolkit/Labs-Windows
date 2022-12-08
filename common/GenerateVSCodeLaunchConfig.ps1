@@ -50,7 +50,7 @@ foreach ($wasmProjectPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/../*/*/
 
 if ($allowGitChanges.IsPresent) {
   Write-Warning "Changes to the default launch.json can now be committed. Run this command again without the -allowGitChanges flag to disable committing further changes.";
-  git update-index --no-assume-unchanged ./../.vscode/launch.json
+  git update-index --no-assume-unchanged $PSScriptRoot/../.vscode/launch.json
 }
 else {
   Write-Output "Changes to the default launch.json are now suppressed. To switch branches, run git reset --hard with a clean working tree. Include the -allowGitChanges flag to enable committing changes.";
