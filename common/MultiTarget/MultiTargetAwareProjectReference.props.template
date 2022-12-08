@@ -3,8 +3,6 @@
 	Adds a ProjectReference only if the referenced project indicates it can target the referencing project. 
  -->
 <Project>
-	<Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
-
 	<!-- Before importing, check that the imported project works on the current framework -->
 	<ItemGroup Condition="($(IsWasm) == 'true' AND [CanTargetWasm] == 'true') OR
 						  ($(IsUwp) == 'true' AND [CanTargetUwp] == 'true') OR
