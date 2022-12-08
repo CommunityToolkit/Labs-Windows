@@ -7,6 +7,8 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+discussion-id: 0
+issue-id: 0
 ---
 
 <!-- To know about all the available Markdown syntax, Check out https://docs.microsoft.com/contribute/markdown-reference -->
@@ -15,11 +17,9 @@ subcategory: Layout
 <!-- **Note:** All links to other docs.microsoft.com pages should be relative without locale, i.e. for the one above would be /contribute/markdown-reference -->
 <!-- Included images should be optimized for size and not include any Intellectual Property references. -->
 
-# ProjectTemplate
+<!-- Be sure to update the discussion/issue numbers above with your Labs discussion/issue id numbers in order for UI links to them from the sample app to work. -->
 
-For more information about this experiment see:
-- Discussion: TODO: PASTE LINK HERE
-- Issue: TODO: PASTE LINK HERE
+# ProjectTemplate
 
 TODO: Fill in information about this experiment and how to get started here...
 

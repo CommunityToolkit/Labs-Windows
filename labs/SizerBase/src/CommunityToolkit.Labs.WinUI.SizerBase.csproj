@@ -18,7 +18,7 @@
     <Description>
       This package contains SizerBase.
     </Description>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
   </PropertyGroup>
 
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->

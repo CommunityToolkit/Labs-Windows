@@ -7,7 +7,7 @@
         <LinuxHeadTargetFramework>net5.0</LinuxHeadTargetFramework>
         <WpfHeadTargetFramework>netcoreapp3.1</WpfHeadTargetFramework>
         
-        <AndroidLibTargetFramework>monoandroid11.0</AndroidLibTargetFramework>
+        <AndroidLibTargetFramework>monoandroid12.0</AndroidLibTargetFramework>
         <MacOSLibTargetFramework>xamarinmac20</MacOSLibTargetFramework>
         <iOSLibTargetFramework>xamarinios10</iOSLibTargetFramework>
 

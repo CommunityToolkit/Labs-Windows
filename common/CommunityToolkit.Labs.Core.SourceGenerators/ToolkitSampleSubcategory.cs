@@ -31,5 +31,10 @@ public enum ToolkitSampleSubcategory : byte
     /// A sample that focuses input controls.
     /// </summary>
     Input,
+
+    /// <summary>
+    /// A sample that focuses on media controls or behaviors.
+    /// </summary>
+    Media,
 }
 
