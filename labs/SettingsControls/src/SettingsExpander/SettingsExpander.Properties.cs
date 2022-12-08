@@ -45,6 +45,15 @@ public partial class SettingsExpander
         new PropertyMetadata(defaultValue: null));
 
     /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
+    /// </summary>
+    public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(
+        nameof(Footer),
+        typeof(object),
+        typeof(SettingsExpander),
+        new PropertyMetadata(defaultValue: null));
+
+    /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="IsExpanded"/> property.
     /// </summary>
     public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(
@@ -91,6 +100,15 @@ public partial class SettingsExpander
     {
         get => (object)GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the Footer.
+    /// </summary>
+    public object Footer
+    {
+        get => (object)GetValue(FooterProperty);
+        set => SetValue(FooterProperty, value);
     }
 
     /// <summary>
