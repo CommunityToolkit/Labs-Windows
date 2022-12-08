@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AppLoadingView.xaml.cs">
       <DependentUpon>AppLoadingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\PackageProjectUrlAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\NavigateToUriAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TitleBar\TitleBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\SubcategoryToIconConverter.cs" />

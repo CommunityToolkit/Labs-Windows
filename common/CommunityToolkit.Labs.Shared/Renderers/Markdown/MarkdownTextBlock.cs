@@ -16,7 +16,7 @@
     #endif
 #endif
 
-#if __WASM__
+#if WASM
 using Markdig;
 using Uno.Foundation.Interop;
 using Uno.UI.Runtime.WebAssembly;
@@ -27,7 +27,7 @@ namespace CommunityToolkit.Labs.Shared.Renderers;
 /// <summary>
 /// Provide an abstraction around the Toolkit MarkdownTextBlock for both UWP and WinUI 3 in the same namespace (until 8.0) as well as a polyfill for WebAssembly/WASM.
 /// </summary>
-#if __WASM__
+#if WASM
 [HtmlElement("div")]
 public partial class MarkdownTextBlock : TextBlock
 {
