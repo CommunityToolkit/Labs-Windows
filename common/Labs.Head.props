@@ -113,9 +113,10 @@
         <_Parameter1>CommitHash</_Parameter1>
         <_Parameter2>$(SourceRevisionId)</_Parameter2>
       </AssemblyAttributes>
-      <AssemblyAttributes Include="CommunityToolkit.Attributes.PackageProjectUrlAttribute">
+      <AssemblyAttributes Include="CommunityToolkit.Attributes.PackageProjectUrlAttribute" Condition="'$(PackageProjectUrl)' != ''">
         <_Parameter1>$(PackageProjectUrl)</_Parameter1>
       </AssemblyAttributes>
+      <Warning Text="The PackageProjectUrl property was not set." Condition="'$(PackageProjectUrl)' == ''" />
     </ItemGroup>
 
     <!-- Extra attributes specific to platforms -->

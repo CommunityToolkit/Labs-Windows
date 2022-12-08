@@ -15,6 +15,8 @@ using CommunityToolkit.WinUI.UI.Controls;
 #endif
 #endif
 
+#nullable enable
+
 namespace CommunityToolkit.Labs.Shared.Renderers;
 
 /// <summary>
@@ -33,8 +35,6 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         {
             ProjectUrl = Assembly.GetExecutingAssembly()?.GetCustomAttribute<CommunityToolkit.Attributes.PackageProjectUrlAttribute>()?.PackageProjectUrl;
         }
-
-        // TODO: If ProjectUrl is null should we log an error?
 
         this.InitializeComponent();
     }
@@ -223,11 +223,13 @@ public sealed partial class ToolkitDocumentationRenderer : Page
     }
 #endif
 
-    public static Uri ToGitHubUri(string path, int id) => new Uri($"{ProjectUrl}/{path}/{id}");
+    public static Uri? ToGitHubUri(string path, int id) => IsProjectPathValid() ? new Uri($"{ProjectUrl}/{path}/{id}") : null;
 
     public static Visibility IsIdValid(int id) => id switch
     {
         <= 0 => Visibility.Collapsed,
         _ => Visibility.Visible,
     };
+
+    public static bool IsProjectPathValid() => !string.IsNullOrWhiteSpace(ProjectUrl);
 }
