@@ -24,11 +24,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Needed until XAML Styler updates to .NET 6
-      - name: Install .NET Core 3.1 SDK
+      - name: Install .NET 6 SDK
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '3.1.x'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
