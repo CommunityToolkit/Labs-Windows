@@ -25,14 +25,14 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Needed until XAML Styler updates to .NET 6
-      - name: Install .NET Core 3.1 SDK
-        uses: actions/setup-dotnet@v1
+      - name: Install .NET 6 SDK
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '3.1.x'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -49,13 +49,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Install .NET 6 SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.202'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -123,13 +123,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Install .NET 6 SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.202'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -200,13 +200,13 @@ jobs:
 
     steps:
       - name: Install .NET 6 SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.202'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
@@ -255,13 +255,13 @@ jobs:
 
     steps:
       - name: Install .NET 6 SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.201'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Generate solution
         shell: pwsh

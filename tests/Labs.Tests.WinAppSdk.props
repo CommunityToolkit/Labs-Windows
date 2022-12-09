@@ -8,10 +8,17 @@
       <ExcludeAssets>build</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2"/>
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.104-beta" PrivateAssets="all"/>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectCapability Include="TestContainer" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+    <!-- Removed in 1.1+, see this bug: https://developercommunity.visualstudio.com/t/Windows-App-SDK-11-Unit-Tests-not-laun/10192460 -->
+    <WindowsAppContainer>true</WindowsAppContainer>
+  </PropertyGroup>
 
 </Project>
