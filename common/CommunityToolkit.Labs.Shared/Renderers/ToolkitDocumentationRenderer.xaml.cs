@@ -15,6 +15,8 @@ using CommunityToolkit.WinUI.UI.Controls;
 #endif
 #endif
 
+#nullable enable
+
 namespace CommunityToolkit.Labs.Shared.Renderers;
 
 /// <summary>
@@ -24,9 +26,16 @@ public sealed partial class ToolkitDocumentationRenderer : Page
 {
     private const string MarkdownRegexSampleTagExpression = @"^>\s*\[!SAMPLE\s*(?<sampleid>.*)\s*\]\s*$";
     private static readonly Regex MarkdownRegexSampleTag = new Regex(MarkdownRegexSampleTagExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+    private static string? ProjectUrl = null;
 
     public ToolkitDocumentationRenderer()
     {
+        // Check and Cache here before we use in XAML.
+        if (ProjectUrl == null)
+        {
+            ProjectUrl = Assembly.GetExecutingAssembly()?.GetCustomAttribute<CommunityToolkit.Attributes.PackageProjectUrlAttribute>()?.PackageProjectUrl;
+        }
+
         this.InitializeComponent();
     }
 
@@ -188,11 +197,11 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         }
     }
 
-
 #if HAS_UNO
     private void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
     {
-        // No-op - TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/151
+        // No-op - WASM handles via browser 'a' tag, Windows has handler below.
+        // TODO: For other platforms
     }
 #elif !HAS_UNO
     private async void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
@@ -213,4 +222,14 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         }
     }
 #endif
+
+    public static Uri? ToGitHubUri(string path, int id) => IsProjectPathValid() ? new Uri($"{ProjectUrl}/{path}/{id}") : null;
+
+    public static Visibility IsIdValid(int id) => id switch
+    {
+        <= 0 => Visibility.Collapsed,
+        _ => Visibility.Visible,
+    };
+
+    public static bool IsProjectPathValid() => !string.IsNullOrWhiteSpace(ProjectUrl);
 }

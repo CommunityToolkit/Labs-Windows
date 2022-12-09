@@ -7,14 +7,11 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+discussion-id: 129
+issue-id: 216
 ---
 
 # SettingsCard
-
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/Labs-Windows/discussions/129
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/216
 
 SettingsCard is a control that can be used to display settings in your experience. It uses the default styling found in Windows 11 and is easy to use, meets all accesibility standards and will make your settings page look great!
 You can set the `Header`, `Description`, `HeaderIcon` and `Content` properties to create an easy to use experience, like so:

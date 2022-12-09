@@ -48,6 +48,8 @@ public partial class ToolkitSampleMetadataTests
     [DataRow(4, DisplayName = "Keywords")]
     [DataRow(7, DisplayName = "Category")]
     [DataRow(8, DisplayName = "Subcategory")]
+    [DataRow(9, DisplayName = "GitHub Discussion Id")]
+    [DataRow(10, DisplayName = "GitHub Issue Id")]
     [TestMethod]
     public void MissingFrontMatterField(int removeline)
     {
@@ -60,6 +62,8 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
+discussion-id: 0
+issue-id: 0
 ---
 # This is some test documentation...
 > [!SAMPLE Sample]
@@ -85,6 +89,8 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
+discussion-id: 0
+issue-id: 0
 ---
 # This is some test documentation...
 > [!SAMPLE SampINVALIDle]
@@ -108,9 +114,11 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
+discussion-id: 0
+issue-id: 0
 ---
 # This is some test documentation...
-Without any front matter.";
+Without any sample.";
 
         VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(SimpleSource, markdown,
             DiagnosticDescriptors.DocumentationHasNoSamples.Id,
@@ -129,11 +137,59 @@ dev_langs:
     - csharp
 category: Controls
 subcategory: Layout
+discussion-id: 0
+issue-id: 0
 ---
 # This is some test documentation...
-Without any front matter.
+Which is valid.
 > [!SAMPLE Sample]";
 
         VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(SimpleSource, markdown);
+    }
+
+    [TestMethod]
+    public void DocumentationInvalidDiscussionId()
+    {
+        string markdown = @"---
+title: Canvas Layout
+author: mhawker
+description: A canvas-like VirtualizingLayout for use in an ItemsRepeater
+keywords: CanvasLayout, ItemsRepeater, VirtualizingLayout, Canvas, Layout, Panel, Arrange
+dev_langs:
+    - csharp
+category: Controls
+subcategory: Layout
+discussion-id: https://github.com/1234
+issue-id: 0
+---
+# This is some test documentation...
+Without an invalid discussion id.";
+
+        VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(string.Empty, markdown,
+            DiagnosticDescriptors.MarkdownYAMLFrontMatterException.Id,
+            DiagnosticDescriptors.DocumentationHasNoSamples.Id);
+    }
+
+    [TestMethod]
+    public void DocumentationInvalidIssueId()
+    {
+        string markdown = @"---
+title: Canvas Layout
+author: mhawker
+description: A canvas-like VirtualizingLayout for use in an ItemsRepeater
+keywords: CanvasLayout, ItemsRepeater, VirtualizingLayout, Canvas, Layout, Panel, Arrange
+dev_langs:
+    - csharp
+category: Controls
+subcategory: Layout
+discussion-id: 0
+issue-id: https://github.com/1234
+---
+# This is some test documentation...
+Without an invalid discussion id.";
+
+        VerifyGeneratedDiagnostics<ToolkitSampleMetadataGenerator>(string.Empty, markdown,
+            DiagnosticDescriptors.MarkdownYAMLFrontMatterException.Id,
+            DiagnosticDescriptors.DocumentationHasNoSamples.Id);
     }
 }

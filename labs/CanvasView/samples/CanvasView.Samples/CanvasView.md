@@ -7,14 +7,11 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+discussion-id: 310
+issue-id: 212
 ---
 
 # CanvasView
-
-For more information about this experiment see:
-
-- Discussion: https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/3716
-- Issue: https://github.com/CommunityToolkit/Labs-Windows/issues/212
 
 CanvasView is an ItemsControl which uses a Canvas for the layout of its items.
 

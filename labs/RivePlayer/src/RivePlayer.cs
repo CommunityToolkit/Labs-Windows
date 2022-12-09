@@ -9,6 +9,14 @@ using System.Net.Http;
 using Windows.Storage.Streams;
 using Windows.Storage;
 
+#if !WINAPPSDK
+using DQ = Windows.System.DispatcherQueue;
+using Windows.System;
+#else
+using DQ = Microsoft.UI.Dispatching.DispatcherQueue;
+using Microsoft.UI.Dispatching;
+#endif
+
 namespace CommunityToolkit.Labs.WinUI.Rive;
 
 /// <summary>
@@ -31,7 +39,7 @@ public sealed partial class RivePlayer
     private readonly ConcurrentQueue<Action> sceneActionsQueue = new();
 
     // Continuously invalidates the panel for repaint.
-    private AnimationTimer? _animationTimer;
+    private DispatcherQueueTimer _animationTimer;
 
     // State machine inputs to set once the current async source load finishes.
     // The null-ness of this object also tells us whether an async load operation is currently running.
@@ -62,14 +70,26 @@ public sealed partial class RivePlayer
             (object s, PointerRoutedEventArgs e) => HandlePointerEvent(_scene.PointerMove, e);
         this.PointerReleased +=
             (object s, PointerRoutedEventArgs e) => HandlePointerEvent(_scene.PointerUp, e);
+
+        _animationTimer = DQ.GetForCurrentThread().CreateTimer();
+        _animationTimer.Interval = TimeSpan.FromSeconds(1.0 / 120); // Refresh at 120fps.
+        _animationTimer.Tick += AnimationTimer_Tick;
+    }
+
+    private void AnimationTimer_Tick(DispatcherQueueTimer t, object e)
+    {
+        if (!IsLoaded)
+        {
+            _animationTimer.Stop();
+        }
+        else
+        {
+            InvalidateAnimation();
+        }
     }
 
     private void OnXamlRootChanged(bool isHostVisible)
     {
-        if (_animationTimer == null)
-        {
-            return;
-        }
         if (isHostVisible)
         {
             _animationTimer.Start();
