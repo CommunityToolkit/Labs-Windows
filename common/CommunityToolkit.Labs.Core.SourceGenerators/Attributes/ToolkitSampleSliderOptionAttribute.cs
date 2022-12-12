@@ -31,7 +31,7 @@ public sealed class ToolkitSampleSliderOptionAttribute : ToolkitSampleOptionBase
     }
 
     /// <summary>
-    /// The default start value
+    /// The default start value.
     /// </summary>
     public double? Initial { get; }
 
