@@ -16,7 +16,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 public sealed class ToolkitSampleMultiChoiceOptionAttribute : ToolkitSampleOptionBaseAttribute
 {
     /// <summary>
-    /// Creates a new instance of <see cref="ToolkitSampleBoolOptionAttribute"/>.
+    /// Creates a new instance of <see cref="ToolkitSampleMultiChoiceOptionAttribute"/>.
     /// </summary>
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
     /// <param name="choices">A list of the choices to display to the user. Can be literal values, or labeled values. Use a " : " separator (single colon surrounded by at least 1 whitespace) to separate a label from a value.</param>
