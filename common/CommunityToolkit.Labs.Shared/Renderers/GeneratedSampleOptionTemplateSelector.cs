@@ -17,13 +17,16 @@ internal class GeneratedSampleOptionTemplateSelector : DataTemplateSelector
 
     public DataTemplate? SliderOptionTemplate { get; set; }
 
+    public DataTemplate? TextOptionTemplate { get; set; }
+
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
         return item switch
         {
             ToolkitSampleBoolOptionMetadataViewModel => BoolOptionTemplate ?? base.SelectTemplateCore(item, container),
-            ToolkitSampleSliderOptionMetadataViewModel => SliderOptionTemplate ?? base.SelectTemplateCore(item, container),
             ToolkitSampleMultiChoiceOptionMetadataViewModel => MultiChoiceOptionTemplate ?? base.SelectTemplateCore(item, container),
+            ToolkitSampleSliderOptionMetadataViewModel => SliderOptionTemplate ?? base.SelectTemplateCore(item, container),
+            ToolkitSampleTextOptionMetadataViewModel => TextOptionTemplate ?? base.SelectTemplateCore(item, container),
             _ => base.SelectTemplateCore(item, container),
         };
     }
