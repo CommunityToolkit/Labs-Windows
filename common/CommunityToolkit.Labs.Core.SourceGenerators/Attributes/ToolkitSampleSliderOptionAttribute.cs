@@ -41,7 +41,7 @@ public sealed class ToolkitSampleSliderOptionAttribute : ToolkitSampleOptionBase
     public double? Min { get; }
 
     /// <summary>
-    /// The maximum value
+    /// The maximum value.
     /// </summary>
     public double? Max { get; }
 
