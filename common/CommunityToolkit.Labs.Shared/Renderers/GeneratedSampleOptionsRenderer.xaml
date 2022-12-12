@@ -26,25 +26,19 @@
             </local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>
             <local:GeneratedSampleOptionTemplateSelector.MultiChoiceOptionTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleMultiChoiceOptionMetadataViewModel">
-                    <StackPanel>
-                        <TextBlock Text="{x:Bind Title}"
-                                   Visibility="{x:Bind local:GeneratedSampleOptionsRenderer.NullOrWhiteSpaceToVisibility(Title)}" />
-                        <muxc:RadioButtons ItemsSource="{x:Bind Options}"
-                                           SelectedIndex="0"
-                                           SelectedItem="{x:Bind Value, Mode=TwoWay}" />
-                    </StackPanel>
+                    <ComboBox Header="{x:Bind Title}"
+                              ItemsSource="{x:Bind Options}"
+                              SelectedIndex="0"
+                              SelectedItem="{x:Bind Value, Mode=TwoWay}" />
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.MultiChoiceOptionTemplate>
             <local:GeneratedSampleOptionTemplateSelector.SliderOptionTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleSliderOptionMetadataViewModel">
-                    <StackPanel>
-                        <TextBlock Text="{x:Bind Title}"
-                                   Visibility="{x:Bind local:GeneratedSampleOptionsRenderer.NullOrWhiteSpaceToVisibility(Title)}" />
-                        <Slider Maximum="{x:Bind Max, Mode=OneWay}"
-                                Minimum="{x:Bind Min, Mode=OneWay}"
-                                StepFrequency="{x:Bind Step, Mode=OneWay}"
-                                Value="{x:Bind Initial, Mode=TwoWay}" />
-                    </StackPanel>
+                    <Slider Header="{x:Bind Title}"
+                            Maximum="{x:Bind Max, Mode=OneWay}"
+                            Minimum="{x:Bind Min, Mode=OneWay}"
+                            StepFrequency="{x:Bind Step, Mode=OneWay}"
+                            Value="{x:Bind Initial, Mode=TwoWay}" />
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.SliderOptionTemplate>
         </local:GeneratedSampleOptionTemplateSelector>
