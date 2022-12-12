@@ -15,11 +15,14 @@ internal class GeneratedSampleOptionTemplateSelector : DataTemplateSelector
 
     public DataTemplate? MultiChoiceOptionTemplate { get; set; }
 
+    public DataTemplate? SliderOptionTemplate { get; set; }
+
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
         return item switch
         {
             ToolkitSampleBoolOptionMetadataViewModel => BoolOptionTemplate ?? base.SelectTemplateCore(item, container),
+            ToolkitSampleSliderOptionMetadataViewModel => SliderOptionTemplate ?? base.SelectTemplateCore(item, container),
             ToolkitSampleMultiChoiceOptionMetadataViewModel => MultiChoiceOptionTemplate ?? base.SelectTemplateCore(item, container),
             _ => base.SelectTemplateCore(item, container),
         };

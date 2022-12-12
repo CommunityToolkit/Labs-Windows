@@ -61,6 +61,9 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                     if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
                         return (x.Item1, (ToolkitSampleOptionBaseAttribute)boolOptionAttribute);
 
+                    if (x.Item2.TryReconstructAs<ToolkitSampleSliderOptionAttribute>() is ToolkitSampleSliderOptionAttribute sliderOptionAttribute)
+                        return (x.Item1, (ToolkitSampleSliderOptionAttribute)sliderOptionAttribute);
+
                     if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
                         return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
 
@@ -286,6 +289,10 @@ public static class ToolkitSampleRegistry
             else if (item is ToolkitSampleBoolOptionAttribute boolAttribute)
             {
                 yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", label: ""{boolAttribute.Label}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
+            }
+            else if (item is ToolkitSampleSliderOptionAttribute sliderAttribute)
+            {
+                yield return $@"new {typeof(ToolkitSampleSliderOptionMetadataViewModel).FullName}(name: ""{sliderAttribute.Name}"", initial: {sliderAttribute.Initial}, min: {sliderAttribute.Min}, max: {sliderAttribute.Max}, step: {sliderAttribute.Step}, title: ""{sliderAttribute.Title}"")";
             }
             else
             {
