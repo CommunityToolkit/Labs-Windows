@@ -47,9 +47,9 @@ function ApplyWinUISwap([string] $filePath) {
 
 Write-Output "Switching to WinUI $winUIMajorVersion";
 
-ApplyWinUISwap $PSScriptRoot\..\Labs.Head.Uno.props
-ApplyWinUISwap $PSScriptRoot\..\Labs.Uno.props
-ApplyWinUISwap $PSScriptRoot\..\Labs.ProjectIdentifiers.props
+ApplyWinUISwap $PSScriptRoot/../Labs.Head.Uno.props
+ApplyWinUISwap $PSScriptRoot/../Labs.Uno.props
+ApplyWinUISwap $PSScriptRoot/../Labs.ProjectIdentifiers.props
 
 if ($allowGitChanges.IsPresent) {
     Write-Warning "Changes to the default Uno package settings in Labs can now be committed.`r`nRun this command again without -allowGitChanges to disable committing further changes.";
