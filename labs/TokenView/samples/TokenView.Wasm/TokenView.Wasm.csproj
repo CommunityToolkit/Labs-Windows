@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+    <IsUno>true</IsUno>
+    <IsWasm>true</IsWasm>
+    <IsWasmHead>false</IsWasmHead>
+    <IsWasmLib>false</IsWasmLib>
+    <IsDroid>false</IsDroid>
+    <IsMacOS>false</IsMacOS>
+    <IsiOS>false</IsiOS>
+    <IsUwp>false</IsUwp>
+    <IsWinAppSdk>false</IsWinAppSdk>
+    <IsWpf>false</IsWpf>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWpfLib>false</IsWpfLib>
+    <IsGtk>false</IsGtk>
+    <IsGtkHead>false</IsGtkHead>
+    <IsGtkLib>false</IsGtkLib>
+  </PropertyGroup>
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Wasm.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+  
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
+
+  <ItemGroup>
+    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.TokenView.csproj" />
+    <ProjectReference Include="..\TokenView.Samples\TokenView.Samples.csproj" />
+  </ItemGroup>
+</Project>

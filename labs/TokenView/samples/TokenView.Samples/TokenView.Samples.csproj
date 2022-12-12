@@ -1,0 +1,23 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+  
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
+
+  <PropertyGroup>
+    <RootNamespace>TokenViewExperiment.Samples</RootNamespace>
+    <AssemblyName>TokenViewExperiment.Samples</AssemblyName>
+  </PropertyGroup>
+  
+  <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.TokenView.csproj" />
+  </ItemGroup>
+</Project>

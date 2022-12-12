@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+    <IsUno>false</IsUno>
+    <IsWasm>false</IsWasm>
+    <IsWasmHead>false</IsWasmHead>
+    <IsWasmLib>false</IsWasmLib>
+    <IsDroid>false</IsDroid>
+    <IsMacOS>false</IsMacOS>
+    <IsiOS>false</IsiOS>
+    <IsUwp>true</IsUwp>
+    <IsWinAppSdk>false</IsWinAppSdk>
+    <IsWpf>false</IsWpf>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWpfLib>false</IsWpfLib>
+    <IsGtk>false</IsGtk>
+    <IsGtkHead>false</IsGtkHead>
+    <IsGtkLib>false</IsGtkLib>
+  </PropertyGroup>
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.props" />
+
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+
+  <PropertyGroup>
+    <RootNamespace>TokenViewExperiment.Samples</RootNamespace>
+    <AssemblyName>TokenViewExperiment.Samples.Uwp</AssemblyName>
+    <ProjectGuid>{94A99E08-8C09-48C9-8FBB-9E7C4642AA44}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.TokenView.csproj">
+      <Project>{6979EB34-C581-4EAC-9A06-C0475E240EE1}</Project>
+      <Name>CommunityToolkit.Labs.WinUI.TokenView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TokenView.Samples\TokenView.Samples.csproj">
+      <Project>{3A59B60B-1B87-4DCC-BE17-C7A4ECB399BE}</Project>
+      <Name>TokenView.Sample</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <!-- Must be imported after any shared projects in non-sdk style projects -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+</Project>

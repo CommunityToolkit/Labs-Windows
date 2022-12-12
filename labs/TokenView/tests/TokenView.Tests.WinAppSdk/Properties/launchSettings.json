@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TokenView.Tests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TokenView.Tests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

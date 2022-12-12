@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
+  
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+  </PropertyGroup>
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
+
+  <!-- Labs Test Config -->
+  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
+
+  <PropertyGroup>
+    <ProjectGuid>{C8A003EB-A2BE-48DE-A7DC-0814C04FF242}</ProjectGuid>
+    <RootNamespace>TokenViewExperiment.Tests</RootNamespace>
+    <AssemblyName>TokenViewExperiment.Tests.Uwp</AssemblyName>
+    <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.png">
+      <Link>Assets\LockScreenLogo.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.png">
+      <Link>Assets\Square150x150Logo.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.png">
+      <Link>Assets\Square44x44Logo.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Link>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png">
+      <Link>Assets\StoreLogo.png</Link>
+    </Content>
+  </ItemGroup>
+
+  <!-- Needed Unit Testing helper base classes -->
+  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.Tests.Shared\CommunityToolkit.Labs.Tests.Shared.projitems" Label="Unit Testing Helpers" />
+  <!-- Include the unit test files themselves -->
+  <Import Project="..\TokenView.Tests\TokenView.Tests.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.TokenView.csproj" />
+  </ItemGroup>
+
+  <!-- Must be imported after any shared projects in non-sdk style projects -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+</Project>
