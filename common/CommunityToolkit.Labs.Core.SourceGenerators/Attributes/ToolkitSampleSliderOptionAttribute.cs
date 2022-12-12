@@ -36,7 +36,7 @@ public sealed class ToolkitSampleSliderOptionAttribute : ToolkitSampleOptionBase
     public double? Initial { get; }
 
     /// <summary>
-    /// The minimal value
+    /// The minimal value.
     /// </summary>
     public double? Min { get; }
 
