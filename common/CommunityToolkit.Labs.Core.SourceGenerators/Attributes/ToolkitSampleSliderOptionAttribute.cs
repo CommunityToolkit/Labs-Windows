@@ -46,7 +46,7 @@ public sealed class ToolkitSampleSliderOptionAttribute : ToolkitSampleOptionBase
     public double? Max { get; }
 
     /// <summary>
-    /// The step value
+    /// The step value.
     /// </summary>
     public double? Step { get; }
 
