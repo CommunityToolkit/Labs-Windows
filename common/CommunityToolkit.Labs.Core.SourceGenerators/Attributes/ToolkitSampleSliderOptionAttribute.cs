@@ -21,7 +21,7 @@ public sealed class ToolkitSampleSliderOptionAttribute : ToolkitSampleOptionBase
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
     /// <param name="choices">A list of the choices to display to the user. Can be literal values, or labeled values. Use a " : " separator (single colon surrounded by at least 1 whitespace) to separate a label from a value.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    public ToolkitSampleSliderOptionAttribute(string bindingName, string? title = null, double initial = 0, double min = 0, double max = 10, double step = 1)
+    public ToolkitSampleSliderOptionAttribute(string bindingName, double initial = 0, double min = 0, double max = 10, double step = 1, string? title = null)
         : base(bindingName, null, title)
     {
         Initial = initial;
