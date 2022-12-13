@@ -1,11 +1,12 @@
 <Project>
+  <Import Project="$(MSBuildThisFileDirectory)\Defaults.props" Condition="'$(MultiTarget)' == ''"/>
+  <Import Project="$(MSBuildProjectDirectory)\MultiTarget.props" Condition="Exists('$(MSBuildProjectDirectory)\MultiTarget.props') AND '$(MultiTarget)' == ''"/>
+
   <PropertyGroup>
     <!--
       MultiTarget is a custom property that indicates which target a project is designed to be built for / run on.
       Used to create project references, generate solution files, enable/disable TargetFrameworks, and build nuget packages.
     -->
-    <MultiTarget Condition="'$(MultiTarget)' == ''">uwp;wasdk;wpf;wasm;linuxgtk;macos;ios;android;</MultiTarget>
-
     <TargetFrameworks Condition="$(MultiTarget.Contains('uwp')) == 'true'">$(TargetFrameworks);$(UwpTargetFramework)</TargetFrameworks>
     <TargetFrameworks Condition="$(MultiTarget.Contains('wasdk')) == 'true'">$(TargetFrameworks);$(WinAppSdkTargetFramework)</TargetFrameworks>
     <!--
