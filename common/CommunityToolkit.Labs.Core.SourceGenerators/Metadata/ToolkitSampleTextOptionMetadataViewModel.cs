@@ -21,7 +21,7 @@ public class ToolkitSampleTextOptionMetadataViewModel : IGeneratedToolkitSampleO
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleTextOptionAttribute"/>.
     /// </summary>
-    public ToolkitSampleTextOptionMetadataViewModel(string id, string? placeholderText = null, string? title = null)
+    public ToolkitSampleTextOptionMetadataViewModel(string id, string placeholderText = null, string? title = null)
     {
         Name = id;
         _title = title;
@@ -40,12 +40,12 @@ public class ToolkitSampleTextOptionMetadataViewModel : IGeneratedToolkitSampleO
     public string Name { get; }
 
     /// <summary>
-    /// The current Text value.
+    /// The current boolean value.
     /// </summary>
     /// <remarks>
     /// Provided to accomodate binding to a property that is a non-nullable <see cref="bool"/>.
     /// </remarks>
-    public string? PlaceholderText
+    public string PlaceholderText
     {
         get => (string)_value;
         set
@@ -67,7 +67,7 @@ public class ToolkitSampleTextOptionMetadataViewModel : IGeneratedToolkitSampleO
     }
 
     /// <summary>
-    /// A title to display on top of the text option.
+    /// A title to display on top of the boolean option.
     /// </summary>
     public string? Title
     {

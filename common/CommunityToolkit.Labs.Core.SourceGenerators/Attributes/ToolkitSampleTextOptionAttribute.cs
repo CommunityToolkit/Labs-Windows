@@ -5,7 +5,7 @@
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 
 /// <summary>
-/// Represents a text sample option that the user can manipulate and the XAML can bind to.
+/// Represents a boolean sample option that the user can manipulate and the XAML can bind to.
 /// </summary>
 /// <remarks>
 /// Using this attribute will automatically generate an <see cref="INotifyPropertyChanged"/>-enabled property
@@ -18,10 +18,9 @@ public sealed class ToolkitSampleTextOptionAttribute : ToolkitSampleOptionBaseAt
     /// Creates a new instance of <see cref="ToolkitSampleTextOptionAttribute"/>.
     /// </summary>
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
-    /// <param name="placeholderText">The text value that will be shown in the TextBox.</param>
+    /// <param name="defaultState">The initial value for the bound property.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    /// 
-    public ToolkitSampleTextOptionAttribute(string bindingName, string? placeholderText = null, string? title = null)
+    public ToolkitSampleTextOptionAttribute(string bindingName, string placeholderText = null, string? title = null)
         : base(bindingName, placeholderText, title)
     {
         PlaceholderText = placeholderText;
@@ -33,7 +32,7 @@ public sealed class ToolkitSampleTextOptionAttribute : ToolkitSampleOptionBaseAt
     internal override string TypeName { get; } = "string";
 
     /// <summary>
-    /// A label to display along the PlaceholderText option.
+    /// A label to display along the boolean option.
     /// </summary>
-    public string? PlaceholderText { get; }
+    public string PlaceholderText { get; }
 }
