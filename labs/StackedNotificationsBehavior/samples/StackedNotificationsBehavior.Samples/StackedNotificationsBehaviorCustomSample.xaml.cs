@@ -7,7 +7,10 @@ namespace StackedNotificationsBehaviorExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-
+[ToolkitSampleBoolOption("IsTextVisible", "IsVisible", true)]
+[ToolkitSampleSliderOption("TextSize", 50, 1, 200, 10, "FontSize")]
+[ToolkitSampleTextOption("TextText", "Placeholder text", "Input the text")]
+[ToolkitSampleMultiChoiceOption("TextFontFamily", title: "Font family", "Segoe UI", "Arial", "Consolas")]
 [ToolkitSample(id: nameof(StackedNotificationsBehaviorCustomSample), "Stacked Notifications", description: $"A sample for showing how to create and use a {nameof(StackedNotificationsBehavior)} custom control.")]
 public sealed partial class StackedNotificationsBehaviorCustomSample : Page
 {
