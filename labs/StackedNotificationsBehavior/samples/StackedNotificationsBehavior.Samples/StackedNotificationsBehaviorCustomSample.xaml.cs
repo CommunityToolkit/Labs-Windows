@@ -7,6 +7,7 @@ namespace StackedNotificationsBehaviorExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
+
 [ToolkitSample(id: nameof(StackedNotificationsBehaviorCustomSample), "Stacked Notifications", description: $"A sample for showing how to create and use a {nameof(StackedNotificationsBehavior)} custom control.")]
 public sealed partial class StackedNotificationsBehaviorCustomSample : Page
 {

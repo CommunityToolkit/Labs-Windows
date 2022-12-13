@@ -15,6 +15,7 @@
                 VerticalAlignment="Top"
                 Click="Button_Click"
                 Content="Send" />
+
         <muxc:InfoBar MaxWidth="480"
                       Margin="64"
                       HorizontalAlignment="Right"
