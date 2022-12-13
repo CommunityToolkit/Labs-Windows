@@ -49,7 +49,7 @@ public partial class SettingsExpander
     /// </summary>
     public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(
         nameof(Footer),
-        typeof(object),
+        typeof(UIElement),
         typeof(SettingsExpander),
         new PropertyMetadata(defaultValue: null));
 
@@ -105,9 +105,9 @@ public partial class SettingsExpander
     /// <summary>
     /// Gets or sets the Footer.
     /// </summary>
-    public object Footer
+    public UIElement Footer
     {
-        get => (object)GetValue(FooterProperty);
+        get => (UIElement)GetValue(FooterProperty);
         set => SetValue(FooterProperty, value);
     }
 
