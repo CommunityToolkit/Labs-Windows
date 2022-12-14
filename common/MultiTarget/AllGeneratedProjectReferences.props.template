@@ -10,10 +10,4 @@
 		<DefineConstants>$(DefineConstants);LABS_ALL_SAMPLES</DefineConstants>
 	</PropertyGroup>
 	[ProjectReferenceImports]
-
-	<!-- These properties are reused by each prop import, and need to be empty when not in use. -->
-	<PropertyGroup>
-		<ProjectFileName></ProjectFileName>
-		<ProjectRoot></ProjectRoot>
-	</PropertyGroup>
 </Project>
