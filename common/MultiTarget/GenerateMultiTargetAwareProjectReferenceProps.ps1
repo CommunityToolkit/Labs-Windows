@@ -31,8 +31,8 @@ $csprojFileName = [System.IO.Path]::GetFileName($relativeProjectPath);
 $templateContents = $templateContents -replace [regex]::escape($projectFileNamePlaceholder), $csprojFileName;
 
 # Insert project directory
-$projectDirectory = [System.IO.Path]::GetDirectoryName($relativeProjectPath);
-$templateContents = $templateContents -replace [regex]::escape($projectRootPlaceholder), "$projectDirectory";
+$relativeProjectDirectory = [System.IO.Path]::GetDirectoryName($relativeProjectPath);
+$templateContents = $templateContents -replace [regex]::escape($projectRootPlaceholder), "$relativeProjectDirectory";
 
 function LoadMultiTargetsFrom([string] $path) {
     $fileContents = "";
@@ -59,7 +59,7 @@ function LoadMultiTargetsFrom([string] $path) {
 }
 
 # Load multitarget preferences for project
-$multiTargets = LoadMultiTargetsFrom("$projectDirectory\MultiTarget.props");
+$multiTargets = LoadMultiTargetsFrom("$([System.IO.Path]::GetDirectoryName($projectPath))\MultiTarget.props");
 $multiTargets = $multiTargets.Split(';');
 
 Write-Host "Generating project references for $([System.IO.Path]::GetFileNameWithoutExtension($csprojFileName)): $($multiTargets -Join ', ')"
