@@ -1055,4 +1055,13 @@
             </Setter>
         </Style.Setters>
     </Style>
+
+    <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
+    <x:Double x:Key="SettingsCardSpacing">3</x:Double>
+    <Style x:Key="SettingsGroupTextBlockStyle"
+           BasedOn="{StaticResource BodyStrongTextBlockStyle}">
+        <Style.Setters>
+            <Setter Property="Margin" Value="-1,30,0,4" />
+        </Style.Setters>
+    </Style>
 </ResourceDictionary>
