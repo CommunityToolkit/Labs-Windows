@@ -6,6 +6,17 @@
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
+    <Page.Resources>
+        <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
+        <x:Double x:Key="SettingsCardSpacing">3</x:Double>
+        <Style x:Key="SettingsGroupTextBlockStyle"
+               BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+               TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,4" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
     <ScrollViewer>
         <StackPanel MaxWidth="1000"
                     HorizontalAlignment="Stretch"
