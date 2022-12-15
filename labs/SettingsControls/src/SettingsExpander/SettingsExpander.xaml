@@ -89,10 +89,9 @@
                                                    IsClickEnabled="False" />
                             </muxc:Expander.Header>
                             <muxc:Expander.Content>
-                                <StackPanel>
-                                    <ItemsPresenter TabFocusNavigation="Local" />
-                                    <ContentPresenter Content="{TemplateBinding Footer}" />
-                                </StackPanel>
+                                <ItemsPresenter Footer="{TemplateBinding ItemsFooter}"
+                                                Header="{TemplateBinding ItemsHeader}"
+                                                TabFocusNavigation="Local" />
                             </muxc:Expander.Content>
                         </muxc:Expander>
                     </ControlTemplate>

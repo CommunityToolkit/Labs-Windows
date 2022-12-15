@@ -24,8 +24,19 @@
                 </labs:SettingsCard>
             </DataTemplate>
         </labs:SettingsExpander.ItemTemplate>
-        <labs:SettingsExpander.Footer>
-            <muxc:InfoBar Title="This is the footer"
+        <labs:SettingsExpander.ItemsHeader>
+            <muxc:InfoBar Title="This is the ItemsHeader"
+                          CornerRadius="0,0,4,4"
+                          IsIconVisible="False"
+                          IsOpen="True"
+                          Severity="Success">
+                <muxc:InfoBar.ActionButton>
+                    <HyperlinkButton Content="It can host custom content" />
+                </muxc:InfoBar.ActionButton>
+            </muxc:InfoBar>
+        </labs:SettingsExpander.ItemsHeader>
+        <labs:SettingsExpander.ItemsFooter>
+            <muxc:InfoBar Title="This is the ItemsFooter"
                           CornerRadius="0,0,4,4"
                           IsIconVisible="False"
                           IsOpen="True"
@@ -34,6 +45,6 @@
                     <HyperlinkButton Content="It can host custom content" />
                 </muxc:InfoBar.ActionButton>
             </muxc:InfoBar>
-        </labs:SettingsExpander.Footer>
+        </labs:SettingsExpander.ItemsFooter>
     </labs:SettingsExpander>
 </Page>

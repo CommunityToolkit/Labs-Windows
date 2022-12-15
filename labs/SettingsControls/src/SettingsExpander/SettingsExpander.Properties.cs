@@ -47,8 +47,17 @@ public partial class SettingsExpander
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
     /// </summary>
-    public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(
-        nameof(Footer),
+    public static readonly DependencyProperty ItemsHeaderProperty = DependencyProperty.Register(
+        nameof(ItemsHeader),
+        typeof(UIElement),
+        typeof(SettingsExpander),
+        new PropertyMetadata(defaultValue: null));
+
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
+    /// </summary>
+    public static readonly DependencyProperty ItemsFooterProperty = DependencyProperty.Register(
+        nameof(ItemsFooter),
         typeof(UIElement),
         typeof(SettingsExpander),
         new PropertyMetadata(defaultValue: null));
@@ -103,12 +112,21 @@ public partial class SettingsExpander
     }
 
     /// <summary>
-    /// Gets or sets the Footer.
+    /// Gets or sets the ItemsFooter.
     /// </summary>
-    public UIElement Footer
+    public UIElement ItemsHeader
     {
-        get => (UIElement)GetValue(FooterProperty);
-        set => SetValue(FooterProperty, value);
+        get => (UIElement)GetValue(ItemsHeaderProperty);
+        set => SetValue(ItemsHeaderProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the ItemsFooter.
+    /// </summary>
+    public UIElement ItemsFooter
+    {
+        get => (UIElement)GetValue(ItemsFooterProperty);
+        set => SetValue(ItemsFooterProperty, value);
     }
 
     /// <summary>
