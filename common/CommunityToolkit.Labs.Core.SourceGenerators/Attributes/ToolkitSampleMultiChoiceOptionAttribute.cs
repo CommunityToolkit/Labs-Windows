@@ -21,8 +21,8 @@ public sealed class ToolkitSampleMultiChoiceOptionAttribute : ToolkitSampleOptio
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
     /// <param name="choices">A list of the choices to display to the user. Can be literal values, or labeled values. Use a " : " separator (single colon surrounded by at least 1 whitespace) to separate a label from a value.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    public ToolkitSampleMultiChoiceOptionAttribute(string bindingName, string? title = null, params string[] choices)
-        : base(bindingName, null, title)
+    public ToolkitSampleMultiChoiceOptionAttribute(string bindingName, params string[] choices)
+        : base(bindingName, null)
     {
         Choices = choices.Select(x =>
         {

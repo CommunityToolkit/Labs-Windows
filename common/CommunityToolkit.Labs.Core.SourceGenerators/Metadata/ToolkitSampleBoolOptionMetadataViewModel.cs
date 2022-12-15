@@ -15,18 +15,16 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 /// </remarks>
 public class ToolkitSampleBoolOptionMetadataViewModel : IGeneratedToolkitSampleOptionViewModel
 {
-    private string _label;
     private string? _title;
     private object _value;
 
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleBoolOptionAttribute"/>.
     /// </summary>
-    public ToolkitSampleBoolOptionMetadataViewModel(string id, string label, bool defaultState, string? title = null)
+    public ToolkitSampleBoolOptionMetadataViewModel(string id, bool defaultState, string? title = null)
     {
         Name = id;
         _title = title;
-        _label = label;
         _value = defaultState;
     }
 
@@ -65,19 +63,6 @@ public class ToolkitSampleBoolOptionMetadataViewModel : IGeneratedToolkitSampleO
         {
             BoolValue = (bool)(value ?? false);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Name));
-        }
-    }
-
-    /// <summary>
-    /// A label to display along the boolean option.
-    /// </summary>
-    public string Label
-    {
-        get => _label;
-        set
-        {
-            _label = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Label)));
         }
     }
 

@@ -44,9 +44,9 @@ public class ToolkitSampleSliderOptionMetadataViewModel : IGeneratedToolkitSampl
     /// <summary>
     /// The initial double value.
     /// </summary>
-    public double Initial
+    public double? Initial
     {
-        get => (double)_value;
+        get => (double?)_value;
         set
         {
             _value = value;

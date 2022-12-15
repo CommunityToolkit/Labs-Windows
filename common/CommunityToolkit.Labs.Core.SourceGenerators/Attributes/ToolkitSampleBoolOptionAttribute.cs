@@ -20,19 +20,14 @@ public sealed class ToolkitSampleBoolOptionAttribute : ToolkitSampleOptionBaseAt
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
     /// <param name="defaultState">The initial value for the bound property.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    public ToolkitSampleBoolOptionAttribute(string bindingName, string label, bool defaultState, string? title = null)
-        : base(bindingName, defaultState, title)
+    public ToolkitSampleBoolOptionAttribute(string bindingName, bool defaultState)
+        : base(bindingName, null)
     {
-        Label = label;
+
     }
 
     /// <summary>
     /// The source generator-friendly type name used for casting.
     /// </summary>
     internal override string TypeName { get; } = "bool";
-
-    /// <summary>
-    /// A label to display along the boolean option.
-    /// </summary>
-    public string Label { get; }
 }

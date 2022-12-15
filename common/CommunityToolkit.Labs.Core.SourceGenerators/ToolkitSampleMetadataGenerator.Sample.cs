@@ -291,7 +291,7 @@ public static class ToolkitSampleRegistry
             }
             else if (item is ToolkitSampleBoolOptionAttribute boolAttribute)
             {
-                yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", label: ""{boolAttribute.Label}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
+                yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
             }
             else if (item is ToolkitSampleSliderOptionAttribute sliderAttribute)
             {

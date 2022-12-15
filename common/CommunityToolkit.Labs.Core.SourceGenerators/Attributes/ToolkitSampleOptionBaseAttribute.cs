@@ -15,9 +15,8 @@ public abstract class ToolkitSampleOptionBaseAttribute : Attribute
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
     /// <param name="defaultState">The initial value for the bound property.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    public ToolkitSampleOptionBaseAttribute(string bindingName, object? defaultState, string? title = null)
+    public ToolkitSampleOptionBaseAttribute(string bindingName, object? defaultState)
     {
-        Title = title;
         Name = bindingName;
         DefaultState = defaultState;
     }
@@ -35,7 +34,7 @@ public abstract class ToolkitSampleOptionBaseAttribute : Attribute
     /// <summary>
     /// A title to display on top of the option.
     /// </summary>
-    public string? Title { get; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// The source generator-friendly type name used for casting.

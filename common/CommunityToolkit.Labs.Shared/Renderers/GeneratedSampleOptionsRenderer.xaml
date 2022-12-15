@@ -19,8 +19,9 @@
                     <StackPanel>
                         <TextBlock Text="{x:Bind Title}"
                                    Visibility="{x:Bind local:GeneratedSampleOptionsRenderer.NullOrWhiteSpaceToVisibility(Title)}" />
-                        <CheckBox Content="{x:Bind Label}"
-                                  IsChecked="{x:Bind BoolValue, Mode=TwoWay}" />
+                        <!--<CheckBox Content="{x:Bind Title}"
+                                  IsChecked="{x:Bind BoolValue, Mode=TwoWay}" />-->
+                        <ToggleSwitch IsOn="{x:Bind BoolValue, Mode=TwoWay}" />
                     </StackPanel>
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>

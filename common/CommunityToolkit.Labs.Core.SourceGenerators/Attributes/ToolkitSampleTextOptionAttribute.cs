@@ -20,8 +20,8 @@ public sealed class ToolkitSampleTextOptionAttribute : ToolkitSampleOptionBaseAt
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
     /// <param name="defaultState">The initial value for the bound property.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    public ToolkitSampleTextOptionAttribute(string bindingName, string placeholderText = null, string? title = null)
-        : base(bindingName, placeholderText, title)
+    public ToolkitSampleTextOptionAttribute(string bindingName, string? placeholderText = null)
+        : base(bindingName, placeholderText)
     {
         PlaceholderText = placeholderText;
     }
@@ -34,5 +34,5 @@ public sealed class ToolkitSampleTextOptionAttribute : ToolkitSampleOptionBaseAt
     /// <summary>
     /// A label to display along the boolean option.
     /// </summary>
-    public string PlaceholderText { get; }
+    public string? PlaceholderText { get; }
 }
