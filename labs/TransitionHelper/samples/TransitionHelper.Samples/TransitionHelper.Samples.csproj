@@ -14,10 +14,34 @@
     <RootNamespace>TransitionHelperExperiment.Samples</RootNamespace>
     <AssemblyName>TransitionHelperExperiment.Samples</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CustomTextScalingCalculator.cs" />
+    <Compile Remove="TransitionHelperFullExample.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="TransitionHelperFullExample.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="TransitionHelperFullExample.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="TransitionHelperFullExample.xaml" />
+  </ItemGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.TransitionHelper.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="TransitionHelperFullExample.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

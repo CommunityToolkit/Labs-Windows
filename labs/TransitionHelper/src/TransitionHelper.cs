@@ -2,107 +2,131 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#nullable enable
+
 namespace CommunityToolkit.Labs.WinUI;
 
 /// <summary>
-/// This is an example control based off of the BoxPanel sample here: https://docs.microsoft.com/windows/apps/design/layout/boxpanel-example-custom-panel. If you need this similar sort of layout component for an application, see UniformGrid in the Toolkit.
-/// It is provided as an example of how to inherit from another control like <see cref="Panel"/>.
-/// You can choose to start here or from the <see cref="TransitionHelper_ClassicBinding"/> or <see cref="TransitionHelper_xBind"/> example components. Remove unused components and rename as appropriate.
+/// A animation helper that morphs between two controls.
 /// </summary>
-public partial class TransitionHelper : Panel
+[ContentProperty(Name = nameof(Configs))]
+public sealed partial class TransitionHelper
 {
+    private sealed record AnimatedElements<T>(
+        IDictionary<string, T> ConnectedElements,
+        IDictionary<string, IList<T>> CoordinatedElements,
+        IList<T> IndependentElements)
+    {
+        public IEnumerable<T> All()
+        {
+            return this.ConnectedElements.Values.Concat(this.IndependentElements).Concat(this.CoordinatedElements.SelectMany(item => item.Value));
+        }
+    }
+
+    private const double AlmostZero = 0.01;
+    private AnimatedElements<UIElement>? _sourceAnimatedElements;
+    private AnimatedElements<UIElement>? _targetAnimatedElements;
+    private CancellationTokenSource? _currentAnimationCancellationTokenSource;
+    private IKeyFrameAnimationGroupController? _currentAnimationGroupController;
+
+    private AnimatedElements<UIElement> SourceAnimatedElements => _sourceAnimatedElements ??= GetAnimatedElements(this.Source);
+
+    private AnimatedElements<UIElement> TargetAnimatedElements => _targetAnimatedElements ??= GetAnimatedElements(this.Target);
+
+    private TransitionConfig DefaultConfig => new()
+    {
+        EasingMode = DefaultEasingMode,
+        EasingType = DefaultEasingType,
+        OpacityTransitionProgressKey = DefaultIndependentTranslation
+    };
+
     /// <summary>
-    /// Identifies the <see cref="Orientation"/> property.
+    /// Gets a value indicating whether the source and target controls are animating.
     /// </summary>
-    public static readonly DependencyProperty OrientationProperty =
-        DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(TransitionHelper), new PropertyMetadata(null, OnOrientationChanged));
+    public bool IsAnimating => _currentAnimationCancellationTokenSource is not null && this._currentAnimationGroupController is not null;
 
     /// <summary>
-    /// Gets the preference of the rows/columns when there are a non-square number of children. Defaults to Vertical.
+    /// Morphs from source control to target control.
     /// </summary>
-    public Orientation Orientation
+    /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+    public Task StartAsync()
     {
-        get { return (Orientation)GetValue(OrientationProperty); }
-        set { SetValue(OrientationProperty, value); }
+        return StartAsync(CancellationToken.None, false);
     }
 
-    // Invalidate our layout when the property changes.
-    private static void OnOrientationChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+    /// <summary>
+    /// Morphs from source control to target control.
+    /// </summary>
+    /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of the child element list before the animation starts.</param>
+    /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+    public Task StartAsync(bool forceUpdateAnimatedElements)
     {
-        if (dependencyObject is TransitionHelper panel)
-        {
-            panel.InvalidateMeasure();
-        }
+        return StartAsync(CancellationToken.None, forceUpdateAnimatedElements);
     }
 
-    // Store calculations we want to use between the Measure and Arrange methods.
-    int _columnCount;
-    double _cellWidth, _cellHeight;
-
-    protected override Size MeasureOverride(Size availableSize)
+    /// <summary>
+    /// Morphs from source control to target control.
+    /// </summary>
+    /// <param name="token">The cancellation token to stop animations while they're running.</param>
+    /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of the child element list before the animation starts.</param>
+    /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+    public Task StartAsync(CancellationToken token, bool forceUpdateAnimatedElements)
     {
-        // Determine the square that can contain this number of items.
-        var maxrc = (int)Math.Ceiling(Math.Sqrt(Children.Count));
-        // Get an aspect ratio from availableSize, decides whether to trim row or column.
-        var aspectratio = availableSize.Width / availableSize.Height;
-        if (Orientation == Orientation.Vertical) { aspectratio = 1 / aspectratio; }
-
-        int rowcount;
-
-        // Now trim this square down to a rect, many times an entire row or column can be omitted.
-        if (aspectratio > 1)
-        {
-            rowcount = maxrc;
-            _columnCount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
-        }
-        else
-        {
-            rowcount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
-            _columnCount = maxrc;
-        }
-
-        // Now that we have a column count, divide available horizontal, that's our cell width.
-        _cellWidth = (int)Math.Floor(availableSize.Width / _columnCount);
-        // Next get a cell height, same logic of dividing available vertical by rowcount.
-        _cellHeight = Double.IsInfinity(availableSize.Height) ? Double.PositiveInfinity : availableSize.Height / rowcount;
-
-        double maxcellheight = 0;
-
-        foreach (UIElement child in Children)
-        {
-            child.Measure(new Size(_cellWidth, _cellHeight));
-            maxcellheight = (child.DesiredSize.Height > maxcellheight) ? child.DesiredSize.Height : maxcellheight;
-        }
-
-        return LimitUnboundedSize(availableSize, maxcellheight);
+        return this.AnimateControlsAsync(false, token, forceUpdateAnimatedElements);
     }
 
-    // This method limits the panel height when no limit is imposed by the panel's parent.
-    // That can happen to height if the panel is close to the root of main app window.
-    // In this case, base the height of a cell on the max height from desired size
-    // and base the height of the panel on that number times the #rows.
-    Size LimitUnboundedSize(Size input, double maxcellheight)
-    { 
-        if (Double.IsInfinity(input.Height))
-        {
-            input.Height = maxcellheight * _columnCount;
-            _cellHeight = maxcellheight;
-        }
-        return input;
+    /// <summary>
+    /// Reverse animation, morphs from target control to source control.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+    public Task ReverseAsync()
+    {
+        return ReverseAsync(CancellationToken.None, false);
     }
 
-    protected override Size ArrangeOverride(Size finalSize)
+    /// <summary>
+    /// Reverse animation, morphs from target control to source control.
+    /// </summary>
+    /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of child elements before the animation starts.</param>
+    /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+    public Task ReverseAsync(bool forceUpdateAnimatedElements)
     {
-        int count = 1;
-        double x, y;
-        foreach (UIElement child in Children)
+        return ReverseAsync(CancellationToken.None, forceUpdateAnimatedElements);
+    }
+
+    /// <summary>
+    /// Reverse animation, morphs from target control to source control.
+    /// </summary>
+    /// <param name="token">The cancellation token to stop animations while they're running.</param>
+    /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of child elements before the animation starts.</param>
+    /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+    public Task ReverseAsync(CancellationToken token, bool forceUpdateAnimatedElements)
+    {
+        return this.AnimateControlsAsync(true, token, forceUpdateAnimatedElements);
+    }
+
+    /// <summary>
+    /// Stop all animations.
+    /// </summary>
+    public void Stop()
+    {
+        if (IsAnimating is false)
         {
-            x = (count - 1) % _columnCount * _cellWidth;
-            y = ((int)(count - 1) / _columnCount) * _cellHeight;
-            Point anchorPoint = new Point(x, y);
-            child.Arrange(new Rect(anchorPoint, child.DesiredSize));
-            count++;
+            return;
         }
-        return finalSize;
+
+        this._currentAnimationCancellationTokenSource?.Cancel();
+        this._currentAnimationCancellationTokenSource = null;
+    }
+
+    /// <summary>
+    /// Reset to initial or target state.
+    /// </summary>
+    /// <param name="toInitialState">Indicates whether to reset to initial state. default value is True, if it is False, it will be reset to target state.</param>
+    public void Reset(bool toInitialState = true)
+    {
+        this.Stop();
+        this._currentAnimationGroupController = null;
+        this.RestoreState(!toInitialState);
     }
 }
