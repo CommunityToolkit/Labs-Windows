@@ -18,10 +18,10 @@ foreach ($projectPath in Get-ChildItem -Directory -Depth 0 -Path "$PSScriptRoot/
   # Folder layout is expected to match the Community Toolkit.
   # Uses the <MultiTarget> values from the source library project as the fallback for the sample project.
   # This behavior also implemented in MultiTarget.props for TargetFramework evaluation. 
-  $srcPath = Resolve-Path "$projectPath\src";
+  $srcPath = Resolve-Path "$($projectPath.FullName)\src";
   $srcProjectPath = Get-ChildItem -File "$srcPath\*.csproj";
 
-  $samplePath = Resolve-Path "$projectPath\samples\$projectName.Samples";
+  $samplePath = Resolve-Path "$($projectPath.FullName)\samples\$projectName.Samples";
   $sampleProjectPath = Get-ChildItem -File "$samplePath\*.csproj";
 
   if ($srcProjectPath.Length -eq 0) {
