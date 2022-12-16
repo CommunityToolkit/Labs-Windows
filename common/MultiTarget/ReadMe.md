@@ -30,7 +30,7 @@ For example, to only target UWP, WASM and Android:
 
 ## ProjectReference Generation
 
-The script `GenerateAllProjectReferences.ps1` will scan for experiments and generate `.props` files for each project.
+The script `GenerateAllProjectReferences.ps1` will scan for toolkit components and generate `.props` files for each.
 
 ## NuGet Packages
 
