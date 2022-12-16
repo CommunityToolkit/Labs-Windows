@@ -1,12 +1,12 @@
 # MultiTarget
 
-`<MultiTarget>` is a custom property that indicates which target a project is designed to be built for / run on.
+`<MultiTarget>` is a custom property that indicates which target a component is designed to be built for / run on.
 
 The supplied targets are used to create project references, generate solution files, enable/disable TargetFrameworks, and build nuget packages.
 
 ## Basic usage
 
-Create a `MultiTarget.props` file in the same folder as your `.csproj` to change its MultiTarget.
+Create a `MultiTarget.props` file in the root of your source project to change the platform targets for your component. This will be picked up automatically by your sample project, unless it has a `MultiTarget.props` of its own defined.
 
 By default, all available targets are enabled:
 ```xml
@@ -17,7 +17,7 @@ By default, all available targets are enabled:
 </Project>
 ```
 
-A project with this `MultiTarget.props` would only target UWP, WASM and Android:
+For example, to only target UWP, WASM and Android:
 
 ```xml
 <Project>
@@ -27,9 +27,10 @@ A project with this `MultiTarget.props` would only target UWP, WASM and Android:
 </Project>
 ```
 
+
 ## ProjectReference Generation
 
-The script `GenerateAllProjectReferences.ps1` will recursively scan the provided folders for `.csproj` files and generate a `.props` file with a MultiTarget-aware `<ProjectReference>` for each one. 
+The script `GenerateAllProjectReferences.ps1` will scan for experiments and generate `.props` files for each project.
 
 ## NuGet Packages
 

@@ -9,7 +9,7 @@ Param (
     [string]$templatePath = "$PSScriptRoot/MultiTargetAwareProjectReference.props.template",
 
     [Parameter(HelpMessage = "The path to the props file that contains the default MultiTarget values.")] 
-    [string]$multiTargetDefaultPropsPath = "$PSScriptRoot/Defaults.props",
+    [string[]]$multiTargetFallbackPropsPath = @("$PSScriptRoot/Defaults.props"),
 
     [Parameter(HelpMessage = "The placeholder text to replace when inserting the project file name into the template.")] 
     [string]$projectFileNamePlaceholder = "[ProjectFileName]",
@@ -39,8 +39,13 @@ function LoadMultiTargetsFrom([string] $path) {
 
     # If file does not exist
     if ($false -eq (Test-Path -Path $path -PathType Leaf)) {
-        # Load defaults
-        $fileContents = Get-Content $multiTargetDefaultPropsPath -ErrorAction Stop;
+        # Load first available default
+        foreach ($fallbackPath in $multiTargetFallbackPropsPath) {
+            if (Test-Path $fallbackPath) {
+                $fileContents = Get-Content $fallbackPath -ErrorAction Stop;
+                break;
+            }
+        }
     }
     else {
         # Load requested file
