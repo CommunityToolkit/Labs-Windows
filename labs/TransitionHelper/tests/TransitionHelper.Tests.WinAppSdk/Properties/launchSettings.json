@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TransitionHelper.Tests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TransitionHelper.Tests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
