@@ -6,6 +6,7 @@
 	<!-- Before importing, check that the imported project works on the current framework -->
 	<!-- Condition must be on a <When> statement for this to work in Visual Studio. https://stackoverflow.com/a/16557059 -->
 	<Choose>
+		<!-- [IntendedTargets] -->
 		<When Condition="($(IsWasm) == 'true' AND [CanTargetWasm] == 'true') OR
 							($(IsUwp) == 'true' AND [CanTargetUwp] == 'true') OR
 							($(IsWinAppSdk) == 'true' AND [CanTargetWasdk] == 'true') OR

@@ -65,8 +65,10 @@ function LoadMultiTargetsFrom([string] $path) {
 
 # Load multitarget preferences for project
 $multiTargets = LoadMultiTargetsFrom("$([System.IO.Path]::GetDirectoryName($projectPath))\MultiTarget.props");
-$multiTargets = $multiTargets.Split(';');
 
+$templateContents = $templateContents -replace [regex]::escape("[IntendedTargets]"), $multiTargets;
+
+$multiTargets = $multiTargets.Split(';');
 Write-Host "Generating project references for $([System.IO.Path]::GetFileNameWithoutExtension($csprojFileName)): $($multiTargets -Join ', ')"
 
 $templateContents = $templateContents -replace [regex]::escape("[CanTargetWasm]"), "'$($multiTargets.Contains("wasm").ToString().ToLower())'";
