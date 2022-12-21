@@ -6,13 +6,23 @@
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
+    <Page.Resources>
+        <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
+        <x:Double x:Key="SettingsCardSpacing">3</x:Double>
+        <Style x:Key="SettingsGroupTextBlockStyle"
+               BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+               TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,4" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
     <ScrollViewer>
         <StackPanel MaxWidth="1000"
                     HorizontalAlignment="Stretch"
-                    Spacing="4">
+                    Spacing="{StaticResource SettingsCardSpacing}">
             <!--  TODO: @Niels - I just copied everything here, not sure if any values need adjusting. We should probably use this as a place to have more bespoke examples of each type of content like Slider, ComboBox, TextBox, etc...  -->
-            <TextBlock Margin="1,0,0,4"
-                       Style="{StaticResource BodyStrongTextBlockStyle}"
+            <TextBlock Style="{StaticResource SettingsGroupTextBlockStyle}"
                        Text="Group of settings" />
             <labs:SettingsCard Description="This is a default card, with the Header, HeaderIcon, Description and Content set."
                                Header="This is the Header">
@@ -55,8 +65,7 @@
                         Style="{StaticResource AccentButtonStyle}" />
             </labs:SettingsCard>
 
-            <TextBlock Margin="1,28,0,4"
-                       Style="{StaticResource BodyStrongTextBlockStyle}"
+            <TextBlock Style="{StaticResource SettingsGroupTextBlockStyle}"
                        Text="Next group of settings" />
 
             <labs:SettingsCard Description="A SettingsCard can be made clickable and you can leverage the Command property or Click event."
@@ -80,8 +89,7 @@
                 </labs:SettingsCard.ActionIcon>
             </labs:SettingsCard>
 
-            <TextBlock Margin="1,28,0,4"
-                       Style="{StaticResource BodyStrongTextBlockStyle}"
+            <TextBlock Style="{StaticResource SettingsGroupTextBlockStyle}"
                        Text="Final group of settings" />
 
             <labs:SettingsExpander Description="The SettingsExpander has the same properties as a Card, and you can set SettingsCard as part of the Items collection."

@@ -1,7 +1,7 @@
 Param (
     [Parameter(HelpMessage = "The target frameworks to enable.")]
     [ValidateSet('all', 'wasm', 'uwp', 'winappsdk', 'wpf', 'gtk', 'macos', 'ios', 'droid')]
-    [string[]]$targets,
+    [string[]]$targets = @('uwp', 'winappsdk', 'wasm'),
     
     [Parameter(HelpMessage = "Disables suppressing changes to the Labs.TargetFrameworks.props file in git, allowing changes to be committed.")] 
     [switch]$allowGitChanges = $false

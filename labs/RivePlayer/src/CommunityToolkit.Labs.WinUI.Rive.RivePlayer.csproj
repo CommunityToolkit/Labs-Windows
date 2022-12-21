@@ -7,7 +7,7 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
 
   <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
 
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.WinUI.Rive</RootNamespace>
@@ -18,7 +18,7 @@
     <Description>
       This package contains RivePlayer.
     </Description>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
   </PropertyGroup>
 
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->
