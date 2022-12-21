@@ -7,6 +7,8 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: StatusAndInfo
+discussion-id: 231 
+issue-id: 0
 ---
 
 # MarqueeText
