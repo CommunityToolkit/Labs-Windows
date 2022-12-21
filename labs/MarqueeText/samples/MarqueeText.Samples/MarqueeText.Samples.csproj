@@ -2,13 +2,13 @@
   <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
-  
+
   <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
 
   <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
+  <Import Project="$(RepositoryDirectory)common\SampleProjectConfig.props" />
 
   <PropertyGroup>
     <RootNamespace>MarqueeTextExperiment.Samples</RootNamespace>
@@ -18,13 +18,13 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="MarqueeTextSample.xaml" />
   </ItemGroup>
-  
+
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
-  
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.MarqueeText.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Update="MarqueeTextSample.xaml.cs">
       <DependentUpon>MarqueeTextSample.xaml</DependentUpon>
