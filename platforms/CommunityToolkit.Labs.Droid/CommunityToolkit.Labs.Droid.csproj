@@ -30,7 +30,7 @@
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\*.props" />
 
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
