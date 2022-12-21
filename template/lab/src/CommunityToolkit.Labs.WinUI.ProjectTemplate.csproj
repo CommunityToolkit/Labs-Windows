@@ -7,7 +7,7 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
 
   <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
 
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.WinUI.ProjectTemplateRns</RootNamespace>

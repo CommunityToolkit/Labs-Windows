@@ -45,6 +45,24 @@ public partial class SettingsExpander
         new PropertyMetadata(defaultValue: null));
 
     /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
+    /// </summary>
+    public static readonly DependencyProperty ItemsHeaderProperty = DependencyProperty.Register(
+        nameof(ItemsHeader),
+        typeof(UIElement),
+        typeof(SettingsExpander),
+        new PropertyMetadata(defaultValue: null));
+
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
+    /// </summary>
+    public static readonly DependencyProperty ItemsFooterProperty = DependencyProperty.Register(
+        nameof(ItemsFooter),
+        typeof(UIElement),
+        typeof(SettingsExpander),
+        new PropertyMetadata(defaultValue: null));
+
+    /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="IsExpanded"/> property.
     /// </summary>
     public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(
@@ -91,6 +109,24 @@ public partial class SettingsExpander
     {
         get => (object)GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the ItemsFooter.
+    /// </summary>
+    public UIElement ItemsHeader
+    {
+        get => (UIElement)GetValue(ItemsHeaderProperty);
+        set => SetValue(ItemsHeaderProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the ItemsFooter.
+    /// </summary>
+    public UIElement ItemsFooter
+    {
+        get => (UIElement)GetValue(ItemsFooterProperty);
+        set => SetValue(ItemsFooterProperty, value);
     }
 
     /// <summary>

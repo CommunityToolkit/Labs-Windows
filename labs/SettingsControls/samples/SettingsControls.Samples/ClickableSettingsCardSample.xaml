@@ -6,7 +6,7 @@
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Spacing="4">
+    <StackPanel Spacing="3">
 
         <labs:SettingsCard x:Name="settingsCard"
                            Description="A SettingsCard can be made clickable and you can leverage the Command property or Click event."

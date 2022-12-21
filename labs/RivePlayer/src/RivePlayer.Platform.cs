@@ -58,7 +58,6 @@ public partial class RivePlayer : Control
             xamlCanvas.PaintSurface += OnPaintSurface;
             _skiaSurface.Content = xamlCanvas;
 #endif
-            _animationTimer = new AnimationTimer(this, fps: 120);
         }
         base.OnApplyTemplate();
     }
