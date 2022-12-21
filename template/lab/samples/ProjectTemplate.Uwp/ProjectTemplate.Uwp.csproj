@@ -36,9 +36,6 @@
     <ProjectGuid>{E25BF6D0-24D6-459C-A180-1E9405D59F87}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>

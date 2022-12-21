@@ -5,7 +5,7 @@
 namespace CommunityToolkit.Labs.WinUI;
 
 [ContentProperty(Name = nameof(Content))]
-public partial class SettingsExpander : ItemsControl
+public partial class SettingsExpander
 {
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Header"/> property.
@@ -40,7 +40,7 @@ public partial class SettingsExpander : ItemsControl
     /// </summary>
     public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(
         nameof(Content),
-        typeof(UIElement),
+        typeof(object),
         typeof(SettingsExpander),
         new PropertyMetadata(defaultValue: null));
 
@@ -87,9 +87,9 @@ public partial class SettingsExpander : ItemsControl
     /// <summary>
     /// Gets or sets the Content.
     /// </summary>
-    public UIElement Content
+    public object Content
     {
-        get => (UIElement)GetValue(ContentProperty);
+        get => (object)GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
 

@@ -77,7 +77,7 @@ public static partial class FrameworkElementExtensions
     {
         // TODO: [UNO] Only supported on certain platforms
         // See PointerCursor here: https://github.com/unoplatform/uno/blob/3fe3862b270b99dbec4d830b547942af61b1a1d9/src/Uno.UWP/UI/Core/CoreWindow.cs#L71-L77
-#if NETFX_CORE || __WASM__ || __MACOS__ || __SKIA__
+#if NETFX_CORE || WASM || __MACOS__ || __SKIA__
         CoreCursorType cursor = GetCursor((FrameworkElement)sender);
         Window.Current.CoreWindow.PointerCursor = _cursors[cursor];
 #endif
@@ -85,7 +85,7 @@ public static partial class FrameworkElementExtensions
 
     private static void Element_PointerExited(object sender, PointerRoutedEventArgs e)
     {
-#if NETFX_CORE || __WASM__ || __MACOS__ || __SKIA__
+#if NETFX_CORE || WASM || __MACOS__ || __SKIA__
         // when exiting change the cursor to the target Mouse.Cursor value of the new element
         CoreCursor cursor;
         if (sender != e.OriginalSource && e.OriginalSource is FrameworkElement newElement)

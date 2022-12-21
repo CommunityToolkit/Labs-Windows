@@ -8,17 +8,22 @@ namespace CommunityToolkit.Labs.WinUI;
 /// This is the base control to create consistent settings experiences, inline with the Windows 11 design language.
 /// A SettingsCard can also be hosted within a SettingsExpander.
 /// </summary>
+
+[TemplatePart(Name = ActionIconPresenter, Type = typeof(ContentControl))]
+[TemplatePart(Name = HeaderPresenter, Type = typeof(ContentPresenter))]
+[TemplatePart(Name = DescriptionPresenter, Type = typeof(ContentPresenter))]
+[TemplatePart(Name = HeaderIconPresenterHolder, Type = typeof(Viewbox))]
 public partial class SettingsCard : ButtonBase
 {
-    private const string NormalState = "Normal";
-    private const string PointerOverState = "PointerOver";
-    private const string PressedState = "Pressed";
-    private const string DisabledState = "Disabled";
+    internal const string NormalState = "Normal";
+    internal const string PointerOverState = "PointerOver";
+    internal const string PressedState = "Pressed";
+    internal const string DisabledState = "Disabled";
 
-    private const string ActionIconPresenter = "PART_ActionIconPresenter";
-    private const string HeaderPresenter = "PART_HeaderPresenter";
-    private const string DescriptionPresenter = "PART_DescriptionPresenter";
-    private const string HeaderIconPresenter = "PART_HeaderIconPresenter";
+    internal const string ActionIconPresenter = "PART_ActionIconPresenter";
+    internal const string HeaderPresenter = "PART_HeaderPresenter";
+    internal const string DescriptionPresenter = "PART_DescriptionPresenter";
+    internal const string HeaderIconPresenterHolder = "PART_HeaderIconPresenterHolder";
     /// <summary>
     /// Creates a new instance of the <see cref="SettingsCard"/> class.
     /// </summary>
@@ -44,21 +49,13 @@ public partial class SettingsCard : ButtonBase
 
     private void RegisterAutomation()
     {
-        if (Header != null && Header.GetType() == typeof(string))
+        if (Header is string headerString && headerString != string.Empty)
         {
-            string? headerString = Header.ToString();
-            if (!string.IsNullOrEmpty(headerString))
+            AutomationProperties.SetName(this, headerString);
+            // We don't want to override an AutomationProperties.Name that is manually set, or if the Content basetype is of type ButtonBase (the ButtonBase.Content will be used then)
+            if (Content is UIElement element && string.IsNullOrEmpty(AutomationProperties.GetName(element)) && element.GetType().BaseType != typeof(ButtonBase))
             {
-                AutomationProperties.SetName(this, headerString);
-            }
-
-            if (Content != null && Content.GetType() != typeof(Button))
-            {
-                // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
-                if (!string.IsNullOrEmpty(headerString))
-                {
-                    AutomationProperties.SetName((UIElement)Content, headerString);
-                }
+                AutomationProperties.SetName(element, headerString);
             }
         }
     }
@@ -164,7 +161,7 @@ public partial class SettingsCard : ButtonBase
 
     private void OnHeaderIconChanged()
     {
-        if (GetTemplateChild(HeaderIconPresenter) is FrameworkElement headerIconPresenter)
+        if (GetTemplateChild(HeaderIconPresenterHolder) is FrameworkElement headerIconPresenter)
         {
             headerIconPresenter.Visibility = HeaderIcon != null
                 ? Visibility.Visible

@@ -59,5 +59,81 @@
 
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+
+    <!-- Turn-off .NET based AssemblyInfo.cs generator, see below -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+
+  <!-- https://stackoverflow.com/questions/10980249/msbuild-task-for-setting-custom-attribute-in-assemblyinfo-cs -->
+  <!-- https://gist.github.com/KirillOsenkov/f20cb84d37a89b01db63f8aafe03f19b -->
+  <Target Name="AddAssemblyAttributes" BeforeTargets="BeforeCompile">
+    <PropertyGroup>
+      <GeneratedAssemblyInfoPath>$(IntermediateOutputPath)AssemblyInfo.g.cs</GeneratedAssemblyInfoPath>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <!-- Add our own AssemblyInfo.cs standard attributes -->
+      <AssemblyAttributes Include="AssemblyTitle">
+        <_Parameter1>$(Product)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyDescription">
+        <_Parameter1>Community Toolkit</_Parameter1>
+      </AssemblyAttributes>  
+      <AssemblyAttributes Include="AssemblyCompany">
+        <_Parameter1>$(Company)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyProduct">
+        <_Parameter1>$(Product)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyCopyright">
+        <_Parameter1>$(Copyright)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyTrademark">
+        <_Parameter1></_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyCulture">
+        <_Parameter1></_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyConfiguration">
+        <_Parameter1>$(Configuration)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyVersion">
+        <_Parameter1>1.0.0.0</_Parameter1>
+      </AssemblyAttributes>   
+      <AssemblyAttributes Include="AssemblyFileVersion">
+        <_Parameter1>1.0.0.0</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="System.Runtime.InteropServices.ComVisible">
+        <_Parameter1>false</_Parameter1>
+        <_Parameter1_TypeName>System.Boolean</_Parameter1_TypeName>
+      </AssemblyAttributes>
+
+      <!-- Add custom attributes, also see https://stackoverflow.com/questions/56835671/how-to-read-a-msbuild-property-in-a-given-project-in-runtime -->
+      <AssemblyAttributes Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(SourceRevisionId)' != ''">
+        <_Parameter1>CommitHash</_Parameter1>
+        <_Parameter2>$(SourceRevisionId)</_Parameter2>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="CommunityToolkit.Attributes.PackageProjectUrlAttribute" Condition="'$(PackageProjectUrl)' != ''">
+        <_Parameter1>$(PackageProjectUrl)</_Parameter1>
+      </AssemblyAttributes>
+      <Warning Text="The PackageProjectUrl property was not set." Condition="'$(PackageProjectUrl)' == ''" />
+    </ItemGroup>
+
+    <!-- Extra attributes specific to platforms -->
+    <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
+      <AssemblyAttributes Include="System.Runtime.Versioning.TargetPlatformAttribute">
+        <_Parameter1>Windows10.0.19041.0</_Parameter1><!-- TODO: Grab from variable -->
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="System.Runtime.Versioning.SupportedOSPlatformAttribute">
+        <_Parameter1>Windows10.0.17763.0</_Parameter1><!-- TODO: Grab from variable -->
+      </AssemblyAttributes>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="$(GeneratedAssemblyInfoPath)" />
+    </ItemGroup>
+
+    <!-- Write out new auto-generated AssemblyInfo.g.cs file -->
+    <WriteCodeFragment Language="C#" OutputFile="$(GeneratedAssemblyInfoPath)" AssemblyAttributes="@(AssemblyAttributes)" />
+  </Target>
 </Project>

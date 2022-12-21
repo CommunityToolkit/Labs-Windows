@@ -5,6 +5,17 @@
 using CommunityToolkit.Labs.Core.SourceGenerators;
 using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 using Windows.Storage;
+using Windows.System;
+
+#if !HAS_UNO
+#if !WINAPPSDK
+using Microsoft.Toolkit.Uwp.UI.Controls;
+#else
+using CommunityToolkit.WinUI.UI.Controls;
+#endif
+#endif
+
+#nullable enable
 
 namespace CommunityToolkit.Labs.Shared.Renderers;
 
@@ -15,9 +26,16 @@ public sealed partial class ToolkitDocumentationRenderer : Page
 {
     private const string MarkdownRegexSampleTagExpression = @"^>\s*\[!SAMPLE\s*(?<sampleid>.*)\s*\]\s*$";
     private static readonly Regex MarkdownRegexSampleTag = new Regex(MarkdownRegexSampleTagExpression, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+    private static string? ProjectUrl = null;
 
     public ToolkitDocumentationRenderer()
     {
+        // Check and Cache here before we use in XAML.
+        if (ProjectUrl == null)
+        {
+            ProjectUrl = Assembly.GetExecutingAssembly()?.GetCustomAttribute<CommunityToolkit.Attributes.PackageProjectUrlAttribute>()?.PackageProjectUrl;
+        }
+
         this.InitializeComponent();
     }
 
@@ -113,8 +131,12 @@ public sealed partial class ToolkitDocumentationRenderer : Page
                 index = match.Index + match.Length;
             }
 
-            // Put rest of text at end
-            DocsAndSamples.Add(doctext.Substring(index));
+            var rest = doctext.Substring(index).Trim();
+            // Put rest of text at end (if any)
+            if (rest.Length > 0)
+            {
+                DocsAndSamples.Add(rest);
+            }
         }
     }
 
@@ -174,4 +196,40 @@ public sealed partial class ToolkitDocumentationRenderer : Page
             return $"Exception Encountered Loading file '{fileUri}':\n{e.Message}\n{e.StackTrace}";
         }
     }
+
+#if HAS_UNO
+    private void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
+    {
+        // No-op - WASM handles via browser 'a' tag, Windows has handler below.
+        // TODO: For other platforms
+    }
+#elif !HAS_UNO
+    private async void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
+    {
+        if (!Uri.IsWellFormedUriString(e.Link, UriKind.Absolute))
+        {
+            await new ContentDialog
+            {
+                Title = "Windows Community Toolkit Labs Sample App",
+                Content = $"Link {e.Link} was malformed.",
+                CloseButtonText = "Close",
+                XamlRoot = XamlRoot // TODO: For UWP this is only on 1903+
+            }.ShowAsync();
+        }
+        else
+        {
+            await Launcher.LaunchUriAsync(new Uri(e.Link));
+        }
+    }
+#endif
+
+    public static Uri? ToGitHubUri(string path, int id) => IsProjectPathValid() ? new Uri($"{ProjectUrl}/{path}/{id}") : null;
+
+    public static Visibility IsIdValid(int id) => id switch
+    {
+        <= 0 => Visibility.Collapsed,
+        _ => Visibility.Visible,
+    };
+
+    public static bool IsProjectPathValid() => !string.IsNullOrWhiteSpace(ProjectUrl);
 }

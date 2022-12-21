@@ -109,5 +109,5 @@ body:
     label: Community Help?
     description: Would you like others to help you work on the deliverables for this experiment?
     options:
-      - Yes
-      - No
+      - "Yes"
+      - "No"

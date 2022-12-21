@@ -97,7 +97,7 @@
                                Fill="{ThemeResource TextFillColorPrimaryBrush}" />
                     <TextBlock Opacity="0.8"
                                Style="{StaticResource BodyTextBlockStyle}"
-                               Text="A new way to contribute.." />
+                               Text="A new way to build, contribute, experiment, and collaborate." />
 
                     <Button Margin="0,24,0,0">
                         <Button.Content>

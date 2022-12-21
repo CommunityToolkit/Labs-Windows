@@ -27,8 +27,7 @@
                 <FontIcon Glyph="&#xE12B;" />
             </labs:SettingsCard.HeaderIcon>
             <labs:SettingsCard.ActionIcon>
-                <FontIcon FontSize="12"
-                          Glyph="&#xE8A7;" />
+                <FontIcon Glyph="&#xE8A7;" />
             </labs:SettingsCard.ActionIcon>
         </labs:SettingsCard>
     </StackPanel>

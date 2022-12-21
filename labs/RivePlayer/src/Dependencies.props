@@ -11,7 +11,7 @@
 <Project>
 
   <ItemGroup>
-    <PackageReference Include="Rive.RiveSharp" Version="1.0.2-alpha.2551e93c0" />
+    <PackageReference Include="Rive.RiveSharp" Version="1.0.4-alpha.fb94cdf8a" />
   </ItemGroup>
 
   <!-- WinUI 2 / UWP -->
