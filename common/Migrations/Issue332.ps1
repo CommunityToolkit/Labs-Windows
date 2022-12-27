@@ -1,0 +1,1 @@
+Rename-Item "$PSScriptRoot\..\..\labs" -NewName "src"
