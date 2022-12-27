@@ -56,9 +56,9 @@ public partial class ExampleTokenViewTestClass : VisualUITestBase
     public void SimpleUIExamplePageTest(ExampleTokenViewTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<TokenView_ClassicBinding>();
+        //var component = page.FindDescendant<TokenView>();
 
-        Assert.IsNotNull(component);
+        //Assert.IsNotNull(component);
 
         var componentByName = page.FindDescendant("TokenViewControl");
 
@@ -72,9 +72,9 @@ public partial class ExampleTokenViewTestClass : VisualUITestBase
         // This helper can be used to wait for a rendering pass to complete.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<TokenView_ClassicBinding>();
+        //var component = page.FindDescendant<TokenView>();
 
-        Assert.IsNotNull(component);
+        //Assert.IsNotNull(component);
     }
 
     //// ----------------------------- ADVANCED TEST SCENARIOS -----------------------------
@@ -87,7 +87,7 @@ public partial class ExampleTokenViewTestClass : VisualUITestBase
     {
         await EnqueueAsync(() =>
         {
-            var component = new TokenView_ClassicBinding();
+            var component = new TokenView();
             Assert.IsNotNull(component);
         });
     }
@@ -99,7 +99,7 @@ public partial class ExampleTokenViewTestClass : VisualUITestBase
     {
         await EnqueueAsync(async () =>
         {
-            var component = new TokenView_ClassicBinding();
+            var component = new TokenView();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -117,7 +117,7 @@ public partial class ExampleTokenViewTestClass : VisualUITestBase
     [LabsUITestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new TokenView_ClassicBinding();
+        var component = new TokenView();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 

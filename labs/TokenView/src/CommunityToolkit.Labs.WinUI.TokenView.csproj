@@ -21,5 +21,14 @@
     <Version>0.0.1</Version>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="TokenViewItem\TokenViewItem.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="TokenView.xaml" />
+    <UpToDateCheckInput Remove="TokenViewItem\TokenViewItem.xaml" />
+  </ItemGroup>
+
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->
 </Project>

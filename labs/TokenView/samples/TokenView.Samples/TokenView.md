@@ -42,23 +42,4 @@ classes (and the custom non-suffixed one as well). Then, rename your component t
 
 The `_ClassicBinding` class shows the traditional method used to develop components with best practices.
 
-### Implict style
-
-> [!SAMPLE TokenViewTemplatedSample]
-
-### Custom style
-
-> [!SAMPLE TokenViewTemplatedStyleCustomSample]
-
-## Templated Controls with x:Bind
-
-This is an _experimental_ new way to define components which allows for the use of x:Bind within the style.
-
-### Implict style
-
-> [!SAMPLE TokenViewXbindBackedSample]
-
-### Custom style
-
-> [!SAMPLE TokenViewXbindBackedStyleCustomSample]
 

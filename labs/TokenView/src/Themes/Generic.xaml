@@ -1,10 +1,10 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI">
 
     <ResourceDictionary.MergedDictionaries>
-        <labs:TokenViewStyle_xBind />
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenViewStyle_ClassicBinding.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenView/TokenView.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenViewItem/TokenViewItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
