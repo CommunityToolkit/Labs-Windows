@@ -1,27 +1,42 @@
-# Rename ./labs/ to ./src/
+Param (
+    [Parameter(HelpMessage = "Migrate only the provided project folder path.")] 
+    [string]$ProjectPath = $null
+)
 
-function ReplaceInFile([string] $source, [string] $originalValue, [string] $newValue) {
-    $sourceContents = Get-Content -Path $source;
+function MigrateProject([string] $ProjectPath) {
+    $projectName = [System.IO.Path]::GetFileName($ProjectPath);
+    Write-Output "Migrating $projectName";
 
-    $sourceContents = $sourceContents -Replace $originalValue, $newValue;
+    mkdir "$ProjectPath/heads" | Out-Null
+    mkdir "$ProjectPath/heads/Uwp" | Out-Null
+    mkdir "$ProjectPath/heads/Wasm" | Out-Null
+    mkdir "$ProjectPath/heads/WinAppSdk" | Out-Null
+    mkdir "$ProjectPath/heads/Tests.Uwp" | Out-Null
+    mkdir "$ProjectPath/heads/Tests.WinAppSdk" | Out-Null
 
-    Set-Content -Path $source -Value $sourceContents;
+    Move-Item (Resolve-Path "$ProjectPath/samples/$projectName.Uwp/") (Resolve-Path "$ProjectPath/heads/Uwp/") -ErrorAction Stop
+    Move-Item (Resolve-Path "$ProjectPath/samples/$projectName.Wasm/") (Resolve-Path "$ProjectPath/heads/Wasm/") -ErrorAction Stop
+    Move-Item (Resolve-Path "$ProjectPath/samples/$projectName.WinAppSdk/") (Resolve-Path "$ProjectPath/heads/WinAppSdk/") -ErrorAction Stop
+    Move-Item (Resolve-Path "$ProjectPath/samples/$projectName.Samples/") (Resolve-Path "$ProjectPath/samples/") -ErrorAction Stop
+
+    Move-Item (Resolve-Path "$ProjectPath/tests/$projectName.Tests.Uwp/") (Resolve-Path "$ProjectPath/heads/Tests.Uwp/") -ErrorAction Stop
+    Move-Item (Resolve-Path "$ProjectPath/tests/$projectName.Tests.WinAppSdk/") (Resolve-Path "$ProjectPath/heads/Tests.WinAppSdk/") -ErrorAction Stop
+    Move-Item (Resolve-Path "$ProjectPath/tests/$projectName.Tests/") (Resolve-Path "$ProjectPath/tests/") -ErrorAction Stop
 }
 
-if (Test-Path "$PSScriptRoot\..\..\labs") {
-    Remove-Item -Path "$PSScriptRoot\..\..\src" -Force -Recurse;
-    Rename-Item "$PSScriptRoot\..\..\labs" -NewName "src" -Force;
+function ReplaceInFile([string] $Source, [string] $OriginalValue, [string] $NewValue) {
+    $sourceContents = Get-Content -Path $Source;
 
-    ReplaceInFile -source "$PSScriptRoot/../../GenerateAllSolution.ps1" -originalValue 'labs/' -newValue 'src/'
-    ReplaceInFile -source "$PSScriptRoot/../../.github/workflows/build.yml" -originalValue '/labs' -newValue '/src'
-    ReplaceInFile -source "$PSScriptRoot/../GenerateVSCodeLaunchConfig.ps1" -originalValue 'labs/' -newValue 'src/'
-    ReplaceInFile -source "$PSScriptRoot/../CommunityToolkit.Labs.Core.SourceGenerators/ToolkitSampleMetadataGenerator.Documentation.cs" -originalValue 'labs/' -newValue 'src/'
-    ReplaceInFile -source "$PSScriptRoot/../CommunityToolkit.Labs.Core.SourceGenerators/ToolkitSampleMetadataGenerator.Documentation.cs" -originalValue 'labs\\' -newValue 'src\'
-    ReplaceInFile -source "$PSScriptRoot/../MultiTarget/GenerateAllProjectReferences.ps1" -originalValue 'labs/' -newValue 'src/'
-    ReplaceInFile -source "$PSScriptRoot/../Scripts/PackEachExperiment.ps1" -originalValue 'labs/' -newValue 'src/'
-    ReplaceInFile -source "$PSScriptRoot/../../template/README.md" -originalValue 'labs/' -newValue 'src/'
-    ReplaceInFile -source "$PSScriptRoot/../Labs.Head.props" -originalValue 'labs\\' -newValue 'src\'
-    ReplaceInFile -source "$PSScriptRoot/../CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/ToolkitSampleMetadataTests.cs" -originalValue 'labs\\' -newValue 'src\'
-    ReplaceInFile -source "$PSScriptRoot/../../tests/CommunityToolkit.Labs.Tests.Uwp/CommunityToolkit.Labs.Tests.Uwp.csproj" -originalValue 'labs\\' -newValue 'src\'
-    ReplaceInFile -source "$PSScriptRoot/../../tests/CommunityToolkit.Labs.Tests.WinAppSdk/CommunityToolkit.Labs.Tests.WinAppSdk.csproj" -originalValue 'labs\\' -newValue 'src\'
+    $sourceContents = $sourceContents -Replace $OriginalValue, $NewValue;
+
+    Set-Content -Path $Source -Value $sourceContents;
+}
+
+if (!($null -eq $ProjectPath) -and $ProjectPath.Length -gt 0) {
+    MigrateProject -ProjectPath $ProjectPath;
+    return;
+}
+
+foreach($projectPath in Get-ChildItem -Directory "$PSScriptRoot\..\..\src\*") {
+    MigrateProject -ProjectPath $projectPath;
 }
