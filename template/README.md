@@ -15,7 +15,7 @@ dotnet new labexp -n MyExperimentNameHere
 ```
 
 This creates a new experiment called "MyExperimentNameHere".
-You can now open `./labs/MyExperimentNameHere/MyExperimentNameHere.sln` and start your experiment.
+You can now open `./src/MyExperimentNameHere/MyExperimentNameHere.sln` and start your experiment.
 
 ### Inside the generated solution
 
