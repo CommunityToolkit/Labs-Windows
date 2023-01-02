@@ -3,14 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 namespace CommunityToolkit.Labs.WinUI;
-public partial class TokenViewItem : ListViewItem
+public partial class Token : ListViewItem
 {
     /// <summary>
-    /// Identifies the <see cref="IsClosable"/> dependency property.
+    /// Identifies the <see cref="IsRemoveable"/> dependency property.
     /// </summary>
-    /// <returns>The identifier for the <see cref="IsClosable"/> dependency property.</returns>
-    public static readonly DependencyProperty IsClosableProperty =
-        DependencyProperty.Register(nameof(IsClosable), typeof(bool), typeof(TokenViewItem), new PropertyMetadata(defaultValue: false, (d, e) => ((TokenViewItem)d).OnIsCloseablePropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
+    /// <returns>The identifier for the <see cref="IsRemoveable"/> dependency property.</returns>
+    public static readonly DependencyProperty IsRemoveableProperty =
+        DependencyProperty.Register(nameof(IsRemoveable), typeof(bool), typeof(Token), new PropertyMetadata(defaultValue: false, (d, e) => ((Token)d).OnIsRemoveablePropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Icon"/> property.
@@ -18,16 +18,16 @@ public partial class TokenViewItem : ListViewItem
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
         nameof(Icon),
         typeof(IconElement),
-        typeof(TokenViewItem),
-        new PropertyMetadata(defaultValue: null, (d, e) => ((TokenViewItem)d).OnIconPropertyChanged((IconElement)e.OldValue, (IconElement)e.NewValue)));
+        typeof(Token),
+        new PropertyMetadata(defaultValue: null, (d, e) => ((Token)d).OnIconPropertyChanged((IconElement)e.OldValue, (IconElement)e.NewValue)));
 
     /// <summary>
     /// Gets or sets a value indicating whether the tab can be closed by the user with the close button.
     /// </summary>
-    public bool IsClosable
+    public bool IsRemoveable
     {
-        get { return (bool)GetValue(IsClosableProperty); }
-        set { SetValue(IsClosableProperty, value); }
+        get { return (bool)GetValue(IsRemoveableProperty); }
+        set { SetValue(IsRemoveableProperty, value); }
     }
 
     /// <summary>

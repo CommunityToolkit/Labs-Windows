@@ -38,8 +38,6 @@ public partial class TokenView : ListViewBase
         set => SetValue(OrientationProperty, value);
     }
 
-  
-
     protected virtual void OnOrientationPropertyChanged(FilterOrientation oldValue, FilterOrientation newValue)
     {
         OnOrientationChanged();

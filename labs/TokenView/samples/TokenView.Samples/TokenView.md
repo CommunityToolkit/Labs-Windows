@@ -1,8 +1,8 @@
 ---
 title: TokenView
-author: githubaccount
-description: TODO: Your experiment's description here
-keywords: TokenView, Control, Layout
+author: niels9001
+description: The TokenView can be used to visualize and select tokens.
+keywords: TokenView, Control, Tokens
 dev_langs:
   - csharp
 category: Controls
