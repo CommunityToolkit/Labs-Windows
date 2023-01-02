@@ -21,9 +21,9 @@ public class ToolkitSampleBoolOptionMetadataViewModel : IGeneratedToolkitSampleO
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleBoolOptionAttribute"/>.
     /// </summary>
-    public ToolkitSampleBoolOptionMetadataViewModel(string id, bool defaultState, string? title = null)
+    public ToolkitSampleBoolOptionMetadataViewModel(string name, bool defaultState, string? title = null)
     {
-        Name = id;
+        Name = name;
         _title = title;
         _value = defaultState;
     }

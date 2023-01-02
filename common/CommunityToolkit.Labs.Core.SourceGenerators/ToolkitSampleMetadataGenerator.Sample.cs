@@ -291,7 +291,7 @@ public static class ToolkitSampleRegistry
             }
             else if (item is ToolkitSampleBoolOptionAttribute boolAttribute)
             {
-                yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
+                yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(name: ""{boolAttribute.Name}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
             }
             else if (item is ToolkitSampleSliderOptionAttribute sliderAttribute)
             {
@@ -299,7 +299,7 @@ public static class ToolkitSampleRegistry
             }
             else if (item is ToolkitSampleTextOptionAttribute textAttribute)
             {
-                yield return $@"new {typeof(ToolkitSampleTextOptionMetadataViewModel).FullName}(id: ""{textAttribute.Name}"", placeholderText: ""{textAttribute.PlaceholderText}"", title: ""{textAttribute.Title}"")";
+                yield return $@"new {typeof(ToolkitSampleTextOptionMetadataViewModel).FullName}(name: ""{textAttribute.Name}"", placeholderText: ""{textAttribute.PlaceholderText}"", title: ""{textAttribute.Title}"")";
             }
             else
             {

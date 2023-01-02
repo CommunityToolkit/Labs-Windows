@@ -21,9 +21,9 @@ public class ToolkitSampleTextOptionMetadataViewModel : IGeneratedToolkitSampleO
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleTextOptionAttribute"/>.
     /// </summary>
-    public ToolkitSampleTextOptionMetadataViewModel(string id, string placeholderText = "", string? title = null)
+    public ToolkitSampleTextOptionMetadataViewModel(string name, string placeholderText = "", string? title = null)
     {
-        Name = id;
+        Name = name;
         _title = title;
         _value = placeholderText;
     }
