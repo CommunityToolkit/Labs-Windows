@@ -18,7 +18,7 @@
     <Description>
       This package contains the SettingsCard and SettingsExpander controls.
     </Description>
-    <Version>0.0.10</Version>
+    <Version>0.0.11</Version>
     <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
