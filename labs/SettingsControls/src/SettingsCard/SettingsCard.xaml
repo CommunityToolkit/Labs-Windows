@@ -97,8 +97,7 @@
     <Thickness x:Key="SettingsCardBorderThickness">1</Thickness>
     <Thickness x:Key="SettingsCardPadding">16,16,16,16</Thickness>
     <Thickness x:Key="SettingsCardIconMargin">2,0,20,0</Thickness>
-    <x:Double x:Key="SettingsCardMaxWidth">1000</x:Double>
-    <x:Double x:Key="SettingsCardMinWidth">360</x:Double>
+    <x:Double x:Key="SettingsCardMinWidth">286</x:Double>
     <x:Double x:Key="SettingsCardMinHeight">68</x:Double>
     <x:Double x:Key="SettingsCardActionButtonWidth">32</x:Double>
     <x:Double x:Key="SettingsCardActionButtonHeight">32</x:Double>
@@ -110,6 +109,7 @@
     <Thickness x:Key="SettingsCardHeaderIconMargin">2,0,20,0</Thickness>
     <Thickness x:Key="SettingsCardVerticalHeaderContentSpacing">0,4,0,0</Thickness>
     <x:Double x:Key="SettingsCardWrapThreshold">460</x:Double>
+    <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
 
     <Style BasedOn="{StaticResource DefaultSettingsCardStyle}"
            TargetType="labs:SettingsCard" />
@@ -125,7 +125,6 @@
             <Setter Property="MinHeight" Value="{ThemeResource SettingsCardMinHeight}" />
             <!--<Setter Property="win:AutomationProperties.AutomationControlType" Value="Group" />-->
             <!--<Setter Property="win:AutomationProperties.Name" Value="{TemplateBinding Header}" />-->
-            <Setter Property="MaxWidth" Value="{ThemeResource SettingsCardMaxWidth}" />
             <Setter Property="MinWidth" Value="{ThemeResource SettingsCardMinWidth}" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -313,10 +312,25 @@
                                     </VisualState>
                                     <VisualState x:Name="RightWrapped">
                                         <VisualState.StateTriggers>
-                                            <labs:ControlSizeTrigger MaxWidth="{ThemeResource SettingsCardWrapThreshold}"
+                                            <labs:ControlSizeTrigger MinWidth="{ThemeResource SettingsCardWrapNoIconThreshold}"
+                                                                     MaxWidth="{ThemeResource SettingsCardWrapThreshold}"
                                                                      TargetElement="{Binding ElementName=PART_RootGrid}" />
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
+                                            <Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
+                                            <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
+                                            <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
+                                            <Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Left" />
+                                            <Setter Target="PART_ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="RightWrappedNoIcon">
+                                        <VisualState.StateTriggers>
+                                            <labs:ControlSizeTrigger MaxWidth="{ThemeResource SettingsCardWrapNoIconThreshold}"
+                                                                     TargetElement="{Binding ElementName=PART_RootGrid}" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_HeaderIconPresenterHolder.Visibility" Value="Collapsed" />
                                             <Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
                                             <Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
