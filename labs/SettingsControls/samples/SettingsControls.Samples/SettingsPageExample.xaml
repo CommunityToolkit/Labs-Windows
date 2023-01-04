@@ -59,7 +59,6 @@
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
 
-
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                        Text="Section 2" />
             <labs:SettingsCard Description="Another card to show grouping of cards"
