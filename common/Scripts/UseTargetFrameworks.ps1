@@ -3,7 +3,7 @@ Param (
     [ValidateSet('all', 'wasm', 'uwp', 'winappsdk', 'wpf', 'gtk', 'macos', 'ios', 'droid')]
     [string[]]$targets = @('uwp', 'winappsdk', 'wasm'),
     
-    [Parameter(HelpMessage = "Disables suppressing changes to the Labs.TargetFrameworks.props file in git, allowing changes to be committed.")] 
+    [Parameter(HelpMessage = "Disables suppressing changes to the TargetFrameworks.props file in git, allowing changes to be committed.")] 
     [switch]$allowGitChanges = $false
 )
 
@@ -12,11 +12,11 @@ Param (
 
 if ($allowGitChanges.IsPresent) {
     Write-Warning "Changes to the default TargetFrameworks in Labs can now be committed. Run this command again without the -allowGitChanges flag to disable committing further changes.";
-    git update-index --no-assume-unchanged $PSScriptRoot/../Labs.TargetFrameworks.props
+    git update-index --no-assume-unchanged $PSScriptRoot/../TargetFrameworks.props
 }
 else {
     Write-Output "Changes to the default TargetFrameworks in Labs are now suppressed. To switch branches, run git reset --hard with a clean working tree.";
-    git update-index --assume-unchanged $PSScriptRoot/../Labs.TargetFrameworks.props
+    git update-index --assume-unchanged $PSScriptRoot/../TargetFrameworks.props
 }
 
 $UwpTfm = "UwpTargetFramework";
@@ -28,7 +28,7 @@ $macOSTfm = "MacOSLibTargetFramework";
 $iOSTfm = "iOSLibTargetFramework";
 $DroidTfm = "AndroidLibTargetFramework";
 
-$fileContents = Get-Content -Path $PSScriptRoot/../Labs.TargetFrameworks.All.props
+$fileContents = Get-Content -Path $PSScriptRoot/../TargetFrameworks.All.props
 
 $allTargetFrameworks = @(
     $WasmTfm,
@@ -85,4 +85,4 @@ $targetFrameworksToRemoveRegexPartial = $targetFrameworksToRemove -join "|";
 
 $newFileContents = $fileContents -replace "<(?:$targetFrameworksToRemoveRegexPartial)>.+?>", '';
 
-Set-Content -Force -Path $PSScriptRoot/../Labs.TargetFrameworks.props -Value $newFileContents;
+Set-Content -Force -Path $PSScriptRoot/../TargetFrameworks.props -Value $newFileContents;

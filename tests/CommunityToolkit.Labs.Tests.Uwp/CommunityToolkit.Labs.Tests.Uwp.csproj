@@ -3,7 +3,7 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   
   <!-- Labs Constants -->
-  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>false</IsUno>
@@ -22,10 +22,10 @@
     <IsGtkHead>false</IsGtkHead>
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
-  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectIdentifiers.props" />
 
   <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
+  <Import Project="$(RepositoryDirectory)common\Uwp.Base.props" />
 
   <!-- Labs Test Config -->
   <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />

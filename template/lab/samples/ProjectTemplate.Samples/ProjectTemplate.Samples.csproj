@@ -1,10 +1,10 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <!-- Labs Constants -->
-  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+  <Import Project="$(RepositoryDirectory)common\TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectIdentifiers.props" />
   
   <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+  <Import Project="$(RepositoryDirectory)common\Uno.props" />
   <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
 
   <!-- Labs Project Config -->

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
   <!-- Labs Constants -->
-  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>true</IsUno>
@@ -19,15 +19,15 @@
     <IsGtkHead>false</IsGtkHead>
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
-  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectIdentifiers.props" />
 
   <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.Wasm.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+  <Import Project="$(RepositoryDirectory)common\Head.Wasm.props" />
+  <Import Project="$(RepositoryDirectory)common\Uno.props" />
   
   <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uno.props" />
+  <Import Project="$(RepositoryDirectory)common\Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Head.Uno.props" />
   <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\*.props" />
 
   <ItemGroup>

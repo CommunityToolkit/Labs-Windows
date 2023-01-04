@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   
   <!-- Labs Constants -->
-  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>false</IsUno>
@@ -22,13 +22,13 @@
     <IsGtkHead>false</IsGtkHead>
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
-  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectIdentifiers.props" />
 
   <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.Uwp.props" />
+  <Import Project="$(RepositoryDirectory)common\Head.Uwp.props" />
 
   <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
+  <Import Project="$(RepositoryDirectory)common\Head.props" />
 
   <PropertyGroup>
     <RootNamespace>ProjectTemplateExperiment.Samples</RootNamespace>
