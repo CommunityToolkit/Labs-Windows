@@ -1,0 +1,60 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="TokenViewExperiment.Samples.TokenViewBasicSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:local="using:TokenViewExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid>
+        <labs:TokenView Orientation="{x:Bind local:TokenViewBasicSample.ConvertStringToTokenViewOrientation(LayoutOrientation), Mode=OneWay}"
+                        CanReorderItems="True"
+                        SelectionMode="{x:Bind local:TokenViewBasicSample.ConvertStringToListViewSelectionMode(SelectionMode), Mode=OneWay}">
+            <labs:Token Content="All" />
+
+            <labs:Token Content="Apps">
+                <labs:Token.Icon>
+                    <FontIcon Glyph="&#xECAA;" />
+                </labs:Token.Icon>
+            </labs:Token>
+            <labs:Token Content="Work">
+                <labs:Token.Icon>
+                    <FontIcon Glyph="&#xE821;" />
+                </labs:Token.Icon>
+            </labs:Token>
+            <labs:Token Content="Documents">
+                <labs:Token.Icon>
+                    <FontIcon Glyph="&#xE821;" />
+                </labs:Token.Icon>
+            </labs:Token>
+            <labs:Token Content="Web">
+                <labs:Token.Icon>
+                    <FontIcon Glyph="&#xE12B;" />
+                </labs:Token.Icon>
+            </labs:Token>
+            <labs:Token Content="Settings">
+                <labs:Token.Icon>
+                    <FontIcon Glyph="&#xE115;" />
+                </labs:Token.Icon>
+            </labs:Token>
+            <labs:Token Content="People">
+                <labs:Token.Icon>
+                    <FontIcon Glyph="&#xE13D;" />
+                </labs:Token.Icon>
+            </labs:Token>
+            <labs:Token Content="Folders">
+                <labs:Token.Icon>
+                    <FontIcon Glyph="&#xE8B7;" />
+                </labs:Token.Icon>
+            </labs:Token>
+            <labs:Token Content="Photos">
+                <labs:Token.Icon>
+                    <FontIcon Glyph="&#xE91B;" />
+                </labs:Token.Icon>
+               
+            </labs:Token>
+        </labs:TokenView>
+    </Grid>
+</Page>

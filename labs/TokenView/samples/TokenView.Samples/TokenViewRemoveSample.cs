@@ -7,12 +7,12 @@ namespace TokenViewExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-//[ToolkitSampleMultiChoiceOption("LayoutOrientation", title: "Orientation", "Horizontal", "Vertical")]
+[ToolkitSampleBoolOption("CanRemoveTokens", "Can tokens be removed", false)]
 
-[ToolkitSample(id: nameof(TokenViewCustomSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(TokenView)} custom control.")]
-public sealed partial class TokenViewCustomSample : Page
+[ToolkitSample(id: nameof(TokenViewRemoveSample), "Remove sample", description: $"A sample for showing how to create and use a {nameof(TokenView)} control.")]
+public sealed partial class TokenViewRemoveSample : Page
 {
-    public TokenViewCustomSample()
+    public TokenViewRemoveSample()
     {
         this.InitializeComponent();
     }

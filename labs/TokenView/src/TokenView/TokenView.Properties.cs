@@ -10,9 +10,9 @@ public partial class TokenView : ListViewBase
     /// </summary>
     public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
         nameof(Orientation),
-        typeof(FilterOrientation),
+        typeof(TokenViewOrientation),
         typeof(TokenView),
-        new PropertyMetadata(defaultValue: FilterOrientation.Horizontal, (d, e) => ((TokenView)d).OnOrientationPropertyChanged((FilterOrientation)e.OldValue, (FilterOrientation)e.NewValue)));
+        new PropertyMetadata(defaultValue: TokenViewOrientation.Horizontal, (d, e) => ((TokenView)d).OnOrientationPropertyChanged((TokenViewOrientation)e.OldValue, (TokenViewOrientation)e.NewValue)));
 
     public static readonly DependencyProperty CanRemoveTokensProperty = DependencyProperty.Register(
       nameof(CanRemoveTokens),
@@ -32,13 +32,13 @@ public partial class TokenView : ListViewBase
     /// <summary>
     /// Gets or sets the icon.
     /// </summary>
-    public FilterOrientation Orientation
+    public TokenViewOrientation Orientation
     {
-        get => (FilterOrientation)GetValue(OrientationProperty);
+        get => (TokenViewOrientation)GetValue(OrientationProperty);
         set => SetValue(OrientationProperty, value);
     }
 
-    protected virtual void OnOrientationPropertyChanged(FilterOrientation oldValue, FilterOrientation newValue)
+    protected virtual void OnOrientationPropertyChanged(TokenViewOrientation oldValue, TokenViewOrientation newValue)
     {
         OnOrientationChanged();
     }
@@ -52,7 +52,7 @@ public partial class TokenView : ListViewBase
 
     }
 
-    public enum FilterOrientation
+    public enum TokenViewOrientation
     {
         Horizontal,
         Wrapped

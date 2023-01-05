@@ -21,25 +21,18 @@ issue-id: 0
 
 # TokenView
 
-TODO: Fill in information about this experiment and how to get started here...
+The TokenView is used to display `Tokens` in a consistent way that is inline with the Windows 11 design language. This control can be easily used to to visualize e.g. filters, contacts or other snippets of information.
 
-## Custom Control
+Tokens allow for setting the `Icon` and `Content` while they can be removed as well. 
 
-You can inherit from an existing component as well, like `Panel`, this example shows a control without a
-XAML Style that will be more light-weight to consume by an app developer:
+## Orientation
 
-> [!Sample TokenViewCustomSample]
+The default Orientation of a TokenView is `Horizontal`, which horizontally aligns all tokens and will automatically show buttons to scroll through the list if needed. The `Wrapped` orientation will wrap all tokens as far as the width allows.
 
-## Templated Controls
+> [!Sample TokenViewBasicSample]
 
-The Toolkit is built with templated controls. This provides developers a flexible way to restyle components
-easily while still inheriting the general functionality a control provides. The examples below show
-how a component can use a default style and then get overridden by the end developer.
+## Selection
 
-TODO: Two types of templated control building methods are shown. Delete these if you're building a custom component.
-Otherwise, pick one method for your component and delete the files related to the unchosen `_ClassicBinding` or `_xBind`
-classes (and the custom non-suffixed one as well). Then, rename your component to just be your component name.
+> [!Sample TokenViewRemoveSample]
 
-The `_ClassicBinding` class shows the traditional method used to develop components with best practices.
-
-
+Tokens can be removed from the collection by setting the IsRemoveable property - or by setting the CanRemoveTokens property on the TokenView itself.

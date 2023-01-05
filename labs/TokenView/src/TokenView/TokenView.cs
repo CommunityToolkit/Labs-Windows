@@ -45,11 +45,11 @@ public partial class TokenView : ListViewBase
     {
         if (_tokenViewScroller != null)
         {
-            if (Orientation == FilterOrientation.Horizontal)
+            if (Orientation == TokenViewOrientation.Horizontal)
             {
                 _tokenViewScroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             }
-            else if (this.Orientation == FilterOrientation.Wrapped)
+            else if (this.Orientation == TokenViewOrientation.Wrapped)
             {
                 _tokenViewScroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
             }

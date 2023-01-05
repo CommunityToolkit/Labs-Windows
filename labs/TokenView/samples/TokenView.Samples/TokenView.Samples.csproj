@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
@@ -14,10 +14,38 @@
     <RootNamespace>TokenViewExperiment.Samples</RootNamespace>
     <AssemblyName>TokenViewExperiment.Samples</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="TokenViewSelectionSample.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="TokenViewRemoveSample.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="TokenViewBasicSample.xaml" />
+    <UpToDateCheckInput Remove="TokenViewRemoveSample.xaml" />
+  </ItemGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.TokenView.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="TokenViewRemoveSample.cs">
+      <DependentUpon>TokenViewRemoveSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="TokenViewBasicSample.xaml.cs">
+      <DependentUpon>TokenViewBasicSample.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Update="TokenViewRemoveSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
   </ItemGroup>
 </Project>
