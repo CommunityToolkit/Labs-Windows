@@ -26,7 +26,8 @@
         </labs:SettingsExpander.ItemTemplate>
         <labs:SettingsExpander.ItemsHeader>
             <muxc:InfoBar Title="This is the ItemsHeader"
-                          CornerRadius="0,0,4,4"
+                          BorderThickness="0"
+                          CornerRadius="0"
                           IsIconVisible="False"
                           IsOpen="True"
                           Severity="Success">
@@ -37,6 +38,7 @@
         </labs:SettingsExpander.ItemsHeader>
         <labs:SettingsExpander.ItemsFooter>
             <muxc:InfoBar Title="This is the ItemsFooter"
+                          BorderThickness="0"
                           CornerRadius="0,0,4,4"
                           IsIconVisible="False"
                           IsOpen="True"
