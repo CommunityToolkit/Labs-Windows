@@ -40,3 +40,5 @@ if (!($null -eq $ProjectPath) -and $ProjectPath.Length -gt 0) {
 foreach($projectPath in Get-ChildItem -Directory "$PSScriptRoot\..\..\src\*") {
     MigrateProject -ProjectPath $projectPath;
 }
+
+MigrateProject -ProjectPath "$PSScriptRoot\..\..\template\ProjectTemplate"

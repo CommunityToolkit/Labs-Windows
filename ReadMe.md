@@ -39,7 +39,7 @@ Once there is traction and your idea is approved, an issue will be created to tr
 Then you can fork the Labs repo, create a new branch, and start working on your feature (or porting over your existing prototype).
 
 ```ascii
-dotnet new --install .\template\lab\
+dotnet new --install .\template\ProjectTemplate\
 
 cd labs
 
