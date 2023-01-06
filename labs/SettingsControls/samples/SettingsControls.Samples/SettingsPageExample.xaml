@@ -29,6 +29,7 @@
             <win:StackPanel.ChildrenTransitions>
                 <win:EntranceThemeTransition FromVerticalOffset="50"
                                              IsStaggeringEnabled="True" />
+                <win:RepositionThemeTransition />
             </win:StackPanel.ChildrenTransitions>
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                        Text="Section 1" />
