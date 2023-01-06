@@ -5,18 +5,18 @@ Param (
 )
 
 # Generate required props for "All" solution.
-& ./common/MultiTarget/GenerateAllProjectReferences.ps1
-& ./common/GenerateVSCodeLaunchConfig.ps1
+& ./common/MultiTarget/GenerateAllProjectReferences.ps1 -ErrorAction Stop
+& ./common/GenerateVSCodeLaunchConfig.ps1 -ErrorAction Stop
 
 # Set WinUI version for Uno projects
 $originalWorkingDirectory = Get-Location;
 
 Set-Location common/Scripts/
-& ./UseUnoWinUI.ps1 $UseUnoWinUI
+& ./UseUnoWinUI.ps1 $UseUnoWinUI -ErrorAction Stop
 
 Set-Location $originalWorkingDirectory;
 
-# Set up contant values
+# Set up constant values
 $templatedProjectFolderConfigTemplateMarker = "[TemplatedProjectFolderConfig]";
 $templatedProjectConfigurationTemplateMarker = "[TemplatedProjectConfigurations]";
 $templatedProjectDefinitionsMarker = "[TemplatedProjectDefinitions]";
@@ -191,7 +191,7 @@ $solutionTemplate = Get-Content -Path $solutionTemplatePath;
 Write-Output "Loaded solution template from $solutionTemplatePath";
 
 # Add sample projects
-foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'src/*/samples/*.Samples/*.Samples.csproj') {
+foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'src/*/samples/*.csproj') {
 	$solutionTemplate = AddProjectsToSolution $solutionTemplate $sampleProjectPath $sampleProjectTypeGuid "Samples"
 }
 
