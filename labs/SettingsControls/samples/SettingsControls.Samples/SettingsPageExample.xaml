@@ -27,9 +27,8 @@
                     HorizontalAlignment="Stretch"
                     Spacing="{StaticResource SettingsCardSpacing}">
             <win:StackPanel.ChildrenTransitions>
-                <win:EntranceThemeTransition FromVerticalOffset="50"
-                                             IsStaggeringEnabled="True" />
-                <win:RepositionThemeTransition />
+                <win:EntranceThemeTransition FromVerticalOffset="50" />
+                <win:RepositionThemeTransition IsStaggeringEnabled="False" />
             </win:StackPanel.ChildrenTransitions>
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                        Text="Section 1" />
