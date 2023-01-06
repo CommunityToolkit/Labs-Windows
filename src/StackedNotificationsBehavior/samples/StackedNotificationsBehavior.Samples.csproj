@@ -11,15 +11,13 @@
   <Import Project="$(RepositoryDirectory)common\SampleProjectConfig.props" />
 
   <PropertyGroup>
-    <RootNamespace>SettingsControlsExperiment.Samples</RootNamespace>
-    <AssemblyName>SettingsControlsExperiment.Samples</AssemblyName>
-    <LangVersion>10.0</LangVersion>
+    <RootNamespace>StackedNotificationsBehaviorExperiment.Samples</RootNamespace>
+    <AssemblyName>StackedNotificationsBehaviorExperiment.Samples</AssemblyName>
   </PropertyGroup>
-
+  
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SettingsControls.csproj" />
+    <ProjectReference Include="..\\src\\CommunityToolkit.Labs.WinUI.StackedNotificationsBehavior.csproj" />
   </ItemGroup>
-
 </Project>

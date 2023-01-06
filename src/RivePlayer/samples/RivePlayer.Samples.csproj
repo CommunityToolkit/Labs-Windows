@@ -11,13 +11,19 @@
   <Import Project="$(RepositoryDirectory)common\SampleProjectConfig.props" />
 
   <PropertyGroup>
-    <RootNamespace>CanvasLayoutExperiment.Samples</RootNamespace>
-    <AssemblyName>CanvasLayoutExperiment.Samples</AssemblyName>
+    <RootNamespace>RivePlayerExperiment.Samples</RootNamespace>
+    <AssemblyName>RivePlayerExperiment.Samples</AssemblyName>
   </PropertyGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasLayout.csproj" />
+    <ProjectReference Include="..\\src\\CommunityToolkit.Labs.WinUI.Rive.RivePlayer.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="animated-login-screen.riv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
