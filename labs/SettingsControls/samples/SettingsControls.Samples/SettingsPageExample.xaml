@@ -95,6 +95,7 @@
                                 UriSource="ms-appx:///Assets/AppTitleBar.scale-200.png" />
                 </labs:SettingsExpander.HeaderIcon>
                 <TextBlock win:IsTextSelectionEnabled="True"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Style="{StaticResource CaptionTextBlockStyle}"
                            Text="Version 1.0.0.0" />
                 <labs:SettingsExpander.Items>
