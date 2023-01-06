@@ -14,22 +14,26 @@ function MigrateProject([string] $ProjectPath) {
     mkdir "$ProjectPath/heads/Tests.Uwp" | Out-Null
     mkdir "$ProjectPath/heads/Tests.WinAppSdk" | Out-Null
 
-    Move-Item (Resolve-Path "$ProjectPath/samples/$projectName.Uwp/") (Resolve-Path "$ProjectPath/heads/Uwp/") -ErrorAction Stop
-    Move-Item (Resolve-Path "$ProjectPath/samples/$projectName.Wasm/") (Resolve-Path "$ProjectPath/heads/Wasm/") -ErrorAction Stop
-    Move-Item (Resolve-Path "$ProjectPath/samples/$projectName.WinAppSdk/") (Resolve-Path "$ProjectPath/heads/WinAppSdk/") -ErrorAction Stop
-    Move-Item (Resolve-Path "$ProjectPath/samples/$projectName.Samples/") (Resolve-Path "$ProjectPath/samples/") -ErrorAction Stop
+    MoveFolderContents (Resolve-Path "$ProjectPath/samples/$projectName.Uwp/") (Resolve-Path "$ProjectPath/heads/Uwp/") -ErrorAction Stop
+    MoveFolderContents (Resolve-Path "$ProjectPath/samples/$projectName.Wasm/") (Resolve-Path "$ProjectPath/heads/Wasm/") -ErrorAction Stop
+    MoveFolderContents (Resolve-Path "$ProjectPath/samples/$projectName.WinAppSdk/") (Resolve-Path "$ProjectPath/heads/WinAppSdk/") -ErrorAction Stop
+    MoveFolderContents (Resolve-Path "$ProjectPath/samples/$projectName.Samples/") (Resolve-Path "$ProjectPath/samples/") -ErrorAction Stop
 
-    Move-Item (Resolve-Path "$ProjectPath/tests/$projectName.Tests.Uwp/") (Resolve-Path "$ProjectPath/heads/Tests.Uwp/") -ErrorAction Stop
-    Move-Item (Resolve-Path "$ProjectPath/tests/$projectName.Tests.WinAppSdk/") (Resolve-Path "$ProjectPath/heads/Tests.WinAppSdk/") -ErrorAction Stop
-    Move-Item (Resolve-Path "$ProjectPath/tests/$projectName.Tests/") (Resolve-Path "$ProjectPath/tests/") -ErrorAction Stop
+    MoveFolderContents (Resolve-Path "$ProjectPath/tests/$projectName.Tests.Uwp/") (Resolve-Path "$ProjectPath/heads/Tests.Uwp/") -ErrorAction Stop
+    MoveFolderContents (Resolve-Path "$ProjectPath/tests/$projectName.Tests.WinAppSdk/") (Resolve-Path "$ProjectPath/heads/Tests.WinAppSdk/") -ErrorAction Stop
+    MoveFolderContents (Resolve-Path "$ProjectPath/tests/$projectName.Tests/") (Resolve-Path "$ProjectPath/tests/") -ErrorAction Stop
+
+    ReplaceInFile "$ProjectPath/samples/$projectName.Samples.csproj" "..\\..\\src\\" "..\src\"
 }
 
 function ReplaceInFile([string] $Source, [string] $OriginalValue, [string] $NewValue) {
-    $sourceContents = Get-Content -Path $Source;
+    Set-Content -Path $Source -Value ((Get-Content -Path $Source) -Replace $OriginalValue, $NewValue);
+}
 
-    $sourceContents = $sourceContents -Replace $OriginalValue, $NewValue;
-
-    Set-Content -Path $Source -Value $sourceContents;
+function MoveFolderContents([string]$SourceFolder,[string]$DestinationFolder)
+{
+    Get-ChildItem (Resolve-Path $SourceFolder) |
+        Move-Item -Destination (Resolve-Path $DestinationFolder) -ErrorAction Stop
 }
 
 if (!($null -eq $ProjectPath) -and $ProjectPath.Length -gt 0) {
