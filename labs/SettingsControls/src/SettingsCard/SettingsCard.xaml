@@ -322,6 +322,7 @@
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
                                             <Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Left" />
                                             <Setter Target="PART_ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
+                                            <Setter Target="HeaderPanel.Margin" Value="0" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="RightWrappedNoIcon">
@@ -336,6 +337,7 @@
                                             <Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
                                             <Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Left" />
                                             <Setter Target="PART_ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
+                                            <Setter Target="HeaderPanel.Margin" Value="0" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Vertical">
@@ -364,8 +366,9 @@
                                                   Content="{TemplateBinding HeaderIcon}" />
                             </Viewbox>
 
-                            <StackPanel Grid.Column="1"
-                                        Margin="0,0,12,0"
+                            <StackPanel x:Name="HeaderPanel"
+                                        Grid.Column="1"
+                                        Margin="0,0,24,0"
                                         VerticalAlignment="Center"
                                         Orientation="Vertical">
                                 <ContentPresenter x:Name="PART_HeaderPresenter"
@@ -408,7 +411,6 @@
 
                             <ContentPresenter x:Name="PART_ContentPresenter"
                                               Grid.Column="2"
-                                              MinWidth="{ThemeResource SettingsCardContentMinWidth}"
                                               HorizontalAlignment="Right"
                                               VerticalAlignment="Center"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
