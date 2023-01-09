@@ -1,7 +1,30 @@
+<#
+.SYNOPSIS
+    Changes the target frameworks to build for each package created within the repository.
+.DESCRIPTION
+    By default, only the UWP, Windows App SDK, and WASM heads are built to simplify dependencies 
+    needed to build projects within the repository. The CI will enable all targets to build a package
+    that works on all supported platforms.
+    
+    Note: Projects which rely on target platforms that are excluded will be unable to build.
+.PARAMETER targets
+    List of targets to set as TFM platforms to build for. This can also be 'all', 'all-uwp', or blank.
+    When run as blank, teh defaults (uwp, winappsdk, wasm) will be used.
+    'all' and 'all-uwp' shouldn't be used with other targets or each other.
+.PARAMETER allowGitChanges
+    Enabling this flag will allow changes to the props file to be checked into source control.
+    By default the file is ignored so local changes to building don't accidently get checked in.
+.EXAMPLE
+    C:\PS> .\UseTargetFrameworks winappsdk
+    Build targets for just the WindowsAppSDK.
+.NOTES
+    Author: Windows Community Toolkit Labs Team
+    Date:   April 8, 2022
+#>
 Param (
     [Parameter(HelpMessage = "The target frameworks to enable.")]
-    [ValidateSet('all', 'wasm', 'uwp', 'winappsdk', 'wpf', 'gtk', 'macos', 'ios', 'droid')]
-    [string[]]$targets = @('uwp', 'winappsdk', 'wasm'),
+    [ValidateSet('all', 'all-uwp', 'wasm', 'uwp', 'winappsdk', 'wpf', 'gtk', 'macos', 'ios', 'droid')]
+    [string[]]$targets = @('uwp', 'winappsdk', 'wasm'), # default settings
     
     [Parameter(HelpMessage = "Disables suppressing changes to the Labs.TargetFrameworks.props file in git, allowing changes to be committed.")] 
     [switch]$allowGitChanges = $false
@@ -45,6 +68,10 @@ $desiredTfmValues = @();
 
 if ($targets.Contains("all")) {
     $desiredTfmValues = $allTargetFrameworks;
+}
+
+if ($targets.Contains("all-uwp")) {
+    $desiredTfmValues = $allTargetFrameworks.Replace($UwpTfm, "");
 }
 
 if ($targets.Contains("wasm")) {

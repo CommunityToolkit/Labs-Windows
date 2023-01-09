@@ -51,6 +51,10 @@ jobs:
       matrix:
         platform: [WinUI2, WinUI3]
 
+    env:
+      # faux-ternary expression to select which platforms to build for each platform vs. duplicating step below.
+      TARGET_PLATFORMS: ${{ matrix.platform != 'WinUI3' && 'all' || 'all-uwp' }}
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Install .NET 6 SDK
@@ -72,9 +76,9 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
 
-      - name: Enable all TargetFrameworks
+      - name: Enable ${{ env.TARGET_PLATFORMS }} TargetFrameworks
         working-directory: ./common/Scripts/
-        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 all" -ErrorAction Stop
+        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 ${{ env.TARGET_PLATFORMS }}" -ErrorAction Stop
 
       - name: Generate solution
         run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
@@ -94,11 +98,11 @@ jobs:
 
       # Push Packages to our DevOps Artifacts Feed
       - name: Add source
-        if: ${{github.ref == 'refs/heads/main'}}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
 
       - name: Push packages
-        if: ${{github.ref == 'refs/heads/main'}}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
 
       # Run tests
