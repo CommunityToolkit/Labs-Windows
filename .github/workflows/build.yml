@@ -54,6 +54,7 @@ jobs:
     env:
       # faux-ternary expression to select which platforms to build for each platform vs. duplicating step below.
       TARGET_PLATFORMS: ${{ matrix.platform != 'WinUI3' && 'all' || 'all-uwp' }}
+      TEST_PLATFORM: ${{ matrix.platform != 'WinUI3' && 'UWP' || 'WinAppSdk' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -80,8 +81,8 @@ jobs:
         working-directory: ./common/Scripts/
         run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 ${{ env.TARGET_PLATFORMS }}" -ErrorAction Stop
 
-      - name: Generate solution
-        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
+      - name: Generate solution w/ ${{ env.TEST_PLATFORM }} Tests
+        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1 -IncludeTests ${{ env.TEST_PLATFORM }}" -ErrorAction Stop
 
       - name: Enable Uno.WinUI (in WinUI3 matrix only)
         working-directory: ./common/Scripts/
@@ -118,18 +119,14 @@ jobs:
         id: test-generator
         run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
-      - name: Run experiment tests against UWP
-        id: test-uwp
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
-
-      - name: Run experiment tests against WinAppSDK
-        id: test-winappsdk
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
+      - name: Run experiment tests against ${{ env.TEST_PLATFORM }}
+        id: test-platform
+        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.${{ env.TEST_PLATFORM }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PLATFORM }}.trx"
 
       - name: Create test reports
         run: |
           testspace '[${{ matrix.platform }}]./TestResults/*.trx'
-        if: ${{ always() && (steps.test-generator.conclusion == 'success' || steps.test-uwp.conclusion == 'success' || steps.test-winappsdk.conclusion == 'success') }}
+        if: ${{ always() && (steps.test-generator.conclusion == 'success' || steps.test-platform.conclusion == 'success') }}
 
   # Test job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   new-experiment:

@@ -48,8 +48,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FF878CF0-59B1-4B8C-A7DB-1E2A7B47575A}"
 EndProject
+[TemplateTestUwp]
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.Tests.Uwp", "tests\CommunityToolkit.Labs.Tests.Uwp\CommunityToolkit.Labs.Tests.Uwp.csproj", "{FD78002E-C4E6-4BF8-9EC3-C06250DFEF34}"
 EndProject
+[TemplateTestWinAppSdk]
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Tests.WinAppSdk", "tests\CommunityToolkit.Labs.Tests.WinAppSdk\CommunityToolkit.Labs.Tests.WinAppSdk.csproj", "{53892F07-FE54-4E36-81D8-105427D097E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments", "{DD69BA61-C86D-4138-AE6F-76E2C8445C9A}"

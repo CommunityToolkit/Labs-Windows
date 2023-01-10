@@ -1,22 +1,16 @@
 Param (
     [Parameter(HelpMessage = "The WinUI version to use when building an Uno head.", ParameterSetName = "UseUnoWinUI")]
-    [ValidateSet('2', '3')]
-    [string]$UseUnoWinUI = 2
+    [ValidateSet('all', 'uwp', 'winappsdk')]
+    [string]$IncludeTests = 'all'
 )
 
 # Generate required props for "All" solution.
 & ./common/MultiTarget/GenerateAllProjectReferences.ps1
 & ./common/GenerateVSCodeLaunchConfig.ps1
 
-# Set WinUI version for Uno projects
-$originalWorkingDirectory = Get-Location;
-
-Set-Location common/Scripts/
-& ./UseUnoWinUI.ps1 $UseUnoWinUI
-
-Set-Location $originalWorkingDirectory;
-
 # Set up contant values
+$templatedProjectTestUwpMarker = "[TemplateTestUwp]";
+$templatedProjectTestWinAppSdkMarker = "[TemplateTestWinAppSdk]";
 $templatedProjectFolderConfigTemplateMarker = "[TemplatedProjectFolderConfig]";
 $templatedProjectConfigurationTemplateMarker = "[TemplatedProjectConfigurations]";
 $templatedProjectDefinitionsMarker = "[TemplatedProjectDefinitions]";
@@ -187,8 +181,25 @@ function AddProjectsToSolution {
 }
 
 # Execute solution generation from template
-$solutionTemplate = Get-Content -Path $solutionTemplatePath;
+$solutionTemplate = [System.Collections.ArrayList](Get-Content -Path $solutionTemplatePath);
 Write-Output "Loaded solution template from $solutionTemplatePath";
+
+# Remove test project we don't want to build (Uwp for WinAppSdk and vice versa
+if ($IncludeTests -eq "uwp") {
+	# Remove WinAppSdk Test project
+	Write-Output "Remove WinAppSdk Test Project";
+	$index = $solutionTemplate.IndexOf($templatedProjectTestWinAppSdkMarker)
+	$solutionTemplate.RemoveAt($index);
+	$solutionTemplate.RemoveAt($index);
+	$solutionTemplate.RemoveAt($index);
+} elseif ($IncludeTests -eq "winappsdk") {
+	# Remove Uwp Test project
+	Write-Output "Remove Uwp Test Project";
+	$index = $solutionTemplate.IndexOf($templatedProjectTestUwpMarker)
+	$solutionTemplate.RemoveAt($index);
+	$solutionTemplate.RemoveAt($index);
+	$solutionTemplate.RemoveAt($index);
+}
 
 # Add sample projects
 foreach ($sampleProjectPath in Get-ChildItem -Recurse -Path 'labs/*/samples/*.Samples/*.Samples.csproj') {
@@ -236,6 +247,8 @@ foreach ($sharedProjectItemsPath in Get-ChildItem -Recurse -Path 'labs/*/tests/*
 }
 
 # Clean up template markers
+$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedProjectTestUwpMarker), "";
+$solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedProjectTestWinAppSdkMarker), "";
 $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedProjectFolderConfigTemplateMarker), "";
 $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedProjectConfigurationTemplateMarker), "";
 $solutionTemplate = $solutionTemplate -replace [regex]::escape($templatedProjectDefinitionsMarker), "";
