@@ -11,13 +11,13 @@
   <Import Project="$(RepositoryDirectory)common\SampleProjectConfig.props" />
 
   <PropertyGroup>
-    <RootNamespace>CanvasViewExperiment.Samples</RootNamespace>
-    <AssemblyName>CanvasViewExperiment.Samples</AssemblyName>
+    <RootNamespace>SizerBaseExperiment.Samples</RootNamespace>
+    <AssemblyName>SizerBaseExperiment.Samples</AssemblyName>
   </PropertyGroup>
   
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
-    <ProjectReference Include="..\\src\\CommunityToolkit.Labs.WinUI.CanvasView.csproj" />
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.SizerBase.csproj" />
   </ItemGroup>
 </Project>
