@@ -186,19 +186,27 @@ Write-Output "Loaded solution template from $solutionTemplatePath";
 
 # Remove test project we don't want to build (Uwp for WinAppSdk and vice versa
 if ($IncludeTests -eq "uwp") {
-	# Remove WinAppSdk Test project
 	Write-Output "Remove WinAppSdk Test Project";
 	$index = $solutionTemplate.IndexOf($templatedProjectTestWinAppSdkMarker)
 	$solutionTemplate.RemoveAt($index);
 	$solutionTemplate.RemoveAt($index);
 	$solutionTemplate.RemoveAt($index);
+
+	# Remove link to Folder
+	$index = $solutionTemplate.IndexOf($templatedProjectTestWinAppSdkMarker)
+	$solutionTemplate.RemoveAt($index);
+	$solutionTemplate.RemoveAt($index);	
 } elseif ($IncludeTests -eq "winappsdk") {
-	# Remove Uwp Test project
 	Write-Output "Remove Uwp Test Project";
 	$index = $solutionTemplate.IndexOf($templatedProjectTestUwpMarker)
 	$solutionTemplate.RemoveAt($index);
 	$solutionTemplate.RemoveAt($index);
 	$solutionTemplate.RemoveAt($index);
+
+	# Remove link to Folder
+	$index = $solutionTemplate.IndexOf($templatedProjectTestUwpMarker)
+	$solutionTemplate.RemoveAt($index);
+	$solutionTemplate.RemoveAt($index);	
 }
 
 # Add sample projects
