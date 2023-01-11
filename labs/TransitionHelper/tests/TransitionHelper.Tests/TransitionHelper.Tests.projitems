@@ -10,14 +10,5 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleTransitionHelperTestClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleTransitionHelperTestPage.xaml.cs">
-      <DependentUpon>ExampleTransitionHelperTestPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)ExampleTransitionHelperTestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 </Project>

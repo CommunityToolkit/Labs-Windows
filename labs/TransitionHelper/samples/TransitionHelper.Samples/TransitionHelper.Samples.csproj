@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
@@ -16,32 +16,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CustomTextScalingCalculator.cs" />
-    <Compile Remove="TransitionHelperFullExample.xaml.cs" />
+    <Content Include="Assets\Owl.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="TransitionHelperFullExample.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="TransitionHelperFullExample.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="TransitionHelperFullExample.xaml" />
-  </ItemGroup>
-  
+ 
   <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.TransitionHelper.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Page Update="TransitionHelperFullExample.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 </Project>

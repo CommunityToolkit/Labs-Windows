@@ -3,8 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
+#if WINAPPSDK
+using CommunityToolkit.WinUI.UI;
+#else
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Animations.Helpers;
+#endif
 
 namespace TransitionHelperExperiment.Samples;
 
