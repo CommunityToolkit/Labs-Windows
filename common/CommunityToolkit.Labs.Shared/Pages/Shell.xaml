@@ -20,7 +20,6 @@
                            Icon="ms-appx:///Assets/AppTitleBar.png" />
         <muxc:NavigationView x:Name="NavView"
                              Grid.Row="1"
-                             IsSettingsVisible="False"
                              Margin="0,16,0,0"
                              IsBackButtonVisible="Collapsed"
                              ItemInvoked="NavView_ItemInvoked">
