@@ -24,6 +24,9 @@
             <labs:TransitionConfig EnableClipAnimation="true"
                                    Id="desc" />
         </labs:TransitionHelper>
+
+        <ImageBrush x:Key="ImageBackgroundBrush"
+                    ImageSource="ms-appx:///Assets/Owl.jpg" />
     </Page.Resources>
     <Grid>
         <StackPanel x:Name="FirstControl"
@@ -40,11 +43,8 @@
                 <Border Width="36"
                         Height="36"
                         labs:TransitionHelper.Id="image"
-                        CornerRadius="18">
-                    <Border.Background>
-                        <ImageBrush ImageSource="ms-appx:///Assets/Owl.jpg" />
-                    </Border.Background>
-                </Border>
+                        Background="{StaticResource ImageBackgroundBrush}"
+                        CornerRadius="18" />
             </Grid>
             <StackPanel labs:TransitionHelper.Id="guide"
                         Spacing="2">
@@ -86,11 +86,8 @@
                 <Border Width="50"
                         Height="50"
                         labs:TransitionHelper.Id="image"
-                        CornerRadius="25">
-                    <Border.Background>
-                        <ImageBrush ImageSource="ms-appx:///Assets/Owl.jpg" />
-                    </Border.Background>
-                </Border>
+                        Background="{StaticResource ImageBackgroundBrush}"
+                        CornerRadius="25" />
                 <StackPanel Width="400"
                             VerticalAlignment="Center"
                             Spacing="5">
@@ -146,11 +143,8 @@
                 <Border Width="80"
                         Height="80"
                         labs:TransitionHelper.Id="image"
-                        CornerRadius="40">
-                    <Border.Background>
-                        <ImageBrush ImageSource="ms-appx:///Assets/Owl.jpg" />
-                    </Border.Background>
-                </Border>
+                        Background="{StaticResource ImageBackgroundBrush}"
+                        CornerRadius="40" />
                 <StackPanel Spacing="5">
                     <TextBlock MaxWidth="200"
                                HorizontalAlignment="Center"
