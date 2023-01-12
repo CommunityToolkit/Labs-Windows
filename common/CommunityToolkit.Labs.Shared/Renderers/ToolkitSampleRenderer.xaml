@@ -21,7 +21,7 @@
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <!--<Setter Target="PageControl.MaxHeight" Value="400" />-->
+                        <Setter Target="PageControl.MaxHeight" Value="600" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Tabbed">
@@ -52,7 +52,6 @@
                         <Setter Target="OptionsPanel.BorderThickness" Value="0,1,0,0" />
                         <Setter Target="FixedOptionsBar.BorderThickness" Value="0" />
                         <Setter Target="ThemeBG.CornerRadius" Value="0" />
-                        <Setter Target="PageControl.Padding" Value="16,16,16,32" />
                         <Setter Target="ThemeBtn.(Grid.Row)" Value="0" />
                         <Setter Target="FlowDirectionBtn.(Grid.Row)" Value="0" />
                         <Setter Target="CodeBtn.(Grid.Row)" Value="0" />
@@ -60,6 +59,10 @@
                         <Setter Target="FlowDirectionBtn.(Grid.Column)" Value="1" />
                         <Setter Target="CodeBtn.(Grid.Column)" Value="2" />
                         <Setter Target="CodePivot.Margin" Value="6,0,8,0" />
+                        <Setter Target="FixedOptionsBar.ColumnSpacing" Value="8" />
+                        <Setter Target="FixedOptionsBar.RowSpacing" Value="0" />
+                        <Setter Target="FixedOptionsBar.Margin" Value="12" />
+
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -91,13 +94,22 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
+                <ScrollViewer x:Name="OptionsScrollViewer"
+                              Grid.Row="0"
+                              Grid.Column="0"
+                              MinWidth="256"
+                              Padding="16">
+                    <ContentControl x:Name="OptionsControl"
+                                    Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}" />
+                </ScrollViewer>
                 <Grid x:Name="FixedOptionsBar"
                       Grid.Column="1"
+                      Padding="4"
                       HorizontalAlignment="Right"
                       Background="{ThemeResource LayerFillColorAltBrush}"
                       BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                      BorderThickness="1,0,0,0">
+                      BorderThickness="1,0,0,0"
+                      RowSpacing="8">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -108,50 +120,55 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <AppBarButton x:Name="ThemeBtn"
-                                  Grid.Row="0"
-                                  Click="ThemeBtn_OnClick"
-                                  Label="Toggle theme"
-                                  LabelPosition="Collapsed"
-                                  Style="{StaticResource SmallAppBarButtonStyle}"
-                                  ToolTipService.ToolTip="Toggle theme">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE793;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
+                    <Button x:Name="ThemeBtn"
+                            Grid.Row="0"
+                            Width="32"
+                            Height="32"
+                            Padding="4"
+                            HorizontalAlignment="Center"
+                            Click="ThemeBtn_OnClick"
+                            Style="{StaticResource SubtleButtonStyle}"
+                            ToolTipService.ToolTip="Toggle theme">
+                        <Button.Content>
+                            <FontIcon FontSize="16"
+                                      Glyph="&#xE793;" />
+                        </Button.Content>
+                    </Button>
 
-                    <AppBarButton x:Name="FlowDirectionBtn"
-                                  Grid.Row="1"
-                                  wasm:Visibility="Collapsed"
-                                  Click="FlowDirectionBtn_OnClick"
-                                  Label="Toggle direction"
-                                  LabelPosition="Collapsed"
-                                  Style="{StaticResource SmallAppBarButtonStyle}"
-                                  ToolTipService.ToolTip="Toggle right-to-left">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE1A0;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
+                    <Button x:Name="FlowDirectionBtn"
+                            Grid.Row="1"
+                            Width="32"
+                            Height="32"
+                            Padding="4"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            wasm:Visibility="Collapsed"
+                            Click="FlowDirectionBtn_OnClick"
+                            Style="{StaticResource SubtleButtonStyle}"
+                            ToolTipService.ToolTip="Toggle right-to-left">
 
-                    <AppBarButton x:Name="CodeBtn"
-                                  Grid.Row="2"
-                                  Click="CodeBtn_OnClick"
-                                  Label="View code"
-                                  LabelPosition="Collapsed"
-                                  Style="{StaticResource SmallAppBarButtonStyle}"
-                                  ToolTipService.ToolTip="View code">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE943;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
+                        <Button.Content>
+                            <FontIcon FontSize="16"
+                                      Glyph="&#xE1A0;" />
+                        </Button.Content>
+                    </Button>
+
+                    <Button x:Name="CodeBtn"
+                            Grid.Row="2"
+                            Width="32"
+                            Height="32"
+                            Padding="4"
+                            HorizontalAlignment="Center"
+                            Click="CodeBtn_OnClick"
+                            Style="{StaticResource AccentButtonStyle}"
+                            ToolTipService.ToolTip="View code">
+                        <Button.Content>
+                            <FontIcon FontSize="14"
+                                      Glyph="&#xE943;" />
+                        </Button.Content>
+                    </Button>
                 </Grid>
-                <ContentControl x:Name="OptionsControl"
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                MinWidth="256"
-                                Margin="16"
-                                HorizontalAlignment="Left"
-                                Content="{x:Bind SampleOptionsPaneInstance, Mode=OneWay}" />
+
             </Grid>
 
             <Grid x:Name="ContentPageHolder"
@@ -161,12 +178,18 @@
                         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                         CornerRadius="8,0,0,8"
                         Visibility="Collapsed" />
-                <ContentControl x:Name="PageControl"
-                                Padding="24,24,32,24"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
+                <ScrollViewer HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch">
+
+                    <ContentControl x:Name="PageControl"
+                                    Margin="16"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    Background="Yellow"
+                                    Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
+                </ScrollViewer>
             </Grid>
 
             <muxc:Expander x:Name="SourcecodeExpander"
@@ -199,6 +222,7 @@
                             <ScrollViewer>
                                 <TextBlock wasm:IsTextSelectionEnabled="True"
                                            win:IsTextSelectionEnabled="True"
+                                           Style="{StaticResource CaptionTextBlockStyle}"
                                            Text="{x:Bind XamlCode, Mode=OneWay}" />
                             </ScrollViewer>
                         </PivotItem>
@@ -206,6 +230,7 @@
                             <ScrollViewer>
                                 <TextBlock wasm:IsTextSelectionEnabled="True"
                                            win:IsTextSelectionEnabled="True"
+                                           Style="{StaticResource CaptionTextBlockStyle}"
                                            Text="{x:Bind CSharpCode, Mode=OneWay}" />
                             </ScrollViewer>
                         </PivotItem>

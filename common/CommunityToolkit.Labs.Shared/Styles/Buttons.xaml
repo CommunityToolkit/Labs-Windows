@@ -348,9 +348,5 @@
         <!--<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />-->
     </Style>
 
-    <Style x:Key="SmallAppBarButtonStyle"
-           BasedOn="{StaticResource DefaultAppBarButtonStyle}"
-           TargetType="AppBarButton">
-        <Setter Property="Width" Value="36" />
-    </Style>
+
 </ResourceDictionary>

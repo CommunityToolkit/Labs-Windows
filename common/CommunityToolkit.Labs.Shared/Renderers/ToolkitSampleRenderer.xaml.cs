@@ -176,7 +176,7 @@ public sealed partial class ToolkitSampleRenderer : Page
         }
         else
         {
-            OptionsControl.Visibility = Visibility.Collapsed;
+            OptionsScrollViewer.Visibility = Visibility.Collapsed;
         }
 
         // Generated options must be assigned before attempting to render the control,
