@@ -10,32 +10,26 @@
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       mc:Ignorable="d">
 
-    <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                  HorizontalScrollMode="Auto"
-                  VerticalScrollBarVisibility="Auto"
-                  VerticalScrollMode="Auto">
-        <muxc:ItemsRepeater ItemsSource="{x:Bind Items}">
-            <muxc:ItemsRepeater.Layout>
-                <labs:CanvasLayout />
-            </muxc:ItemsRepeater.Layout>
-            <muxc:ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="local:CanvasItem">
-                    <Border Width="{x:Bind Width}"
-                            Height="{x:Bind Height}"
-                            Background="Red"
-                            BorderBrush="White"
-                            BorderThickness="2"
-                            CornerRadius="9999">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   win:TextLineBounds="Tight"
-                                   FontSize="24"
-                                   FontWeight="Bold"
-                                   Foreground="White"
-                                   Text="{x:Bind Text}" />
-                    </Border>
-                </DataTemplate>
-            </muxc:ItemsRepeater.ItemTemplate>
-        </muxc:ItemsRepeater>
-    </ScrollViewer>
+    <muxc:ItemsRepeater ItemsSource="{x:Bind Items}">
+        <muxc:ItemsRepeater.Layout>
+            <labs:CanvasLayout />
+        </muxc:ItemsRepeater.Layout>
+        <muxc:ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="local:CanvasItem">
+                <Border Width="{x:Bind Width}"
+                        Height="{x:Bind Height}"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CircleElevationBorderBrush}"
+                        BorderThickness="2"
+                        CornerRadius="9999">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               win:TextLineBounds="Tight"
+                               Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                               Text="{x:Bind Text}" />
+                </Border>
+            </DataTemplate>
+        </muxc:ItemsRepeater.ItemTemplate>
+    </muxc:ItemsRepeater>
 </Page>
