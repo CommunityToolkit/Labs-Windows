@@ -13,7 +13,7 @@ public sealed partial class CanvasViewDragSample : Page
     public List<ObservableRect> Rectangles = new()
     {
         new(100, 50, 200, 50),
-        new(300, 150, 50, 75),
+        new(300, 150, 75, 75),
         new(200, 250, 100, 100),
     };
 

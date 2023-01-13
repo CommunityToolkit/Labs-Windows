@@ -8,17 +8,26 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <labs:CanvasView ItemsSource="{x:Bind Rectangles}">
+    <labs:CanvasView MinHeight="400"
+                     VerticalAlignment="Stretch"
+                     ItemsSource="{x:Bind Rectangles}">
         <labs:CanvasView.ItemTemplate>
             <DataTemplate x:DataType="local:ObservableRect">
                 <Border Canvas.Left="{x:Bind Left, Mode=TwoWay}"
                         Canvas.Top="{x:Bind Top, Mode=TwoWay}"
                         Width="{x:Bind Width}"
                         Height="{x:Bind Height}"
-                        Background="Red"
+                        Padding="4"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
                         CornerRadius="4"
                         ManipulationMode="TranslateX,TranslateY">
-                    <TextBlock Foreground="White">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               TextWrapping="WrapWholeWords">
                         <Run Text="{x:Bind Left, Mode=OneWay}" />
                         ,<Run Text="{x:Bind Top, Mode=OneWay}" />
                     </TextBlock>
