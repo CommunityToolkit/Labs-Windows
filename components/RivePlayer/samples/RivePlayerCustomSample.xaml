@@ -12,13 +12,15 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <rive:RivePlayer x:Name="RivePlayer"
                          Grid.Column="0"
-                         Width="600"
-                         Height="600"
+                         Width="400"
+                         Height="320"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
                          DrawInBackground="True"
                          Source="ms-appx:///animated-login-screen.riv">
             <rive:BoolInput Target="isChecking"
@@ -33,8 +35,9 @@
                                Target="trigSuccess" />
         </rive:RivePlayer>
         <StackPanel Grid.Column="1"
-                    Padding="20"
-                    VerticalAlignment="Center"
+                    MinWidth="240"
+                    Padding="20,4,20,0"
+                    VerticalAlignment="Top"
                     Spacing="10">
             <CheckBox x:Name="IsChecking"
                       Content="Looking" />
