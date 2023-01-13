@@ -10,8 +10,7 @@
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       mc:Ignorable="d">
 
-    <muxc:ItemsRepeater MinWidth="5000"
-                        ItemsSource="{x:Bind Items}">
+    <muxc:ItemsRepeater ItemsSource="{x:Bind Items}">
         <muxc:ItemsRepeater.Layout>
             <labs:CanvasLayout />
         </muxc:ItemsRepeater.Layout>
@@ -25,8 +24,9 @@
                         CornerRadius="9999">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               win:TextLineBounds="Tight"
                                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
-                               Style="{StaticResource BodyStrongTextBlockStyle}"
+                               Style="{ThemeResource SubtitleTextBlockStyle}"
                                Text="{x:Bind Text}" />
                 </Border>
             </DataTemplate>
