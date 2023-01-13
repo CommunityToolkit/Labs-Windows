@@ -21,7 +21,7 @@
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <Setter Target="PageControl.MaxHeight" Value="600" />
+                        <Setter Target="ContentScroller.MaxHeight" Value="600" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Tabbed">
@@ -178,16 +178,13 @@
                         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                         CornerRadius="8,0,0,8"
                         Visibility="Collapsed" />
-                <ScrollViewer HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              HorizontalContentAlignment="Stretch">
-
+                <ScrollViewer x:Name="ContentScroller"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch">
                     <ContentControl x:Name="PageControl"
                                     Margin="16"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
-                                    Background="Yellow"
+                                    VerticalContentAlignment="Stretch"
                                     Content="{x:Bind SampleControlInstance, Mode=OneWay}" />
                 </ScrollViewer>
             </Grid>
