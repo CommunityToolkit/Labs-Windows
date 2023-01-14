@@ -12,8 +12,42 @@ namespace TokenViewExperiment.Samples;
 [ToolkitSample(id: nameof(TokenViewRemoveSample), "Remove sample", description: $"A sample for showing how to create and use a {nameof(TokenView)} control.")]
 public sealed partial class TokenViewRemoveSample : Page
 {
+    public ObservableCollection<MyDataModel> MyDataSet = new() {
+        new()
+        {
+            Name = "First Item",
+            Info = "More about first item.",
+            LinkDescription = "Click here for more on first item.",
+            Url = "https://microsoft.com/",
+        },
+        new()
+        {
+            Name = "Second Item",
+            Info = "More about second item.",
+            LinkDescription = "Click here for more on second item.",
+            Url = "https://xbox.com/",
+        },
+        new()
+        {
+            Name = "Third Item",
+            Info = "More about third item.",
+            LinkDescription = "Click here for more on third item.",
+            Url = "https://toolkitlabs.dev/",
+        },
+    };
     public TokenViewRemoveSample()
     {
         this.InitializeComponent();
     }
+}
+
+public class MyDataModel
+{
+    public string? Name { get; set; }
+
+    public string? Info { get; set; }
+
+    public string? LinkDescription { get; set; }
+
+    public string? Url { get; set; }
 }

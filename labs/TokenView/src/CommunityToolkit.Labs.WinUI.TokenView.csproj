@@ -26,5 +26,9 @@
     <UpToDateCheckInput Remove="Token\Token.xaml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <SourceGeneratorInput Remove="TokenView\TokenView.ItemsSource.cs" />
+  </ItemGroup>
+
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->
 </Project>

@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="TokenViewExperiment.Samples.TokenViewRemoveSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,23 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid>
+    <StackPanel Orientation="Vertical">
+        <labs:TokenView AllowDrop="True"
+                        CanRemoveTokens="{x:Bind CanRemoveTokens, Mode=OneWay}"
+                        CanReorderItems="True"
+                        ItemsSource="{x:Bind MyDataSet, Mode=OneWay}"
+                        SelectedIndex="1"
+                        SelectionMode="Single">
+            <labs:TokenView.ItemTemplate>
+                <DataTemplate x:DataType="local:MyDataModel">
+                    <Grid Height="48">
+                        <TextBlock Foreground="Red"
+                                   Text="{x:Bind Name}" />
+                    </Grid>
+                </DataTemplate>
+            </labs:TokenView.ItemTemplate>
+        </labs:TokenView>
+
         <labs:TokenView CanRemoveTokens="{x:Bind CanRemoveTokens, Mode=OneWay}"
                         SelectionMode="Single">
             <labs:Token Content="All" />
@@ -22,5 +38,5 @@
             <labs:Token Content="Folders" />
             <labs:Token Content="Photos" />
         </labs:TokenView>
-    </Grid>
+    </StackPanel>
 </Page>

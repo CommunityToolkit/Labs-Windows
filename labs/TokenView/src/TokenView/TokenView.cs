@@ -37,6 +37,17 @@ public partial class TokenView : ListViewBase
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         this.DefaultStyleKey = typeof(TokenView);
+
+        // Container Generation Hooks
+        RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
+        ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
+    }
+
+    protected override DependencyObject GetContainerForItemOverride() => new Token();
+
+    protected override bool IsItemItsOwnContainerOverride(object item)
+    {
+        return item is Token;
     }
 
     /// <inheritdoc />
@@ -148,27 +159,6 @@ public partial class TokenView : ListViewBase
         }
     }
 
-    private void SetInitialSelection()
-    {
-        if (SelectedItem == null)
-        {
-            // If we have an index, but didn't get the selection, make the selection
-            if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
-            {
-                SelectedItem = Items[SelectedIndex];
-            }
-        }
-        else
-        {
-            if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
-            {
-                SelectedItem = Items[SelectedIndex];
-            }
-        }
-    }
-
-    // Temporary tracking of previous collections for removing events.
-    private MethodInfo _removeItemsSourceMethod;
 
     private void Token_Removing(object? sender, TokenRemovingEventArgs e)
     {
