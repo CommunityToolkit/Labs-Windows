@@ -1,14 +1,14 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
   
   <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
 
   <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
+  <Import Project="$(RepositoryDirectory)common\SampleProjectConfig.props" />
 
   <PropertyGroup>
     <RootNamespace>TokenViewExperiment.Samples</RootNamespace>
