@@ -25,9 +25,4 @@ public class TokenRemovingEventArgs : EventArgs
     /// Gets the Tab being closed.
     /// </summary>
     public Token Token { get; private set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the notification should be closed.
-    /// </summary>
-    public bool Cancel { get; set; }
 }

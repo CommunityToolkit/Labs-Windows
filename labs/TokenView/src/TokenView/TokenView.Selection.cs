@@ -14,7 +14,6 @@ public partial class TokenView : ListViewBase
         Next,
         Previous
     }
-
     private bool MoveFocus(MoveDirection direction)
     {
         bool retVal = false;

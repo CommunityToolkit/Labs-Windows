@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.System;
-
 namespace CommunityToolkit.Labs.WinUI;
 
 /// <summary>
@@ -15,19 +13,15 @@ namespace CommunityToolkit.Labs.WinUI;
 [TemplatePart(Name = TokenViewScrollForwardButtonName, Type = typeof(ButtonBase))]
 public partial class TokenView : ListViewBase
 {
-    /// <summary>
-    /// Occurs when a tab's Close button is clicked.  Set <see cref="TokenRemovingEventArgs.Cancel"/> to true to prevent automatic Tab Closure.
-    /// </summary>
-    ///
-
     private const string? TokenViewScrollViewerName = "ScrollViewer";
     private const string? TokenViewScrollBackButtonName = "ScrollBackButton";
     private const string? TokenViewScrollForwardButtonName = "ScrollForwardButton";
-    public event EventHandler<TokenRemovingEventArgs>? TokenRemoving;
-
+   
     private ScrollViewer? _tokenViewScroller;
     private ButtonBase? _tokenViewScrollBackButton;
     private ButtonBase? _tokenViewScrollForwardButton;
+    public event EventHandler<TokenRemovingEventArgs>? TokenRemoving;
+    private bool _hasLoaded;
 
     /// <summary>
     /// Creates a new instance of the <see cref="TokenView"/> class.
@@ -50,31 +44,12 @@ public partial class TokenView : ListViewBase
         return item is Token;
     }
 
-    /// <inheritdoc />
-    ///
-    private void OnOrientationChanged()
-    {
-        if (_tokenViewScroller != null)
-        {
-            if (Orientation == TokenViewOrientation.Horizontal)
-            {
-                _tokenViewScroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            }
-            else if (this.Orientation == TokenViewOrientation.Wrapped)
-            {
-                _tokenViewScroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            }
-        }
-    }
-
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
         PreviewKeyDown -= TokenView_PreviewKeyDown;
-        PreviewKeyDown += TokenView_PreviewKeyDown;
-
-        this.SizeChanged += TokenView_SizeChanged;
+        SizeChanged += TokenView_SizeChanged;
         if (_tokenViewScroller != null)
         {
             _tokenViewScroller.Loaded -= ScrollViewer_Loaded;
@@ -87,12 +62,8 @@ public partial class TokenView : ListViewBase
             _tokenViewScroller.Loaded += ScrollViewer_Loaded;
         }
 
+        PreviewKeyDown += TokenView_PreviewKeyDown;
         OnOrientationChanged();
-    }
-
-    private void TokenView_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        SetButtons();
     }
 
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
@@ -106,26 +77,18 @@ public partial class TokenView : ListViewBase
 
             if (Token.IsRemoveable != true && Token.ReadLocalValue(Token.IsRemoveableProperty) == DependencyProperty.UnsetValue)
             {
-                var iscloseablebinding = new Binding()
+                var isRemovableBinding = new Binding()
                 {
                     Source = this,
                     Path = new PropertyPath(nameof(CanRemoveTokens)),
                     Mode = BindingMode.OneWay,
                 };
-                Token.SetBinding(Token.IsRemoveableProperty, iscloseablebinding);
+                Token.SetBinding(Token.IsRemoveableProperty, isRemovableBinding);
             }
         }
     }
 
-    private void TokenView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
-    {
-        switch (e.Key)
-        {
-            case VirtualKey.Left: e.Handled = MoveFocus(MoveDirection.Previous); break;
-            case VirtualKey.Right: e.Handled = MoveFocus(MoveDirection.Next); break;
-            case VirtualKey.Delete: e.Handled = RemoveItem(); break;
-        }
-    }
+
     private bool RemoveItem()
     {
         var currentContainerItem = GetCurrentContainerItem();
@@ -139,150 +102,19 @@ public partial class TokenView : ListViewBase
             return false;
         }
     }
-    private bool _hasLoaded;
-    private void Token_Loaded(object sender, RoutedEventArgs e)
+   
+    private void UpdateScrollButtonsVisibility()
     {
-        var Token = sender as Token;
-
-        if (Token != null)
+        if (_tokenViewScrollForwardButton != null && _tokenViewScroller != null)
         {
-            Token.Loaded -= Token_Loaded;
-        }
-
-        // Only need to do this once.
-        if (!_hasLoaded)
-        {
-            _hasLoaded = true;
-
-            // Need to set a tab's selection on load, otherwise ListView resets to null.
-            SetInitialSelection();
-        }
-    }
-
-
-    private void Token_Removing(object? sender, TokenRemovingEventArgs e)
-    {
-        var item = ItemFromContainer(e.Token);
-
-        var args = new TokenRemovingEventArgs(item, e.Token);
-        TokenRemoving?.Invoke(this, args);
-
-        if (!args.Cancel)
-        {
-            if (ItemsSource != null)
+            if (_tokenViewScroller.ScrollableWidth > 0)
             {
-                _removeItemsSourceMethod?.Invoke(ItemsSource, new object[] { item });
+                _tokenViewScrollForwardButton.Visibility = Visibility.Visible;
             }
             else
             {
-                if (_tokenViewScroller != null)
-                {
-                    _tokenViewScroller.UpdateLayout();
-                }
-                Items.Remove(item);
+                _tokenViewScrollForwardButton.Visibility = Visibility.Collapsed;
             }
-        }
-        SetButtons();
-    }
-
-    private void ScrollViewer_Loaded(object sender, RoutedEventArgs e)
-    {
-        if (_tokenViewScroller != null)
-        {
-            _tokenViewScroller.Loaded -= ScrollViewer_Loaded;
-        }
-            if (_tokenViewScrollBackButton != null)
-        {
-            _tokenViewScrollBackButton.Click -= ScrollTabBackButton_Click;
-        }
-
-        if (_tokenViewScrollForwardButton != null)
-        {
-            _tokenViewScrollForwardButton.Click -= ScrollTabForwardButton_Click;
-        }
-
-        if (_tokenViewScroller != null)
-        {
-            _tokenViewScroller.ViewChanging += _tokenViewScroller_ViewChanging;
-            _tokenViewScrollBackButton = _tokenViewScroller.FindDescendantByName(TokenViewScrollBackButtonName) as ButtonBase;
-            _tokenViewScrollForwardButton = _tokenViewScroller.FindDescendantByName(TokenViewScrollForwardButtonName) as ButtonBase;
-        }
-
-        if (_tokenViewScrollBackButton != null)
-        {
-            _tokenViewScrollBackButton.Click += ScrollTabBackButton_Click;
-        }
-
-        if (_tokenViewScrollForwardButton != null)
-        {
-            _tokenViewScrollForwardButton.Click += ScrollTabForwardButton_Click;
-        }
-
-        SetButtons();
-    }
-
-
-    private void _tokenViewScroller_ViewChanging(object? sender, ScrollViewerViewChangingEventArgs e)
-    {
-        if (_tokenViewScrollBackButton != null)
-        {
-            if (e.FinalView.HorizontalOffset < 1)
-            {
-                _tokenViewScrollBackButton.Visibility = Visibility.Collapsed;
-            }
-            else if (e.FinalView.HorizontalOffset > 1)
-            {
-                _tokenViewScrollBackButton.Visibility = Visibility.Visible;
-            }
-        }
-
-        if (_tokenViewScrollForwardButton != null)
-        {
-            if (_tokenViewScroller != null)
-            {
-                if (e.FinalView.HorizontalOffset > _tokenViewScroller.ScrollableWidth -1)
-                {
-                    _tokenViewScrollForwardButton.Visibility = Visibility.Collapsed;
-                }
-                else if (e.FinalView.HorizontalOffset < _tokenViewScroller.ScrollableWidth - 1)
-                {
-                    _tokenViewScrollForwardButton.Visibility = Visibility.Visible;
-                }
-            }
-        }
-    }
-
-    private void SetButtons()
-    {
-        if (_tokenViewScrollForwardButton != null)
-        {
-            if (_tokenViewScroller != null)
-            {
-                if (_tokenViewScroller.ScrollableWidth > 0)
-                {
-                    _tokenViewScrollForwardButton.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    _tokenViewScrollForwardButton.Visibility = Visibility.Collapsed;
-                }
-            }
-        }
-    }
-
-    private void ScrollTabBackButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (_tokenViewScroller != null)
-        {
-            _tokenViewScroller.ChangeView(_tokenViewScroller.HorizontalOffset - _tokenViewScroller.ViewportWidth, null, null);
-        }
-    }
-    private void ScrollTabForwardButton_Click(object sender, RoutedEventArgs e)
-    {
-
-        if (_tokenViewScroller != null)
-        {
-            _tokenViewScroller.ChangeView(_tokenViewScroller.HorizontalOffset + _tokenViewScroller.ViewportWidth, null, null);
         }
     }
 

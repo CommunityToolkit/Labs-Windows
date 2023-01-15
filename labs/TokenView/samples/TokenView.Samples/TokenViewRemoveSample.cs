@@ -15,24 +15,51 @@ public sealed partial class TokenViewRemoveSample : Page
     public ObservableCollection<MyDataModel> MyDataSet = new() {
         new()
         {
-            Name = "First Item",
-            Info = "More about first item.",
-            LinkDescription = "Click here for more on first item.",
-            Url = "https://microsoft.com/",
+            Name = "Item 1",
         },
         new()
         {
-            Name = "Second Item",
-            Info = "More about second item.",
-            LinkDescription = "Click here for more on second item.",
-            Url = "https://xbox.com/",
+            Name = "Item 2",
         },
         new()
         {
-            Name = "Third Item",
-            Info = "More about third item.",
-            LinkDescription = "Click here for more on third item.",
-            Url = "https://toolkitlabs.dev/",
+            Name = "Item 3",
+        },
+        new()
+        {
+            Name = "Item 4",
+        },
+        new()
+        {
+            Name = "Item 5",
+        },
+        new()
+        {
+            Name = "Item 6",
+        },
+        new()
+        {
+            Name = "Item 7",
+        },
+        new()
+        {
+            Name = "Item 8",
+        },
+        new()
+        {
+            Name = "Item 9",
+        },
+        new()
+        {
+            Name = "Item 10",
+        },
+        new()
+        {
+            Name = "Item 11",
+        },
+        new()
+        {
+            Name = "Item 12",
         },
     };
     public TokenViewRemoveSample()
@@ -44,10 +71,4 @@ public sealed partial class TokenViewRemoveSample : Page
 public class MyDataModel
 {
     public string? Name { get; set; }
-
-    public string? Info { get; set; }
-
-    public string? LinkDescription { get; set; }
-
-    public string? Url { get; set; }
 }

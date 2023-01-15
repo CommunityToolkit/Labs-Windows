@@ -65,9 +65,13 @@ public partial class Token : ListViewItem
     private void ContentChanged()
     {
         if (Content != null)
+        {
             VisualStateManager.GoToState(this, IconLeftState, true);
+        }
         else
+        {
             VisualStateManager.GoToState(this, IconOnlyState, true);
+        }
     }
 
     protected virtual void OnIconPropertyChanged(IconElement oldValue, IconElement newValue)
@@ -78,9 +82,13 @@ public partial class Token : ListViewItem
     private void IconChanged()
     {
         if (Icon != null)
+        {
             VisualStateManager.GoToState(this, IconLeftState, true);
+        }
         else
+        {
             VisualStateManager.GoToState(this, ContentOnlyState, true);
+        }
     }
 
     protected virtual void OnIsRemoveablePropertyChanged(bool oldValue, bool newValue)
@@ -91,8 +99,12 @@ public partial class Token : ListViewItem
     private void IsRemoveableChanged()
     {
         if (IsRemoveable)
+        {
             VisualStateManager.GoToState(this, RemoveButtonVisibleState, true);
+        }
         else
+        {
             VisualStateManager.GoToState(this, RemoveButtonNotVisibleState, true);
+        }
     }
 }

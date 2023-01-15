@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.UI.Xaml.Controls;
-
 namespace CommunityToolkit.Labs.WinUI;
 public partial class TokenView : ListViewBase
 {
@@ -14,21 +12,6 @@ public partial class TokenView : ListViewBase
         IVectorChangedEventArgs args = (IVectorChangedEventArgs)e;
 
         base.OnItemsChanged(e);
-
-        //if (args.CollectionChange == CollectionChange.ItemRemoved && SelectedIndex == -1)
-        //{
-        //    // If we remove the selected item we should select the previous item
-        //    int startIndex = (int)args.Index + 1;
-        //    if (startIndex > Items.Count)
-        //    {
-        //        startIndex = 0;
-        //    }
-
-        //    SelectedIndex = FindNextTabIndex(startIndex, -1);
-        //}
-
-        //// Update Sizing (in case there are less items now)
-        //TabView_SizeChanged(this, null);
     }
 
     private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
@@ -63,7 +46,6 @@ public partial class TokenView : ListViewBase
 
     private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
     {
-
         // Use reflection to store a 'Remove' method of any possible collection in ItemsSource
         // Cache for efficiency later.
         if (ItemsSource != null)
