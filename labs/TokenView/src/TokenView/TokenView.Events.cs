@@ -93,12 +93,12 @@ public partial class TokenView : ListViewBase
         UpdateScrollButtonsVisibility();
     }
 
-    private void Token_Removing(object? sender, TokenRemovingEventArgs e)
+    private void Token_Removing(object? sender, TokenItemRemovingEventArgs e)
     {
-        var item = ItemFromContainer(e.Token);
+        var item = ItemFromContainer(e.TokenItem);
 
-        var args = new TokenRemovingEventArgs(item, e.Token);
-        TokenRemoving?.Invoke(this, args);
+        var args = new TokenItemRemovingEventArgs(item, e.TokenItem);
+        TokenItemRemoving?.Invoke(this, args);
 
         if (ItemsSource != null)
         {
@@ -118,11 +118,11 @@ public partial class TokenView : ListViewBase
 
     private void Token_Loaded(object sender, RoutedEventArgs e)
     {
-        var Token = sender as Token;
+        var token = sender as TokenItem;
 
-        if (Token != null)
+        if (token != null)
         {
-            Token.Loaded -= Token_Loaded;
+            token.Loaded -= Token_Loaded;
         }
 
         // Only need to do this once.

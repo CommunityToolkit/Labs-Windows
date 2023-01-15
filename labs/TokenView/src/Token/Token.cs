@@ -5,41 +5,41 @@
 namespace CommunityToolkit.Labs.WinUI;
 
 [ContentProperty(Name = nameof(Content))]
-[TemplatePart(Name = TokenRemoveButtonName, Type = typeof(ButtonBase))]
-public partial class Token : ListViewItem
+[TemplatePart(Name = TokenItemRemoveButtonName, Type = typeof(ButtonBase))]
+public partial class TokenItem : ListViewItem
 {
     internal const string IconLeftState = "IconLeft";
     internal const string IconOnlyState = "IconOnly";
     internal const string ContentOnlyState = "ContentOnly";
     internal const string RemoveButtonVisibleState = "RemoveButtonVisible";
     internal const string RemoveButtonNotVisibleState = "RemoveButtonNotVisible";
-    internal const string TokenRemoveButtonName = "PART_RemoveButton";
-    internal ButtonBase? _TokenRemoveButton;
+    internal const string TokenItemRemoveButtonName = "PART_RemoveButton";
+    internal ButtonBase? _tokenItemRemoveButton;
 
     /// <summary>
     /// Fired when the Tab's close button is clicked.
     /// </summary>
-    public event EventHandler<TokenRemovingEventArgs>? Removing;
+    public event EventHandler<TokenItemRemovingEventArgs>? Removing;
 
-    public Token()
+    public TokenItem()
     {
-        this.DefaultStyleKey = typeof(Token);
+        this.DefaultStyleKey = typeof(TokenItem);
     }
 
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        if (_TokenRemoveButton != null)
+        if (_tokenItemRemoveButton != null)
         {
-            _TokenRemoveButton.Click -= TabCloseButton_Click;
+            _tokenItemRemoveButton.Click -= TokenItemRemoveButton_Click;
         }
 
-        _TokenRemoveButton = GetTemplateChild(TokenRemoveButtonName) as ButtonBase;
+        _tokenItemRemoveButton = GetTemplateChild(TokenItemRemoveButtonName) as ButtonBase;
 
-        if (_TokenRemoveButton != null)
+        if (_tokenItemRemoveButton != null)
         {
-            _TokenRemoveButton.Click += TabCloseButton_Click;
+            _tokenItemRemoveButton.Click += TokenItemRemoveButton_Click;
         }
 
         IconChanged();
@@ -47,11 +47,11 @@ public partial class Token : ListViewItem
         IsRemoveableChanged();
     }
 
-    private void TabCloseButton_Click(object sender, RoutedEventArgs e)
+    private void TokenItemRemoveButton_Click(object sender, RoutedEventArgs e)
     {
         if (IsRemoveable)
         {
-            Removing?.Invoke(this, new TokenRemovingEventArgs(Content, this));
+            Removing?.Invoke(this, new TokenItemRemovingEventArgs(Content, this));
         }
     }
 
@@ -59,7 +59,6 @@ public partial class Token : ListViewItem
     {
         base.OnContentChanged(oldContent, newContent);
         ContentChanged();
-
     }
 
     private void ContentChanged()

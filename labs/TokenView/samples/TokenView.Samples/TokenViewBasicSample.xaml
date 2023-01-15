@@ -15,49 +15,48 @@
                         SelectedIndex="2"
                         SelectionMode="Single">
             <!--  SelectionMode="{x:Bind local:TokenViewBasicSample.ConvertStringToListViewSelectionMode(SelectionMode), Mode=OneWay}"  -->
-            <labs:Token Content="All" />
+            <labs:TokenItem Content="All" />
 
-            <labs:Token Content="Apps">
-                <labs:Token.Icon>
+            <labs:TokenItem Content="Apps">
+                <labs:TokenItem.Icon>
                     <FontIcon Glyph="&#xECAA;" />
-                </labs:Token.Icon>
-            </labs:Token>
-            <labs:Token Content="Work">
-                <labs:Token.Icon>
+                </labs:TokenItem.Icon>
+            </labs:TokenItem>
+            <labs:TokenItem Content="Work">
+                <labs:TokenItem.Icon>
                     <FontIcon Glyph="&#xE821;" />
-                </labs:Token.Icon>
-            </labs:Token>
-            <labs:Token Content="Documents">
-                <labs:Token.Icon>
+                </labs:TokenItem.Icon>
+            </labs:TokenItem>
+            <labs:TokenItem Content="Documents">
+                <labs:TokenItem.Icon>
                     <FontIcon Glyph="&#xE821;" />
-                </labs:Token.Icon>
-            </labs:Token>
-            <labs:Token Content="Web">
-                <labs:Token.Icon>
+                </labs:TokenItem.Icon>
+            </labs:TokenItem>
+            <labs:TokenItem Content="Web">
+                <labs:TokenItem.Icon>
                     <FontIcon Glyph="&#xE12B;" />
-                </labs:Token.Icon>
-            </labs:Token>
-            <labs:Token Content="Settings">
-                <labs:Token.Icon>
+                </labs:TokenItem.Icon>
+            </labs:TokenItem>
+            <labs:TokenItem Content="Settings">
+                <labs:TokenItem.Icon>
                     <FontIcon Glyph="&#xE115;" />
-                </labs:Token.Icon>
-            </labs:Token>
-            <labs:Token Content="People">
-                <labs:Token.Icon>
+                </labs:TokenItem.Icon>
+            </labs:TokenItem>
+            <labs:TokenItem Content="People">
+                <labs:TokenItem.Icon>
                     <FontIcon Glyph="&#xE13D;" />
-                </labs:Token.Icon>
-            </labs:Token>
-            <labs:Token Content="Folders">
-                <labs:Token.Icon>
+                </labs:TokenItem.Icon>
+            </labs:TokenItem>
+            <labs:TokenItem Content="Folders">
+                <labs:TokenItem.Icon>
                     <FontIcon Glyph="&#xE8B7;" />
-                </labs:Token.Icon>
-            </labs:Token>
-            <labs:Token Content="Photos">
-                <labs:Token.Icon>
+                </labs:TokenItem.Icon>
+            </labs:TokenItem>
+            <labs:TokenItem Content="Photos">
+                <labs:TokenItem.Icon>
                     <FontIcon Glyph="&#xE91B;" />
-                </labs:Token.Icon>
-
-            </labs:Token>
+                </labs:TokenItem.Icon>
+            </labs:TokenItem>
         </labs:TokenView>
     </Grid>
 </Page>

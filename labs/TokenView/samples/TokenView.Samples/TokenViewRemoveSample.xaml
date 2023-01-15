@@ -27,16 +27,16 @@
 
         <labs:TokenView CanRemoveTokens="{x:Bind CanRemoveTokens, Mode=OneWay}"
                         SelectionMode="Single">
-            <labs:Token Content="All" />
-            <labs:Token Content="Work" />
-            <labs:Token Content="Apps" />
-            <labs:Token Content="Documents" />
-            <labs:Token Content="Web"
-                        IsRemoveable="True" />
-            <labs:Token Content="Settings" />
-            <labs:Token Content="People" />
-            <labs:Token Content="Folders" />
-            <labs:Token Content="Photos" />
+            <labs:TokenItem Content="All" />
+            <labs:TokenItem Content="Work" />
+            <labs:TokenItem Content="Apps" />
+            <labs:TokenItem Content="Documents" />
+            <labs:TokenItem Content="Web"
+                            IsRemoveable="True" />
+            <labs:TokenItem Content="Settings" />
+            <labs:TokenItem Content="People" />
+            <labs:TokenItem Content="Folders" />
+            <labs:TokenItem Content="Photos" />
         </labs:TokenView>
     </StackPanel>
 </Page>

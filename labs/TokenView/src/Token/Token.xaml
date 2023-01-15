@@ -8,64 +8,148 @@
     <ResourceDictionary.ThemeDictionaries>
         <!--  ControlFillColorQuarternaryBrush does not exist (yet) in WinUI, only in Windows Visual Library (Figma)  -->
         <ResourceDictionary x:Key="Default">
-            <SolidColorBrush x:Key="ControlFillColorQuarternaryBrush"
-                             Opacity="0.06"
-                             Color="#FFFFFF" />
-            <StaticResource x:Key="TokenBackground"
+            <StaticResource x:Key="TokenItemBackground"
                             ResourceKey="ControlFillColorDefaultBrush" />
-            <!--<StaticResource x:Key="TokenBackground" ResourceKey="ControlFillColorQuarternaryBrush" />-->
-            <StaticResource x:Key="TokenBorderBrush"
+            <StaticResource x:Key="TokenItemBackgroundPointerOver"
+                            ResourceKey="ControlFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPressed"
+                            ResourceKey="ControlFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundSelected"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPointerOverSelected"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPressedSelected"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="TokenItemBorderBrush"
                             ResourceKey="ControlStrokeColorDefaultBrush" />
-            <StaticResource x:Key="TokenForeground"
+            <StaticResource x:Key="TokenItemBorderBrushPointerOver"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPressed"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushSelected"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPointerOverSelected"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPressedSelected"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="TokenItemForeground"
                             ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPointerOver"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPressed"
+                            ResourceKey="TextFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundSelected"
+                            ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPointerOverSelected"
+                            ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPressedSelected"
+                            ResourceKey="TextOnAccentFillColorSecondaryBrush" />
+            <Thickness x:Key="TokenItemBorderThickness">1</Thickness>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="ControlFillColorQuarternaryBrush"
-                             Opacity="0.76"
-                             Color="#F3F3F3" />
-            <StaticResource x:Key="TokenBackground"
+            <StaticResource x:Key="TokenItemBackground"
                             ResourceKey="ControlFillColorDefaultBrush" />
-            <!--<StaticResource x:Key="TokenBackground" ResourceKey="ControlFillColorQuarternaryBrush" />-->
-            <StaticResource x:Key="TokenBorderBrush"
+            <StaticResource x:Key="TokenItemBackgroundPointerOver"
+                            ResourceKey="ControlFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPressed"
+                            ResourceKey="ControlFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundSelected"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPointerOverSelected"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPressedSelected"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="TokenItemBorderBrush"
                             ResourceKey="ControlStrokeColorDefaultBrush" />
-            <StaticResource x:Key="TokenForeground"
+            <StaticResource x:Key="TokenItemBorderBrushPointerOver"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPressed"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushSelected"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPointerOverSelected"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPressedSelected"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="TokenItemForeground"
                             ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPointerOver"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPressed"
+                            ResourceKey="TextFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundSelected"
+                            ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPointerOverSelected"
+                            ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPressedSelected"
+                            ResourceKey="TextOnAccentFillColorSecondaryBrush" />
+            <Thickness x:Key="TokenItemBorderThickness">1</Thickness>
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="ControlFillColorQuarternaryBrush"
-                             Opacity="0.06"
-                             Color="#FFFFFF" />
-            <StaticResource x:Key="TokenBackground"
+            <StaticResource x:Key="TokenItemBackground"
                             ResourceKey="ControlFillColorDefaultBrush" />
-            <!--<StaticResource x:Key="TokenBackground" ResourceKey="ControlFillColorQuarternaryBrush" />-->
-            <StaticResource x:Key="TokenBorderBrush"
+            <StaticResource x:Key="TokenItemBackgroundPointerOver"
+                            ResourceKey="ControlFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPressed"
+                            ResourceKey="ControlFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundSelected"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPointerOverSelected"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBackgroundPressedSelected"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="TokenItemBorderBrush"
                             ResourceKey="ControlStrokeColorDefaultBrush" />
-            <StaticResource x:Key="TokenForeground"
+            <StaticResource x:Key="TokenItemBorderBrushPointerOver"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPressed"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushSelected"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPointerOverSelected"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemBorderBrushPressedSelected"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="TokenItemForeground"
                             ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPointerOver"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPressed"
+                            ResourceKey="TextFillColorSecondaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundSelected"
+                            ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPointerOverSelected"
+                            ResourceKey="TextOnAccentFillColorPrimaryBrush" />
+            <StaticResource x:Key="TokenItemForegroundPressedSelected"
+                            ResourceKey="TextOnAccentFillColorSecondaryBrush" />
+            <Thickness x:Key="TokenItemBorderThickness">1</Thickness>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Style BasedOn="{StaticResource DefaultTokenStyle}"
-           TargetType="labs:Token" />
+    <x:Double x:Key="TokenItemMinHeight">32</x:Double>
+    <x:Double x:Key="TokenItemCornerRadius">16</x:Double>
+    <Thickness x:Key="TokenItemPadding">11,4,11,6</Thickness>
 
-    <Style x:Key="DefaultTokenStyle"
-           TargetType="labs:Token">
+    <Style BasedOn="{StaticResource DefaultTokenItemStyle}"
+           TargetType="labs:TokenItem" />
+
+    <Style x:Key="DefaultTokenItemStyle"
+           TargetType="labs:TokenItem">
         <Style.Setters>
-            <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="Background" Value="{ThemeResource TokenBackground}" />
-            <Setter Property="BorderBrush" Value="{ThemeResource TokenBorderBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="MinHeight" Value="32" />
-            <Setter Property="CornerRadius" Value="16" />
-            <Setter Property="Padding" Value="11,4,11,6" />
+            <Setter Property="Background" Value="{ThemeResource TokenItemBackground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource TokenItemBorderBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource TokenItemBorderThickness}" />
+            <Setter Property="MinHeight" Value="{ThemeResource TokenItemMinHeight}" />
+            <Setter Property="CornerRadius" Value="{ThemeResource TokenItemCornerRadius}" />
+            <Setter Property="Padding" Value="{ThemeResource TokenItemPadding}" />
             <Setter Property="IsTabStop" Value="True" />
             <Setter Property="TabNavigation" Value="Local" />
-            <Setter Property="Foreground" Value="{ThemeResource TokenForeground}" />
+            <Setter Property="Foreground" Value="{ThemeResource TokenItemForeground}" />
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="UseSystemFocusVisuals" Value="True" />
             <Setter Property="FocusVisualMargin" Value="-3" />
@@ -74,7 +158,7 @@
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="labs:Token">
+                    <ControlTemplate TargetType="labs:TokenItem">
                         <Grid x:Name="PART_RootGrid"
                               Height="{TemplateBinding Height}"
                               MinHeight="{TemplateBinding MinHeight}"
@@ -125,7 +209,7 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
                                                                            Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ControlFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemBackgroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -134,22 +218,27 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
                                                                            Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource ControlFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
+                                                                           Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource TokenItemBorderBrushPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RemoveButton"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -158,22 +247,22 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
                                                                            Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                                        Value="{ThemeResource TokenItemBackgroundSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
                                                                            Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                                        Value="{ThemeResource TokenItemBorderBrushSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RemoveButton"
                                                                            Storyboard.TargetProperty="Style">
@@ -192,22 +281,22 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
                                                                            Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource AccentFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemBackgroundPointerOverSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
                                                                            Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource AccentFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemBorderBrushPointerOverSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundPointerOverSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundPointerOverSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RemoveButton"
                                                                            Storyboard.TargetProperty="Style">
@@ -226,22 +315,22 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
                                                                            Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource AccentFillColorTertiaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemBackgroundPressedSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid"
                                                                            Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource AccentFillColorTertiaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemBorderBrushPressedSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextOnAccentFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundPressedSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource TextOnAccentFillColorSecondaryBrush}" />
+                                                                        Value="{ThemeResource TokenItemForegroundPressedSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RemoveButton"
                                                                            Storyboard.TargetProperty="Style">
@@ -268,6 +357,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
+
                             <!--  Content  -->
                             <StackPanel Margin="{TemplateBinding Padding}"
                                         HorizontalAlignment="Center"

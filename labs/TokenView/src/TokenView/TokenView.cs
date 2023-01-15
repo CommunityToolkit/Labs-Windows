@@ -20,7 +20,7 @@ public partial class TokenView : ListViewBase
     private ScrollViewer? _tokenViewScroller;
     private ButtonBase? _tokenViewScrollBackButton;
     private ButtonBase? _tokenViewScrollForwardButton;
-    public event EventHandler<TokenRemovingEventArgs>? TokenRemoving;
+    public event EventHandler<TokenItemRemovingEventArgs>? TokenItemRemoving;
     private bool _hasLoaded;
 
     /// <summary>
@@ -37,11 +37,11 @@ public partial class TokenView : ListViewBase
         ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
     }
 
-    protected override DependencyObject GetContainerForItemOverride() => new Token();
+    protected override DependencyObject GetContainerForItemOverride() => new TokenItem();
 
     protected override bool IsItemItsOwnContainerOverride(object item)
     {
-        return item is Token;
+        return item is TokenItem;
     }
 
     protected override void OnApplyTemplate()
@@ -70,12 +70,12 @@ public partial class TokenView : ListViewBase
     {
         base.PrepareContainerForItemOverride(element, item);
 
-        if (element is Token Token)
+        if (element is TokenItem tokenItem)
         {
-            Token.Loaded += Token_Loaded;
-            Token.Removing += Token_Removing;
+            tokenItem.Loaded += Token_Loaded;
+            tokenItem.Removing += Token_Removing;
 
-            if (Token.IsRemoveable != true && Token.ReadLocalValue(Token.IsRemoveableProperty) == DependencyProperty.UnsetValue)
+            if (tokenItem.IsRemoveable != true && tokenItem.ReadLocalValue(TokenItem.IsRemoveableProperty) == DependencyProperty.UnsetValue)
             {
                 var isRemovableBinding = new Binding()
                 {
@@ -83,7 +83,7 @@ public partial class TokenView : ListViewBase
                     Path = new PropertyPath(nameof(CanRemoveTokens)),
                     Mode = BindingMode.OneWay,
                 };
-                Token.SetBinding(Token.IsRemoveableProperty, isRemovableBinding);
+                tokenItem.SetBinding(TokenItem.IsRemoveableProperty, isRemovableBinding);
             }
         }
     }
@@ -118,15 +118,15 @@ public partial class TokenView : ListViewBase
         }
     }
 
-    private Token? GetCurrentContainerItem()
+    private TokenItem? GetCurrentContainerItem()
     {
         if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
         {
-            return FocusManager.GetFocusedElement(XamlRoot) as Token;
+            return FocusManager.GetFocusedElement(XamlRoot) as TokenItem;
         }
         else
         {
-            return FocusManager.GetFocusedElement() as Token;
+            return FocusManager.GetFocusedElement() as TokenItem;
         }
     }
 }
