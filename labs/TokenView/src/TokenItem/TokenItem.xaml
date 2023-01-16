@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
@@ -170,9 +170,9 @@
                               BorderThickness="{TemplateBinding BorderThickness}"
                               Control.IsTemplateFocusTarget="True"
                               CornerRadius="{TemplateBinding CornerRadius}">
-                            <Grid.BackgroundTransition>
-                                <BrushTransition Duration="0:0:0.083" />
-                            </Grid.BackgroundTransition>
+                            <win:Grid.BackgroundTransition>
+                                <win:BrushTransition Duration="0:0:0.083" />
+                            </win:Grid.BackgroundTransition>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -382,7 +382,7 @@
                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
                                                   FontWeight="{TemplateBinding FontWeight}"
                                                   Foreground="{TemplateBinding Foreground}"
-                                                  OpticalMarginAlignment="TrimSideBearings" />
+                                                  win:OpticalMarginAlignment="TrimSideBearings" />
                             </StackPanel>
                             <Button x:Name="PART_RemoveButton"
                                     Grid.Column="1"

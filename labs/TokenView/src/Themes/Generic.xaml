@@ -4,7 +4,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenView/TokenView.xaml" />
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/Token/Token.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.TokenView/TokenItem/TokenItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

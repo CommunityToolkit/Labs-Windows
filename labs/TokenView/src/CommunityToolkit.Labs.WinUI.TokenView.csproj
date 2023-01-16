@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="TokenView.xaml" />
-    <UpToDateCheckInput Remove="Token\Token.xaml" />
+    <UpToDateCheckInput Remove="TokenItem\TokenItem.xaml" />
   </ItemGroup>
 
   <ItemGroup>
