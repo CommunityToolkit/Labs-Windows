@@ -178,7 +178,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="SegmentedControlIconPositionStates">
+                                <VisualStateGroup x:Name="TokenItemIconPositionStates">
                                     <VisualState x:Name="IconOnLeft" />
                                     <VisualState x:Name="IconOnly">
                                         <VisualState.Setters>
@@ -193,7 +193,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
 
-                                <VisualStateGroup x:Name="TokenViewIsRemoveableStates">
+                                <VisualStateGroup x:Name="TokeItemIsRemoveableStates">
                                     <VisualState x:Name="RemoveButtonNotVisible" />
                                     <VisualState x:Name="RemoveButtonVisible">
                                         <VisualState.Setters>
@@ -378,11 +378,11 @@
                                                   VerticalAlignment="Center"
                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  win:OpticalMarginAlignment="TrimSideBearings"
                                                   BackgroundSizing="{TemplateBinding BackgroundSizing}"
                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
                                                   FontWeight="{TemplateBinding FontWeight}"
-                                                  Foreground="{TemplateBinding Foreground}"
-                                                  win:OpticalMarginAlignment="TrimSideBearings" />
+                                                  Foreground="{TemplateBinding Foreground}" />
                             </StackPanel>
                             <Button x:Name="PART_RemoveButton"
                                     Grid.Column="1"

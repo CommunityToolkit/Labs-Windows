@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <!-- Labs Constants -->
   <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
   <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
@@ -16,15 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="TokenViewSelectionSample.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="TokenViewRemoveSample.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckInput Remove="TokenViewBasicSample.xaml" />
+    <UpToDateCheckInput Remove="TokenViewItemsSourceSample.xaml" />
     <UpToDateCheckInput Remove="TokenViewRemoveSample.xaml" />
   </ItemGroup>
   
@@ -41,11 +34,8 @@
     <Compile Update="TokenViewBasicSample.xaml.cs">
       <DependentUpon>TokenViewBasicSample.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Content Update="TokenViewRemoveSample.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Content>
+    <Compile Update="TokenViewItemsSourceSample.xaml.cs">
+      <DependentUpon>TokenViewItemsSourceSample.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
