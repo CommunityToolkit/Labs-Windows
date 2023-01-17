@@ -33,4 +33,14 @@
 
   <!-- Include all base code to be tested -->
   <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\*.props" />
+
+  <ItemGroup>
+    <Content Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.png" Link="Assets\LockScreenLogo.png" />
+    <Content Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\Assets\SplashScreen.png" Link="Assets\SplashScreen.png" />
+    <Content Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.png" Link="Assets\Square150x150Logo.png" />
+    <Content Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.png" Link="Assets\Square44x44Logo.png" />
+    <Content Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" Link="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png" Link="Assets\StoreLogo.png" />
+    <Content Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Shared\Assets\Wide310x150Logo.png" Link="Assets\Wide310x150Logo.png" />
+  </ItemGroup>
 </Project>

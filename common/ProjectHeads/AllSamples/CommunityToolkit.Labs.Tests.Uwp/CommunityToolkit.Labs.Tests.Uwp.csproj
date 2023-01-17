@@ -43,30 +43,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
-  
-  <ItemGroup>
-    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\LockScreenLogo.png">
-      <Link>Assets\LockScreenLogo.scale-200.png</Link>
-    </Content>
-    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\SplashScreen.scale-200.png">
-      <Link>Assets\SplashScreen.scale-200.png</Link>
-    </Content>
-    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Square150x150Logo.scale-200.png">
-      <Link>Assets\Square150x150Logo.scale-200.png</Link>
-    </Content>
-    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.scale-200.png">
-      <Link>Assets\Square44x44Logo.scale-200.png</Link>
-    </Content>
-    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
-      <Link>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</Link>
-    </Content>
-    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\StoreLogo.png">
-      <Link>Assets\StoreLogo.png</Link>
-    </Content>
-    <Content Include="..\..\common\CommunityToolkit.Labs.Shared\Assets\Wide310x150Logo.scale-200.png">
-      <Link>Assets\Wide310x150Logo.scale-200.png</Link>
-    </Content>
-  </ItemGroup>
 
   <!-- Must be imported after any shared projects in non-sdk style projects -->
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
