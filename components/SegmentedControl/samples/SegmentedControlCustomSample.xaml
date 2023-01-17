@@ -9,7 +9,8 @@
       mc:Ignorable="d">
 
     <StackPanel Spacing="8">
-        <TextBlock Text="Icon + label" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                   Text="Icon + label" />
         <labs:Segmented SelectionMode="{x:Bind local:SegmentedControlCustomSample.ConvertStringToSelectionMode(SelectionMode), Mode=OneWay}">
             <labs:SegmentedItem>Item 1</labs:SegmentedItem>
             <labs:SegmentedItem>Item 2</labs:SegmentedItem>
@@ -17,21 +18,23 @@
             <labs:SegmentedItem>Item 4</labs:SegmentedItem>
         </labs:Segmented>
 
-        <TextBlock Margin="0,24,0,0" Text="Icon only" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+        <TextBlock Margin="0,24,0,0"
+                   Style="{StaticResource BodyStrongTextBlockStyle}"
+                   Text="Icon only" />
         <labs:Segmented SelectionMode="{x:Bind local:SegmentedControlCustomSample.ConvertStringToSelectionMode(SelectionMode), Mode=OneWay}">
             <labs:SegmentedItem ToolTipService.ToolTip="Day view">
                 <labs:SegmentedItem.Icon>
-                    <FontIcon Glyph="&#xE161;"/>
+                    <FontIcon Glyph="&#xE161;" />
                 </labs:SegmentedItem.Icon>
             </labs:SegmentedItem>
             <labs:SegmentedItem ToolTipService.ToolTip="Week view">
                 <labs:SegmentedItem.Icon>
-                    <FontIcon Glyph="&#xE162;"/>
+                    <FontIcon Glyph="&#xE162;" />
                 </labs:SegmentedItem.Icon>
             </labs:SegmentedItem>
             <labs:SegmentedItem ToolTipService.ToolTip="Month view">
                 <labs:SegmentedItem.Icon>
-                    <FontIcon Glyph="&#xE163;"/>
+                    <FontIcon Glyph="&#xE163;" />
                 </labs:SegmentedItem.Icon>
             </labs:SegmentedItem>
         </labs:Segmented>

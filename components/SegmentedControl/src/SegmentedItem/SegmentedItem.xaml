@@ -1,6 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:labs="using:CommunityToolkit.Labs.WinUI">
+                    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+                    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
@@ -169,7 +170,6 @@
                             ResourceKey="SystemColorButtonTextColor" />
             <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
 
-
             <StaticResource x:Key="PillItemPillBackground"
                             ResourceKey="AccentFillColorDefaultBrush" />
             <StaticResource x:Key="PillItemPillBackgroundPointerOver"
@@ -188,12 +188,11 @@
                             ResourceKey="SystemColorGrayTextColor" />
             <StaticResource x:Key="PillItemForegroundDisabled"
                             ResourceKey="SystemColorGrayTextColor" />
-
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
     <x:Double x:Key="SegmentedItemMinHeight">32</x:Double>
-    
+
     <Style BasedOn="{StaticResource DefaultSegmentedItemStyle}"
            TargetType="labs:SegmentedItem" />
 
@@ -207,7 +206,7 @@
             <Setter Property="BorderBrush" Value="{ThemeResource SegmentedItemBorderBrush}" />
             <Setter Property="Foreground" Value="{ThemeResource SegmentedItemForeground}" />
             <Setter Property="FontWeight" Value="Normal" />
-            <Setter Property="Height" Value="{ThemeResource SegmentedItemMinHeight}"/>
+            <Setter Property="Height" Value="{ThemeResource SegmentedItemMinHeight}" />
             <Setter Property="TabNavigation" Value="Local" />
             <Setter Property="UseSystemFocusVisuals" Value="True" />
             <Setter Property="FocusVisualMargin" Value="-3" />
@@ -218,16 +217,16 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SegmentedItem">
                         <Grid x:Name="PART_Root"
+                              MinHeight="{TemplateBinding Height}"
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="1"
-                              MinHeight="{TemplateBinding Height}"
-                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                               Control.IsTemplateFocusTarget="True"
                               CornerRadius="{TemplateBinding CornerRadius}">
-                            <Grid.BackgroundTransition>
-                                <BrushTransition Duration="0:0:0.083" />
-                            </Grid.BackgroundTransition>
+                            <win:Grid.BackgroundTransition>
+                                <win:BrushTransition Duration="0:0:0.083" />
+                            </win:Grid.BackgroundTransition>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="SegmentedIconPositionStates">
                                     <VisualState x:Name="IconOnLeft" />
@@ -386,9 +385,9 @@
                                     Background="Transparent"
                                     CornerRadius="{TemplateBinding CornerRadius}"
                                     RenderTransformOrigin="0.5, 0.5">
-                                <Border.BackgroundTransition>
-                                    <BrushTransition Duration="0:0:0.083" />
-                                </Border.BackgroundTransition>
+                                <win:Border.BackgroundTransition>
+                                    <win:BrushTransition Duration="0:0:0.083" />
+                                </win:Border.BackgroundTransition>
                                 <Border.RenderTransform>
                                     <CompositeTransform />
                                 </Border.RenderTransform>

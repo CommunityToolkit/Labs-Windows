@@ -7,10 +7,5 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <StackPanel Spacing="16">
-        <!--<labs:SegmentedControl_ClassicBinding FontFamily="{x:Bind TextFontFamily, Mode=OneWay}"
-                                             FontSize="{x:Bind TextSize, Mode=OneWay}"
-                                             Foreground="{x:Bind TextForeground, Mode=OneWay}"
-                                             Visibility="{x:Bind IsTextVisible, Mode=OneWay}" />-->
-    </StackPanel>
+    <StackPanel Spacing="16" />
 </Page>
