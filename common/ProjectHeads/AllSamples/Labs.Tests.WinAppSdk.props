@@ -1,6 +1,5 @@
 <Project>
-
-  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.props" />
+  <Import Project="$(MSBuildThisFileDirectory)/Labs.Tests.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.TestPlatform.TestHost">
