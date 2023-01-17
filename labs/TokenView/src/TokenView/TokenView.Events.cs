@@ -130,7 +130,7 @@ public partial class TokenView : ListViewBase
         {
             _hasLoaded = true;
 
-            // Need to set a tab's selection on load, otherwise ListView resets to null.
+            // Need to set a the selection on load, otherwise ListView resets to null.
             SetInitialSelection();
         }
     }

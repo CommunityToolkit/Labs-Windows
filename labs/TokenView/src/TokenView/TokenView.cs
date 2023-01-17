@@ -26,9 +26,7 @@ public partial class TokenView : ListViewBase
     /// <summary>
     /// Creates a new instance of the <see cref="TokenView"/> class.
     /// </summary>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public TokenView()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         this.DefaultStyleKey = typeof(TokenView);
 
