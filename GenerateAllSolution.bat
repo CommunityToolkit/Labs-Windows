@@ -1,0 +1,1 @@
+@powershell .\common\GenerateAllSolution.ps1

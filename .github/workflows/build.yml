@@ -82,7 +82,8 @@ jobs:
         run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 ${{ env.TARGET_PLATFORMS }}" -ErrorAction Stop
 
       - name: Generate solution w/ ${{ env.TEST_PLATFORM }} Tests
-        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1 -IncludeTests ${{ env.TEST_PLATFORM }}" -ErrorAction Stop
+        working-directory: ./
+        run: powershell -version 5.1 -command "./common/GenerateAllSolution.ps1 -IncludeTests ${{ env.TEST_PLATFORM }}" -ErrorAction Stop
 
       - name: Enable Uno.WinUI (in WinUI3 matrix only)
         working-directory: ./common/Scripts/
@@ -202,7 +203,8 @@ jobs:
 
       - name: Generate solution
         shell: pwsh
-        run: ./GenerateAllSolution.ps1
+        working-directory: ./
+        run: ./common/GenerateAllSolution.ps1
 
       - name: Install ninja for WASM native dependencies
         run: sudo apt-get install ninja-build
