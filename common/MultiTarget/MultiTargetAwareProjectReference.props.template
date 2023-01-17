@@ -16,7 +16,7 @@
 							($(IsiOS) == 'true' AND [CanTargetiOS] == 'true') OR
 							($(IsDroid) == 'true' AND [CanTargetDroid] == 'true')">
 			<ItemGroup>
-				<ProjectReference Include="$(MSBuildThisFileDirectory)\[ProjectRoot]\[ProjectFileName]" />
+				<ProjectReference Include="$(MSBuildThisFileDirectory)[ProjectRoot]\[ProjectFileName]" />
 			</ItemGroup>
 		</When>
 		<Otherwise>
