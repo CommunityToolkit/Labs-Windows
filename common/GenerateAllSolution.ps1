@@ -11,6 +11,7 @@ Param (
 # Set up constant values
 $generatedSolutionFilePath = 'Toolkit.Labs.All.sln'
 $platforms = '"Any CPU;x64;x86;ARM64"' # ARM64 is ignored here currently: https://github.com/microsoft/slngen/issues/437
+$slngenConfig = "--folders true --collapsefolders true --ignoreMainProject"
 
 # remove previous file if it exists
 if (Test-Path -Path $generatedSolutionFilePath)
@@ -61,7 +62,7 @@ $projects = [System.Collections.ArrayList]::new()
 	$solutionTemplate.RemoveAt($index);	
 }#>
 
-$cmd = "dotnet slngen -o $generatedSolutionFilePath --folders true --platform $platforms $($projects -Join ' ')"
+$cmd = "dotnet slngen -o $generatedSolutionFilePath $slngenConfig --platform $platforms $($projects -Join ' ')"
 
 Write-Output "Running Command: $cmd"
 
