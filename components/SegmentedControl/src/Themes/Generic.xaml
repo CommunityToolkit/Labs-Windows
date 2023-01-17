@@ -1,10 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI">
 
     <ResourceDictionary.MergedDictionaries>
-        <labs:SegmentedControlStyle_xBind />
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SegmentedControl/SegmentedControlStyle_ClassicBinding.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SegmentedControl/Segmented/Segmented.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SegmentedControl/SegmentedItem/SegmentedItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
 </ResourceDictionary>

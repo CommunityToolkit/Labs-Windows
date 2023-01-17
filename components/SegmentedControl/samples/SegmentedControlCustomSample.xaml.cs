@@ -7,10 +7,9 @@ namespace SegmentedControlExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-[ToolkitSampleTextOption("TitleText", "This is a title", Title = "Input the text")]
-[ToolkitSampleMultiChoiceOption("LayoutOrientation", "Horizontal", "Vertical", Title = "Orientation")]
+[ToolkitSampleMultiChoiceOption("SelectionMode", title: "Selection", "Single", "Multiple")]
 
-[ToolkitSample(id: nameof(SegmentedControlCustomSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(SegmentedControl)} custom control.")]
+[ToolkitSample(id: nameof(SegmentedControlCustomSample), "Basics", description: $"A sample for showing how to create and use a {nameof(Segmented)} custom control.")]
 public sealed partial class SegmentedControlCustomSample : Page
 {
     public SegmentedControlCustomSample()
@@ -19,10 +18,10 @@ public sealed partial class SegmentedControlCustomSample : Page
     }
 
     // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
-    public static Orientation ConvertStringToOrientation(string orientation) => orientation switch
+    public static ListViewSelectionMode ConvertStringToSelectionMode(string selectionMode) => selectionMode switch
     {
-        "Vertical" => Orientation.Vertical,
-        "Horizontal" => Orientation.Horizontal,
+        "Single" => ListViewSelectionMode.Single,
+        "Multiple" => ListViewSelectionMode.Multiple,
         _ => throw new System.NotImplementedException(),
     };
 }

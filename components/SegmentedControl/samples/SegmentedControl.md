@@ -1,6 +1,6 @@
 ---
 title: SegmentedControl
-author: githubaccount
+author: niels9001
 description: TODO: Your experiment's description here
 keywords: SegmentedControl, Control, Layout
 dev_langs:
@@ -45,20 +45,3 @@ The `_ClassicBinding` class shows the traditional method used to develop compone
 ### Implict style
 
 > [!SAMPLE SegmentedControlTemplatedSample]
-
-### Custom style
-
-> [!SAMPLE SegmentedControlTemplatedStyleCustomSample]
-
-## Templated Controls with x:Bind
-
-This is an _experimental_ new way to define components which allows for the use of x:Bind within the style.
-
-### Implict style
-
-> [!SAMPLE SegmentedControlXbindBackedSample]
-
-### Custom style
-
-> [!SAMPLE SegmentedControlXbindBackedStyleCustomSample]
-
