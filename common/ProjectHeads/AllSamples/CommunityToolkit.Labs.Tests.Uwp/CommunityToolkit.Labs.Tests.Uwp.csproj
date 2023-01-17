@@ -28,7 +28,7 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Uwp.Base.props" />
 
   <!-- Labs Test Config -->
-  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.Uwp.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectHeads\AllSamples\Labs.Tests.Uwp.props" />
 
   <PropertyGroup>
     <ProjectGuid>{FD78002E-C4E6-4BF8-9EC3-C06250DFEF34}</ProjectGuid>

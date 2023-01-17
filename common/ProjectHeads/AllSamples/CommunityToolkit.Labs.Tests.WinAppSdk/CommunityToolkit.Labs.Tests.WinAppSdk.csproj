@@ -25,7 +25,7 @@
   <Import Project="$(RepositoryDirectory)common\Labs.Head.WinAppSdk.props" />
 
   <!-- Labs Test Config -->
-  <Import Project="$(RepositoryDirectory)tests\Labs.Tests.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectHeads\AllSamples\Labs.Tests.WinAppSdk.props" />
 
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Labs.Tests</RootNamespace>

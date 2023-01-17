@@ -1,5 +1,4 @@
 <Project>
-
   <!-- Source generators -->
   <ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />

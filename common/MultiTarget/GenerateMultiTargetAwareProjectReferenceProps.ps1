@@ -19,9 +19,9 @@ Param (
 )
 
 $preWorkingDir = $pwd;
-Set-Location $PSScriptRoot;
+Set-Location (Split-Path -Parent $outputPath)
 
-$relativeProjectPath = Invoke-Expression -C "(Resolve-Path -Relative -Path $projectPath)";
+$relativeProjectPath = Resolve-Path -Relative -Path $projectPath
 $templateContents = Get-Content -Path $templatePath;
 
 Set-Location $preWorkingDir;
