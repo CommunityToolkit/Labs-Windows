@@ -83,7 +83,7 @@ jobs:
 
       - name: Generate solution w/ ${{ env.TEST_PLATFORM }} Tests
         working-directory: ./
-        run: powershell -version 5.1 -command "./common/GenerateAllSolution.ps1 -IncludeTests ${{ env.TEST_PLATFORM }}" -ErrorAction Stop
+        run: powershell -version 5.1 -command "./common/GenerateAllSolution.ps1 -IncludeHeads ${{ env.TEST_PLATFORM }}" -ErrorAction Stop
 
       - name: Enable Uno.WinUI (in WinUI3 matrix only)
         working-directory: ./common/Scripts/

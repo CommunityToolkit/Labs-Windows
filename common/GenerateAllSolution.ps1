@@ -1,7 +1,26 @@
+<#
+.SYNOPSIS
+    Generates the solution file comprising of platform heads for samples, individual component projects, and tests.
+.DESCRIPTION
+    Used mostly for CI building of everything and testing end-to-end scenarios involving the full
+    sample app experience.
+
+    Otherwise it is recommended to focus on an individual component's solution instead.
+.PARAMETER IncludeHeads
+    List of TFM based projects to include. This can be 'all', 'uwp', or 'winappsdk'.
+
+    Defaults to 'all' for local-use.
+.EXAMPLE
+    C:\PS> .\GenerateAllSolution -IncludeHeads winappsdk
+    Build a solution that doesn't contain UWP projects.
+.NOTES
+    Author: Windows Community Toolkit Labs Team
+    Date:   April 27, 2022
+#>
 Param (
-    [Parameter(HelpMessage = "The WinUI version to use when building an Uno head.", ParameterSetName = "UseUnoWinUI")]
+    [Parameter(HelpMessage = "The heads to include for building platform samples and tests.", ParameterSetName = "IncludeHeads")]
     [ValidateSet('all', 'uwp', 'winappsdk')]
-    [string]$IncludeTests = 'all'
+    [string]$IncludeHeads = 'all'
 )
 
 # Generate required props for "All" solution.
@@ -27,10 +46,31 @@ $projects = [System.Collections.ArrayList]::new()
 [void]$projects.Add(".\common\**\*.*proj")
 
 # Sample Apps
-[void]$projects.Add(".\platforms\**\*.csproj") # All Platform heads TODO uwp/winappsdk/uno split
+if ($IncludeHeads -ne 'winappsdk')
+{
+    [void]$projects.Add(".\platforms\**\*.Uwp.csproj")
+}
+
+if ($IncludeHeads -ne 'uwp')
+{
+    [void]$projects.Add(".\platforms\**\*.WinAppSdk.csproj")
+}
+
+[void]$projects.Add(".\platforms\**\*.Droid.csproj")
+[void]$projects.Add(".\platforms\**\*.*OS.csproj")
+[void]$projects.Add(".\platforms\**\*.Skia.*.csproj")
+[void]$projects.Add(".\platforms\**\*.Wasm.csproj")
 
 # Tests
-[void]$projects.Add(".\tests\**\*.csproj") # Test Runner heads TODO: one or other for uwp/winappsdk
+if ($IncludeHeads -ne 'winappsdk')
+{
+    [void]$projects.Add(".\tests\**\*.Uwp.csproj")
+}
+
+if ($IncludeHeads -ne 'uwp')
+{
+    [void]$projects.Add(".\tests\**\*.WinAppSdk.csproj")
+}
 
 # Individual projects
 [void]$projects.Add(".\labs\**\src\*.csproj")
