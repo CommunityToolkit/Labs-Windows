@@ -201,6 +201,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # Restore Tools from Manifest list in the Repository
+      - name: Restore dotnet tools
+        run: dotnet tool restore
+
       - name: Generate solution
         shell: pwsh
         working-directory: ./
