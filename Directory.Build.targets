@@ -18,4 +18,17 @@
     <None Include="$(RepositoryDirectory)ThirdPartyNotices.txt" Pack="true" PackagePath="\" />
   </ItemGroup>-->
 
+  <ItemGroup>
+    <SlnGenCustomProjectTypeGuid Include=".shproj" ProjectTypeGuid="{D954291E-2A0B-460D-934E-DC6B0785DB48}"/>
+
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory).editorconfig" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)settings.xamlstyler" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)License.md" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)ReadMe.md" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)common\GlobalUsings.cs" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)common\GlobalUsings_Samples.cs" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)common\GlobalUsings_Tests.cs" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)common\GlobalUsings_WinUI.cs" />
+  </ItemGroup>
+
 </Project>
