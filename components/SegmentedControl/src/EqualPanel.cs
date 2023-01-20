@@ -13,7 +13,6 @@ public partial class EqualPanel : Panel
     protected override Size ArrangeOverride(Size finalSize)
     {
         var x = 0.0;
-        var y = 0.0;
         foreach (var child in Children)
         {
             var newpos = new Rect(x, 0, maxItemWidth, maxItemHeight);

@@ -1,4 +1,4 @@
-// // Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,8 +11,13 @@ public partial class Segmented : ListViewBase
     public Segmented()
     {
         this.DefaultStyleKey = typeof(Segmented);
+
+        #if !HAS_UNO
         ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
+#endif
     }
+
+    #if !HAS_UNO
     private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
     {
         var action = (CollectionChange)e.Action;
@@ -22,6 +27,8 @@ public partial class Segmented : ListViewBase
             _hasLoaded = false;
         }
     }
+#endif
+
     protected override DependencyObject GetContainerForItemOverride() => new SegmentedItem();
 
     protected override bool IsItemItsOwnContainerOverride(object item)
