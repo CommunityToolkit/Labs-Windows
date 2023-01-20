@@ -26,7 +26,7 @@
 
   <!-- Labs Project Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Head.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.SampleRefs.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\*.props" />
 
   <PropertyGroup>
     <RootNamepace>CommunityToolkit.Labs.WinAppSdk</RootNamepace>

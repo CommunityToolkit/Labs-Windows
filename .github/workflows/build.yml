@@ -24,15 +24,14 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Needed until XAML Styler updates to .NET 6
-      - name: Install .NET Core 3.1 SDK
-        uses: actions/setup-dotnet@v1
+      - name: Install .NET 6 SDK
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '3.1.x'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -41,21 +40,27 @@ jobs:
       - name: Check XAML Styling
         run: powershell -version 5.1 -command "./ApplyXamlStyling.ps1 -Passive" -ErrorAction Stop
 
-  # This workflow contains a single job called "Build-WinUI-2"
-  Build-WinUI-2:
+  # Build both Uno.UI/WinUI2/UWP and Uno.WinUI/WinUI3/WindowsAppSDK versions of our packages using a matrix
+  build:
     needs: [Xaml-Style-Check]
     runs-on: windows-latest
+
+    # See https://docs.github.com/actions/using-jobs/using-a-matrix-for-your-jobs
+    strategy:
+      fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them both to run to completion.
+      matrix:
+        platform: [WinUI2, WinUI3]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Install .NET 6 SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.202'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -74,86 +79,12 @@ jobs:
       - name: Generate solution
         run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
 
-      - name: MSBuild
-      # working-directory: ./
-        run: msbuild.exe Toolkit.Labs.All.sln /restore -p:Configuration=Release
-
-      # Build All Packages
-      - name: pack experiments
-        working-directory: ./common/Scripts/
-        run: ./PackEachExperiment.ps1 all
-
-      # Push Packages to our DevOps Artifacts Feed
-      - name: Add source
-        if: ${{github.ref == 'refs/heads/main'}}
-        run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
-
-      - name: Push packages
-        if: ${{github.ref == 'refs/heads/main'}}
-        run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
-
-      # Run tests
-      - name: Setup VSTest Path
-        uses: darenm/Setup-VSTest@v1
-
-      - name: Install Testspace Module
-        uses: testspace-com/setup-testspace@v1
-        with:
-          domain: ${{ github.repository_owner }}
-
-      - name: Run SourceGenerators tests
-        run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
-
-      - name: Run experiment tests against UWP
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
-
-      - name: Run experiment tests against WinAppSDK
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
-
-      - name: Create test reports
-        run: |
-          testspace '[WinUI2]./TestResults/*.trx'
-        if: always()
-
-  # This workflow contains a single job called "Build-WinUI-3"
-  Build-WinUI-3:
-    needs: [Xaml-Style-Check]
-    runs-on: windows-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - name: Install .NET 6 SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.202'
-
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      # Restore Tools from Manifest list in the Repository
-      - name: Restore dotnet tools
-        run: dotnet tool restore
-
-      - name: Run Uno Check to Install Dependencies
-        run: dotnet tool run uno-check --ci --fix --non-interactive --skip wsl --skip androidemulator --verbose
-
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.3
-
-      - name: Enable all TargetFrameworks
-        working-directory: ./common/Scripts/
-        run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 all" -ErrorAction Stop
-
-      - name: Generate solution
-        run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
-
-      - name: Enable WinUI 3
+      - name: Enable Uno.WinUI (in WinUI3 matrix only)
         working-directory: ./common/Scripts/
         run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3" -ErrorAction Stop
+        if: ${{ matrix.platform == 'WinUI3' }}
 
       - name: MSBuild
-       # working-directory: ./
         run: msbuild.exe Toolkit.Labs.All.sln /restore /nowarn:MSB4011 -p:Configuration=Release
 
       # Build All Packages
@@ -180,33 +111,36 @@ jobs:
           domain: ${{ github.repository_owner }}
 
       - name: Run SourceGenerators tests
+        id: test-generator
         run: vstest.console.exe ./common/CommunityToolkit.Labs.Core.SourceGenerators.Tests/CommunityToolkit.Labs.Core.SourceGenerators.Tests/bin/Release/net6.0/CommunityToolkit.Labs.Core.SourceGenerators.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
       - name: Run experiment tests against UWP
+        id: test-uwp
         run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=UWP.trx"
 
       - name: Run experiment tests against WinAppSDK
+        id: test-winappsdk
         run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=WinAppSdk.trx"
 
       - name: Create test reports
         run: |
-          testspace '[WinUI3]./TestResults/*.trx'
-        if: always()
+          testspace '[${{ matrix.platform }}]./TestResults/*.trx'
+        if: ${{ always() && (steps.test-generator.conclusion == 'success' || steps.test-uwp.conclusion == 'success' || steps.test-winappsdk.conclusion == 'success') }}
 
-  # Test/temp job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
-  experiment:
+  # Test job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
+  new-experiment:
     needs: [Xaml-Style-Check]
     runs-on: windows-latest
 
     steps:
       - name: Install .NET 6 SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.202'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
@@ -239,15 +173,17 @@ jobs:
           domain: ${{ github.repository_owner }}
 
       - name: Run tests in the generated experiment against UWP
+        id: test-uwp
         run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpUWP.trx"
 
       - name: Run tests in the generated experiment against WinAppSDK
+        id: test-winappsdk
         run:  vstest.console.exe ./labs/CiTestExp/**/CiTestExp.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=CiTestExpWinAppSdk.trx"
 
       - name: Create test reports
         run: |
           testspace '[New Experiment]./TestResults/*.trx'
-        if: always()
+        if: ${{ always() && (steps.test-uwp.conclusion == 'success' || steps.test-winappsdk.conclusion == 'success') }}
 
   wasm-linux:
     needs: [Xaml-Style-Check]
@@ -255,13 +191,13 @@ jobs:
 
     steps:
       - name: Install .NET 6 SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.201'
+          dotnet-version: '6.0.x'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Generate solution
         shell: pwsh
@@ -274,6 +210,6 @@ jobs:
       # See launch.json configuration file for analogous command we're emulating here to build LINK: ../../.vscode/launch.json:CommunityToolkit.Labs.Wasm.csproj
       - name: dotnet build
         working-directory: ./platforms/CommunityToolkit.Labs.Wasm/
-        run: dotnet build /r /bl /p:UnoSourceGeneratorUseGenerationHost=true /p:UnoSourceGeneratorUseGenerationController=false -p:TargetFrameworks=netstandard2.0 -p:TargetFramework=net5.0
+        run: dotnet build /r /bl /p:UnoSourceGeneratorUseGenerationHost=true /p:UnoSourceGeneratorUseGenerationController=false
   
       # TODO: Do we want to run tests here? Can we do that on linux easily?

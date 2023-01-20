@@ -156,13 +156,12 @@ public sealed partial class ToolkitSampleRenderer : Page
         CSharpCode = await GetMetadataFileContents(Metadata, "xaml.cs");
 
         var sampleControlInstance = (UIElement)Metadata.SampleControlFactory();
-       
+
         // Custom control-based sample options.
         if (Metadata.SampleOptionsPaneType is not null && Metadata.SampleOptionsPaneFactory is not null)
         {
             SampleOptionsPaneInstance = (UIElement)Metadata.SampleOptionsPaneFactory(sampleControlInstance);
         }
-
         // Source generater-based sample options
         else if (sampleControlInstance is IToolkitSampleGeneratedOptionPropertyContainer propertyContainer)
         {
@@ -174,6 +173,10 @@ public sealed partial class ToolkitSampleRenderer : Page
             {
                 SampleOptions = propertyContainer.GeneratedPropertyMetadata
             };
+        }
+        else
+        {
+            OptionsScrollViewer.Visibility = Visibility.Collapsed;
         }
 
         // Generated options must be assigned before attempting to render the control,

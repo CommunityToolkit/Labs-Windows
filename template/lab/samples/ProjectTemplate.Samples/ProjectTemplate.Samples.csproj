@@ -5,10 +5,10 @@
   
   <!-- Labs Platform Config -->
   <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.MultiTarget.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
 
   <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Sample.props" />
+  <Import Project="$(RepositoryDirectory)common\SampleProjectConfig.props" />
 
   <PropertyGroup>
     <RootNamespace>ProjectTemplateExperiment.Samples</RootNamespace>

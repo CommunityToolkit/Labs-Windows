@@ -1,19 +1,31 @@
 <Project>
   <PropertyGroup>
-    <!--
-      TargetFramework for WasmLibTargetFramework, WpfLibTargetFramework, and LinuxLibTargetFramework all use the same value.
+    <MultiTargetIsSampleProject Condition="$(MSBuildProjectName.EndsWith('.Samples')) == 'true'">true</MultiTargetIsSampleProject>
+  </PropertyGroup>
 
-      This can't be removed during the evaluation phase without breaking things, so we omit them entirely
-      and use the value directly.
+  <Import Project="$(MSBuildProjectDirectory)\MultiTarget.props" Condition="Exists('$(MSBuildProjectDirectory)\MultiTarget.props') AND '$(MultiTarget)' == ''" />
+
+  <!-- If in a sample project, pull the MultiTarget settings from the source project. -->
+  <!-- This behavior is also implemented in GeneratedAllProjectReferences.ps1 for <ProjectReference> generation. -->
+  <Import Project="../../src/MultiTarget.props" Condition="$(MultiTargetIsSampleProject) == 'true' AND !Exists('$(MSBuildProjectDirectory)\MultiTarget.props') AND Exists('../../src/MultiTarget.props') AND '$(MultiTarget)' == ''" />
+  
+  <Import Project="$(MSBuildThisFileDirectory)\Defaults.props" Condition="'$(MultiTarget)' == ''" />
+
+  <PropertyGroup>
+    <!--
+      MultiTarget is a custom property that indicates which target a project is designed to be built for / run on.
+      Used to create project references, generate solution files, enable/disable TargetFrameworks, and build nuget packages.
     -->
-    <TargetFrameworks>
-      $(NetStandardCommonTargetFramework);
-      $(UwpTargetFramework);
-      $(WinAppSdkTargetFramework);
-      $(MacOSLibTargetFramework);
-      $(iOSLibTargetFramework);
-      $(AndroidLibTargetFramework);
-    </TargetFrameworks>
+    <TargetFrameworks Condition="$(MultiTarget.Contains('uwp')) == 'true'">$(TargetFrameworks);$(UwpTargetFramework)</TargetFrameworks>
+    <TargetFrameworks Condition="$(MultiTarget.Contains('wasdk')) == 'true'">$(TargetFrameworks);$(WinAppSdkTargetFramework)</TargetFrameworks>
+    <!--
+      TargetFrameworks for WasmLibTargetFramework, WpfLibTargetFramework, and LinuxLibTargetFramework all use the same value.
+      Duplicate values can't be removed during the evaluation phase without breaking things, so we use the value directly.
+    -->
+    <TargetFrameworks Condition="$(MultiTarget.Contains('wasm')) == 'true' OR $(MultiTarget.Contains('wpf')) == 'true' OR $(MultiTarget.Contains('linuxgtk')) == 'true'">$(TargetFrameworks);$(NetStandardCommonTargetFramework)</TargetFrameworks>
+    <TargetFrameworks Condition="$(MultiTarget.Contains('macos')) == 'true'">$(TargetFrameworks);$(MacOSLibTargetFramework)</TargetFrameworks>
+    <TargetFrameworks Condition="$(MultiTarget.Contains('ios')) == 'true'">$(TargetFrameworks);$(iOSLibTargetFramework)</TargetFrameworks>
+    <TargetFrameworks Condition="$(MultiTarget.Contains('android')) == 'true'">$(TargetFrameworks);$(AndroidLibTargetFramework)</TargetFrameworks>
 
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
@@ -25,13 +37,15 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
   </PropertyGroup>
+
   <PropertyGroup>
     <!-- These suppressions are for references between generated assemblies and that VS can keep in the Error List once resolved -->
     <NoWarn>WMC1006;CS8034;</NoWarn>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Condition="'$(TargetFramework)' == '$(UwpTargetFramework)'" Include="Microsoft.UI.Xaml" Version="2.7.0" />
-    <PackageReference Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'" Include="Microsoft.WindowsAppSDK" Version="1.0.3" />
+    <PackageReference Condition="'$(TargetFramework)' == '$(WinAppSdkTargetFramework)'" Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +60,7 @@
     </Compile>
     <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
   </ItemGroup>
+
   <ItemGroup>
     <None Remove="obj\bin\**" />
     <Page Remove="obj\bin\**" />

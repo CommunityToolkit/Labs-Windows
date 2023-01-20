@@ -4,6 +4,10 @@ Param (
     [string]$UseUnoWinUI = 2
 )
 
+# Generate required props for "All" solution.
+& ./common/MultiTarget/GenerateAllProjectReferences.ps1
+& ./common/GenerateVSCodeLaunchConfig.ps1
+
 # Set WinUI version for Uno projects
 $originalWorkingDirectory = Get-Location;
 
@@ -243,6 +247,3 @@ $solutionTemplate = $solutionTemplate -replace "(?m)^\s*`r`n", "";
 # Save
 Set-Content -Path $generatedSolutionFilePath -Value $solutionTemplate;
 Write-Output "Solution generated at $generatedSolutionFilePath";
-
-# Run sample discovery
-& ./DiscoverSamples.ps1

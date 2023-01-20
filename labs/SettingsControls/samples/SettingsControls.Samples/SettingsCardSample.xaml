@@ -6,7 +6,7 @@
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <StackPanel Spacing="4">
+    <StackPanel Spacing="3">
         <TextBlock Margin="1,0,0,4"
                    Style="{StaticResource BodyStrongTextBlockStyle}"
                    Text="Group of settings" />
@@ -29,7 +29,7 @@
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.HeaderIcon>
                 <BitmapIcon ShowAsMonochrome="False"
-                            UriSource="https://raw.githubusercontent.com/microsoft/PowerToys/main/src/settings-ui/Settings.UI/Assets/FluentIcons/FluentIconsImageResizer.png" />
+                            UriSource="ms-appx:///Assets/AppTitleBar.scale-200.png" />
             </labs:SettingsCard.HeaderIcon>
             <ToggleSwitch />
         </labs:SettingsCard>
@@ -43,7 +43,7 @@
                     Style="{StaticResource AccentButtonStyle}" />
         </labs:SettingsCard>
 
-        <labs:SettingsCard Description="When resizing a SettingsCard, the Content will wrap vertically. You can override this breakpoint by setting the SettingsCardWrapThreshold resource."
+        <labs:SettingsCard Description="When resizing a SettingsCard, the Content will wrap vertically. You can override this breakpoint by setting the SettingsCardWrapThreshold resource. For edge cases, you can also hide the icon by setting SettingsCardWrapNoIconThreshold."
                            Header="Adaptive layouts"
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.HeaderIcon>
@@ -51,6 +51,7 @@
             </labs:SettingsCard.HeaderIcon>
             <labs:SettingsCard.Resources>
                 <x:Double x:Key="SettingsCardWrapThreshold">800</x:Double>
+                <x:Double x:Key="SettingsCardWrapNoIconThreshold">600</x:Double>
             </labs:SettingsCard.Resources>
             <Button Content="This control will wrap vertically!"
                     Style="{StaticResource AccentButtonStyle}" />
