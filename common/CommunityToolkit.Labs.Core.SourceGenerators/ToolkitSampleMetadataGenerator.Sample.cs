@@ -65,7 +65,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                         return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
 
                     if (x.Item2.TryReconstructAs<ToolkitSampleSliderOptionAttribute>() is ToolkitSampleSliderOptionAttribute sliderOptionAttribute)
-                        return (x.Item1, (ToolkitSampleSliderOptionAttribute)sliderOptionAttribute);
+                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)sliderOptionAttribute);
 
                     if (x.Item2.TryReconstructAs<ToolkitSampleTextOptionAttribute>() is ToolkitSampleTextOptionAttribute textOptionAttribute)
                         return (x.Item1, (ToolkitSampleOptionBaseAttribute)textOptionAttribute);
