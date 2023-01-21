@@ -14,11 +14,11 @@ public partial class ExampleSegmentedControlTestClass : VisualUITestBase
     [TestMethod]
     public void SimpleSynchronousExampleTest()
     {
-        var assembly = typeof(SegmentedControl).Assembly;
-        var type = assembly.GetType(typeof(SegmentedControl).FullName ?? string.Empty);
+        var assembly = typeof(Segmented).Assembly;
+        var type = assembly.GetType(typeof(Segmented).FullName ?? string.Empty);
 
         Assert.IsNotNull(type, "Could not find SegmentedControl type.");
-        Assert.AreEqual(typeof(SegmentedControl), type, "Type of SegmentedControl does not match expected type.");
+        Assert.AreEqual(typeof(Segmented), type, "Type of SegmentedControl does not match expected type.");
     }
 
     // If you don't need access to UI objects directly, use this pattern.
@@ -45,7 +45,7 @@ public partial class ExampleSegmentedControlTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public void SimpleUIAttributeExampleTest()
     {
-        var component = new SegmentedControl();
+        var component = new Segmented();
         Assert.IsNotNull(component);
     }
 
@@ -56,7 +56,7 @@ public partial class ExampleSegmentedControlTestClass : VisualUITestBase
     public void SimpleUIExamplePageTest(ExampleSegmentedControlTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<SegmentedControl_ClassicBinding>();
+        var component = page.FindDescendant<Segmented>();
 
         Assert.IsNotNull(component);
 
@@ -72,7 +72,7 @@ public partial class ExampleSegmentedControlTestClass : VisualUITestBase
         // This helper can be used to wait for a rendering pass to complete.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<SegmentedControl_ClassicBinding>();
+        var component = page.FindDescendant<Segmented>();
 
         Assert.IsNotNull(component);
     }
@@ -87,7 +87,7 @@ public partial class ExampleSegmentedControlTestClass : VisualUITestBase
     {
         await EnqueueAsync(() =>
         {
-            var component = new SegmentedControl_ClassicBinding();
+            var component = new Segmented();
             Assert.IsNotNull(component);
         });
     }
@@ -99,7 +99,7 @@ public partial class ExampleSegmentedControlTestClass : VisualUITestBase
     {
         await EnqueueAsync(async () =>
         {
-            var component = new SegmentedControl_ClassicBinding();
+            var component = new Segmented();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -117,7 +117,7 @@ public partial class ExampleSegmentedControlTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new SegmentedControl_ClassicBinding();
+        var component = new Segmented();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 
