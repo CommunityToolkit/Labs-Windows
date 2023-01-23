@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="TokenViewExperiment.Samples.TokenViewItemsSourceSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,7 +13,19 @@
                     CanReorderItems="True"
                     ItemsSource="{x:Bind MyDataSet, Mode=OneWay}"
                     SelectedIndex="1"
+                    SelectionChanged="TokenView_SelectionChanged"
                     SelectionMode="Single">
+        <labs:TokenView.Header>
+            <TextBlock Margin="0,0,12,0"
+                       VerticalAlignment="Center">
+                <Run Text="Selected:" />
+                <Run x:Name="selectedTxt"
+                     FontWeight="SemiBold" />
+            </TextBlock>
+        </labs:TokenView.Header>
+        <labs:TokenView.Footer>
+            <HyperlinkButton Content="Learn more" />
+        </labs:TokenView.Footer>
         <labs:TokenView.ItemTemplate>
             <DataTemplate x:DataType="local:MyDataModel">
                 <Grid>

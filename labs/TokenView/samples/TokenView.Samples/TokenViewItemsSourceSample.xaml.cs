@@ -68,6 +68,11 @@ public sealed partial class TokenViewItemsSourceSample : Page
     {
         this.InitializeComponent();
     }
+
+    private void TokenView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        selectedTxt.Text = ((MyDataModel)((TokenView)sender).SelectedItem).Name;
+    }
 }
 
 public class MyDataModel

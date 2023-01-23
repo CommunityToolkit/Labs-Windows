@@ -29,6 +29,7 @@ public partial class TokenView : ListViewBase
 
     private void _tokenViewScroller_ViewChanging(object? sender, ScrollViewerViewChangingEventArgs e)
     {
+#if !HAS_UNO
         if (_tokenViewScrollBackButton != null)
         {
             if (e.FinalView.HorizontalOffset < 1)
@@ -55,6 +56,7 @@ public partial class TokenView : ListViewBase
                 }
             }
         }
+#endif
     }
 
     private void ScrollViewer_Loaded(object sender, RoutedEventArgs e)

@@ -32,7 +32,10 @@ public partial class TokenView : ListViewBase
 
         // Container Generation Hooks
         RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
+
+#if !HAS_UNO
         ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
+#endif
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new TokenItem();
