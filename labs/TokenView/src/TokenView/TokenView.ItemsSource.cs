@@ -16,12 +16,14 @@ public partial class TokenView : ListViewBase
 
     private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
     {
+        #if !HAS_UNO
         var action = (CollectionChange)e.Action;
         if (action == CollectionChange.Reset)
         {
             // Reset collection to reload later.
             _hasLoaded = false;
         }
+#endif
     }
 
     private void SetInitialSelection()
