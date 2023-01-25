@@ -21,9 +21,9 @@ public sealed class ToolkitSampleBoolOptionAttribute : ToolkitSampleOptionBaseAt
     /// <param name="defaultState">The initial value for the bound property.</param>
     /// <param name="title">A title to display on top of this option.</param>
     public ToolkitSampleBoolOptionAttribute(string bindingName, bool defaultState)
-        : base(bindingName, null)
+        : base(bindingName, defaultState)
     {
-
+ 
     }
 
     /// <summary>

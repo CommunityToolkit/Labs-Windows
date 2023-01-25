@@ -12,7 +12,7 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 public class ToolkitSampleSliderOptionMetadataViewModel : IGeneratedToolkitSampleOptionViewModel
 {
     private string? _title;
-    private object? _value;
+    private object _value;
 
     /// <summary>
     /// Creates a new instance of <see cref="ToolkitSampleSliderOptionMetadataViewModel"/>.
@@ -44,9 +44,9 @@ public class ToolkitSampleSliderOptionMetadataViewModel : IGeneratedToolkitSampl
     /// <summary>
     /// The initial double value.
     /// </summary>
-    public double? Initial
+    public double Initial
     {
-        get => (double?)_value;
+        get => (double)_value;
         set
         {
             _value = value;

@@ -16,18 +16,13 @@
         <local:GeneratedSampleOptionTemplateSelector x:Key="GeneratedSampleOptionTemplateSelector">
             <local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleBoolOptionMetadataViewModel">
-                    <StackPanel>
-                        <TextBlock Text="{x:Bind Title}"
-                                   Visibility="{x:Bind local:GeneratedSampleOptionsRenderer.NullOrWhiteSpaceToVisibility(Title)}" />
-                        <!--<CheckBox Content="{x:Bind Title}"
-                                  IsChecked="{x:Bind BoolValue, Mode=TwoWay}" />-->
-                        <ToggleSwitch IsOn="{x:Bind BoolValue, Mode=TwoWay}" />
-                    </StackPanel>
+                    <ToggleSwitch Header="{x:Bind Title, Mode=OneWay}"
+                                  IsOn="{x:Bind BoolValue, Mode=TwoWay}" />
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.BoolOptionTemplate>
             <local:GeneratedSampleOptionTemplateSelector.MultiChoiceOptionTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleMultiChoiceOptionMetadataViewModel">
-                    <ComboBox Header="{x:Bind Title}"
+                    <ComboBox Header="{x:Bind Title, Mode=OneWay}"
                               ItemsSource="{x:Bind Options}"
                               SelectedIndex="0"
                               SelectedItem="{x:Bind Value, Mode=TwoWay}" />
@@ -44,7 +39,8 @@
             </local:GeneratedSampleOptionTemplateSelector.SliderOptionTemplate>
             <local:GeneratedSampleOptionTemplateSelector.TextOptionTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleTextOptionMetadataViewModel">
-                    <TextBox Header="{x:Bind Title}"
+                    <TextBox HorizontalAlignment="Stretch"
+                             Header="{x:Bind Title, Mode=OneWay}"
                              Text="{x:Bind PlaceholderText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.TextOptionTemplate>
@@ -52,5 +48,12 @@
     </UserControl.Resources>
 
     <ItemsControl ItemTemplateSelector="{StaticResource GeneratedSampleOptionTemplateSelector}"
-                  ItemsSource="{x:Bind SampleOptions, Mode=OneWay}" />
+                  ItemsSource="{x:Bind SampleOptions, Mode=OneWay}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Vertical"
+                            Spacing="12" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
 </UserControl>

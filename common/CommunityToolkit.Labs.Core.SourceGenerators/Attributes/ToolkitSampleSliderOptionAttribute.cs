@@ -33,22 +33,22 @@ public sealed class ToolkitSampleSliderOptionAttribute : ToolkitSampleOptionBase
     /// <summary>
     /// The default start value.
     /// </summary>
-    public double? Initial { get; }
+    public double Initial { get; }
 
     /// <summary>
     /// The minimal value.
     /// </summary>
-    public double? Min { get; }
+    public double Min { get; }
 
     /// <summary>
     /// The maximum value.
     /// </summary>
-    public double? Max { get; }
+    public double Max { get; }
 
     /// <summary>
     /// The step value.
     /// </summary>
-    public double? Step { get; }
+    public double Step { get; }
 
     /// <summary>
     /// The source generator-friendly type name used for casting.
