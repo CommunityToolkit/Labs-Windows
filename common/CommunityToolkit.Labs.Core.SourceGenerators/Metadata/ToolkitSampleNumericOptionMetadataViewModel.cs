@@ -7,24 +7,25 @@ using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 namespace CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
 
 /// <summary>
-/// An INPC-enabled metadata container for data defined in an <see cref="ToolkitSampleSliderOptionAttribute"/>.
+/// An INPC-enabled metadata container for data defined in an <see cref="ToolkitSampleNumericOptionAttribute"/>.
 /// </summary>
-public class ToolkitSampleSliderOptionMetadataViewModel : IGeneratedToolkitSampleOptionViewModel
+public class ToolkitSampleNumericOptionMetadataViewModel : IGeneratedToolkitSampleOptionViewModel
 {
     private string? _title;
     private object _value;
 
     /// <summary>
-    /// Creates a new instance of <see cref="ToolkitSampleSliderOptionMetadataViewModel"/>.
+    /// Creates a new instance of <see cref="ToolkitSampleNumericOptionMetadataViewModel"/>.
     /// </summary>
-    public ToolkitSampleSliderOptionMetadataViewModel(string name, double initial = 0, double min = 0, double max = 10, double step = 1, string? title = null)
+    public ToolkitSampleNumericOptionMetadataViewModel(string name, double initial = 0, double min = 0, double max = 10, double step = 1, bool showAsNumberBox = false, string? title = null)
     {
         Name = name;
         _title = title;
         _value = initial;
         Max = max;
         Min = min;
-        Step = step;;
+        Step = step;
+        ShowAsNumberBox = showAsNumberBox;
     }
 
     /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged"/>
@@ -34,7 +35,7 @@ public class ToolkitSampleSliderOptionMetadataViewModel : IGeneratedToolkitSampl
     /// A unique identifier for this option.
     /// </summary>
     /// <remarks>
-    /// Used by the sample system to match up <see cref="ToolkitSampleSliderOptionMetadataViewModel"/> to the original <see cref="ToolkitSampleSliderOptionAttribute"/> and the control that declared it.
+    /// Used by the sample system to match up <see cref="ToolkitSampleNumericOptionMetadataViewModel"/> to the original <see cref="ToolkitSampleNumericOptionAttribute"/> and the control that declared it.
     /// </remarks>
     public string Name { get; }
 
@@ -79,6 +80,11 @@ public class ToolkitSampleSliderOptionMetadataViewModel : IGeneratedToolkitSampl
     /// The StepFrequency value of the slider.
     /// </summary>
     public double Step { get; }
+
+    /// <summary>
+    /// Determines if a Slider or NumberBox is shown.
+    /// </summary>
+    public bool ShowAsNumberBox { get; }
 
     /// <summary>
     /// A label to display along the slider.

@@ -29,7 +29,7 @@
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.MultiChoiceOptionTemplate>
             <local:GeneratedSampleOptionTemplateSelector.SliderOptionTemplate>
-                <DataTemplate x:DataType="metadata:ToolkitSampleSliderOptionMetadataViewModel">
+                <DataTemplate x:DataType="metadata:ToolkitSampleNumericOptionMetadataViewModel">
                     <Slider Header="{x:Bind Title}"
                             Maximum="{x:Bind Max, Mode=OneWay}"
                             Minimum="{x:Bind Min, Mode=OneWay}"
@@ -37,6 +37,16 @@
                             Value="{x:Bind Initial, Mode=TwoWay}" />
                 </DataTemplate>
             </local:GeneratedSampleOptionTemplateSelector.SliderOptionTemplate>
+            <local:GeneratedSampleOptionTemplateSelector.NumberBoxOptionTemplate>
+                <DataTemplate x:DataType="metadata:ToolkitSampleNumericOptionMetadataViewModel">
+                    <muxc:NumberBox Header="{x:Bind Title}"
+                                    Maximum="{x:Bind Max, Mode=OneWay}"
+                                    Minimum="{x:Bind Min, Mode=OneWay}"
+                                    SmallChange="{x:Bind Step, Mode=OneWay}"
+                                    SpinButtonPlacementMode="Compact"
+                                    Value="{x:Bind Initial, Mode=TwoWay}" />
+                </DataTemplate>
+            </local:GeneratedSampleOptionTemplateSelector.NumberBoxOptionTemplate>
             <local:GeneratedSampleOptionTemplateSelector.TextOptionTemplate>
                 <DataTemplate x:DataType="metadata:ToolkitSampleTextOptionMetadataViewModel">
                     <TextBox HorizontalAlignment="Stretch"

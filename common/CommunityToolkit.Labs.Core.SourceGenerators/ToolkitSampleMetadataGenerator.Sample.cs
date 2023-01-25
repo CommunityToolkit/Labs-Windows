@@ -64,8 +64,8 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                     if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
                         return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
 
-                    if (x.Item2.TryReconstructAs<ToolkitSampleSliderOptionAttribute>() is ToolkitSampleSliderOptionAttribute sliderOptionAttribute)
-                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)sliderOptionAttribute);
+                    if (x.Item2.TryReconstructAs<ToolkitSampleNumericOptionAttribute>() is ToolkitSampleNumericOptionAttribute numericOptionAttribute)
+                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)numericOptionAttribute);
 
                     if (x.Item2.TryReconstructAs<ToolkitSampleTextOptionAttribute>() is ToolkitSampleTextOptionAttribute textOptionAttribute)
                         return (x.Item1, (ToolkitSampleOptionBaseAttribute)textOptionAttribute);
@@ -293,9 +293,9 @@ public static class ToolkitSampleRegistry
             {
                 yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(name: ""{boolAttribute.Name}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
             }
-            else if (item is ToolkitSampleSliderOptionAttribute sliderAttribute)
+            else if (item is ToolkitSampleNumericOptionAttribute numericAttribute)
             {
-                yield return $@"new {typeof(ToolkitSampleSliderOptionMetadataViewModel).FullName}(name: ""{sliderAttribute.Name}"", initial: {sliderAttribute.Initial}, min: {sliderAttribute.Min}, max: {sliderAttribute.Max}, step: {sliderAttribute.Step}, title: ""{sliderAttribute.Title}"")";
+                yield return $@"new {typeof(ToolkitSampleNumericOptionMetadataViewModel).FullName}(name: ""{numericAttribute.Name}"", initial: {numericAttribute.Initial}, min: {numericAttribute.Min}, max: {numericAttribute.Max}, step: {numericAttribute.Step}, showAsNumberBox: {numericAttribute.ShowAsNumberBox.ToString().ToLower()}, title: ""{numericAttribute.Title}"")";
             }
             else if (item is ToolkitSampleTextOptionAttribute textAttribute)
             {
