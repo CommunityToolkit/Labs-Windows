@@ -26,4 +26,8 @@
     <Compile Include="$(RepositoryDirectory)common\GlobalUsings_Tests.cs" />
   </ItemGroup>
 
+  <!-- Ensure Test heads are deployable from slngen solution -->
+  <PropertyGroup>
+    <SlnGenIsDeployable>true</SlnGenIsDeployable>
+  </PropertyGroup>
 </Project>
