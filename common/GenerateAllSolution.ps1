@@ -77,31 +77,6 @@ if ($IncludeHeads -ne 'uwp')
 [void]$projects.Add(".\labs\**\samples\*.Samples\*.Samples.csproj")
 [void]$projects.Add(".\labs\**\tests\*.Tests\*.shproj")
 
-# Remove test project we don't want to build (Uwp for WinAppSdk and vice versa
-<# if ($IncludeTests -eq "uwp") {
-	Write-Output "Remove WinAppSdk Test Project";
-	$index = $solutionTemplate.IndexOf($templatedProjectTestWinAppSdkMarker)
-	$solutionTemplate.RemoveAt($index);
-	$solutionTemplate.RemoveAt($index);
-	$solutionTemplate.RemoveAt($index);
-
-	# Remove link to Folder
-	$index = $solutionTemplate.IndexOf($templatedProjectTestWinAppSdkMarker)
-	$solutionTemplate.RemoveAt($index);
-	$solutionTemplate.RemoveAt($index);	
-} elseif ($IncludeTests -eq "winappsdk") {
-	Write-Output "Remove Uwp Test Project";
-	$index = $solutionTemplate.IndexOf($templatedProjectTestUwpMarker)
-	$solutionTemplate.RemoveAt($index);
-	$solutionTemplate.RemoveAt($index);
-	$solutionTemplate.RemoveAt($index);
-
-	# Remove link to Folder
-	$index = $solutionTemplate.IndexOf($templatedProjectTestUwpMarker)
-	$solutionTemplate.RemoveAt($index);
-	$solutionTemplate.RemoveAt($index);	
-}#>
-
 $cmd = "dotnet slngen -o $generatedSolutionFilePath $slngenConfig --platform $platforms $($projects -Join ' ')"
 
 Write-Output "Running Command: $cmd"
