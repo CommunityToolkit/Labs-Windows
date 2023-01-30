@@ -29,7 +29,7 @@ Param (
 
 # Set up constant values
 $generatedSolutionFilePath = 'Toolkit.Labs.All.sln'
-$platforms = '"Any CPU;x64;x86;ARM64"' # ARM64 is ignored here currently: https://github.com/microsoft/slngen/issues/437
+$platforms = '"Any CPU;x64;x86;ARM64"'
 $slngenConfig = "--folders true --collapsefolders true --ignoreMainProject"
 
 # remove previous file if it exists
