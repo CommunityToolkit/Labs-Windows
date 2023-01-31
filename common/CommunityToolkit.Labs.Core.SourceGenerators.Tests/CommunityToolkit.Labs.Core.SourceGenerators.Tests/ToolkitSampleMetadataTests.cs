@@ -24,8 +24,8 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+                [ToolkitSampleBoolOption(""Test"", false, Title = ""Toggle y"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", ""Consolas"", Title = ""Font family"")]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
@@ -57,8 +57,8 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+                [ToolkitSampleBoolOption(""Test"", false, Title = ""Toggle y"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", ""Consolas"", Title = ""Font family"")]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
@@ -70,8 +70,8 @@ public partial class ToolkitSampleMetadataTests
                     }}
                 }}
 
-                [ToolkitSampleBoolOption(""Test"", ""Toggle y"", false)]
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+                [ToolkitSampleBoolOption(""Test"", false, Title = ""Toggle y"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", ""Consolas"", Title = ""Font family"")]
 
                 [ToolkitSample(id: nameof(Sample2), ""Test Sample"", description: """")]
                 public partial class Sample2 : Windows.UI.Xaml.Controls.UserControl
@@ -101,7 +101,7 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {
-                [ToolkitSampleBoolOption(""BindToMe"", ""Toggle visibility"", false)]
+                [ToolkitSampleBoolOption(""BindToMe"", false, Title =  ""Toggle visibility"")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {
                 }
@@ -129,7 +129,7 @@ public partial class ToolkitSampleMetadataTests
             namespace MyApp
             {{
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
-                [ToolkitSampleBoolOption(""{name}"", ""Toggle visibility"", false)]
+                [ToolkitSampleBoolOption(""{name}"", false, Title =  ""Toggle visibility"")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
@@ -153,7 +153,7 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleBoolOption(""IsVisible"", ""Toggle x"", false)]
+                [ToolkitSampleBoolOption(""IsVisible"", false, Title =  ""Toggle x"")]
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
@@ -179,7 +179,7 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleBoolOption(""IsVisible"", ""Toggle x"", false)]
+                [ToolkitSampleBoolOption(""IsVisible"", false, Title =  ""Toggle x"")]
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Base
                 {{
@@ -209,9 +209,9 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleBoolOption(""test"", ""Toggle x"", false)]
-                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
+                [ToolkitSampleBoolOption(""test"", false, Title =  ""Toggle x"")]
+                [ToolkitSampleBoolOption(""test"", false, Title =  ""Toggle x"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", ""Consolas"", Title = ""Font family"")]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
@@ -237,14 +237,14 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
+                [ToolkitSampleBoolOption(""test"", false, Title =  ""Toggle y"")]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
                 {{
                 }}
 
-                [ToolkitSampleBoolOption(""test"", ""Toggle y"", false)]
+                [ToolkitSampleBoolOption(""test"", false, Title =  ""Toggle y"")]
 
                 [ToolkitSample(id: nameof(Sample2), ""Test Sample"", description: """")]
                 public partial class Sample2 : Windows.UI.Xaml.Controls.UserControl
@@ -270,7 +270,7 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", ""Consolas"", Title = ""Font family"")]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
@@ -296,8 +296,8 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", title: ""Text foreground"", ""Segoe UI"", ""Arial"")]
-                [ToolkitSampleBoolOption(""Test"", ""Toggle visibility"", false)]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", ""Consolas"", Title = ""Font family"")]
+                [ToolkitSampleBoolOption(""Test"", false, Title =  ""Toggle visibility"")]
                 public partial class Sample
                 {{
                 }}
