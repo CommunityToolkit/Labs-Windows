@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
@@ -119,7 +119,8 @@
                             </RepeatButton>
                             <ScrollContentPresenter x:Name="ScrollContentPresenter"
                                                     Grid.Column="1"
-                                                    Margin="{TemplateBinding Padding}" />
+                                                    Margin="{TemplateBinding Padding}"
+                                                    Content="{TemplateBinding Content}" />
                             <RepeatButton x:Name="ScrollForwardButton"
                                           Grid.Column="2"
                                           Width="32"
