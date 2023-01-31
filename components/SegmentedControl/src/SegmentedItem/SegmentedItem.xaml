@@ -429,6 +429,7 @@
                                                   Grid.Column="1"
                                                   Margin="0,1,0,0"
                                                   VerticalAlignment="Center"
+                                                  Content="{TemplateBinding Content}"
                                                   win:OpticalMarginAlignment="TrimSideBearings"
                                                   BackgroundSizing="{TemplateBinding BackgroundSizing}"
                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
