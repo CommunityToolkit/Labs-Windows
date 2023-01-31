@@ -210,8 +210,8 @@ public partial class ToolkitSampleMetadataTests
             namespace MyApp
             {{
                 [ToolkitSampleBoolOption(""test"", false, Title =  ""Toggle x"")]
-                [ToolkitSampleBoolOption(""test"", false, Title =  ""Toggle x"")]
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", ""Consolas"", Title = ""Font family"")]
+                [ToolkitSampleBoolOption(""test"", false, Title =  ""Toggle y"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", Title = ""Text foreground"")]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
@@ -270,7 +270,7 @@ public partial class ToolkitSampleMetadataTests
 
             namespace MyApp
             {{
-                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", ""Segoe UI"", ""Arial"", ""Consolas"", Title = ""Font family"")]
+                [ToolkitSampleMultiChoiceOption(""TextFontFamily"", Title = ""Font family"")]
 
                 [ToolkitSample(id: nameof(Sample), ""Test Sample"", description: """")]
                 public partial class Sample : Windows.UI.Xaml.Controls.UserControl
