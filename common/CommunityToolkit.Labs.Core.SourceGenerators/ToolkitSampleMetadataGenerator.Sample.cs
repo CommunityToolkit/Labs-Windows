@@ -58,19 +58,33 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             var generatedPaneOptions = allAttributeData
                 .Select(static (x, _) =>
                 {
+                    (ISymbol Symbol, ToolkitSampleOptionBaseAttribute Attribute) item = default;
+
+                    // Try and get base attribute of whatever sample attribute types we support.
                     if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
-                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)boolOptionAttribute);
+                    {
+                        item = (x.Item1, boolOptionAttribute);
+                    }
+                    else if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
+                    {
+                        item = (x.Item1, multiChoiceOptionAttribute);
+                    }
+                    else if (x.Item2.TryReconstructAs<ToolkitSampleNumericOptionAttribute>() is ToolkitSampleNumericOptionAttribute numericOptionAttribute)
+                    {
+                        item = (x.Item1, numericOptionAttribute);
+                    }
+                    else if (x.Item2.TryReconstructAs<ToolkitSampleTextOptionAttribute>() is ToolkitSampleTextOptionAttribute textOptionAttribute)
+                    {
+                        item = (x.Item1, textOptionAttribute);
+                    }
 
-                    if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
-                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
+                    // Add extra property data, like Title back to Attribute
+                    if (item.Attribute != null && x.Item2.TryGetNamedArgument(nameof(ToolkitSampleOptionBaseAttribute.Title), out string? title) && !string.IsNullOrWhiteSpace(title))
+                    {
+                        item.Attribute.Title = title;
+                    }
 
-                    if (x.Item2.TryReconstructAs<ToolkitSampleNumericOptionAttribute>() is ToolkitSampleNumericOptionAttribute numericOptionAttribute)
-                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)numericOptionAttribute);
-
-                    if (x.Item2.TryReconstructAs<ToolkitSampleTextOptionAttribute>() is ToolkitSampleTextOptionAttribute textOptionAttribute)
-                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)textOptionAttribute);
-
-                    return default;
+                    return item;
                 })
                 .Where(static x => x != default)
                 .Collect();

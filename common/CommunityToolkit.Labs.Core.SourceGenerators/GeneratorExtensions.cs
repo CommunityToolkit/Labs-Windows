@@ -141,4 +141,30 @@ public static class GeneratorExtensions
 
         return parameterTypedConstant.Value;
     }
+
+    //// From: https://github.com/CommunityToolkit/dotnet/blob/e6e09406745e2262f7946bcf8089a8f0ec4e074a/src/CommunityToolkit.Mvvm.SourceGenerators/Extensions/AttributeDataExtensions.cs#L67
+    /// <summary>
+    /// Tries to get a given named argument value from an <see cref="AttributeData"/> instance, if present.
+    /// </summary>
+    /// <typeparam name="T">The type of argument to check.</typeparam>
+    /// <param name="attributeData">The target <see cref="AttributeData"/> instance to check.</param>
+    /// <param name="name">The name of the argument to check.</param>
+    /// <param name="value">The resulting argument value, if present.</param>
+    /// <returns>Whether or not <paramref name="attributeData"/> contains an argument named <paramref name="name"/> with a valid value.</returns>
+    public static bool TryGetNamedArgument<T>(this AttributeData attributeData, string name, out T? value)
+    {
+        foreach (KeyValuePair<string, TypedConstant> properties in attributeData.NamedArguments)
+        {
+            if (properties.Key == name)
+            {
+                value = (T?)properties.Value.Value;
+
+                return true;
+            }
+        }
+
+        value = default;
+
+        return false;
+    }
 }
