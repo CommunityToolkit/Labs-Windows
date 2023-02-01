@@ -1,25 +1,12 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
-  <!-- Labs Constants -->
-  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
-
-  <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
-
-  <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
-
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Labs.WinUI.SettingsControlsRns</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).SettingsControls</PackageId>
-    <Description>
-      This package contains the SettingsCard and SettingsExpander controls.
-    </Description>
+    <ToolkitComponentName>SettingsControls</ToolkitComponentName>
+    <Description>This package contains the SettingsCard and SettingsExpander controls.</Description>
     <Version>0.0.12</Version>
     <LangVersion>10.0</LangVersion>
+
+    <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
+    <RootNamespace>CommunityToolkit.Labs.WinUI.SettingsControlsRns</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,4 +14,7 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
+
+  <!-- Sets this up as a toolkit component's source project -->
+  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SourceProject.props" />
 </Project>

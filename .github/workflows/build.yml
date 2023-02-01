@@ -80,7 +80,7 @@ jobs:
         run: powershell -version 5.1 -command "./GenerateAllSolution.ps1" -ErrorAction Stop
 
       - name: Enable Uno.WinUI (in WinUI3 matrix only)
-        working-directory: ./common/Scripts/
+        working-directory: ./common/MultiTarget/
         run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3" -ErrorAction Stop
         if: ${{ matrix.platform == 'WinUI3' }}
 

@@ -30,27 +30,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Core.SourceGenerators.Tests", "common\CommunityToolkit.Labs.Core.SourceGenerators.Tests\CommunityToolkit.Labs.Core.SourceGenerators.Tests\CommunityToolkit.Labs.Core.SourceGenerators.Tests.csproj", "{5BD4E79C-3744-4E89-A6F2-17FBAB7E3F68}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinAppSdk", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.WinAppSdk\CommunityToolkit.Labs.WinAppSdk.csproj", "{53E592FC-E73C-474B-89C3-0570854CB160}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.WinAppSdk", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.WinAppSdk\CommunityToolkit.Labs.WinAppSdk.csproj", "{53E592FC-E73C-474B-89C3-0570854CB160}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xPlatforms", "xPlatforms", "{E824D592-EBCB-41C6-A176-D001C5A124CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.Droid", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.Droid\CommunityToolkit.Labs.Droid.csproj", "{8EA015ED-5142-4393-BCA8-08ED2DFF19A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.Droid", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.Droid\CommunityToolkit.Labs.Droid.csproj", "{8EA015ED-5142-4393-BCA8-08ED2DFF19A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.iOS", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.iOS\CommunityToolkit.Labs.iOS.csproj", "{93BFD459-2E21-41C7-9E54-868F5B014DBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.iOS", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.iOS\CommunityToolkit.Labs.iOS.csproj", "{93BFD459-2E21-41C7-9E54-868F5B014DBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.macOS", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.macOS\CommunityToolkit.Labs.macOS.csproj", "{34617141-25C4-4FEC-8A15-5B46934F1A99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.macOS", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.macOS\CommunityToolkit.Labs.macOS.csproj", "{34617141-25C4-4FEC-8A15-5B46934F1A99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Skia.Gtk", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.Skia.Gtk\CommunityToolkit.Labs.Skia.Gtk.csproj", "{1B273854-1051-4FE3-9566-A9FA705304DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Skia.Gtk", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.Skia.Gtk\CommunityToolkit.Labs.Skia.Gtk.csproj", "{1B273854-1051-4FE3-9566-A9FA705304DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.Uwp", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.Uwp\CommunityToolkit.Labs.Uwp.csproj", "{B3D6DF0B-13DB-493E-9D1A-56343EFEDEA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.Uwp", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.Uwp\CommunityToolkit.Labs.Uwp.csproj", "{B3D6DF0B-13DB-493E-9D1A-56343EFEDEA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.Wasm\CommunityToolkit.Labs.Wasm.csproj", "{20926634-C200-43A6-AE59-86F9C3878992}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Wasm", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.Wasm\CommunityToolkit.Labs.Wasm.csproj", "{20926634-C200-43A6-AE59-86F9C3878992}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FF878CF0-59B1-4B8C-A7DB-1E2A7B47575A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.Tests.Uwp", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.Tests.Uwp\CommunityToolkit.Labs.Tests.Uwp.csproj", "{FD78002E-C4E6-4BF8-9EC3-C06250DFEF34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.Labs.Tests.Uwp", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.Tests.Uwp\CommunityToolkit.Labs.Tests.Uwp.csproj", "{FD78002E-C4E6-4BF8-9EC3-C06250DFEF34}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Tests.WinAppSdk", "common\ProjectHeads\AllSamples\CommunityToolkit.Labs.Tests.WinAppSdk\CommunityToolkit.Labs.Tests.WinAppSdk.csproj", "{53892F07-FE54-4E36-81D8-105427D097E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Labs.Tests.WinAppSdk", "common\ProjectHeads\AllComponents\CommunityToolkit.Labs.Tests.WinAppSdk\CommunityToolkit.Labs.Tests.WinAppSdk.csproj", "{53892F07-FE54-4E36-81D8-105427D097E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments", "{DD69BA61-C86D-4138-AE6F-76E2C8445C9A}"
 EndProject

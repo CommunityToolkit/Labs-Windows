@@ -1,0 +1,17 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)\Tests.Head.props"/>
+  <Import Project="$(MSBuildThisFileDirectory)\Head.WinAppSdk.props"/>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TestPlatform.TestHost">
+      <Version>17.1.0</Version>
+      <ExcludeAssets>build</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectCapability Include="TestContainer" />
+  </ItemGroup>
+
+</Project>

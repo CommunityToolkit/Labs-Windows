@@ -11,7 +11,7 @@ Param (
 # Set WinUI version for Uno projects
 $originalWorkingDirectory = Get-Location;
 
-Set-Location common/Scripts/
+Set-Location common/MultiTarget/
 & ./UseUnoWinUI.ps1 $UseUnoWinUI
 
 Set-Location $originalWorkingDirectory;
