@@ -459,15 +459,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleSwitch">
-                        <Grid VerticalAlignment="Center"
+                        <Grid VerticalAlignment="Stretch"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
                               CornerRadius="{TemplateBinding CornerRadius}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
@@ -956,12 +952,7 @@
                                               Visibility="Collapsed" />
                             <Grid Grid.Row="1"
                                   HorizontalAlignment="Right"
-                                  VerticalAlignment="Top">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="{ThemeResource ToggleSwitchPreContentMargin}" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="{ThemeResource ToggleSwitchPostContentMargin}" />
-                                </Grid.RowDefinitions>
+                                  VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="12"
