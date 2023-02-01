@@ -108,7 +108,7 @@
     <x:Double x:Key="SettingsCardContentMinWidth">120</x:Double>
     <Thickness x:Key="SettingsCardHeaderIconMargin">2,0,20,0</Thickness>
     <Thickness x:Key="SettingsCardVerticalHeaderContentSpacing">0,8,0,0</Thickness>
-    <x:Double x:Key="SettingsCardWrapThreshold">460</x:Double>
+    <x:Double x:Key="SettingsCardWrapThreshold">476</x:Double>
     <x:Double x:Key="SettingsCardWrapNoIconThreshold">286</x:Double>
 
     <Style BasedOn="{StaticResource DefaultSettingsCardStyle}"
