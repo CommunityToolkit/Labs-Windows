@@ -53,7 +53,7 @@ public partial class SettingsCard : ButtonBase
         {
             AutomationProperties.SetName(this, headerString);
             // We don't want to override an AutomationProperties.Name that is manually set, or if the Content basetype is of type ButtonBase (the ButtonBase.Content will be used then)
-            if (Content is UIElement element && string.IsNullOrEmpty(AutomationProperties.GetName(element)) && element.GetType().BaseType != typeof(ButtonBase))
+            if (Content is UIElement element && string.IsNullOrEmpty(AutomationProperties.GetName(element)) && element.GetType().BaseType != typeof(ButtonBase) && element.GetType() != typeof(TextBlock))
             {
                 AutomationProperties.SetName(element, headerString);
             }
