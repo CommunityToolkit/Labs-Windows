@@ -9,6 +9,8 @@
       mc:Ignorable="d">
 
     <StackPanel Spacing="15">
+        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                   Text="{x:Bind TitleText, Mode=OneWay}" />
         <labs:ProjectTemplate Orientation="{x:Bind local:ProjectTemplateCustomSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}">
             <TextBlock Text="1" />
             <TextBlock Text="2" />

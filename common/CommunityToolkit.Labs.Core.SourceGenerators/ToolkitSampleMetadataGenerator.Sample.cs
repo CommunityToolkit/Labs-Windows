@@ -58,13 +58,33 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
             var generatedPaneOptions = allAttributeData
                 .Select(static (x, _) =>
                 {
+                    (ISymbol Symbol, ToolkitSampleOptionBaseAttribute Attribute) item = default;
+
+                    // Try and get base attribute of whatever sample attribute types we support.
                     if (x.Item2.TryReconstructAs<ToolkitSampleBoolOptionAttribute>() is ToolkitSampleBoolOptionAttribute boolOptionAttribute)
-                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)boolOptionAttribute);
+                    {
+                        item = (x.Item1, boolOptionAttribute);
+                    }
+                    else if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
+                    {
+                        item = (x.Item1, multiChoiceOptionAttribute);
+                    }
+                    else if (x.Item2.TryReconstructAs<ToolkitSampleNumericOptionAttribute>() is ToolkitSampleNumericOptionAttribute numericOptionAttribute)
+                    {
+                        item = (x.Item1, numericOptionAttribute);
+                    }
+                    else if (x.Item2.TryReconstructAs<ToolkitSampleTextOptionAttribute>() is ToolkitSampleTextOptionAttribute textOptionAttribute)
+                    {
+                        item = (x.Item1, textOptionAttribute);
+                    }
 
-                    if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
-                        return (x.Item1, (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute);
+                    // Add extra property data, like Title back to Attribute
+                    if (item.Attribute != null && x.Item2.TryGetNamedArgument(nameof(ToolkitSampleOptionBaseAttribute.Title), out string? title) && !string.IsNullOrWhiteSpace(title))
+                    {
+                        item.Attribute.Title = title;
+                    }
 
-                    return default;
+                    return item;
                 })
                 .Where(static x => x != default)
                 .Collect();
@@ -101,6 +121,7 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                 var currentAssembly = data.Right;
 
                 var isExecutingInSampleProject = currentAssembly?.EndsWith(".Samples") ?? false;
+                var isExecutingInTestProject = currentAssembly?.EndsWith(".Tests") ?? false;
 
                 // Reconstruct sample metadata from attributes
                 var sampleMetadata = toolkitSampleAttributeData
@@ -126,7 +147,9 @@ public partial class ToolkitSampleMetadataGenerator : IIncrementalGenerator
                     ReportDocumentDiagnostics(ctx, sampleMetadata, markdownFileData, toolkitSampleAttributeData, docFrontMatter);
                 }
 
-                if (!isExecutingInSampleProject && !skipRegistry)
+                // For tests we need one pass to do diagnostics and registry as we're in a contrived environment that'll have both our scenarios. Though we check if we have anything to write, as we will hit both executes.
+                if ((!isExecutingInSampleProject && !skipRegistry) ||
+                    (isExecutingInTestProject && (docFrontMatter.Any() || sampleMetadata.Any())))
                 {
                     CreateDocumentRegistry(ctx, docFrontMatter);
                     CreateSampleRegistry(ctx, sampleMetadata);
@@ -281,11 +304,19 @@ public static class ToolkitSampleRegistry
         {
             if (item is ToolkitSampleMultiChoiceOptionAttribute multiChoiceAttr)
             {
-                yield return $@"new {typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel).FullName}(name: ""{item.Name}"", options: new[] {{ {string.Join(",", multiChoiceAttr.Choices.Select(x => $@"new {typeof(MultiChoiceOption).FullName}(""{x.Label}"", ""{x.Value}"")").ToArray())} }}, title: ""{item.Title}"")";
+                yield return $@"new {typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel).FullName}(name: ""{multiChoiceAttr.Name}"", options: new[] {{ {string.Join(",", multiChoiceAttr.Choices.Select(x => $@"new {typeof(MultiChoiceOption).FullName}(""{x.Label}"", ""{x.Value}"")").ToArray())} }}, title: ""{multiChoiceAttr.Title}"")";
             }
             else if (item is ToolkitSampleBoolOptionAttribute boolAttribute)
             {
-                yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(id: ""{boolAttribute.Name}"", label: ""{boolAttribute.Label}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
+                yield return $@"new {typeof(ToolkitSampleBoolOptionMetadataViewModel).FullName}(name: ""{boolAttribute.Name}"", defaultState: {boolAttribute.DefaultState?.ToString().ToLower()}, title: ""{boolAttribute.Title}"")";
+            }
+            else if (item is ToolkitSampleNumericOptionAttribute numericAttribute)
+            {
+                yield return $@"new {typeof(ToolkitSampleNumericOptionMetadataViewModel).FullName}(name: ""{numericAttribute.Name}"", initial: {numericAttribute.Initial}, min: {numericAttribute.Min}, max: {numericAttribute.Max}, step: {numericAttribute.Step}, showAsNumberBox: {numericAttribute.ShowAsNumberBox.ToString().ToLower()}, title: ""{numericAttribute.Title}"")";
+            }
+            else if (item is ToolkitSampleTextOptionAttribute textAttribute)
+            {
+                yield return $@"new {typeof(ToolkitSampleTextOptionMetadataViewModel).FullName}(name: ""{textAttribute.Name}"", placeholderText: ""{textAttribute.PlaceholderText}"", title: ""{textAttribute.Title}"")";
             }
             else
             {

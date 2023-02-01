@@ -12,22 +12,27 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 /// that you can bind to in XAML, and displays an options pane alonside your sample which allows the user to manipulate the property.
 /// </remarks>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class ToolkitSampleBoolOptionAttribute : ToolkitSampleOptionBaseAttribute
+public sealed class ToolkitSampleTextOptionAttribute : ToolkitSampleOptionBaseAttribute
 {
     /// <summary>
-    /// Creates a new instance of <see cref="ToolkitSampleBoolOptionAttribute"/>.
+    /// Creates a new instance of <see cref="ToolkitSampleTextOptionAttribute"/>.
     /// </summary>
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
     /// <param name="defaultState">The initial value for the bound property.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    public ToolkitSampleBoolOptionAttribute(string bindingName, bool defaultState)
-        : base(bindingName, defaultState)
+    public ToolkitSampleTextOptionAttribute(string bindingName, string? placeholderText = null)
+        : base(bindingName, placeholderText)
     {
- 
+        PlaceholderText = placeholderText;
     }
 
     /// <summary>
     /// The source generator-friendly type name used for casting.
     /// </summary>
-    internal override string TypeName { get; } = "bool";
+    internal override string TypeName { get; } = "string";
+
+    /// <summary>
+    /// A label to display along the boolean option.
+    /// </summary>
+    public string? PlaceholderText { get; }
 }
