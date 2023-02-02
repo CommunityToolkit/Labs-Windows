@@ -84,14 +84,16 @@ if ($IncludeHeads -ne 'uwp')
 
 if ($UseDiagnostics.IsPresent)
 {
+    $sdkoptions = " -d"
     $diagnostics = '-bl:slngen.binlog --consolelogger:"ShowEventId;Summary;Verbosity=Detailed" --filelogger:"LogFile=slngen.log;Append;Verbosity=Diagnostic;Encoding=UTF-8" '
 }
 else
 {
+    $sdkoptions = ""
     $diagnostics = ""
 }
 
-$cmd = "dotnet slngen -o $generatedSolutionFilePath $slngenConfig $diagnostics--platform $platforms $($projects -Join ' ')"
+$cmd = "dotnet$sdkoptions slngen -o $generatedSolutionFilePath $slngenConfig $diagnostics--platform $platforms $($projects -Join ' ')"
 
 Write-Output "Running Command: $cmd"
 
