@@ -10,6 +10,8 @@
     List of TFM based projects to include. This can be 'all', 'uwp', or 'winappsdk'.
 
     Defaults to 'all' for local-use.
+.PARAMETER UseDiagnostics
+    Add extra diagnostic output to running slngen, such as a binlog, etc...
 .EXAMPLE
     C:\PS> .\GenerateAllSolution -IncludeHeads winappsdk
     Build a solution that doesn't contain UWP projects.
@@ -20,7 +22,10 @@
 Param (
     [Parameter(HelpMessage = "The heads to include for building platform samples and tests.", ParameterSetName = "IncludeHeads")]
     [ValidateSet('all', 'uwp', 'winappsdk')]
-    [string]$IncludeHeads = 'all'
+    [string]$IncludeHeads = 'all',
+
+    [Parameter(HelpMessage = "Add extra diagnostic output to slngen generator.")]
+    [switch]$UseDiagnostics = $false
 )
 
 # Generate required props for "All" solution.
@@ -77,7 +82,16 @@ if ($IncludeHeads -ne 'uwp')
 [void]$projects.Add(".\labs\**\samples\*.Samples\*.Samples.csproj")
 [void]$projects.Add(".\labs\**\tests\*.Tests\*.shproj")
 
-$cmd = "dotnet slngen -o $generatedSolutionFilePath $slngenConfig --platform $platforms $($projects -Join ' ')"
+if ($UseDiagnostics.IsPresent)
+{
+    $diagnostics = '-bl:slngen.binlog --consolelogger:"ShowEventId;Summary;Verbosity=Detailed" --filelogger:"LogFile=slngen.log;Append;Verbosity=Diagnostic;Encoding=UTF-8" '
+}
+else
+{
+    $diagnostics = ""
+}
+
+$cmd = "dotnet slngen -o $generatedSolutionFilePath $slngenConfig $diagnostics--platform $platforms $($projects -Join ' ')"
 
 Write-Output "Running Command: $cmd"
 
