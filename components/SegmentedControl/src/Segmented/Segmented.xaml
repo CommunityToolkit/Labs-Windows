@@ -53,8 +53,8 @@
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <!--<StackPanel Orientation="Horizontal" Spacing="{ThemeResource SegmentedItemSpacing}" />-->
-                        <labs:EqualPanel Spacing="{StaticResource SegmentedItemSpacing}" />
+                        <labs:EqualPanel HorizontalAlignment="{Binding (labs:FrameworkElementExtensions.Ancestor).HorizontalAlignment, RelativeSource={RelativeSource Self}}"
+                                         Spacing="{StaticResource SegmentedItemSpacing}" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>

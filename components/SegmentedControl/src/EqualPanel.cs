@@ -4,12 +4,13 @@
 
 namespace CommunityToolkit.Labs.WinUI;
 
-public partial class EqualPanel : Panel
+public class EqualPanel : Panel
 {
+    public int Spacing { get; set; }
+
     private double maxItemWidth = 0;
     private double maxItemHeight = 0;
 
-    public int Spacing { get; set; }
     protected override Size ArrangeOverride(Size finalSize)
     {
         var x = 0.0;
@@ -26,6 +27,7 @@ public partial class EqualPanel : Panel
     {
         if (Children.Count > 0)
         {
+            // The panel columns should have the same width: that of the item width the largest width.
             foreach (var item in Children)
             {
                 item.Measure(availableSize);
@@ -39,7 +41,17 @@ public partial class EqualPanel : Panel
                     maxItemHeight = desiredHeight;
             }
 
-            return new Size((maxItemWidth * Children.Count) + (Spacing * Children.Count - 1), maxItemHeight);
+            if (HorizontalAlignment != HorizontalAlignment.Stretch)
+            {
+                return new Size((maxItemWidth * Children.Count) + (Spacing * (Children.Count - 1)), maxItemHeight);
+            }
+            else
+            {
+                // The panel should equally split the available width when HorizontalAlignment is set to Stretch
+                var availableWidth = availableSize.Width - (Spacing * (Children.Count - 1));
+                maxItemWidth = availableWidth / Children.Count;
+                return new Size(availableWidth, maxItemHeight);
+            }
         }
         else
         {
