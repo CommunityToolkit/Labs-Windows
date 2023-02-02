@@ -1,13 +1,13 @@
 ---
 title: SegmentedControl
 author: niels9001
-description: TODO: Your experiment's description here
+description: A common UI control to configure a view or setting. 
 keywords: SegmentedControl, Control, Layout
 dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
-discussion-id: 0
+discussion-id: 314
 issue-id: 0
 ---
 
@@ -19,29 +19,19 @@ issue-id: 0
 
 <!-- Be sure to update the discussion/issue numbers above with your Labs discussion/issue id numbers in order for UI links to them from the sample app to work. -->
 
-# SegmentedControl
+# Segmented control
 
-TODO: Fill in information about this experiment and how to get started here...
+The `Segmented` control is a control to be used for configuring a view or setting. It's based off `ListViewBase` and support single and multi-selection.
 
-## Custom Control
 
-You can inherit from an existing component as well, like `Panel`, this example shows a control without a
-XAML Style that will be more light-weight to consume by an app developer:
+## The basics
 
-> [!Sample SegmentedControlCustomSample]
+The `Segmented` control is best used with 2-5 items and does not support overflow. The `Icon` and `Content` property can be set on the `SegmentedItems`.
 
-## Templated Controls
+> [!Sample SegmentedControlBasicSample]
 
-The Toolkit is built with templated controls. This provides developers a flexible way to restyle components
-easily while still inheriting the general functionality a control provides. The examples below show
-how a component can use a default style and then get overridden by the end developer.
+## Other styles
 
-TODO: Two types of templated control building methods are shown. Delete these if you're building a custom component.
-Otherwise, pick one method for your component and delete the files related to the unchosen `_ClassicBinding` or `_xBind`
-classes (and the custom non-suffixed one as well). Then, rename your component to just be your component name.
+The `Segmented` control contains various additional styles, to match the look and feel of your application. The `PillSegmentedStyle` matches a modern `Pivot` and `NavigationView` style.
 
-The `_ClassicBinding` class shows the traditional method used to develop components with best practices.
-
-### Implict style
-
-> [!SAMPLE SegmentedControlTemplatedSample]
+> [!SAMPLE SegmentedControlStylesSample]

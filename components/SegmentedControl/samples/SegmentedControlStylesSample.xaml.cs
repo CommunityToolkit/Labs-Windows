@@ -5,19 +5,17 @@
 namespace SegmentedControlExperiment.Samples;
 
 /// <summary>
-/// An example sample page of a custom control inheriting from Panel.
+/// An sample that shows how the Segmented control has multiple built-in styles.
 /// </summary>
-[ToolkitSampleMultiChoiceOption("SelectionMode", title: "Selection", "Single", "Multiple")]
+[ToolkitSampleMultiChoiceOption("SelectionMode", "Single", "Multiple", Title = "Selection mode")]
 
-[ToolkitSample(id: nameof(SegmentedControlCustomSample), "Basics", description: $"A sample for showing how to create and use a {nameof(Segmented)} custom control.")]
-public sealed partial class SegmentedControlCustomSample : Page
+[ToolkitSample(id: nameof(SegmentedControlStylesSample), "Stylesl", description: "A sample for showing how to use the different built-in styles.")]
+public sealed partial class SegmentedControlStylesSample : Page
 {
-    public SegmentedControlCustomSample()
+    public SegmentedControlStylesSample()
     {
         this.InitializeComponent();
     }
-
-    // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
     public static ListViewSelectionMode ConvertStringToSelectionMode(string selectionMode) => selectionMode switch
     {
         "Single" => ListViewSelectionMode.Single,
