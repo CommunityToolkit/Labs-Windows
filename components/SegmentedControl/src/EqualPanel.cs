@@ -4,7 +4,7 @@
 
 namespace CommunityToolkit.Labs.WinUI;
 
-public class EqualPanel : Panel
+public partial class EqualPanel : Panel
 {
     private double maxItemWidth = 0;
     private double maxItemHeight = 0;
