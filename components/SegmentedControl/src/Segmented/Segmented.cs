@@ -88,8 +88,6 @@ public partial class Segmented : ListViewBase
 
     private void SetInitialSelection()
     {
-        System.Diagnostics.Debug.WriteLine("SetInitialSelection" + " - " + SelectedIndex.ToString());
-
         if (SelectedItem == null)
         {
             // If we have an index, but didn't get the selection, make the selection
