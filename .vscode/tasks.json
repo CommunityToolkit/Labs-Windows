@@ -6,7 +6,7 @@
         {
             "label": "generateAllSolution",
             "type": "shell",
-            "command": "pwsh ./GenerateAllSolution.ps1",
+            "command": "pwsh ./common/GenerateAllSolution.ps1",
             "group": "build"
         }
     ]
