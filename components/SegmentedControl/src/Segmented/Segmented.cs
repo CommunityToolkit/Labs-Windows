@@ -12,7 +12,8 @@ public partial class Segmented : ListViewBase
     {
         this.DefaultStyleKey = typeof(Segmented);
 
-        #if !HAS_UNO
+        RegisterPropertyChangedCallback(Segmented.SelectionModeProperty, OnSelectionModeChanged);
+#if !HAS_UNO
         ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
 #endif
     }
@@ -98,7 +99,7 @@ public partial class Segmented : ListViewBase
             }
 
             //  Otherwise, select the first item by default
-            else if (Items.Count >= 1)
+            else if (Items.Count >= 1 && SelectionMode == ListViewSelectionMode.Single)
             {
                 SelectedItem = Items[0];
             }
@@ -120,7 +121,7 @@ public partial class Segmented : ListViewBase
 
     /// <summary>
     /// Adjust the selected item and range based on keyboard input.
-    /// This is used to override the listview behaviors for up/down arrow manipulation vs left/right for a horizontal control
+    /// This is used to override the ListView behaviors for up/down arrow manipulation vs left/right for a horizontal control
     /// </summary>
     /// <param name="direction">direction to move the selection</param>
     /// <returns>True if the focus was moved, false otherwise</returns>
@@ -182,5 +183,9 @@ public partial class Segmented : ListViewBase
             return FocusManager.GetFocusedElement() as SegmentedItem;
 #pragma warning restore CS8603 // Possible null reference return.
         }
+    }
+    private void OnSelectionModeChanged(DependencyObject sender, DependencyProperty dp)
+    {
+        SetInitialSelection();
     }
 }

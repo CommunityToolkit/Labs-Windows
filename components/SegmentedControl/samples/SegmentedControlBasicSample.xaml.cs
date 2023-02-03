@@ -28,11 +28,6 @@ public sealed partial class SegmentedControlBasicSample : Page
         _ => throw new System.NotImplementedException(),
     };
 
-    void submitButtonClick(object sender, RoutedEventArgs e)
-    {
-        Panel.Width = Panel.Width - 1;
-    }
-
     public static HorizontalAlignment ConvertStringToHorizontalAlignment(string alignment) => alignment switch
     {
         "Left" => HorizontalAlignment.Left,
