@@ -93,7 +93,7 @@ else
     $diagnostics = ""
 }
 
-$cmd = "dotnet$sdkoptions slngen -o $generatedSolutionFilePath $slngenConfig $diagnostics--platform $platforms $($projects -Join ' ')"
+$cmd = "dotnet$sdkoptions tool run slngen -o $generatedSolutionFilePath $slngenConfig $diagnostics--platform $platforms $($projects -Join ' ')"
 
 Write-Output "Running Command: $cmd"
 
