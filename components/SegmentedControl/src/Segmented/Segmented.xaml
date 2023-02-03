@@ -54,6 +54,7 @@
                 <Setter.Value>
                     <ItemsPanelTemplate>
                         <labs:EqualPanel HorizontalAlignment="{Binding (labs:FrameworkElementExtensions.Ancestor).HorizontalAlignment, RelativeSource={RelativeSource Self}}"
+                                         labs:FrameworkElementExtensions.AncestorType="labs:Segmented"
                                          Spacing="{StaticResource SegmentedItemSpacing}" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
@@ -62,7 +63,6 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:Segmented">
                         <Grid Height="{TemplateBinding Height}"
-                              HorizontalAlignment="Left"
                               VerticalAlignment="Stretch"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"

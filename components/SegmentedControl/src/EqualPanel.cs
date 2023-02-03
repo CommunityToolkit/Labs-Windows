@@ -6,56 +6,96 @@ namespace CommunityToolkit.Labs.WinUI;
 
 public class EqualPanel : Panel
 {
-    public int Spacing { get; set; }
-
     private double maxItemWidth = 0;
     private double maxItemHeight = 0;
 
+    public double Spacing
+    {
+        get { return (double)GetValue(SpacingProperty); }
+        set { SetValue(SpacingProperty, value); }
+    }
+
+    /// <summary>
+    /// Identifies the Spacing dependency property.
+    /// </summary>
+    /// <returns>The identifier for the <see cref="Spacing"/> dependency property.</returns>
+    public static readonly DependencyProperty SpacingProperty = DependencyProperty.Register(
+        nameof(Spacing),
+        typeof(double),
+        typeof(EqualPanel),
+        new PropertyMetadata(default(double), OnSpacingChanged));
+
+
+
+    public EqualPanel()
+    {
+        RegisterPropertyChangedCallback(Panel.HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
+    }
+
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        maxItemWidth = 0;
+        maxItemHeight = 0;
+
+        if (Children.Count > 0)
+        {
+            SetMaxDimensions(Children, availableSize);
+
+            // Equal columns based on the available width
+            if (HorizontalAlignment == HorizontalAlignment.Stretch)
+            {
+                // Adjust for spacing
+                double totalWidth = availableSize.Width - (Spacing * (Children.Count - 1));
+                maxItemWidth = totalWidth / Children.Count;
+                return new Size(availableSize.Width, maxItemHeight);
+            }
+            // Else, return equal widths based on the widest item
+            return new Size((maxItemWidth * Children.Count) + (Spacing * (Children.Count - 1)), maxItemHeight);
+        }
+        else
+        {
+            return new Size(0, 0);
+        }
+    }
+
     protected override Size ArrangeOverride(Size finalSize)
     {
+        System.Diagnostics.Debug.WriteLine("ArrangeOverride - " + HorizontalAlignment);
         var x = 0.0;
         foreach (var child in Children)
         {
-            var newpos = new Rect(x, 0, maxItemWidth, maxItemHeight);
-            child.Arrange(newpos);
+            child.Arrange(new Rect(x, 0, maxItemWidth, maxItemHeight));
             x += maxItemWidth + Spacing;
         }
         return finalSize;
     }
 
-    protected override Size MeasureOverride(Size availableSize)
+    private void SetMaxDimensions(UIElementCollection items, Size availableSize)
     {
-        if (Children.Count > 0)
+        foreach (var item in items)
         {
-            // The panel columns should have the same width: that of the item width the largest width.
-            foreach (var item in Children)
+            item.Measure(availableSize);
+            double desiredWidth = item.DesiredSize.Width;
+            if (desiredWidth > maxItemWidth)
             {
-                item.Measure(availableSize);
-
-                var desiredWidth = item.DesiredSize.Width;
-                if (desiredWidth > maxItemWidth)
-                    maxItemWidth = desiredWidth;
-
-                var desiredHeight = item.DesiredSize.Height;
-                if (desiredHeight > maxItemHeight)
-                    maxItemHeight = desiredHeight;
+                maxItemWidth = desiredWidth;
             }
 
-            if (HorizontalAlignment != HorizontalAlignment.Stretch)
+            double desiredHeight = item.DesiredSize.Height;
+            if (desiredHeight > maxItemHeight)
             {
-                return new Size((maxItemWidth * Children.Count) + (Spacing * (Children.Count - 1)), maxItemHeight);
-            }
-            else
-            {
-                // The panel should equally split the available width when HorizontalAlignment is set to Stretch
-                var availableWidth = availableSize.Width - (Spacing * (Children.Count - 1));
-                maxItemWidth = availableWidth / Children.Count;
-                return new Size(availableWidth, maxItemHeight);
+                maxItemHeight = desiredHeight;
             }
         }
-        else
-        {
-            return new Size(maxItemWidth, maxItemHeight);
-        }
+    }
+    private void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyProperty dp)
+    {
+        InvalidateMeasure();
+    }
+
+    private static void OnSpacingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var panel = (EqualPanel)d;
+        panel.InvalidateMeasure();
     }
 }
