@@ -13,36 +13,51 @@ namespace CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
 /// <para/>
 /// </remarks>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public sealed class ToolkitSampleMultiChoiceOptionAttribute : ToolkitSampleOptionBaseAttribute
+public sealed class ToolkitSampleNumericOptionAttribute : ToolkitSampleOptionBaseAttribute
 {
     /// <summary>
-    /// Creates a new instance of <see cref="ToolkitSampleMultiChoiceOptionAttribute"/>.
+    /// Creates a new instance of <see cref="ToolkitSampleNumericOptionAttribute"/>.
     /// </summary>
     /// <param name="bindingName">The name of the generated property, which you can bind to in XAML.</param>
     /// <param name="choices">A list of the choices to display to the user. Can be literal values, or labeled values. Use a " : " separator (single colon surrounded by at least 1 whitespace) to separate a label from a value.</param>
     /// <param name="title">A title to display on top of this option.</param>
-    public ToolkitSampleMultiChoiceOptionAttribute(string bindingName, params string[] choices)
+    public ToolkitSampleNumericOptionAttribute(string bindingName, double initial = 0, double min = 0, double max = 10, double step = 1, bool showAsNumberBox = false)
         : base(bindingName, null)
     {
-        Choices = choices.Select(x =>
-        {
-            if (x.Contains(" : "))
-            {
-                var parts = x.Split(new string[] { " : " }, StringSplitOptions.RemoveEmptyEntries);
-                return new MultiChoiceOption(parts[0].TrimEnd(), parts[1].TrimStart());
-            }
-
-            return new MultiChoiceOption(x, x);
-        }).ToArray();
+        Initial = initial;
+        Min = min;
+        Max = max;
+        Step = step;
+        ShowAsNumberBox = showAsNumberBox;
     }
 
     /// <summary>
-    /// A collection of choices to display in the options pane.
+    /// The default start value.
     /// </summary>
-    public MultiChoiceOption[] Choices { get; }
+    public double Initial { get; }
+
+    /// <summary>
+    /// The minimal value.
+    /// </summary>
+    public double Min { get; }
+
+    /// <summary>
+    /// The maximum value.
+    /// </summary>
+    public double Max { get; }
+
+    /// <summary>
+    /// The step value.
+    /// </summary>
+    public double Step { get; }
+
+    /// <summary>
+    /// Determines if a Slider or NumberBox is shown.
+    /// </summary>
+    public bool ShowAsNumberBox { get; }
 
     /// <summary>
     /// The source generator-friendly type name used for casting.
     /// </summary>
-    internal override string TypeName { get; } = "string";
+    internal override string TypeName { get; } = "double";
 }

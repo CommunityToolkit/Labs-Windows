@@ -41,6 +41,12 @@ public class ToolkitSampleOptionGenerator : IIncrementalGenerator
                 if (x.Item2.TryReconstructAs<ToolkitSampleMultiChoiceOptionAttribute>() is ToolkitSampleMultiChoiceOptionAttribute multiChoiceOptionAttribute)
                     return (Attribute: (ToolkitSampleOptionBaseAttribute)multiChoiceOptionAttribute, ContainingClassSymbol: x.Item1, Type: typeof(ToolkitSampleMultiChoiceOptionMetadataViewModel));
 
+                if(x.Item2.TryReconstructAs<ToolkitSampleNumericOptionAttribute>() is ToolkitSampleNumericOptionAttribute numericOptionAttribute)
+                    return (Attribute: (ToolkitSampleOptionBaseAttribute)numericOptionAttribute, ContainingClassSymbol: x.Item1, Type: typeof(ToolkitSampleNumericOptionMetadataViewModel));
+
+                if (x.Item2.TryReconstructAs<ToolkitSampleTextOptionAttribute>() is ToolkitSampleTextOptionAttribute textOptionAttribute)
+                    return (Attribute: (ToolkitSampleOptionBaseAttribute)textOptionAttribute, ContainingClassSymbol: x.Item1, Type: typeof(ToolkitSampleTextOptionMetadataViewModel));
+
                 return default;
             })
             .Where(x => x != default);
