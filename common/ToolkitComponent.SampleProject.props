@@ -31,6 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildProjectDirectory)\..\..\src\CommunityToolkit.Labs.WinUI.$(ToolkitComponentName).csproj" />
+    <ProjectReference Condition="Exists('$(MSBuildProjectDirectory)\..\..\src\CommunityToolkit.Labs.WinUI.$(ToolkitComponentName).csproj')" Include="$(MSBuildProjectDirectory)\..\..\src\CommunityToolkit.Labs.WinUI.$(ToolkitComponentName).csproj" />
   </ItemGroup>
 </Project>
