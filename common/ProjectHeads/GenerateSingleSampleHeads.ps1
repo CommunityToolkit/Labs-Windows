@@ -33,7 +33,7 @@ $componentName = (Get-Item $componentPath -ErrorAction Stop).Name;
 
 foreach ($availableHead in (Get-ChildItem -Directory "$PSScriptRoot/SingleComponent/" -ErrorAction Stop)) {
     foreach ($head in $heads) {
-        if ($availableHead.Name.ToLower() -eq $head) {   
+        if ($availableHead.Name.ToLower() -eq $head) {
             Copy-Item -Recurse -Force -Path "$PSScriptRoot/SingleComponent/$($availableHead.Name)" -Destination "$headsFolder/" -ErrorAction Stop
         }
     }
