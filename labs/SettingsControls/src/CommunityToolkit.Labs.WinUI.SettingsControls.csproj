@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ToolkitComponentName>SettingsControls</ToolkitComponentName>
     <Description>This package contains the SettingsCard and SettingsExpander controls.</Description>
-    <Version>0.0.13</Version>
+    <Version>0.0.14</Version>
     <LangVersion>10.0</LangVersion>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
