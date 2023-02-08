@@ -190,11 +190,13 @@ public sealed partial class ToolkitSampleRenderer : Page
 
         try
         {
+#if __WASM__
             // Workaround for https://github.com/unoplatform/uno/issues/8649
             if (fileExtension.Contains(".cs"))
             {
                 fileExtension = fileExtension.Replace(".cs", ".cs.dat");
             }
+#endif
 
             var finalPath = $"ms-appx:///{filePath}.{fileExtension.Trim('.')}";
 

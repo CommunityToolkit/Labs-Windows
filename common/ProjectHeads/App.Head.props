@@ -27,7 +27,7 @@
     <IsAllExperimentHead Condition="$(MSBuildProjectName.StartsWith('CommunityToolkit.Labs.')) == 'true'">true</IsAllExperimentHead>
     <IsProjectTemplateHead Condition="$(MSBuildProjectName.StartsWith('ProjectTemplate')) == 'true'">true</IsProjectTemplateHead>
     <IsSingleExperimentHead Condition="'$(IsAllExperimentHead)' != 'true' AND '$(IsProjectTemplateHead)' != 'true'">true</IsSingleExperimentHead>
-    
+
     <DefineConstants Condition="$(IsAllExperimentHead) == 'true'">$(DefineConstants);LABS_ALL_SAMPLES</DefineConstants>
 
     <SlnGenIsDeployable>true</SlnGenIsDeployable>
@@ -36,11 +36,18 @@
   <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
   <ItemGroup Condition="'$(IsAllExperimentHead)' == 'true'">
     <!-- These are also included in Labs.Samples.props, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
-    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.md;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
-    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.xaml" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.xaml;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.md;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md">
+      <Link Condition="$(IsWasm) == 'true'">SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+
+    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.xaml" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.xaml;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml">
+      <Link Condition="$(IsWasm) == 'true'">SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
-    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.cs" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.cs;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
+    <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.cs" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.cs;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.cs">
+      <Link Condition="$(IsWasm) == 'true'">SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat</Link>
+    </Content>
 
     <!-- Include markdown files from all samples so the head can access them in the source generator -->
     <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\**\obj\**\*.md;$(RepositoryDirectory)**\**\samples\**\bin\**\*.md"/>
@@ -72,7 +79,7 @@
     <PropertyGroup>
       <GeneratedAssemblyInfoPath>$(IntermediateOutputPath)AssemblyInfo.g.cs</GeneratedAssemblyInfoPath>
     </PropertyGroup>
-    
+
     <ItemGroup>
       <!-- Add our own AssemblyInfo.cs standard attributes -->
       <AssemblyAttributes Include="AssemblyTitle">
@@ -80,7 +87,7 @@
       </AssemblyAttributes>
       <AssemblyAttributes Include="AssemblyDescription">
         <_Parameter1>Community Toolkit</_Parameter1>
-      </AssemblyAttributes>  
+      </AssemblyAttributes>
       <AssemblyAttributes Include="AssemblyCompany">
         <_Parameter1>$(Company)</_Parameter1>
       </AssemblyAttributes>
@@ -101,7 +108,7 @@
       </AssemblyAttributes>
       <AssemblyAttributes Include="AssemblyVersion">
         <_Parameter1>1.0.0.0</_Parameter1>
-      </AssemblyAttributes>   
+      </AssemblyAttributes>
       <AssemblyAttributes Include="AssemblyFileVersion">
         <_Parameter1>1.0.0.0</_Parameter1>
       </AssemblyAttributes>
@@ -124,10 +131,10 @@
     <!-- Extra attributes specific to platforms -->
     <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
       <AssemblyAttributes Include="System.Runtime.Versioning.TargetPlatformAttribute">
-        <_Parameter1>Windows10.0.19041.0</_Parameter1><!-- TODO: Grab from variable -->
+        <_Parameter1>Windows10.0.19041.0</_Parameter1>        <!-- TODO: Grab from variable -->
       </AssemblyAttributes>
       <AssemblyAttributes Include="System.Runtime.Versioning.SupportedOSPlatformAttribute">
-        <_Parameter1>Windows10.0.17763.0</_Parameter1><!-- TODO: Grab from variable -->
+        <_Parameter1>Windows10.0.17763.0</_Parameter1>        <!-- TODO: Grab from variable -->
       </AssemblyAttributes>
     </ItemGroup>
 
