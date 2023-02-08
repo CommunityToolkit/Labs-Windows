@@ -20,7 +20,7 @@
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
   <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\ProjectHeads\App.Head.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectHeads\Tests.Head.WinAppSdk.props" />
   <Import Project="$(RepositoryDirectory)common\ProjectHeads\AllComponents\Tests.Head.AllComponents.props" />
 
   <PropertyGroup>
