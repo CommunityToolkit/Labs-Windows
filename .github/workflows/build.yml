@@ -78,7 +78,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.3
 
       - name: Enable ${{ env.TARGET_PLATFORMS }} TargetFrameworks
-        working-directory: ./common/Scripts/
+        working-directory: ./common/MultiTarget/
         run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 ${{ env.TARGET_PLATFORMS }}" -ErrorAction Stop
 
       - name: Generate solution w/ ${{ env.TEST_PLATFORM }} Tests
