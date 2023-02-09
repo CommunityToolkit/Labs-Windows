@@ -161,8 +161,8 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.3
 
       - name: Add project heads to ProjectTemplate
-        working-directory: ${{ env.PROJECT_DIRECTORY }}
-        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ./template/ProjectTemplate
+        working-directory: ./
+        run: ./common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ env.PROJECT_DIRECTORY }}
 
       # Build and use template for creating new experiments
       - name: Build ProjectTemplate
