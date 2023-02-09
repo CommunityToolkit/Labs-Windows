@@ -38,14 +38,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj">
-      <Project>{2AB4591A-6877-487A-9733-0F06771832FF}</Project>
-      <Name>CommunityToolkit.Labs.WinUI.ProjectTemplate</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\samples\ProjectTemplate.Samples\ProjectTemplate.Samples.csproj">
-      <Project>{E648080E-263D-4920-9B3D-2F6BF541586C}</Project>
-      <Name>ProjectTemplate.Sample</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj"/>
+    <ProjectReference Include="..\..\samples\ProjectTemplate.Samples\ProjectTemplate.Samples.csproj"/>
   </ItemGroup>
   
   <!-- Must be imported after any shared projects in non-sdk style projects -->

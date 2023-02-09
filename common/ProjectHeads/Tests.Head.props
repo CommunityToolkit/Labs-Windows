@@ -8,11 +8,11 @@
   <!-- Test Dependencies -->
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.2.8</Version>
+      <Version>2.2.10</Version>
     </PackageReference>
 
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.2.8</Version>
+      <Version>2.2.10</Version>
     </PackageReference>
 
     <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.csproj"
