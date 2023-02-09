@@ -6,16 +6,21 @@ using CommunityToolkit.Labs.WinUI.Internal;
 
 namespace CommunityToolkit.Labs.WinUI;
 
-//// TODO: Ideally would use ItemsRepeater here, but it has a layout issue
-//// trying to request all the available horizontal space: https://github.com/microsoft/microsoft-ui-xaml/issues/3842
-public partial class SettingsExpander : ItemsControl
+//// Note: ItemsRepeater will request all the available horizontal space: https://github.com/microsoft/microsoft-ui-xaml/issues/3842
+[TemplatePart(Name = PART_ItemsRepeater, Type = typeof(MUXC.ItemsRepeater))]
+public partial class SettingsExpander : Control
 {
+    private const string PART_ItemsRepeater = "PART_ItemsRepeater";
+
+    private MUXC.ItemsRepeater? _itemsRepeater;
+
     /// <summary>
     /// The SettingsExpander is a collapsable control to host multiple SettingsCards.
     /// </summary>
     public SettingsExpander()
     {
         this.DefaultStyleKey = typeof(SettingsExpander);
+        Items = new List<object>();
     }
 
     /// <inheritdoc />
@@ -23,6 +28,21 @@ public partial class SettingsExpander : ItemsControl
     {
         base.OnApplyTemplate();
         RegisterAutomation();
+
+        if (_itemsRepeater != null)
+        {
+            _itemsRepeater.ElementPrepared -= this.ItemsRepeater_ElementPrepared;
+        }
+
+        _itemsRepeater = GetTemplateChild(PART_ItemsRepeater) as MUXC.ItemsRepeater;
+
+        if (_itemsRepeater != null)
+        {
+            _itemsRepeater.ElementPrepared += this.ItemsRepeater_ElementPrepared;
+
+            // Update it's source based on our current items properties.
+            OnItemsConnectedPropertyChanged(this, null!); // Can't get it to accept type here? (DependencyPropertyChangedEventArgs)EventArgs.Empty
+        }
     }
 
     private void RegisterAutomation()

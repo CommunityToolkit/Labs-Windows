@@ -69,7 +69,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SettingsExpander">
-                        <muxc:Expander MaxWidth="{TemplateBinding MaxWidth}"
+                        <muxc:Expander MinWidth="{TemplateBinding MinWidth}"
+                                       MinHeight="{TemplateBinding MinHeight}"
                                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        win:AutomationProperties.HelpText="{TemplateBinding AutomationProperties.HelpText}"
@@ -88,9 +89,24 @@
                                                    IsClickEnabled="False" />
                             </muxc:Expander.Header>
                             <muxc:Expander.Content>
-                                <ItemsPresenter win:Footer="{TemplateBinding ItemsFooter}"
-                                                win:Header="{TemplateBinding ItemsHeader}"
-                                                TabFocusNavigation="Local" />
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <ContentPresenter Content="{TemplateBinding ItemsHeader}" />
+                                    <muxc:ItemsRepeater x:Name="PART_ItemsRepeater"
+                                                        Grid.Row="1"
+                                                        ItemTemplate="{Binding ItemTemplate, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        TabFocusNavigation="Local">
+                                        <muxc:ItemsRepeater.Layout>
+                                            <muxc:StackLayout />
+                                        </muxc:ItemsRepeater.Layout>
+                                    </muxc:ItemsRepeater>
+                                    <ContentPresenter Grid.Row="2"
+                                                      Content="{TemplateBinding ItemsFooter}" />
+                                </Grid>
                             </muxc:Expander.Content>
                         </muxc:Expander>
                     </ControlTemplate>
