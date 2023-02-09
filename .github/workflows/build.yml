@@ -162,7 +162,7 @@ jobs:
 
       - name: Add project heads to ProjectTemplate
         working-directory: ${{ env.PROJECT_DIRECTORY }}
-        run: ${{ env.GITHUB_WORKSPACE }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ./template/ProjectTemplate
+        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ./template/ProjectTemplate
 
       # Build and use template for creating new experiments
       - name: Build ProjectTemplate
@@ -184,7 +184,7 @@ jobs:
 
       - name: Add project heads to ${{ env.TEST_PROJECT_NAME }}
         working-directory: ${{ env.TEST_PROJECT_DIRECTORY }}
-        run: ${{ env.GITHUB_WORKSPACE }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ env.TEST_PROJECT_DIRECTORY }}
+        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ env.TEST_PROJECT_DIRECTORY }}
 
       - name: MSBuild
         working-directory: ${{ env.TEST_PROJECT_DIRECTORY }}
