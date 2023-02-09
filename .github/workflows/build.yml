@@ -29,7 +29,7 @@ jobs:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: $DOTNET_VERSION
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -63,7 +63,7 @@ jobs:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: $DOTNET_VERSION
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -151,7 +151,7 @@ jobs:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: $DOTNET_VERSION
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -161,12 +161,12 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.3
 
       - name: Add project heads to ProjectTemplate
-        working-directory: $PROJECT_DIRECTORY
+        working-directory: ${{ env.PROJECT_DIRECTORY }}
         run: ./common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ./template/ProjectTemplate
 
       # Build and use template for creating new experiments
       - name: Build ProjectTemplate
-        working-directory: $PROJECT_DIRECTORY
+        working-directory: ${{ env.PROJECT_DIRECTORY }}
         run: msbuild.exe ProjectTemplate.sln /restore /nowarn:MSB4011 -p:Configuration=Debug
 
       - name: Clean environment
@@ -175,19 +175,19 @@ jobs:
 
       # Create a new experiment from the template and test using that
       - name: Install template
-        working-directory: $PROJECT_DIRECTORY
+        working-directory: ${{ env.PROJECT_DIRECTORY }}
         run: dotnet new --install ./
 
       - name: Create new experiment
         working-directory: ./labs
-        run: dotnet new labexp -n $TEST_PROJECT_NAME
+        run: dotnet new labexp -n ${{ env.TEST_PROJECT_NAME }}
 
       - name: Add project heads to ${{ env.TEST_PROJECT_NAME }}
-        working-directory: $TEST_PROJECT_DIRECTORY
-        run: ./common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath $TEST_PROJECT_DIRECTORY
+        working-directory: ${{ env.TEST_PROJECT_DIRECTORY }}
+        run: ./common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ env.TEST_PROJECT_DIRECTORY }}
 
       - name: MSBuild
-        working-directory: $TEST_PROJECT_DIRECTORY
+        working-directory: ${{ env.TEST_PROJECT_DIRECTORY }}
         run: msbuild.exe ${{ env.TEST_PROJECT_NAME }}.sln /restore /nowarn:MSB4011 -p:Configuration=Release
 
       # Run tests
@@ -219,7 +219,7 @@ jobs:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: $DOTNET_VERSION
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
