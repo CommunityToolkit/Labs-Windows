@@ -35,7 +35,7 @@
 
   <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
   <ItemGroup Condition="'$(IsAllExperimentHead)' == 'true'">
-    <!-- These are also included in Labs.Samples.props, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
+    <!-- These are also included in the Samples props file, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
     <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.md;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md">
       <Link Condition="$(IsWasm) == 'true'">SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
@@ -55,7 +55,7 @@
 
   <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
   <ItemGroup Condition="'$(IsSingleExperimentHead)' == 'true' or '$(IsProjectTemplateHead)' == 'true'">
-    <!-- These are also included in Labs.Samples.props, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
+    <!-- These are also included in the Samples props file, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
     <Content Include="$(MSBuildProjectDirectory)\..\..\samples\*.Samples\**\*.md" Exclude="$(MSBuildProjectDirectory)\..\..\samples\*.Samples\obj\**\*.md;$(MSBuildProjectDirectory)\..\..\samples\*.Samples\bin\**\*.md;$(MSBuildProjectDirectory)\..\..\**\SourceAssets\**\*.md" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
     <Content Include="$(MSBuildProjectDirectory)\..\..\samples\*.Samples\**\*.xaml" Exclude="$(MSBuildProjectDirectory)\..\..\samples\*.Samples\obj\**\*.xaml;$(MSBuildProjectDirectory)\..\..\samples\*.Samples\bin\**\*.xaml;$(MSBuildProjectDirectory)\..\..\**\SourceAssets\**\*.xaml" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
 
