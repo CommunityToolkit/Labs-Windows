@@ -31,7 +31,7 @@ $csprojFileName = [System.IO.Path]::GetFileName($relativeProjectPath);
 $templateContents = $templateContents -replace [regex]::escape($projectFileNamePlaceholder), $csprojFileName;
 
 # Insert project directory
-$projectDirectoryRelativeToRoot = [System.IO.Path]::GetDirectoryName($relativeProjectPath).TrimStart('.');
+$projectDirectoryRelativeToRoot = [System.IO.Path]::GetDirectoryName($relativeProjectPath).TrimStart('.').TrimStart('\');
 $templateContents = $templateContents -replace [regex]::escape($projectRootPlaceholder), "$projectDirectoryRelativeToRoot";
 
 function LoadMultiTargetsFrom([string] $path) {
