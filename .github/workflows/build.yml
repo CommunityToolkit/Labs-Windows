@@ -18,6 +18,8 @@ on:
 env:
   DOTNET_VERSION: ${{ '6.0.x' }}
   ENABLE_DIAGNOSTICS: ${{ true }}
+  COREHOST_TRACE: ${{ env.ENABLE_DIAGNOSTICS && '1' || '0' }}
+  COREHOST_TRACEFILE: corehosttrace.log
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
