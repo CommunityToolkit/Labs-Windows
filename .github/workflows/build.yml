@@ -18,6 +18,7 @@ on:
 env:
   DOTNET_VERSION: ${{ '6.0.x' }}
   ENABLE_DIAGNOSTICS: ${{ true }}
+  COREHOST_TRACE: 1
   COREHOST_TRACEFILE: corehosttrace.log
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -62,11 +63,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Setup dotnet Diagnostics (if enabled)
-        if: ${{ env.ENABLE_DIAGNOSTICS }}
-        run: |
-          echo "COREHOST_TRACE=1" >> $GITHUB_ENV
-
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
         with:
@@ -155,11 +151,6 @@ jobs:
       TEST_PROJECT_DIRECTORY: labs/CiTestExp
 
     steps:
-      - name: Setup dotnet Diagnostics (if enabled)
-        if: ${{ env.ENABLE_DIAGNOSTICS }}
-        run: |
-          echo "COREHOST_TRACE=1" >> $GITHUB_ENV
-
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
         with:
@@ -235,11 +226,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup dotnet Diagnostics (if enabled)
-        if: ${{ env.ENABLE_DIAGNOSTICS }}
-        run: |
-          echo "COREHOST_TRACE=1" >> $GITHUB_ENV
-
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
         with:
