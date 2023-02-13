@@ -134,7 +134,7 @@ jobs:
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v3
-        if: ${{ env.ENABLE_DIAGNOSTICS }} && (success() || failure())
+        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
         with:
           name: build-logs
           path: ./**/*.*log
@@ -215,9 +215,9 @@ jobs:
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v3
-        if: ${{ env.ENABLE_DIAGNOSTICS }} && (success() || failure())
+        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
         with:
-          name: build-logs
+          name: new-experiment-logs
           path: ./**/*.*log
 
   wasm-linux:
@@ -255,7 +255,7 @@ jobs:
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v3
-        if: ${{ env.ENABLE_DIAGNOSTICS }} && (success() || failure())
+        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
         with:
-          name: build-logs
+          name: linux-logs
           path: ./**/*.*log
