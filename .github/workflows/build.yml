@@ -17,8 +17,8 @@ on:
 
 env:
   DOTNET_VERSION: ${{ '6.0.x' }}
-  ENABLE_DIAGNOSTICS: ${{ true }}
-  COREHOST_TRACE: 1
+  ENABLE_DIAGNOSTICS: false
+  #COREHOST_TRACE: 1
   COREHOST_TRACEFILE: corehosttrace.log
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -69,7 +69,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: .NET Info (if diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
         run: dotnet --info
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -92,7 +92,7 @@ jobs:
 
       - name: Generate solution w/ ${{ env.TEST_PLATFORM }} Tests
         working-directory: ./
-        run: powershell -version 5.1 -command "./common/GenerateAllSolution.ps1 -IncludeHeads ${{ env.TEST_PLATFORM }}${{ env.ENABLE_DIAGNOSTICS && ' -UseDiagnostics' || '' }}" -ErrorAction Stop
+        run: powershell -version 5.1 -command "./common/GenerateAllSolution.ps1 -IncludeHeads ${{ env.TEST_PLATFORM }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}" -ErrorAction Stop
 
       - name: Enable Uno.WinUI (in WinUI3 matrix only)
         working-directory: ./common/MultiTarget/
@@ -140,7 +140,7 @@ jobs:
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v3
-        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
+        if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
           name: build-logs
           path: ./**/*.*log
@@ -161,7 +161,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: .NET Info (if diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
         run: dotnet --info
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -173,7 +173,7 @@ jobs:
 
       - name: Add project heads to ProjectTemplate
         working-directory: ./${{ env.PROJECT_DIRECTORY }}
-        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS && ' -UseDiagnostics' || '' }}
+        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
 
       # Build and use template for creating new experiments
       - name: Build ProjectTemplate
@@ -195,7 +195,7 @@ jobs:
 
       - name: Add project heads to ${{ env.TEST_PROJECT_NAME }}
         working-directory: ./${{ env.TEST_PROJECT_DIRECTORY }}
-        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.TEST_PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS && ' -UseDiagnostics' || '' }}
+        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.TEST_PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
 
       - name: MSBuild
         working-directory: ./${{ env.TEST_PROJECT_DIRECTORY }}
@@ -225,7 +225,7 @@ jobs:
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v3
-        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
+        if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
           name: new-experiment-logs
           path: ./**/*.*log
@@ -240,7 +240,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: .NET Info (if diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
         run: dotnet --info
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -254,7 +254,7 @@ jobs:
       - name: Generate solution
         shell: pwsh
         working-directory: ./
-        run: ./common/GenerateAllSolution.ps1${{ env.ENABLE_DIAGNOSTICS && ' -UseDiagnostics' || '' }}
+        run: ./common/GenerateAllSolution.ps1${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
 
       - name: Install ninja for WASM native dependencies
         run: sudo apt-get install ninja-build
@@ -269,7 +269,7 @@ jobs:
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v3
-        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
+        if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
           name: linux-logs
           path: ./**/*.*log
