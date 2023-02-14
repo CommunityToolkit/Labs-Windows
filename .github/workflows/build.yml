@@ -164,6 +164,9 @@ jobs:
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
         run: dotnet --info
 
+      - name: Enable git long paths
+        run: git config --system core.longpaths true
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v3
