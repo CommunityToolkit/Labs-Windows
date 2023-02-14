@@ -1,9 +1,32 @@
+<#
+.SYNOPSIS
+    Uses the dotnet template tool to copy and rename project heads to run sample code for different platforms.
+.DESCRIPTION
+    This is used to centralize configuration and reduce duplication of copying these heads for every project.
+
+    This script also generates a solution for the project and will open Visual Studio.
+.PARAMETER componentPath
+    Folder for the project to copy the project heads to.
+.PARAMETER heads
+    Which heads to include to copy, defaults to all. (Currently ignored.)
+.PARAMETER UseDiagnostics
+    Add extra diagnostic output to running slngen, such as a binlog, etc...
+.EXAMPLE
+    C:\PS> .\GenerateSingleSampleHeads -componentPath components\testproj
+    Builds project heads for component in testproj directory.
+.NOTES
+    Author: Windows Community Toolkit Labs Team
+    Date:   Feb 9, 2023
+#>
 Param (
     [Parameter(HelpMessage = "The path to the containing folder for a component where sample heads should be generated.")] 
     [string]$componentPath,
 
     [Parameter(HelpMessage = "The heads that should be generated. If excluded, all heads will be generated. (Currently Ignored)")] 
-    [string[]]$heads = @("uwp", "wasm", "winappsdk", "tests.uwp", "tests.winappsdk")
+    [string[]]$heads = @("uwp", "wasm", "winappsdk", "tests.uwp", "tests.winappsdk"),
+
+    [Parameter(HelpMessage = "Add extra diagnostic output to slngen generator.")]
+    [switch]$UseDiagnostics = $false
 )
 
 if ($Env:Path.Contains("MSBuild") -eq $false) {
@@ -67,7 +90,18 @@ $projects = [System.Collections.ArrayList]::new()
 [void]$projects.Add("..\..\common\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod\*.csproj")
 [void]$projects.Add("..\..\common\CommunityToolkit.Labs.Core.SourceGenerators.XamlNamedPropertyRelay\*.csproj")
 
-$cmd = "dotnet tool run slngen -o $generatedSolutionFilePath $slngenConfig --platform $platforms $($projects -Join ' ')"
+if ($UseDiagnostics.IsPresent)
+{
+    $sdkoptions = " -d"
+    $diagnostics = '-bl:slngen.binlog --consolelogger:"ShowEventId;Summary;Verbosity=Detailed" --filelogger:"LogFile=slngen.log;Append;Verbosity=Diagnostic;Encoding=UTF-8" '
+}
+else
+{
+    $sdkoptions = ""
+    $diagnostics = ""
+}
+
+$cmd = "dotnet$sdkoptions tool run slngen -o $generatedSolutionFilePath $slngenConfig $diagnostics--platform $platforms $($projects -Join ' ')"
 
 Write-Output "Running Command: $cmd"
 

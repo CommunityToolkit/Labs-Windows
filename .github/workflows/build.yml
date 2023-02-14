@@ -17,6 +17,9 @@ on:
 
 env:
   DOTNET_VERSION: ${{ '6.0.x' }}
+  ENABLE_DIAGNOSTICS: ${{ true }}
+  COREHOST_TRACE: 1
+  COREHOST_TRACEFILE: corehosttrace.log
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -65,6 +68,10 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: .NET Info (if diagnostics)
+        if: ${{ env.ENABLE_DIAGNOSTICS }}
+        run: dotnet --info
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -85,7 +92,7 @@ jobs:
 
       - name: Generate solution w/ ${{ env.TEST_PLATFORM }} Tests
         working-directory: ./
-        run: powershell -version 5.1 -command "./common/GenerateAllSolution.ps1 -IncludeHeads ${{ env.TEST_PLATFORM }}" -ErrorAction Stop
+        run: powershell -version 5.1 -command "./common/GenerateAllSolution.ps1 -IncludeHeads ${{ env.TEST_PLATFORM }}${{ env.ENABLE_DIAGNOSTICS && ' -UseDiagnostics' || '' }}" -ErrorAction Stop
 
       - name: Enable Uno.WinUI (in WinUI3 matrix only)
         working-directory: ./common/MultiTarget/
@@ -131,12 +138,12 @@ jobs:
           testspace '[${{ matrix.platform }}]./TestResults/*.trx'
         if: ${{ always() && (steps.test-generator.conclusion == 'success' || steps.test-platform.conclusion == 'success') }}
 
-      #- name: Artifact - Slngen Logs
-      #  uses: actions/upload-artifact@v3
-      #  if: success() || failure()
-      #  with:
-      #    name: slngen-logs
-      #    path: ./**/slngen.*log
+      - name: Artifact - Diagnostic Logs
+        uses: actions/upload-artifact@v3
+        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
+        with:
+          name: build-logs
+          path: ./**/*.*log
 
   # Test job to build a single experiment to ensure our changes work for both our main types of solutions at the moment
   new-experiment:
@@ -153,6 +160,10 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: .NET Info (if diagnostics)
+        if: ${{ env.ENABLE_DIAGNOSTICS }}
+        run: dotnet --info
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -162,7 +173,7 @@ jobs:
 
       - name: Add project heads to ProjectTemplate
         working-directory: ./${{ env.PROJECT_DIRECTORY }}
-        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}
+        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS && ' -UseDiagnostics' || '' }}
 
       # Build and use template for creating new experiments
       - name: Build ProjectTemplate
@@ -184,7 +195,7 @@ jobs:
 
       - name: Add project heads to ${{ env.TEST_PROJECT_NAME }}
         working-directory: ./${{ env.TEST_PROJECT_DIRECTORY }}
-        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.TEST_PROJECT_DIRECTORY }}
+        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.TEST_PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS && ' -UseDiagnostics' || '' }}
 
       - name: MSBuild
         working-directory: ./${{ env.TEST_PROJECT_DIRECTORY }}
@@ -212,6 +223,13 @@ jobs:
           testspace '[New Experiment]./TestResults/*.trx'
         if: ${{ always() && (steps.test-uwp.conclusion == 'success' || steps.test-winappsdk.conclusion == 'success') }}
 
+      - name: Artifact - Diagnostic Logs
+        uses: actions/upload-artifact@v3
+        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
+        with:
+          name: new-experiment-logs
+          path: ./**/*.*log
+
   wasm-linux:
     runs-on: ubuntu-latest
 
@@ -220,6 +238,10 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: .NET Info (if diagnostics)
+        if: ${{ env.ENABLE_DIAGNOSTICS }}
+        run: dotnet --info
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -232,7 +254,7 @@ jobs:
       - name: Generate solution
         shell: pwsh
         working-directory: ./
-        run: ./common/GenerateAllSolution.ps1
+        run: ./common/GenerateAllSolution.ps1${{ env.ENABLE_DIAGNOSTICS && ' -UseDiagnostics' || '' }}
 
       - name: Install ninja for WASM native dependencies
         run: sudo apt-get install ninja-build
@@ -245,9 +267,9 @@ jobs:
   
       # TODO: Do we want to run tests here? Can we do that on linux easily?
 
-      #- name: Artifact - Slngen Logs
-      #  uses: actions/upload-artifact@v3
-      #  if: success() || failure()
-      #  with:
-      #    name: slngen-logs
-      #    path: ./**/slngen.*log
+      - name: Artifact - Diagnostic Logs
+        uses: actions/upload-artifact@v3
+        if: ${{ env.ENABLE_DIAGNOSTICS && always() }}
+        with:
+          name: linux-logs
+          path: ./**/*.*log
