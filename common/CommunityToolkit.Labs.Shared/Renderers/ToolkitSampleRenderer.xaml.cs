@@ -249,7 +249,7 @@ public sealed partial class ToolkitSampleRenderer : Page
 
         // Component assembly names are formatted as 'ProjectTemplateComponent.Samples'
         // but the content folder is formatted as 'ProjectTemplate.Samples'
-        simpleAssemblyName = simpleAssemblyName.Replace("Component", "");
+        simpleAssemblyName = simpleAssemblyName.Replace("Experiment", "");
 
         if (isSingleExperimentHead || isProjectTemplateHead)
         {
