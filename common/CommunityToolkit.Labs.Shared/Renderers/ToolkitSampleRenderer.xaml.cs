@@ -243,13 +243,13 @@ public sealed partial class ToolkitSampleRenderer : Page
             throw new ArgumentException($"Unable to find namespace for provided type {type}.", nameof(typeNamespace));
         }
 
-
         var folderPath = typeNamespace.Replace(simpleAssemblyName, "").Trim('.').Replace('.', '/');
         if (folderPath.Length != 0)
             folderPath += "/";
 
-        // Our assembly has 'ProjectTemplateExperiment.Samples', but our folders are 'ProjectTemplate.Samples'
-        simpleAssemblyName = simpleAssemblyName.Replace("Experiment", "");
+        // Component assembly names are formatted as 'ProjectTemplateComponent.Samples'
+        // but the content folder is formatted as 'ProjectTemplate.Samples'
+        simpleAssemblyName = simpleAssemblyName.Replace("Component", "");
 
         if (isSingleExperimentHead || isProjectTemplateHead)
         {

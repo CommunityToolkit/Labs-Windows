@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <AssemblyName>$(ToolkitComponentName)Experiment.Samples</AssemblyName>
-    <RootNamespace>$(ToolkitComponentName)Experiment.Samples</RootNamespace>
+    <AssemblyName>$(ToolkitComponentName)Component.Samples</AssemblyName>
+    <RootNamespace>$(ToolkitComponentName)Component.Samples</RootNamespace>
   </PropertyGroup>
 </Project>

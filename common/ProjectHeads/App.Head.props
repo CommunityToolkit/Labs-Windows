@@ -37,11 +37,11 @@
   <ItemGroup Condition="'$(IsAllExperimentHead)' == 'true'">
     <!-- These are also included in the Samples props file, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
     <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.md;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md">
-      <Link Condition="$(IsWasm) == 'true'">SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <Link>SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
 
     <Content Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.xaml" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\obj\**\*.xaml;$(RepositoryDirectory)**\**\samples\*.Samples\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml">
-      <Link Condition="$(IsWasm) == 'true'">SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <Link>SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
