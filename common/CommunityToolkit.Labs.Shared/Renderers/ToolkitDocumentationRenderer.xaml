@@ -8,7 +8,7 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:CommunityToolkit.Labs.Shared"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:metadata="using:CommunityToolkit.Labs.Core.SourceGenerators.Metadata"
+      xmlns:metadata="using:CommunityToolkit.Tooling.SampleGen.Metadata"
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:renderer="using:CommunityToolkit.Labs.Shared.Renderers"
       xmlns:wasm="http://uno.ui/wasm"

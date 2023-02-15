@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
-using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
+using CommunityToolkit.Tooling.SampleGen.Attributes;
+using CommunityToolkit.Tooling.SampleGen.Metadata;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation.Collections;
 using Windows.Storage;
