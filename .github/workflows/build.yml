@@ -131,7 +131,7 @@ jobs:
 
       - name: Run experiment tests against ${{ env.TEST_PLATFORM }}
         id: test-platform
-        run:  vstest.console.exe ./tests/**/CommunityToolkit.Labs.Tests.${{ env.TEST_PLATFORM }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PLATFORM }}.trx"
+        run:  vstest.console.exe ./common/**/CommunityToolkit.Labs.Tests.${{ env.TEST_PLATFORM }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PLATFORM }}.trx"
 
       - name: Create test reports
         run: |
