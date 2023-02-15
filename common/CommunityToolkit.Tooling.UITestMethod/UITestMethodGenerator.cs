@@ -2,13 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Tooling.UITestMethod.Diagnostics;
-using CommunityToolkit.Tooling.UITestMethod.Extensions;
+using CommunityToolkit.Tooling.TestGen.Diagnostics;
+using CommunityToolkit.Tooling.TestGen.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
 
-namespace CommunityToolkit.Tooling.UITestMethod;
+namespace CommunityToolkit.Tooling.TestGen;
 
 /// <summary>
 /// Generates code that provides access to XAML elements with <c>x:Name</c> from code-behind by wrapping an instance of a control, without the need to use <c>x:FieldProvider="public"</c> directly in markup.
@@ -31,7 +31,7 @@ public class UITestMethodGenerator : IIncrementalGenerator
             .Select(static (item, _) =>
             (
                 Symbol: item,
-                Attribute: item.GetAttributes().FirstOrDefault(a => a.AttributeClass?.HasFullyQualifiedName("global::CommunityToolkit.Tooling.UITestMethod.UITestMethodAttribute") ?? false)
+                Attribute: item.GetAttributes().FirstOrDefault(a => a.AttributeClass?.HasFullyQualifiedName("global::CommunityToolkit.Tooling.TestGen.UITestMethodAttribute") ?? false)
             ))
             
             .Where(static item => item.Attribute is not null && item.Symbol is IMethodSymbol)

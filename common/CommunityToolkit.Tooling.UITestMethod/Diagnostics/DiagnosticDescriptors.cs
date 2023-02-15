@@ -4,7 +4,7 @@
 
 using Microsoft.CodeAnalysis;
 
-namespace CommunityToolkit.Tooling.UITestMethod.Diagnostics;
+namespace CommunityToolkit.Tooling.TestGen.Diagnostics;
 
 /// <summary>
 /// A container for all <see cref="DiagnosticDescriptor"/> instances for errors reported by analyzers in this project.

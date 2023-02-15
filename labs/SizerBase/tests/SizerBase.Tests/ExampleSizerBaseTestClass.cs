@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Tooling.UITestMethod;
+using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Labs.Tests;
 using CommunityToolkit.Labs.WinUI.Automation.Peers;
 
@@ -32,7 +32,7 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
         });
     }
 
-    [LabsUITestMethod]
+    [UIThreadTestMethod]
     public void PropertySizer_TestInitialBinding(PropertySizerTestInitialBinding testControl)
     {
         var propertySizer = testControl.FindDescendant<PropertySizer>();
@@ -43,7 +43,7 @@ public partial class ExampleSizerBaseTestClass : VisualUITestBase
         Assert.AreEqual(300, propertySizer.Binding, "Property Sizer not at expected initial value.");
     }
 
-    [LabsUITestMethod]
+    [UIThreadTestMethod]
     public void PropertySizer_TestChangeBinding(PropertySizerTestInitialBinding testControl)
     {
         var propertySizer = testControl.FindDescendant<PropertySizer>();

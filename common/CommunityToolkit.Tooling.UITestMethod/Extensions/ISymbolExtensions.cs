@@ -5,7 +5,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
-namespace CommunityToolkit.Tooling.UITestMethod.Extensions;
+namespace CommunityToolkit.Tooling.TestGen.Extensions;
 
 /// <summary>
 /// Extension methods for the <see cref="ISymbol"/> type.

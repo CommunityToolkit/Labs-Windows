@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CommunityToolkit.Tooling.UITestMethod;
+namespace CommunityToolkit.Tooling.TestGen;
 
 /// <summary>
 /// Generates a test method that auto-dispatches method contents to the UI thread,
