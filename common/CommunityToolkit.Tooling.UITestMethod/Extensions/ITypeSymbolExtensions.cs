@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace CommunityToolkit.Tooling.UITestMethod.Extensions;
+namespace CommunityToolkit.Tooling.TestGen.Extensions;
 
 /// <summary>
 /// Extension methods for the <see cref="ITypeSymbol"/> type.

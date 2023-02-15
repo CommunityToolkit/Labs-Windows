@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommunityToolkit.Tooling.UITestMethod\CommunityToolkit.Tooling.UITestMethod.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.Tooling.TestGen\CommunityToolkit.Tooling.TestGen.csproj" />
   </ItemGroup>
 
 </Project>

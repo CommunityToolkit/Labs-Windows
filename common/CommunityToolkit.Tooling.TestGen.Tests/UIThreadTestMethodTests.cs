@@ -2,16 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Tooling.UITestMethod;
-using CommunityToolkit.Tooling.UITestMethod.Diagnostics;
+using CommunityToolkit.Tooling.SampleGen;
+using CommunityToolkit.Tooling.TestGen.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CommunityToolkit.Tooling.SampleGen.Tests;
+namespace CommunityToolkit.Tooling.TestGen.Tests;
 
 [TestClass]
-public partial class UITestMethodTests
+public partial class UIThreadTestMethodTests
 {
     private const string DispatcherQueueDefinition = @"
 namespace MyApp
@@ -30,7 +30,7 @@ namespace MyApp
     {
         string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Tooling.UITestMethod;
+            using CommunityToolkit.Tooling.TestGen;
 
             namespace MyApp
             {
@@ -39,7 +39,7 @@ namespace MyApp
                     public System.Threading.Tasks.Task LoadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
                     public System.Threading.Tasks.Task UnloadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
 
-                    [LabsUITestMethod]
+                    [UIThreadTestMethod]
                     public void TestMethod(MyControl control)
                     {
                     }
@@ -66,7 +66,7 @@ namespace MyApp
     {
         string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Tooling.UITestMethod;
+            using CommunityToolkit.Tooling.TestGen;
 
             namespace MyApp
             {
@@ -75,7 +75,7 @@ namespace MyApp
                     public System.Threading.Tasks.Task LoadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
                     public System.Threading.Tasks.Task UnloadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
 
-                    [LabsUITestMethod]
+                    [UIThreadTestMethod]
                     public async System.Threading.Tasks.Task TestMethod(MyControl control)
                     {
                     }
@@ -108,7 +108,7 @@ namespace MyApp
     {
         string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Tooling.UITestMethod;
+            using CommunityToolkit.Tooling.TestGen;
 
             namespace MyApp
             {
@@ -117,7 +117,7 @@ namespace MyApp
                     public System.Threading.Tasks.Task LoadTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
                     public System.Threading.Tasks.Task UnloadTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
 
-                    [LabsUITestMethod]
+                    [UIThreadTestMethod]
                     public async System.Threading.Tasks.Task TestMethod(MyControl control)
                     {
                     }
@@ -150,13 +150,13 @@ namespace MyApp
     {
         string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Tooling.UITestMethod;
+            using CommunityToolkit.Tooling.TestGen;
 
             namespace MyApp
             {
                 public partial class Test
                 {
-                    [LabsUITestMethod]
+                    [UIThreadTestMethod]
                     public async System.Threading.Tasks.Task TestMethod()
                     {
                     }
@@ -179,7 +179,7 @@ namespace MyApp
     {
         string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Tooling.UITestMethod;
+            using CommunityToolkit.Tooling.TestGen;
 
             namespace MyApp
             {
@@ -188,7 +188,7 @@ namespace MyApp
                     public System.Threading.Tasks.Task LoadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
                     public System.Threading.Tasks.Task UnloadTestContentAsync(Microsoft.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
 
-                    [LabsUITestMethod]
+                    [UIThreadTestMethod]
                     public void TestMethod(MyControl control)
                     {
                     }
@@ -221,7 +221,7 @@ namespace MyApp
     {
         string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Tooling.UITestMethod;
+            using CommunityToolkit.Tooling.TestGen;
 
             namespace MyApp
             {
@@ -230,7 +230,7 @@ namespace MyApp
                     public System.Threading.Tasks.Task LoadTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
                     public System.Threading.Tasks.Task UnloadTestContentAsync(Windows.UI.Xaml.FrameworkElement content) => System.Threading.Tasks.Task.CompletedTask;
 
-                    [LabsUITestMethod]
+                    [UIThreadTestMethod]
                     public void TestMethod(MyControl control)
                     {
                     }
@@ -263,13 +263,13 @@ namespace MyApp
     {
         string source = @"
             using System.ComponentModel;
-            using CommunityToolkit.Tooling.UITestMethod;
+            using CommunityToolkit.Tooling.TestGen;
 
             namespace MyApp
             {
                 public partial class Test
                 {
-                    [LabsUITestMethod]
+                    [UIThreadTestMethod]
                     public void TestMethod()
                     {
                     }
