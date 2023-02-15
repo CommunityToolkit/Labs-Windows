@@ -48,7 +48,7 @@ if (Test-Path -Path $generatedSolutionFilePath)
 $projects = [System.Collections.ArrayList]::new()
 
 # Common/Dependencies for shared infrastructure
-[void]$projects.Add(".\common\*CommunityToolkit*\*.*proj")
+[void]$projects.Add(".\common\CommunityToolkit*\*.*proj")
 
 # App Head and Test Head
 if ($IncludeHeads -ne 'winappsdk')
