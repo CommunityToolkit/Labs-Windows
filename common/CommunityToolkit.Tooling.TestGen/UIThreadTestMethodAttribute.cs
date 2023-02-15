@@ -11,6 +11,6 @@ namespace CommunityToolkit.Tooling.TestGen;
 /// and provides an instance of a control as a parameter if present in the method signature.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-public sealed class UITestMethodAttribute : Attribute
+public sealed class UIThreadTestMethodAttribute : Attribute
 {
 }

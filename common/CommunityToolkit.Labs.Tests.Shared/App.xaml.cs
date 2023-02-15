@@ -100,7 +100,7 @@ public sealed partial class App : Application
 #if !WINAPPSDK
         Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
 #else
-        UITestMethodAttribute.DispatcherQueue = DispatcherQueue;
+        UIThreadTestMethodAttribute.DispatcherQueue = DispatcherQueue;
 
         // Replace back with e.Arguments when https://github.com/microsoft/microsoft-ui-xaml/issues/3368 is fixed
         Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(Environment.CommandLine);

@@ -14,7 +14,7 @@ namespace CommunityToolkit.Tooling.TestGen;
 /// Generates code that provides access to XAML elements with <c>x:Name</c> from code-behind by wrapping an instance of a control, without the need to use <c>x:FieldProvider="public"</c> directly in markup.
 /// </summary>
 [Generator]
-public class UITestMethodGenerator : IIncrementalGenerator
+public class UIThreadTestMethodGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -26,12 +26,12 @@ public class UITestMethodGenerator : IIncrementalGenerator
             .Where(x => x is not null)
             .Select((x, _) => x!);
 
-        // Filter the methods using [UITestMethod]
+        // Filter the methods using [UIThreadTestMethod]
         var methodAndPageTypeSymbols = methodSymbols
             .Select(static (item, _) =>
             (
                 Symbol: item,
-                Attribute: item.GetAttributes().FirstOrDefault(a => a.AttributeClass?.HasFullyQualifiedName("global::CommunityToolkit.Tooling.TestGen.UITestMethodAttribute") ?? false)
+                Attribute: item.GetAttributes().FirstOrDefault(a => a.AttributeClass?.HasFullyQualifiedName("global::CommunityToolkit.Tooling.TestGen.UIThreadTestMethodAttribute") ?? false)
             ))
             
             .Where(static item => item.Attribute is not null && item.Symbol is IMethodSymbol)

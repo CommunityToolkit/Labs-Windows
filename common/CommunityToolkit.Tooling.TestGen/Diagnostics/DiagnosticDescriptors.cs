@@ -12,7 +12,7 @@ namespace CommunityToolkit.Tooling.TestGen.Diagnostics;
 public static class DiagnosticDescriptors
 {
     /// <summary>
-    /// Gets a <see cref="DiagnosticDescriptor"/> indicating that a test method decorated with <see cref="UITestMethodAttribute"/> asks for a control instance with a non-parameterless constructor.
+    /// Gets a <see cref="DiagnosticDescriptor"/> indicating that a test method decorated with <see cref="UIThreadTestMethodAttribute"/> asks for a control instance with a non-parameterless constructor.
     /// <para>
     /// Format: <c>"Cannot generate test with type {0} as it has a constructor with parameters."</c>.
     /// </para>
@@ -21,7 +21,7 @@ public static class DiagnosticDescriptors
         id: "LUITM0001",
         title: $"Provided control must not have a constructor with parameters.",
         messageFormat: $"Cannot generate test with control {{0}} as it has a constructor with parameters.",
-        category: typeof(UITestMethodGenerator).FullName,
+        category: typeof(UIThreadTestMethodGenerator).FullName,
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
         description: $"Cannot generate test method with provided control.");
