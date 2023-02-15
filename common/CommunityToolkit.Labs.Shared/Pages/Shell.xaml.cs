@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.Shared.Renderers;
-using CommunityToolkit.Labs.Core.SourceGenerators.Metadata;
+using CommunityToolkit.Tooling.SampleGen.Metadata;
 using CommunityToolkit.Labs.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 

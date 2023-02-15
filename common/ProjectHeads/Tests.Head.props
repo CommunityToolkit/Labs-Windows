@@ -15,7 +15,7 @@
       <Version>2.2.10</Version>
     </PackageReference>
 
-    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod\CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod.csproj"
+    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Tooling.UITestMethod\CommunityToolkit.Tooling.UITestMethod.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
 
