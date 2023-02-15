@@ -50,7 +50,7 @@
     </Content>
 
     <!-- Include markdown files from all samples so the head can access them in the source generator -->
-    <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\**\obj\**\*.md;$(RepositoryDirectory)**\**\samples\**\bin\**\*.md"/>
+    <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\*.Samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\*.Samples\**\obj\**\*.md;$(RepositoryDirectory)**\**\samples\*.Samples\**\bin\**\*.md"/>
   </ItemGroup>
 
   <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
