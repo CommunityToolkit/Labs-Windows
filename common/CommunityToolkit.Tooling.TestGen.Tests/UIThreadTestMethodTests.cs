@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Tooling.SampleGen;
+using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tooling.TestGen.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -58,7 +58,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        VerifyGeneratedDiagnostics<UITestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TestControlHasConstructorWithParameters.Id);
+        VerifyGeneratedDiagnostics<UIThreadTestMethodGenerator>(source + DispatcherQueueDefinition, DiagnosticDescriptors.TestControlHasConstructorWithParameters.Id);
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        var result = VerifyGeneratedDiagnostics<UITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<UIThreadTestMethodGenerator>(source + DispatcherQueueDefinition);
 
         Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
         // To do, should probably inspect tree more directly.
@@ -133,7 +133,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        var result = VerifyGeneratedDiagnostics<UITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<UIThreadTestMethodGenerator>(source + DispatcherQueueDefinition);
 
         Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
         // To do, should probably inspect tree more directly.
@@ -163,7 +163,7 @@ namespace MyApp
                 }
             }";
 
-        var result = VerifyGeneratedDiagnostics<UITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<UIThreadTestMethodGenerator>(source + DispatcherQueueDefinition);
 
         Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
         // To do, should probably inspect tree more directly.
@@ -204,7 +204,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        var result = VerifyGeneratedDiagnostics<UITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<UIThreadTestMethodGenerator>(source + DispatcherQueueDefinition);
 
         Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
         // To do, should probably inspect tree more directly.
@@ -246,7 +246,7 @@ namespace MyApp
                 public class FrameworkElement { }
             }";
 
-        var result = VerifyGeneratedDiagnostics<UITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<UIThreadTestMethodGenerator>(source + DispatcherQueueDefinition);
 
         Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
         // To do, should probably inspect tree more directly.
@@ -276,7 +276,7 @@ namespace MyApp
                 }
             }";
 
-        var result = VerifyGeneratedDiagnostics<UITestMethodGenerator>(source + DispatcherQueueDefinition);
+        var result = VerifyGeneratedDiagnostics<UIThreadTestMethodGenerator>(source + DispatcherQueueDefinition);
 
         Assert.AreEqual(1, result.GeneratedTrees.Length, "More trees generated than expected.");
         // To do, should probably inspect tree more directly.
@@ -311,7 +311,7 @@ namespace MyApp
     private static GeneratorDriverRunResult VerifyGeneratedDiagnostics<TGenerator>(SyntaxTree syntaxTree, params string[] diagnosticsIds)
         where TGenerator : class, IIncrementalGenerator, new()
     {
-        var attributeType = typeof(UITestMethodAttribute);
+        var attributeType = typeof(UIThreadTestMethodAttribute);
 
         var references =
             from assembly in AppDomain.CurrentDomain.GetAssemblies()
