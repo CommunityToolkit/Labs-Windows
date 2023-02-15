@@ -159,7 +159,7 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         if (string.IsNullOrWhiteSpace(assemblyName))
             throw new InvalidOperationException();
 
-        var isAllExperimentHead = assemblyName.StartsWith("CommunityToolkit.Labs.", StringComparison.OrdinalIgnoreCase);
+        var isAllExperimentHead = assemblyName.StartsWith("CommunityToolkit.", StringComparison.OrdinalIgnoreCase);
         var isProjectTemplateHead = assemblyName.StartsWith("ProjectTemplate");
         var isSingleExperimentHead = !isAllExperimentHead && !isProjectTemplateHead;
 

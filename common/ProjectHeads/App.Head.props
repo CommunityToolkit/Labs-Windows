@@ -24,7 +24,7 @@
 
   <PropertyGroup>
     <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
-    <IsAllExperimentHead Condition="$(MSBuildProjectName.StartsWith('CommunityToolkit.Labs.')) == 'true'">true</IsAllExperimentHead>
+    <IsAllExperimentHead Condition="$(MSBuildProjectName.StartsWith('CommunityToolkit.')) == 'true'">true</IsAllExperimentHead>
     <IsProjectTemplateHead Condition="$(MSBuildProjectName.StartsWith('ProjectTemplate')) == 'true'">true</IsProjectTemplateHead>
     <IsSingleExperimentHead Condition="'$(IsAllExperimentHead)' != 'true' AND '$(IsProjectTemplateHead)' != 'true'">true</IsSingleExperimentHead>
 

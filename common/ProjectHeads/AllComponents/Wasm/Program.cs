@@ -10,15 +10,15 @@ using Microsoft.UI.Xaml;
 using Windows.UI.Xaml;
 #endif
 
-namespace CommunityToolkit.Wasm;
+namespace CommunityToolkit.App.Wasm;
 
 public class Program
 {
-	private static App? _app;
+	private static CommunityToolkit.App.Shared.App? _app;
 
 	static int Main(string[] args)
 	{
-		Application.Start(_ => _app = new App());
+		Application.Start(_ => _app = new CommunityToolkit.App.Shared.App());
 
 		return 0;
 	}

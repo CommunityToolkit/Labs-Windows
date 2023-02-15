@@ -260,7 +260,7 @@ jobs:
         run: sudo apt-get install ninja-build
 
       # Issue with Comment Links currently, see: https://github.com/mrlacey/CommentLinks/issues/38
-      # See launch.json configuration file for analogous command we're emulating here to build LINK: ../../.vscode/launch.json:CommunityToolkit.Wasm.csproj
+      # See launch.json configuration file for analogous command we're emulating here to build LINK: ../../.vscode/launch.json:CommunityToolkit.App.Wasm.csproj
       - name: dotnet build
         working-directory: ./common/ProjectHeads/AllComponents/Wasm/
         run: dotnet build /r /bl /p:UnoSourceGeneratorUseGenerationHost=true /p:UnoSourceGeneratorUseGenerationController=false
