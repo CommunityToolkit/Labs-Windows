@@ -24,7 +24,7 @@
   <Import Project="$(RepositoryDirectory)common\ProjectHeads\App.Head.WinAppSdk.props" />
 
   <PropertyGroup>
-    <RootNamepace>CommunityToolkit.Labs.WinAppSdk</RootNamepace>
+    <RootNamepace>CommunityToolkit.App.WinAppSdk</RootNamepace>
   </PropertyGroup>
 
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging

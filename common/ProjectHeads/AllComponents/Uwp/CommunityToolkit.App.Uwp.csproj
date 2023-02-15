@@ -26,8 +26,8 @@
   <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\*.props" />
 
   <PropertyGroup>
-    <RootNamespace>CommunityToolkit.Uwp</RootNamespace>
-    <AssemblyName>CommunityToolkit.Uwp</AssemblyName>
+    <RootNamespace>CommunityToolkit.App.Uwp</RootNamespace>
+    <AssemblyName>CommunityToolkit.App.Uwp</AssemblyName>
     <ProjectGuid>{B3D6DF0B-13DB-493E-9D1A-56343EFEDEA7}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
