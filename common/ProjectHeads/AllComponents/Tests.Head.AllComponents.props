@@ -1,6 +1,6 @@
 <Project>
   <!-- Needed Unit Testing helper base classes -->
-  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Labs.Tests.Shared\CommunityToolkit.Labs.Tests.Shared.projitems" Label="Unit Testing Helpers" />
+  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Tests.Shared\CommunityToolkit.Tests.Shared.projitems" Label="Unit Testing Helpers" />
 
   <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
   <Import Project="$(RepositoryDirectory)\labs\**\*.Tests.projitems" Label="Shared" />

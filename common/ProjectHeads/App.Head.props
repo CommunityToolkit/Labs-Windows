@@ -1,7 +1,7 @@
 <!-- Common props for any deployable app project head. -->
 <Project>
   <!-- Shared project -->
-  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.Labs.Shared\CommunityToolkit.Labs.Shared.projitems" Label="Shared" />
+  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.App.Shared\CommunityToolkit.App.Shared.projitems" Label="Shared" />
 
   <!-- Shared project dependencies -->
   <ItemGroup>
