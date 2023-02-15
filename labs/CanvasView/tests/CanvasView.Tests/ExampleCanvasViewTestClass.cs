@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Tooling.TestGen;
-using CommunityToolkit.Labs.Tests;
+using CommunityToolkit.Tests;
 
 namespace CanvasViewExperiment.Tests;
 

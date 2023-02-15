@@ -30,7 +30,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="CommunityToolkit.Labs.Shared.App">
+      EntryPoint="CommunityToolkit.App.Shared.App">
       <uap:VisualElements
         DisplayName="CommunityToolkit Labs: ProjectTemplate Sample"
         Square150x150Logo="Assets\Square150x150Logo.png"
