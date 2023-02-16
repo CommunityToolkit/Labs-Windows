@@ -9,13 +9,13 @@ To use the template to create a new experiment, open a command prompt in the **r
 ```ascii
 dotnet new --install .\template\ProjectTemplate\
 
-cd labs
+cd components
 
 dotnet new labexp -n MyExperimentNameHere
 ```
 
 This creates a new experiment called "MyExperimentNameHere".
-You can now open `./labs/MyExperimentNameHere/MyExperimentNameHere.sln` and start your experiment.
+You can now open `./components/MyExperimentNameHere/MyExperimentNameHere.sln` and start your experiment.
 
 ### Inside the generated solution
 
@@ -50,7 +50,7 @@ Visual Studio will prompt if any required components or workloads are missing. M
 
 #### Creating an experiment in the wrong place
 
-The generated solution and some of the projects it contains rely on relative paths that assume the experiment is created in the `labs` directory. If the experiment is created elsewhere, the error message "One or more projects in the solution were not loaded correctly." will be shown when opening the solution. Deleting the incorrect solution and recreating in the correct location is the most reliable way to address this.
+The generated solution and some of the projects it contains rely on relative paths that assume the experiment is created in the `components` directory. If the experiment is created elsewhere, the error message "One or more projects in the solution were not loaded correctly." will be shown when opening the solution. Deleting the incorrect solution and recreating in the correct location is the most reliable way to address this.
 
 #### Long Paths
 

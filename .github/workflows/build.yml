@@ -152,7 +152,7 @@ jobs:
     env:
       PROJECT_DIRECTORY: template/ProjectTemplate
       TEST_PROJECT_NAME: CiTestExp
-      TEST_PROJECT_DIRECTORY: labs/CiTestExp
+      TEST_PROJECT_DIRECTORY: components/CiTestExp
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
@@ -193,7 +193,7 @@ jobs:
         run: dotnet new --install ./
 
       - name: Create new experiment
-        working-directory: ./labs
+        working-directory: ./components
         run: dotnet new labexp -n ${{ env.TEST_PROJECT_NAME }}
 
       - name: Add project heads to ${{ env.TEST_PROJECT_NAME }}
@@ -215,11 +215,11 @@ jobs:
 
       - name: Run tests in the generated experiment against UWP
         id: test-uwp
-        run:  vstest.console.exe ./labs/${{ env.TEST_PROJECT_NAME }}/**/${{ env.TEST_PROJECT_NAME }}.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PROJECT_NAME }}UWP.trx"
+        run:  vstest.console.exe ./components/${{ env.TEST_PROJECT_NAME }}/**/${{ env.TEST_PROJECT_NAME }}.Tests.UWP.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PROJECT_NAME }}UWP.trx"
 
       - name: Run tests in the generated experiment against WinAppSDK
         id: test-winappsdk
-        run:  vstest.console.exe ./labs/${{ env.TEST_PROJECT_NAME }}/**/${{ env.TEST_PROJECT_NAME }}.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PROJECT_NAME }}WinAppSdk.trx"
+        run:  vstest.console.exe ./components/${{ env.TEST_PROJECT_NAME }}/**/${{ env.TEST_PROJECT_NAME }}.Tests.WinAppSdk.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PROJECT_NAME }}WinAppSdk.trx"
 
       - name: Create test reports
         run: |

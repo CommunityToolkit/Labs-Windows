@@ -36,21 +36,21 @@
   <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
   <ItemGroup Condition="'$(IsAllExperimentHead)' == 'true'">
     <!-- These are also included in the Samples props file, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
-    <Content Include="$(RepositoryDirectory)labs\**\samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.md;$(RepositoryDirectory)**\**\samples\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md">
+    <Content Include="$(RepositoryDirectory)components\**\samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.md;$(RepositoryDirectory)**\**\samples\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md">
       <Link>SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
 
-    <Content Include="$(RepositoryDirectory)labs\**\samples\**\*.xaml" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.xaml;$(RepositoryDirectory)**\**\samples\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml">
+    <Content Include="$(RepositoryDirectory)components\**\samples\**\*.xaml" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.xaml;$(RepositoryDirectory)**\**\samples\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml">
       <Link>SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
-    <Content Include="$(RepositoryDirectory)labs\**\samples\**\*.cs" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.cs;$(RepositoryDirectory)**\**\samples\bin\**\*.cs">
+    <Content Include="$(RepositoryDirectory)components\**\samples\**\*.cs" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.cs;$(RepositoryDirectory)**\**\samples\bin\**\*.cs">
       <Link Condition="$(IsWasm) == 'true'">SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat</Link>
     </Content>
 
     <!-- Include markdown files from all samples so the head can access them in the source generator -->
-    <AdditionalFiles Include="$(RepositoryDirectory)labs\**\samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\**\obj\**\*.md;$(RepositoryDirectory)**\**\samples\**\bin\**\*.md"/>
+    <AdditionalFiles Include="$(RepositoryDirectory)components\**\samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\**\obj\**\*.md;$(RepositoryDirectory)**\**\samples\**\bin\**\*.md"/>
   </ItemGroup>
 
   <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->

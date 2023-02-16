@@ -11,7 +11,7 @@ Remove-Item -Path $projectPropsOutputDir -Recurse -Force -ErrorAction SilentlyCo
 New-Item -ItemType Directory -Force -Path $projectPropsOutputDir -ErrorAction SilentlyContinue | Out-Null;
 
 # Discover projects in provided paths
-foreach ($projectPath in Get-ChildItem -Directory -Depth 0 -Path "$PSScriptRoot/../../labs/") {
+foreach ($projectPath in Get-ChildItem -Directory -Depth 0 -Path "$PSScriptRoot/../../components/*") {
   # Normalize project path
   $projectName = $projectPath.Name;
 
