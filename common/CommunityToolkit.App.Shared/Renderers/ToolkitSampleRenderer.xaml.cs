@@ -247,7 +247,7 @@ public sealed partial class ToolkitSampleRenderer : Page
         if (folderPath.Length != 0)
             folderPath += "/";
 
-        // Component assembly names are formatted as 'ProjectTemplateComponent.Samples'
+        // Component assembly names are formatted as 'ProjectTemplateExperiment.Samples'
         // but the content folder is formatted as 'ProjectTemplate.Samples'
         simpleAssemblyName = simpleAssemblyName.Replace("Experiment", "");
 
@@ -259,7 +259,7 @@ public sealed partial class ToolkitSampleRenderer : Page
         if (isAllExperimentHead)
         {
             var sampleName = simpleAssemblyName.Replace(".Samples", "");
-            return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}{type.Name}";
+            return $"SourceAssets/{sampleName}/samples/{folderPath}{type.Name}";
         }
 
         throw new InvalidOperationException("Unable to determine if running in a single or all experiment solution.");

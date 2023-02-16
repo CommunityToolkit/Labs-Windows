@@ -65,7 +65,7 @@ if ($IncludeHeads -ne 'uwp')
 
 # Individual projects
 [void]$projects.Add(".\labs\**\src\*.csproj")
-[void]$projects.Add(".\labs\**\samples\*.Samples\*.Samples.csproj")
+[void]$projects.Add(".\labs\**\samples\*.Samples.csproj")
 [void]$projects.Add(".\labs\**\tests\*.Tests\*.shproj")
 
 if ($UseDiagnostics.IsPresent)

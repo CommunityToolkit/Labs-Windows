@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj"/>
-    <ProjectReference Include="..\..\samples\ProjectTemplate.Samples\ProjectTemplate.Samples.csproj"/>
+    <ProjectReference Include="..\..\samples\ProjectTemplate.Samples.csproj"/>
   </ItemGroup>
   
   <!-- Must be imported after any shared projects in non-sdk style projects -->

@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />
-    <ProjectReference Include="..\..\samples\ProjectTemplate.Samples\ProjectTemplate.Samples.csproj" />
+    <ProjectReference Include="..\..\samples\ProjectTemplate.Samples.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

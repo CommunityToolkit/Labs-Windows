@@ -21,7 +21,7 @@ foreach ($projectPath in Get-ChildItem -Directory -Depth 0 -Path "$PSScriptRoot/
   $srcPath = Resolve-Path "$($projectPath.FullName)\src";
   $srcProjectPath = Get-ChildItem -File "$srcPath\*.csproj";
 
-  $samplePath = Resolve-Path "$($projectPath.FullName)\samples\$projectName.Samples";
+  $samplePath = Resolve-Path "$($projectPath.FullName)\samples";
   $sampleProjectPath = Get-ChildItem -File "$samplePath\*.csproj";
 
   if ($srcProjectPath.Length -eq 0) {

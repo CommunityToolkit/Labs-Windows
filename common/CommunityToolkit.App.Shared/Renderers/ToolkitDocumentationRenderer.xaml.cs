@@ -168,17 +168,6 @@ public sealed partial class ToolkitDocumentationRenderer : Page
 
         var path = metadata.FilePath;
 
-        if (isSingleExperimentHead || isProjectTemplateHead)
-        {
-            var experimentName = assemblyName.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)[0];
-
-            // Our assembly has 'ProjectTemplateExperiment.Samples', but our folder is 'ProjectTemplate.Samples'
-            experimentName = experimentName.Replace("Experiment", "");
-
-            path = path.Split(new[] { $"\\{experimentName}.Samples" }, StringSplitOptions.RemoveEmptyEntries)[1];
-            path = $"{experimentName}.Samples{path}";
-        }
-
         var fileUri = new Uri($"ms-appx:///SourceAssets/{path}");
 
         try
