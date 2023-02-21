@@ -24,3 +24,5 @@ You can easily override certain properties to create custom experiences. For ins
 `SettingsExpander` is also an `ItemsControl`, so its items can be driven by a collection and the `ItemsSource` property. You can use the `ItemTemplate` to define how your data object is represented as a `SettingsCard`, as shown below. The `ItemsHeader` and `ItemsFooter` property can be used to host custom content at the start or end of the items list.
 
 > [!SAMPLE SettingsExpanderItemsSourceSample]
+
+NOTE: Due to an bug, related to the `ItemsRepeater` used in `SettingsExpander`, there might be visual glitches whenever the `SettingsExpander` gets expanded and a `MaxWidth` is set on the parent `StackPanel`. As a workaround, the `StackPanel` (that has the `MaxWidth` set) can be wrapped in a `Grid` to overcome this issue. See the `SettingsPageExample` for snippet.
