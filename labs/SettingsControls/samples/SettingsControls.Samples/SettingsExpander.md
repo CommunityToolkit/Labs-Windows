@@ -25,4 +25,4 @@ You can easily override certain properties to create custom experiences. For ins
 
 > [!SAMPLE SettingsExpanderItemsSourceSample]
 
-NOTE: Due to an bug, related to the `ItemsRepeater` used in `SettingsExpander`, there might be visual glitches whenever the `SettingsExpander` gets expanded and a `MaxWidth` is set on the parent `StackPanel`. As a workaround, the `StackPanel` (that has the `MaxWidth` set) can be wrapped in a `Grid` to overcome this issue. See the `SettingsPageExample` for snippet.
+NOTE: Due to [a bug](https://github.com/microsoft/microsoft-ui-xaml/issues/3842) related to the `ItemsRepeater` used in `SettingsExpander`, there might be visual glitches whenever the `SettingsExpander` expands and a `MaxWidth` is set on a parent `StackPanel`. As a workaround, the `StackPanel` (that has the `MaxWidth` set) can be wrapped in a `Grid` to overcome this issue. See the `SettingsPageExample` for snippet.
