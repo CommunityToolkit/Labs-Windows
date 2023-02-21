@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
-using CommunityToolkit.Labs.Tests;
+using CommunityToolkit.Tooling.TestGen;
+using CommunityToolkit.Tests;
 using CommunityToolkit.Labs.WinUI.Rive;
 
 namespace RivePlayerExperiment.Tests;
@@ -42,18 +42,18 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
         Assert.ThrowsException<NotImplementedException>(() => throw new NotImplementedException());
     }
 
-    // The LabsUITestMethod automatically dispatches to the UI for us to work with UI objects.
-    [LabsUITestMethod]
+    // The UIThreadTestMethod automatically dispatches to the UI for us to work with UI objects.
+    [UIThreadTestMethod]
     public void SimpleUIAttributeExampleTest()
     {
         var component = new RivePlayer();
         Assert.IsNotNull(component);
     }
 
-    // The LabsUITestMethod can also easily grab a XAML Page for us by passing its type as a parameter.
+    // The UIThreadTestMethod can also easily grab a XAML Page for us by passing its type as a parameter.
     // This lets us actually test a control as it would behave within an actual application.
     // The page will already be loaded by the time your test is called.
-    [LabsUITestMethod]
+    [UIThreadTestMethod]
     public void SimpleUIExamplePageTest(ExampleRivePlayerTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
@@ -66,8 +66,8 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
         Assert.IsNotNull(componentByName);
     }
 
-    // You can still do async work with a LabsUITestMethod as well.
-    [LabsUITestMethod]
+    // You can still do async work with a UIThreadTestMethod as well.
+    [UIThreadTestMethod]
     public async Task SimpleAsyncUIExamplePageTest(ExampleRivePlayerTestPage page)
     {
         // This helper can be used to wait for a rendering pass to complete.
@@ -81,7 +81,7 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
     //// ----------------------------- ADVANCED TEST SCENARIOS -----------------------------
 
     // If you need to use DataRow, you can use this pattern with the UI dispatch still.
-    // Otherwise, checkout the LabsUITestMethod attribute above.
+    // Otherwise, checkout the UIThreadTestMethod attribute above.
     // See https://github.com/CommunityToolkit/Labs-Windows/issues/186
     [TestMethod]
     public async Task ComplexAsyncUIExampleTest()
@@ -93,7 +93,7 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
         });
     }
 
-    // If you want to load other content not within a XAML page using the LabsUITestMethod above.
+    // If you want to load other content not within a XAML page using the UIThreadTestMethod above.
     // Then you can do that using the Load/UnloadTestContentAsync methods.
     [TestMethod]
     public async Task ComplexAsyncLoadUIExampleTest()
@@ -114,8 +114,8 @@ public partial class ExampleRivePlayerTestClass : VisualUITestBase
         });
     }
 
-    // You can still use the LabsUITestMethod to remove the extra layer for the dispatcher as well:
-    [LabsUITestMethod]
+    // You can still use the UIThreadTestMethod to remove the extra layer for the dispatcher as well:
+    [UIThreadTestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
         var component = new RivePlayer();

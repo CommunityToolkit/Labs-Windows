@@ -16,7 +16,7 @@
 							($(IsiOS) == 'true' AND [CanTargetiOS] == 'true') OR
 							($(IsDroid) == 'true' AND [CanTargetDroid] == 'true')">
 			<ItemGroup>
-				<ProjectReference Include="[ProjectRoot]\[ProjectFileName]" />
+				<ProjectReference Include="$(RepositoryDirectory)[ProjectRoot]\[ProjectFileName]" />
 			</ItemGroup>
 		</When>
 		<Otherwise>

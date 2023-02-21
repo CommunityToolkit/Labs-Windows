@@ -37,7 +37,7 @@ $generatedSolutionFilePath = 'Toolkit.Labs.All.sln'
 $platforms = '"Any CPU;x64;x86;ARM64"'
 $slngenConfig = "--folders true --collapsefolders true --ignoreMainProject"
 
-# remove previous file if it exists
+# Remove previous file if it exists
 if (Test-Path -Path $generatedSolutionFilePath)
 {
     Remove-Item $generatedSolutionFilePath
@@ -48,34 +48,20 @@ if (Test-Path -Path $generatedSolutionFilePath)
 $projects = [System.Collections.ArrayList]::new()
 
 # Common/Dependencies for shared infrastructure
-[void]$projects.Add(".\common\**\*.*proj")
+[void]$projects.Add(".\common\CommunityToolkit*\*.*proj")
 
-# Sample Apps
+# App Head and Test Head
 if ($IncludeHeads -ne 'winappsdk')
 {
-    [void]$projects.Add(".\platforms\**\*.Uwp.csproj")
+    [void]$projects.Add(".\common\ProjectHeads\AllComponents\**\*.Uwp.csproj")
 }
 
 if ($IncludeHeads -ne 'uwp')
 {
-    [void]$projects.Add(".\platforms\**\*.WinAppSdk.csproj")
+    [void]$projects.Add(".\common\ProjectHeads\AllComponents\**\*.WinAppSdk.csproj")
 }
 
-[void]$projects.Add(".\platforms\**\*.Droid.csproj")
-[void]$projects.Add(".\platforms\**\*.*OS.csproj")
-[void]$projects.Add(".\platforms\**\*.Skia.*.csproj")
-[void]$projects.Add(".\platforms\**\*.Wasm.csproj")
-
-# Tests
-if ($IncludeHeads -ne 'winappsdk')
-{
-    [void]$projects.Add(".\tests\**\*.Uwp.csproj")
-}
-
-if ($IncludeHeads -ne 'uwp')
-{
-    [void]$projects.Add(".\tests\**\*.WinAppSdk.csproj")
-}
+[void]$projects.Add(".\common\ProjectHeads\AllComponents\**\*.Wasm.csproj")
 
 # Individual projects
 [void]$projects.Add(".\labs\**\src\*.csproj")
