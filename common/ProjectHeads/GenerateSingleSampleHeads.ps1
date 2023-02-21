@@ -48,7 +48,6 @@ Remove-Item -Recurse -Force "$componentPath/$headsFolderName/" -ErrorAction Sile
 # Intall our heads as a temporary template
 dotnet new --install "$PSScriptRoot/SingleComponent" --force
 
-Write-Host $componentPath;
 # We need to copy files and run slngen from the target directory path
 Push-Location $componentPath
 
