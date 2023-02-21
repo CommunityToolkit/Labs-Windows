@@ -48,6 +48,7 @@ Remove-Item -Recurse -Force "$componentPath/$headsFolderName/" -ErrorAction Sile
 # Intall our heads as a temporary template
 dotnet new --install "$PSScriptRoot/SingleComponent" --force
 
+Write-Host $componentPath;
 # We need to copy files and run slngen from the target directory path
 Push-Location $componentPath
 
@@ -55,7 +56,7 @@ Push-Location $componentPath
 dotnet new ct-tooling-heads -n $componentName
 
 # Rename folder from component name (dotnet tooling default) to 'heads'
-Rename-Item -Path "$componentPath/$componentName" -NewName $headsFolderName -Force
+Rename-Item -Path "$componentName" -NewName $headsFolderName -Force
 
 # Remove template, as just for script
 dotnet new --uninstall "$PSScriptRoot/SingleComponent"
