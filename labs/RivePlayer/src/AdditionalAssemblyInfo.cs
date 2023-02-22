@@ -15,5 +15,5 @@ using System.Windows;
 // used with the Labs infrastructure.
 [assembly: InternalsVisibleTo("RivePlayer.Tests.Uwp")]
 [assembly: InternalsVisibleTo("RivePlayer.Tests.WinAppSdk")]
-[assembly: InternalsVisibleTo("CommunityToolkit.Tests.Uwp")]
-[assembly: InternalsVisibleTo("CommunityToolkit.Tests.WinAppSdk")]
+[assembly: InternalsVisibleTo("CommunityToolkit.Labs.Tests.Uwp")]
+[assembly: InternalsVisibleTo("CommunityToolkit.Labs.Tests.WinAppSdk")]

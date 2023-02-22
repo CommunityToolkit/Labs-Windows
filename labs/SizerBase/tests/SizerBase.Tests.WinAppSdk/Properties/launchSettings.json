@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SizerBase.Tests.WinAppSdk (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SizerBase.Tests.WinAppSdk (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

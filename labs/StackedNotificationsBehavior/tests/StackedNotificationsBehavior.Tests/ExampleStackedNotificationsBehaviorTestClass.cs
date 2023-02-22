@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Tooling.TestGen;
-using CommunityToolkit.Tests;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+using CommunityToolkit.Labs.Tests;
 
 namespace StackedNotificationsBehaviorExperiment.Tests;
 
@@ -41,8 +41,8 @@ public partial class ExampleStackedNotificationsBehaviorTestClass : VisualUITest
         Assert.ThrowsException<NotImplementedException>(() => throw new NotImplementedException());
     }
 
-    // The UIThreadTestMethod automatically dispatches to the UI for us to work with UI objects.
-    [UIThreadTestMethod]
+    // The LabsUITestMethod automatically dispatches to the UI for us to work with UI objects.
+    [LabsUITestMethod]
     public void SimpleUIAttributeExampleTest()
     {
         var component = new StackedNotificationsBehavior();

@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Tooling.TestGen;
-using CommunityToolkit.Tests;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+using CommunityToolkit.Labs.Tests;
 
 namespace CanvasViewExperiment.Tests;
 
@@ -41,18 +41,18 @@ public partial class ExampleCanvasViewTestClass : VisualUITestBase
         Assert.ThrowsException<NotImplementedException>(() => throw new NotImplementedException());
     }
 
-    // The UIThreadTestMethod automatically dispatches to the UI for us to work with UI objects.
-    [UIThreadTestMethod]
+    // The LabsUITestMethod automatically dispatches to the UI for us to work with UI objects.
+    [LabsUITestMethod]
     public void SimpleUIAttributeExampleTest()
     {
         var component = new CanvasView();
         Assert.IsNotNull(component);
     }
 
-    // The UIThreadTestMethod can also easily grab a XAML Page for us by passing its type as a parameter.
+    // The LabsUITestMethod can also easily grab a XAML Page for us by passing its type as a parameter.
     // This lets us actually test a control as it would behave within an actual application.
     // The page will already be loaded by the time your test is called.
-    [UIThreadTestMethod]
+    [LabsUITestMethod]
     public void SimpleUIExamplePageTest(ExampleCanvasViewTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
@@ -65,8 +65,8 @@ public partial class ExampleCanvasViewTestClass : VisualUITestBase
         Assert.IsNotNull(componentByName);
     }
 
-    // You can still do async work with a UIThreadTestMethod as well.
-    [UIThreadTestMethod]
+    // You can still do async work with a LabsUITestMethod as well.
+    [LabsUITestMethod]
     public async Task SimpleAsyncUIExamplePageTest(ExampleCanvasViewTestPage page)
     {
         // This helper can be used to wait for a rendering pass to complete.
@@ -80,7 +80,7 @@ public partial class ExampleCanvasViewTestClass : VisualUITestBase
     //// ----------------------------- ADVANCED TEST SCENARIOS -----------------------------
 
     // If you need to use DataRow, you can use this pattern with the UI dispatch still.
-    // Otherwise, checkout the UIThreadTestMethod attribute above.
+    // Otherwise, checkout the LabsUITestMethod attribute above.
     // See https://github.com/CommunityToolkit/Labs-Windows/issues/186
     [TestMethod]
     public async Task ComplexAsyncUIExampleTest()
@@ -92,7 +92,7 @@ public partial class ExampleCanvasViewTestClass : VisualUITestBase
         });
     }
 
-    // If you want to load other content not within a XAML page using the UIThreadTestMethod above.
+    // If you want to load other content not within a XAML page using the LabsUITestMethod above.
     // Then you can do that using the Load/UnloadTestContentAsync methods.
     [TestMethod]
     public async Task ComplexAsyncLoadUIExampleTest()
@@ -113,8 +113,8 @@ public partial class ExampleCanvasViewTestClass : VisualUITestBase
         });
     }
 
-    // You can still use the UIThreadTestMethod to remove the extra layer for the dispatcher as well:
-    [UIThreadTestMethod]
+    // You can still use the LabsUITestMethod to remove the extra layer for the dispatcher as well:
+    [LabsUITestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
         var component = new CanvasView();

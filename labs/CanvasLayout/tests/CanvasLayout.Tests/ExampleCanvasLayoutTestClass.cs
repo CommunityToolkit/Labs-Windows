@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Tooling.TestGen;
-using CommunityToolkit.Tests;
+using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
+using CommunityToolkit.Labs.Tests;
 
 namespace CanvasLayoutExperiment.Tests;
 
@@ -41,18 +41,18 @@ public partial class ExampleCanvasLayoutTestClass : VisualUITestBase
         Assert.ThrowsException<NotImplementedException>(() => throw new NotImplementedException());
     }
 
-    // The UIThreadTestMethod automatically dispatches to the UI for us to work with UI objects.
-    [UIThreadTestMethod]
+    // The LabsUITestMethod automatically dispatches to the UI for us to work with UI objects.
+    [LabsUITestMethod]
     public void SimpleUIAttributeExampleTest()
     {
         var component = new CanvasLayout();
         Assert.IsNotNull(component);
     }
 
-    // The UIThreadTestMethod can also easily grab a XAML Page for us by passing its type as a parameter.
+    // The LabsUITestMethod can also easily grab a XAML Page for us by passing its type as a parameter.
     // This lets us actually test a control as it would behave within an actual application.
     // The page will already be loaded by the time your test is called.
-    [UIThreadTestMethod]
+    [LabsUITestMethod]
     public void SimpleUIExamplePageTest(ExampleCanvasLayoutTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
@@ -63,8 +63,8 @@ public partial class ExampleCanvasLayoutTestClass : VisualUITestBase
         Assert.AreEqual(typeof(CanvasLayout), component.Layout.GetType());
     }
 
-    // You can still do async work with a UIThreadTestMethod as well.
-    [UIThreadTestMethod]
+    // You can still do async work with a LabsUITestMethod as well.
+    [LabsUITestMethod]
     public async Task SimpleAsyncUIExamplePageTest(ExampleCanvasLayoutTestPage page)
     {
         // This helper can be used to wait for a rendering pass to complete.

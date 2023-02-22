@@ -9,5 +9,5 @@ using System.Runtime.CompilerServices;
 // used with the Labs infrastructure.
 [assembly: InternalsVisibleTo("SettingsControls.Tests.Uwp")]
 [assembly: InternalsVisibleTo("SettingsControls.Tests.WinAppSdk")]
-[assembly: InternalsVisibleTo("CommunityToolkit.Tests.Uwp")]
-[assembly: InternalsVisibleTo("CommunityToolkit.Tests.WinAppSdk")]
+[assembly: InternalsVisibleTo("CommunityToolkit.Labs.Tests.Uwp")]
+[assembly: InternalsVisibleTo("CommunityToolkit.Labs.Tests.WinAppSdk")]

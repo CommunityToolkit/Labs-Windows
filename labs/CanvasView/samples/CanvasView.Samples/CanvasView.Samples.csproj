@@ -1,8 +1,23 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
-  <PropertyGroup>
-    <ToolkitComponentName>CanvasView</ToolkitComponentName>
-  </PropertyGroup>
+  <!-- Labs Constants -->
+  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
+  
+  <!-- Labs Platform Config -->
+  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
 
-  <!-- Sets this up as a toolkit component's sample project -->
-  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SampleProject.props" />
+  <!-- Labs Project Config -->
+  <Import Project="$(RepositoryDirectory)common\SampleProjectConfig.props" />
+
+  <PropertyGroup>
+    <RootNamespace>CanvasViewExperiment.Samples</RootNamespace>
+    <AssemblyName>CanvasViewExperiment.Samples</AssemblyName>
+  </PropertyGroup>
+  
+  <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.CanvasView.csproj" />
+  </ItemGroup>
 </Project>
