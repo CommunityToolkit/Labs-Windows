@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
+  <PropertyGroup>
+    <IsDeployableHead>true</IsDeployableHead>
+    <IsUno>false</IsUno>
+    <IsWasm>false</IsWasm>
+    <IsWasmHead>false</IsWasmHead>
+    <IsWasmLib>false</IsWasmLib>
+    <IsDroid>false</IsDroid>
+    <IsMacOS>false</IsMacOS>
+    <IsiOS>false</IsiOS>
+    <IsUwp>false</IsUwp>
+    <IsWinAppSdk>true</IsWinAppSdk>
+    <IsWpf>false</IsWpf>
+    <IsWpfHead>false</IsWpfHead>
+    <IsWpfLib>false</IsWpfLib>
+    <IsGtk>false</IsGtk>
+    <IsGtkHead>false</IsGtkHead>
+    <IsGtkLib>false</IsGtkLib>
+  </PropertyGroup>
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectHeads\Tests.Head.WinAppSdk.props" />
+  <Import Project="$(RepositoryDirectory)common\ProjectHeads\AllComponents\Tests.Head.AllComponents.props" />
+
+  <PropertyGroup>
+    <RootNamespace>CommunityToolkit.Tests</RootNamespace>
+    <AssemblyName>CommunityToolkit.Tests.WinAppSdk</AssemblyName>
+  </PropertyGroup>
+
+  <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+       Tools extension to be activated for this project even if the Windows App SDK Nuget
+       package has not yet been restored -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+</Project>

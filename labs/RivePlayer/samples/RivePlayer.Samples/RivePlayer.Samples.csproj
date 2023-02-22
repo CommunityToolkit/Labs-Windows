@@ -1,29 +1,17 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
-  <!-- Labs Constants -->
-  <Import Project="$(RepositoryDirectory)common\Labs.TargetFrameworks.props" />
-  <Import Project="$(RepositoryDirectory)common\Labs.ProjectIdentifiers.props" />
-  
-  <!-- Labs Platform Config -->
-  <Import Project="$(RepositoryDirectory)common\Labs.Uno.props" />
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
-
-  <!-- Labs Project Config -->
-  <Import Project="$(RepositoryDirectory)common\SampleProjectConfig.props" />
-
   <PropertyGroup>
-    <RootNamespace>RivePlayerExperiment.Samples</RootNamespace>
-    <AssemblyName>RivePlayerExperiment.Samples</AssemblyName>
+    <ToolkitComponentName>RivePlayer</ToolkitComponentName>
   </PropertyGroup>
-  
-  <!-- Sample XAML Pages and Markdown files are automatically included, and don't need to be specified here. -->
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.Rive.RivePlayer.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
+    <!-- Rive uses a custom csproj file name, so it must be imported manually. -->
+    <ProjectReference Include="$(MSBuildProjectDirectory)\..\..\src\CommunityToolkit.Labs.WinUI.Rive.RivePlayer.csproj" />
+
     <None Update="animated-login-screen.riv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <!-- Sets this up as a toolkit component's sample project -->
+  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SampleProject.props" />
 </Project>

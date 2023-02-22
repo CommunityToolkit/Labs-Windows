@@ -7,5 +7,5 @@
 
 global using System.Runtime.InteropServices.WindowsRuntime;
 
-global using CommunityToolkit.Labs.Core.SourceGenerators;
-global using CommunityToolkit.Labs.Core.SourceGenerators.Attributes;
+global using CommunityToolkit.Tooling.SampleGen;
+global using CommunityToolkit.Tooling.SampleGen.Attributes;

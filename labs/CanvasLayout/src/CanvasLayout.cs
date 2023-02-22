@@ -13,7 +13,7 @@ public class CanvasLayout : MUXC.VirtualizingLayout
 
         if (context.LayoutState is not CanvasLayoutState)
         {
-            // Store any state we might need since (in theory) the layout could be in use by multiple 
+            // Store any state we might need since (in theory) the layout could be in use by multiple
             // elements simultaneously
             context.LayoutState = new CanvasLayoutState();
         }

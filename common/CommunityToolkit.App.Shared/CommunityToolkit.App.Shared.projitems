@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9503c27c-55a8-4b66-aa7b-14efdb940b13</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>CommunityToolkit.App.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)AppLoadingView.xaml.cs">
+      <DependentUpon>AppLoadingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\PackageProjectUrlAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\NavigateToUriAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TitleBar\TitleBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SubcategoryToIconConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DocOrSampleTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\BackgroundHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IconHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\NavigationViewHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml.cs">
+      <DependentUpon>GettingStartedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Polyfills\System.Runtime.CompilerServices\IsExternalInit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionsRenderer.xaml.cs">
+      <DependentUpon>GeneratedSampleOptionsRenderer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\Markdown\MarkdownTextBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitDocumentationRenderer.xaml.cs">
+      <DependentUpon>ToolkitDocumentationRenderer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ToolkitSampleRenderer.xaml.cs">
+      <DependentUpon>ToolkitSampleRenderer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\TabbedPage.xaml.cs">
+      <DependentUpon>TabbedPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)AppLoadingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\TitleBar\TitleBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\GettingStartedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Renderers\GeneratedSampleOptionsRenderer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Renderers\ToolkitDocumentationRenderer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Renderers\ToolkitSampleRenderer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\TabbedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\ItemTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Control.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Empty.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Input.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Status.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ControlIcons\Layout.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-125.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\AppTitleBar.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\Header.light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\UnoPowered.dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\UnoPowered.light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-100_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-125.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-125_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-150_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-200_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LargeTile.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LockScreenLogo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-100_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-125.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-125_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-150_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-200_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SmallTile.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-100_altform-colorful_theme-dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-100_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-125.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-125_altform-colorful_theme-dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-125_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-150_altform-colorful_theme-dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-150_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-200_altform-colorful_theme-dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-200_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-400_altform-colorful_theme-dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-100_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-125_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-150_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-200_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-100_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-125_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-150_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-200_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-20.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-20_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-20_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-30.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-30_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-30_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-32.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-32_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-36.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-36_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-36_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-40.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-40_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-40_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-56.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-56_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-56_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-60.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-60_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-60_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-64.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-64_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-64_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-72.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-72_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-72_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-80.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-80_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-80_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-96.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-96_altform-lightunplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.targetsize-96_altform-unplated.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreDisplay-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreDisplay-300.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreDisplay-71.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-100_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-125.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-125_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-150_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-200_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-100_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-125_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-150_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-200_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-400_altform-colorful_theme-light.png" />
+    <Content Include="$(MSBuildThisFileDirectory)LinkerConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)WasmCSS\Fonts.css" />
+  </ItemGroup>
+</Project>

@@ -1,6 +1,6 @@
 Param (    
-    [Parameter(HelpMessage = "Disables suppressing changes to the ./.vscode/launch.json file in git, allowing changes to be committed.")] 
-    [switch]$allowGitChanges = $false
+  [Parameter(HelpMessage = "Disables suppressing changes to the ./.vscode/launch.json file in git, allowing changes to be committed.")] 
+  [switch]$allowGitChanges = $false
 )
 
 function CreateVsCodeLaunchConfigJson {
