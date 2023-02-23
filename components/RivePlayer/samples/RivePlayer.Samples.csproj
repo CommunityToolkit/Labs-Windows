@@ -1,0 +1,17 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <ToolkitComponentName>RivePlayer</ToolkitComponentName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Rive uses a custom csproj file name, so it must be imported manually. -->
+    <ProjectReference Include="$(MSBuildProjectDirectory)\..\src\CommunityToolkit.Labs.WinUI.Rive.RivePlayer.csproj" />
+
+    <None Update="animated-login-screen.riv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- Sets this up as a toolkit component's sample project -->
+  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SampleProject.props" />
+</Project>

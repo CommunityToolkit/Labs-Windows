@@ -18,4 +18,11 @@
     <None Include="$(RepositoryDirectory)ThirdPartyNotices.txt" Pack="true" PackagePath="\" />
   </ItemGroup>-->
 
+  <ItemGroup>
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory).editorconfig" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)settings.xamlstyler" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)*.md" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)common\GlobalUsings*.cs" />
+  </ItemGroup>
+
 </Project>

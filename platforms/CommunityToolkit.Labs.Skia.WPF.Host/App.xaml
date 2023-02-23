@@ -1,8 +1,0 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<Application x:Class="CommunityToolkit.Labs.WPF.Host.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CommunityToolkit.Labs.WPF.Host"
-             StartupUri="MainWindow.xaml">
-    <Application.Resources />
-</Application>
