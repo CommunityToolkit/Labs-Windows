@@ -253,7 +253,9 @@ public sealed partial class ToolkitSampleRenderer : Page
 
         if (isSingleExperimentHead || isProjectTemplateHead)
         {
-            return $"SourceAssets/{simpleAssemblyName}/{folderPath}{type.Name}";
+            Console.WriteLine($"type.Name: {type.Name}, folderPath: {folderPath}, isAllExperimentHead: {isAllExperimentHead}, isProjectTemplateHead: {isProjectTemplateHead}, isSingleExperimentHead: {isSingleExperimentHead}");
+
+            return $"SourceAssets/{folderPath}{type.Name}";
         }
 
         if (isAllExperimentHead)

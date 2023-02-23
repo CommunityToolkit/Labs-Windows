@@ -60,10 +60,12 @@
     <Content Include="$(MSBuildProjectDirectory)\..\..\samples\**\*.xaml" Exclude="$(MSBuildProjectDirectory)\..\..\samples\obj\**\*.xaml;$(MSBuildProjectDirectory)\..\..\samples\bin\**\*.xaml;$(MSBuildProjectDirectory)\..\..\**\SourceAssets\**\*.xaml" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
 
     <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
-    <Content Include="$(MSBuildProjectDirectory)\..\..\samples\**\*.cs" Exclude="$(MSBuildProjectDirectory)\..\..\samples\obj\**\*.cs;$(MSBuildProjectDirectory)\..\..\samples\bin\**\*.cs" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat" />
+    <Content Include="$(MSBuildProjectDirectory)\..\..\samples\**\*.cs" Exclude="$(MSBuildProjectDirectory)\..\..\samples\obj\**\*.cs;$(MSBuildProjectDirectory)\..\..\samples\bin\**\*.cs">
+      <Link Condition="$(IsWasm) == 'true'">SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat</Link>
+    </Content>
 
     <!-- Include markdown files from all samples so the head can access them in the source generator -->
-    <AdditionalFiles Include="$(MSBuildProjectDirectory)\..\..\samples\**\*.md" Exclude="$(MSBuildProjectDirectory)\..\..\**\obj\**\*.md;$(MSBuildProjectDirectory)\..\..\**\bin\**\*.md"/>
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\..\..\samples\*.md" Exclude="$(MSBuildProjectDirectory)\..\..\**\obj\**\*.md;$(MSBuildProjectDirectory)\..\..\**\bin\**\*.md"/>
   </ItemGroup>
 
   <PropertyGroup>
