@@ -19,9 +19,9 @@ Param (
 )
 
 $preWorkingDir = $pwd;
-Set-Location $PSScriptRoot;
+Set-Location "$PSScriptRoot/../../"
 
-$relativeProjectPath = Invoke-Expression -C "(Resolve-Path -Relative -Path $projectPath)";
+$relativeProjectPath = Resolve-Path -Relative -Path $projectPath
 $templateContents = Get-Content -Path $templatePath;
 
 Set-Location $preWorkingDir;
@@ -31,8 +31,8 @@ $csprojFileName = [System.IO.Path]::GetFileName($relativeProjectPath);
 $templateContents = $templateContents -replace [regex]::escape($projectFileNamePlaceholder), $csprojFileName;
 
 # Insert project directory
-$relativeProjectDirectory = [System.IO.Path]::GetDirectoryName($relativeProjectPath);
-$templateContents = $templateContents -replace [regex]::escape($projectRootPlaceholder), "$relativeProjectDirectory";
+$projectDirectoryRelativeToRoot = [System.IO.Path]::GetDirectoryName($relativeProjectPath).TrimStart('.').TrimStart('\');
+$templateContents = $templateContents -replace [regex]::escape($projectRootPlaceholder), "$projectDirectoryRelativeToRoot";
 
 function LoadMultiTargetsFrom([string] $path) {
     $fileContents = "";

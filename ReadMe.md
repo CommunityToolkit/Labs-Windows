@@ -19,7 +19,7 @@ You can find the corresponding `CommunityToolkit.Labs` packages in our Azure Dev
 
 If you find an experiment useful, please up-vote 👍 its corresponding issue and comment with any feedback. Each experiment has an issue assigned to it with the `experiment` label for tracking. Please file any feedback or issues about that experiment on that singular issue. For any other questions or concerns, please [open a Discussion](https://github.com/CommunityToolkit/Labs-Windows/discussions).
 
-Otherwise, you can clone the repo, open the `labs` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
+Otherwise, you can clone the repo, open the `components` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
 
 ## Build Requirements
 
@@ -39,9 +39,9 @@ Once there is traction and your idea is approved, an issue will be created to tr
 Then you can fork the Labs repo, create a new branch, and start working on your feature (or porting over your existing prototype).
 
 ```ascii
-dotnet new --install .\template\lab\
+dotnet new --install .\template\ProjectTemplate\
 
-cd labs
+cd components
 
 dotnet new labexp -n MyExperimentNameHere
 ```
@@ -68,7 +68,7 @@ Open up an issue on the main Toolkit repo using the `Toolkit Labs Transfer` Issu
 
 ## Building the Sample App
 
-You can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.ps1` PowerShell script in the repo root. Then just open the `Toolkit.Labs.All.sln` solution in Visual Studio. You can run one of the project heads under the platforms folder such as `CommunityToolkit.Labs.WinAppSdk` to run the sample app for that platform.
+You can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. Then just open the `Toolkit.Labs.All.sln` solution in Visual Studio. You can run one of the project heads such as `CommunityToolkit.App.WinAppSdk` to run the sample app for that platform.
 
 If you'd like to run a head beyond UWP, Wasm, or the WinAppSDK, you'll need to run the `UseTargetFrameworks.ps1` script first in the `common/Scripts` directory. e.g. `.\UseTargetFrameworks.ps1 -targets all`
 

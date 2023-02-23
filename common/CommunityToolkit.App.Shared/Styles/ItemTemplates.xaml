@@ -1,0 +1,100 @@
+﻿<ResourceDictionary x:Class="CommunityToolkit.App.Shared.ItemTemplates"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="using:CommunityToolkit.App.Shared.Converters"
+                    xmlns:meta="using:CommunityToolkit.Tooling.SampleGen.Metadata"
+                    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <converters:SubcategoryToIconConverter x:Key="subcategoryToIconConverter" />
+
+    <!-- Kind of not supported in Uno (at least directly like this) see https://github.com/unoplatform/uno/issues/7582 (and related root issue)
+    <Style x:Key="IndentedGridViewItemStyle"
+           BasedOn="{StaticResource DefaultGridViewItemStyle}"
+           TargetType="GridViewItem">
+        <Setter Property="Margin" Value="12,0,0,12" />
+    </Style>-->
+
+    <DataTemplate x:Key="ControlItemAutoSuggestBoxTemplate"
+                  x:DataType="meta:ToolkitFrontMatter">
+        <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Width="16">
+                <Image.Source>
+                    <BitmapImage UriSource="{Binding Subcategory, Converter={StaticResource subcategoryToIconConverter}}" />
+                </Image.Source>
+            </Image>
+            <TextBlock Grid.Column="1"
+                       Text="{Binding Title}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ControlItemGridViewTemplate"
+                  x:DataType="meta:ToolkitFrontMatter">
+        <Grid x:Name="controlRoot"
+              Width="360"
+              Height="90"
+              Margin="8,0,0,8"
+              Padding="8"
+              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="1"
+              CornerRadius="{StaticResource ControlCornerRadius}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="LayoutVisualStates">
+                    <VisualState x:Name="WideLayout">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint840Plus}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters />
+                    </VisualState>
+                    <VisualState x:Name="NarrowLayout">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="controlRoot.Width" Value="400" />
+                            <Setter Target="controlRoot.Height" Value="100" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Grid Width="72"
+                  CornerRadius="{ThemeResource ControlCornerRadius}">
+                <Image x:Name="gridImage"
+                       Width="48"
+                       VerticalAlignment="Center"
+                       Stretch="Uniform">
+                    <Image.Source>
+                        <BitmapImage UriSource="{Binding Subcategory, Converter={StaticResource subcategoryToIconConverter}}" />
+                    </Image.Source>
+                </Image>
+            </Grid>
+
+
+            <RelativePanel Grid.Column="1"
+                           Grid.ColumnSpan="2"
+                           Margin="16,6,0,0">
+                <TextBlock x:Name="titleText"
+                           win:TextLineBounds="TrimToCapHeight"
+                           Style="{StaticResource BodyStrongTextBlockStyle}"
+                           Text="{Binding Title}"
+                           TextWrapping="NoWrap" />
+                <TextBlock Margin="0,2,8,0"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           RelativePanel.Below="titleText"
+                           Style="{StaticResource CaptionTextBlockStyle}"
+                           Text="{Binding Description}"
+                           TextTrimming="CharacterEllipsis" />
+            </RelativePanel>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,119 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="SettingsControlsExperiment.Samples.SettingsPageExample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
+
+        <!--  Spacing between cards  -->
+        <x:Double x:Key="SettingsCardSpacing">3</x:Double>
+
+        <!--  Style (inc. the correct spacing) of a section header  -->
+        <Style x:Key="SettingsSectionHeaderTextBlockStyle"
+               BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+               TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,29,0,5" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+    <ScrollViewer>
+        <Grid>
+            <StackPanel MaxWidth="1000"
+                        HorizontalAlignment="Stretch"
+                        Spacing="{StaticResource SettingsCardSpacing}">
+                <win:StackPanel.ChildrenTransitions>
+                    <win:EntranceThemeTransition FromVerticalOffset="50" />
+                    <win:RepositionThemeTransition IsStaggeringEnabled="False" />
+                </win:StackPanel.ChildrenTransitions>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                           Text="Section 1" />
+                <labs:SettingsCard Description="This is a default card, with the Header, HeaderIcon, Description and Content set"
+                                   Header="This is the Header">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE125;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="True" />
+                </labs:SettingsCard>
+
+                <labs:SettingsExpander Description="The SettingsExpander has the same properties as a SettingsCard"
+                                       Header="SettingsExpander">
+                    <labs:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xE91B;" />
+                    </labs:SettingsExpander.HeaderIcon>
+                    <Button Content="Content"
+                            Style="{StaticResource AccentButtonStyle}" />
+
+                    <labs:SettingsExpander.Items>
+                        <labs:SettingsCard Header="A basic SettingsCard within an SettingsExpander">
+                            <Button Content="Button" />
+                        </labs:SettingsCard>
+                        <labs:SettingsCard Description="SettingsCard within an Expander can be made clickable too!"
+                                           Header="This item can be clicked"
+                                           IsClickEnabled="True" />
+
+                        <labs:SettingsCard ContentAlignment="Left">
+                            <CheckBox Content="Here the ContentAlignment is set to Left. This is great for e.g. CheckBoxes or RadioButtons" />
+                        </labs:SettingsCard>
+                    </labs:SettingsExpander.Items>
+                </labs:SettingsExpander>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                           Text="Section 2" />
+                <labs:SettingsCard Description="Another card to show grouping of cards"
+                                   Header="Another SettingsCard">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE799;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ComboBox SelectedIndex="0">
+                        <ComboBoxItem>Option 1</ComboBoxItem>
+                        <ComboBoxItem>Option 2</ComboBoxItem>
+                        <ComboBoxItem>Option 3</ComboBoxItem>
+                    </ComboBox>
+                </labs:SettingsCard>
+
+                <labs:SettingsCard Description="Another card to show grouping of cards"
+                                   Header="Yet another SettingsCard">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE29B;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <Button Content="Content" />
+                </labs:SettingsCard>
+
+                <!--  Example 'About' section  -->
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                           Text="About" />
+
+                <labs:SettingsExpander Description="© 2023. All rights reserved."
+                                       Header="Community Toolkit Gallery">
+                    <labs:SettingsExpander.HeaderIcon>
+                        <BitmapIcon ShowAsMonochrome="False"
+                                    UriSource="ms-appx:///Assets/AppTitleBar.scale-200.png" />
+                    </labs:SettingsExpander.HeaderIcon>
+                    <TextBlock win:IsTextSelectionEnabled="True"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Style="{StaticResource CaptionTextBlockStyle}"
+                               Text="Version 1.0.0.0" />
+                    <labs:SettingsExpander.Items>
+                        <labs:SettingsCard HorizontalContentAlignment="Left"
+                                           ContentAlignment="Left">
+                            <StackPanel Margin="-12,0,0,0"
+                                        Orientation="Vertical">
+                                <HyperlinkButton Content="Link 1" />
+                                <HyperlinkButton Content="Link 2" />
+                                <HyperlinkButton Content="Link 3" />
+                            </StackPanel>
+                        </labs:SettingsCard>
+                    </labs:SettingsExpander.Items>
+                </labs:SettingsExpander>
+                <HyperlinkButton Margin="0,8,0,0"
+                                 Content="Send feedback" />
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

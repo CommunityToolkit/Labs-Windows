@@ -1,0 +1,5 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)\App.Head.props" />
+  <Import Project="$(MSBuildThisFileDirectory)\Head.WinAppSdk.props" />
+  <Import Project="$(MSBuildThisFileDirectory)\App.Head.WinAppSdk.Dependencies.props" />
+</Project>
