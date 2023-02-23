@@ -162,24 +162,14 @@ public sealed partial class ToolkitDocumentationRenderer : Page
         var isAllExperimentHead = assemblyName.StartsWith("CommunityToolkit.", StringComparison.OrdinalIgnoreCase);
         var isProjectTemplateHead = assemblyName.StartsWith("ProjectTemplate");
         var isSingleExperimentHead = !isAllExperimentHead && !isProjectTemplateHead;
-
+        
         if (metadata.FilePath is null || string.IsNullOrWhiteSpace(metadata.FilePath))
             throw new InvalidOperationException("Missing or malformed path to markdown file. Unable to continue;");
 
+        // Normalize the path separators
         var path = metadata.FilePath;
 
-        if (isSingleExperimentHead || isProjectTemplateHead)
-        {
-            var experimentName = assemblyName.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries)[0];
-
-            // Our assembly has 'ProjectTemplateExperiment.Samples', but our folder is 'ProjectTemplate.Samples'
-            experimentName = experimentName.Replace("Experiment", "");
-
-            path = path.Split(new[] { $"\\{experimentName}.Samples" }, StringSplitOptions.RemoveEmptyEntries)[1];
-            path = $"{experimentName}.Samples{path}";
-        }
-
-        var fileUri = new Uri($"ms-appx:///SourceAssets/{path}");
+        var fileUri = new Uri($"ms-appx:///SourceAssets/{(isSingleExperimentHead ? Path.GetFileName(path.Replace('\\', '/')) : path)}");
 
         try
         {

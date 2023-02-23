@@ -19,7 +19,7 @@ You can find the corresponding `CommunityToolkit.Labs` packages in our Azure Dev
 
 If you find an experiment useful, please up-vote 👍 its corresponding issue and comment with any feedback. Each experiment has an issue assigned to it with the `experiment` label for tracking. Please file any feedback or issues about that experiment on that singular issue. For any other questions or concerns, please [open a Discussion](https://github.com/CommunityToolkit/Labs-Windows/discussions).
 
-Otherwise, you can clone the repo, open the `labs` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
+Otherwise, you can clone the repo, open the `components` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
 
 ## Build Requirements
 
@@ -41,7 +41,7 @@ Then you can fork the Labs repo, create a new branch, and start working on your 
 ```ascii
 dotnet new --install .\template\ProjectTemplate\
 
-cd labs
+cd components
 
 dotnet new labexp -n MyExperimentNameHere
 ```

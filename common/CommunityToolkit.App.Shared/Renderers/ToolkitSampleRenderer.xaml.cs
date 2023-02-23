@@ -190,13 +190,11 @@ public sealed partial class ToolkitSampleRenderer : Page
 
         try
         {
-#if __WASM__
             // Workaround for https://github.com/unoplatform/uno/issues/8649
             if (fileExtension.Contains(".cs"))
             {
                 fileExtension = fileExtension.Replace(".cs", ".cs.dat");
             }
-#endif
 
             var finalPath = $"ms-appx:///{filePath}.{fileExtension.Trim('.')}";
 
@@ -226,7 +224,7 @@ public sealed partial class ToolkitSampleRenderer : Page
         if (string.IsNullOrWhiteSpace(assemblyName))
             throw new InvalidOperationException();
 
-        var isAllExperimentHead = assemblyName.StartsWith("CommunityToolkit.Labs.", StringComparison.OrdinalIgnoreCase);
+        var isAllExperimentHead = assemblyName.StartsWith("CommunityToolkit.", StringComparison.OrdinalIgnoreCase);
         var isProjectTemplateHead = assemblyName.StartsWith("ProjectTemplate");
         var isSingleExperimentHead = !isAllExperimentHead && !isProjectTemplateHead;
 
@@ -247,19 +245,19 @@ public sealed partial class ToolkitSampleRenderer : Page
         if (folderPath.Length != 0)
             folderPath += "/";
 
-        // Component assembly names are formatted as 'ProjectTemplateComponent.Samples'
+        // Component assembly names are formatted as 'ProjectTemplateExperiment.Samples'
         // but the content folder is formatted as 'ProjectTemplate.Samples'
         simpleAssemblyName = simpleAssemblyName.Replace("Experiment", "");
 
         if (isSingleExperimentHead || isProjectTemplateHead)
         {
-            return $"SourceAssets/{simpleAssemblyName}/{folderPath}{type.Name}";
+            return $"SourceAssets/{folderPath}{type.Name}";
         }
 
         if (isAllExperimentHead)
         {
             var sampleName = simpleAssemblyName.Replace(".Samples", "");
-            return $"SourceAssets/{sampleName}/samples/{simpleAssemblyName}/{folderPath}{type.Name}";
+            return $"SourceAssets/{sampleName}/samples/{folderPath}{type.Name}";
         }
 
         throw new InvalidOperationException("Unable to determine if running in a single or all experiment solution.");

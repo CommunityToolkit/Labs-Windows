@@ -473,7 +473,7 @@ public partial class ToolkitSampleMetadataTests
 
         if (!string.IsNullOrWhiteSpace(markdown))
         {
-            var text = new InMemoryAdditionalText(@"C:\pathtorepo\labs\experiment\samples\experiment.Samples\documentation.md", markdown);
+            var text = new InMemoryAdditionalText(@"C:\pathtorepo\components\experiment\samples\experiment.Samples\documentation.md", markdown);
 
             driver = driver.AddAdditionalTexts(ImmutableArray.Create<AdditionalText>(text));
         }

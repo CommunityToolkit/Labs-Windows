@@ -55,7 +55,7 @@ Push-Location $componentPath
 dotnet new ct-tooling-heads -n $componentName
 
 # Rename folder from component name (dotnet tooling default) to 'heads'
-Rename-Item -Path "$componentPath/$componentName" -NewName $headsFolderName -Force
+Rename-Item -Path "$componentName" -NewName $headsFolderName -Force
 
 # Remove template, as just for script
 dotnet new --uninstall "$PSScriptRoot/SingleComponent"

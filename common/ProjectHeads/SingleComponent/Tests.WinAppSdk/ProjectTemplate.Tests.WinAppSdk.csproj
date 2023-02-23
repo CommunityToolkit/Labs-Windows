@@ -39,7 +39,7 @@
   <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Tests.Shared\CommunityToolkit.Tests.Shared.projitems" Label="Unit Testing Helpers" />
 
   <!-- Include the unit test files themselves -->
-  <Import Project="..\..\tests\ProjectTemplate.Tests\ProjectTemplate.Tests.projitems" Label="Shared" />
+  <Import Project="..\..\tests\ProjectTemplate.Tests.projitems" Label="Shared" />
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />

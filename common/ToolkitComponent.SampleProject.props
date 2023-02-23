@@ -28,7 +28,7 @@
 
     <!-- Needed for Source Generators to find Markdown files -->
     <AdditionalFiles Include="**\*.md" Exclude="bin\**\*.md;obj\**\*.md" />
-    <ProjectReference Condition="Exists('$(MSBuildProjectDirectory)\..\..\src\CommunityToolkit.Labs.WinUI.$(ToolkitComponentName).csproj')" Include="$(MSBuildProjectDirectory)\..\..\src\CommunityToolkit.Labs.WinUI.$(ToolkitComponentName).csproj" />
+    <ProjectReference Condition="Exists('$(MSBuildProjectDirectory)\..\src\CommunityToolkit.Labs.WinUI.$(ToolkitComponentName).csproj')" Include="$(MSBuildProjectDirectory)\..\src\CommunityToolkit.Labs.WinUI.$(ToolkitComponentName).csproj" />
   </ItemGroup>
 
   <PropertyGroup>
