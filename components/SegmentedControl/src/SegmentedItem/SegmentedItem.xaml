@@ -5,34 +5,7 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
-            <StaticResource x:Key="SegmentedPillBackground"
-                            ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="SegmentedPillBackgroundPointerOver"
-                            ResourceKey="AccentFillColorSecondaryBrush" />
-            <StaticResource x:Key="SegmentedPillBackgroundPressed"
-                            ResourceKey="AccentFillColorTertiaryBrush" />
-            <StaticResource x:Key="SegmentedPillBackgroundDisabled"
-                            ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrush"
-                            ResourceKey="ControlFillColorTransparentBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrushPointerOver"
-                            ResourceKey="SubtleFillColorSecondaryBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrushSelected"
-                            ResourceKey="ControlElevationBorderBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrushPressed"
-                            ResourceKey="SubtleFillColorTertiaryBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrushDisabled"
-                            ResourceKey="ControlAltFillColorSecondaryBrush" />
-            <StaticResource x:Key="SegmentedItemForeground"
-                            ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="SegmentedItemForegroundPointerOver"
-                            ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="SegmentedItemForegroundSelected"
-                            ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="SegmentedItemForegroundPressed"
-                            ResourceKey="TextFillColorSecondaryBrush" />
-            <StaticResource x:Key="SegmentedItemForegroundDisabled"
-                            ResourceKey="TextFillColorDisabledBrush" />
+            <!--  Background  -->
             <StaticResource x:Key="SegmentedItemBackground"
                             ResourceKey="ControlFillColorTransparentBrush" />
             <StaticResource x:Key="SegmentedItemBackgroundPointerOver"
@@ -43,14 +16,56 @@
                             ResourceKey="SubtleFillColorTertiaryBrush" />
             <StaticResource x:Key="SegmentedItemBackgroundDisabled"
                             ResourceKey="ControlFillColorDisabledBrush" />
+
+            <!--  BorderBrush  -->
+            <StaticResource x:Key="SegmentedItemBorderBrush"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="SegmentedItemBorderBrushPointerOver"
+                            ResourceKey="SubtleFillColorSecondaryBrush" />
+            <StaticResource x:Key="SegmentedItemBorderBrushSelected"
+                            ResourceKey="ControlElevationBorderBrush" />
+            <StaticResource x:Key="SegmentedItemBorderBrushPressed"
+                            ResourceKey="SubtleFillColorTertiaryBrush" />
+            <StaticResource x:Key="SegmentedItemBorderBrushDisabled"
+                            ResourceKey="ControlAltFillColorSecondaryBrush" />
+            <!--  Foreground  -->
+            <StaticResource x:Key="SegmentedItemForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="SegmentedItemForegroundPointerOver"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="SegmentedItemForegroundSelected"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="SegmentedItemForegroundPressed"
+                            ResourceKey="TextFillColorSecondaryBrush" />
+            <StaticResource x:Key="SegmentedItemForegroundDisabled"
+                            ResourceKey="TextFillColorDisabledBrush" />
+
+            <!--  Pill  -->
+            <StaticResource x:Key="SegmentedPillBackground"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="SegmentedPillBackgroundPointerOver"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="SegmentedPillBackgroundPressed"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="SegmentedPillBackgroundDisabled"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+
             <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
 
-            <StaticResource x:Key="PillItemPillBackgroundPointerOver"
-                            ResourceKey="AccentFillColorSecondaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPressed"
-                            ResourceKey="AccentFillColorTertiaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundDisabled"
-                            ResourceKey="AccentFillColorDefaultBrush" />
+            <!--  PillSegmentedStyle  -->
+            <!--  Background  -->
+            <StaticResource x:Key="PillItemBackground"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="PillItemBackgroundPointerOver"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="PillItemBackgroundSelected"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="PillItemBackgroundPressed"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="PillItemBackgroundDisabled"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+
+            <!--  Foreground  -->
             <StaticResource x:Key="PillItemForeground"
                             ResourceKey="TextFillColorPrimaryBrush" />
             <StaticResource x:Key="PillItemForegroundPointerOver"
@@ -61,37 +76,20 @@
                             ResourceKey="TextFillColorTertiaryBrush" />
             <StaticResource x:Key="PillItemForegroundDisabled"
                             ResourceKey="TextFillColorDisabledBrush" />
+
+            <!--  Pill  -->
+            <StaticResource x:Key="PillItemPillBackground"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="PillItemPillBackgroundPointerOver"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="PillItemPillBackgroundPressed"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="PillItemPillBackgroundDisabled"
+                            ResourceKey="AccentFillColorDefaultBrush" />
 
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
-            <StaticResource x:Key="SegmentedPillBackground"
-                            ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="SegmentedPillBackgroundPointerOver"
-                            ResourceKey="AccentFillColorSecondaryBrush" />
-            <StaticResource x:Key="SegmentedPillBackgroundPressed"
-                            ResourceKey="AccentFillColorTertiaryBrush" />
-            <StaticResource x:Key="SegmentedPillBackgroundDisabled"
-                            ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrush"
-                            ResourceKey="ControlFillColorTransparentBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrushPointerOver"
-                            ResourceKey="SubtleFillColorSecondaryBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrushSelected"
-                            ResourceKey="ControlElevationBorderBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrushPressed"
-                            ResourceKey="SubtleFillColorTertiaryBrush" />
-            <StaticResource x:Key="SegmentedItemBorderBrushDisabled"
-                            ResourceKey="ControlAltFillColorSecondaryBrush" />
-            <StaticResource x:Key="SegmentedItemForeground"
-                            ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="SegmentedItemForegroundPointerOver"
-                            ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="SegmentedItemForegroundSelected"
-                            ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="SegmentedItemForegroundPressed"
-                            ResourceKey="TextFillColorSecondaryBrush" />
-            <StaticResource x:Key="SegmentedItemForegroundDisabled"
-                            ResourceKey="TextFillColorDisabledBrush" />
+            <!--  Background  -->
             <StaticResource x:Key="SegmentedItemBackground"
                             ResourceKey="ControlFillColorTransparentBrush" />
             <StaticResource x:Key="SegmentedItemBackgroundPointerOver"
@@ -102,34 +100,32 @@
                             ResourceKey="SubtleFillColorTertiaryBrush" />
             <StaticResource x:Key="SegmentedItemBackgroundDisabled"
                             ResourceKey="ControlFillColorDisabledBrush" />
-            <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
 
-            <StaticResource x:Key="PillItemPillBackground"
-                            ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPointerOver"
-                            ResourceKey="AccentFillColorSecondaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPressed"
-                            ResourceKey="AccentFillColorTertiaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundDisabled"
-                            ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="PillItemForeground"
+            <!--  BorderBrush  -->
+            <StaticResource x:Key="SegmentedItemBorderBrush"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="SegmentedItemBorderBrushPointerOver"
+                            ResourceKey="SubtleFillColorSecondaryBrush" />
+            <StaticResource x:Key="SegmentedItemBorderBrushSelected"
+                            ResourceKey="ControlElevationBorderBrush" />
+            <StaticResource x:Key="SegmentedItemBorderBrushPressed"
+                            ResourceKey="SubtleFillColorTertiaryBrush" />
+            <StaticResource x:Key="SegmentedItemBorderBrushDisabled"
+                            ResourceKey="ControlAltFillColorSecondaryBrush" />
+
+            <!--  Foreground  -->
+            <StaticResource x:Key="SegmentedItemForeground"
                             ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="PillItemForegroundPointerOver"
+            <StaticResource x:Key="SegmentedItemForegroundPointerOver"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="SegmentedItemForegroundSelected"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="SegmentedItemForegroundPressed"
                             ResourceKey="TextFillColorSecondaryBrush" />
-            <StaticResource x:Key="PillItemForegroundPressed"
-                            ResourceKey="TextFillColorTertiaryBrush" />
-            <StaticResource x:Key="PillItemForegroundSelected"
-                            ResourceKey="TextFillColorPrimaryBrush" />
-
-            <StaticResource x:Key="PillItemForegroundDisabled"
+            <StaticResource x:Key="SegmentedItemForegroundDisabled"
                             ResourceKey="TextFillColorDisabledBrush" />
 
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="HighContrast">
-            <StaticResource x:Key="SegmentedBackground"
-                            ResourceKey="SystemColorButtonFaceColor" />
-            <StaticResource x:Key="SegmentedBorderBrush"
-                            ResourceKey="SystemColorButtonFaceColor" />
+            <!--  Pill  -->
             <StaticResource x:Key="SegmentedPillBackground"
                             ResourceKey="AccentFillColorDefaultBrush" />
             <StaticResource x:Key="SegmentedPillBackgroundPointerOver"
@@ -138,6 +134,58 @@
                             ResourceKey="AccentFillColorTertiaryBrush" />
             <StaticResource x:Key="SegmentedPillBackgroundDisabled"
                             ResourceKey="AccentFillColorDefaultBrush" />
+
+            <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
+
+            <!--  PillSegmentedStyle  -->
+            <!--  Background  -->
+            <StaticResource x:Key="PillItemBackground"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="PillItemBackgroundPointerOver"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="PillItemBackgroundSelected"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="PillItemBackgroundPressed"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="PillItemBackgroundDisabled"
+                            ResourceKey="ControlFillColorTransparentBrush" />
+
+            <!--  Foreground  -->
+            <StaticResource x:Key="PillItemForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="PillItemForegroundPointerOver"
+                            ResourceKey="TextFillColorSecondaryBrush" />
+            <StaticResource x:Key="PillItemForegroundPressed"
+                            ResourceKey="TextFillColorTertiaryBrush" />
+            <StaticResource x:Key="PillItemForegroundSelected"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="PillItemForegroundDisabled"
+                            ResourceKey="TextFillColorDisabledBrush" />
+
+            <!--  Pill  -->
+            <StaticResource x:Key="PillItemPillBackground"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="PillItemPillBackgroundPointerOver"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="PillItemPillBackgroundPressed"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="PillItemPillBackgroundDisabled"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <!--  Background  -->
+            <StaticResource x:Key="SegmentedItemBackground"
+                            ResourceKey="SystemColorButtonFaceColor" />
+            <StaticResource x:Key="SegmentedItemBackgroundPointerOver"
+                            ResourceKey="SystemColorHighlightColor" />
+            <StaticResource x:Key="SegmentedItemBackgroundSelected"
+                            ResourceKey="SystemColorHighlightColor" />
+            <StaticResource x:Key="SegmentedItemBackgroundPressed"
+                            ResourceKey="SystemColorHighlightColor" />
+            <StaticResource x:Key="SegmentedItemBackgroundDisabled"
+                            ResourceKey="SystemControlTransparentBrush" />
+
+            <!--  BorderBrush  -->
             <StaticResource x:Key="SegmentedItemBorderBrush"
                             ResourceKey="ControlAltFillColorSecondaryBrush" />
             <StaticResource x:Key="SegmentedItemBorderBrushPointerOver"
@@ -148,6 +196,8 @@
                             ResourceKey="ControlAltFillColorSecondaryBrush" />
             <StaticResource x:Key="SegmentedItemBorderBrushDisabled"
                             ResourceKey="ControlAltFillColorSecondaryBrush" />
+
+            <!--  Foreground  -->
             <StaticResource x:Key="SegmentedItemForeground"
                             ResourceKey="SystemColorButtonTextColor" />
             <StaticResource x:Key="SegmentedItemForegroundPointerOver"
@@ -158,18 +208,33 @@
                             ResourceKey="SystemColorHighlightTextColor" />
             <StaticResource x:Key="SegmentedItemForegroundDisabled"
                             ResourceKey="SystemColorGrayTextColor" />
-            <StaticResource x:Key="SegmentedItemBackground"
-                            ResourceKey="SystemColorButtonFaceColor" />
-            <StaticResource x:Key="SegmentedItemBackgroundPointerOver"
-                            ResourceKey="SystemColorHighlightColor" />
-            <StaticResource x:Key="SegmentedItemBackgroundSelected"
-                            ResourceKey="SystemColorHighlightColor" />
-            <StaticResource x:Key="SegmentedItemBackgroundPressed"
-                            ResourceKey="SystemColorHighlightColor" />
-            <StaticResource x:Key="SegmentedItemBackgroundDisabled"
-                            ResourceKey="SystemColorButtonTextColor" />
+
+            <!--  Pill  -->
+            <StaticResource x:Key="SegmentedPillBackground"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+            <StaticResource x:Key="SegmentedPillBackgroundPointerOver"
+                            ResourceKey="AccentFillColorSecondaryBrush" />
+            <StaticResource x:Key="SegmentedPillBackgroundPressed"
+                            ResourceKey="AccentFillColorTertiaryBrush" />
+            <StaticResource x:Key="SegmentedPillBackgroundDisabled"
+                            ResourceKey="AccentFillColorDefaultBrush" />
+
             <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
 
+            <!--  PillSegmentedStyle  -->
+            <!--  Background  -->
+            <StaticResource x:Key="PillItemBackground"
+                            ResourceKey="SystemColorButtonFaceColor" />
+            <StaticResource x:Key="PillItemBackgroundPointerOver"
+                            ResourceKey="SystemColorHighlightColor" />
+            <StaticResource x:Key="PillItemBackgroundSelected"
+                            ResourceKey="SystemColorHighlightColor" />
+            <StaticResource x:Key="PillItemBackgroundPressed"
+                            ResourceKey="SystemColorHighlightColor" />
+            <StaticResource x:Key="PillItemBackgroundDisabled"
+                            ResourceKey="SystemColorButtonTextColor" />
+
+            <!--  Pill  -->
             <StaticResource x:Key="PillItemPillBackground"
                             ResourceKey="AccentFillColorDefaultBrush" />
             <StaticResource x:Key="PillItemPillBackgroundPointerOver"
@@ -178,14 +243,16 @@
                             ResourceKey="AccentFillColorTertiaryBrush" />
             <StaticResource x:Key="PillItemPillBackgroundDisabled"
                             ResourceKey="AccentFillColorDefaultBrush" />
+
+            <!--  Foreground  -->
             <StaticResource x:Key="PillItemForeground"
                             ResourceKey="SystemColorButtonTextColor" />
             <StaticResource x:Key="PillItemForegroundPointerOver"
-                            ResourceKey="SystemColorGrayTextColor" />
+                            ResourceKey="SystemColorHighlightTextColor" />
             <StaticResource x:Key="PillItemForegroundSelected"
                             ResourceKey="SystemColorHighlightTextColor" />
             <StaticResource x:Key="PillItemForegroundPressed"
-                            ResourceKey="SystemColorGrayTextColor" />
+                            ResourceKey="SystemColorHighlightTextColor" />
             <StaticResource x:Key="PillItemForegroundDisabled"
                             ResourceKey="SystemColorGrayTextColor" />
         </ResourceDictionary>
@@ -488,8 +555,8 @@
            BasedOn="{StaticResource DefaultSegmentedItemStyle}"
            TargetType="labs:SegmentedItem">
         <Style.Setters>
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="FocusVisualMargin" Value="-6" />
+            <Setter Property="Background" Value="{ThemeResource PillItemBackground}" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SegmentedItem">
@@ -519,6 +586,12 @@
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource PillItemBackgroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -533,6 +606,11 @@
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource PillItemBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
                                                                            Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -547,6 +625,11 @@
                                     </VisualState>
                                     <VisualState x:Name="Selected">
                                         <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource PillItemBackgroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
@@ -573,6 +656,11 @@
                                     </VisualState>
                                     <VisualState x:Name="PointerOverSelected">
                                         <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource PillItemBackgroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
@@ -599,6 +687,11 @@
                                     </VisualState>
                                     <VisualState x:Name="PressedSelected">
                                         <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource PillItemBackgroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
@@ -656,7 +749,7 @@
                             </Rectangle>
 
                             <!--  Content  -->
-                            <StackPanel Margin="11,6,11,11"
+                            <StackPanel Margin="11,5,11,6"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Stretch"
                                         Orientation="Horizontal">
@@ -667,7 +760,8 @@
                                          VerticalAlignment="Center">
                                     <ContentPresenter x:Name="PART_IconPresenter"
                                                       Content="{TemplateBinding Icon}"
-                                                      Foreground="{TemplateBinding Foreground}" />
+                                                      Foreground="{TemplateBinding Foreground}"
+                                                      HighContrastAdjustment="None" />
                                 </Viewbox>
                                 <ContentPresenter x:Name="PART_ContentPresenter"
                                                   Grid.Column="1"
@@ -677,7 +771,8 @@
                                                   BackgroundSizing="{TemplateBinding BackgroundSizing}"
                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
                                                   FontWeight="{TemplateBinding FontWeight}"
-                                                  Foreground="{TemplateBinding Foreground}" />
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  HighContrastAdjustment="None" />
                             </StackPanel>
                         </Grid>
                     </ControlTemplate>
