@@ -42,6 +42,6 @@
   <Import Project="..\..\tests\ProjectTemplate.Tests.projitems" Label="Shared" />
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />
+    <ProjectReference Include="..\..\src\*.csproj" />
   </ItemGroup>
 </Project>

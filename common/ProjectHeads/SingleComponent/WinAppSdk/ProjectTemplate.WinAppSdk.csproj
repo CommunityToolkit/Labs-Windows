@@ -24,8 +24,8 @@
   <Import Project="$(RepositoryDirectory)common\ProjectHeads\App.Head.WinAppSdk.props" />
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj" />
-    <ProjectReference Include="..\..\samples\ProjectTemplate.Samples.csproj" />
+    <ProjectReference Include="..\..\src\*.csproj" />
+    <ProjectReference Include="..\..\samples\*.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
