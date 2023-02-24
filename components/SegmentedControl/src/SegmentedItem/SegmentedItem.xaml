@@ -254,7 +254,16 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                                         Value="{ThemeResource SegmentedItemBackgroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
-
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedItemForegroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedItemForegroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
@@ -313,6 +322,16 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                                         Value="{ThemeResource SegmentedItemBorderBrushSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedItemForegroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedItemForegroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="PointerOverSelected">
@@ -339,6 +358,16 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                                         Value="{ThemeResource SegmentedItemBorderBrushSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedItemForegroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedItemForegroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="PressedSelected">
@@ -364,6 +393,16 @@
                                                                            Storyboard.TargetProperty="BorderBrush">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                                         Value="{ThemeResource SegmentedItemBorderBrushSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedItemForegroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedItemForegroundSelected}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -423,7 +462,8 @@
                                          VerticalAlignment="Center">
                                     <ContentPresenter x:Name="PART_IconPresenter"
                                                       Content="{TemplateBinding Icon}"
-                                                      Foreground="{TemplateBinding Foreground}" />
+                                                      Foreground="{TemplateBinding Foreground}"
+                                                      HighContrastAdjustment="None" />
                                 </Viewbox>
                                 <ContentPresenter x:Name="PART_ContentPresenter"
                                                   Grid.Column="1"
@@ -434,7 +474,8 @@
                                                   Content="{TemplateBinding Content}"
                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
                                                   FontWeight="{TemplateBinding FontWeight}"
-                                                  Foreground="{TemplateBinding Foreground}" />
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  HighContrastAdjustment="None" />
                             </StackPanel>
                         </Grid>
                     </ControlTemplate>

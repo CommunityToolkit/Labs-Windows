@@ -21,7 +21,7 @@
             <StaticResource x:Key="SegmentedBackground"
                             ResourceKey="SystemColorButtonFaceColor" />
             <StaticResource x:Key="SegmentedBorderBrush"
-                            ResourceKey="SystemColorButtonFaceColor" />
+                            ResourceKey="SystemColorHighlightColorBrush" />
             <Thickness x:Key="SegmentedBorderThickness">1</Thickness>
 
         </ResourceDictionary>
