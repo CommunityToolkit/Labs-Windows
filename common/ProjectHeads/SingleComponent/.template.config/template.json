@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json.schemastore.org/template",
+  "author": "Microsoft",
+  "classifications": [
+    "Windows",
+    "Community",
+    "Toolkit",
+    "Labs"
+  ],
+  "name": "Community Toolkit Single Project Heads",
+  "identity": "CommunityToolkit.Tooling.ProjectHeads",
+  "shortName": "ct-tooling-heads",
+  "tags": {
+    "language": "C#",
+    "type": "solution"
+  },
+  "sourceName": "ProjectTemplate",
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+
+      "exclude": [
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        ".template.config/**/*"
+      ]
+    }
+  ],
+  "guids": [
+    "7134BD2E-0A74-4345-868A-E425FC452A89",
+    "E25BF6D0-24D6-459C-A180-1E9405D59F87",
+    "FC4ACA4C-2390-44E2-B85C-B7763D87C6AB",
+    "956F45AA-3810-48E9-8795-9051BBCC5C09"
+  ],
+  "symbols": {
+    "copyrightYear": {
+      "type": "generated",
+      "generator": "now",
+      "replaces": "CUR_YEAR",
+      "parameters": {
+        "format": "yyyy"
+      }
+    },
+    "HttpPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "52475",
+      "parameters": {
+        "low": 50000,
+        "high": 59999
+      }
+    },
+    "HttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "44386",
+      "parameters": {
+        "low": 44300,
+        "high": 44399
+      }
+    }
+  }
+}

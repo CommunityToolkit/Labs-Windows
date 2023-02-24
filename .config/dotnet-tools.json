@@ -13,6 +13,12 @@
       "commands": [
         "xstyler"
       ]
+    },
+    "microsoft.visualstudio.slngen.tool": {
+      "version": "9.5.4",
+      "commands": [
+        "slngen"
+      ]
     }
   }
 }

@@ -1,6 +1,6 @@
 Param (    
-    [Parameter(HelpMessage = "Disables suppressing changes to the ./.vscode/launch.json file in git, allowing changes to be committed.")] 
-    [switch]$allowGitChanges = $false
+  [Parameter(HelpMessage = "Disables suppressing changes to the ./.vscode/launch.json file in git, allowing changes to be committed.")] 
+  [switch]$allowGitChanges = $false
 )
 
 function CreateVsCodeLaunchConfigJson {
@@ -20,12 +20,12 @@ function CreateVsCodeLaunchConfigJson {
       `"/p:UnoSourceGeneratorUseGenerationHost=true`",
       `"/p:UnoSourceGeneratorUseGenerationController=false`",
       `"/p:UnoRemoteControlPort=443`",
-      `"--project=`$`{workspaceFolder`}/labs/$projectName/samples/$projectName.Wasm/$projectName.Wasm.csproj`"
+      `"--project=`$`{workspaceFolder`}/components/$projectName/samples/$projectName.Wasm/$projectName.Wasm.csproj`"
     ],
     `"presentation`": {
       `"group`": `"2`"
     },
-    `"cwd`": `"`$`{workspaceFolder`}/labs/$projectName/samples/$projectName.Wasm`"
+    `"cwd`": `"`$`{workspaceFolder`}/components/$projectName/samples/$projectName.Wasm`"
   }";
 }
 

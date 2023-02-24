@@ -358,3 +358,7 @@ MigrationBackup/
 # Community Toolkit Labs generated files
 Toolkit.Labs.All.sln
 common/MultiTarget/Generated/**
+heads/
+
+# We use slngen to generate solutions
+*.sln

@@ -1,0 +1,11 @@
+<Project>
+    <Import Project="$(MSBuildThisFileDirectory)\App.Head.props" />
+    <Import Project="$(MSBuildThisFileDirectory)\..\MultiTarget\Uno.props" />
+
+    <!--
+        Import Uno dependencies for all deployable Uno-based Labs project heads.
+        This import must be inside THIS file to allow swapping between Uno.​UI and Uno.​WinUI via pwsh.
+        Changes to this file are suppressed by git when switching to avoid changing the default for all users.
+    -->
+    <Import Project="$(MSBuildThisFileDirectory)\App.Head.Uno.UI.Dependencies.props" />
+</Project>
