@@ -97,7 +97,7 @@ public partial class Segmented : ListViewBase
             }
 
             //  Otherwise, select the first item by default
-            else if (Items.Count >= 1 && SelectionMode == ListViewSelectionMode.Single)
+            else if (Items.Count >= 1 && SelectionMode == ListViewSelectionMode.Single && AutoSelection)
             {
                 SelectedItem = Items[0];
             }
