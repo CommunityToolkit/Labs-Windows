@@ -1,0 +1,19 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <ToolkitComponentName>TokenView</ToolkitComponentName>
+    <Description>This package contains TokenView.</Description>
+    <Version>0.0.4</Version>
+
+    <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
+    <RootNamespace>CommunityToolkit.Labs.WinUI.TokenViewRns</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="TokenView.xaml" />
+    <UpToDateCheckInput Remove="TokenItem\TokenItem.xaml" />
+    <SourceGeneratorInput Remove="TokenView\TokenView.ItemsSource.cs" />
+  </ItemGroup>
+
+  <!-- Sets this up as a toolkit component's source project -->
+  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SourceProject.props" />
+</Project>

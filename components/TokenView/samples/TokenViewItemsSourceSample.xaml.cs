@@ -9,8 +9,7 @@ namespace TokenViewExperiment.Samples;
 /// <summary>
 /// Sample of the basic properties of the TokenView
 /// </summary>
-[ToolkitSampleBoolOption("CanRemoveTokens", "Can tokens be removed", false)]
-
+[ToolkitSampleBoolOption("CanRemoveTokens", false, Title =  "Can tokens be removed")]
 [ToolkitSample(id: nameof(TokenViewItemsSourceSample), "TokenView Binding", description: $"A sample for showing how to create and use a {nameof(TokenView)} control.")]
 public sealed partial class TokenViewItemsSourceSample : Page
 {

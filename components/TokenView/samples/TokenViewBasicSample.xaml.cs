@@ -9,9 +9,8 @@ namespace TokenViewExperiment.Samples;
 /// <summary>
 /// Sample of the basic properties of the TokenView
 /// </summary>
-[ToolkitSampleMultiChoiceOption("LayoutOrientation", title: "Orientation", "Horizontal", "Wrapped")]
-[ToolkitSampleMultiChoiceOption("SelectionMode", title: "Selection mode", "Single", "Multiple")]
-
+[ToolkitSampleMultiChoiceOption("LayoutOrientation", "Horizontal", "Wrapped", Title = "Orientation")]
+[ToolkitSampleMultiChoiceOption("SelectionMode", "Single", "Multiple", Title = "Selection mode")]
 [ToolkitSample(id: nameof(TokenViewBasicSample), "TokenView", description: $"A sample for showing how to create and use a {nameof(TokenView)} control.")]
 public sealed partial class TokenViewBasicSample : Page
 {

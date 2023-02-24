@@ -7,7 +7,7 @@ namespace TokenViewExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-[ToolkitSampleBoolOption("CanRemoveTokens", "Can tokens be removed", false)]
+[ToolkitSampleBoolOption("CanRemoveTokens", false, Title = "Can tokens be removed")]
 
 [ToolkitSample(id: nameof(TokenViewRemoveSample), "Remove sample", description: $"A sample for showing how to create and use a {nameof(TokenView)} control.")]
 public sealed partial class TokenViewRemoveSample : Page
