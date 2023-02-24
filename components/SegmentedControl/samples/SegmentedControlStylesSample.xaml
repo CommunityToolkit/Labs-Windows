@@ -4,20 +4,44 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:local="using:SegmentedControlExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-
-    <!--<StackPanel Spacing="8">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SegmentedControl/Segmented/Segmented.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <StackPanel Spacing="8">
         <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
                    Text="Icon + label" />
-        <labs:Segmented SelectionMode="{x:Bind local:SegmentedControlStylesSample.ConvertStringToSelectionMode(SelectionMode), Mode=OneWay}">
-    -->
-    <!--  TO DO: Add styles examples  -->
-    <!--
+        <labs:Segmented SelectionMode="{x:Bind local:SegmentedControlStylesSample.ConvertStringToSelectionMode(SelectionMode), Mode=OneWay}"
+                        Style="{StaticResource PillSegmentedStyle}">
             <labs:SegmentedItem>Item 1</labs:SegmentedItem>
             <labs:SegmentedItem>Item 2</labs:SegmentedItem>
             <labs:SegmentedItem>Item with long label</labs:SegmentedItem>
             <labs:SegmentedItem>Item 4</labs:SegmentedItem>
         </labs:Segmented>
-    </StackPanel>-->
+
+        <labs:Segmented SelectionMode="{x:Bind local:SegmentedControlStylesSample.ConvertStringToSelectionMode(SelectionMode), Mode=OneWay}"
+                        Style="{StaticResource PillSegmentedStyle}">
+            <labs:SegmentedItem ToolTipService.ToolTip="Day view">
+                <labs:SegmentedItem.Icon>
+                    <FontIcon Glyph="&#xE161;" />
+                </labs:SegmentedItem.Icon>
+            </labs:SegmentedItem>
+            <labs:SegmentedItem ToolTipService.ToolTip="Week view">
+                <labs:SegmentedItem.Icon>
+                    <FontIcon Glyph="&#xE162;" />
+                </labs:SegmentedItem.Icon>
+            </labs:SegmentedItem>
+            <labs:SegmentedItem ToolTipService.ToolTip="Month view">
+                <labs:SegmentedItem.Icon>
+                    <FontIcon Glyph="&#xE163;" />
+                </labs:SegmentedItem.Icon>
+            </labs:SegmentedItem>
+        </labs:Segmented>
+    </StackPanel>
 </Page>
