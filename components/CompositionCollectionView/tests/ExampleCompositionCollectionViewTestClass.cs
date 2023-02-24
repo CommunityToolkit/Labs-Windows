@@ -57,7 +57,7 @@ public partial class ExampleCompositionCollectionViewTestClass : VisualUITestBas
     public void SimpleUIExamplePageTest(ExampleCompositionCollectionViewTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<CompositionCollectionView_ClassicBinding>();
+        var component = page.FindDescendant<CompositionCollectionView>();
 
         Assert.IsNotNull(component);
 
@@ -73,7 +73,7 @@ public partial class ExampleCompositionCollectionViewTestClass : VisualUITestBas
         // This helper can be used to wait for a rendering pass to complete.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<CompositionCollectionView_ClassicBinding>();
+        var component = page.FindDescendant<CompositionCollectionView>();
 
         Assert.IsNotNull(component);
     }
@@ -88,7 +88,7 @@ public partial class ExampleCompositionCollectionViewTestClass : VisualUITestBas
     {
         await EnqueueAsync(() =>
         {
-            var component = new CompositionCollectionView_ClassicBinding();
+            var component = new CompositionCollectionView();
             Assert.IsNotNull(component);
         });
     }
@@ -100,7 +100,7 @@ public partial class ExampleCompositionCollectionViewTestClass : VisualUITestBas
     {
         await EnqueueAsync(async () =>
         {
-            var component = new CompositionCollectionView_ClassicBinding();
+            var component = new CompositionCollectionView();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -118,7 +118,7 @@ public partial class ExampleCompositionCollectionViewTestClass : VisualUITestBas
     [UIThreadTestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new CompositionCollectionView_ClassicBinding();
+        var component = new CompositionCollectionView();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 
