@@ -29,7 +29,7 @@ Param (
     [switch]$UseDiagnostics = $false
 )
 
-if ($Env:Path.Contains("MSBuild") -eq $false) {
+if ($Env:Path.ToLower().Contains("msbuild") -eq $false) {
     Write-Host
     Write-Host -ForegroundColor Red "Please run from a command window that has MSBuild.exe on the PATH"
     Write-Host
