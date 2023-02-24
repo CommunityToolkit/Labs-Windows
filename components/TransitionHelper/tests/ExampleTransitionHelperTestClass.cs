@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.Core.SourceGenerators.LabsUITestMethod;
-using CommunityToolkit.Labs.Tests;
+using CommunityToolkit.Tests;
+using CommunityToolkit.Tooling.TestGen;
 
 namespace TransitionHelperExperiment.Tests;
 
@@ -21,8 +21,8 @@ public partial class ExampleTransitionHelperTestClass : VisualUITestBase
         Assert.AreEqual(typeof(TransitionHelper), type, "Type of TransitionHelper does not match expected type.");
     }
 
-    // The LabsUITestMethod automatically dispatches to the UI for us to work with UI objects.
-    [LabsUITestMethod]
+    // The UIThreadTestMethod automatically dispatches to the UI for us to work with UI objects.
+    [UIThreadTestMethod]
     public void SimpleUIAttributeExampleTest()
     {
         var component = new TransitionHelper();
