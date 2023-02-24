@@ -463,6 +463,7 @@
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
+                              Control.IsTemplateFocusTarget="True"
                               CornerRadius="{TemplateBinding CornerRadius}">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -964,7 +965,6 @@
                                       Grid.ColumnSpan="3"
                                       Margin="0,5"
                                       Background="{ThemeResource ToggleSwitchContainerBackground}"
-                                      Control.IsTemplateFocusTarget="True"
                                       CornerRadius="{TemplateBinding CornerRadius}" />
                                 <ContentPresenter x:Name="OffContentPresenter"
                                                   Grid.RowSpan="3"
