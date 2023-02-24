@@ -48,9 +48,10 @@
             <StaticResource x:Key="SegmentedPillBackgroundPressed"
                             ResourceKey="AccentFillColorTertiaryBrush" />
             <StaticResource x:Key="SegmentedPillBackgroundDisabled"
-                            ResourceKey="AccentFillColorDefaultBrush" />
+                            ResourceKey="AccentFillColorDisabledBrush" />
 
             <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
+            <x:Double x:Key="SegmentedItemDisabledOpacity">0.55</x:Double>
 
             <!--  PillSegmentedStyle  -->
             <!--  Background  -->
@@ -133,9 +134,10 @@
             <StaticResource x:Key="SegmentedPillBackgroundPressed"
                             ResourceKey="AccentFillColorTertiaryBrush" />
             <StaticResource x:Key="SegmentedPillBackgroundDisabled"
-                            ResourceKey="AccentFillColorDefaultBrush" />
+                            ResourceKey="AccentFillColorDisabledBrush" />
 
             <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
+            <x:Double x:Key="SegmentedItemDisabledOpacity">0.55</x:Double>
 
             <!--  PillSegmentedStyle  -->
             <!--  Background  -->
@@ -217,9 +219,10 @@
             <StaticResource x:Key="SegmentedPillBackgroundPressed"
                             ResourceKey="AccentFillColorTertiaryBrush" />
             <StaticResource x:Key="SegmentedPillBackgroundDisabled"
-                            ResourceKey="AccentFillColorDefaultBrush" />
+                            ResourceKey="AccentFillColorDisabledBrush" />
 
             <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
+            <x:Double x:Key="SegmentedItemDisabledOpacity">0.55</x:Double>
 
             <!--  PillSegmentedStyle  -->
             <!--  Background  -->
@@ -379,6 +382,12 @@
                                                                       KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
+                                                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedPillBackground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
                                                                            Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -415,6 +424,11 @@
                                                                       KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
+                                                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SegmentedPillBackgroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
                                                                            Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -451,6 +465,11 @@
                                                                       KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
+                                                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource AccentFillColorTertiaryBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
                                                                            Storyboard.TargetProperty="Background">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -480,7 +499,7 @@
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="PART_Root"
                                                              Storyboard.TargetProperty="Opacity"
-                                                             To="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                                             To="{ThemeResource SegmentedItemDisabledOpacity}"
                                                              Duration="0" />
                                         </Storyboard>
                                     </VisualState>
