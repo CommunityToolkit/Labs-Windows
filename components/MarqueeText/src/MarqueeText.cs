@@ -21,6 +21,11 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = LoopingVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = BouncingVisualStateName)]
 [ContentProperty(Name = nameof(Text))]
+
+#if HAS_UNO
+// See: https://github.com/CommunityToolkit/Labs-Windows/pull/275#issuecomment-1331113635
+#pragma warning disable CA1001
+#endif
 public partial class MarqueeText : Control
 {
     private const string MarqueeContainerPartName = "MarqueeContainer";
@@ -274,3 +279,7 @@ public partial class MarqueeText : Control
         return true;
     }
 }
+
+#if HAS_UNO
+#pragma warning restore CA1001
+#endif
