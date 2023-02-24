@@ -60,7 +60,6 @@ public partial class EqualPanel : Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        System.Diagnostics.Debug.WriteLine("ArrangeOverride - " + HorizontalAlignment);
         var x = 0.0;
         foreach (var child in Children)
         {
