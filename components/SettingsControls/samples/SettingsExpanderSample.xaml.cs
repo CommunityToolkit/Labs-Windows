@@ -4,7 +4,6 @@
 
 namespace SettingsControlsExperiment.Samples;
 
-[ToolkitSampleBoolOption("IsCardEnabled", true, Title = "Is Enabled")]
 [ToolkitSampleBoolOption("IsCardExpanded", false, Title = "Is Expanded")]
 // Single values without a colon are used for both label and value.
 // To provide a different label for the value, separate with a colon surrounded by a single space on both sides ("label : value").
