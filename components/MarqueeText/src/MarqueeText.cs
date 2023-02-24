@@ -72,7 +72,11 @@ public partial class MarqueeText : Control
         _marqueeTransform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
         _marqueeContainer.SizeChanged += Container_SizeChanged;
-        Unloaded += MarqueeText_Unloaded;
+
+        // Swapping tabs in TabView caused errors where the control would unload and never reattach events.
+        // Hotfix: Don't detach events. This should be fine because the GC will handle it.
+        // However, more research is required.
+        //Unloaded += MarqueeText_Unloaded;
 
         VisualStateManager.GoToState(this, GetVisualStateName(Direction), false);
         VisualStateManager.GoToState(this, GetVisualStateName(Behavior), false);
