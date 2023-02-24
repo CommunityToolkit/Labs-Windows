@@ -22,9 +22,6 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = BouncingVisualStateName)]
 [ContentProperty(Name = nameof(Text))]
 public partial class MarqueeText : Control
-#if HAS_UNO
-    , IDisposable
-#endif
 {
     private const string MarqueeContainerPartName = "MarqueeContainer";
     private const string Segment1PartName = "Segment1";
