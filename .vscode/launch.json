@@ -14,13 +14,13 @@
         "/p:UnoSourceGeneratorUseGenerationHost=true",
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
-        "--project=${workspaceFolder}/common/ProjectHeads/AllComponents/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj"
+        "--project=${workspaceFolder}/common/ProjectHeads/AllComponents/Wasm/CommunityToolkit.App.Wasm.csproj"
       ],
       "presentation": {
         "group": "1",
         "order": 1
       },
-      "cwd": "${workspaceFolder}/common/ProjectHeads/AllComponents/CommunityToolkit.Labs.Wasm",
+      "cwd": "${workspaceFolder}/common/ProjectHeads/AllComponents/Wasm",
       "preLaunchTask": "generateAllSolution"
     },
     {
