@@ -101,9 +101,7 @@
                                                         ItemTemplate="{Binding ItemTemplate, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                         TabFocusNavigation="Local">
                                         <muxc:ItemsRepeater.Layout>
-                                            <muxc:UniformGridLayout ItemsStretch="Fill"
-                                                                    MaximumRowsOrColumns="1"
-                                                                    Orientation="Horizontal" />
+                                            <muxc:StackLayout Orientation="Vertical" />
                                         </muxc:ItemsRepeater.Layout>
                                     </muxc:ItemsRepeater>
                                     <ContentPresenter Grid.Row="2"
