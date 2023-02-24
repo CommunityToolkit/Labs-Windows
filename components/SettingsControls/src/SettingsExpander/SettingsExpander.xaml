@@ -16,6 +16,7 @@
     <Thickness x:Key="SettingsExpanderItemPadding">58,8,44,8</Thickness>
     <Thickness x:Key="SettingsExpanderItemBorderThickness">0,1,0,0</Thickness>
     <Thickness x:Key="ClickableSettingsExpanderItemPadding">58,8,16,8</Thickness>
+    <x:Double x:Key="SettingsExpanderContentMinHeight">16</x:Double>
 
     <Style x:Key="DefaultSettingsExpanderItemStyle"
            BasedOn="{StaticResource DefaultSettingsCardStyle}"
@@ -261,7 +262,7 @@
                         <Border x:Name="ExpanderContentClip"
                                 Grid.Row="1">
                             <Border x:Name="ExpanderContent"
-                                    MinHeight="{TemplateBinding MinHeight}"
+                                    MinHeight="{ThemeResource SettingsExpanderContentMinHeight}"
                                     Padding="{TemplateBinding Padding}"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
