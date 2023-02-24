@@ -18,7 +18,7 @@ public partial class Segmented : ListViewBase
         new PropertyMetadata(defaultValue: true));
 
     /// <summary>
-    /// Gets or sets the icon.
+    /// Gets or sets a value that indicates if the first item should be auto-selected on load.
     /// </summary>
     public bool AutoSelection
     {
