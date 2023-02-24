@@ -38,8 +38,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CommunityToolkit.Labs.WinUI.ProjectTemplate.csproj"/>
-    <ProjectReference Include="..\..\samples\ProjectTemplate.Samples.csproj"/>
+    <ProjectReference Include="..\..\src\*.csproj"/>
+    <ProjectReference Include="..\..\samples\*.csproj"/>
   </ItemGroup>
   
   <!-- Must be imported after any shared projects in non-sdk style projects -->

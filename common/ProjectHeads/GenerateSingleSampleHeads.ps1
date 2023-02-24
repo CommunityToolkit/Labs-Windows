@@ -85,7 +85,8 @@ $projects = [System.Collections.ArrayList]::new()
 [void]$projects.Add(".\**.*proj")
 
 # Include common dependencies required for solution to build
-[void]$projects.Add("..\..\common\CommunityToolkit.Labs.*Shared\**\*.*proj")
+[void]$projects.Add("..\..\common\CommunityToolkit.App.Shared\**\*.*proj")
+[void]$projects.Add("..\..\common\CommunityToolkit.Tests.Shared\**\*.*proj")
 [void]$projects.Add("..\..\common\CommunityToolkit.Tooling.SampleGen\*.csproj")
 [void]$projects.Add("..\..\common\CommunityToolkit.Tooling.TestGen\*.csproj")
 [void]$projects.Add("..\..\common\CommunityToolkit.Tooling.XamlNamedPropertyRelay\*.csproj")
