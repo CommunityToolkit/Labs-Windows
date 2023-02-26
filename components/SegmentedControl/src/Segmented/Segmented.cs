@@ -47,11 +47,10 @@ public partial class Segmented : ListViewBase
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
-        var SegmentedItem = element as SegmentedItem;
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        SegmentedItem.Loaded += SegmentedItem_Loaded;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-
+        if (element is SegmentedItem segmentedItem)
+        {
+            segmentedItem.Loaded += SegmentedItem_Loaded;
+        }
     }
 
     private void Segmented_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -66,10 +65,10 @@ public partial class Segmented : ListViewBase
     private bool _hasLoaded;
     private void SegmentedItem_Loaded(object sender, RoutedEventArgs e)
     {
-        var SegmentedItem = sender as SegmentedItem;
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        SegmentedItem.Loaded -= SegmentedItem_Loaded;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        if (sender is SegmentedItem segmentedItem)
+        {
+            segmentedItem.Loaded -= SegmentedItem_Loaded;
+        }
 
         //// Only need to do this once.
         if (!_hasLoaded)
@@ -154,12 +153,9 @@ public partial class Segmented : ListViewBase
             }
 
             // Only do stuff if the index is actually changing
-            if (index != previousIndex)
+            if (index != previousIndex && ContainerFromIndex(index) is SegmentedItem newItem)
             {
-                var newItem = ContainerFromIndex(index) as SegmentedItem;
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 newItem.Focus(FocusState.Keyboard);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 retVal = true;
             }
         }
@@ -167,21 +163,18 @@ public partial class Segmented : ListViewBase
         return retVal;
     }
 
-    private SegmentedItem GetCurrentContainerItem()
+    private SegmentedItem? GetCurrentContainerItem()
     {
         if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
         {
-#pragma warning disable CS8603 // Possible null reference return.
             return FocusManager.GetFocusedElement(XamlRoot) as SegmentedItem;
-#pragma warning restore CS8603 // Possible null reference return.
         }
         else
         {
-#pragma warning disable CS8603 // Possible null reference return.
             return FocusManager.GetFocusedElement() as SegmentedItem;
-#pragma warning restore CS8603 // Possible null reference return.
         }
     }
+
     private void OnSelectionModeChanged(DependencyObject sender, DependencyProperty dp)
     {
         SetInitialSelection();
