@@ -17,11 +17,9 @@ public partial class TokenView : ListViewBase
     private bool MoveFocus(MoveDirection direction)
     {
         bool retVal = false;
-        var currentContainerItem = GetCurrentContainerItem();
 
-        if (currentContainerItem != null)
+        if (ItemFromContainer(GetCurrentContainerItem()) is DependencyObject currentItem)
         {
-            var currentItem = ItemFromContainer(currentContainerItem);
             var previousIndex = Items.IndexOf(currentItem);
             var index = previousIndex;
 
@@ -47,14 +45,13 @@ public partial class TokenView : ListViewBase
             // Only do stuff if the index is actually changing
             if (index != previousIndex)
             {
-                var newItem = ContainerFromIndex(index) as TokenItem;
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                newItem.Focus(FocusState.Keyboard);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                if (ContainerFromIndex(index) is TokenItem newItem)
+                {
+                    newItem.Focus(FocusState.Keyboard);
+                }
                 retVal = true;
             }
         }
-
         return retVal;
     }
 }

@@ -13,9 +13,9 @@ namespace CommunityToolkit.Labs.WinUI;
 [TemplatePart(Name = TokenViewScrollForwardButtonName, Type = typeof(ButtonBase))]
 public partial class TokenView : ListViewBase
 {
-    private const string? TokenViewScrollViewerName = "ScrollViewer";
-    private const string? TokenViewScrollBackButtonName = "ScrollBackButton";
-    private const string? TokenViewScrollForwardButtonName = "ScrollForwardButton";
+    private const string TokenViewScrollViewerName = "ScrollViewer";
+    private const string TokenViewScrollBackButtonName = "ScrollBackButton";
+    private const string TokenViewScrollForwardButtonName = "ScrollForwardButton";
    
     private ScrollViewer? _tokenViewScroller;
     private ButtonBase? _tokenViewScrollBackButton;
@@ -92,8 +92,7 @@ public partial class TokenView : ListViewBase
 
     private bool RemoveItem()
     {
-        var currentContainerItem = GetCurrentContainerItem();
-        if (currentContainerItem != null && currentContainerItem.IsRemoveable)
+        if (GetCurrentContainerItem() is TokenItem currentContainerItem && currentContainerItem.IsRemoveable)
         {
             Items.Remove(currentContainerItem);
             return true;

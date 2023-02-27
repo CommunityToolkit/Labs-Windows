@@ -17,8 +17,7 @@ public partial class TokenView : ListViewBase
     private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
     {
         #if !HAS_UNO
-        var action = (CollectionChange)e.Action;
-        if (action == CollectionChange.Reset)
+        if ((CollectionChange)e.Action == CollectionChange.Reset)
         {
             // Reset collection to reload later.
             _hasLoaded = false;
@@ -56,9 +55,7 @@ public partial class TokenView : ListViewBase
         }
         else
         {
-
             _removeItemsSourceMethod = null;
         }
     }
 }
-

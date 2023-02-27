@@ -2,6 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WINAPPSDK
+using CommunityToolkit.WinUI.UI;
+#else
+    using Microsoft.Toolkit.Uwp.UI;
+#endif
+
 using Windows.System;
 
 namespace CommunityToolkit.Labs.WinUI;
@@ -78,8 +84,8 @@ public partial class TokenView : ListViewBase
         if (_tokenViewScroller != null)
         {
             _tokenViewScroller.ViewChanging += _tokenViewScroller_ViewChanging;
-            _tokenViewScrollBackButton = _tokenViewScroller.FindDescendantByName(TokenViewScrollBackButtonName) as ButtonBase;
-            _tokenViewScrollForwardButton = _tokenViewScroller.FindDescendantByName(TokenViewScrollForwardButtonName) as ButtonBase;
+            _tokenViewScrollBackButton = _tokenViewScroller.FindDescendant(TokenViewScrollBackButtonName) as ButtonBase;
+            _tokenViewScrollForwardButton = _tokenViewScroller.FindDescendant(TokenViewScrollForwardButtonName) as ButtonBase;
         }
 
         if (_tokenViewScrollBackButton != null)
@@ -97,32 +103,30 @@ public partial class TokenView : ListViewBase
 
     private void Token_Removing(object? sender, TokenItemRemovingEventArgs e)
     {
-        var item = ItemFromContainer(e.TokenItem);
-
-        var args = new TokenItemRemovingEventArgs(item, e.TokenItem);
-        TokenItemRemoving?.Invoke(this, args);
-
-        if (ItemsSource != null)
+        if (ItemFromContainer(e.TokenItem) is object item)
         {
-            _removeItemsSourceMethod?.Invoke(ItemsSource, new object[] { item });
-        }
-        else
-        {
-            if (_tokenViewScroller != null)
+            var args = new TokenItemRemovingEventArgs(item, e.TokenItem);
+            TokenItemRemoving?.Invoke(this, args);
+
+            if (ItemsSource != null)
             {
-                _tokenViewScroller.UpdateLayout();
+                _removeItemsSourceMethod?.Invoke(ItemsSource, new object[] { item });
             }
-            Items.Remove(item);
+            else
+            {
+                if (_tokenViewScroller != null)
+                {
+                    _tokenViewScroller.UpdateLayout();
+                }
+                Items.Remove(item);
+            }
         }
-
         UpdateScrollButtonsVisibility();
     }
 
     private void Token_Loaded(object sender, RoutedEventArgs e)
     {
-        var token = sender as TokenItem;
-
-        if (token != null)
+        if (sender is TokenItem token)
         {
             token.Loaded -= Token_Loaded;
         }
