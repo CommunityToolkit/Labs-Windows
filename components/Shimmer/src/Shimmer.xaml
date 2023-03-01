@@ -5,27 +5,17 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
-            <!--
-                Place a dummy brush resource as a temp fix for the issue that single-brush resource dictionary
-                cannot be merged properly, once there are more than 1 in here, we can remove the dummy
-            -->
             <StaticResource x:Key="ShimmerBackground"
-                            ResourceKey="ControlAltFillColorTertiaryBrush" />
-            <StaticResource x:Key="DummyBackground"
                             ResourceKey="ControlAltFillColorTertiaryBrush" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Light">
             <StaticResource x:Key="ShimmerBackground"
                             ResourceKey="ControlAltFillColorTertiaryBrush" />
-            <StaticResource x:Key="DummyBackground"
-                            ResourceKey="ControlAltFillColorTertiaryBrush" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
             <StaticResource x:Key="ShimmerBackground"
-                            ResourceKey="SystemColorWindowColor" />
-            <StaticResource x:Key="DummyBackground"
                             ResourceKey="SystemColorWindowColor" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
