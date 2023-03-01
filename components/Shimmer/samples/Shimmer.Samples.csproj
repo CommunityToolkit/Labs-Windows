@@ -1,0 +1,8 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <ToolkitComponentName>Shimmer</ToolkitComponentName>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's sample project -->
+  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SampleProject.props" />
+</Project>
