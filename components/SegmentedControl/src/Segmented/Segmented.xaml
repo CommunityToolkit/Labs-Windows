@@ -30,8 +30,6 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <x:Double x:Key="SegmentedMinHeight">32</x:Double>
-    <x:Double x:Key="SegmentedItemSpacing">1</x:Double>
     <x:Double x:Key="PillSegmentedMinHeight">40</x:Double>
     <Style BasedOn="{StaticResource DefaultSegmentedStyle}"
            TargetType="labs:Segmented" />
@@ -39,7 +37,6 @@
     <Style x:Key="DefaultSegmentedStyle"
            TargetType="labs:Segmented">
         <Style.Setters>
-            <Setter Property="MinHeight" Value="{StaticResource SegmentedMinHeight}" />
             <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
             <Setter Property="Background" Value="{ThemeResource SegmentedBackground}" />
             <Setter Property="BorderBrush" Value="{ThemeResource SegmentedBorderBrush}" />
@@ -52,27 +49,24 @@
                         Value="False" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="TabNavigation" Value="Once" />
-            <Setter Property="Padding" Value="-1" />
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
                         <labs:EqualPanel HorizontalAlignment="{Binding (labs:FrameworkElementExtensions.Ancestor).HorizontalAlignment, RelativeSource={RelativeSource Self}}"
-                                         labs:FrameworkElementExtensions.AncestorType="labs:Segmented"
-                                         Spacing="{StaticResource SegmentedItemSpacing}" />
+                                         labs:FrameworkElementExtensions.AncestorType="labs:Segmented"/>
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:Segmented">
-                        <Grid Height="{TemplateBinding Height}"
-                              VerticalAlignment="Stretch"
+                        <Grid>
+                            <Border VerticalAlignment="Stretch"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
-                              CornerRadius="{TemplateBinding CornerRadius}">
-                            <ItemsPresenter Margin="{TemplateBinding Padding}"
-                                            VerticalAlignment="Stretch" />
+                              CornerRadius="{TemplateBinding CornerRadius}"/>
+                            <ItemsPresenter Margin="{TemplateBinding Padding}" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
