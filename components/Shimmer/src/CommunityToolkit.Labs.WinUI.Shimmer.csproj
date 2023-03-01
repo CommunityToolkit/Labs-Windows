@@ -11,4 +11,15 @@
 
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SourceProject.props" />
+  <ItemGroup>
+    <None Remove="Shimmer.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shimmer.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Shimmer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>

@@ -103,7 +103,9 @@ public partial class Shimmer : Control
     {
         base.OnApplyTemplate();
 
-        _shape = GetTemplateChild<Border>(PART_Shape);
+#pragma warning disable CS8601 // Possible null reference assignment.
+        _shape = GetTemplateChild(PART_Shape) as Border;
+#pragma warning restore CS8601 // Possible null reference assignment.
         if (_initialized is false && TryInitializationResource() && IsAnimating)
         {
             TryStartAnimation();
@@ -270,20 +272,5 @@ public partial class Shimmer : Control
 
         _disposableAnimationResources?.Dispose();
         _animationStarted = false;
-    }
-
-    private T GetTemplateChild<T>(string name) where T : DependencyObject
-    {
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-        T child = this.GetTemplateChild(name) as T;
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8603 // Possible null reference return.
-        return child;
-#pragma warning restore CS8603 // Possible null reference return.
-                              //if (GetTemplateChild(name) is T child)
-                              //{
-                              //    return child;
-                              //}
-                              //return;
     }
 }
