@@ -30,7 +30,8 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <x:Double x:Key="PillSegmentedMinHeight">40</x:Double>
+    <x:Double x:Key="SegmentedItemSpacing">1</x:Double>
+
     <Style BasedOn="{StaticResource DefaultSegmentedStyle}"
            TargetType="labs:Segmented" />
 
@@ -53,7 +54,8 @@
                 <Setter.Value>
                     <ItemsPanelTemplate>
                         <labs:EqualPanel HorizontalAlignment="{Binding (labs:FrameworkElementExtensions.Ancestor).HorizontalAlignment, RelativeSource={RelativeSource Self}}"
-                                         labs:FrameworkElementExtensions.AncestorType="labs:Segmented"/>
+                                         labs:FrameworkElementExtensions.AncestorType="labs:Segmented"
+                                         Spacing="{ThemeResource SegmentedItemSpacing}" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
@@ -62,10 +64,10 @@
                     <ControlTemplate TargetType="labs:Segmented">
                         <Grid>
                             <Border VerticalAlignment="Stretch"
-                              Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}"
-                              CornerRadius="{TemplateBinding CornerRadius}"/>
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}" />
                             <ItemsPresenter Margin="{TemplateBinding Padding}" />
                         </Grid>
                     </ControlTemplate>
@@ -79,7 +81,6 @@
            TargetType="labs:Segmented">
         <Style.Setters>
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="MinHeight" Value="{StaticResource PillSegmentedMinHeight}" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="0" />
@@ -88,7 +89,7 @@
                 <Setter.Value>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"
-                                    Spacing="{StaticResource SegmentedItemSpacing}" />
+                                    Spacing="{ThemeResource SegmentedItemSpacing}" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>

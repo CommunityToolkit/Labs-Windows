@@ -498,7 +498,6 @@
            TargetType="labs:SegmentedItem">
         <Style.Setters>
             <Setter Property="Background" Value="{ThemeResource PillItemBackground}" />
-            <Setter Property="FocusVisualMargin" Value="-3" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SegmentedItem">
@@ -512,14 +511,14 @@
                                     <VisualState x:Name="IconOnly">
                                         <VisualState.Setters>
                                             <Setter Target="PART_ContentPresenter.Visibility" Value="Collapsed" />
-                                            <Setter Target="PART_IconBox.Margin" Value="0" />
-                                            <Setter Target="PART_Pill.Margin" Value="0" />
+                                            <Setter Target="PART_Pill.(Grid.Column)" Value="0" />
+                                            <Setter Target="ContentHolder.ColumnSpacing" Value="0" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="ContentOnly">
                                         <VisualState.Setters>
                                             <Setter Target="PART_IconBox.Visibility" Value="Collapsed" />
-                                            <Setter Target="PART_Pill.Margin" Value="0" />
+                                            <Setter Target="ContentHolder.ColumnSpacing" Value="0" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -527,51 +526,21 @@
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemBackgroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundPointerOver}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundPointerOver}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundPointerOver}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemBackgroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundPressed}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundPressed}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundPressed}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Selected">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemBackgroundSelected}" />
-                                            </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
@@ -584,25 +553,15 @@
                                                                       KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundSelected}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundSelected}" />
-                                            </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundSelected}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundSelected}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundSelected}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PointerOverSelected">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemBackgroundSelected}" />
-                                            </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
@@ -615,25 +574,15 @@
                                                                       KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundSelected}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundPointerOver}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundPointerOver}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PressedSelected">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Root"
-                                                                           Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemBackgroundSelected}" />
-                                            </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
@@ -646,17 +595,12 @@
                                                                       KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_IconPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
-                                                                           Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{ThemeResource PillItemForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundSelected}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundPressed}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundPressed}" />
+                                        </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
                                 <VisualStateGroup x:Name="DisabledStates">
@@ -665,57 +609,61 @@
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="PART_Root"
                                                              Storyboard.TargetProperty="Opacity"
-                                                             To="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                                                             Duration="0" />
+                                                             To="{ThemeResource SegmentedItemDisabledOpacity}"
+                                                             Duration="0:0:0.083" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
 
-                            <Rectangle x:Name="PART_Pill"
-                                       Grid.Column="1"
-                                       Width="4"
-                                       Height="3"
-                                       Margin="24,0,0,0"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Bottom"
-                                       Fill="{ThemeResource SegmentedPillBackground}"
-                                       Opacity="0"
-                                       RadiusX="0.5"
-                                       RadiusY="1"
-                                       RenderTransformOrigin="0.5, 0.5">
-                                <Rectangle.RenderTransform>
-                                    <CompositeTransform x:Name="PillTransform"
-                                                        ScaleX="1" />
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-
                             <!--  Content  -->
-                            <StackPanel Margin="11,5,11,6"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Stretch"
-                                        Orientation="Horizontal">
-
+                            <Grid x:Name="ContentHolder"
+                                  Margin="12,0,12,0"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Stretch"
+                                  ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
                                 <Viewbox x:Name="PART_IconBox"
                                          Width="16"
-                                         Margin="0,0,8,-2"
+                                         Margin="0,11,0,11"
                                          VerticalAlignment="Center">
                                     <ContentPresenter x:Name="PART_IconPresenter"
                                                       win:HighContrastAdjustment="None"
                                                       Content="{TemplateBinding Icon}"
                                                       Foreground="{TemplateBinding Foreground}" />
                                 </Viewbox>
+
                                 <ContentPresenter x:Name="PART_ContentPresenter"
                                                   Grid.Column="1"
-                                                  Margin="0,1,0,0"
+                                                  Margin="0,9,0,10"
                                                   VerticalAlignment="Center"
                                                   win:HighContrastAdjustment="None"
                                                   win:OpticalMarginAlignment="TrimSideBearings"
                                                   BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                                  Content="{TemplateBinding Content}"
                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
                                                   FontWeight="{TemplateBinding FontWeight}"
                                                   Foreground="{TemplateBinding Foreground}" />
-                            </StackPanel>
+                                <Rectangle x:Name="PART_Pill"
+                                           Grid.Column="1"
+                                           Width="4"
+                                           Height="3"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Bottom"
+                                           Fill="{ThemeResource PillItemPillBackground}"
+                                           Opacity="0"
+                                           RadiusX="0.5"
+                                           RadiusY="1"
+                                           RenderTransformOrigin="0.5, 0.5">
+                                    <Rectangle.RenderTransform>
+                                        <CompositeTransform x:Name="PillTransform"
+                                                            ScaleX="1" />
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Grid>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
