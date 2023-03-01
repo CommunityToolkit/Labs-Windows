@@ -56,7 +56,7 @@ public partial class ExampleShimmerTestClass : VisualUITestBase
     public void SimpleUIExamplePageTest(ExampleShimmerTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<Shimmer_ClassicBinding>();
+        var component = page.FindDescendant<Shimmer>();
 
         Assert.IsNotNull(component);
 
@@ -72,7 +72,7 @@ public partial class ExampleShimmerTestClass : VisualUITestBase
         // This helper can be used to wait for a rendering pass to complete.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<Shimmer_ClassicBinding>();
+        var component = page.FindDescendant<Shimmer>();
 
         Assert.IsNotNull(component);
     }
@@ -87,7 +87,7 @@ public partial class ExampleShimmerTestClass : VisualUITestBase
     {
         await EnqueueAsync(() =>
         {
-            var component = new Shimmer_ClassicBinding();
+            var component = new Shimmer();
             Assert.IsNotNull(component);
         });
     }
@@ -99,7 +99,7 @@ public partial class ExampleShimmerTestClass : VisualUITestBase
     {
         await EnqueueAsync(async () =>
         {
-            var component = new Shimmer_ClassicBinding();
+            var component = new Shimmer();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -117,7 +117,7 @@ public partial class ExampleShimmerTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new Shimmer_ClassicBinding();
+        var component = new Shimmer();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 

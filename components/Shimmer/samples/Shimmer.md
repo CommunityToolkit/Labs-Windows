@@ -28,7 +28,7 @@ TODO: Fill in information about this experiment and how to get started here...
 You can inherit from an existing component as well, like `Panel`, this example shows a control without a
 XAML Style that will be more light-weight to consume by an app developer:
 
-> [!Sample ShimmerCustomSample]
+
 
 ## Templated Controls
 
@@ -45,20 +45,3 @@ The `_ClassicBinding` class shows the traditional method used to develop compone
 ### Implict style
 
 > [!SAMPLE ShimmerTemplatedSample]
-
-### Custom style
-
-> [!SAMPLE ShimmerTemplatedStyleCustomSample]
-
-## Templated Controls with x:Bind
-
-This is an _experimental_ new way to define components which allows for the use of x:Bind within the style.
-
-### Implict style
-
-> [!SAMPLE ShimmerXbindBackedSample]
-
-### Custom style
-
-> [!SAMPLE ShimmerXbindBackedStyleCustomSample]
-
