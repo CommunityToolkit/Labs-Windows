@@ -8,6 +8,6 @@
       mc:Ignorable="d">
 
     <StackPanel Spacing="16">
-        <labs:Shimmer_ClassicBinding Width="128" Height="128"/>
+        <labs:Shimmer Width="128" Height="128"/>
     </StackPanel>
 </Page>

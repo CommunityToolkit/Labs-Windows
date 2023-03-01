@@ -30,14 +30,14 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Style TargetType="labs:Shimmer_ClassicBinding">
+    <Style TargetType="labs:Shimmer">
         <Setter Property="Background" Value="{ThemeResource ShimmerBackground}" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="MinWidth" Value="40" />
         <Setter Property="MinHeight" Value="8" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="labs:Shimmer_ClassicBinding">
+                <ControlTemplate TargetType="labs:Shimmer">
                     <Border x:Name="Shape"
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}" />

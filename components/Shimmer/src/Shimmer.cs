@@ -1,108 +1,287 @@
+
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Numerics;
+
+
+using Windows.UI;
+using System;
+#if WINAPPSDK
+using Microsoft.UI;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Animations.Expressions;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Shapes;
+#else
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Shapes;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+#endif
+
+
 namespace CommunityToolkit.Labs.WinUI;
 
 /// <summary>
-/// This is an example control based off of the BoxPanel sample here: https://docs.microsoft.com/windows/apps/design/layout/boxpanel-example-custom-panel. If you need this similar sort of layout component for an application, see UniformGrid in the Toolkit.
-/// It is provided as an example of how to inherit from another control like <see cref="Panel"/>.
-/// You can choose to start here or from the <see cref="Shimmer_ClassicBinding"/> or <see cref="Shimmer_xBind"/> example components. Remove unused components and rename as appropriate.
+/// A generic shimmer control that can be used to construct a beautiful loading effect.
 /// </summary>
-public partial class Shimmer : Panel
+[TemplatePart(Name = PART_Shape, Type = typeof(Rectangle))]
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable
+public partial class Shimmer : Control
+#pragma warning restore CA1001 // Types that own disposable fields should be disposable
 {
-    /// <summary>
-    /// Identifies the <see cref="Orientation"/> property.
-    /// </summary>
-    public static readonly DependencyProperty OrientationProperty =
-        DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(Shimmer), new PropertyMetadata(null, OnOrientationChanged));
+    private const float InitialStartPointX = -7.92f;
+    private const string PART_Shape = "Shape";
 
-    /// <summary>
-    /// Gets the preference of the rows/columns when there are a non-square number of children. Defaults to Vertical.
-    /// </summary>
-    public Orientation Orientation
+    public static readonly DependencyProperty AnimationDurationInMillisecondsProperty = DependencyProperty.Register(
+        nameof(AnimationDurationInMilliseconds),
+        typeof(double),
+        typeof(Shimmer),
+        new PropertyMetadata(
+            1600d,
+            (s, e) =>
+            {
+                var self = (Shimmer)s;
+                if (self.IsAnimating)
+                {
+                    self.TryStartAnimation();
+                }
+            }));
+
+    public static readonly DependencyProperty IsAnimatingProperty = DependencyProperty.Register(
+        nameof(IsAnimating),
+        typeof(bool),
+        typeof(Shimmer),
+        new PropertyMetadata(
+            true,
+            (s, e) =>
+            {
+                var self = (Shimmer)s;
+                var isAnimating = (bool)e.NewValue;
+
+                if (isAnimating)
+                {
+                    self.TryStartAnimation();
+                }
+                else
+                {
+                    self.StopAnimation();
+                }
+            }));
+
+    private CompositionColorGradientStop _gradientStop1;
+    private CompositionColorGradientStop _gradientStop2;
+    private CompositionColorGradientStop _gradientStop3;
+    private CompositionColorGradientStop _gradientStop4;
+    private CompositionRoundedRectangleGeometry _rectangleGeometry;
+    private ShapeVisual _shapeVisual;
+    private CompositionLinearGradientBrush _shimmerMaskGradient;
+    private Border _shape;
+
+    private bool _initialized;
+    private bool _animationStarted;
+    private CompositeDisposable _disposableVisualResources;
+    private CompositeDisposable _disposableAnimationResources;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public Shimmer()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
-        get { return (Orientation)GetValue(OrientationProperty); }
-        set { SetValue(OrientationProperty, value); }
+        DefaultStyleKey = typeof(Shimmer);
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
 
-    // Invalidate our layout when the property changes.
-    private static void OnOrientationChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+    public double AnimationDurationInMilliseconds
     {
-        if (dependencyObject is Shimmer panel)
+        get => (double)GetValue(AnimationDurationInMillisecondsProperty);
+        set => SetValue(AnimationDurationInMillisecondsProperty, value);
+    }
+
+    public bool IsAnimating
+    {
+        get => (bool)GetValue(IsAnimatingProperty);
+        set => SetValue(IsAnimatingProperty, value);
+    }
+
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+#pragma warning disable CS8601 // Possible null reference assignment.
+        _shape = GetTemplateChild(PART_Shape) as Border;
+#pragma warning restore CS8601 // Possible null reference assignment.
+        if (_initialized is false && TryInitializationResource() && IsAnimating)
         {
-            panel.InvalidateMeasure();
+            TryStartAnimation();
         }
     }
 
-    // Store calculations we want to use between the Measure and Arrange methods.
-    int _columnCount;
-    double _cellWidth, _cellHeight;
-
-    protected override Size MeasureOverride(Size availableSize)
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        // Determine the square that can contain this number of items.
-        var maxrc = (int)Math.Ceiling(Math.Sqrt(Children.Count));
-        // Get an aspect ratio from availableSize, decides whether to trim row or column.
-        var aspectratio = availableSize.Width / availableSize.Height;
-        if (Orientation == Orientation.Vertical) { aspectratio = 1 / aspectratio; }
-
-        int rowcount;
-
-        // Now trim this square down to a rect, many times an entire row or column can be omitted.
-        if (aspectratio > 1)
+        if (_initialized is false && TryInitializationResource() && IsAnimating)
         {
-            rowcount = maxrc;
-            _columnCount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
-        }
-        else
-        {
-            rowcount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
-            _columnCount = maxrc;
+            TryStartAnimation();
         }
 
-        // Now that we have a column count, divide available horizontal, that's our cell width.
-        _cellWidth = (int)Math.Floor(availableSize.Width / _columnCount);
-        // Next get a cell height, same logic of dividing available vertical by rowcount.
-        _cellHeight = Double.IsInfinity(availableSize.Height) ? Double.PositiveInfinity : availableSize.Height / rowcount;
-
-        double maxcellheight = 0;
-
-        foreach (UIElement child in Children)
-        {
-            child.Measure(new Size(_cellWidth, _cellHeight));
-            maxcellheight = (child.DesiredSize.Height > maxcellheight) ? child.DesiredSize.Height : maxcellheight;
-        }
-
-        return LimitUnboundedSize(availableSize, maxcellheight);
+        ActualThemeChanged += OnActualThemeChanged;
     }
 
-    // This method limits the panel height when no limit is imposed by the panel's parent.
-    // That can happen to height if the panel is close to the root of main app window.
-    // In this case, base the height of a cell on the max height from desired size
-    // and base the height of the panel on that number times the #rows.
-    Size LimitUnboundedSize(Size input, double maxcellheight)
-    { 
-        if (Double.IsInfinity(input.Height))
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        ActualThemeChanged -= OnActualThemeChanged;
+        StopAnimation();
+
+        if (_initialized)
         {
-            input.Height = maxcellheight * _columnCount;
-            _cellHeight = maxcellheight;
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+            ElementCompositionPreview.SetElementChildVisual(_shape, null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+            _disposableVisualResources?.Dispose();
+            _initialized = false;
         }
-        return input;
     }
 
-    protected override Size ArrangeOverride(Size finalSize)
+    private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
-        int count = 1;
-        double x, y;
-        foreach (UIElement child in Children)
+        if (_initialized is false)
         {
-            x = (count - 1) % _columnCount * _cellWidth;
-            y = ((int)(count - 1) / _columnCount) * _cellHeight;
-            Point anchorPoint = new Point(x, y);
-            child.Arrange(new Rect(anchorPoint, child.DesiredSize));
-            count++;
+            return;
         }
-        return finalSize;
+
+        SetGradientStopColorsByTheme();
+    }
+
+    private bool TryInitializationResource()
+    {
+        if (_initialized)
+        {
+            return true;
+        }
+
+        if (_shape is null || IsLoaded is false)
+        {
+            return false;
+        }
+
+        _disposableVisualResources = new CompositeDisposable();
+        var compositor = _shape.GetVisual().Compositor;
+
+        _rectangleGeometry = compositor.CreateRoundedRectangleGeometry();
+        _shapeVisual = compositor.CreateShapeVisual();
+        _shimmerMaskGradient = compositor.CreateLinearGradientBrush();
+        _gradientStop1 = compositor.CreateColorGradientStop();
+        _gradientStop2 = compositor.CreateColorGradientStop();
+        _gradientStop3 = compositor.CreateColorGradientStop();
+        _gradientStop4 = compositor.CreateColorGradientStop();
+        SetGradientAndStops();
+        SetGradientStopColorsByTheme();
+        _rectangleGeometry.CornerRadius = new Vector2((float)CornerRadius.TopLeft);
+        var spriteShape = compositor.CreateSpriteShape(_rectangleGeometry);
+        spriteShape.FillBrush = _shimmerMaskGradient;
+        _shapeVisual.Shapes.Add(spriteShape);
+        ElementCompositionPreview.SetElementChildVisual(_shape, _shapeVisual);
+
+        _disposableVisualResources
+            .Include(_rectangleGeometry)
+            .Include(_shapeVisual)
+            .Include(_shimmerMaskGradient)
+            .Include(_gradientStop1)
+            .Include(_gradientStop2)
+            .Include(_gradientStop3)
+            .Include(_gradientStop4);
+
+        _initialized = true;
+        return true;
+    }
+
+    private void SetGradientAndStops()
+    {
+        _shimmerMaskGradient.StartPoint = new Vector2(InitialStartPointX, 0.0f);
+        _shimmerMaskGradient.EndPoint = new Vector2(0.0f, 1.0f); //Vector2.One
+
+        _gradientStop1.Offset = 0.273f;
+        _gradientStop2.Offset = 0.436f;
+        _gradientStop3.Offset = 0.482f;
+        _gradientStop4.Offset = 0.643f;
+
+        _shimmerMaskGradient.ColorStops.Add(_gradientStop1);
+        _shimmerMaskGradient.ColorStops.Add(_gradientStop2);
+        _shimmerMaskGradient.ColorStops.Add(_gradientStop3);
+        _shimmerMaskGradient.ColorStops.Add(_gradientStop4);
+    }
+
+    private void SetGradientStopColorsByTheme()
+    {
+        switch (ActualTheme)
+        {
+            case ElementTheme.Default:
+            case ElementTheme.Dark:
+                _gradientStop1.Color = Color.FromArgb((byte)(255 * 3.26 / 100), 255, 255, 255);
+                _gradientStop2.Color = Color.FromArgb((byte)(255 * 6.05 / 100), 255, 255, 255);
+                _gradientStop3.Color = Color.FromArgb((byte)(255 * 6.05 / 100), 255, 255, 255);
+                _gradientStop4.Color = Color.FromArgb((byte)(255 * 3.26 / 100), 255, 255, 255);
+                break;
+            case ElementTheme.Light:
+                _gradientStop1.Color = Color.FromArgb((byte)(255 * 5.37 / 100), 0, 0, 0);
+                _gradientStop2.Color = Color.FromArgb((byte)(255 * 2.89 / 100), 0, 0, 0);
+                _gradientStop3.Color = Color.FromArgb((byte)(255 * 2.89 / 100), 0, 0, 0);
+                _gradientStop4.Color = Color.FromArgb((byte)(255 * 5.37 / 100), 0, 0, 0);
+                break;
+        }
+    }
+
+    private void TryStartAnimation()
+    {
+        if (_animationStarted || _initialized is false || _shape is null)
+        {
+            return;
+        }
+
+        var rootVisual = _shape.GetVisual();
+        _disposableAnimationResources = new CompositeDisposable();
+        var sizeAnimation = rootVisual.GetReference().Size;
+        _shapeVisual.StartAnimation(nameof(ShapeVisual.Size), sizeAnimation);
+        _rectangleGeometry.StartAnimation(nameof(CompositionRoundedRectangleGeometry.Size), sizeAnimation);
+
+        var gradientStartPointAnimation = rootVisual.Compositor.CreateVector2KeyFrameAnimation();
+        gradientStartPointAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDurationInMilliseconds);
+        gradientStartPointAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+        gradientStartPointAnimation.InsertKeyFrame(0.0f, new Vector2(InitialStartPointX, 0.0f));
+        gradientStartPointAnimation.InsertKeyFrame(1.0f, Vector2.Zero);
+        _shimmerMaskGradient.StartAnimation(nameof(CompositionLinearGradientBrush.StartPoint), gradientStartPointAnimation);
+
+        var gradientEndPointAnimation = rootVisual.Compositor.CreateVector2KeyFrameAnimation();
+        gradientEndPointAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDurationInMilliseconds);
+        gradientEndPointAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+        gradientEndPointAnimation.InsertKeyFrame(0.0f, new Vector2(1.0f, 0.0f)); //Vector2.One
+        gradientEndPointAnimation.InsertKeyFrame(1.0f, new Vector2(-InitialStartPointX, 1.0f));
+        _shimmerMaskGradient.StartAnimation(nameof(CompositionLinearGradientBrush.EndPoint), gradientEndPointAnimation);
+
+        _disposableAnimationResources
+            .Include(sizeAnimation)
+            .Include(gradientStartPointAnimation)
+            .Include(gradientEndPointAnimation);
+        _animationStarted = true;
+    }
+
+    private void StopAnimation()
+    {
+        if (_animationStarted is false)
+        {
+            return;
+        }
+
+        _shapeVisual.StopAnimation(nameof(ShapeVisual.Size));
+        _rectangleGeometry.StopAnimation(nameof(CompositionRoundedRectangleGeometry.Size));
+        _shimmerMaskGradient.StopAnimation(nameof(CompositionLinearGradientBrush.StartPoint));
+        _shimmerMaskGradient.StopAnimation(nameof(CompositionLinearGradientBrush.EndPoint));
+
+        _disposableAnimationResources?.Dispose();
+        _animationStarted = false;
     }
 }
