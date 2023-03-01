@@ -25,8 +25,6 @@ public partial class EqualPanel : Panel
         typeof(EqualPanel),
         new PropertyMetadata(default(double), OnSpacingChanged));
 
-
-
     public EqualPanel()
     {
         RegisterPropertyChangedCallback(Panel.HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
