@@ -8,7 +8,6 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Shapes;
 using System;
-using System.Reactive.Disposables;
 #if WINAPPSDK
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Animations.Expressions;
