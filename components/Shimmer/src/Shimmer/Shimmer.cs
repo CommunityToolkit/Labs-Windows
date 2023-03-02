@@ -37,42 +37,6 @@ public partial class Shimmer : Control
     private const float InitialStartPointX = -7.92f;
     private const string PART_Shape = "Shape";
 
-    public static readonly DependencyProperty AnimationDurationInMillisecondsProperty = DependencyProperty.Register(
-        nameof(AnimationDurationInMilliseconds),
-        typeof(double),
-        typeof(Shimmer),
-        new PropertyMetadata(
-            1600d,
-            (s, e) =>
-            {
-                var self = (Shimmer)s;
-                if (self.IsAnimating)
-                {
-                    self.TryStartAnimation();
-                }
-            }));
-
-    public static readonly DependencyProperty IsAnimatingProperty = DependencyProperty.Register(
-        nameof(IsAnimating),
-        typeof(bool),
-        typeof(Shimmer),
-        new PropertyMetadata(
-            true,
-            (s, e) =>
-            {
-                var self = (Shimmer)s;
-                var isAnimating = (bool)e.NewValue;
-
-                if (isAnimating)
-                {
-                    self.TryStartAnimation();
-                }
-                else
-                {
-                    self.StopAnimation();
-                }
-            }));
-
     private CompositionColorGradientStop _gradientStop1;
     private CompositionColorGradientStop _gradientStop2;
     private CompositionColorGradientStop _gradientStop3;
@@ -94,18 +58,6 @@ public partial class Shimmer : Control
         DefaultStyleKey = typeof(Shimmer);
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
-    }
-
-    public double AnimationDurationInMilliseconds
-    {
-        get => (double)GetValue(AnimationDurationInMillisecondsProperty);
-        set => SetValue(AnimationDurationInMillisecondsProperty, value);
-    }
-
-    public bool IsAnimating
-    {
-        get => (bool)GetValue(IsAnimatingProperty);
-        set => SetValue(IsAnimatingProperty, value);
     }
 
     protected override void OnApplyTemplate()

@@ -3,6 +3,6 @@
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.Shimmer/Shimmer.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.Shimmer/Shimmer/Shimmer.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
