@@ -20,12 +20,12 @@ function CreateVsCodeLaunchConfigJson {
       `"/p:UnoSourceGeneratorUseGenerationHost=true`",
       `"/p:UnoSourceGeneratorUseGenerationController=false`",
       `"/p:UnoRemoteControlPort=443`",
-      `"--project=`$`{workspaceFolder`}/components/$projectName/samples/$projectName.Wasm/$projectName.Wasm.csproj`"
+      `"--project=`$`{workspaceFolder`}/components/$projectName/heads/Wasm/$projectName.Wasm.csproj`"
     ],
     `"presentation`": {
       `"group`": `"2`"
     },
-    `"cwd`": `"`$`{workspaceFolder`}/components/$projectName/samples/$projectName.Wasm`"
+    `"cwd`": `"`$`{workspaceFolder`}/components/$projectName/heads/Wasm`"
   }";
 }
 
@@ -38,8 +38,10 @@ $launchConfig.configurations = @();
 $launchConfig.configurations += $originalConfigurations[0];
 $launchConfig.configurations += $originalConfigurations[1];
 
-foreach ($wasmProjectPath in Get-ChildItem -Recurse -Path "$PSScriptRoot/../*/*/samples/*.Wasm/*.Wasm.csproj") {
-  $projectName = [System.IO.Path]::GetFileNameWithoutExtension($wasmProjectPath) -Replace ".Wasm", "";
+& $PSScriptRoot/MultiTarget/GenerateAllProjectReferences.ps1 -MultiTarget 'wasm'
+
+foreach ($projectPath in Get-ChildItem -Directory -Depth 0 -Path "$PSScriptRoot/../components/*") {
+  $projectName = [System.IO.Path]::GetFileNameWithoutExtension($projectPath);
   Write-Host "Generating VSCode launch config for $projectName";
 
   $configJson = CreateVsCodeLaunchConfigJson $projectName;

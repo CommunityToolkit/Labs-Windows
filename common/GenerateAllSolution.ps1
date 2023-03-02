@@ -25,7 +25,11 @@ Param (
     [string]$IncludeHeads = 'all',
 
     [Parameter(HelpMessage = "Add extra diagnostic output to slngen generator.")]
-    [switch]$UseDiagnostics = $false
+    [switch]$UseDiagnostics = $false,
+
+    [Parameter(HelpMessage = "Only projects that support these targets will have references generated for use by deployable heads.")]
+    [ValidateSet("uwp", "wasdk", "wpf", "wasm", "linuxgtk", "macos", "ios", "android")]
+    [string[]] $MultiTarget = @("uwp", "wasdk", "wpf", "wasm", "linuxgtk", "macos", "ios", "android")
 )
 
 # Generate required props for "All" solution.
