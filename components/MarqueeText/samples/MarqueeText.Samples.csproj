@@ -1,0 +1,16 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <ToolkitComponentName>MarqueeText</ToolkitComponentName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="MarqueeTextSample.xaml.cs">
+      <DependentUpon>MarqueeTextSample.xaml</DependentUpon>
+    </Compile>
+
+    <UpToDateCheckInput Remove="MarqueeTextSample.xaml" />
+  </ItemGroup>
+
+  <!-- Sets this up as a toolkit component's sample project -->
+  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SampleProject.props" />
+</Project>
