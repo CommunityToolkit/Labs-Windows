@@ -30,7 +30,6 @@ Param (
 
 # Generate required props for "All" solution.
 & ./common/MultiTarget/GenerateAllProjectReferences.ps1
-& ./common/GenerateVSCodeLaunchConfig.ps1
 
 # Set up constant values
 $generatedSolutionFilePath = 'Toolkit.Labs.All.sln'
