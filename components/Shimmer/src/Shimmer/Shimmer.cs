@@ -86,9 +86,11 @@ public partial class Shimmer : Control
         ActualThemeChanged -= OnActualThemeChanged;
         StopAnimation();
 
-        if (_initialized)
+        if (_initialized && _shape != null)
         {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             ElementCompositionPreview.SetElementChildVisual(_shape, null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             _disposableVisualResources?.Dispose();
             _initialized = false;
         }
