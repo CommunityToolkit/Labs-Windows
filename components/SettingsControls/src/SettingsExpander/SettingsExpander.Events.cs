@@ -5,6 +5,13 @@
 namespace CommunityToolkit.Labs.WinUI;
 public partial class SettingsExpander
 {
-    public event EventHandler? Collapsed;
+    /// <summary>
+    /// Fires when the SettingsExpander is opened
+    /// </summary>
     public event EventHandler? Expanded;
+
+    /// <summary>
+    /// Fires when the expander is closed
+    /// </summary>
+    public event EventHandler? Collapsed;
 }
