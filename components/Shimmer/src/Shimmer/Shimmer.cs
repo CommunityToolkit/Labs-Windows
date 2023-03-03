@@ -44,7 +44,7 @@ public partial class Shimmer : Control
     private CompositionRoundedRectangleGeometry _rectangleGeometry;
     private ShapeVisual _shapeVisual;
     private CompositionLinearGradientBrush _shimmerMaskGradient;
-    private Border _shape;
+    private Border? _shape;
 
     private bool _initialized;
     private bool _animationStarted;
@@ -64,9 +64,7 @@ public partial class Shimmer : Control
     {
         base.OnApplyTemplate();
 
-#pragma warning disable CS8601 // Possible null reference assignment.
         _shape = GetTemplateChild(PART_Shape) as Border;
-#pragma warning restore CS8601 // Possible null reference assignment.
         if (_initialized is false && TryInitializationResource() && IsAnimating)
         {
             TryStartAnimation();
@@ -90,9 +88,7 @@ public partial class Shimmer : Control
 
         if (_initialized)
         {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             ElementCompositionPreview.SetElementChildVisual(_shape, null);
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             _disposableVisualResources?.Dispose();
             _initialized = false;
         }
