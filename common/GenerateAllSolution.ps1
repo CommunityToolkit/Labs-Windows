@@ -33,7 +33,6 @@ Param (
 )
 
 # Generate required props for "All" solution.
-& ./common/GenerateVSCodeLaunchConfig.ps1
 & ./common/MultiTarget/GenerateAllProjectReferences.ps1
 
 # Set up constant values
