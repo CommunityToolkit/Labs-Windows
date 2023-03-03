@@ -1,6 +1,6 @@
 ---
 title: Shimmer
-author: githubaccount
+author: JustinXinLiu
 description: An easy to use Shimmer control to indicate something is loading.
 keywords: Shimmer, Control, Layout
 dev_langs:
