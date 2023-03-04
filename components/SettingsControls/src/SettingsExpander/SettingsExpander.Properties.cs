@@ -140,5 +140,14 @@ public partial class SettingsExpander
     protected virtual void OnIsExpandedPropertyChanged(bool oldValue, bool newValue)
     {
         OnIsExpandedChanged(oldValue, newValue);
+
+        if (newValue)
+        {
+            Expanded?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            Collapsed?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
