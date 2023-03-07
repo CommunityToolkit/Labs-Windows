@@ -7,11 +7,11 @@ using System.Numerics;
 
 
 using Windows.UI;
-using System;
 #if WINAPPSDK
 using Microsoft.UI;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Animations.Expressions;
+using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Shapes;
@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Shapes;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 #endif
 
 
@@ -37,6 +38,9 @@ public partial class Shimmer : Control
     private const float InitialStartPointX = -7.92f;
     private const string PART_Shape = "Shape";
 
+    private Vector2Node _sizeAnimation;
+    private Vector2KeyFrameAnimation _gradientStartPointAnimation;
+    private Vector2KeyFrameAnimation _gradientEndPointAnimation;
     private CompositionColorGradientStop _gradientStop1;
     private CompositionColorGradientStop _gradientStop2;
     private CompositionColorGradientStop _gradientStop3;
@@ -48,8 +52,6 @@ public partial class Shimmer : Control
 
     private bool _initialized;
     private bool _animationStarted;
-    private CompositeDisposable _disposableVisualResources;
-    private CompositeDisposable _disposableAnimationResources;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public Shimmer()
@@ -91,7 +93,15 @@ public partial class Shimmer : Control
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             ElementCompositionPreview.SetElementChildVisual(_shape, null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-            _disposableVisualResources?.Dispose();
+
+            _rectangleGeometry.Dispose();
+             _shapeVisual.Dispose();
+            _shimmerMaskGradient.Dispose();
+            _gradientStop1.Dispose();
+            _gradientStop2.Dispose();
+            _gradientStop3.Dispose();
+            _gradientStop4.Dispose();
+
             _initialized = false;
         }
     }
@@ -118,7 +128,6 @@ public partial class Shimmer : Control
             return false;
         }
 
-        _disposableVisualResources = new CompositeDisposable();
         var compositor = _shape.GetVisual().Compositor;
 
         _rectangleGeometry = compositor.CreateRoundedRectangleGeometry();
@@ -135,15 +144,6 @@ public partial class Shimmer : Control
         spriteShape.FillBrush = _shimmerMaskGradient;
         _shapeVisual.Shapes.Add(spriteShape);
         ElementCompositionPreview.SetElementChildVisual(_shape, _shapeVisual);
-
-        _disposableVisualResources
-            .Include(_rectangleGeometry)
-            .Include(_shapeVisual)
-            .Include(_shimmerMaskGradient)
-            .Include(_gradientStop1)
-            .Include(_gradientStop2)
-            .Include(_gradientStop3)
-            .Include(_gradientStop4);
 
         _initialized = true;
         return true;
@@ -193,29 +193,24 @@ public partial class Shimmer : Control
         }
 
         var rootVisual = _shape.GetVisual();
-        _disposableAnimationResources = new CompositeDisposable();
-        var sizeAnimation = rootVisual.GetReference().Size;
-        _shapeVisual.StartAnimation(nameof(ShapeVisual.Size), sizeAnimation);
-        _rectangleGeometry.StartAnimation(nameof(CompositionRoundedRectangleGeometry.Size), sizeAnimation);
+        _sizeAnimation = rootVisual.GetReference().Size;
+        _shapeVisual.StartAnimation(nameof(ShapeVisual.Size), _sizeAnimation);
+        _rectangleGeometry.StartAnimation(nameof(CompositionRoundedRectangleGeometry.Size), _sizeAnimation);
 
-        var gradientStartPointAnimation = rootVisual.Compositor.CreateVector2KeyFrameAnimation();
-        gradientStartPointAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDurationInMilliseconds);
-        gradientStartPointAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
-        gradientStartPointAnimation.InsertKeyFrame(0.0f, new Vector2(InitialStartPointX, 0.0f));
-        gradientStartPointAnimation.InsertKeyFrame(1.0f, Vector2.Zero);
-        _shimmerMaskGradient.StartAnimation(nameof(CompositionLinearGradientBrush.StartPoint), gradientStartPointAnimation);
+        _gradientStartPointAnimation = rootVisual.Compositor.CreateVector2KeyFrameAnimation();
+        _gradientStartPointAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDurationInMilliseconds);
+        _gradientStartPointAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+        _gradientStartPointAnimation.InsertKeyFrame(0.0f, new Vector2(InitialStartPointX, 0.0f));
+        _gradientStartPointAnimation.InsertKeyFrame(1.0f, Vector2.Zero);
+        _shimmerMaskGradient.StartAnimation(nameof(CompositionLinearGradientBrush.StartPoint), _gradientStartPointAnimation);
 
-        var gradientEndPointAnimation = rootVisual.Compositor.CreateVector2KeyFrameAnimation();
-        gradientEndPointAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDurationInMilliseconds);
-        gradientEndPointAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
-        gradientEndPointAnimation.InsertKeyFrame(0.0f, new Vector2(1.0f, 0.0f)); //Vector2.One
-        gradientEndPointAnimation.InsertKeyFrame(1.0f, new Vector2(-InitialStartPointX, 1.0f));
-        _shimmerMaskGradient.StartAnimation(nameof(CompositionLinearGradientBrush.EndPoint), gradientEndPointAnimation);
+        _gradientEndPointAnimation = rootVisual.Compositor.CreateVector2KeyFrameAnimation();
+        _gradientEndPointAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDurationInMilliseconds);
+        _gradientEndPointAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+        _gradientEndPointAnimation.InsertKeyFrame(0.0f, new Vector2(1.0f, 0.0f)); //Vector2.One
+        _gradientEndPointAnimation.InsertKeyFrame(1.0f, new Vector2(-InitialStartPointX, 1.0f));
+        _shimmerMaskGradient.StartAnimation(nameof(CompositionLinearGradientBrush.EndPoint), _gradientEndPointAnimation);
 
-        _disposableAnimationResources
-            .Include(sizeAnimation)
-            .Include(gradientStartPointAnimation)
-            .Include(gradientEndPointAnimation);
         _animationStarted = true;
     }
 
@@ -231,7 +226,9 @@ public partial class Shimmer : Control
         _shimmerMaskGradient.StopAnimation(nameof(CompositionLinearGradientBrush.StartPoint));
         _shimmerMaskGradient.StopAnimation(nameof(CompositionLinearGradientBrush.EndPoint));
 
-        _disposableAnimationResources?.Dispose();
+        _sizeAnimation.Dispose();
+        _gradientStartPointAnimation.Dispose();
+        _gradientEndPointAnimation.Dispose();
         _animationStarted = false;
     }
 }
