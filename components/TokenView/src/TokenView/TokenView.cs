@@ -135,10 +135,10 @@ public partial class TokenView : ListViewBase
 
     private void SelectedIndex_PropertyChanged(DependencyObject sender, DependencyProperty dp)
     {
-        // This is a workaround for 
-        if (_internalSelectedIndex == -1 && SelectedIndex > 0)
+        // This is a workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/8257
+        if (_internalSelectedIndex == -1 && SelectedIndex > -1)
         {
-            // We catch the first, correct SelectedIndex and save it.
+            // We catch the correct SelectedIndex and save it.
             _internalSelectedIndex = SelectedIndex;
         }
     }
