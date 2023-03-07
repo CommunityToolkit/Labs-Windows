@@ -2,7 +2,7 @@
 title: Shimmer
 author: JustinXinLiu
 description: An easy to use Shimmer control to indicate something is loading.
-keywords: Shimmer, Control, Layout
+keywords: Shimmer, Loading, Control, Layout
 dev_langs:
   - csharp
 category: Controls
