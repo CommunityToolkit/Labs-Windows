@@ -76,7 +76,7 @@
         </Style.Setters>
     </Style>
 
-    <Style x:Key="PillSegmentedStyle"
+    <Style x:Key="PivotSegmentedStyle"
            BasedOn="{StaticResource DefaultSegmentedStyle}"
            TargetType="labs:Segmented">
         <Style.Setters>
@@ -84,7 +84,7 @@
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="0" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource PillSegmentedItemStyle}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource PivotSegmentedItemStyle}" />
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>

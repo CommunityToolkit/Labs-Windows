@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
                     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -53,7 +53,7 @@
             <Thickness x:Key="SegmentedItemBorderThickness">1</Thickness>
             <x:Double x:Key="SegmentedItemDisabledOpacity">0.55</x:Double>
 
-            <!--  PillSegmentedStyle  -->
+            <!--  PivotSegmentedStyle  -->
             <!--  Background  -->
             <StaticResource x:Key="PillItemBackground"
                             ResourceKey="ControlFillColorTransparentBrush" />
@@ -67,25 +67,25 @@
                             ResourceKey="ControlFillColorTransparentBrush" />
 
             <!--  Foreground  -->
-            <StaticResource x:Key="PillItemForeground"
+            <StaticResource x:Key="PivotItemForeground"
                             ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="PillItemForegroundPointerOver"
+            <StaticResource x:Key="PivotItemForegroundPointerOver"
                             ResourceKey="TextFillColorSecondaryBrush" />
-            <StaticResource x:Key="PillItemForegroundSelected"
+            <StaticResource x:Key="PivotItemForegroundSelected"
                             ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="PillItemForegroundPressed"
+            <StaticResource x:Key="PivotItemForegroundPressed"
                             ResourceKey="TextFillColorTertiaryBrush" />
-            <StaticResource x:Key="PillItemForegroundDisabled"
+            <StaticResource x:Key="PivotItemForegroundDisabled"
                             ResourceKey="TextFillColorDisabledBrush" />
 
             <!--  Pill  -->
-            <StaticResource x:Key="PillItemPillBackground"
+            <StaticResource x:Key="PivotItemPillBackground"
                             ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPointerOver"
+            <StaticResource x:Key="PivotItemPillBackgroundPointerOver"
                             ResourceKey="AccentFillColorSecondaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPressed"
+            <StaticResource x:Key="PivotItemPillBackgroundPressed"
                             ResourceKey="AccentFillColorTertiaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundDisabled"
+            <StaticResource x:Key="PivotItemPillBackgroundDisabled"
                             ResourceKey="AccentFillColorDefaultBrush" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
@@ -140,37 +140,37 @@
 
             <!--  PillSegmentedStyle  -->
             <!--  Background  -->
-            <StaticResource x:Key="PillItemBackground"
+            <StaticResource x:Key="PivotItemBackground"
                             ResourceKey="ControlFillColorTransparentBrush" />
-            <StaticResource x:Key="PillItemBackgroundPointerOver"
+            <StaticResource x:Key="PivotItemBackgroundPointerOver"
                             ResourceKey="ControlFillColorTransparentBrush" />
-            <StaticResource x:Key="PillItemBackgroundSelected"
+            <StaticResource x:Key="PivotItemBackgroundSelected"
                             ResourceKey="ControlFillColorTransparentBrush" />
-            <StaticResource x:Key="PillItemBackgroundPressed"
+            <StaticResource x:Key="PivotItemBackgroundPressed"
                             ResourceKey="ControlFillColorTransparentBrush" />
-            <StaticResource x:Key="PillItemBackgroundDisabled"
+            <StaticResource x:Key="PivotItemBackgroundDisabled"
                             ResourceKey="ControlFillColorTransparentBrush" />
 
             <!--  Foreground  -->
-            <StaticResource x:Key="PillItemForeground"
+            <StaticResource x:Key="PivotItemForeground"
                             ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="PillItemForegroundPointerOver"
+            <StaticResource x:Key="PivotItemForegroundPointerOver"
                             ResourceKey="TextFillColorSecondaryBrush" />
-            <StaticResource x:Key="PillItemForegroundPressed"
+            <StaticResource x:Key="PivotItemForegroundPressed"
                             ResourceKey="TextFillColorTertiaryBrush" />
-            <StaticResource x:Key="PillItemForegroundSelected"
+            <StaticResource x:Key="PivotItemForegroundSelected"
                             ResourceKey="TextFillColorPrimaryBrush" />
-            <StaticResource x:Key="PillItemForegroundDisabled"
+            <StaticResource x:Key="PivotItemForegroundDisabled"
                             ResourceKey="TextFillColorDisabledBrush" />
 
             <!--  Pill  -->
-            <StaticResource x:Key="PillItemPillBackground"
+            <StaticResource x:Key="PivotItemPillBackground"
                             ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPointerOver"
+            <StaticResource x:Key="PivotItemPillBackgroundPointerOver"
                             ResourceKey="AccentFillColorSecondaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPressed"
+            <StaticResource x:Key="PivotItemPillBackgroundPressed"
                             ResourceKey="AccentFillColorTertiaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundDisabled"
+            <StaticResource x:Key="PivotItemPillBackgroundDisabled"
                             ResourceKey="AccentFillColorDefaultBrush" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
@@ -225,40 +225,42 @@
 
             <!--  PillSegmentedStyle  -->
             <!--  Background  -->
-            <StaticResource x:Key="PillItemBackground"
+            <StaticResource x:Key="PivotItemBackground"
                             ResourceKey="SystemColorButtonFaceColor" />
-            <StaticResource x:Key="PillItemBackgroundPointerOver"
+            <StaticResource x:Key="PivotItemBackgroundPointerOver"
                             ResourceKey="SystemColorHighlightColor" />
-            <StaticResource x:Key="PillItemBackgroundSelected"
+            <StaticResource x:Key="PivotItemBackgroundSelected"
                             ResourceKey="SystemColorHighlightColor" />
-            <StaticResource x:Key="PillItemBackgroundPressed"
+            <StaticResource x:Key="PivotItemBackgroundPressed"
                             ResourceKey="SystemColorHighlightColor" />
-            <StaticResource x:Key="PillItemBackgroundDisabled"
+            <StaticResource x:Key="PivotItemBackgroundDisabled"
                             ResourceKey="SystemColorButtonTextColor" />
 
             <!--  Pill  -->
-            <StaticResource x:Key="PillItemPillBackground"
+            <StaticResource x:Key="PivotItemPillBackground"
                             ResourceKey="AccentFillColorDefaultBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPointerOver"
+            <StaticResource x:Key="PivotItemPillBackgroundPointerOver"
                             ResourceKey="AccentFillColorSecondaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundPressed"
+            <StaticResource x:Key="PivotItemPillBackgroundPressed"
                             ResourceKey="AccentFillColorTertiaryBrush" />
-            <StaticResource x:Key="PillItemPillBackgroundDisabled"
+            <StaticResource x:Key="PivotItemPillBackgroundDisabled"
                             ResourceKey="AccentFillColorDefaultBrush" />
 
             <!--  Foreground  -->
-            <StaticResource x:Key="PillItemForeground"
+            <StaticResource x:Key="PivotItemForeground"
                             ResourceKey="SystemColorButtonTextColor" />
-            <StaticResource x:Key="PillItemForegroundPointerOver"
+            <StaticResource x:Key="PivotItemForegroundPointerOver"
                             ResourceKey="SystemColorHighlightTextColor" />
-            <StaticResource x:Key="PillItemForegroundSelected"
+            <StaticResource x:Key="PivotItemForegroundSelected"
                             ResourceKey="SystemColorHighlightTextColor" />
-            <StaticResource x:Key="PillItemForegroundPressed"
+            <StaticResource x:Key="PivotItemForegroundPressed"
                             ResourceKey="SystemColorHighlightTextColor" />
-            <StaticResource x:Key="PillItemForegroundDisabled"
+            <StaticResource x:Key="PivotItemForegroundDisabled"
                             ResourceKey="SystemColorGrayTextColor" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+
+    <x:String x:Key="SegmentedItemScaleAnimationDuration">00:00:00.167</x:String>
 
     <Style BasedOn="{StaticResource DefaultSegmentedItemStyle}"
            TargetType="labs:SegmentedItem" />
@@ -334,13 +336,13 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Hover"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="0.96" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Hover"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="0.96" />
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
@@ -355,13 +357,13 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="4" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
@@ -378,13 +380,13 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="4" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
@@ -402,13 +404,13 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="2" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
@@ -502,11 +504,11 @@
         </Style.Setters>
     </Style>
 
-    <Style x:Key="PillSegmentedItemStyle"
+    <Style x:Key="PivotSegmentedItemStyle"
            BasedOn="{StaticResource DefaultSegmentedItemStyle}"
            TargetType="labs:SegmentedItem">
         <Style.Setters>
-            <Setter Property="Background" Value="{ThemeResource PillItemBackground}" />
+            <Setter Property="Background" Value="{ThemeResource PivotItemBackground}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:SegmentedItem">
@@ -536,16 +538,16 @@
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="PointerOver">
                                         <VisualState.Setters>
-                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundPointerOver}" />
-                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundPointerOver}" />
-                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundPointerOver}" />
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PivotItemBackgroundPointerOver}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPointerOver}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPointerOver}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <VisualState.Setters>
-                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundPressed}" />
-                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundPressed}" />
-                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundPressed}" />
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PivotItemBackgroundPressed}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPressed}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPressed}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Selected">
@@ -553,20 +555,20 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="4" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
                                         <VisualState.Setters>
-                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundSelected}" />
-                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundSelected}" />
-                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundSelected}" />
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PivotItemBackgroundSelected}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PivotItemForegroundSelected}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PivotItemForegroundSelected}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PointerOverSelected">
@@ -574,20 +576,20 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="4" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
                                         <VisualState.Setters>
-                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundSelected}" />
-                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundPointerOver}" />
-                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundPointerOver}" />
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PivotItemBackgroundSelected}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPointerOver}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPointerOver}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PressedSelected">
@@ -595,20 +597,20 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="2" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Pill"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <SplineDoubleKeyFrame KeySpline="0,0,0,1"
-                                                                      KeyTime="{StaticResource ComboBoxItemScaleAnimationDuration}"
+                                                                      KeyTime="{ThemeResource SegmentedItemScaleAnimationDuration}"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
                                         <VisualState.Setters>
-                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PillItemBackgroundSelected}" />
-                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PillItemForegroundPressed}" />
-                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PillItemForegroundPressed}" />
+                                            <Setter Target="PART_Root.Background" Value="{ThemeResource PivotItemBackgroundSelected}" />
+                                            <Setter Target="PART_ContentPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPressed}" />
+                                            <Setter Target="PART_IconPresenter.Foreground" Value="{ThemeResource PivotItemForegroundPressed}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -662,7 +664,7 @@
                                            Height="3"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Bottom"
-                                           Fill="{ThemeResource PillItemPillBackground}"
+                                           Fill="{ThemeResource PivotItemPillBackground}"
                                            Opacity="0"
                                            RadiusX="0.5"
                                            RadiusY="1"

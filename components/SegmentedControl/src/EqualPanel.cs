@@ -27,7 +27,7 @@ public partial class EqualPanel : Panel
 
     public EqualPanel()
     {
-        RegisterPropertyChangedCallback(Panel.HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
+        RegisterPropertyChangedCallback(HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
     }
 
     protected override Size MeasureOverride(Size availableSize)

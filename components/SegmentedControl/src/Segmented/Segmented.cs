@@ -8,27 +8,13 @@ namespace CommunityToolkit.Labs.WinUI;
 
 public partial class Segmented : ListViewBase
 {
+    private int _internalSelectedIndex = -1;
     public Segmented()
     {
         this.DefaultStyleKey = typeof(Segmented);
 
-        RegisterPropertyChangedCallback(Segmented.SelectionModeProperty, OnSelectionModeChanged);
-#if !HAS_UNO
-        ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
-#endif
+        RegisterPropertyChangedCallback(SelectedIndexProperty, OnSelectedIndexChanged);
     }
-
-    #if !HAS_UNO
-    private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
-    {
-        var action = (CollectionChange)e.Action;
-        if (action == CollectionChange.Reset)
-        {
-            // Reset collection to reload later.
-            _hasLoaded = false;
-        }
-    }
-#endif
 
     protected override DependencyObject GetContainerForItemOverride() => new SegmentedItem();
 
@@ -40,6 +26,7 @@ public partial class Segmented : ListViewBase
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+        SelectedIndex = _internalSelectedIndex;
         PreviewKeyDown -= Segmented_PreviewKeyDown;
         PreviewKeyDown += Segmented_PreviewKeyDown;
     }
@@ -62,52 +49,17 @@ public partial class Segmented : ListViewBase
         }
     }
 
-    private bool _hasLoaded;
     private void SegmentedItem_Loaded(object sender, RoutedEventArgs e)
     {
         if (sender is SegmentedItem segmentedItem)
         {
             segmentedItem.Loaded -= SegmentedItem_Loaded;
         }
-
-        //// Only need to do this once.
-        if (!_hasLoaded)
-        {
-            _hasLoaded = true;
-            // Need to set a the selection on load, otherwise ListView resets to null.
-            SetInitialSelection();
-        }
     }
 
     protected override void OnItemsChanged(object e)
     {
-        IVectorChangedEventArgs args = (IVectorChangedEventArgs)e;
         base.OnItemsChanged(e);
-    }
-
-    private void SetInitialSelection()
-    {
-        if (SelectedItem == null)
-        {
-            // If we have an index, but didn't get the selection, make the selection
-            if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
-            {
-                SelectedItem = Items[SelectedIndex];
-            }
-
-            //  Otherwise, select the first item by default
-            else if (Items.Count >= 1 && SelectionMode == ListViewSelectionMode.Single && AutoSelection)
-            {
-                SelectedItem = Items[0];
-            }
-        }
-        else
-        {
-            if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
-            {
-                SelectedItem = Items[SelectedIndex];
-            }
-        }
     }
 
     private enum MoveDirection
@@ -175,8 +127,12 @@ public partial class Segmented : ListViewBase
         }
     }
 
-    private void OnSelectionModeChanged(DependencyObject sender, DependencyProperty dp)
+    private void OnSelectedIndexChanged(DependencyObject sender, DependencyProperty dp)
     {
-        SetInitialSelection();
+        // This is a workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/8257
+        if (_internalSelectedIndex == -1 && SelectedIndex > -1)
+        {
+            _internalSelectedIndex = SelectedIndex;
+        }
     }
 }
