@@ -28,7 +28,7 @@
 
         <TextBlock Margin="0,24,0,0"
                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                   Text="PivotSegmentedStyle" />
+                   Text="BodyStrongTextBlockStyle" />
         <labs:Segmented SelectedIndex="0"
                         SelectionMode="{x:Bind local:SegmentedControlStylesSample.ConvertStringToSelectionMode(SelectionMode), Mode=OneWay}"
                         Style="{StaticResource ButtonSegmentedStyle}">
