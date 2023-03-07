@@ -132,6 +132,7 @@ public partial class Segmented : ListViewBase
         // This is a workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/8257
         if (_internalSelectedIndex == -1 && SelectedIndex > -1)
         {
+            // We catch the correct SelectedIndex and save it.
             _internalSelectedIndex = SelectedIndex;
         }
     }
