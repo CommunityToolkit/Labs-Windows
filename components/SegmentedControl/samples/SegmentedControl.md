@@ -35,6 +35,6 @@ The `Segmented` control is best used with 2-5 items and does not support overflo
 
 ## Other styles
 
-The `Segmented` control contains various additional styles, to match the look and feel of your application. The `PillSegmentedStyle` matches a modern `Pivot` and `NavigationView` style.
+The `Segmented` control contains various additional styles, to match the look and feel of your application. The `PivotSegmentedStyle` matches a modern `Pivot` style while the `ButtonSegmentedStyle` represents buttons.
 
 > [!SAMPLE SegmentedControlStylesSample]

@@ -31,18 +31,21 @@
                    Text="PivotSegmentedStyle" />
         <labs:Segmented SelectedIndex="0"
                         SelectionMode="{x:Bind local:SegmentedControlStylesSample.ConvertStringToSelectionMode(SelectionMode), Mode=OneWay}"
-                        Style="{StaticResource PivotSegmentedStyle}">
-            <labs:SegmentedItem ToolTipService.ToolTip="Day view">
+                        Style="{StaticResource ButtonSegmentedStyle}">
+            <labs:SegmentedItem Content="Day"
+                                ToolTipService.ToolTip="Day view">
                 <labs:SegmentedItem.Icon>
                     <FontIcon Glyph="&#xE161;" />
                 </labs:SegmentedItem.Icon>
             </labs:SegmentedItem>
-            <labs:SegmentedItem ToolTipService.ToolTip="Week view">
+            <labs:SegmentedItem Content="Week"
+                                ToolTipService.ToolTip="Week view">
                 <labs:SegmentedItem.Icon>
                     <FontIcon Glyph="&#xE162;" />
                 </labs:SegmentedItem.Icon>
             </labs:SegmentedItem>
-            <labs:SegmentedItem ToolTipService.ToolTip="Month view">
+            <labs:SegmentedItem Content="Month"
+                                ToolTipService.ToolTip="Month view">
                 <labs:SegmentedItem.Icon>
                     <FontIcon Glyph="&#xE163;" />
                 </labs:SegmentedItem.Icon>
