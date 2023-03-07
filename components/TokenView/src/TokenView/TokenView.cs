@@ -16,7 +16,8 @@ public partial class TokenView : ListViewBase
     private const string TokenViewScrollViewerName = "ScrollViewer";
     private const string TokenViewScrollBackButtonName = "ScrollBackButton";
     private const string TokenViewScrollForwardButtonName = "ScrollForwardButton";
-   
+    private int _internalSelectedIndex = -1;
+
     private ScrollViewer? _tokenViewScroller;
     private ButtonBase? _tokenViewScrollBackButton;
     private ButtonBase? _tokenViewScrollForwardButton;
@@ -33,6 +34,8 @@ public partial class TokenView : ListViewBase
         // Container Generation Hooks
         RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
 
+        RegisterPropertyChangedCallback(SelectedIndexProperty, SelectedIndex_PropertyChanged);
+
 #if !HAS_UNO
         ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
 #endif
@@ -48,7 +51,7 @@ public partial class TokenView : ListViewBase
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
+        SelectedIndex = _internalSelectedIndex;
         PreviewKeyDown -= TokenView_PreviewKeyDown;
         SizeChanged += TokenView_SizeChanged;
         if (_tokenViewScroller != null)
@@ -127,6 +130,16 @@ public partial class TokenView : ListViewBase
         else
         {
             return FocusManager.GetFocusedElement() as TokenItem;
+        }
+    }
+
+    private void SelectedIndex_PropertyChanged(DependencyObject sender, DependencyProperty dp)
+    {
+        // This is a workaround for 
+        if (_internalSelectedIndex == -1 && SelectedIndex > 0)
+        {
+            // We catch the first, correct SelectedIndex and save it.
+            _internalSelectedIndex = SelectedIndex;
         }
     }
 }

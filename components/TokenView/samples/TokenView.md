@@ -32,12 +32,12 @@ The default Orientation of a TokenView is `Horizontal`, which horizontally align
 
 ## Removing TokenItems
 
-> [!Sample TokenViewRemoveSample]
-
 TokenItems can be removed from the collection by setting the `IsRemoveable` property on the TokenItem- or by setting the `CanRemoveTokens` property on the TokenView itself.
+
+> [!Sample TokenViewRemoveSample]
 
 ## Binding
 
-Binding is supported. Collections can be bound by setting a collection of items. You can use the `ItemTemplate` to define how your data object is represented. 
+Binding is supported. Collections can be bound by setting a collection of items. You can use the `ItemTemplate` to define how your data object is represented. The `Header` and `Footer` can be set to display objects at the start and the end of the scrollable area.
 
 > [!Sample TokenViewItemsSourceSample]
