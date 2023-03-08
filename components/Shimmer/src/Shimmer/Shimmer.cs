@@ -63,7 +63,7 @@ public partial class Shimmer : Control
         base.OnApplyTemplate();
 
         _shape = GetTemplateChild(PART_Shape) as Border;
-        if (_initialized is false && TryInitializationResource() && IsAnimating)
+        if (_initialized is false && TryInitializationResource() && IsActive)
         {
             TryStartAnimation();
         }
@@ -71,7 +71,7 @@ public partial class Shimmer : Control
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        if (_initialized is false && TryInitializationResource() && IsAnimating)
+        if (_initialized is false && TryInitializationResource() && IsActive)
         {
             TryStartAnimation();
         }
@@ -194,14 +194,14 @@ public partial class Shimmer : Control
         _rectangleGeometry.StartAnimation(nameof(CompositionRoundedRectangleGeometry.Size), _sizeAnimation);
 
         _gradientStartPointAnimation = rootVisual.Compositor.CreateVector2KeyFrameAnimation();
-        _gradientStartPointAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDurationInMilliseconds);
+        _gradientStartPointAnimation.Duration = Duration;
         _gradientStartPointAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
         _gradientStartPointAnimation.InsertKeyFrame(0.0f, new Vector2(InitialStartPointX, 0.0f));
         _gradientStartPointAnimation.InsertKeyFrame(1.0f, Vector2.Zero);
         _shimmerMaskGradient.StartAnimation(nameof(CompositionLinearGradientBrush.StartPoint), _gradientStartPointAnimation);
 
         _gradientEndPointAnimation = rootVisual.Compositor.CreateVector2KeyFrameAnimation();
-        _gradientEndPointAnimation.Duration = TimeSpan.FromMilliseconds(AnimationDurationInMilliseconds);
+        _gradientEndPointAnimation.Duration = Duration;
         _gradientEndPointAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
         _gradientEndPointAnimation.InsertKeyFrame(0.0f, new Vector2(1.0f, 0.0f)); //Vector2.One
         _gradientEndPointAnimation.InsertKeyFrame(1.0f, new Vector2(-InitialStartPointX, 1.0f));

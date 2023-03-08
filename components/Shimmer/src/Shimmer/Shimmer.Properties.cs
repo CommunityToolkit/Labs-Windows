@@ -5,8 +5,8 @@
 namespace CommunityToolkit.Labs.WinUI;
 public partial class Shimmer : Control
 {
-    public static readonly DependencyProperty AnimationDurationInMillisecondsProperty = DependencyProperty.Register(
-        nameof(AnimationDurationInMilliseconds), typeof(double), typeof(Shimmer), new PropertyMetadata(1600d, (s, e) =>
+    public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(
+        nameof(Duration), typeof(TimeSpan), typeof(Shimmer), new PropertyMetadata(TimeSpan.FromMilliseconds(1600), (s, e) =>
         {
             var self = (Shimmer)s;
             if (self.IsAnimating)
@@ -31,10 +31,10 @@ public partial class Shimmer : Control
             }
         }));
 
-    public double AnimationDurationInMilliseconds
+    public TimeSpan Duration
     {
-        get => (double)GetValue(AnimationDurationInMillisecondsProperty);
-        set => SetValue(AnimationDurationInMillisecondsProperty, value);
+        get => (TimeSpan)GetValue(DurationProperty);
+        set => SetValue(DurationProperty, value);
     }
 
     public bool IsAnimating
