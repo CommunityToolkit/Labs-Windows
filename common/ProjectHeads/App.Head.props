@@ -1,0 +1,150 @@
+<!-- Common props for any deployable app project head. -->
+<Project>
+  <!-- Shared project -->
+  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.App.Shared\CommunityToolkit.App.Shared.projitems" Label="Shared" />
+
+  <!-- Shared project dependencies -->
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <!-- Source generators -->
+  <ItemGroup Condition="'$(TargetFramework)' != '$(WinAppSdkTargetFramework)'">
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Tooling.SampleGen\CommunityToolkit.Tooling.SampleGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
+    <IsAllExperimentHead Condition="$(MSBuildProjectName.StartsWith('CommunityToolkit.')) == 'true'">true</IsAllExperimentHead>
+    <IsProjectTemplateHead Condition="$(MSBuildProjectName.StartsWith('ProjectTemplate')) == 'true'">true</IsProjectTemplateHead>
+    <IsSingleExperimentHead Condition="'$(IsAllExperimentHead)' != 'true' AND '$(IsProjectTemplateHead)' != 'true'">true</IsSingleExperimentHead>
+
+    <DefineConstants Condition="$(IsAllExperimentHead) == 'true'">$(DefineConstants);LABS_ALL_SAMPLES</DefineConstants>
+
+    <SlnGenIsDeployable>true</SlnGenIsDeployable>
+  </PropertyGroup>
+
+  <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
+  <ItemGroup Condition="'$(IsAllExperimentHead)' == 'true'">
+    <!-- These are also included in the Samples props file, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
+    <Content Include="$(RepositoryDirectory)components\**\samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.md;$(RepositoryDirectory)**\**\samples\bin\**\*.md;$(RepositoryDirectory)\**\SourceAssets\**\*.md">
+      <Link>SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+
+    <Content Include="$(RepositoryDirectory)components\**\samples\**\*.xaml" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.xaml;$(RepositoryDirectory)**\**\samples\bin\**\*.xaml;$(RepositoryDirectory)\**\SourceAssets\**\*.xaml">
+      <Link>SourceAssets/%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+
+    <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
+    <Content Include="$(RepositoryDirectory)components\**\samples\**\*.cs" Exclude="$(RepositoryDirectory)**\**\samples\obj\**\*.cs;$(RepositoryDirectory)**\**\samples\bin\**\*.cs">
+      <Link>SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat</Link>
+    </Content>
+
+    <!-- Include markdown files from all samples so the head can access them in the source generator -->
+    <AdditionalFiles Include="$(RepositoryDirectory)components\**\samples\**\*.md" Exclude="$(RepositoryDirectory)**\**\samples\**\obj\**\*.md;$(RepositoryDirectory)**\**\samples\**\bin\**\*.md"/>
+  </ItemGroup>
+
+  <!-- See https://github.com/CommunityToolkit/Labs-Windows/issues/142 -->
+  <ItemGroup Condition="'$(IsSingleExperimentHead)' == 'true' or '$(IsProjectTemplateHead)' == 'true'">
+    <!-- These are also included in the Samples props file, but added here to workaround https://github.com/unoplatform/uno/issues/2502 -->
+    <Content Include="$(MSBuildProjectDirectory)\..\..\samples\**\*.md" Exclude="$(MSBuildProjectDirectory)\..\..\samples\obj\**\*.md;$(MSBuildProjectDirectory)\..\..\samples\bin\**\*.md;$(MSBuildProjectDirectory)\..\..\**\SourceAssets\**\*.md" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+    <Content Include="$(MSBuildProjectDirectory)\..\..\samples\**\*.xaml" Exclude="$(MSBuildProjectDirectory)\..\..\samples\obj\**\*.xaml;$(MSBuildProjectDirectory)\..\..\samples\bin\**\*.xaml;$(MSBuildProjectDirectory)\..\..\**\SourceAssets\**\*.xaml" Link="SourceAssets/%(RecursiveDir)%(FileName)%(Extension)"/>
+
+    <!-- Link/.dat is a workaround for https://github.com/unoplatform/uno/issues/8649 -->
+    <Content Include="$(MSBuildProjectDirectory)\..\..\samples\**\*.cs" Exclude="$(MSBuildProjectDirectory)\..\..\samples\obj\**\*.cs;$(MSBuildProjectDirectory)\..\..\samples\bin\**\*.cs">
+      <Link>SourceAssets/%(RecursiveDir)%(FileName)%(Extension).dat</Link>
+    </Content>
+
+    <!-- Include markdown files from all samples so the head can access them in the source generator -->
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\..\..\samples\*.md" Exclude="$(MSBuildProjectDirectory)\..\..\**\obj\**\*.md;$(MSBuildProjectDirectory)\..\..\**\bin\**\*.md"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+
+    <!-- Turn-off .NET based AssemblyInfo.cs generator, see below -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <!-- https://stackoverflow.com/questions/10980249/msbuild-task-for-setting-custom-attribute-in-assemblyinfo-cs -->
+  <!-- https://gist.github.com/KirillOsenkov/f20cb84d37a89b01db63f8aafe03f19b -->
+  <Target Name="AddAssemblyAttributes" BeforeTargets="BeforeCompile">
+    <PropertyGroup>
+      <GeneratedAssemblyInfoPath>$(IntermediateOutputPath)AssemblyInfo.g.cs</GeneratedAssemblyInfoPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <!-- Add our own AssemblyInfo.cs standard attributes -->
+      <AssemblyAttributes Include="AssemblyTitle">
+        <_Parameter1>$(Product)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyDescription">
+        <_Parameter1>Community Toolkit</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyCompany">
+        <_Parameter1>$(Company)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyProduct">
+        <_Parameter1>$(Product)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyCopyright">
+        <_Parameter1>$(Copyright)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyTrademark">
+        <_Parameter1></_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyCulture">
+        <_Parameter1></_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyConfiguration">
+        <_Parameter1>$(Configuration)</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyVersion">
+        <_Parameter1>1.0.0.0</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="AssemblyFileVersion">
+        <_Parameter1>1.0.0.0</_Parameter1>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="System.Runtime.InteropServices.ComVisible">
+        <_Parameter1>false</_Parameter1>
+        <_Parameter1_TypeName>System.Boolean</_Parameter1_TypeName>
+      </AssemblyAttributes>
+
+      <!-- Add custom attributes, also see https://stackoverflow.com/questions/56835671/how-to-read-a-msbuild-property-in-a-given-project-in-runtime -->
+      <AssemblyAttributes Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(SourceRevisionId)' != ''">
+        <_Parameter1>CommitHash</_Parameter1>
+        <_Parameter2>$(SourceRevisionId)</_Parameter2>
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="CommunityToolkit.Attributes.PackageProjectUrlAttribute" Condition="'$(PackageProjectUrl)' != ''">
+        <_Parameter1>$(PackageProjectUrl)</_Parameter1>
+      </AssemblyAttributes>
+      <Warning Text="The PackageProjectUrl property was not set." Condition="'$(PackageProjectUrl)' == ''" />
+    </ItemGroup>
+
+    <!-- Extra attributes specific to platforms -->
+    <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
+      <AssemblyAttributes Include="System.Runtime.Versioning.TargetPlatformAttribute">
+        <_Parameter1>Windows10.0.19041.0</_Parameter1>        <!-- TODO: Grab from variable -->
+      </AssemblyAttributes>
+      <AssemblyAttributes Include="System.Runtime.Versioning.SupportedOSPlatformAttribute">
+        <_Parameter1>Windows10.0.17763.0</_Parameter1>        <!-- TODO: Grab from variable -->
+      </AssemblyAttributes>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="$(GeneratedAssemblyInfoPath)" />
+    </ItemGroup>
+
+    <!-- Write out new auto-generated AssemblyInfo.g.cs file -->
+    <WriteCodeFragment Language="C#" OutputFile="$(GeneratedAssemblyInfoPath)" AssemblyAttributes="@(AssemblyAttributes)" />
+  </Target>
+</Project>

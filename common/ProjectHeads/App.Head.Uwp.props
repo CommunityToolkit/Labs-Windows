@@ -1,0 +1,15 @@
+<Project>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>$(UwpTargetFramework)</TargetFramework>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)\App.Head.Uwp.Dependencies.props" />
+  <Import Project="$(MSBuildThisFileDirectory)\App.Head.props" />
+  <Import Project="$(MSBuildThisFileDirectory)\Head.Uwp.props" />
+</Project>
