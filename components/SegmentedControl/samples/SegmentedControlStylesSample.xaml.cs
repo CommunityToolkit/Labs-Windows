@@ -9,7 +9,7 @@ namespace SegmentedControlExperiment.Samples;
 /// </summary>
 [ToolkitSampleMultiChoiceOption("SelectionMode", "Single", "Multiple", Title = "Selection mode")]
 
-[ToolkitSample(id: nameof(SegmentedControlStylesSample), "Stylesl", description: "A sample for showing how to use the different built-in styles.")]
+[ToolkitSample(id: nameof(SegmentedControlStylesSample), "Additional styles", description: "A sample on how to use different built-in styles.")]
 public sealed partial class SegmentedControlStylesSample : Page
 {
     public SegmentedControlStylesSample()

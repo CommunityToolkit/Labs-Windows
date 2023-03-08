@@ -8,27 +8,15 @@ namespace CommunityToolkit.Labs.WinUI;
 
 public partial class Segmented : ListViewBase
 {
+    private int _internalSelectedIndex = -1;
+    private bool _hasLoaded = false;
+
     public Segmented()
     {
         this.DefaultStyleKey = typeof(Segmented);
 
-        RegisterPropertyChangedCallback(Segmented.SelectionModeProperty, OnSelectionModeChanged);
-#if !HAS_UNO
-        ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
-#endif
+        RegisterPropertyChangedCallback(SelectedIndexProperty, OnSelectedIndexChanged);
     }
-
-    #if !HAS_UNO
-    private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
-    {
-        var action = (CollectionChange)e.Action;
-        if (action == CollectionChange.Reset)
-        {
-            // Reset collection to reload later.
-            _hasLoaded = false;
-        }
-    }
-#endif
 
     protected override DependencyObject GetContainerForItemOverride() => new SegmentedItem();
 
@@ -40,6 +28,11 @@ public partial class Segmented : ListViewBase
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+        if (!_hasLoaded)
+        {
+            SelectedIndex = _internalSelectedIndex;
+            _hasLoaded = true;
+        }
         PreviewKeyDown -= Segmented_PreviewKeyDown;
         PreviewKeyDown += Segmented_PreviewKeyDown;
     }
@@ -47,11 +40,10 @@ public partial class Segmented : ListViewBase
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
-        var SegmentedItem = element as SegmentedItem;
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        SegmentedItem.Loaded += SegmentedItem_Loaded;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-
+        if (element is SegmentedItem segmentedItem)
+        {
+            segmentedItem.Loaded += SegmentedItem_Loaded;
+        }
     }
 
     private void Segmented_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -63,52 +55,17 @@ public partial class Segmented : ListViewBase
         }
     }
 
-    private bool _hasLoaded;
     private void SegmentedItem_Loaded(object sender, RoutedEventArgs e)
     {
-        var SegmentedItem = sender as SegmentedItem;
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        SegmentedItem.Loaded -= SegmentedItem_Loaded;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-
-        //// Only need to do this once.
-        if (!_hasLoaded)
+        if (sender is SegmentedItem segmentedItem)
         {
-            _hasLoaded = true;
-            // Need to set a the selection on load, otherwise ListView resets to null.
-            SetInitialSelection();
+            segmentedItem.Loaded -= SegmentedItem_Loaded;
         }
     }
 
     protected override void OnItemsChanged(object e)
     {
-        IVectorChangedEventArgs args = (IVectorChangedEventArgs)e;
         base.OnItemsChanged(e);
-    }
-
-    private void SetInitialSelection()
-    {
-        if (SelectedItem == null)
-        {
-            // If we have an index, but didn't get the selection, make the selection
-            if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
-            {
-                SelectedItem = Items[SelectedIndex];
-            }
-
-            //  Otherwise, select the first item by default
-            else if (Items.Count >= 1 && SelectionMode == ListViewSelectionMode.Single)
-            {
-                SelectedItem = Items[0];
-            }
-        }
-        else
-        {
-            if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
-            {
-                SelectedItem = Items[SelectedIndex];
-            }
-        }
     }
 
     private enum MoveDirection
@@ -154,12 +111,9 @@ public partial class Segmented : ListViewBase
             }
 
             // Only do stuff if the index is actually changing
-            if (index != previousIndex)
+            if (index != previousIndex && ContainerFromIndex(index) is SegmentedItem newItem)
             {
-                var newItem = ContainerFromIndex(index) as SegmentedItem;
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 newItem.Focus(FocusState.Keyboard);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 retVal = true;
             }
         }
@@ -167,23 +121,25 @@ public partial class Segmented : ListViewBase
         return retVal;
     }
 
-    private SegmentedItem GetCurrentContainerItem()
+    private SegmentedItem? GetCurrentContainerItem()
     {
         if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
         {
-#pragma warning disable CS8603 // Possible null reference return.
             return FocusManager.GetFocusedElement(XamlRoot) as SegmentedItem;
-#pragma warning restore CS8603 // Possible null reference return.
         }
         else
         {
-#pragma warning disable CS8603 // Possible null reference return.
             return FocusManager.GetFocusedElement() as SegmentedItem;
-#pragma warning restore CS8603 // Possible null reference return.
         }
     }
-    private void OnSelectionModeChanged(DependencyObject sender, DependencyProperty dp)
+
+    private void OnSelectedIndexChanged(DependencyObject sender, DependencyProperty dp)
     {
-        SetInitialSelection();
+        // This is a workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/8257
+        if (_internalSelectedIndex == -1 && SelectedIndex > -1)
+        {
+            // We catch the correct SelectedIndex and save it.
+            _internalSelectedIndex = SelectedIndex;
+        }
     }
 }
