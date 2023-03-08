@@ -9,6 +9,8 @@ namespace CommunityToolkit.Labs.WinUI;
 public partial class Segmented : ListViewBase
 {
     private int _internalSelectedIndex = -1;
+    private bool _hasLoaded = false;
+
     public Segmented()
     {
         this.DefaultStyleKey = typeof(Segmented);
@@ -26,7 +28,11 @@ public partial class Segmented : ListViewBase
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-        SelectedIndex = _internalSelectedIndex;
+        if (!_hasLoaded)
+        {
+            SelectedIndex = _internalSelectedIndex;
+            _hasLoaded = true;
+        }
         PreviewKeyDown -= Segmented_PreviewKeyDown;
         PreviewKeyDown += Segmented_PreviewKeyDown;
     }
