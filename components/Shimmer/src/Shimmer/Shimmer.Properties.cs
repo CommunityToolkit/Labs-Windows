@@ -9,19 +9,19 @@ public partial class Shimmer : Control
         nameof(Duration), typeof(TimeSpan), typeof(Shimmer), new PropertyMetadata(TimeSpan.FromMilliseconds(1600), (s, e) =>
         {
             var self = (Shimmer)s;
-            if (self.IsAnimating)
+            if (self.IsActive)
             {
                 self.TryStartAnimation();
             }
         }));
 
-    public static readonly DependencyProperty IsAnimatingProperty = DependencyProperty.Register(
-        nameof(IsAnimating), typeof(bool), typeof(Shimmer), new PropertyMetadata(true, (s, e) =>
+    public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(
+        nameof(IsActive), typeof(bool), typeof(Shimmer), new PropertyMetadata(true, (s, e) =>
         {
             var self = (Shimmer)s;
-            var isAnimating = (bool)e.NewValue;
+            var isActive = (bool)e.NewValue;
 
-            if (isAnimating)
+            if (isActive)
             {
                 self.TryStartAnimation();
             }
@@ -37,9 +37,9 @@ public partial class Shimmer : Control
         set => SetValue(DurationProperty, value);
     }
 
-    public bool IsAnimating
+    public bool IsActive
     {
-        get => (bool)GetValue(IsAnimatingProperty);
-        set => SetValue(IsAnimatingProperty, value);
+        get => (bool)GetValue(IsActiveProperty);
+        set => SetValue(IsActiveProperty, value);
     }
 }

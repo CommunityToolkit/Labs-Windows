@@ -12,6 +12,6 @@ issue-id: 0
 ---
 # Shimmer
 
-The Shimmer control can be used to communicate to the user a certain UI element is fetching data or is loading. The `AnimationDurationInMilliseconds` can be set to change the time in between fades.
+The Shimmer control can be used to communicate to the user a certain UI element is fetching data or is loading. The `Duration` can be set to change the time in between fades.
 
 > [!SAMPLE ShimmerSample]

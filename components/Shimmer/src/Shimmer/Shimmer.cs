@@ -86,9 +86,7 @@ public partial class Shimmer : Control
 
         if (_initialized && _shape != null)
         {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             ElementCompositionPreview.SetElementChildVisual(_shape, null);
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             _rectangleGeometry.Dispose();
             _shapeVisual.Dispose();
