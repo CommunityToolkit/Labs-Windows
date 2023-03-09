@@ -14,10 +14,8 @@ issue-id: 101
 # GridSplitter
 
 The control automatically detects the targeted columns/rows to resize, while dragging the control it starts to resize the columns/rows and redistributes space between columns/rows,
-you can manually specify the Resize Direction Auto, Column, Row and the Resize Behavior to select which columns/rows to resize.
+you can manually specify the `ResizeDirection` (`Auto` / `Column` / `Row`) and the `ResizeBehavior` to select which columns/rows to resize.
 
-# Examples
-
-GridSplitter control will resize the targeted rows or columns
+`GridSplitter` control will resize the targeted rows or columns
 
 > [!SAMPLE GridSplitterPage]
