@@ -1,7 +1,7 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
     <ToolkitComponentName>ProjectTemplate</ToolkitComponentName>
-    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).Controls.ProjectTemplate</PackageId>
+    <PackageId>$(PackageIdPrefix).$(PackageIdVariant).Controls.ProjectTemplate</PackageId>
     <Description>This package contains ProjectTemplate.</Description>
     <Version>0.0.1</Version>
 
