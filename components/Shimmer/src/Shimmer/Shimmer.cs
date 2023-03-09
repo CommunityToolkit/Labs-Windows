@@ -84,7 +84,6 @@ public partial class Shimmer : Control
         {
             ElementCompositionPreview.SetElementChildVisual(_shape, null);
 
-            
             _rectangleGeometry!.Dispose();
             _shapeVisual!.Dispose();
             _shimmerMaskGradient!.Dispose();

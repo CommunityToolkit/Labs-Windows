@@ -10,34 +10,20 @@ public partial class Shimmer : Control
     /// Identifies the <see cref="Duration"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(
-        nameof(Duration), typeof(TimeSpan), typeof(Shimmer), new PropertyMetadata(TimeSpan.FromMilliseconds(1600), (s, e) =>
-        {
-            var self = (Shimmer)s;
-            if (self.IsActive)
-            {
-                self.TryStartAnimation();
-            }
-        }));
+       nameof(Duration),
+       typeof(object),
+       typeof(Shimmer),
+       new PropertyMetadata(defaultValue: TimeSpan.FromMilliseconds(1600), PropertyChanged));
 
     /// <summary>
     /// Identifies the <see cref="IsActive"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(
-        nameof(IsActive), typeof(bool), typeof(Shimmer), new PropertyMetadata(true, (s, e) =>
-        {
-            var self = (Shimmer)s;
-            var isActive = (bool)e.NewValue;
+      nameof(IsActive),
+      typeof(bool),
+      typeof(Shimmer),
+      new PropertyMetadata(defaultValue: true, PropertyChanged));
 
-            if (isActive)
-            {
-                self.StopAnimation();
-                self.TryStartAnimation();
-            }
-            else
-            {
-                self.StopAnimation();
-            }
-        }));
 
     /// <summary>
     /// Gets or sets the animation duration
@@ -55,5 +41,19 @@ public partial class Shimmer : Control
     {
         get => (bool)GetValue(IsActiveProperty);
         set => SetValue(IsActiveProperty, value);
+    }
+
+    private static void PropertyChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
+    {
+        var self = (Shimmer)s;
+        if (self.IsActive)
+        {
+            self.StopAnimation();
+            self.TryStartAnimation();
+        }
+        else
+        {
+            self.StopAnimation();
+        }
     }
 }
