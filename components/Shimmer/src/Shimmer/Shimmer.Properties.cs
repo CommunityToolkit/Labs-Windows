@@ -5,6 +5,9 @@
 namespace CommunityToolkit.Labs.WinUI;
 public partial class Shimmer : Control
 {
+    /// <summary>
+    /// Identifies the <see cref="Duration"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(
         nameof(Duration), typeof(TimeSpan), typeof(Shimmer), new PropertyMetadata(TimeSpan.FromMilliseconds(1600), (s, e) =>
         {
@@ -15,6 +18,9 @@ public partial class Shimmer : Control
             }
         }));
 
+    /// <summary>
+    /// Identifies the <see cref="IsActive"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(
         nameof(IsActive), typeof(bool), typeof(Shimmer), new PropertyMetadata(true, (s, e) =>
         {
@@ -31,12 +37,18 @@ public partial class Shimmer : Control
             }
         }));
 
+    /// <summary>
+    /// Gets or sets the animation duration
+    /// </summary>
     public TimeSpan Duration
     {
         get => (TimeSpan)GetValue(DurationProperty);
         set => SetValue(DurationProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets if the animation is playing
+    /// </summary>
     public bool IsActive
     {
         get => (bool)GetValue(IsActiveProperty);
