@@ -21,7 +21,7 @@ using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 #endif
 
-namespace CommunityToolkit.WinUI.Controls;
+namespace CommunityToolkit.Labs.WinUI;
 
 /// <summary>
 /// A generic shimmer control that can be used to construct a beautiful loading effect.
