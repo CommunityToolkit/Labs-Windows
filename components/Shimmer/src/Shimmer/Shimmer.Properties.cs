@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 namespace CommunityToolkit.Labs.WinUI;
+
 public partial class Shimmer : Control
 {
     /// <summary>
@@ -29,6 +30,7 @@ public partial class Shimmer : Control
 
             if (isActive)
             {
+                self.StopAnimation();
                 self.TryStartAnimation();
             }
             else
