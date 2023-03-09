@@ -3,7 +3,7 @@
     <ToolkitComponentName>SegmentedControl</ToolkitComponentName>
     <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).SegmentedControl</PackageId>
     <Description>This package contains SegmentedControl.</Description>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
     <RootNamespace>CommunityToolkit.Labs.WinUI.SegmentedControlRns</RootNamespace>
