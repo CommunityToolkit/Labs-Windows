@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:labs="using:CommunityToolkit.WinUI.Controls">
+                    xmlns:controls="using:CommunityToolkit.WinUI.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <labs:ProjectTemplateStyle_xBind />
+        <controls:ProjectTemplateStyle_xBind />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.ProjectTemplate/ProjectTemplateStyle_ClassicBinding.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

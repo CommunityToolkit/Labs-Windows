@@ -2,7 +2,7 @@
 <ResourceDictionary x:Class="CommunityToolkit.WinUI.Controls.ProjectTemplateStyle_xBind"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:labs="using:CommunityToolkit.WinUI.Controls">
+                    xmlns:controls="using:CommunityToolkit.WinUI.Controls">
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
@@ -23,21 +23,21 @@
 
     <!--  Implicitly applied default style  -->
     <Style BasedOn="{StaticResource DefaultxBindProjectTemplateStyle}"
-           TargetType="labs:ProjectTemplate_xBind" />
+           TargetType="controls:ProjectTemplate_xBind" />
 
     <Style x:Key="DefaultxBindProjectTemplateStyle"
-           TargetType="labs:ProjectTemplate_xBind">
+           TargetType="controls:ProjectTemplate_xBind">
         <Style.Setters>
             <Setter Property="MyProperty" Value="This property has been overriden by the style template" />
             <Setter Property="ItemPadding" Value="{StaticResource DefaultProjectTemplateItemPadding}" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="labs:ProjectTemplate_xBind">
+                    <ControlTemplate TargetType="controls:ProjectTemplate_xBind">
                         <ContentControl x:Name="ContentContainer"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch">
                             <ContentControl.ContentTemplate>
-                                <DataTemplate x:DataType="labs:ProjectTemplate_xBind">
+                                <DataTemplate x:DataType="controls:ProjectTemplate_xBind">
                                     <Grid Padding="{x:Bind ItemPadding}"
                                           PointerEntered="{x:Bind Element_PointerEntered}">
                                         <StackPanel Spacing="20">
@@ -59,7 +59,7 @@
     <!--  Minimal, custom style  -->
     <Style x:Key="CustomxBindProjectTemplateStyle"
            BasedOn="{StaticResource DefaultxBindProjectTemplateStyle}"
-           TargetType="labs:ProjectTemplate_xBind">
+           TargetType="controls:ProjectTemplate_xBind">
         <Style.Setters>
             <Setter Property="MyProperty" Value="This property has been overriden by a custom style!" />
             <Setter Property="ItemPadding" Value="25" />
