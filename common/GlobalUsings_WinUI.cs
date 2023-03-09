@@ -7,7 +7,7 @@
 
 global using System.Runtime.InteropServices.WindowsRuntime;
 
-global using CommunityToolkit.Labs.WinUI;
+global using CommunityToolkit.Controls.WinUI;
 
 global using Windows.Foundation;
 global using Windows.Foundation.Collections;
