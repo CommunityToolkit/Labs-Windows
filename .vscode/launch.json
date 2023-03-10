@@ -14,22 +14,20 @@
         "/p:UnoSourceGeneratorUseGenerationHost=true",
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
-        "--project=${workspaceFolder}/platforms/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj",
-        "-p:TargetFrameworks=netstandard2.0",
-        "-p:TargetFramework=net5.0"
+        "--project=${workspaceFolder}/common/ProjectHeads/AllComponents/CommunityToolkit.Labs.Wasm/CommunityToolkit.Labs.Wasm.csproj"
       ],
       "presentation": {
         "group": "1",
         "order": 1
       },
-      "cwd": "${workspaceFolder}/platforms/CommunityToolkit.Labs.Wasm",
+      "cwd": "${workspaceFolder}/common/ProjectHeads/AllComponents/CommunityToolkit.Labs.Wasm",
       "preLaunchTask": "generateAllSolution"
     },
     {
       "type": "PowerShell",
       "request": "launch",
       "name": "Discover samples",
-      "script": "${workspaceFolder}/DiscoverSamples.ps1",
+      "script": "${workspaceFolder}/common/MultiTarget/GenerateAllProjectReferences.ps1; ${workspaceFolder}/common/GenerateVSCodeLaunchConfig.ps1; ",
       "presentation": {
         "group": "2",
         "order": 2

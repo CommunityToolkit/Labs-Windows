@@ -1,0 +1,45 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <ToolkitComponentName>CompositionCollectionView</ToolkitComponentName>
+    <Description>This package contains CompositionCollectionView.</Description>
+    <Version>0.0.25</Version>
+    <Nullable>warnings</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+
+    <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
+    <RootNamespace>CommunityToolkit.Labs.WinUI.CompositionCollectionViewRns</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's source project -->
+  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SourceProject.props" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <NoWarn>WMC1006;CS8034;Uno0001</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <NoWarn>WMC1006;CS8034;Uno0001</NoWarn>
+  </PropertyGroup>
+
+  <!-- XAML Pages are automatically included, and don't need to be specified here. -->
+  <ItemGroup>
+    <Compile Update="Behaviors\ElementInteractionTrackerBehavior.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Behaviors\InteractionTrackerBehavior.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Behaviors\InteractionTrackerGesture\GesturePreviewControl.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Behaviors\InteractionTrackerGesture\InteractionTrackerGesture.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Update="Behaviors\LayoutBehavior.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AnimatableNodes\" />
+  </ItemGroup>
+</Project>

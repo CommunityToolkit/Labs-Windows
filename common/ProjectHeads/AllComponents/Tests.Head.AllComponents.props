@@ -1,0 +1,10 @@
+<Project>
+  <!-- Needed Unit Testing helper base classes -->
+  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Tests.Shared\CommunityToolkit.Tests.Shared.projitems" Label="Unit Testing Helpers" />
+
+  <!-- Visual Studio likes to delete the following line - but it's needed to find the tests -->
+  <Import Project="$(RepositoryDirectory)\components\**\*.Tests.projitems" Label="Shared" />
+
+  <!-- Include all base code to be tested -->
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\*.props" />
+</Project>

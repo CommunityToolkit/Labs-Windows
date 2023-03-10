@@ -1,0 +1,17 @@
+<Project InitialTargets="CheckToolkitComponentName">
+  <Target Name="CheckToolkitComponentName">
+    <Error Condition="$(ToolkitComponentName) == ''" Message="ToolkitComponentName is not defined. Please check your csproj." />
+  </Target>
+
+  <!-- Set up the MultiTarget system -->
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\Uno.props" />
+  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
+  
+  <PropertyGroup>
+    <PackageId Condition="'$(PackageId)' == ''">CommunityToolkit.Labs.$(PackageIdVariant).$(ToolkitComponentName)</PackageId>
+  </PropertyGroup>
+
+  <!-- XAML Pages are automatically included, and don't need to be specified here. -->
+</Project>
