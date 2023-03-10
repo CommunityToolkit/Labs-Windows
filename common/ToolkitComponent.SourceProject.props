@@ -10,7 +10,7 @@
   <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
   
   <PropertyGroup>
-    <PackageId Condition="'$(PackageId)' == ''">CommunityToolkit.Labs.$(PackageIdVariant).$(ToolkitComponentName)</PackageId>
+    <PackageId Condition="'$(PackageId)' == ''">$(PackageIdPrefix).$(PackageIdVariant).$(ToolkitComponentName)</PackageId>
   </PropertyGroup>
 
   <!-- XAML Pages are automatically included, and don't need to be specified here. -->

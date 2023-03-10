@@ -5,7 +5,7 @@
     <Version>0.0.1</Version>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
-    <RootNamespace>CommunityToolkit.Labs.WinUI.ProjectTemplateRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.WinUI.Controls.ProjectTemplateRns</RootNamespace>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
