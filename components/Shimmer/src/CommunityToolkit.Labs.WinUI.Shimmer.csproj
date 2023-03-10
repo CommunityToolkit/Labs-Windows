@@ -1,7 +1,6 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
     <ToolkitComponentName>Shimmer</ToolkitComponentName>
-    <PackageId>CommunityToolkit.Labs.$(PackageIdVariant).Shimmer</PackageId>
     <Description>This package contains Shimmer.</Description>
     <Version>0.0.1</Version>
 
