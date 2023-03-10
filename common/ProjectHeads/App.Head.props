@@ -28,7 +28,7 @@
     <IsProjectTemplateHead Condition="$(MSBuildProjectName.StartsWith('ProjectTemplate')) == 'true'">true</IsProjectTemplateHead>
     <IsSingleExperimentHead Condition="'$(IsAllExperimentHead)' != 'true' AND '$(IsProjectTemplateHead)' != 'true'">true</IsSingleExperimentHead>
 
-    <DefineConstants Condition="$(IsAllExperimentHead) == 'true'">$(DefineConstants);LABS_ALL_SAMPLES</DefineConstants>
+    <DefineConstants Condition="$(IsAllExperimentHead) == 'true'">$(DefineConstants);ALL_SAMPLES</DefineConstants>
 
     <SlnGenIsDeployable>true</SlnGenIsDeployable>
   </PropertyGroup>
