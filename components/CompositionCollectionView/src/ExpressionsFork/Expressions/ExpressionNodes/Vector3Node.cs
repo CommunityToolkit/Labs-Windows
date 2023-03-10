@@ -3,7 +3,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
@@ -368,12 +367,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                         (Children[0] as Vector3Node).Evaluate() -
                         (Children[1] as Vector3Node).Evaluate();
                 case ExpressionNodeType.Lerp:
-                {
-                    var t = (Children[2] as ScalarNode).Evaluate();
-                    return
-                        (Children[0] as Vector3Node).Evaluate() * t -
-                        (Children[1] as Vector3Node).Evaluate() * (1 - t);
-                }
+                    return Vector3.Lerp((Children[0] as Vector3Node).Evaluate(), (Children[1] as Vector3Node).Evaluate(), (Children[2] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Negate:
                     return
                         -(Children[0] as Vector3Node).Evaluate();
