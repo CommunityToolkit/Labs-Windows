@@ -1,5 +1,5 @@
 {
-    "omnisharp.defaultLaunchSolution": "Toolkit.Labs.All.sln",
+    "omnisharp.defaultLaunchSolution": "CommunityToolkit.AllComponents.sln",
     "omnisharp.disableMSBuildDiagnosticWarning": true,
     "omnisharp.enableRoslynAnalyzers": true,
     "omnisharp.useGlobalMono": "never",
