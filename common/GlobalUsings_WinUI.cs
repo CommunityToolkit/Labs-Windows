@@ -24,8 +24,12 @@ global using Windows.UI.Xaml.Data;
 global using Windows.UI.Xaml.Input;
 global using Windows.UI.Xaml.Markup;
 global using Windows.UI.Xaml.Media;
-global using Windows.UI.Xaml.Media.Animation;
 global using Windows.UI.Xaml.Navigation;
+
+global using Windows.UI.Composition;
+global using Windows.UI.Composition.Interactions;
+global using Windows.UI.Xaml.Hosting;
+global using Windows.UI;
 
 #else
 
@@ -39,8 +43,14 @@ global using Microsoft.UI.Xaml.Data;
 global using Microsoft.UI.Xaml.Input;
 global using Microsoft.UI.Xaml.Markup;
 global using Microsoft.UI.Xaml.Media;
-global using Microsoft.UI.Xaml.Media.Animation;
 global using Microsoft.UI.Xaml.Navigation;
+
+global using Microsoft.UI.Composition;
+global using Microsoft.UI.Composition.Interactions;
+global using Microsoft.UI.Xaml.Hosting;
+global using Microsoft.UI;
+global using Windows.UI;
+
 #endif
 
 global using MUXC = Microsoft.UI.Xaml.Controls;
