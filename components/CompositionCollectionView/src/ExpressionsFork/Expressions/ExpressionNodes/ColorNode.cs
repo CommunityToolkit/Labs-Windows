@@ -3,7 +3,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
+using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
 {
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
                         (Children[1] as ColorNode).Evaluate() :
                         (Children[2] as ColorNode).Evaluate();
                 default:
-                     throw new NotImplementedException($"Operation ${NodeType} not implemented for ColorNode");
+                    throw new NotImplementedException($"Operation ${NodeType} not implemented for ColorNode");
             }
         }
     }

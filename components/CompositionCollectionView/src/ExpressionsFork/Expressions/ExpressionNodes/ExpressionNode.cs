@@ -4,6 +4,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
+using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.ExpressionsFork
 {

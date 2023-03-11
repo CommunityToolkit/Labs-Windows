@@ -29,7 +29,6 @@ global using Windows.UI.Xaml.Navigation;
 global using Windows.UI.Composition;
 global using Windows.UI.Composition.Interactions;
 global using Windows.UI.Xaml.Hosting;
-global using Windows.UI;
 
 #else
 
@@ -49,7 +48,6 @@ global using Microsoft.UI.Composition;
 global using Microsoft.UI.Composition.Interactions;
 global using Microsoft.UI.Xaml.Hosting;
 global using Microsoft.UI;
-global using Windows.UI;
 
 #endif
 
