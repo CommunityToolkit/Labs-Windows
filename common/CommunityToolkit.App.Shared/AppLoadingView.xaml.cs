@@ -85,7 +85,7 @@ public sealed partial class AppLoadingView : Page
             return;
         }
 
-#if LABS_ALL_SAMPLES
+#if ALL_SAMPLES
         ScheduleNavigate(typeof(Shell), sampleDocs);
 #else
         var samples = FindReferencedSamples().ToArray();
