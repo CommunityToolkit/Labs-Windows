@@ -11,24 +11,6 @@ public partial class SegmentedItem : ListViewItem
     internal const string IconOnlyState = "IconOnly";
     internal const string ContentOnlyState = "ContentOnly";
 
-    /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Icon"/> property.
-    /// </summary>
-    public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-        nameof(Icon),
-        typeof(IconElement),
-        typeof(SegmentedItem),
-        new PropertyMetadata(defaultValue: null, (d, e) => ((SegmentedItem)d).OnIconPropertyChanged((IconElement)e.OldValue, (IconElement)e.NewValue)));
-
-    /// <summary>
-    /// Gets or sets the icon.
-    /// </summary>
-    public IconElement Icon
-    {
-        get => (IconElement)GetValue(IconProperty);
-        set => SetValue(IconProperty, value);
-    }
-
     public SegmentedItem()
     {
         this.DefaultStyleKey = typeof(SegmentedItem);

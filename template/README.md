@@ -15,7 +15,7 @@ dotnet new labexp -n MyExperimentNameHere
 ```
 
 This creates a new experiment called "MyExperimentNameHere".
-You can now open `./components/MyExperimentNameHere/MyExperimentNameHere.sln` and start your experiment.
+You can now open `./components/MyExperimentNameHere/OpenSolution.bat` to start your experiment.
 
 ### Inside the generated solution
 
@@ -31,7 +31,7 @@ The `Tests` folder contains projects used to run the tests on different platform
 
 #### Where to add your code
 
-The main code of your experiment will go in the project `CommunityToolkit.Labs.WinUI.MyExperimentNameHere`. When an experiment is merged into Labs, this code will be bundled automatically in a NuGet package and pushed to the Labs DevOps feed. This will let others try out your experiment and provide feedback to further your experiment.
+The main code of your experiment will go in the project `CommunityToolkit.WinUI.Controls.MyExperimentNameHere`. When an experiment is merged into Labs, this code will be bundled automatically in a NuGet package and pushed to the Labs DevOps feed. This will let others try out your experiment and provide feedback to further your experiment.
 You will find an empty class in `MyExperimentNameHere.cs` that you can use as your starting point or one of the templated variants. You can find more info in the `MyExperimentNameHere.md` file in the sample project.
 
 The project `MyExperimentNameHere.Sample`is where you can put code that will allow you to demonstrate and exercise the experiment. In this project you'll find a sample page that includes an example of how to use settings and properties that can be controlled within the sample app. This folder also contains a **markdown** file that contains the documentation for the experiment and how to use it.
@@ -64,7 +64,7 @@ This may require a reboot.
 
 #### Updating NuGet Package
 
-Packages are manually versioned right now, [see this issue here](https://github.com/CommunityToolkit/Labs-Windows/issues/133). In order to update your NuGet package, update the `<Version>` tag in your library's `CommunityToolkit.Labs.WinUI.MyExperimentNameHere.csproj` file.
+Packages are manually versioned right now, [see this issue here](https://github.com/CommunityToolkit/Labs-Windows/issues/133). In order to update your NuGet package, update the `<Version>` tag in your library's `CommunityToolkit.WinUI.Controls.MyExperimentNameHere.csproj` file.
 
 #### WebAssembly Sample Project
 

@@ -29,7 +29,7 @@ Param (
     [switch]$UseDiagnostics = $false
 )
 
-if ($Env:Path.Contains("MSBuild") -eq $false) {
+if ($null -ne $Env:Path -and $Env:Path.ToLower().Contains("msbuild") -eq $false) {
     Write-Host
     Write-Host -ForegroundColor Red "Please run from a command window that has MSBuild.exe on the PATH"
     Write-Host
@@ -85,7 +85,8 @@ $projects = [System.Collections.ArrayList]::new()
 [void]$projects.Add(".\**.*proj")
 
 # Include common dependencies required for solution to build
-[void]$projects.Add("..\..\common\CommunityToolkit.Labs.*Shared\**\*.*proj")
+[void]$projects.Add("..\..\common\CommunityToolkit.App.Shared\**\*.*proj")
+[void]$projects.Add("..\..\common\CommunityToolkit.Tests.Shared\**\*.*proj")
 [void]$projects.Add("..\..\common\CommunityToolkit.Tooling.SampleGen\*.csproj")
 [void]$projects.Add("..\..\common\CommunityToolkit.Tooling.TestGen\*.csproj")
 [void]$projects.Add("..\..\common\CommunityToolkit.Tooling.XamlNamedPropertyRelay\*.csproj")
