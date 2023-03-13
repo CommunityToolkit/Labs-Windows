@@ -15,8 +15,6 @@ issue-id: 101
 
 The ContentSizer is a control which can be used to resize any element, usually its parent. If you are using a `Grid`, use [GridSplitter](GridSplitter.md) instead.
 
-# Examples 
-
 The main use-case for a ContentSizer is to create an expandable shelf for your application. This allows the `Expander` itself to remember its opening/closing sizes.
 
 A GridSplitter would be insufficient as it would force the grid to remember the row size and maintain its position when the `Expander` collapses.

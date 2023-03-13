@@ -22,6 +22,7 @@
                              Grid.Row="1"
                              Margin="0,16,0,0"
                              IsBackButtonVisible="Collapsed"
+                             IsSettingsVisible="False"
                              ItemInvoked="NavView_ItemInvoked">
             <Frame x:Name="NavigationFrame"
                    Navigated="NavigationFrameOnNavigated" />

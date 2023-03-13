@@ -8,16 +8,18 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <StackPanel Spacing="15">
+    <StackPanel Spacing="16">
         <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
                    Text="{x:Bind TitleText, Mode=OneWay}" />
-        <controls:ProjectTemplate Orientation="{x:Bind local:ProjectTemplateCustomSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}">
-            <TextBlock Text="1" />
-            <TextBlock Text="2" />
-            <TextBlock Text="3" />
-            <TextBlock Text="4" />
-            <TextBlock Text="5" />
-            <TextBlock Text="6" />
-        </controls:ProjectTemplate>
+        <StackPanel Spacing="16">
+            <controls:ProjectTemplate Orientation="{x:Bind local:ProjectTemplateCustomSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}">
+                <TextBlock Text="1" />
+                <TextBlock Text="2" />
+                <TextBlock Text="3" />
+                <TextBlock Text="4" />
+                <TextBlock Text="5" />
+                <TextBlock Text="6" />
+            </controls:ProjectTemplate>
+        </StackPanel>
     </StackPanel>
 </Page>

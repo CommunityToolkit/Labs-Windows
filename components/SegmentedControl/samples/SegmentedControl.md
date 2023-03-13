@@ -6,7 +6,7 @@ keywords: SegmentedControl, Control, Layout
 dev_langs:
   - csharp
 category: Controls
-subcategory: Layout
+subcategory: Input
 discussion-id: 314
 issue-id: 392
 ---
@@ -14,7 +14,6 @@ issue-id: 392
 # Segmented control
 
 The `Segmented` control is a control to be used for configuring a view or setting.
-
 
 ## The basics
 

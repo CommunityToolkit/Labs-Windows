@@ -15,6 +15,4 @@ issue-id: 213
 
 The `CanvasLayout` is an early prototype for a custom Layout for ItemsRepeater which provides a virtualized canvas.
 
-## Example
-
 > [!SAMPLE CanvasLayoutSample]

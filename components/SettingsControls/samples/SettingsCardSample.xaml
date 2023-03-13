@@ -7,9 +7,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
     <StackPanel Spacing="3">
-        <TextBlock Margin="1,0,0,4"
-                   Style="{StaticResource BodyStrongTextBlockStyle}"
-                   Text="Group of settings" />
         <labs:SettingsCard x:Name="settingsCard"
                            Description="This is a default card, with the Header, HeaderIcon, Description and Content set."
                            Header="This is the Header"
