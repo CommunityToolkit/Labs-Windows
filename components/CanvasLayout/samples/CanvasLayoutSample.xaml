@@ -10,7 +10,7 @@
       xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       mc:Ignorable="d">
 
-    <muxc:ItemsRepeater ItemsSource="{x:Bind Items}" MinWidth="5000">
+    <muxc:ItemsRepeater ItemsSource="{x:Bind Items}">
         <muxc:ItemsRepeater.Layout>
             <labs:CanvasLayout />
         </muxc:ItemsRepeater.Layout>
