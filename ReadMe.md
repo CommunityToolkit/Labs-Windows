@@ -39,14 +39,14 @@ Once there is traction and your idea is approved, an issue will be created to tr
 Then you can fork the Labs repo, create a new branch, and start working on your feature (or porting over your existing prototype).
 
 ```ascii
-dotnet new --install .\template\ProjectTemplate\
+dotnet new --install .\common\ProjectTemplate\
 
 cd components
 
 dotnet new labexp -n MyExperimentNameHere
 ```
 
-[Read more about creating a new experiment from the template folder here.](https://github.com/CommunityToolkit/Labs-Windows/tree/main/template)
+[Read more about creating a new experiment from the template folder here.](https://github.com/CommunityToolkit/Labs-Windows/tree/main/common/ProjectTemplate)
 
 Then open a PR, not everything needs to be done in your initial PR, but some basically functionality and a usage example should exist. The Labs space is a great place to work on something over time, get feedback from the community, and collaborate with others. However, your initial PR should compile and have enough content for folks to understand how to leverage your component.
 

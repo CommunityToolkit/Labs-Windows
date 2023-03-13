@@ -148,7 +148,7 @@ public partial class ToolkitSampleMetadataGenerator
                 }
 
                 // Get the filepath we need to be able to load the markdown file in sample app.
-                var filepath = file.Path.Split(new string[] { @"\components\", "/components/", @"\template\", "/template/" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+                var filepath = file.Path.Split(new string[] { @"\components\", "/components/", @"\common\", "/common/" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
 
                 // Look for sample id tags
                 var matches = MarkdownRegexSampleTag.Matches(content);
