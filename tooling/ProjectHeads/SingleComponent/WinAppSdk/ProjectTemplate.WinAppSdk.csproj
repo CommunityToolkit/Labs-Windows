@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>false</IsUno>
@@ -20,8 +20,8 @@
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
 
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\ProjectHeads\App.Head.WinAppSdk.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(ToolingDirectory)\ProjectHeads\App.Head.WinAppSdk.props" />
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\*.csproj" />

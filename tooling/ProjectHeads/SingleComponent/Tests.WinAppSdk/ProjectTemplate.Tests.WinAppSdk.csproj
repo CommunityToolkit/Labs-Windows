@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>false</IsUno>
@@ -20,8 +20,8 @@
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
 
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\ProjectHeads\Tests.Head.WinAppSdk.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(ToolingDirectory)\ProjectHeads\Tests.Head.WinAppSdk.props" />
 
   <PropertyGroup>
     <RootNamespace>ProjectTemplateExperiment.Tests</RootNamespace>
@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <!-- Needed Unit Testing helper base classes -->
-  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Tests.Shared\CommunityToolkit.Tests.Shared.projitems" Label="Unit Testing Helpers" />
+  <Import Project="$(ToolingDirectory)\CommunityToolkit.Tests.Shared\CommunityToolkit.Tests.Shared.projitems" Label="Unit Testing Helpers" />
 
   <!-- Include the unit test files themselves -->
   <Import Project="..\..\tests\ProjectTemplate.Tests.projitems" Label="Shared" />

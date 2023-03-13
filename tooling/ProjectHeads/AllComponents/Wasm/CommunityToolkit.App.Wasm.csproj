@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web" TreatAsLocalProperty="TargetFramework">
 
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>true</IsUno>
@@ -19,9 +19,9 @@
     <IsGtkHead>false</IsGtkHead>
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\Generated\*.props" />
-  <Import Project="$(RepositoryDirectory)common\ProjectHeads\App.Head.Wasm.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\Generated\*.props" />
+  <Import Project="$(ToolingDirectory)\ProjectHeads\App.Head.Wasm.props" />
 
   <ItemGroup>
     <EmbeddedResource Include="WasmScripts\AppManifest.js" />

@@ -14,20 +14,20 @@
         "/p:UnoSourceGeneratorUseGenerationHost=true",
         "/p:UnoSourceGeneratorUseGenerationController=false",
         "/p:UnoRemoteControlPort=443",
-        "--project=${workspaceFolder}/common/ProjectHeads/AllComponents/Wasm/CommunityToolkit.App.Wasm.csproj"
+        "--project=${workspaceFolder}/tooling/ProjectHeads/AllComponents/Wasm/CommunityToolkit.App.Wasm.csproj"
       ],
       "presentation": {
         "group": "1",
         "order": 1
       },
-      "cwd": "${workspaceFolder}/common/ProjectHeads/AllComponents/Wasm",
+      "cwd": "${workspaceFolder}/tooling/ProjectHeads/AllComponents/Wasm",
       "preLaunchTask": "generateAllSolution"
     },
     {
       "type": "PowerShell",
       "request": "launch",
       "name": "Discover samples",
-      "script": "foreach ($component in Get-ChildItem -Directory -Depth 0 -Path './components/*') { ${workspaceFolder}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -ComponentPath $component } ; ${workspaceFolder}/common/GenerateVSCodeLaunchConfig.ps1; ",
+      "script": "foreach ($component in Get-ChildItem -Directory -Depth 0 -Path './components/*') { ${workspaceFolder}/tooling/ProjectHeads/GenerateSingleSampleHeads.ps1 -ComponentPath $component } ; ${workspaceFolder}/tooling/GenerateVSCodeLaunchConfig.ps1; ",
       "presentation": {
         "group": "2",
         "order": 2

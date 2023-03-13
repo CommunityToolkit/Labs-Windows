@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
+    <Compile Include="$(ToolingDirectory)\GlobalUsings_WinUI.cs" />
   </ItemGroup>
 
   <!-- Automatically include XAML pages within multi-targetted projects (source and samples) -->

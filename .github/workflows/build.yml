@@ -57,6 +57,7 @@ jobs:
         platform: [WinUI2, WinUI3]
 
     env:
+      MULTI_TARGET_DIRECTORY: tooling/MultiTarget
       # faux-ternary expression to select which platforms to build for each platform vs. duplicating step below.
       TARGET_PLATFORMS: ${{ matrix.platform != 'WinUI3' && 'all' || 'all-uwp' }}
       TEST_PLATFORM: ${{ matrix.platform != 'WinUI3' && 'UWP' || 'WinAppSdk' }}
@@ -87,15 +88,15 @@ jobs:
         uses: microsoft/setup-msbuild@v1.3.1
 
       - name: Enable ${{ env.TARGET_PLATFORMS }} TargetFrameworks
-        working-directory: ./common/MultiTarget/
+        working-directory: ./${{ env.MULTI_TARGET_DIRECTORY }}
         run: powershell -version 5.1 -command "./UseTargetFrameworks.ps1 ${{ env.TARGET_PLATFORMS }}" -ErrorAction Stop
 
       - name: Generate solution w/ ${{ env.TEST_PLATFORM }} Tests
         working-directory: ./
-        run: powershell -version 5.1 -command "./common/GenerateAllSolution.ps1 -IncludeHeads ${{ env.TEST_PLATFORM }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}" -ErrorAction Stop
+        run: powershell -version 5.1 -command "./tooling/GenerateAllSolution.ps1 -IncludeHeads ${{ env.TEST_PLATFORM }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}" -ErrorAction Stop
 
       - name: Enable Uno.WinUI (in WinUI3 matrix only)
-        working-directory: ./common/MultiTarget/
+        working-directory: ./${{ env.MULTI_TARGET_DIRECTORY }}
         run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3" -ErrorAction Stop
         if: ${{ matrix.platform == 'WinUI3' }}
 
@@ -104,7 +105,7 @@ jobs:
 
       # Build All Packages
       - name: pack experiments
-        working-directory: ./common/Scripts/
+        working-directory: ./tooling/Scripts/
         run: ./PackEachExperiment.ps1 all
 
       # Push Packages to our DevOps Artifacts Feed
@@ -127,11 +128,11 @@ jobs:
 
       - name: Run SourceGenerators tests
         id: test-generator
-        run: vstest.console.exe ./common/CommunityToolkit.Tooling.SampleGen.Tests/bin/Release/net6.0/CommunityToolkit.Tooling.SampleGen.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
+        run: vstest.console.exe ./tooling/CommunityToolkit.Tooling.SampleGen.Tests/bin/Release/net6.0/CommunityToolkit.Tooling.SampleGen.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
 
       - name: Run experiment tests against ${{ env.TEST_PLATFORM }}
         id: test-platform
-        run:  vstest.console.exe ./common/**/CommunityToolkit.Tests.${{ env.TEST_PLATFORM }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PLATFORM }}.trx"
+        run:  vstest.console.exe ./tooling/**/CommunityToolkit.Tests.${{ env.TEST_PLATFORM }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PLATFORM }}.trx"
 
       - name: Create test reports
         run: |
@@ -150,7 +151,8 @@ jobs:
     # TODO: We should only run this if something in the common or template folder changed...
     runs-on: windows-latest
     env:
-      PROJECT_DIRECTORY: common/ProjectTemplate
+      HEADS_DIRECTORY: tooling/ProjectHeads
+      PROJECT_DIRECTORY: tooling/ProjectTemplate
       TEST_PROJECT_NAME: CiTestExp
       TEST_PROJECT_DIRECTORY: components/CiTestExp
 
@@ -176,7 +178,7 @@ jobs:
 
       - name: Add project heads to ProjectTemplate
         working-directory: ./${{ env.PROJECT_DIRECTORY }}
-        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
+        run: ${{ github.workspace }}/${{ env.HEADS_DIRECTORY }}/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
 
       # Build and use template for creating new experiments
       - name: Build ProjectTemplate
@@ -198,7 +200,7 @@ jobs:
 
       - name: Add project heads to ${{ env.TEST_PROJECT_NAME }}
         working-directory: ./${{ env.TEST_PROJECT_DIRECTORY }}
-        run: ${{ github.workspace }}/common/ProjectHeads/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.TEST_PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
+        run: ${{ github.workspace }}/${{ env.HEADS_DIRECTORY }}/GenerateSingleSampleHeads.ps1 -componentPath ${{ github.workspace }}/${{ env.TEST_PROJECT_DIRECTORY }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
 
       - name: MSBuild
         working-directory: ./${{ env.TEST_PROJECT_DIRECTORY }}
@@ -235,6 +237,8 @@ jobs:
 
   wasm-linux:
     runs-on: ubuntu-latest
+    env:
+      HEADS_DIRECTORY: tooling/ProjectHeads
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
@@ -257,7 +261,7 @@ jobs:
       - name: Generate solution
         shell: pwsh
         working-directory: ./
-        run: ./common/GenerateAllSolution.ps1${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
+        run: ./tooling/GenerateAllSolution.ps1${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
 
       - name: Install ninja for WASM native dependencies
         run: sudo apt-get install ninja-build
@@ -265,7 +269,7 @@ jobs:
       # Issue with Comment Links currently, see: https://github.com/mrlacey/CommentLinks/issues/38
       # See launch.json configuration file for analogous command we're emulating here to build LINK: ../../.vscode/launch.json:CommunityToolkit.App.Wasm.csproj
       - name: dotnet build
-        working-directory: ./common/ProjectHeads/AllComponents/Wasm/
+        working-directory: ./${{ env.HEADS_DIRECTORY }}/AllComponents/Wasm/
         run: dotnet build /r /bl /p:UnoSourceGeneratorUseGenerationHost=true /p:UnoSourceGeneratorUseGenerationController=false
   
       # TODO: Do we want to run tests here? Can we do that on linux easily?

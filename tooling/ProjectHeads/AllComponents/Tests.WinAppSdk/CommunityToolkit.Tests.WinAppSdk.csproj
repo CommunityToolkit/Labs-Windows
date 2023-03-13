@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>false</IsUno>
@@ -19,9 +19,9 @@
     <IsGtkHead>false</IsGtkHead>
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\ProjectHeads\Tests.Head.WinAppSdk.props" />
-  <Import Project="$(RepositoryDirectory)common\ProjectHeads\AllComponents\Tests.Head.AllComponents.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(ToolingDirectory)\ProjectHeads\Tests.Head.WinAppSdk.props" />
+  <Import Project="$(ToolingDirectory)\ProjectHeads\AllComponents\Tests.Head.AllComponents.props" />
 
   <PropertyGroup>
     <RootNamespace>CommunityToolkit.Tests</RootNamespace>

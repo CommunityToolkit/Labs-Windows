@@ -9,5 +9,5 @@
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
-  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SourceProject.props" />
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
 </Project>

@@ -7,7 +7,7 @@ This directory includes the template for creating new labs experiments.
 To use the template to create a new experiment, open a command prompt in the **root directory** and run the following commands:
 
 ```ascii
-dotnet new --install .\common\ProjectTemplate\
+dotnet new --install .\tooling\ProjectTemplate\
 
 cd components
 

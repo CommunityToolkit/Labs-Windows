@@ -1,7 +1,7 @@
 <!-- Common props for any deployable app project head. -->
 <Project>
   <!-- Shared project -->
-  <Import Project="$(RepositoryDirectory)\common\CommunityToolkit.App.Shared\CommunityToolkit.App.Shared.projitems" Label="Shared" />
+  <Import Project="$(ToolingDirectory)\CommunityToolkit.App.Shared\CommunityToolkit.App.Shared.projitems" Label="Shared" />
 
   <!-- Shared project dependencies -->
   <ItemGroup>
@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)common\CommunityToolkit.Tooling.SampleGen\CommunityToolkit.Tooling.SampleGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+    <ProjectReference Include="$(ToolingDirectory)\CommunityToolkit.Tooling.SampleGen\CommunityToolkit.Tooling.SampleGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_WinUI.cs" />
+    <Compile Include="$(ToolingDirectory)\GlobalUsings_WinUI.cs" />
   </ItemGroup>
 
   <PropertyGroup>
