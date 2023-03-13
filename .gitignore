@@ -356,7 +356,7 @@ MigrationBackup/
 .idea/
 
 # Community Toolkit Labs generated files
-Toolkit.Labs.All.sln
+CommunityToolkit.AllComponents.sln
 common/MultiTarget/Generated/**
 heads/
 

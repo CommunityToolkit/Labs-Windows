@@ -32,7 +32,7 @@ Param (
 & ./common/MultiTarget/GenerateAllProjectReferences.ps1
 
 # Set up constant values
-$generatedSolutionFilePath = 'Toolkit.Labs.All.sln'
+$generatedSolutionFilePath = 'CommunityToolkit.AllComponents.sln'
 $platforms = '"Any CPU;x64;x86;ARM64"'
 $slngenConfig = "--folders true --collapsefolders true --ignoreMainProject"
 

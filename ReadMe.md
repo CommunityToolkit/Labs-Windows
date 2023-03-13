@@ -68,7 +68,7 @@ Open up an issue on the main Toolkit repo using the `Toolkit Labs Transfer` Issu
 
 ## Building the Sample App
 
-You can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. Then just open the `Toolkit.Labs.All.sln` solution in Visual Studio. You can run one of the project heads such as `CommunityToolkit.App.WinAppSdk` to run the sample app for that platform.
+You can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. Then just open the `CommunityToolkit.AllComponents.sln` solution in Visual Studio. You can run one of the project heads such as `CommunityToolkit.App.WinAppSdk` to run the sample app for that platform.
 
 If you'd like to run a head beyond UWP, Wasm, or the WinAppSDK, you'll need to run the `UseTargetFrameworks.ps1` script first in the `common/Scripts` directory. e.g. `.\UseTargetFrameworks.ps1 -targets all`
 
