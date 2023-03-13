@@ -35,6 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <LinkerDescriptor Include="$(RepositoryDirectory)\common\CommunityToolkit.App.Shared\LinkerConfig.xml" />
+    <LinkerDescriptor Include="$(ToolingDirectory)\CommunityToolkit.App.Shared\LinkerConfig.xml" />
   </ItemGroup>
 </Project>

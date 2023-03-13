@@ -4,10 +4,10 @@
   </Target>
 
   <!-- Set up the MultiTarget system -->
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\Uno.props" />
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\Uno.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\MultiTarget.props" />
   
   <PropertyGroup>
     <PackageId Condition="'$(PackageId)' == ''">$(PackageIdPrefix).$(PackageIdVariant).$(ToolkitComponentName)</PackageId>

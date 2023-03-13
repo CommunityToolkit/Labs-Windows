@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>false</IsUno>
@@ -21,8 +21,8 @@
     <IsGtkHead>false</IsGtkHead>
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\ProjectHeads\App.Head.Uwp.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(ToolingDirectory)\ProjectHeads\App.Head.Uwp.props" />
 
   <PropertyGroup>
     <RootNamespace>ProjectTemplateExperiment.Samples</RootNamespace>

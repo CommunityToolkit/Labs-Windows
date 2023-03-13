@@ -31,6 +31,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="$(RepositoryDirectory)common\GlobalUsings.cs" />
+    <Compile Include="$(RepositoryDirectory)tooling\GlobalUsings.cs" />
   </ItemGroup>
 </Project>

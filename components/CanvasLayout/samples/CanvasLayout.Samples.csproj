@@ -4,5 +4,5 @@
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's sample project -->
-  <Import Project="$(RepositoryDirectory)common\ToolkitComponent.SampleProject.props" />
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
 </Project>

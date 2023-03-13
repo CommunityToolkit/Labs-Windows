@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$([MSBuild]::GetPathOfFileAbove(directory.build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(directory.build.props))')" />
   
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\TargetFrameworks.props" />
   <PropertyGroup>
     <IsDeployableHead>true</IsDeployableHead>
     <IsUno>false</IsUno>
@@ -21,8 +21,8 @@
     <IsGtkHead>false</IsGtkHead>
     <IsGtkLib>false</IsGtkLib>
   </PropertyGroup>
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\ProjectHeads\Tests.Head.Uwp.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(ToolingDirectory)\ProjectHeads\Tests.Head.Uwp.props" />
 
   <PropertyGroup>
     <ProjectGuid>{7134BD2E-0A74-4345-868A-E425FC452A89}</ProjectGuid>
@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <!-- Needed Unit Testing helper base classes -->
-  <Import Project="$(RepositoryDirectory)common\CommunityToolkit.Tests.Shared\CommunityToolkit.Tests.Shared.projitems" Label="Unit Testing Helpers" />
+  <Import Project="$(ToolingDirectory)\CommunityToolkit.Tests.Shared\CommunityToolkit.Tests.Shared.projitems" Label="Unit Testing Helpers" />
 
   <!-- Include the unit test files themselves -->
   <Import Project="..\..\tests\ProjectTemplate.Tests.projitems" Label="Shared" />

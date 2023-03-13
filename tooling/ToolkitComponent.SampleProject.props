@@ -4,10 +4,10 @@
   </Target>
 
   <!-- Set up the MultiTarget system -->
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\TargetFrameworks.props" />
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\ProjectIdentifiers.props" />
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\Uno.props" />
-  <Import Project="$(RepositoryDirectory)common\MultiTarget\MultiTarget.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\TargetFrameworks.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\ProjectIdentifiers.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\Uno.props" />
+  <Import Project="$(ToolingDirectory)\MultiTarget\MultiTarget.props" />
 
   <!-- Include cs and xaml files in compiled output for reference in sample app -->
   <ItemGroup>
@@ -19,12 +19,12 @@
 
   <!-- Source generator props -->
   <ItemGroup>
-    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Tooling.XamlNamedPropertyRelay\CommunityToolkit.Tooling.XamlNamedPropertyRelay.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
-    <ProjectReference Include="$(RepositoryDirectory)\common\CommunityToolkit.Tooling.SampleGen\CommunityToolkit.Tooling.SampleGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
+    <ProjectReference Include="$(ToolingDirectory)\CommunityToolkit.Tooling.XamlNamedPropertyRelay\CommunityToolkit.Tooling.XamlNamedPropertyRelay.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
+    <ProjectReference Include="$(ToolingDirectory)\CommunityToolkit.Tooling.SampleGen\CommunityToolkit.Tooling.SampleGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="$(RepositoryDirectory)common\GlobalUsings_Samples.cs" />
+    <Compile Include="$(ToolingDirectory)\GlobalUsings_Samples.cs" />
 
     <!-- Needed for Source Generators to find Markdown files -->
     <AdditionalFiles Include="**\*.md" Exclude="bin\**\*.md;obj\**\*.md" />

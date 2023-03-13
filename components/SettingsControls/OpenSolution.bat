@@ -1,3 +1,3 @@
 @ECHO OFF
 
-powershell ..\..\common\ProjectHeads\GenerateSingleSampleHeads.ps1 -componentPath %CD% %*
+powershell ..\..\tooling\ProjectHeads\GenerateSingleSampleHeads.ps1 -componentPath %CD% %*
