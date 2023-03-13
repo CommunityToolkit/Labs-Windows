@@ -150,7 +150,7 @@ jobs:
     # TODO: We should only run this if something in the common or template folder changed...
     runs-on: windows-latest
     env:
-      PROJECT_DIRECTORY: template/ProjectTemplate
+      PROJECT_DIRECTORY: common/ProjectTemplate
       TEST_PROJECT_NAME: CiTestExp
       TEST_PROJECT_DIRECTORY: components/CiTestExp
 
