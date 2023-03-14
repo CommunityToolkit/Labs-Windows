@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
+using CommunityToolkit.Labs.WinUI;
+
 #if WINAPPSDK
 using CommunityToolkit.WinUI.UI;
 #else
