@@ -22,7 +22,6 @@ public partial class TokenView : ListViewBase
     private ButtonBase? _tokenViewScrollBackButton;
     private ButtonBase? _tokenViewScrollForwardButton;
     public event EventHandler<TokenItemRemovingEventArgs>? TokenItemRemoving;
-    private bool _hasLoaded;
 
     /// <summary>
     /// Creates a new instance of the <see cref="TokenView"/> class.
@@ -33,12 +32,7 @@ public partial class TokenView : ListViewBase
 
         // Container Generation Hooks
         RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
-
         RegisterPropertyChangedCallback(SelectedIndexProperty, SelectedIndex_PropertyChanged);
-
-#if !HAS_UNO
-        ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
-#endif
     }
 
     protected override DependencyObject GetContainerForItemOverride() => new TokenItem();

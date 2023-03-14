@@ -70,7 +70,10 @@ public sealed partial class TokenViewItemsSourceSample : Page
 
     private void TokenView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        selectedTxt.Text = ((MyDataModel)((TokenView)sender).SelectedItem).Name;
+        if (((TokenView)sender).SelectedItem is MyDataModel item)
+        {
+            selectedTxt.Text = item.Name;
+        }
     }
 }
 

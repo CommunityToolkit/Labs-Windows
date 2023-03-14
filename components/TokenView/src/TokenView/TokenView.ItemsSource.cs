@@ -14,37 +14,6 @@ public partial class TokenView : ListViewBase
         base.OnItemsChanged(e);
     }
 
-    private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
-    {
-        #if !HAS_UNO
-        if ((CollectionChange)e.Action == CollectionChange.Reset)
-        {
-            // Reset collection to reload later.
-            _hasLoaded = false;
-        }
-#endif
-    }
-
-    private void SetInitialSelection()
-    {
-        if (SelectedItem == null)
-        {
-            // If we have an index, but didn't get the selection, make the selection
-            if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
-            {
-                SelectedItem = Items[SelectedIndex];
-            }
-        }
-        else
-        {
-            if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
-            {
-                SelectedItem = Items[SelectedIndex];
-            }
-        }
-    }
-
-
     private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
     {
         // Use reflection to store a 'Remove' method of any possible collection in ItemsSource

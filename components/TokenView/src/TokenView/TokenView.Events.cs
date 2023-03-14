@@ -130,15 +130,6 @@ public partial class TokenView : ListViewBase
         {
             token.Loaded -= Token_Loaded;
         }
-
-        // Only need to do this once.
-        if (!_hasLoaded)
-        {
-            _hasLoaded = true;
-
-            // Need to set a the selection on load, otherwise ListView resets to null.
-            SetInitialSelection();
-        }
     }
 
     private void OnOrientationChanged()
