@@ -10,7 +10,7 @@ namespace CommunityToolkit.Labs.WinUI;
 /// A animation helper that morphs between two controls.
 /// </summary>
 [ContentProperty(Name = nameof(Configs))]
-public sealed partial class TransitionHelper
+public sealed partial class TransitionHelper // TODO: Implement IDisposible? or resolve CA1001 another way?
 {
     private sealed record AnimatedElements<T>(
         IDictionary<string, T> ConnectedElements,
