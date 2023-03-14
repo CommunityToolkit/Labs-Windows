@@ -51,10 +51,4 @@ public partial class TokenView : ListViewBase
     {
 
     }
-
-    public enum TokenViewOrientation
-    {
-        Horizontal,
-        Wrapped
-    }
 }
