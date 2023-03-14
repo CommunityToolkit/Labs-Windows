@@ -21,6 +21,9 @@
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+        <!-- .NET Native Compiler settings, see https://github.com/CommunityToolkit/Labs-Windows/issues/245 -->
+        <Use64BitCompiler>true</Use64BitCompiler>
+        <OutOfProcPDB>true</OutOfProcPDB>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -125,7 +128,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-            <Version>6.2.12</Version>
+            <Version>6.2.14</Version>
         </PackageReference>
         <PackageReference Include="Microsoft.UI.Xaml">
             <Version>2.7.0</Version>
