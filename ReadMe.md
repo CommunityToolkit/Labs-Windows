@@ -51,7 +51,7 @@ dotnet new --install .\tooling\ProjectTemplate\
 
 cd components
 
-dotnet new labexp -n MyExperimentNameHere
+dotnet new ctk-component -n MyExperimentNameHere
 ```
 
 [Read more about creating a new experiment from the template folder here.](https://github.com/CommunityToolkit/Labs-Windows/tree/main/tooling/ProjectTemplate)
