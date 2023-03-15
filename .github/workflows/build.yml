@@ -37,6 +37,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -76,6 +78,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -172,6 +176,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.3.1
@@ -253,6 +259,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
