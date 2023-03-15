@@ -37,18 +37,26 @@ public partial class EqualPanel : Panel
 
         if (Children.Count > 0)
         {
-            SetMaxDimensions(Children, availableSize);
-
-            // Equal columns based on the available width
-            if (HorizontalAlignment == HorizontalAlignment.Stretch)
+            foreach (var child in Children)
             {
-                // Adjust for spacing
+                child.Measure(availableSize);
+                maxItemWidth = Math.Max(maxItemWidth, child.DesiredSize.Width);
+                maxItemHeight = Math.Max(maxItemHeight, child.DesiredSize.Height);
+            }
+
+            // Return equal widths based on the widest item
+            // In very specific edge cases the AvailableWidth might be infinite resulting in a crash.
+            if (HorizontalAlignment != HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
+            {
+                return new Size((maxItemWidth * Children.Count) + (Spacing * (Children.Count - 1)), maxItemHeight);
+            }
+            else
+            {
+                // Equal columns based on the available width, adjust for spacing
                 double totalWidth = availableSize.Width - (Spacing * (Children.Count - 1));
                 maxItemWidth = totalWidth / Children.Count;
                 return new Size(availableSize.Width, maxItemHeight);
             }
-            // Else, return equal widths based on the widest item
-            return new Size((maxItemWidth * Children.Count) + (Spacing * (Children.Count - 1)), maxItemHeight);
         }
         else
         {
@@ -65,25 +73,6 @@ public partial class EqualPanel : Panel
             x += maxItemWidth + Spacing;
         }
         return finalSize;
-    }
-
-    private void SetMaxDimensions(UIElementCollection items, Size availableSize)
-    {
-        foreach (var item in items)
-        {
-            item.Measure(availableSize);
-            double desiredWidth = item.DesiredSize.Width;
-            if (desiredWidth > maxItemWidth)
-            {
-                maxItemWidth = desiredWidth;
-            }
-
-            double desiredHeight = item.DesiredSize.Height;
-            if (desiredHeight > maxItemHeight)
-            {
-                maxItemHeight = desiredHeight;
-            }
-        }
     }
     private void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyProperty dp)
     {
