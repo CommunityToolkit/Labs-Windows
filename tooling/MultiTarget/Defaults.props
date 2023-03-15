@@ -1,5 +1,0 @@
-<Project>
-    <PropertyGroup>
-        <MultiTarget>uwp;wasdk;wpf;wasm;linuxgtk;macos;ios;android;</MultiTarget>
-    </PropertyGroup>
-</Project>
