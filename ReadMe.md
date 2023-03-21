@@ -27,6 +27,8 @@ Otherwise, you can clone the repo, open the `components` directory, navigate wit
 - .NET 6 SDK
 - Windows App SDK
 - Windows SDK 19041
+- Run `dotnet tool restore` from the project root to install SlnGen
+- Run build scripts from the [Developer Command Prompt for Visual Studio](https://learn.microsoft.com/visualstudio/ide/reference/command-prompt-powershell) or from elsewhere after adding `MSBuild.exe` to your PATH
 
 ## Adding a new Experiment
 
@@ -68,15 +70,9 @@ Open up an issue on the main Toolkit repo using the `Toolkit Labs Transfer` Issu
 
 ## Building the Sample App
 
-You can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. 
+First ensure you've met the [Build Requirements](#build-requirements) or the build scripts will fail.
 
-> **Note**
->
-> The script requires that you:
->
-> 1. Install SlnGen by running `dotnet tool install --global Microsoft.VisualStudio.SlnGen.Tool`
-> 2. Run `dotnet tool restore`
-> 3. Add `MSBuild.exe` to your PATH
+Next you can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. 
 
 Then just open the `CommunityToolkit.AllComponents.sln` solution in Visual Studio. You can run one of the project heads such as `CommunityToolkit.App.WinAppSdk` to run the sample app for that platform.
 
