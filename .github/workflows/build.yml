@@ -105,7 +105,8 @@ jobs:
         if: ${{ matrix.platform == 'WinUI3' }}
 
       - name: MSBuild
-        run: msbuild.exe CommunityToolkit.AllComponents.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+      # UseDotNetNativeToolchain is disabled until ILT0005 can be resolved. Build Release mode locally to compile with .NET Native. 
+        run: msbuild.exe CommunityToolkit.AllComponents.sln /restore /nowarn:MSB4011 -p:Configuration=Release -p:UseDotNetNativeToolchain=false
 
       # Build All Packages
       - name: pack experiments
