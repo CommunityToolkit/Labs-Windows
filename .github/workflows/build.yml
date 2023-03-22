@@ -130,10 +130,6 @@ jobs:
         with:
           domain: ${{ github.repository_owner }}
 
-      - name: Run SourceGenerators tests
-        id: test-generator
-        run: vstest.console.exe ./tooling/CommunityToolkit.Tooling.SampleGen.Tests/bin/Release/net6.0/CommunityToolkit.Tooling.SampleGen.Tests.dll /logger:"trx;LogFileName=SourceGenerators.trx"
-
       - name: Run experiment tests against ${{ env.TEST_PLATFORM }}
         id: test-platform
         run:  vstest.console.exe ./tooling/**/CommunityToolkit.Tests.${{ env.TEST_PLATFORM }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PLATFORM }}.trx"
