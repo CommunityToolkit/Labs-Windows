@@ -132,17 +132,17 @@ public partial class TokenView : ListViewBase
         }
     }
 
-    private void OnOrientationChanged()
+    private void OnIsWrappedChanged()
     {
         if (_tokenViewScroller != null)
         {
-            if (Orientation == TokenViewOrientation.Horizontal)
-            {
-                _tokenViewScroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            }
-            else if (this.Orientation == TokenViewOrientation.Wrapped)
+            if (IsWrapped)
             {
                 _tokenViewScroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+            }
+            else
+            {
+                _tokenViewScroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
             }
         }
     }

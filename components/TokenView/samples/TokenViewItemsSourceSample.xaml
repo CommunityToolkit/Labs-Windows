@@ -12,7 +12,6 @@
                 Spacing="12">
         <labs:TokenView CanRemoveTokens="{x:Bind CanRemoveTokens, Mode=OneWay}"
                         ItemsSource="{x:Bind MyDataSet, Mode=OneWay}"
-                        Orientation="Wrapped"
                         SelectedIndex="1"
                         SelectionChanged="TokenView_SelectionChanged"
                         SelectionMode="Single">

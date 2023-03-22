@@ -25,9 +25,9 @@ The TokenView is used to display `Tokens` in a consistent way that is inline wit
 
 Tokens allow for setting the `Icon` and `Content` while they can be removed as well. 
 
-## Orientation
+## IsWrapped
 
-The default Orientation of a TokenView is `Horizontal`, which horizontally aligns all tokens and will automatically show buttons to scroll through the list if needed. The `Wrapped` orientation will wrap all tokens as far as the width allows.
+By default, `TokenItems` are laid out horizontally and scrollbuttons will automatically appear upon control resizing. When `IsWrapped` is set, all items will be vertically stacked if the width of the items is larger than the available space.
 > [!Sample TokenViewBasicSample]
 
 ## Removing TokenItems

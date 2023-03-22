@@ -6,13 +6,13 @@ namespace CommunityToolkit.Labs.WinUI;
 public partial class TokenView : ListViewBase
 {
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Orientation"/> property.
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="IsWrapped"/> property.
     /// </summary>
-    public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
-        nameof(Orientation),
-        typeof(TokenViewOrientation),
+    public static readonly DependencyProperty IsWrappedProperty = DependencyProperty.Register(
+        nameof(IsWrapped),
+        typeof(bool),
         typeof(TokenView),
-        new PropertyMetadata(defaultValue: TokenViewOrientation.Horizontal, (d, e) => ((TokenView)d).OnOrientationPropertyChanged((TokenViewOrientation)e.OldValue, (TokenViewOrientation)e.NewValue)));
+        new PropertyMetadata(defaultValue: false, (d, e) => ((TokenView)d).OnIsWrappedPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
 
     public static readonly DependencyProperty CanRemoveTokensProperty = DependencyProperty.Register(
       nameof(CanRemoveTokens),
@@ -21,7 +21,7 @@ public partial class TokenView : ListViewBase
       new PropertyMetadata(defaultValue: false, (d, e) => ((TokenView)d).OnCanRemoveTokensPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
 
     /// <summary>
-    /// Gets or sets the icon.
+    /// Gets or sets if tokens can be removed.
     /// </summary>
     public bool CanRemoveTokens
     {
@@ -30,17 +30,17 @@ public partial class TokenView : ListViewBase
     }
 
     /// <summary>
-    /// Gets or sets the icon.
+    /// Gets or sets if tokens are wrapped.
     /// </summary>
-    public TokenViewOrientation Orientation
+    public bool IsWrapped
     {
-        get => (TokenViewOrientation)GetValue(OrientationProperty);
-        set => SetValue(OrientationProperty, value);
+        get => (bool)GetValue(IsWrappedProperty);
+        set => SetValue(IsWrappedProperty, value);
     }
 
-    protected virtual void OnOrientationPropertyChanged(TokenViewOrientation oldValue, TokenViewOrientation newValue)
+    protected virtual void OnIsWrappedPropertyChanged(bool oldValue, bool newValue)
     {
-        OnOrientationChanged();
+        OnIsWrappedChanged();
     }
 
     protected virtual void OnCanRemoveTokensPropertyChanged(bool oldValue, bool newValue)

@@ -61,7 +61,7 @@ public partial class TokenView : ListViewBase
         }
 
         PreviewKeyDown += TokenView_PreviewKeyDown;
-        OnOrientationChanged();
+        OnIsWrappedChanged();
     }
 
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)

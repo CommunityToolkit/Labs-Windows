@@ -11,7 +11,7 @@
     <Grid>
         <labs:TokenView AllowDrop="True"
                         CanReorderItems="True"
-                        Orientation="{x:Bind local:TokenViewBasicSample.ConvertStringToTokenViewOrientation(LayoutOrientation), Mode=OneWay}"
+                        IsWrapped="{x:Bind IsWrapped, Mode=OneWay}"
                         SelectedIndex="2"
                         SelectionMode="{x:Bind local:TokenViewBasicSample.ConvertStringToListViewSelectionMode(SelectionMode), Mode=OneWay}">
             <labs:TokenItem Content="All" />

@@ -9,7 +9,7 @@ namespace TokenViewExperiment.Samples;
 /// <summary>
 /// Sample of the basic properties of the TokenView
 /// </summary>
-[ToolkitSampleMultiChoiceOption("LayoutOrientation", "Horizontal", "Wrapped", Title = "Orientation")]
+[ToolkitSampleBoolOption("IsWrapped", false, Title = "IsWrapped")]
 [ToolkitSampleMultiChoiceOption("SelectionMode", "Single", "Multiple", Title = "Selection mode")]
 [ToolkitSample(id: nameof(TokenViewBasicSample), "TokenView", description: $"A sample for showing how to create and use a {nameof(TokenView)} control.")]
 public sealed partial class TokenViewBasicSample : Page
@@ -20,13 +20,6 @@ public sealed partial class TokenViewBasicSample : Page
     }
 
     // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
-    public static TokenViewOrientation ConvertStringToTokenViewOrientation(string orientation) => orientation switch
-    {
-        "Horizontal" => TokenViewOrientation.Horizontal,
-        "Wrapped" => TokenViewOrientation.Wrapped,
-        _ => throw new System.NotImplementedException(),
-    };
-
     public static ListViewSelectionMode ConvertStringToListViewSelectionMode(string mode) => mode switch
     {
         "Single" => ListViewSelectionMode.Single,
