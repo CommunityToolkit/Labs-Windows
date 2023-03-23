@@ -5,8 +5,7 @@
 namespace SettingsControlsExperiment.Samples;
 
 [ToolkitSampleBoolOption("IsCardExpanded", false, Title = "Is Expanded")]
-// [ToolkitSampleBoolOption("IsCardEnabled", true, Title = "Is Enabled")] Disabled for now, see: https://github.com/CommunityToolkit/Labs-Windows/issues/362
-
+[ToolkitSampleBoolOption("IsCardEnabled", true, Title = "Is Enabled")]
 [ToolkitSample(id: nameof(SettingsExpanderSample), "SettingsExpander", description: "The SettingsExpander can be used to group settings. SettingsCards can be customized in terms of alignment and content.")]
 public sealed partial class SettingsExpanderSample : Page
 {
