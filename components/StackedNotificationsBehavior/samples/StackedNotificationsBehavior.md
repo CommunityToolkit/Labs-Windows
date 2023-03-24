@@ -5,8 +5,8 @@ description: A behavior to add stacked notifications to a WinUI InfoBar control.
 keywords: StackedNotificationsBehavior, Control, Layout, InfoBar, Behavior
 dev_langs:
   - csharp
-category: Behaviors
-subcategory: StatusAndInfo
+category: Xaml
+subcategory: Behaviors
 discussion-id: 312
 issue-id: 210
 ---
