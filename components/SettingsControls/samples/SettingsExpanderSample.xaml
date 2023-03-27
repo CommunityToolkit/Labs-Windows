@@ -10,6 +10,7 @@
     <labs:SettingsExpander x:Name="settingsCard"
                            Description="The SettingsExpander has the same properties as a Card, and you can set SettingsCard as part of the Items collection."
                            Header="SettingsExpander"
+                           IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}"
                            IsExpanded="{x:Bind IsCardExpanded, Mode=OneWay}">
         <!--  TODO: This should be TwoWay bound but throws compile error in Uno.  -->
         <labs:SettingsExpander.HeaderIcon>
