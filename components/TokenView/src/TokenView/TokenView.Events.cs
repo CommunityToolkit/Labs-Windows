@@ -25,6 +25,7 @@ public partial class TokenView : ListViewBase
             _tokenViewScroller.ChangeView(_tokenViewScroller.HorizontalOffset - _tokenViewScroller.ViewportWidth, null, null);
         }
     }
+    
     private void ScrollTabForwardButton_Click(object sender, RoutedEventArgs e)
     {
         if (_tokenViewScroller != null)
