@@ -7,9 +7,8 @@ using CommunityToolkit.Labs.WinUI;
 namespace StackedNotificationsBehaviorExperiment.Samples;
 
 /// <summary>
-/// An example sample page of a custom control inheriting from Panel.
+/// A sample demonstrating the <see cref="StackedNotificationBehavior" />.
 /// </summary>
-
 [ToolkitSample(id: nameof(StackedNotificationsBehaviorCustomSample), "Stacked Notifications", description: $"A sample for showing how to create and use a {nameof(StackedNotificationsBehavior)} custom control.")]
 public sealed partial class StackedNotificationsBehaviorCustomSample : Page
 {
@@ -18,7 +17,8 @@ public sealed partial class StackedNotificationsBehaviorCustomSample : Page
         this.InitializeComponent();
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    [ToolkitSampleButtonAction(label: "Raise notification")]
+    private void RaiseNotification()
     {
         var notification = new Notification
         {
