@@ -63,17 +63,10 @@ public sealed partial class TokenViewItemsSourceSample : Page
             Name = "Item 12",
         },
     };
+
     public TokenViewItemsSourceSample()
     {
         this.InitializeComponent();
-    }
-
-    private void TokenView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (((TokenView)sender).SelectedItem is MyDataModel item)
-        {
-            selectedTxt.Text = item.Name;
-        }
     }
 }
 
