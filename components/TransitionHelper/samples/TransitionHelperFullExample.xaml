@@ -26,7 +26,7 @@
         </labs:TransitionHelper>
 
         <ImageBrush x:Key="ImageBackgroundBrush"
-                    ImageSource="ms-appx:///Assets/Owl.jpg" />
+                    ImageSource="ms-appx:///Assets/Owl2.jpg" />
     </Page.Resources>
     <Grid>
         <StackPanel x:Name="FirstControl"
