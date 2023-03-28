@@ -8,12 +8,6 @@
     <RootNamespace>CommunityToolkit.Labs.WinUI.TokenViewRns</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <UpToDateCheckInput Remove="TokenView.xaml" />
-    <UpToDateCheckInput Remove="TokenItem\TokenItem.xaml" />
-    <SourceGeneratorInput Remove="TokenView\TokenView.ItemsSource.cs" />
-  </ItemGroup>
-
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
 </Project>

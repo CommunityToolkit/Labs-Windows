@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 namespace CommunityToolkit.Labs.WinUI;
+
 public partial class TokenItem : ListViewItem
 {
     /// <summary>
