@@ -96,6 +96,7 @@ public partial class SettingsCard : ButtonBase
     {
         if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
         {
+            // Check if the active focus is on the card itself - only then we show the pressed state.
             if (GetFocusedElement() is SettingsCard)
             {
                 VisualStateManager.GoToState(this, PressedState, true);
