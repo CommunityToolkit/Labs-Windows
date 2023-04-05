@@ -9,7 +9,7 @@ namespace CommunityToolkit.Labs.WinUI;
 /// A SettingsCard can also be hosted within a SettingsExpander.
 /// </summary>
 
-[TemplatePart(Name = ActionIconPresenter, Type = typeof(ContentControl))]
+[TemplatePart(Name = ActionIconPresenterHolder, Type = typeof(Viewbox))]
 [TemplatePart(Name = HeaderPresenter, Type = typeof(ContentPresenter))]
 [TemplatePart(Name = DescriptionPresenter, Type = typeof(ContentPresenter))]
 [TemplatePart(Name = HeaderIconPresenterHolder, Type = typeof(Viewbox))]
@@ -20,7 +20,7 @@ public partial class SettingsCard : ButtonBase
     internal const string PressedState = "Pressed";
     internal const string DisabledState = "Disabled";
 
-    internal const string ActionIconPresenter = "PART_ActionIconPresenter";
+    internal const string ActionIconPresenterHolder = "PART_ActionIconPresenterHolder";
     internal const string HeaderPresenter = "PART_HeaderPresenter";
     internal const string DescriptionPresenter = "PART_DescriptionPresenter";
     internal const string HeaderIconPresenterHolder = "PART_HeaderIconPresenterHolder";
@@ -37,7 +37,7 @@ public partial class SettingsCard : ButtonBase
     {
         base.OnApplyTemplate();
         IsEnabledChanged -= OnIsEnabledChanged;
-        OnButtonIconChanged();
+        OnActionIconChanged();
         OnHeaderChanged();
         OnHeaderIconChanged();
         OnDescriptionChanged();
@@ -64,6 +64,7 @@ public partial class SettingsCard : ButtonBase
     {
         DisableButtonInteraction();
 
+        IsTabStop = true;
         PointerEntered += Control_PointerEntered;
         PointerExited += Control_PointerExited;
         PointerCaptureLost += Control_PointerCaptureLost;
@@ -74,6 +75,7 @@ public partial class SettingsCard : ButtonBase
 
     private void DisableButtonInteraction()
     {
+        IsTabStop = false;
         PointerEntered -= Control_PointerEntered;
         PointerExited -= Control_PointerExited;
         PointerCaptureLost -= Control_PointerCaptureLost;
@@ -94,7 +96,10 @@ public partial class SettingsCard : ButtonBase
     {
         if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.GamepadA)
         {
-            VisualStateManager.GoToState(this, PressedState, true);
+            if (GetFocusedElement() is SettingsCard)
+            {
+                VisualStateManager.GoToState(this, PressedState, true);
+            }
         }
     }
 
@@ -152,7 +157,7 @@ public partial class SettingsCard : ButtonBase
 
     private void OnIsClickEnabledChanged()
     {
-        OnButtonIconChanged();
+        OnActionIconChanged();
         if (IsClickEnabled)
         {
             EnableButtonInteraction();
@@ -168,11 +173,11 @@ public partial class SettingsCard : ButtonBase
         VisualStateManager.GoToState(this, IsEnabled ? NormalState : DisabledState, true);
     }
 
-    private void OnButtonIconChanged()
+    private void OnActionIconChanged()
     {
-        if (GetTemplateChild(ActionIconPresenter) is FrameworkElement buttonIconPresenter)
+        if (GetTemplateChild(ActionIconPresenterHolder) is FrameworkElement actionIconPresenter)
         {
-            buttonIconPresenter.Visibility = IsClickEnabled
+            actionIconPresenter.Visibility = IsClickEnabled
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }
@@ -205,6 +210,18 @@ public partial class SettingsCard : ButtonBase
             headerPresenter.Visibility = Header != null
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+        }
+    }
+
+    private FrameworkElement? GetFocusedElement()
+    {
+        if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+        {
+            return FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+        }
+        else
+        {
+            return FocusManager.GetFocusedElement() as FrameworkElement;
         }
     }
 }
