@@ -21,6 +21,14 @@ If you find an experiment useful, please up-vote 👍 its corresponding issue an
 
 Otherwise, you can clone the repo, open the `components` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
 
+## Clone the repository
+
+The [tooling](https://github.com/CommunityToolkit/Tooling-Windows-Submodule) is in a submodule, so you'll need to use `--recurse-submodules` when cloning or pulling for the first time:
+
+```shell
+git clone --recurse-submodules https://github.com/CommunityToolkit/Labs-Windows.git
+```
+
 ## Build Requirements
 
 - Visual Studio 2022 (UWP & Desktop Workloads for .NET)
@@ -45,7 +53,7 @@ dotnet new --install .\tooling\ProjectTemplate\
 
 cd components
 
-dotnet new labexp -n MyExperimentNameHere
+dotnet new ctk-component -n MyExperimentNameHere
 ```
 
 [Read more about creating a new experiment from the template folder here.](https://github.com/CommunityToolkit/Labs-Windows/tree/main/tooling/ProjectTemplate)
