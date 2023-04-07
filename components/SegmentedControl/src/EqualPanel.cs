@@ -34,28 +34,31 @@ public partial class EqualPanel : Panel
     {
         maxItemWidth = 0;
         maxItemHeight = 0;
+        int UncollapsedChildrenCount = Children.Where(x => x.Visibility != Visibility.Collapsed).Count();
 
-        if (Children.Count > 0)
+        if (UncollapsedChildrenCount > 0)
         {
             foreach (var child in Children)
             {
-                child.Measure(availableSize);
-                
-                maxItemWidth = Math.Max(maxItemWidth, child.DesiredSize.Width);
-                maxItemHeight = Math.Max(maxItemHeight, child.DesiredSize.Height);
+                if (child.Visibility != Visibility.Collapsed)
+                {
+                    child.Measure(availableSize);
+                    maxItemWidth = Math.Max(maxItemWidth, child.DesiredSize.Width);
+                    maxItemHeight = Math.Max(maxItemHeight, child.DesiredSize.Height);
+                }
             }
 
             // Return equal widths based on the widest item
             // In very specific edge cases the AvailableWidth might be infinite resulting in a crash.
             if (HorizontalAlignment != HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
             {
-                return new Size((maxItemWidth * Children.Count) + (Spacing * (Children.Count - 1)), maxItemHeight);
+                return new Size((maxItemWidth * UncollapsedChildrenCount) + (Spacing * (UncollapsedChildrenCount - 1)), maxItemHeight);
             }
             else
             {
                 // Equal columns based on the available width, adjust for spacing
-                double totalWidth = availableSize.Width - (Spacing * (Children.Count - 1));
-                maxItemWidth = totalWidth / Children.Count;
+                double totalWidth = availableSize.Width - (Spacing * (UncollapsedChildrenCount - 1));
+                maxItemWidth = totalWidth / UncollapsedChildrenCount;
                 return new Size(availableSize.Width, maxItemHeight);
             }
         }
@@ -67,19 +70,22 @@ public partial class EqualPanel : Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        var x = 0.0;
+        double newWidth = 0.0;
 
         foreach (var child in Children)
         {
-            child.Arrange(new Rect(x, 0, maxItemWidth, maxItemHeight));
-            x += maxItemWidth + Spacing;
+            if (child.Visibility != Visibility.Collapsed)
+            {
+                child.Arrange(new Rect(newWidth, 0, maxItemWidth, maxItemHeight));
+                newWidth += maxItemWidth + Spacing;
+            }
         }
-        System.Diagnostics.Debug.WriteLine("Actual: " + x + "  -  Final: " + finalSize.Width);
-        if (finalSize.Width > x)
+
+        // Check if there's more width available - if so, recalculate (e.g. whenever Grid.Column is set to Auto)
+        if (finalSize.Width > newWidth)
         {
             MeasureOverride(finalSize);
         }
-
       
         return finalSize;
     }
