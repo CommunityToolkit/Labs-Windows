@@ -24,9 +24,22 @@ It is useful in scenarios where:
 - Cell-level selection isn't required
 - Editing every piece of data in the table isn't required
 
-## Setup
+## Traditional Method
 
-A `DataTable` experience is made of two components a `DataTableHeader` component in the `Header` of
+To compare how the DataTable works, we'll start with the traditional example of how a `ListView` (or `ItemsControl`)
+can be made to look like a table of data:
+
+> [!Sample ListViewTableSample]
+
+There are limitations here with having fixed column sizes that can be difficult to align. Their definitions are
+also duplicated, and every item is recreating this layout and duplicating it within the Visual Tree.
+
+## DataTable Setup
+
+The `DataTable` setup provides an easier way to maintain this coordinated effort to layout items as a table within
+a `ListView` or `ItemsControl`.
+
+A "DataTable" is actually made of two components a `DataTableHeader` component in the `Header` of
 an `ItemsControl` or `ListView` control, and the `DataTable` panel itself within the `DataTemplate`
 of your `ItemTemplate` for the items control you use. For example:
 

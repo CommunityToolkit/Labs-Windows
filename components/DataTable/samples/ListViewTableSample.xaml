@@ -1,16 +1,15 @@
 <!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<Page x:Class="DataTableExperiment.Samples.DataTableBasicSample"
+<Page x:Class="DataTableExperiment.Samples.ListViewTableSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:DataTableExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <controls:HeaderedItemsControl ItemsSource="{x:Bind InventoryItems}">
-        <controls:HeaderedItemsControl.Header>
-            <Grid Padding="2"
+    <ListView ItemsSource="{x:Bind InventoryItems}">
+        <ListView.Header>
+            <Grid Padding="12"
                   ColumnSpacing="16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
@@ -26,8 +25,8 @@
                 <TextBlock Grid.Column="3"
                            Text="Quantity" />
             </Grid>
-        </controls:HeaderedItemsControl.Header>
-        <controls:HeaderedItemsControl.ItemTemplate>
+        </ListView.Header>
+        <ListView.ItemTemplate>
             <DataTemplate x:DataType="local:InventoryItem">
                 <Grid ColumnSpacing="16">
                     <Grid.ColumnDefinitions>
@@ -45,11 +44,11 @@
                                Text="{x:Bind Quantity}" />
                 </Grid>
             </DataTemplate>
-        </controls:HeaderedItemsControl.ItemTemplate>
-        <controls:HeaderedItemsControl.ItemContainerStyle>
-            <Style TargetType="ContentPresenter">
+        </ListView.ItemTemplate>
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
-        </controls:HeaderedItemsControl.ItemContainerStyle>
-    </controls:HeaderedItemsControl>
+        </ListView.ItemContainerStyle>
+    </ListView>
 </Page>
