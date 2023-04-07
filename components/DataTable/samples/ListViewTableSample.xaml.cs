@@ -6,8 +6,8 @@ using CommunityToolkit.WinUI.Controls;
 
 namespace DataTableExperiment.Samples;
 
-[ToolkitSample(id: nameof(DataTableBasicSample), "Basic DataTable Example", description: $"A sample for showing how to create and use a {nameof(DataTable)} control.")]
-public sealed partial class DataTableBasicSample : Page
+[ToolkitSample(id: nameof(ListViewTableSample), "ListView as Table", description: "A sample showing the traditional approach of turning a ListView into a table.")]
+public sealed partial class ListViewTableSample : Page
 {
     public ObservableCollection<InventoryItem> InventoryItems { get; set; } = new()
     {
@@ -41,8 +41,19 @@ public sealed partial class DataTableBasicSample : Page
         },
     };
 
-    public DataTableBasicSample()
+    public ListViewTableSample()
     {
         this.InitializeComponent();
     }
+}
+
+public class InventoryItem
+{
+    public int Id { get; set; }
+
+    public string Name { get; set; } = string.Empty;
+
+    public string Description { get; set; } = string.Empty;
+
+    public int Quantity { get; set; }
 }
