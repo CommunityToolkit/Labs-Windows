@@ -18,6 +18,42 @@ public partial class HeaderedItemsControl : ItemsControl
     }
 
     /// <summary>
+    /// Identifies the <see cref="Footer"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(
+        nameof(Footer),
+        typeof(object),
+        typeof(HeaderedItemsControl),
+        new PropertyMetadata(null, OnFooterChanged));
+
+    /// <summary>
+    /// Identifies the <see cref="FooterTemplate"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty FooterTemplateProperty = DependencyProperty.Register(
+        nameof(FooterTemplate),
+        typeof(DataTemplate),
+        typeof(HeaderedItemsControl),
+        new PropertyMetadata(null));
+
+    /// <summary>
+    /// Gets or sets the data used for the Footer of each control.
+    /// </summary>
+    public object Footer
+    {
+        get { return GetValue(FooterProperty); }
+        set { SetValue(FooterProperty, value); }
+    }
+
+    /// <summary>
+    /// Gets or sets the template used to display the content of the control's Footer.
+    /// </summary>
+    public DataTemplate FooterTemplate
+    {
+        get { return (DataTemplate)GetValue(FooterTemplateProperty); }
+        set { SetValue(FooterTemplateProperty, value); }
+    }
+
+    /// <summary>
     /// Identifies the <see cref="Header"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
@@ -34,15 +70,6 @@ public partial class HeaderedItemsControl : ItemsControl
         typeof(DataTemplate),
         typeof(HeaderedItemsControl),
         new PropertyMetadata(null));
-
-    /// <summary>
-    /// Identifies the <see cref="Orientation"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
-        nameof(Orientation),
-        typeof(Orientation),
-        typeof(HeaderedItemsControl),
-        new PropertyMetadata(Orientation.Vertical));
 
     /// <summary>
     /// Gets or sets the data used for the header of each control.
@@ -63,16 +90,18 @@ public partial class HeaderedItemsControl : ItemsControl
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="Orientation"/> used for the header.
+    /// Called when the <see cref="Footer"/> property changes.
     /// </summary>
-    /// <remarks>
-    /// If set to <see cref="Orientation.Vertical"/> the header will be above the content.
-    /// If set to <see cref="Orientation.Horizontal"/> the header will be to the left of the content.
-    /// </remarks>
-    public Orientation Orientation
+    /// <param name="oldValue">The old value of the <see cref="Footer"/> property.</param>
+    /// <param name="newValue">The new value of the <see cref="Footer"/> property.</param>
+    protected virtual void OnFooterChanged(object oldValue, object newValue)
     {
-        get { return (Orientation)GetValue(OrientationProperty); }
-        set { SetValue(OrientationProperty, value); }
+    }
+
+    private static void OnFooterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var control = (HeaderedItemsControl)d;
+        control.OnFooterChanged(e.OldValue, e.NewValue);
     }
 
     /// <summary>
