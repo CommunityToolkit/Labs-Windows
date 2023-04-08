@@ -2,15 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls">
     <Style TargetType="controls:HeaderedItemsControl">
-        <Setter Property="Padding" Value="2,0,0,0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:HeaderedItemsControl">
-                    <StackPanel Orientation="{TemplateBinding Orientation}">
-                        <ContentPresenter Content="{TemplateBinding Header}"
-                                          ContentTemplate="{TemplateBinding HeaderTemplate}" />
-                        <ItemsPresenter Margin="{TemplateBinding Padding}" />
-                    </StackPanel>
+                    <ItemsPresenter Margin="{TemplateBinding Margin}"
+                                    Padding="{TemplateBinding Padding}"
+                                    Footer="{TemplateBinding Footer}"
+                                    FooterTemplate="{TemplateBinding FooterTemplate}"
+                                    Header="{TemplateBinding Header}"
+                                    HeaderTemplate="{TemplateBinding HeaderTemplate}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

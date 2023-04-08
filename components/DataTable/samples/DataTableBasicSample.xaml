@@ -10,7 +10,7 @@
 
     <controls:HeaderedItemsControl ItemsSource="{x:Bind InventoryItems}">
         <controls:HeaderedItemsControl.Header>
-            <Grid Padding="2"
+            <Grid Padding="0,8"
                   ColumnSpacing="16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
