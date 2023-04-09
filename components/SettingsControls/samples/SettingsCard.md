@@ -18,6 +18,6 @@ You can set the `Header`, `Description`, `HeaderIcon` and `Content` properties t
 
 > [!SAMPLE SettingsCardSample]
 
-SettingsCard can also be turned into a button, by setting the `IsClickEnabled` property. This can be useful whenever you want your settings component to navigate to a detail page or open an external link:
+SettingsCard can also be turned into a button, by setting the `IsClickEnabled` property. This can be useful whenever you want your settings component to navigate to a detail page or open an external link. You can set a custom icon by setting the `ActionIcon`, or hiding it completely by setting the `IsActionIconVisible` to `false`.
 
 > [!SAMPLE ClickableSettingsCardSample]

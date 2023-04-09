@@ -178,9 +178,14 @@ public partial class SettingsCard : ButtonBase
     {
         if (GetTemplateChild(ActionIconPresenterHolder) is FrameworkElement actionIconPresenter)
         {
-            actionIconPresenter.Visibility = IsClickEnabled
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            if (IsClickEnabled && IsActionIconVisible)
+            {
+                actionIconPresenter.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                actionIconPresenter.Visibility =Visibility.Collapsed;
+            }
         }
     }
 

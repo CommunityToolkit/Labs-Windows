@@ -59,7 +59,6 @@ public partial class SettingsCard : ButtonBase
         typeof(SettingsCard),
         new PropertyMetadata(defaultValue: false, (d, e) => ((SettingsCard)d).OnIsClickEnabledPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
 
-
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="ContentAlignment"/> property.
     /// </summary>
@@ -68,6 +67,15 @@ public partial class SettingsCard : ButtonBase
         typeof(ContentAlignment),
         typeof(SettingsCard),
         new PropertyMetadata(defaultValue: ContentAlignment.Right));
+
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="IsActionIconVisible"/> property.
+    /// </summary>
+    public static readonly DependencyProperty IsActionIconVisibleProperty = DependencyProperty.Register(
+        nameof(IsActionIconVisible),
+        typeof(bool),
+        typeof(SettingsCard),
+        new PropertyMetadata(defaultValue: true, (d, e) => ((SettingsCard)d).OnIsActionIconVisiblePropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
 
     /// <summary>
     /// Gets or sets the Header.
@@ -134,6 +142,15 @@ public partial class SettingsCard : ButtonBase
         set => SetValue(ContentAlignmentProperty, value);
     }
 
+    /// <summary>
+    /// Gets or sets if the ActionIcon is shown.
+    /// </summary>
+    public bool IsActionIconVisible
+    {
+        get => (bool)GetValue(IsActionIconVisibleProperty);
+        set => SetValue(IsActionIconVisibleProperty, value);
+    }
+
     protected virtual void OnIsClickEnabledPropertyChanged(bool oldValue, bool newValue)
     {
         OnIsClickEnabledChanged();
@@ -151,6 +168,11 @@ public partial class SettingsCard : ButtonBase
     protected virtual void OnDescriptionPropertyChanged(object oldValue, object newValue)
     {
         OnDescriptionChanged();
+    }
+
+    protected virtual void OnIsActionIconVisiblePropertyChanged(bool oldValue, bool newValue)
+    {
+        OnActionIconChanged();
     }
 }
 
