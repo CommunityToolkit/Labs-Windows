@@ -29,21 +29,12 @@
         </controls:HeaderedItemsControl.Header>
         <controls:HeaderedItemsControl.ItemTemplate>
             <DataTemplate x:DataType="local:InventoryItem">
-                <Grid ColumnSpacing="16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
+                <controls:DataTable>
                     <TextBlock Text="{x:Bind Id}" />
-                    <TextBlock Grid.Column="1"
-                               Text="{x:Bind Name}" />
-                    <TextBlock Grid.Column="2"
-                               Text="{x:Bind Description}" />
-                    <TextBlock Grid.Column="3"
-                               Text="{x:Bind Quantity}" />
-                </Grid>
+                    <TextBlock Text="{x:Bind Name}" />
+                    <TextBlock Text="{x:Bind Description}" />
+                    <TextBlock Text="{x:Bind Quantity}" />
+                </controls:DataTable>
             </DataTemplate>
         </controls:HeaderedItemsControl.ItemTemplate>
         <controls:HeaderedItemsControl.ItemContainerStyle>
