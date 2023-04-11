@@ -9,6 +9,6 @@
       mc:Ignorable="d">
 
     <Grid>
-        <controls:DataTable x:Name="DataTableControl" />
+        <controls:DataRow x:Name="DataTableControl" />
     </Grid>
 </Page>

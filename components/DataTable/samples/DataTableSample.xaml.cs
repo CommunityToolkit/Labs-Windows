@@ -6,8 +6,8 @@ using CommunityToolkit.WinUI.Controls;
 
 namespace DataTableExperiment.Samples;
 
-[ToolkitSample(id: nameof(DataTableBasicSample), "Basic DataTable Example", description: $"A sample for showing how to create and use a {nameof(DataRow)} control.")]
-public sealed partial class DataTableBasicSample : Page
+[ToolkitSample(id: nameof(DataTableSample), "DataTable Example", description: $"A sample for showing how to create and use a {nameof(DataRow)} control.")]
+public sealed partial class DataTableSample : Page
 {
     public ObservableCollection<InventoryItem> InventoryItems { get; set; } = new()
     {
@@ -39,9 +39,10 @@ public sealed partial class DataTableBasicSample : Page
             Description = "An incendiary plasma launcher",
             Quantity = 1,
         },
+        // TODO: Add more items, maybe abstract these to a helper for other samples?
     };
 
-    public DataTableBasicSample()
+    public DataTableSample()
     {
         this.InitializeComponent();
     }

@@ -4,7 +4,7 @@
 
 namespace CommunityToolkit.WinUI.Controls;
 
-public partial class DataTable : Panel
+public partial class DataRow : Panel
 {
     // TODO: Create our own helper class here for the Header as well vs. straight-Grid.
     // TODO: WeakReference?

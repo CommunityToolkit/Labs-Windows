@@ -26,7 +26,7 @@ It is useful in scenarios where:
 
 ## Traditional Method
 
-To compare how the DataTable works, we'll start with the traditional example of how a `ListView` (or `ItemsControl`)
+To compare how the DataTable works, we'll start with the traditional example of how a `ListView` (or `HeaderedItemsControl`)
 can be made to look like a table of data:
 
 > [!Sample ListViewTableSample]
@@ -34,20 +34,29 @@ can be made to look like a table of data:
 There are limitations here with having fixed column sizes that can be difficult to align. Their definitions are
 also duplicated, and every item is recreating this layout and duplicating it within the Visual Tree.
 
-## DataTable Setup
+## DataRow Hybrid Setup
 
-The `DataTable` setup provides an easier way to maintain this coordinated effort to layout items as a table within
-a `ListView` or `ItemsControl`.
-
-A "DataTable" is actually made of two components a `DataTableHeader` component in the `Header` of
-an `ItemsControl` or `ListView` control, and the `DataTable` panel itself within the `DataTemplate`
-of your `ItemTemplate` for the items control you use. For example:
+As a first step, moving to **DataTable** is easy, just replace the `Grid` in your `ItemsTemplate` with the `DataRow` panel
+and remove the Column attributes from your controls. `DataRow` automatically will lay each subsequent control in the next column
+for you automatically:
 
 > [!Sample DataTableBasicSample]
 
-## Comparison to DataGrid
+## DataTable Setup
 
-Benefits/Comparison over DataGrid:
+The `DataTable` setup provides an easier way to define and manage your columns within your header for this coordinated effort
+to layout items as a table within a `ListView` or `ItemsControl`.
+
+A _"DataTable"_ is actually made of three components a `DataTable` component in the `Header` of an `HeaderedItemsControl` or
+`ListView` control. There you can define `DataColumn`s within the table and configure their size and other settings.
+Finally, as you saw above, the `DataRow` panel itself is within the `DataTemplate` of your `ItemTemplate` for the items control
+you use. For example:
+
+> [!Sample DataTableSample]
+
+## Comparison of DataTable to DataGrid
+
+Benefits/Similarities:
 
 - Easier to use/more intuitive to setup/customize as using base XAML building blocks without complex templating/styling
 - Therefore Styling/Look-and-feel much more in developer's control, based off common controls
@@ -57,7 +66,7 @@ Benefits/Comparison over DataGrid:
 - Support row virtualization via `ItemsStackPanel`
 - Still provides column resizing via header
 
-Limitations compared to DataGrid is that:
+Limitations:
 
 - No Row Headers
 - No Built-in Cell Editing
