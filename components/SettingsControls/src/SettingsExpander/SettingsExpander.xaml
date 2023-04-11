@@ -99,7 +99,7 @@
                                     <ContentPresenter Content="{TemplateBinding ItemsHeader}" />
                                     <muxc:ItemsRepeater x:Name="PART_ItemsRepeater"
                                                         Grid.Row="1"
-                                                        ItemTemplate="{Binding ItemTemplate, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        ItemTemplate="{TemplateBinding ItemTemplate}"
                                                         TabFocusNavigation="Local">
                                         <muxc:ItemsRepeater.Layout>
                                             <muxc:StackLayout Orientation="Vertical" />
