@@ -15,11 +15,11 @@ public partial class ExampleDataTableTestClass : VisualUITestBase
     [TestMethod]
     public void SimpleSynchronousExampleTest()
     {
-        var assembly = typeof(DataTable).Assembly;
-        var type = assembly.GetType(typeof(DataTable).FullName ?? string.Empty);
+        var assembly = typeof(DataRow).Assembly;
+        var type = assembly.GetType(typeof(DataRow).FullName ?? string.Empty);
 
         Assert.IsNotNull(type, "Could not find DataTable type.");
-        Assert.AreEqual(typeof(DataTable), type, "Type of DataTable does not match expected type.");
+        Assert.AreEqual(typeof(DataRow), type, "Type of DataTable does not match expected type.");
     }
 
     // If you don't need access to UI objects directly, use this pattern.
@@ -46,7 +46,7 @@ public partial class ExampleDataTableTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public void SimpleUIAttributeExampleTest()
     {
-        var component = new DataTable();
+        var component = new DataRow();
         Assert.IsNotNull(component);
     }
 
@@ -57,7 +57,7 @@ public partial class ExampleDataTableTestClass : VisualUITestBase
     public void SimpleUIExamplePageTest(ExampleDataTableTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<DataTable>();
+        var component = page.FindDescendant<DataRow>();
 
         Assert.IsNotNull(component);
 
@@ -73,7 +73,7 @@ public partial class ExampleDataTableTestClass : VisualUITestBase
         // This helper can be used to wait for a rendering pass to complete.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<DataTable>();
+        var component = page.FindDescendant<DataRow>();
 
         Assert.IsNotNull(component);
     }
@@ -88,7 +88,7 @@ public partial class ExampleDataTableTestClass : VisualUITestBase
     {
         await EnqueueAsync(() =>
         {
-            var component = new DataTable();
+            var component = new DataRow();
             Assert.IsNotNull(component);
         });
     }
@@ -100,7 +100,7 @@ public partial class ExampleDataTableTestClass : VisualUITestBase
     {
         await EnqueueAsync(async () =>
         {
-            var component = new DataTable();
+            var component = new DataRow();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -118,7 +118,7 @@ public partial class ExampleDataTableTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new DataTable();
+        var component = new DataRow();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 
