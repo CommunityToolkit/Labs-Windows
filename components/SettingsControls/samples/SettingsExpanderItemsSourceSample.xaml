@@ -63,8 +63,8 @@
                         <DataTemplate x:DataType="local:MyDataModel">
                             <labs:SettingsCard Description="{x:Bind ItemType}"
                                                Header="{x:Bind Name}">
-                                <Button Content="{x:Bind LinkDescription}"
-                                        Click="Button_Click"/>
+                                <Button Click="Button_Click"
+                                        Content="{x:Bind LinkDescription}" />
                             </labs:SettingsCard>
                         </DataTemplate>
                     </local:MyDataModelTemplateSelector.ButtonTemplate>
@@ -82,8 +82,7 @@
                     <local:MyDataModelTemplateSelector.NoButtonTemplate>
                         <DataTemplate x:DataType="local:MyDataModel">
                             <labs:SettingsCard Description="{x:Bind ItemType}"
-                                               Header="{x:Bind Name}">
-                            </labs:SettingsCard>
+                                               Header="{x:Bind Name}" />
                         </DataTemplate>
                     </local:MyDataModelTemplateSelector.NoButtonTemplate>
                 </local:MyDataModelTemplateSelector>
