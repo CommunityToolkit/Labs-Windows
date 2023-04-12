@@ -7,6 +7,18 @@ namespace CommunityToolkit.WinUI.Controls;
 // TODO: This will probably be a Control?
 public partial class DataColumn : ContentPresenter
 {
+    private static GridLength StarLength = new GridLength(1, GridUnitType.Star);
+
+    public GridLength DesiredWidth
+    {
+        get { return (GridLength)GetValue(DesiredWidthProperty); }
+        set { SetValue(DesiredWidthProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for DesiredWidth.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty DesiredWidthProperty =
+        DependencyProperty.Register(nameof(DesiredWidth), typeof(GridLength), typeof(DataColumn), new PropertyMetadata(StarLength));
+
     //public DataColumn()
     //{
     //    this.DefaultStyleKey = typeof(DataColumn);
