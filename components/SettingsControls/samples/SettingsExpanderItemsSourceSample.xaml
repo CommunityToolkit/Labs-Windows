@@ -51,8 +51,8 @@
             </labs:SettingsExpander.ItemsFooter>
         </labs:SettingsExpander>
 
-        <labs:SettingsExpander Description="A SettingsExpander with a custom ItemTemplate."
-                               Header="Settings Expander can use a DataTemplate, DataTemplateSelector, or IElementFactory for its ItemTemplate"
+        <labs:SettingsExpander Description="SettingsExpander can use a DataTemplate, DataTemplateSelector, or IElementFactory for its ItemTemplate."
+                               Header="Settings Expander with a custom ItemTemplate"
                                ItemsSource="{x:Bind MyDataSet}">
             <labs:SettingsExpander.HeaderIcon>
                 <FontIcon Glyph="&#xEA37;" />
