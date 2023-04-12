@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
@@ -441,8 +441,6 @@
                             <Viewbox x:Name="PART_ActionIconPresenterHolder"
                                      Grid.RowSpan="2"
                                      Grid.Column="3"
-                                     Width="32"
-                                     Height="32"
                                      MaxWidth="{ThemeResource SettingsCardActionIconMaxSize}"
                                      MaxHeight="{ThemeResource SettingsCardActionIconMaxSize}"
                                      Margin="{ThemeResource SettingsCardActionIconMargin}"
