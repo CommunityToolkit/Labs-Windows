@@ -3,7 +3,7 @@
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.DataTable/DataTableStyle_ClassicBinding.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.DataTable/DataTable/DataTable.xaml" />
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.DataTable/HeaderedItemsControl/HeaderedItemsControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

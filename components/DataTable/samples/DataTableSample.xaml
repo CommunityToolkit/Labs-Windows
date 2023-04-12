@@ -8,14 +8,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <!--<ListView ItemsSource="{x:Bind InventoryItems}">
+    <ListView ItemsSource="{x:Bind InventoryItems}">
         <ListView.Header>
             <controls:DataTable>
                 <controls:DataColumn Content="Id" />
                 <controls:DataColumn Content="Name" />
-    -->
-    <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
-    <!--
+                <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
                 <controls:DataColumn>
                     <TextBlock FontWeight="Bold"
                                Text="Description" />
@@ -38,5 +36,5 @@
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
         </ListView.ItemContainerStyle>
-    </ListView>-->
+    </ListView>
 </Page>
