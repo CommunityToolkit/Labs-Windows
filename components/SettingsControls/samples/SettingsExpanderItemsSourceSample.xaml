@@ -9,44 +9,84 @@
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       mc:Ignorable="d">
 
-    <labs:SettingsExpander Description="The SettingsExpander can use ItemsSource to define its Items."
-                           Header="Settings Expander with ItemsSource"
-                           ItemsSource="{x:Bind MyDataSet}">
-        <labs:SettingsExpander.HeaderIcon>
-            <FontIcon Glyph="&#xEA37;" />
-        </labs:SettingsExpander.HeaderIcon>
-        <labs:SettingsExpander.ItemTemplate>
-            <DataTemplate x:DataType="local:MyDataModel">
-                <labs:SettingsCard Description="{x:Bind Info}"
-                                   Header="{x:Bind Name}">
-                    <HyperlinkButton Content="{x:Bind LinkDescription}"
-                                     NavigateUri="{x:Bind Url}" />
-                </labs:SettingsCard>
-            </DataTemplate>
-        </labs:SettingsExpander.ItemTemplate>
-        <labs:SettingsExpander.ItemsHeader>
-            <muxc:InfoBar Title="This is the ItemsHeader"
-                          BorderThickness="0"
-                          CornerRadius="0"
-                          IsIconVisible="False"
-                          IsOpen="True"
-                          Severity="Success">
-                <muxc:InfoBar.ActionButton>
-                    <HyperlinkButton Content="It can host custom content" />
-                </muxc:InfoBar.ActionButton>
-            </muxc:InfoBar>
-        </labs:SettingsExpander.ItemsHeader>
-        <labs:SettingsExpander.ItemsFooter>
-            <muxc:InfoBar Title="This is the ItemsFooter"
-                          BorderThickness="0"
-                          CornerRadius="0,0,4,4"
-                          IsIconVisible="False"
-                          IsOpen="True"
-                          Severity="Informational">
-                <muxc:InfoBar.ActionButton>
-                    <HyperlinkButton Content="It can host custom content" />
-                </muxc:InfoBar.ActionButton>
-            </muxc:InfoBar>
-        </labs:SettingsExpander.ItemsFooter>
-    </labs:SettingsExpander>
+    <StackPanel Spacing="3">
+        <labs:SettingsExpander Description="The SettingsExpander can use ItemsSource to define its Items."
+                               Header="Settings Expander with ItemsSource"
+                               ItemsSource="{x:Bind MyDataSet}">
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon Glyph="&#xEA37;" />
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.ItemTemplate>
+                <DataTemplate x:DataType="local:MyDataModel">
+                    <labs:SettingsCard Description="{x:Bind Info}"
+                                       Header="{x:Bind Name}">
+                        <HyperlinkButton Content="{x:Bind LinkDescription}"
+                                         NavigateUri="{x:Bind Url}" />
+                    </labs:SettingsCard>
+                </DataTemplate>
+            </labs:SettingsExpander.ItemTemplate>
+            <labs:SettingsExpander.ItemsHeader>
+                <muxc:InfoBar Title="This is the ItemsHeader"
+                              BorderThickness="0"
+                              CornerRadius="0"
+                              IsIconVisible="False"
+                              IsOpen="True"
+                              Severity="Success">
+                    <muxc:InfoBar.ActionButton>
+                        <HyperlinkButton Content="It can host custom content" />
+                    </muxc:InfoBar.ActionButton>
+                </muxc:InfoBar>
+            </labs:SettingsExpander.ItemsHeader>
+            <labs:SettingsExpander.ItemsFooter>
+                <muxc:InfoBar Title="This is the ItemsFooter"
+                              BorderThickness="0"
+                              CornerRadius="0,0,4,4"
+                              IsIconVisible="False"
+                              IsOpen="True"
+                              Severity="Informational">
+                    <muxc:InfoBar.ActionButton>
+                        <HyperlinkButton Content="It can host custom content" />
+                    </muxc:InfoBar.ActionButton>
+                </muxc:InfoBar>
+            </labs:SettingsExpander.ItemsFooter>
+        </labs:SettingsExpander>
+
+        <labs:SettingsExpander Description="SettingsExpander can use a DataTemplate, DataTemplateSelector, or IElementFactory for its ItemTemplate."
+                               Header="Settings Expander with a custom ItemTemplate"
+                               ItemsSource="{x:Bind MyDataSet}">
+            <labs:SettingsExpander.HeaderIcon>
+                <FontIcon Glyph="&#xEA37;" />
+            </labs:SettingsExpander.HeaderIcon>
+            <labs:SettingsExpander.ItemTemplate>
+                <local:MyDataModelTemplateSelector>
+                    <local:MyDataModelTemplateSelector.ButtonTemplate>
+                        <DataTemplate x:DataType="local:MyDataModel">
+                            <labs:SettingsCard Description="{x:Bind ItemType}"
+                                               Header="{x:Bind Name}">
+                                <Button Click="Button_Click"
+                                        Content="{x:Bind LinkDescription}" />
+                            </labs:SettingsCard>
+                        </DataTemplate>
+                    </local:MyDataModelTemplateSelector.ButtonTemplate>
+
+                    <local:MyDataModelTemplateSelector.LinkButtonTemplate>
+                        <DataTemplate x:DataType="local:MyDataModel">
+                            <labs:SettingsCard Description="{x:Bind ItemType}"
+                                               Header="{x:Bind Name}">
+                                <HyperlinkButton Content="{x:Bind LinkDescription}"
+                                                 NavigateUri="{x:Bind Url}" />
+                            </labs:SettingsCard>
+                        </DataTemplate>
+                    </local:MyDataModelTemplateSelector.LinkButtonTemplate>
+
+                    <local:MyDataModelTemplateSelector.NoButtonTemplate>
+                        <DataTemplate x:DataType="local:MyDataModel">
+                            <labs:SettingsCard Description="{x:Bind ItemType}"
+                                               Header="{x:Bind Name}" />
+                        </DataTemplate>
+                    </local:MyDataModelTemplateSelector.NoButtonTemplate>
+                </local:MyDataModelTemplateSelector>
+            </labs:SettingsExpander.ItemTemplate>
+        </labs:SettingsExpander>
+    </StackPanel>
 </Page>

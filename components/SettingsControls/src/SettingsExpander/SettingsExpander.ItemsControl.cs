@@ -24,14 +24,14 @@ public partial class SettingsExpander
     public static readonly DependencyProperty ItemsSourceProperty =
         DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(SettingsExpander), new PropertyMetadata(null, OnItemsConnectedPropertyChanged));
 
-    public DataTemplate ItemTemplate
+    public object ItemTemplate
     {
-        get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+        get { return (object)GetValue(ItemTemplateProperty); }
         set { SetValue(ItemTemplateProperty, value); }
     }
 
     public static readonly DependencyProperty ItemTemplateProperty =
-        DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(SettingsExpander), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(ItemTemplate), typeof(object), typeof(SettingsExpander), new PropertyMetadata(null));
 
     public StyleSelector ItemContainerStyleSelector
     {
