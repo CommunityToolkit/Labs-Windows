@@ -18,7 +18,7 @@ public partial class DataTable : Panel
 
         double maxHeight = 0;
 
-        var elements = Children.Where(e => e.Visibility == Visibility.Visible && e is DataColumn);
+        var elements = Children.Where(static e => e.Visibility == Visibility.Visible && e is DataColumn);
 
         // We only need to measure elements that are visible
         foreach (DataColumn column in elements)
@@ -74,7 +74,7 @@ public partial class DataTable : Panel
         double proportionalUnits = 0;
         double autoSized = 0;
 
-        var elements = Children.Where(e => e.Visibility == Visibility.Visible && e is DataColumn);
+        var elements = Children.Where(static e => e.Visibility == Visibility.Visible && e is DataColumn);
 
         // We only need to measure elements that are visible
         foreach (DataColumn column in elements)
