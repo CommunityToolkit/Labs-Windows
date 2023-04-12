@@ -11,14 +11,18 @@
     <ListView ItemsSource="{x:Bind InventoryItems}">
         <ListView.Header>
             <controls:DataTable>
-                <controls:DataColumn Content="Id" />
-                <controls:DataColumn Content="Name" />
+                <controls:DataColumn Content="Id"
+                                     DesiredWidth="80" />
+                <controls:DataColumn MinWidth="120"
+                                     Content="Name"
+                                     DesiredWidth="Auto" />
                 <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
                 <controls:DataColumn>
                     <TextBlock FontWeight="Bold"
                                Text="Description" />
                 </controls:DataColumn>
-                <controls:DataColumn Content="Quantity" />
+                <controls:DataColumn Content="Quantity"
+                                     DesiredWidth="100" />
             </controls:DataTable>
         </ListView.Header>
         <ListView.ItemTemplate>
