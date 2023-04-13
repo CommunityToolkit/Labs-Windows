@@ -12,11 +12,13 @@
     </ResourceDictionary.MergedDictionaries>
 
     <x:String x:Key="SettingsExpanderChevronToolTip">Show all settings</x:String>
-    <Thickness x:Key="SettingsExpanderHeaderPadding">16,16,0,16</Thickness>
+    <Thickness x:Key="SettingsExpanderHeaderPadding">16,16,4,16</Thickness>
     <Thickness x:Key="SettingsExpanderItemPadding">58,8,44,8</Thickness>
     <Thickness x:Key="SettingsExpanderItemBorderThickness">0,1,0,0</Thickness>
     <Thickness x:Key="ClickableSettingsExpanderItemPadding">58,8,16,8</Thickness>
     <x:Double x:Key="SettingsExpanderContentMinHeight">16</x:Double>
+    <x:Double x:Key="SettingsExpanderChevronButtonWidth">32</x:Double>
+    <x:Double x:Key="SettingsExpanderChevronButtonHeight">32</x:Double>
 
     <Style x:Key="DefaultSettingsExpanderItemStyle"
            BasedOn="{StaticResource DefaultSettingsCardStyle}"
@@ -533,9 +535,9 @@
 
                         <ContentControl x:Name="ExpandCollapseChevronBorder"
                                         Grid.Column="1"
-                                        Width="{StaticResource SettingsCardActionButtonWidth}"
-                                        Height="{StaticResource SettingsCardActionButtonHeight}"
-                                        Margin="4,0,8,0"
+                                        Width="{StaticResource SettingsExpanderChevronButtonWidth}"
+                                        Height="{StaticResource SettingsExpanderChevronButtonHeight}"
+                                        Margin="0,0,8,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Center"

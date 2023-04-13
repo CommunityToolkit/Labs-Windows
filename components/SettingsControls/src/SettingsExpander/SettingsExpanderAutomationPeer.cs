@@ -28,7 +28,7 @@ public class SettingsExpanderAutomationPeer : FrameworkElementAutomationPeer
     /// <returns>The control type.</returns>
     protected override AutomationControlType GetAutomationControlTypeCore()
     {
-        return AutomationControlType.Button;
+        return AutomationControlType.Group;
     }
 
     /// <summary>
