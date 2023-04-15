@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ToolkitComponentName>SizerBase</ToolkitComponentName>
     <Description>This package contains SizerBase.</Description>
-    <Version>0.0.4</Version>
+    <Version>0.0.5</Version>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
     <RootNamespace>CommunityToolkit.Labs.WinUI.SizerBaseRns</RootNamespace>
