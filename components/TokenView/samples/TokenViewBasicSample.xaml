@@ -9,9 +9,7 @@
       mc:Ignorable="d">
 
     <Grid>
-        <labs:TokenView AllowDrop="True"
-                        CanReorderItems="True"
-                        IsWrapped="{x:Bind IsWrapped, Mode=OneWay}"
+        <labs:TokenView IsWrapped="{x:Bind IsWrapped, Mode=OneWay}"
                         SelectedIndex="2"
                         SelectionMode="{x:Bind local:TokenViewBasicSample.ConvertStringToListViewSelectionMode(SelectionMode), Mode=OneWay}">
             <labs:TokenItem Content="All" />
