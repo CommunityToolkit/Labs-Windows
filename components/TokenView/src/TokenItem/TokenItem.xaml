@@ -293,7 +293,7 @@
                                     Padding="2"
                                     CornerRadius="99"
                                     IsTabStop="False"
-                                    Style="{StaticResource SubtleButtonStyle}"
+                                    Style="{StaticResource SubtleAccentButtonStyle}"
                                     Visibility="Collapsed">
                                 <FontIcon FontSize="12"
                                           Glyph="&#xE10A;" />
@@ -307,7 +307,7 @@
 
     <Style x:Key="SubtleAccentButtonStyle"
            TargetType="Button">
-        <Setter Property="Background" Value="{ThemeResource SubtleButtonBackground}" />
+        <Setter Property="Background" Value="{ThemeResource SubtleFillColorTransparent}" />
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
         <Setter Property="Foreground" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
         <Setter Property="BorderThickness" Value="0" />
@@ -349,7 +349,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleButtonBackgroundPointerOver}" />
+                                                                    Value="{ThemeResource SubtleFillColorSecondary}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground">
@@ -367,7 +367,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleButtonBackgroundPressed}" />
+                                                                    Value="{ThemeResource SubtleFillColorTertiary}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground">
@@ -385,7 +385,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SubtleButtonBackgroundDisabled}" />
+                                                                    Value="{ThemeResource ControlFillColorDisabled}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                        Storyboard.TargetProperty="Foreground">
