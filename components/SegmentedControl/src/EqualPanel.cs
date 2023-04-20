@@ -2,13 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Data;
+
 namespace CommunityToolkit.Labs.WinUI;
 
 public partial class EqualPanel : Panel
 {
-    private double maxItemWidth = 0;
-    private double maxItemHeight = 0;
-
+    private double _maxItemWidth = 0;
+    private double _maxItemHeight = 0;
+    private int _visibleItemsCount = 0;
     public double Spacing
     {
         get { return (double)GetValue(SpacingProperty); }
@@ -32,23 +34,34 @@ public partial class EqualPanel : Panel
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        maxItemWidth = 0;
-        maxItemHeight = 0;
+        _maxItemWidth = 0;
+        _maxItemHeight = 0;
 
-        if (Children.Count > 0)
+        var elements = Children.Where(static e => e.Visibility == Visibility.Visible);
+        _visibleItemsCount = elements.Count();
+
+        foreach (var child in elements)
         {
-            SetMaxDimensions(Children, availableSize);
+            child.Measure(availableSize);
+            _maxItemWidth = Math.Max(_maxItemWidth, child.DesiredSize.Width);
+            _maxItemHeight = Math.Max(_maxItemHeight, child.DesiredSize.Height);
+        }
 
-            // Equal columns based on the available width
-            if (HorizontalAlignment == HorizontalAlignment.Stretch)
+        if (_visibleItemsCount > 0)
+        {
+            // Return equal widths based on the widest item
+            // In very specific edge cases the AvailableWidth might be infinite resulting in a crash.
+            if (HorizontalAlignment != HorizontalAlignment.Stretch || double.IsInfinity(availableSize.Width))
             {
-                // Adjust for spacing
-                double totalWidth = availableSize.Width - (Spacing * (Children.Count - 1));
-                maxItemWidth = totalWidth / Children.Count;
-                return new Size(availableSize.Width, maxItemHeight);
+                return new Size((_maxItemWidth * _visibleItemsCount) + (Spacing * (_visibleItemsCount - 1)), _maxItemHeight);
             }
-            // Else, return equal widths based on the widest item
-            return new Size((maxItemWidth * Children.Count) + (Spacing * (Children.Count - 1)), maxItemHeight);
+            else
+            {
+                // Equal columns based on the available width, adjust for spacing
+                double totalWidth = availableSize.Width - (Spacing * (_visibleItemsCount - 1));
+                _maxItemWidth = totalWidth / _visibleItemsCount;
+                return new Size(availableSize.Width, _maxItemHeight);
+            }
         }
         else
         {
@@ -58,33 +71,23 @@ public partial class EqualPanel : Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        var x = 0.0;
-        foreach (var child in Children)
+        double x = 0;
+
+        // Check if there's more width available - if so, recalculate (e.g. whenever Grid.Column is set to Auto)
+        if (finalSize.Width > _visibleItemsCount * _maxItemWidth + (Spacing * (_visibleItemsCount - 1)))
         {
-            child.Arrange(new Rect(x, 0, maxItemWidth, maxItemHeight));
-            x += maxItemWidth + Spacing;
+            MeasureOverride(finalSize);
+        }
+
+        var elements = Children.Where(static e => e.Visibility == Visibility.Visible);
+        foreach (var child in elements)
+        {
+            child.Arrange(new Rect(x, 0, _maxItemWidth, _maxItemHeight));
+            x += _maxItemWidth + Spacing;
         }
         return finalSize;
     }
 
-    private void SetMaxDimensions(UIElementCollection items, Size availableSize)
-    {
-        foreach (var item in items)
-        {
-            item.Measure(availableSize);
-            double desiredWidth = item.DesiredSize.Width;
-            if (desiredWidth > maxItemWidth)
-            {
-                maxItemWidth = desiredWidth;
-            }
-
-            double desiredHeight = item.DesiredSize.Height;
-            if (desiredHeight > maxItemHeight)
-            {
-                maxItemHeight = desiredHeight;
-            }
-        }
-    }
     private void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyProperty dp)
     {
         InvalidateMeasure();
