@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ToolkitComponentName>TokenView</ToolkitComponentName>
     <Description>This package contains TokenView.</Description>
-    <Version>0.0.5</Version>
+    <Version>0.0.6</Version>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
     <RootNamespace>CommunityToolkit.Labs.WinUI.TokenViewRns</RootNamespace>
