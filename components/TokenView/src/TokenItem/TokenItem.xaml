@@ -126,7 +126,7 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <x:Double x:Key="TokenItemCornerRadius">16</x:Double>
+    <CornerRadius x:Key="TokenItemCornerRadius">16,16,16,16</CornerRadius>
     <Thickness x:Key="TokenItemPadding">11,4,11,6</Thickness>
 
     <Style BasedOn="{StaticResource DefaultTokenItemStyle}"
