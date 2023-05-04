@@ -54,6 +54,14 @@ you use. For example:
 
 > [!Sample DataTableSample]
 
+## DataTable + TreeView (Test)
+
+The `DataTable` setup works with other types of views as well, like `TreeView`. This enables a "TreeGrid" like experience, if required.
+
+An example here with the `HeaderedTreeView` is for testing this scenario:
+
+> [!Sample TreeTableSample]
+
 ## Comparison of DataTable to DataGrid
 
 Benefits/Similarities:
