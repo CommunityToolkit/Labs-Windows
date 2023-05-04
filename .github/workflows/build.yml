@@ -74,7 +74,7 @@ jobs:
       - name: Configure User-Mode crash dump folder
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '' }}
         run: |
-          reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps" /v DumpFolder /t REG_EXPAND_SZ /d C:\CrashDumps /f
+          reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps" /v DumpFolder /t REG_EXPAND_SZ /d C:\CrashDumps\ /f
 
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
@@ -173,7 +173,7 @@ jobs:
         if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
           name: Crash Dumps
-          path: C:/CrashDumps/*
+          path: C:\CrashDumps\*
 
   wasm-linux:
     runs-on: ubuntu-latest
