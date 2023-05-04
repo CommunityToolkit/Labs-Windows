@@ -56,4 +56,6 @@ public class InventoryItem
     public string Description { get; set; } = string.Empty;
 
     public int Quantity { get; set; }
+
+    public List<InventoryItem> SubItems { get; set; } = new();
 }
