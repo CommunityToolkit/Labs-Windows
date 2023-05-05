@@ -66,6 +66,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - Configure Pagefile
+        uses: al-cheb/configure-pagefile-action@v1.2
+        with:
+          minimum-size: 32GB
+          maximum-size: 32GB
+          disk-root: "C:"
+
       - name: Configure User-Mode crash dump type
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '' }}
         run: |
