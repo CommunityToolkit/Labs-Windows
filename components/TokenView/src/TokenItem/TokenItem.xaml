@@ -296,7 +296,7 @@
                                     Style="{StaticResource SubtleButtonStyle}"
                                     Visibility="Collapsed">
                                 <FontIcon FontSize="12"
-                                          Glyph="&#xE10A;" />
+                                          Glyph="&#xE738;" />
                             </Button>
                         </Grid>
                     </ControlTemplate>

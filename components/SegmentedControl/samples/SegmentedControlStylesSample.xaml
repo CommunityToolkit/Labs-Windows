@@ -35,19 +35,19 @@
             <labs:SegmentedItem Content="Day"
                                 ToolTipService.ToolTip="Day view">
                 <labs:SegmentedItem.Icon>
-                    <FontIcon Glyph="&#xE161;" />
+                    <FontIcon Glyph="&#xE8BF;" />
                 </labs:SegmentedItem.Icon>
             </labs:SegmentedItem>
             <labs:SegmentedItem Content="Week"
                                 ToolTipService.ToolTip="Week view">
                 <labs:SegmentedItem.Icon>
-                    <FontIcon Glyph="&#xE162;" />
+                    <FontIcon Glyph="&#xE8C0;" />
                 </labs:SegmentedItem.Icon>
             </labs:SegmentedItem>
             <labs:SegmentedItem Content="Month"
                                 ToolTipService.ToolTip="Month view">
                 <labs:SegmentedItem.Icon>
-                    <FontIcon Glyph="&#xE163;" />
+                    <FontIcon Glyph="&#xE787;" />
                 </labs:SegmentedItem.Icon>
             </labs:SegmentedItem>
         </labs:Segmented>
