@@ -36,7 +36,7 @@
                 <labs:SettingsCard Description="This is a default card, with the Header, HeaderIcon, Description and Content set"
                                    Header="This is the Header">
                     <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE125;" />
+                        <FontIcon Glyph="&#xE716;" />
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch IsOn="True" />
                 </labs:SettingsCard>
@@ -80,7 +80,7 @@
                 <labs:SettingsCard Description="Another card to show grouping of cards"
                                    Header="Yet another SettingsCard">
                     <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE29B;" />
+                        <FontIcon Glyph="&#xE768;" />
                     </labs:SettingsCard.HeaderIcon>
                     <Button Content="Content" />
                 </labs:SettingsCard>

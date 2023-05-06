@@ -31,17 +31,17 @@
             </labs:TokenItem>
             <labs:TokenItem Content="Web">
                 <labs:TokenItem.Icon>
-                    <FontIcon Glyph="&#xE12B;" />
+                    <FontIcon Glyph="&#xE774;" />
                 </labs:TokenItem.Icon>
             </labs:TokenItem>
             <labs:TokenItem Content="Settings">
                 <labs:TokenItem.Icon>
-                    <FontIcon Glyph="&#xE115;" />
+                    <FontIcon Glyph="&#xE713;" />
                 </labs:TokenItem.Icon>
             </labs:TokenItem>
             <labs:TokenItem Content="People">
                 <labs:TokenItem.Icon>
-                    <FontIcon Glyph="&#xE13D;" />
+                    <FontIcon Glyph="&#xE716;" />
                 </labs:TokenItem.Icon>
             </labs:TokenItem>
             <labs:TokenItem Content="Folders">

@@ -49,7 +49,7 @@
             <StackPanel labs:TransitionHelper.Id="guide"
                         Spacing="2">
                 <Button x:Name="MinToMidButton"
-                        Content="&#xE0AB;"
+                        Content="&#xEA62;"
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior EventName="Click">
