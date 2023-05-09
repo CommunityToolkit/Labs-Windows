@@ -24,7 +24,7 @@
                            IsClickEnabled="True"
                            IsEnabled="{x:Bind IsCardEnabled, Mode=OneWay}">
             <labs:SettingsCard.HeaderIcon>
-                <FontIcon Glyph="&#xE12B;" />
+                <FontIcon Glyph="&#xE774;" />
             </labs:SettingsCard.HeaderIcon>
             <labs:SettingsCard.ActionIcon>
                 <FontIcon Glyph="&#xE8A7;" />
