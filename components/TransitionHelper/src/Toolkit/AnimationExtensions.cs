@@ -4,11 +4,11 @@
 
 using System.Numerics;
 
+using CommunityToolkit.WinUI.Animations;
+
 #if WINAPPSDK
-using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Xaml.Media.Animation;
 #else
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 

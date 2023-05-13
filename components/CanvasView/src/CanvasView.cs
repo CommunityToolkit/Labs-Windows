@@ -3,12 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.WinUI.CanvasViewInternal;
-
-#if !WINAPPSDK
-using Microsoft.Toolkit.Uwp.UI.Helpers;
-#else
-using CommunityToolkit.WinUI.UI.Helpers;
-#endif
+using CommunityToolkit.WinUI.Helpers;
 
 namespace CommunityToolkit.Labs.WinUI;
 

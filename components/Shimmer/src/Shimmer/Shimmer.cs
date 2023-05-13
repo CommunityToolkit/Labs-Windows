@@ -4,11 +4,12 @@
 
 using System.Numerics;
 using Windows.UI;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Animations;
+using CommunityToolkit.WinUI.Animations.Expressions;
+
 #if WINAPPSDK
 using Microsoft.UI;
-using CommunityToolkit.WinUI.UI;
-using CommunityToolkit.WinUI.UI.Animations.Expressions;
-using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Shapes;
@@ -16,9 +17,6 @@ using Microsoft.UI.Xaml.Shapes;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Shapes;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 #endif
 
 namespace CommunityToolkit.Labs.WinUI;
@@ -177,7 +175,7 @@ public partial class Shimmer : Control
 
     private void TryStartAnimation()
     {
-        if (_animationStarted || _initialized is false || _shape is null)
+        if (_animationStarted || _initialized is false || _shape is null || _shapeVisual is null || _rectangleGeometry is null)
         {
             return;
         }

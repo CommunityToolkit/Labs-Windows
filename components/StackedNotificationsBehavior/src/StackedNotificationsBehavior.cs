@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Behaviors;
+
 #if !WINAPPSDK
-using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Windows.System;
 using DQ = Windows.System.DispatcherQueue;
 #else
-using CommunityToolkit.WinUI.UI.Behaviors;
 using Microsoft.UI.Dispatching;
 using DQ = Microsoft.UI.Dispatching.DispatcherQueue;
 #endif

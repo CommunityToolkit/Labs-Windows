@@ -4,12 +4,7 @@
 
 using System.Numerics;
 using CommunityToolkit.Labs.WinUI;
-
-#if WINAPPSDK
-using CommunityToolkit.WinUI.UI;
-#else
-using Microsoft.Toolkit.Uwp.UI;
-#endif
+using CommunityToolkit.WinUI;
 
 namespace TransitionHelperExperiment.Samples;
 
