@@ -4,14 +4,13 @@
 
 using System.Numerics;
 
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Animations;
+
 #if WINAPPSDK
-using CommunityToolkit.WinUI.UI;
-using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Xaml.Media.Animation;
 using AnimationDirection = Microsoft.UI.Composition.AnimationDirection;
 #else
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI.Xaml.Media.Animation;
 using AnimationDirection = Windows.UI.Composition.AnimationDirection;
 #endif

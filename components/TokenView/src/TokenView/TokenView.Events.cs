@@ -2,13 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINAPPSDK
-using CommunityToolkit.WinUI.UI;
-#else
-    using Microsoft.Toolkit.Uwp.UI;
-#endif
-
 using Windows.System;
+using CommunityToolkit.WinUI;
 
 namespace CommunityToolkit.Labs.WinUI;
 public partial class TokenView : ListViewBase
@@ -25,7 +20,7 @@ public partial class TokenView : ListViewBase
             _tokenViewScroller.ChangeView(_tokenViewScroller.HorizontalOffset - _tokenViewScroller.ViewportWidth, null, null);
         }
     }
-    
+
     private void ScrollTabForwardButton_Click(object sender, RoutedEventArgs e)
     {
         if (_tokenViewScroller != null)

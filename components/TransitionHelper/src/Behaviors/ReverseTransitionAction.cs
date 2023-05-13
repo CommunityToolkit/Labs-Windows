@@ -4,11 +4,7 @@
 
 using Microsoft.Xaml.Interactivity;
 
-#if WINAPPSDK
-using CommunityToolkit.WinUI.UI.Animations;
-#else
-using Microsoft.Toolkit.Uwp.UI.Animations;
-#endif
+using CommunityToolkit.WinUI.Animations;
 
 namespace CommunityToolkit.Labs.WinUI;
 
