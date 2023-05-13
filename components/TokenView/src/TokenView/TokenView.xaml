@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
@@ -10,15 +10,15 @@
     <x:Double x:Key="TokenViewVerticalItemSpacing">4</x:Double>
 
     <Style BasedOn="{StaticResource DefaultTokenViewStyle}"
-	       TargetType="labs:TokenView" />
+           TargetType="labs:TokenView" />
 
     <Style x:Key="DefaultTokenViewStyle"
-	       TargetType="labs:TokenView">
+           TargetType="labs:TokenView">
         <Style.Setters>
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <win:Setter Property="SingleSelectionFollowsFocus"
-			            Value="False" />
+                        Value="False" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="TabNavigation" Value="Once" />
             <win:Setter Property="ItemContainerTransitions">
@@ -33,7 +33,7 @@
                 <Setter.Value>
                     <ItemsPanelTemplate>
                         <tkc:WrapPanel HorizontalSpacing="{ThemeResource TokenViewHorizontalItemSpacing}"
-						               VerticalSpacing="{ThemeResource TokenViewVerticalItemSpacing}" />
+                                       VerticalSpacing="{ThemeResource TokenViewVerticalItemSpacing}" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
@@ -41,30 +41,30 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="labs:TokenView">
                         <Grid Height="{TemplateBinding Height}"
-						      HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-						      VerticalAlignment="Stretch"
-						      Background="{TemplateBinding Background}"
-						      BorderBrush="{TemplateBinding BorderBrush}"
-						      BorderThickness="{TemplateBinding BorderThickness}"
-						      CornerRadius="{TemplateBinding CornerRadius}">
+                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                              VerticalAlignment="Stretch"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
 
                             <ScrollViewer x:Name="ScrollViewer"
-							              Grid.Row="1"
-							              Grid.Column="1"
-							              win:AutomationProperties.AccessibilityView="Raw"
-							              win:IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-							              win:IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-							              win:IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-							              win:IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-							              win:IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-							              BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-							              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-							              HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-							              Style="{StaticResource TokenViewScrollViewerStyle}"
-							              TabNavigation="{TemplateBinding TabNavigation}"
-							              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-							              VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-							              ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                          Grid.Row="1"
+                                          Grid.Column="1"
+                                          win:AutomationProperties.AccessibilityView="Raw"
+                                          win:IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                          win:IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                          win:IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                          win:IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                          win:IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                          Style="{StaticResource TokenViewScrollViewerStyle}"
+                                          TabNavigation="{TemplateBinding TabNavigation}"
+                                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                          ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
                                 <ItemsPresenter VerticalAlignment="Stretch" />
                             </ScrollViewer>
                         </Grid>
@@ -75,13 +75,13 @@
     </Style>
 
     <Style x:Key="TokenViewScrollViewerStyle"
-	       TargetType="ScrollViewer">
+           TargetType="ScrollViewer">
         <Setter Property="HorizontalScrollMode" Value="Auto" />
         <Setter Property="VerticalScrollMode" Value="Auto" />
         <win:Setter Property="IsHorizontalRailEnabled"
-		            Value="True" />
+                    Value="True" />
         <win:Setter Property="IsVerticalRailEnabled"
-		            Value="True" />
+                    Value="True" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="ZoomMode" Value="Disabled" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -95,9 +95,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollViewer">
                     <Border x:Name="Root"
-					        Background="{TemplateBinding Background}"
-					        BorderBrush="{TemplateBinding BorderBrush}"
-					        BorderThickness="{TemplateBinding BorderThickness}">
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Background="{TemplateBinding Background}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -105,29 +105,29 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <RepeatButton x:Name="ScrollBackButton"
-							              Width="32"
-							              Height="32"
-							              HorizontalAlignment="Center"
-							              VerticalAlignment="Center"
-							              Style="{StaticResource HorizontalScrollButtonStyle}"
-							              Visibility="Collapsed">
+                                          Width="32"
+                                          Height="32"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource HorizontalScrollButtonStyle}"
+                                          Visibility="Collapsed">
                                 <FontIcon FontSize="8"
-								          Glyph="&#xEDD9;" />
+                                          Glyph="&#xEDD9;" />
                             </RepeatButton>
                             <ScrollContentPresenter x:Name="ScrollContentPresenter"
-							                        Grid.Column="1"
-							                        Margin="{TemplateBinding Padding}"
-							                        Content="{TemplateBinding Content}" />
+                                                    Grid.Column="1"
+                                                    Margin="{TemplateBinding Padding}"
+                                                    Content="{TemplateBinding Content}" />
                             <RepeatButton x:Name="ScrollForwardButton"
-							              Grid.Column="2"
-							              Width="32"
-							              Height="32"
-							              HorizontalAlignment="Center"
-							              VerticalAlignment="Center"
-							              Style="{StaticResource HorizontalScrollButtonStyle}"
-							              Visibility="Collapsed">
+                                          Grid.Column="2"
+                                          Width="32"
+                                          Height="32"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource HorizontalScrollButtonStyle}"
+                                          Visibility="Collapsed">
                                 <FontIcon FontSize="8"
-								          Glyph="&#xEDDA;" />
+                                          Glyph="&#xEDDA;" />
                             </RepeatButton>
                         </Grid>
                     </Border>
@@ -137,7 +137,7 @@
     </Style>
 
     <Style x:Key="HorizontalScrollButtonStyle"
-	       TargetType="RepeatButton">
+           TargetType="RepeatButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
@@ -155,19 +155,19 @@
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
                     <ContentPresenter x:Name="ContentPresenter"
-					                  Padding="{TemplateBinding Padding}"
-					                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-					                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-					                  muxc:AnimatedIcon.State="Normal"
-					                  win:AutomationProperties.AccessibilityView="Raw"
-					                  Background="{TemplateBinding Background}"
-					                  BackgroundSizing="{TemplateBinding BackgroundSizing}"
-					                  BorderBrush="{TemplateBinding BorderBrush}"
-					                  BorderThickness="{TemplateBinding BorderThickness}"
-					                  Content="{TemplateBinding Content}"
-					                  ContentTemplate="{TemplateBinding ContentTemplate}"
-					                  ContentTransitions="{TemplateBinding ContentTransitions}"
-					                  CornerRadius="{TemplateBinding CornerRadius}">
+                                      Padding="{TemplateBinding Padding}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      muxc:AnimatedIcon.State="Normal"
+                                      win:AutomationProperties.AccessibilityView="Raw"
+                                      Background="{TemplateBinding Background}"
+                                      BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      ContentTransitions="{TemplateBinding ContentTransitions}"
+                                      CornerRadius="{TemplateBinding CornerRadius}">
                         <win:ContentPresenter.BackgroundTransition>
                             <win:BrushTransition Duration="0:0:0.083" />
                         </win:ContentPresenter.BackgroundTransition>
@@ -178,9 +178,9 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-										                               Storyboard.TargetProperty="Background">
+                                                                       Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-											                        Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+                                                                    Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                     <VisualState.Setters>
@@ -191,14 +191,14 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-										                               Storyboard.TargetProperty="Background">
+                                                                       Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-											                        Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+                                                                    Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-										                               Storyboard.TargetProperty="Foreground">
+                                                                       Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-											                        Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                                                    Value="{ThemeResource TextFillColorSecondaryBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                     <VisualState.Setters>
@@ -209,9 +209,9 @@
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-										                               Storyboard.TargetProperty="Foreground">
+                                                                       Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-											                        Value="{ThemeResource TextFillColorDisabledBrush}" />
+                                                                    Value="{ThemeResource TextFillColorDisabledBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                     <VisualState.Setters>
