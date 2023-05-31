@@ -15,4 +15,17 @@
     <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
     <Compile Remove="$(ToolingDirectory)\GlobalUsings_WinUI.cs" />
   </ItemGroup>
+
+  <!-- Pack the source generator and the .targets file -->
+  <ItemGroup Label="Package">
+
+    <!-- Include the custom .targets file to check the source generator -->
+    <None Include="CommunityToolkit.AppServices.targets" PackagePath="buildTransitive\netstandard2.0" Pack="true" />
+    <None Include="CommunityToolkit.AppServices.targets" PackagePath="buildTransitive\uap10.0" Pack="true" />
+    <None Include="CommunityToolkit.AppServices.targets" PackagePath="build\netstandard2.0" Pack="true" />
+    <None Include="CommunityToolkit.AppServices.targets" PackagePath="build\uap10.0" Pack="true" />
+
+    <!-- Pack the source generator to the right package folder -->
+    <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
+  </ItemGroup>
 </Project>
