@@ -1,4 +1,4 @@
-﻿// ------------------------------------------------------
+// ------------------------------------------------------
 // Copyright (C) Microsoft. All rights reserved.
 // ------------------------------------------------------
 
@@ -43,6 +43,8 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
                         return default;
                     }
 
+                    token.ThrowIfCancellationRequested();
+
                     // Try to get the info on the current component
                     (INamedTypeSymbol? serviceSymbol, string? appServiceName) = Component.GetInfo(typeSymbol, token);
 
@@ -53,7 +55,12 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
                     }
 
                     HierarchyInfo hierarchy = HierarchyInfo.From(typeSymbol);
-                    ImmutableArray<MethodInfo> methods = MethodInfo.From(serviceSymbol);
+
+                    token.ThrowIfCancellationRequested();
+
+                    ImmutableArray<MethodInfo> methods = MethodInfo.From(serviceSymbol, token);
+
+                    token.ThrowIfCancellationRequested();
 
                     return (Hierarchy: hierarchy, new AppServiceInfo(methods, appServiceName!, typeSymbol.GetFullyQualifiedName()));
                 })
@@ -91,11 +98,18 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
                         return default;
                     }
 
+                    token.ThrowIfCancellationRequested();
+
                     INamedTypeSymbol typeSymbol = (INamedTypeSymbol)context.TargetSymbol;
 
                     // Get the info on the host implementation
                     HierarchyInfo hierarchy = HierarchyInfo.From(typeSymbol, typeSymbol.Name.Substring(1));
-                    ImmutableArray<MethodInfo> methods = MethodInfo.From(typeSymbol);
+
+                    token.ThrowIfCancellationRequested();
+
+                    ImmutableArray<MethodInfo> methods = MethodInfo.From(typeSymbol, token);
+
+                    token.ThrowIfCancellationRequested();
 
                     return (Hierarchy: hierarchy, new AppServiceInfo(methods, appServiceName, typeSymbol.GetFullyQualifiedName()));
                 })

@@ -4,6 +4,7 @@
 
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using CommunityToolkit.AppServices.SourceGenerators.Extensions;
 using CommunityToolkit.AppServices.SourceGenerators.Helpers;
@@ -29,13 +30,16 @@ internal sealed record MethodInfo(
     /// Creates <see cref="MethodInfo"/> instances from methods in a given <see cref="INamedTypeSymbol"/>.
     /// </summary>
     /// <param name="typeSymbol">The input <see cref="INamedTypeSymbol"/> instance to gather info for.</param>
+    /// <param name="token">The cancellation token for the operation.</param>
     /// <returns>A collection of <see cref="MethodInfo"/> instances from <paramref name="typeSymbol"/>.</returns>
-    public static ImmutableArray<MethodInfo> From(INamedTypeSymbol typeSymbol)
+    public static ImmutableArray<MethodInfo> From(INamedTypeSymbol typeSymbol, CancellationToken token)
     {
         using ImmutableArrayBuilder<MethodInfo> builder = ImmutableArrayBuilder<MethodInfo>.Rent();
 
         foreach (ISymbol symbol in typeSymbol.GetMembers())
         {
+            token.ThrowIfCancellationRequested();
+
             if (symbol.IsIgnoredAppServicesMember())
             {
                 continue;
