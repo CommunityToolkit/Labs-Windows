@@ -1,7 +1,8 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
     <ToolkitComponentName>AppServices</ToolkitComponentName>
-    <Description>This package contains AppServices.</Description>
+    <Description>This package contains AppServices, to easily communicate between UWP apps and Win32 extensions.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>0.0.1</Version>
     <RootNamespace>CommunityToolkit.AppServices</RootNamespace>
     <PackageId>$(PackageIdPrefix).$(ToolkitComponentName)</PackageId>
@@ -11,6 +12,7 @@
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
 
   <ItemGroup>
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="PolySharp" Version="1.13.2" PrivateAssets="All" />
   </ItemGroup>
 
