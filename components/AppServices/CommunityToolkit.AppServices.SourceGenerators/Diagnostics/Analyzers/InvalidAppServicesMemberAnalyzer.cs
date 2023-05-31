@@ -83,8 +83,8 @@ public sealed class InvalidAppServicesMemberAnalyzer : DiagnosticAnalyzer
                         context.ReportDiagnostic(Diagnostic.Create(InvalidAppServicesMethodReturnType, memberSymbol.Locations.FirstOrDefault(), methodSymbol, interfaceSymbol, returnTypeSymbol));
                     }
 
-                    int progressParametersCount = 0;
-                    int cancellationTokenParametersCount = 0;
+                    bool isProgressParameterFound = false;
+                    bool isCancellationTokenParameterFound = false;
 
                     // Validate the method parameters
                     foreach (IParameterSymbol parameter in methodSymbol.Parameters)
@@ -101,23 +101,23 @@ public sealed class InvalidAppServicesMemberAnalyzer : DiagnosticAnalyzer
                         // Then check that the type is not an IProgress<T>, if one has already been discovered
                         if (parameterType.HasFlag(ParameterOrReturnType.IProgressOfT))
                         {
-                            progressParametersCount++;
-
-                            if (progressParametersCount > 1)
+                            if (isProgressParameterFound)
                             {
                                 context.ReportDiagnostic(Diagnostic.Create(InvalidRepeatedAppServicesMethodIProgressParameter, parameter.Locations.FirstOrDefault(), parameter.Name, methodSymbol, interfaceSymbol, parameter.Type));
                             }
+
+                            isProgressParameterFound = true;
                         }
 
                         // Lastly, check that the type is not a CancellationToken, if one has already been discovered
                         if (parameterType.HasFlag(ParameterOrReturnType.CancellationToken))
                         {
-                            cancellationTokenParametersCount++;
-
-                            if (cancellationTokenParametersCount > 1)
+                            if (isCancellationTokenParameterFound)
                             {
                                 context.ReportDiagnostic(Diagnostic.Create(InvalidRepeatedAppServicesMethodCancellationTokenParameter, parameter.Locations.FirstOrDefault(), parameter.Name, methodSymbol, interfaceSymbol, parameter.Type));
                             }
+
+                            isCancellationTokenParameterFound = true;
                         }
                     }
                 }
