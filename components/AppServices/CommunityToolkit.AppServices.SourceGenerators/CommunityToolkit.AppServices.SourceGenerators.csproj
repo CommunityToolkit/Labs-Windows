@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <!-- Remove imported global usings -->
+  <ItemGroup>
+    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
+  </ItemGroup>
+</Project>
