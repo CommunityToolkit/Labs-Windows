@@ -9,4 +9,10 @@
 
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
+
+  <!-- Remove imported global usings -->
+  <ItemGroup>
+    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
+    <Compile Remove="$(ToolingDirectory)\GlobalUsings_WinUI.cs" />
+  </ItemGroup>
 </Project>
