@@ -3,9 +3,7 @@
     <ToolkitComponentName>AppServices</ToolkitComponentName>
     <Description>This package contains AppServices.</Description>
     <Version>0.0.1</Version>
-
-    <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
-    <RootNamespace>CommunityToolkit.WinUI.Controls.AppServicesRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.AppServices</RootNamespace>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
