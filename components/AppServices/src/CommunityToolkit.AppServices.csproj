@@ -4,6 +4,7 @@
     <Description>This package contains AppServices.</Description>
     <Version>0.0.1</Version>
     <RootNamespace>CommunityToolkit.AppServices</RootNamespace>
+    <PackageId>$(PackageIdPrefix).$(ToolkitComponentName)</PackageId>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
