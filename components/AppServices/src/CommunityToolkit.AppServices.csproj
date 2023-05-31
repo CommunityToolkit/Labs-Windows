@@ -10,10 +10,37 @@
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
 
-  <!-- Remove imported global usings -->
   <ItemGroup>
-    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
-    <Compile Remove="$(ToolingDirectory)\GlobalUsings_WinUI.cs" />
+    <PackageReference Include="PolySharp" Version="1.13.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <!-- Only include the polyfills the library needs (to minimize binary size) -->
+  <PropertyGroup>
+    <PolySharpIncludeGeneratedTypes>
+      System.Diagnostics.CodeAnalysis.NotNullAttribute;
+      System.Diagnostics.CodeAnalysis.NotNullWhenAttribute;
+      System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute;
+      System.Diagnostics.CodeAnalysis.MemberNotNullAttribute;
+      System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute;
+      System.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
+    </PolySharpIncludeGeneratedTypes>
+  </PropertyGroup>
+
+  <!-- Add the Desktop Extension SDK when on UWP-->
+  <ItemGroup Condition="'$(IsUwp)' == 'true'">
+    <SDKReference Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+
+  <!-- Add the contracts package reference to access WinRT APIs from .NET Standard -->
+  <ItemGroup Condition="'$(IsUwp)' != 'true'">
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.22621.2" />
+  </ItemGroup>
+
+  <!-- Source generator project reference for packing -->
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.AppServices.SourceGenerators\CommunityToolkit.AppServices.SourceGenerators.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <!-- Pack the source generator and the .targets file -->
@@ -27,5 +54,11 @@
 
     <!-- Pack the source generator to the right package folder -->
     <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
+  </ItemGroup>
+
+  <!-- Remove imported global usings -->
+  <ItemGroup>
+    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
+    <Compile Remove="$(ToolingDirectory)\GlobalUsings_WinUI.cs" />
   </ItemGroup>
 </Project>
