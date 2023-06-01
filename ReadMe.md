@@ -35,6 +35,8 @@ git clone --recurse-submodules https://github.com/CommunityToolkit/Labs-Windows.
 - .NET 6 SDK
 - Windows App SDK
 - Windows SDK 19041
+- Run `dotnet tool restore` from the project root to install SlnGen
+- Run build scripts from the [Developer Command Prompt for Visual Studio](https://learn.microsoft.com/visualstudio/ide/reference/command-prompt-powershell) or from elsewhere after adding `MSBuild.exe` to your PATH
 
 ## Adding a new Experiment
 
@@ -76,7 +78,11 @@ Open up an issue on the main Toolkit repo using the `Toolkit Labs Transfer` Issu
 
 ## Building the Sample App
 
-You can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. Then just open the `CommunityToolkit.AllComponents.sln` solution in Visual Studio. You can run one of the project heads such as `CommunityToolkit.App.WinAppSdk` to run the sample app for that platform.
+First ensure you've met the [Build Requirements](#build-requirements) or the build scripts will fail.
+
+Next you can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. 
+
+Then just open the `CommunityToolkit.AllComponents.sln` solution in Visual Studio. You can run one of the project heads such as `CommunityToolkit.App.WinAppSdk` to run the sample app for that platform.
 
 If you'd like to run a head beyond UWP, Wasm, or the WinAppSDK, you'll need to run the `UseTargetFrameworks.ps1` script first in the `tooling/MultiTarget` directory. e.g. `.\UseTargetFrameworks.ps1 -targets all`
 
