@@ -1,0 +1,55 @@
+<Project>
+
+  <!-- Get the analyzer from the CommunityToolkit.AppServices NuGet package -->
+  <Target Name="CommunityToolkitAppServicesGatherAnalyzers">
+    <ItemGroup>
+      <CommunityToolkitAppServicesAnalyzer Include="@(Analyzer)" Condition="'%(Analyzer.NuGetPackageId)' == 'CommunityToolkit.AppServices'" />
+    </ItemGroup>
+  </Target>
+
+  <!-- Remove the analyzer if using Roslyn 3.x (incremental generators require Roslyn 4.3) -->
+  <Target Name="CommunityToolkitAppServicesRemoveAnalyzersForRoslyn3"
+          Condition="'$(CSharpCoreTargetsPath)' != ''"
+          AfterTargets="ResolvePackageDependenciesForBuild;ResolveNuGetPackageAssets"
+          DependsOnTargets="CommunityToolkitAppServicesGatherAnalyzers">
+
+    <!-- Use the CSharpCoreTargetsPath property to find the version of the compiler we are using. This is the same mechanism
+         MSBuild uses to find the compiler. We could check the assembly version for any compiler assembly (since they all have
+         the same version) but Microsoft.Build.Tasks.CodeAnalysis.dll is where MSBuild loads the compiler tasks from so if
+         someone is getting creative with msbuild tasks/targets this is the "most correct" assembly to check. -->
+    <GetAssemblyIdentity AssemblyFiles="$([System.IO.Path]::Combine(`$([System.IO.Path]::GetDirectoryName($(CSharpCoreTargetsPath)))`,`Microsoft.Build.Tasks.CodeAnalysis.dll`))">
+      <Output TaskParameter="Assemblies" ItemName="CommunityToolkitAppServicesCurrentCompilerAssemblyIdentity"/>
+    </GetAssemblyIdentity>
+
+    <PropertyGroup>
+
+      <!-- Transform the resulting item from GetAssemblyIdentity into a property representing its assembly version -->
+      <CommunityToolkitAppServicesCurrentCompilerVersion>@(CommunityToolkitAppServicesCurrentCompilerAssemblyIdentity->'%(Version)')</CommunityToolkitAppServicesCurrentCompilerVersion>
+
+      <!-- The CurrentCompilerVersionIsNotNewEnough property can now be defined based on the Roslyn assembly version -->
+      <CommunityToolkitAppServicesCurrentCompilerVersionIsNotNewEnough Condition="$([MSBuild]::VersionLessThan($(CommunityToolkitAppServicesCurrentCompilerVersion), 4.3))">true</CommunityToolkitAppServicesCurrentCompilerVersionIsNotNewEnough>
+    </PropertyGroup>
+
+    <!-- If the Roslyn version is < 4.3, disable the source generators -->
+    <ItemGroup Condition ="'$(CommunityToolkitAppServicesCurrentCompilerVersionIsNotNewEnough)' == 'true'">
+      <Analyzer Remove="@(CommunityToolkitAppServicesAnalyzer)"/>
+    </ItemGroup>
+
+    <!-- If the source generators are disabled, also emit a warning. This would've been produced by MSBuild itself as well, but
+         emitting this manually lets us customize the message to inform developers as to why exactly the generators have been
+         disabled, and that the rest of the AppService library will still keep working as intended, just without additional features. -->
+    <Warning Condition ="'$(CommunityToolkitAppServicesCurrentCompilerVersionIsNotNewEnough)' == 'true'" Text="The CommunityToolkit.AppServices source generators have been disabled on the current configuration, as they need Roslyn 4.3 in order to work. The CommunityToolkit.AppServices library will work just fine, but features relying on the source generators will not be available."/>
+  </Target>
+
+  <!-- Remove the analyzer if Roslyn is missing -->
+  <Target Name="CommunityToolkitAppServicesRemoveAnalyzersForRosynNotFound"
+          Condition="'$(CSharpCoreTargetsPath)' == ''"
+          AfterTargets="ResolvePackageDependenciesForBuild;ResolveNuGetPackageAssets"
+          DependsOnTargets="CommunityToolkitAppServicesGatherAnalyzers">
+
+    <!-- If no Roslyn assembly could be found, just remove the analyzer without emitting a warning -->
+    <ItemGroup>
+      <Analyzer Remove="@(CommunityToolkitAppServicesAnalyzer)"/>
+    </ItemGroup>
+  </Target>
+</Project>
