@@ -68,8 +68,14 @@ public sealed class InvalidAppServicesMemberAnalyzer : DiagnosticAnalyzer
                         continue;
                     }
 
+                    // Skip property accessors for validation (the property itself will be detected below)
+                    if (memberSymbol is IMethodSymbol { MethodKind: MethodKind.PropertyGet or MethodKind.PropertySet })
+                    {
+                        continue;
+                    }
+
                     // All remaining members must be non-generic instance methods, which the generator will emit
-                    if (memberSymbol is not IMethodSymbol { IsStatic: false, IsGenericMethod: false, ReturnType: INamedTypeSymbol returnTypeSymbol } methodSymbol)
+                    if (memberSymbol is not IMethodSymbol { IsStatic: false, IsGenericMethod: false } methodSymbol)
                     {
                         context.ReportDiagnostic(Diagnostic.Create(InvalidAppServicesMemberType, memberSymbol.Locations.FirstOrDefault(), memberSymbol, interfaceSymbol));
 
@@ -77,10 +83,11 @@ public sealed class InvalidAppServicesMemberAnalyzer : DiagnosticAnalyzer
                     }
 
                     // Validate the return type for the current method
-                    if (!methodSymbol.TryGetParameterOrReturnType(out ParameterOrReturnType returnType) ||
+                    if (methodSymbol.ReturnType is not INamedTypeSymbol returnTypeSymbol ||
+                        !methodSymbol.TryGetParameterOrReturnType(out ParameterOrReturnType returnType) ||
                         !returnType.IsValidReturnType())
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(InvalidAppServicesMethodReturnType, memberSymbol.Locations.FirstOrDefault(), methodSymbol, interfaceSymbol, returnTypeSymbol));
+                        context.ReportDiagnostic(Diagnostic.Create(InvalidAppServicesMethodReturnType, memberSymbol.Locations.FirstOrDefault(), methodSymbol, interfaceSymbol, methodSymbol.ReturnType));
                     }
 
                     bool isProgressParameterFound = false;
