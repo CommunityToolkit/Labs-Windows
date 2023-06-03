@@ -473,7 +473,7 @@ public class Test_SourceGenerators_Diagnostics
                 {
                     public void Foo()
                     {
-                        void Foo({|APPSRVSPR0007:[ValueSetSerializer(typeof(MyClassSerializer))]|} MyClass input)
+                        void Foo([{|APPSRVSPR0007:ValueSetSerializer(typeof(MyClassSerializer))|}] MyClass input)
                         {
                         }
                     }
@@ -521,7 +521,7 @@ public class Test_SourceGenerators_Diagnostics
                 {
                     public void Foo()
                     {
-                        Func<MyClass> action = {|APPSRVSPR0007:[return: ValueSetSerializer(typeof(MyClassSerializer))]|} () => new MyClass();
+                        Func<MyClass> action = [return: {|APPSRVSPR0007:ValueSetSerializer(typeof(MyClassSerializer))|}] () => new MyClass();
                     }
                 }
             }

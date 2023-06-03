@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Operations;
 using CommunityToolkit.AppServices.SourceGenerators.Extensions;
 using static CommunityToolkit.AppServices.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
@@ -44,7 +45,7 @@ public sealed class InvalidValueSetSerializerUseAnalyzer : DiagnosticAnalyzer
                 { Parent: AttributeListSyntax { Target.Identifier: SyntaxToken(SyntaxKind.ReturnKeyword), Parent: LocalFunctionStatementSyntax function } }
                     => context.SemanticModel.GetDeclaredSymbol(function, context.CancellationToken),
                 { Parent: AttributeListSyntax { Target.Identifier: SyntaxToken(SyntaxKind.ReturnKeyword), Parent: ParenthesizedLambdaExpressionSyntax lambda } }
-                    => context.SemanticModel.GetDeclaredSymbol(lambda, context.CancellationToken),
+                    => (context.SemanticModel.GetOperation(lambda, context.CancellationToken) as IAnonymousFunctionOperation)?.Symbol,
                 _ => null
             };
 
@@ -60,22 +61,11 @@ public sealed class InvalidValueSetSerializerUseAnalyzer : DiagnosticAnalyzer
                 return;
             }
 
-            // Verify that the attribute is not over a local function or lambda expression. These two locations
-            // are allowed by the language (can't restrict an attribute to exclude these), but they're invalid.
-            bool isAttributeOverLocalFunctionOrLambdaExpression =
-                context.Node is
-                { Parent: AttributeListSyntax { Target.Identifier: SyntaxToken(SyntaxKind.ReturnKeyword), Parent: LocalFunctionStatementSyntax or ParenthesizedLambdaExpressionSyntax } } or
-                { Parent.Parent: ParameterSyntax { Parent.Parent: LocalFunctionStatementSyntax or ParenthesizedLambdaExpressionSyntax } };
-
             // Verify that the target method (either the attributed one, or the one the attribute parameter belongs to)
-            // is a valid method to use the attribute. That is, it's from an interface annotated with [AppServices]
-            bool isAttributeOverInvalidLocation =
-                (associatedSymbol as IMethodSymbol ?? ((IParameterSymbol)associatedSymbol).ContainingSymbol) is not IMethodSymbol methodSymbol ||
+            // is a valid method to use the attribute. That is, it's from an interface annotated with [AppServices].
+            if ((associatedSymbol as IMethodSymbol ?? ((IParameterSymbol)associatedSymbol).ContainingSymbol) is not IMethodSymbol methodSymbol ||
                 methodSymbol.ContainingType is not INamedTypeSymbol { TypeKind: TypeKind.Interface } interfaceSymbol ||
-                !interfaceSymbol.TryGetAppServicesNameFromAttribute(out _);
-
-            // If any invalid case is detected, warn on the attribute location and stop
-            if (isAttributeOverLocalFunctionOrLambdaExpression || isAttributeOverInvalidLocation)
+                !interfaceSymbol.TryGetAppServicesNameFromAttribute(out _))
             {
                 context.ReportDiagnostic(Diagnostic.Create(InvalidValueSetSerializerLocation, context.Node.GetLocation(), associatedSymbol));
 
