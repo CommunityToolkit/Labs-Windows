@@ -3,7 +3,7 @@
     <ToolkitComponentName>AppServices</ToolkitComponentName>
     <Description>This package contains AppServices, to easily communicate between UWP apps and Win32 extensions.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <RootNamespace>CommunityToolkit.AppServices</RootNamespace>
     <PackageId>$(PackageIdPrefix).$(ToolkitComponentName)</PackageId>
     <HasWinUI>false</HasWinUI>
