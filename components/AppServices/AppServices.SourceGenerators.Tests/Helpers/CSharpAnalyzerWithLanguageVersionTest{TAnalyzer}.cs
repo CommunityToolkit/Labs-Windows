@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Testing;
@@ -47,9 +48,10 @@ internal sealed class CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> : CSharpA
     {
         CSharpAnalyzerWithLanguageVersionTest<TAnalyzer> test = new(languageVersion) { TestCode = source };
 
-        test.TestState.ReferenceAssemblies = ReferenceAssemblies.NetFramework.Net472.Default;
+        test.TestState.ReferenceAssemblies =
+            ReferenceAssemblies.NetFramework.Net472.Default
+            .AddPackages(ImmutableArray.Create(new PackageIdentity("Microsoft.Windows.SDK.Contracts", "10.0.22621.2")));
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(AppServiceAttribute).Assembly.Location));
-        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(ValueSet).Assembly.Location));
 
         return test.RunAsync(CancellationToken.None);
     }
