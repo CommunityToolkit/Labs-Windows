@@ -2,9 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.AppServices.SourceGenerators.Tests.Helpers;
 using System.Threading.Tasks;
+using CommunityToolkit.AppServices.SourceGenerators.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace CommunityToolkit.AppServices.SourceGenerators.Tests;
 
@@ -289,7 +290,7 @@ public class Test_SourceGenerators_Diagnostics
                 [AppService("MyAppService")]
                 public interface IMyAppService
                 {
-                    public Task FooAsync({|APPSRVSPR0006:[ValueSetSerializer(typeof(MyClassSerializer))]|} MyClass input);
+                    public Task FooAsync([{|APPSRVSPR0006:ValueSetSerializer(typeof(MyClassSerializer))|}] MyClass input);
                 }
             }
             """;
@@ -377,7 +378,7 @@ public class Test_SourceGenerators_Diagnostics
 
                 public class TestClass
                 {
-                    public void Foo({|APPSRVSPR0007:[ValueSetSerializer(typeof(MyClassSerializer))]|} MyClass input)
+                    public void Foo([{|APPSRVSPR0007:ValueSetSerializer(typeof(MyClassSerializer))|}] MyClass input)
                     {
                     }
                 }
@@ -424,7 +425,7 @@ public class Test_SourceGenerators_Diagnostics
                     public void Foo()
                     {
                         [return: {|APPSRVSPR0007:ValueSetSerializer(typeof(MyClassSerializer))|}]
-                        public MyClass Foo()
+                        MyClass Foo()
                         {
                             return null;
                         }
@@ -433,7 +434,7 @@ public class Test_SourceGenerators_Diagnostics
             }
             """;
 
-        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
+        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp9);
     }
 
     [TestMethod]
@@ -472,7 +473,7 @@ public class Test_SourceGenerators_Diagnostics
                 {
                     public void Foo()
                     {
-                        public void Foo({|APPSRVSPR0007:[ValueSetSerializer(typeof(MyClassSerializer))]|} MyClass input)
+                        void Foo({|APPSRVSPR0007:[ValueSetSerializer(typeof(MyClassSerializer))]|} MyClass input)
                         {
                         }
                     }
@@ -480,13 +481,14 @@ public class Test_SourceGenerators_Diagnostics
             }
             """;
 
-        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
+        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp9);
     }
 
     [TestMethod]
     public async Task Verify_InvalidValueSetSerializerLocation_LambdaReturnType()
     {
         string source = """
+            using System;
             using System.Threading.Tasks;
             using CommunityToolkit.AppServices;
             using Windows.Foundation.Collections;
@@ -525,13 +527,14 @@ public class Test_SourceGenerators_Diagnostics
             }
             """;
 
-        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
+        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp10);
     }
 
     [TestMethod]
     public async Task Verify_InvalidValueSetSerializerLocation_LambdaParameter()
     {
         string source = """
+            using System;
             using System.Threading.Tasks;
             using CommunityToolkit.AppServices;
             using Windows.Foundation.Collections;
@@ -564,12 +567,12 @@ public class Test_SourceGenerators_Diagnostics
                 {
                     public void Foo()
                     {
-                        Action<MyClass> action = ({|APPSRVSPR0007:[ValueSetSerializer(typeof(MyClassSerializer))]|} MyClass input) => { };
+                        Action<MyClass> action = ([{|APPSRVSPR0007:ValueSetSerializer(typeof(MyClassSerializer))|}] MyClass input) => { };
                     }
                 }
             }
             """;
 
-        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
+        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp10);
     }
 }
