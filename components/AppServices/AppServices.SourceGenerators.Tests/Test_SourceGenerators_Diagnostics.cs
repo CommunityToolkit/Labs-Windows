@@ -386,4 +386,190 @@ public class Test_SourceGenerators_Diagnostics
 
         await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
     }
+
+    [TestMethod]
+    public async Task Verify_InvalidValueSetSerializerLocation_LocalFunctionReturnType()
+    {
+        string source = """
+            using System.Threading.Tasks;
+            using CommunityToolkit.AppServices;
+            using Windows.Foundation.Collections;
+
+            namespace MyApp
+            {
+                public class MyClass
+                {
+                    public string Text { get; set; }
+                }
+
+                public class MyClassSerializer : IValueSetSerializer<MyClass>
+                {
+                    public MyClassSerializer(object dummy)
+                    {
+                    }
+
+                    MyClass? IValueSetSerializer<MyClass>.Deserialize(ValueSet? valueSet)
+                    {
+                        return null;
+                    }
+
+                    ValueSet? IValueSetSerializer<MyClass>.Serialize(MyClass? value)
+                    {
+                        return null;
+                    }
+                }
+
+                public class TestClass
+                {
+                    public void Foo()
+                    {
+                        [return: {|APPSRVSPR0007:ValueSetSerializer(typeof(MyClassSerializer))|}]
+                        public MyClass Foo()
+                        {
+                            return null;
+                        }
+                    }
+                }
+            }
+            """;
+
+        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Verify_InvalidValueSetSerializerLocation_LocalFunctionParameter()
+    {
+        string source = """
+            using System.Threading.Tasks;
+            using CommunityToolkit.AppServices;
+            using Windows.Foundation.Collections;
+
+            namespace MyApp
+            {
+                public class MyClass
+                {
+                    public string Text { get; set; }
+                }
+
+                public class MyClassSerializer : IValueSetSerializer<MyClass>
+                {
+                    public MyClassSerializer(object dummy)
+                    {
+                    }
+
+                    MyClass? IValueSetSerializer<MyClass>.Deserialize(ValueSet? valueSet)
+                    {
+                        return null;
+                    }
+
+                    ValueSet? IValueSetSerializer<MyClass>.Serialize(MyClass? value)
+                    {
+                        return null;
+                    }
+                }
+
+                public class TestClass
+                {
+                    public void Foo()
+                    {
+                        public void Foo({|APPSRVSPR0007:[ValueSetSerializer(typeof(MyClassSerializer))]|} MyClass input)
+                        {
+                        }
+                    }
+                }
+            }
+            """;
+
+        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Verify_InvalidValueSetSerializerLocation_LambdaReturnType()
+    {
+        string source = """
+            using System.Threading.Tasks;
+            using CommunityToolkit.AppServices;
+            using Windows.Foundation.Collections;
+
+            namespace MyApp
+            {
+                public class MyClass
+                {
+                    public string Text { get; set; }
+                }
+
+                public class MyClassSerializer : IValueSetSerializer<MyClass>
+                {
+                    public MyClassSerializer(object dummy)
+                    {
+                    }
+
+                    MyClass? IValueSetSerializer<MyClass>.Deserialize(ValueSet? valueSet)
+                    {
+                        return null;
+                    }
+
+                    ValueSet? IValueSetSerializer<MyClass>.Serialize(MyClass? value)
+                    {
+                        return null;
+                    }
+                }
+
+                public class TestClass
+                {
+                    public void Foo()
+                    {
+                        Func<MyClass> action = {|APPSRVSPR0007:[return: ValueSetSerializer(typeof(MyClassSerializer))]|} () => new MyClass();
+                    }
+                }
+            }
+            """;
+
+        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Verify_InvalidValueSetSerializerLocation_LambdaParameter()
+    {
+        string source = """
+            using System.Threading.Tasks;
+            using CommunityToolkit.AppServices;
+            using Windows.Foundation.Collections;
+
+            namespace MyApp
+            {
+                public class MyClass
+                {
+                    public string Text { get; set; }
+                }
+
+                public class MyClassSerializer : IValueSetSerializer<MyClass>
+                {
+                    public MyClassSerializer(object dummy)
+                    {
+                    }
+
+                    MyClass? IValueSetSerializer<MyClass>.Deserialize(ValueSet? valueSet)
+                    {
+                        return null;
+                    }
+
+                    ValueSet? IValueSetSerializer<MyClass>.Serialize(MyClass? value)
+                    {
+                        return null;
+                    }
+                }
+
+                public class TestClass
+                {
+                    public void Foo()
+                    {
+                        Action<MyClass> action = ({|APPSRVSPR0007:[ValueSetSerializer(typeof(MyClassSerializer))]|} MyClass input) => { };
+                    }
+                }
+            }
+            """;
+
+        await CSharpAnalyzerWithLanguageVersionTest<InvalidValueSetSerializerUseAnalyzer>.VerifyAnalyzerAsync(source);
+    }
 }
