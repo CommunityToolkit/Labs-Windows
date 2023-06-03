@@ -54,12 +54,23 @@ public sealed class InvalidValueSetSerializerUseAnalyzer : DiagnosticAnalyzer
                 return;
             }
 
-            // Validate the attribute location
-            if ((associatedSymbol as IMethodSymbol ?? ((IParameterSymbol)associatedSymbol).ContainingSymbol) is not IMethodSymbol methodSymbol ||
+            // Verify that the attribute is not over a local function or lambda expression. These two locations
+            // are allowed by the language (can't restrict an attribute to exclude these), but they're invalid.
+            bool isAttributeOverLocalFunctionOrLambdaExpression =
+                context.Node is
+                { Parent: AttributeListSyntax { Target.Identifier: SyntaxToken(SyntaxKind.ReturnKeyword), Parent: LocalFunctionStatementSyntax or ParenthesizedLambdaExpressionSyntax } } or
+                { Parent.Parent: ParameterSyntax { Parent.Parent: LocalFunctionStatementSyntax or ParenthesizedLambdaExpressionSyntax } };
+
+            // Verify that the target method (either the attributed one, or the one the attribute parameter belongs to)
+            // is a valid method to use the attribute. That is, it's from an interface annotated with [AppServices]
+            bool isAttributeOverInvalidLocation =
+                (associatedSymbol as IMethodSymbol ?? ((IParameterSymbol)associatedSymbol).ContainingSymbol) is not IMethodSymbol methodSymbol ||
                 methodSymbol.ContainingType is not INamedTypeSymbol { TypeKind: TypeKind.Interface } interfaceSymbol ||
-                !interfaceSymbol.TryGetAppServicesNameFromAttribute(out _))
+                !interfaceSymbol.TryGetAppServicesNameFromAttribute(out _);
+
+            // If any invalid case is detected, warn on the attribute location and stop
+            if (isAttributeOverLocalFunctionOrLambdaExpression || isAttributeOverInvalidLocation)
             {
-                // If the location is invalid, the attribute has no effect, so we emit this diagnostic and just stop here
                 context.ReportDiagnostic(Diagnostic.Create(InvalidValueSetSerializerLocation, context.Node.GetLocation(), associatedSymbol));
 
                 return;
