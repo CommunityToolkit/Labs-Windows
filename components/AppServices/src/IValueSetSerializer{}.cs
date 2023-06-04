@@ -20,7 +20,7 @@ public interface IValueSetSerializer<T>
     /// <param name="value">The input <typeparamref name="T"/> object to serialize.</param>
     /// <returns>The <see cref="ValueSet"/> object representing <paramref name="value"/>.</returns>
     /// <exception cref="Exception">Thrown if serializing <paramref name="value"/> failed.</exception>
-    [return: NotNullIfNotNull("value")]
+    [return: NotNullIfNotNull(nameof(value))]
     ValueSet? Serialize(T? value);
 
     /// <summary>
@@ -29,6 +29,6 @@ public interface IValueSetSerializer<T>
     /// <param name="valueSet">The input <see cref="ValueSet"/> object to deserialize.</param>
     /// <returns>The deserialized <typeparamref name="T"/> value.</returns>
     /// <exception cref="Exception">Thrown if deserializing <paramref name="valueSet"/> failed.</exception>
-    [return: NotNullIfNotNull("valueSet")]
+    [return: NotNullIfNotNull(nameof(valueSet))]
     T? Deserialize(ValueSet? valueSet);
 }
