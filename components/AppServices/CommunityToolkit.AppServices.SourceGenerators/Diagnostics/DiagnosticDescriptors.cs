@@ -106,13 +106,13 @@ internal static class DiagnosticDescriptors
     /// <summary>
     /// Gets a <see cref="DiagnosticDescriptor"/> indicating when a value set serializer use is invalid.
     /// <para>
-    /// Format: <c>"Method or parameter named "{0}" cannot request a custom ValueSet serializer, as this is only enabled for methods and parameters in an [AppServices] interface"</c>.
+    /// Format: <c>"Method or parameter named "{0}" cannot request a custom ValueSet serializer, as this is only enabled for methods and parameters of methods in an [AppServices] interface"</c>.
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidValueSetSerializerLocation = new DiagnosticDescriptor(
         id: "APPSRVSPR0007",
         title: "Invalid ValueSet serializer use",
-        messageFormat: "Method or parameter named \"{0}\" cannot request a custom ValueSet serializer, as this is only enabled for methods and parameters in an [AppServices] interface",
+        messageFormat: "Method or parameter named \"{0}\" cannot request a custom ValueSet serializer, as this is only enabled for methods and parameters of methods in an [AppServices] interface",
         category: typeof(InvalidValueSetSerializerUseAnalyzer).FullName,
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,

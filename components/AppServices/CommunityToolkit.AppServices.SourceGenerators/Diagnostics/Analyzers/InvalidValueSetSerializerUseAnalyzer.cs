@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Operations;
 using CommunityToolkit.AppServices.SourceGenerators.Extensions;
 using static CommunityToolkit.AppServices.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
@@ -30,15 +31,21 @@ public sealed class InvalidValueSetSerializerUseAnalyzer : DiagnosticAnalyzer
         // Register a callback for all named type symbols (ie. user defined types)
         context.RegisterSyntaxNodeAction(static context =>
         {
-            // Try to get the associated symbol for the current node. There are two cases we are interested in:
+            // Try to get the associated symbol for the current node. There are four cases we are interested in:
             //   - int Foo([Attribute] int bar), ie. an attribute on a parameter node
             //   - [return: Attribute] int Foo(), ie. an attribute on a return value
+            //   - [return: Attribute] int Foo(), where Foo() is a local function
+            //   - [return: Attribute] () => { }, on some lambda expression
             ISymbol? associatedSymbol = context.Node switch
             {
                 { Parent.Parent: ParameterSyntax parameter }
                     => context.SemanticModel.GetDeclaredSymbol(parameter, context.CancellationToken),
                 { Parent: AttributeListSyntax { Target.Identifier: SyntaxToken(SyntaxKind.ReturnKeyword), Parent: MethodDeclarationSyntax method } }
                     => context.SemanticModel.GetDeclaredSymbol(method, context.CancellationToken),
+                { Parent: AttributeListSyntax { Target.Identifier: SyntaxToken(SyntaxKind.ReturnKeyword), Parent: LocalFunctionStatementSyntax function } }
+                    => context.SemanticModel.GetDeclaredSymbol(function, context.CancellationToken),
+                { Parent: AttributeListSyntax { Target.Identifier: SyntaxToken(SyntaxKind.ReturnKeyword), Parent: ParenthesizedLambdaExpressionSyntax lambda } }
+                    => (context.SemanticModel.GetOperation(lambda, context.CancellationToken) as IAnonymousFunctionOperation)?.Symbol,
                 _ => null
             };
 
@@ -54,12 +61,12 @@ public sealed class InvalidValueSetSerializerUseAnalyzer : DiagnosticAnalyzer
                 return;
             }
 
-            // Validate the attribute location
+            // Verify that the target method (either the attributed one, or the one the attribute parameter belongs to)
+            // is a valid method to use the attribute. That is, it's from an interface annotated with [AppServices].
             if ((associatedSymbol as IMethodSymbol ?? ((IParameterSymbol)associatedSymbol).ContainingSymbol) is not IMethodSymbol methodSymbol ||
                 methodSymbol.ContainingType is not INamedTypeSymbol { TypeKind: TypeKind.Interface } interfaceSymbol ||
                 !interfaceSymbol.TryGetAppServicesNameFromAttribute(out _))
             {
-                // If the location is invalid, the attribute has no effect, so we emit this diagnostic and just stop here
                 context.ReportDiagnostic(Diagnostic.Create(InvalidValueSetSerializerLocation, context.Node.GetLocation(), associatedSymbol));
 
                 return;
