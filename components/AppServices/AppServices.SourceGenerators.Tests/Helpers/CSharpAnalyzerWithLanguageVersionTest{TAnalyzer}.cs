@@ -11,7 +11,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis;
-using Windows.Foundation.Collections;
 
 namespace CommunityToolkit.AppServices.SourceGenerators.Tests.Helpers;
 
