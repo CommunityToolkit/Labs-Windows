@@ -39,6 +39,7 @@ bld/
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
+*.g.cs
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -355,5 +356,9 @@ MigrationBackup/
 .idea/
 
 # Community Toolkit Labs generated files
-Toolkit.Labs.All.sln
-Labs.SampleRefs.props
+CommunityToolkit.AllComponents.sln
+tooling/MultiTarget/Generated/**
+heads/
+
+# We use slngen to generate solutions
+*.sln

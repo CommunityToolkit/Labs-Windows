@@ -1,0 +1,16 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <ToolkitComponentName>Shimmer</ToolkitComponentName>
+    <Description>This package contains Shimmer.</Description>
+    <Version>0.0.1</Version>
+
+    <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
+    <RootNamespace>CommunityToolkit.Labs.WinUI.ShimmerRns</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's source project -->
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shimmer\Shimmer.xaml" />
+  </ItemGroup>
+</Project>

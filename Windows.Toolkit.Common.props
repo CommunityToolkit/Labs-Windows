@@ -9,7 +9,7 @@
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/CommunityToolkit/Labs-Windows</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/CommunityToolkit/Labs-Windows/releases</PackageReleaseNotes>
-    <PackageIcon>Icon.png</PackageIcon>
+    <!--<PackageIcon>Icon.png</PackageIcon>-->
     <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/Labs-Windows/main/nuget.png</PackageIconUrl>
     <!-- TODO: Remove when closing https://github.com/CommunityToolkit/Labs-Windows/issues/256 -->
     <NoWarn>$(NoWarn);NU1505;NU1504</NoWarn>
@@ -31,6 +31,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="$(RepositoryDirectory)common\GlobalUsings.cs" />
+    <Compile Include="$(RepositoryDirectory)tooling\GlobalUsings.cs" />
   </ItemGroup>
 </Project>

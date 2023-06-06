@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
+    <PackageIdPrefix>CommunityToolkit.Labs</PackageIdPrefix>
     <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
+    <ToolingDirectory>$(RepositoryDirectory)\tooling</ToolingDirectory>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 

@@ -1,0 +1,38 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="CanvasViewExperiment.Samples.CanvasViewDragSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:local="using:CanvasViewExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <labs:CanvasView MinHeight="400"
+                     VerticalAlignment="Stretch"
+                     ItemsSource="{x:Bind Rectangles}">
+        <labs:CanvasView.ItemTemplate>
+            <DataTemplate x:DataType="local:ObservableRect">
+                <Border Canvas.Left="{x:Bind Left, Mode=TwoWay}"
+                        Canvas.Top="{x:Bind Top, Mode=TwoWay}"
+                        Width="{x:Bind Width}"
+                        Height="{x:Bind Height}"
+                        Padding="4"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        ManipulationMode="TranslateX,TranslateY">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                               Style="{StaticResource BodyStrongTextBlockStyle}"
+                               TextWrapping="WrapWholeWords">
+                        <Run Text="{x:Bind Left, Mode=OneWay}" />
+                        ,<Run Text="{x:Bind Top, Mode=OneWay}" />
+                    </TextBlock>
+                </Border>
+            </DataTemplate>
+        </labs:CanvasView.ItemTemplate>
+    </labs:CanvasView>
+</Page>

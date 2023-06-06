@@ -432,3 +432,6 @@ csharp_style_prefer_extended_property_pattern = true:suggestion
 
 # Require file header
 dotnet_diagnostic.IDE0073.severity = warning
+
+# Uno platform exposes IDisposable on Storyboard publicly when it should be internal. Ignore this.
+dotnet_code_quality.CA1001.excluded_type_names_with_derived_types = T:Windows.UI.Xaml.Media.Animation.Storyboard

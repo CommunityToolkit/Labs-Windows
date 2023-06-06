@@ -1,7 +1,7 @@
 
 # 🧪 Windows Community Toolkit Labs (Preview) 🧪
 
-![Windows Community Toolkit Labs Social Image](common/ToolkitLabsSocial.png)
+![Windows Community Toolkit Labs Social Image](tooling/ToolkitLabsSocial.png)
 
 Welcome to the home of Windows Community Toolkit Labs. A place for all new components to be developed in 'experiments' for the [Windows Community Toolkit](https://aka.ms/windowstoolkitdocs) (built on top of WinUI 2, [WinUI 3](https://aka.ms/winui3), and [Uno Platform](https://platform.uno))! Find out more about Toolkit Labs in our [blog post here](https://devblogs.microsoft.com/ifdef-windows/announcing-the-windows-community-toolkit-labs/). It includes more about our motivations for having this space as well as how to setup the NuGet feed required to easily use experiments found in this repo.
 
@@ -19,7 +19,15 @@ You can find the corresponding `CommunityToolkit.Labs` packages in our Azure Dev
 
 If you find an experiment useful, please up-vote 👍 its corresponding issue and comment with any feedback. Each experiment has an issue assigned to it with the `experiment` label for tracking. Please file any feedback or issues about that experiment on that singular issue. For any other questions or concerns, please [open a Discussion](https://github.com/CommunityToolkit/Labs-Windows/discussions).
 
-Otherwise, you can clone the repo, open the `labs` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
+Otherwise, you can clone the repo, open the `components` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
+
+## Clone the repository
+
+The [tooling](https://github.com/CommunityToolkit/Tooling-Windows-Submodule) is in a submodule, so you'll need to use `--recurse-submodules` when cloning or pulling for the first time:
+
+```shell
+git clone --recurse-submodules https://github.com/CommunityToolkit/Labs-Windows.git
+```
 
 ## Build Requirements
 
@@ -27,6 +35,8 @@ Otherwise, you can clone the repo, open the `labs` directory, navigate within th
 - .NET 6 SDK
 - Windows App SDK
 - Windows SDK 19041
+- Run `dotnet tool restore` from the project root to install SlnGen
+- Run build scripts from the [Developer Command Prompt for Visual Studio](https://learn.microsoft.com/visualstudio/ide/reference/command-prompt-powershell) or from elsewhere after adding `MSBuild.exe` to your PATH
 
 ## Adding a new Experiment
 
@@ -39,14 +49,14 @@ Once there is traction and your idea is approved, an issue will be created to tr
 Then you can fork the Labs repo, create a new branch, and start working on your feature (or porting over your existing prototype).
 
 ```ascii
-dotnet new --install .\template\lab\
+dotnet new --install .\tooling\ProjectTemplate\
 
-cd labs
+cd components
 
-dotnet new labexp -n MyExperimentNameHere
+dotnet new ctk-component -n MyExperimentNameHere
 ```
 
-[Read more about creating a new experiment from the template folder here.](https://github.com/CommunityToolkit/Labs-Windows/tree/main/template)
+[Read more about creating a new experiment from the template folder here.](https://github.com/CommunityToolkit/Labs-Windows/tree/main/tooling/ProjectTemplate)
 
 Then open a PR, not everything needs to be done in your initial PR, but some basically functionality and a usage example should exist. The Labs space is a great place to work on something over time, get feedback from the community, and collaborate with others. However, your initial PR should compile and have enough content for folks to understand how to leverage your component.
 
@@ -68,9 +78,13 @@ Open up an issue on the main Toolkit repo using the `Toolkit Labs Transfer` Issu
 
 ## Building the Sample App
 
-You can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.ps1` PowerShell script in the repo root. Then just open the `Toolkit.Labs.All.sln` solution in Visual Studio. You can run one of the project heads under the platforms folder such as `CommunityToolkit.Labs.WinAppSdk` to run the sample app for that platform.
+First ensure you've met the [Build Requirements](#build-requirements) or the build scripts will fail.
 
-If you'd like to run a head beyond UWP, Wasm, or the WinAppSDK, you'll need to run the `UseTargetFrameworks.ps1` script first in the `common/Scripts` directory. e.g. `.\UseTargetFrameworks.ps1 -targets all`
+Next you can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. 
+
+Then just open the `CommunityToolkit.AllComponents.sln` solution in Visual Studio. You can run one of the project heads such as `CommunityToolkit.App.WinAppSdk` to run the sample app for that platform.
+
+If you'd like to run a head beyond UWP, Wasm, or the WinAppSDK, you'll need to run the `UseTargetFrameworks.ps1` script first in the `tooling/MultiTarget` directory. e.g. `.\UseTargetFrameworks.ps1 -targets all`
 
 If you'd like to test on Uno + Windows App SDK over Uno + UWP, run the `UseUnoWinUI.ps1` script. e.g. `.\UseUnoWinUI.ps1 -targets 3`
 
