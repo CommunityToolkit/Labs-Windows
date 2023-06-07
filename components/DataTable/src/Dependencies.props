@@ -15,10 +15,12 @@
     <!-- WinUI 2 / UWP / Uno -->
     <ItemGroup Condition="'$(IsUwp)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '2')">
         <PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.0.0-beta.1"/>
+        <PackageReference Include="CommunityToolkit.Uwp.Sizers" Version="8.0.0-beta.1"/>
     </ItemGroup>
 
     <!-- WinUI 3 / WinAppSdk / Uno -->
     <ItemGroup Condition="'$(IsWinAppSdk)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '3')">
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.0.0-beta.1"/>
+        <PackageReference Include="CommunityToolkit.WinUI.Sizers" Version="8.0.0-beta.1"/>
     </ItemGroup>
 </Project>

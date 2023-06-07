@@ -22,33 +22,30 @@
 
     -->
     <!--  Implicitly applied default style  -->
-    <!--<Style BasedOn="{StaticResource DefaultDataTableStyle}"
-           TargetType="controls:DataTable" />
+    <Style BasedOn="{StaticResource DefaultDataColumnStyle}"
+           TargetType="controls:DataColumn" />
 
-    <Style x:Key="DefaultDataTableStyle"
-           TargetType="controls:DataTable">
+    <Style x:Key="DefaultDataColumnStyle"
+           TargetType="controls:DataColumn">
         <Style.Setters>
-    -->
     <!--  TODO: This is going to be different between ListView and HeaderedItemsControl, how do we want to handle?  -->
-    <!--
             <Setter Property="Padding" Value="8,0" />
-            <Setter Property="ItemsPanel">
-                <Setter.Value>
-                    <ItemsPanelTemplate>
-    -->
-    <!--  TODO: Custom panel here...  -->
-    <!--
-                        <ItemsStackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="controls:DataTable">
-                        <ItemsPresenter />
+                    <ControlTemplate TargetType="controls:DataColumn">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <controls:PropertySizer Grid.Column="1"/>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style.Setters>
-    </Style>-->
+    </Style>
 </ResourceDictionary>
