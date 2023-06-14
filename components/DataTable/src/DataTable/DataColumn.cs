@@ -48,13 +48,37 @@ public partial class DataColumn : ContentControl
 
     protected override void OnApplyTemplate()
     {
+        if (PART_ColumnSizer != null)
+        {
+            PART_ColumnSizer.TargetControl = null;
+            PART_ColumnSizer.ManipulationCompleted -= this.PART_ColumnSizer_ManipulationCompleted;
+        }
+
         PART_ColumnSizer = GetTemplateChild(nameof(PART_ColumnSizer)) as ContentSizer;
 
         if (PART_ColumnSizer != null)
         {
             PART_ColumnSizer.TargetControl = this;
+            PART_ColumnSizer.ManipulationCompleted += this.PART_ColumnSizer_ManipulationCompleted;
         }
 
         base.OnApplyTemplate();
+    }
+
+    private void PART_ColumnSizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+    {
+        var parent = this.FindAscendant<ItemsPresenter>();
+
+        // TODO: Would be nice for Visual Tree helpers to have limit on depth search,
+        // as could grab the direct Panel descendant and then search that for DataRow
+        // vs. exploring the whole Header content as well (which has a Panel in our case as well...)
+
+        if (parent != null)
+        {
+            foreach (DataRow row in parent.FindDescendants().Where(element => element is DataRow))
+            {
+                row.InvalidateArrange();
+            }
+        }
     }
 }
