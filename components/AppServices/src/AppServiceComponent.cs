@@ -75,7 +75,19 @@ public abstract class AppServiceComponent : IDisposable
     /// <summary>
     /// Initializes the app service.
     /// </summary>
-    public async Task InitializeAppService()
+    /// <returns>A <see cref="Task"/> representing the initialization operation.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method should be called once during the startup of the app service component.
+    /// </para>
+    /// <para>
+    /// Note that the returned <see cref="Task"/> only represents the initialization operation,
+    /// and not the completion of the established app service connection. To detect when the
+    /// connection is no longer in use (which you can use to decide to shut down the component
+    /// process), use <see cref="ConnectionFailed"/> and/or <see cref="ConnectionClosed"/>.
+    /// </para>
+    /// </remarks>
+    public async Task InitializeAppServiceAsync()
     {
         Dispose();
 
