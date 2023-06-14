@@ -128,7 +128,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint(Action endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint(Action endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
     {
         _endpoints.Add(endpointName!, _ =>
         {
@@ -155,7 +155,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint<T>(Func<T> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint<T>(Func<T> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
     {
         _endpoints.Add(endpointName!, _ =>
         {
@@ -182,7 +182,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint<TSerializer, TResult>(TSerializer serializer, Func<TResult?> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint<TSerializer, TResult>(TSerializer serializer, Func<TResult?> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
         where TSerializer : IValueSetSerializer<TResult>
     {
         _endpoints.Add(endpointName!, _ =>
@@ -207,7 +207,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint(Action<AppServiceParameters> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint(Action<AppServiceParameters> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
     {
         _endpoints.Add(endpointName!, parameters =>
         {
@@ -234,7 +234,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint<T>(Func<AppServiceParameters, T> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint<T>(Func<AppServiceParameters, T> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
     {
         _endpoints.Add(endpointName!, parameters =>
         {
@@ -261,7 +261,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint<TSerializer, TResult>(TSerializer serializer, Func<AppServiceParameters, TResult?> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint<TSerializer, TResult>(TSerializer serializer, Func<AppServiceParameters, TResult?> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
         where TSerializer : IValueSetSerializer<TResult>
     {
         _endpoints.Add(endpointName!, parameters =>
@@ -286,7 +286,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint(Func<Task> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint(Func<Task> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
     {
         _endpoints.Add(endpointName!, async _ =>
         {
@@ -305,7 +305,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint<T>(Func<Task<T>> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint<T>(Func<Task<T>> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
     {
         _endpoints.Add(endpointName!, async _ => ValueSetMarshaller.ToObject(await endpoint()));
     }
@@ -321,7 +321,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint<TSerializer, TResult>(TSerializer serializer, Func<Task<TResult?>> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint<TSerializer, TResult>(TSerializer serializer, Func<Task<TResult?>> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
         where TSerializer : IValueSetSerializer<TResult>
     {
         _endpoints.Add(endpointName!, async _ => serializer.Serialize(await endpoint()));
@@ -335,7 +335,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint(Func<AppServiceParameters, Task> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint(Func<AppServiceParameters, Task> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
     {
         _endpoints.Add(endpointName!, async parameters =>
         {
@@ -354,7 +354,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint<T>(Func<AppServiceParameters, Task<T>> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint<T>(Func<AppServiceParameters, Task<T>> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
     {
         _endpoints.Add(endpointName!, async parameters => ValueSetMarshaller.ToObject(await endpoint(parameters)));
     }
@@ -370,7 +370,7 @@ public abstract class AppServiceComponent : IDisposable
     /// The endpoint name (it uses <see cref="CallerArgumentExpressionAttribute"/> targeting <paramref name="endpoint"/>,
     /// so a method group expression can be used to automatically pick up the method name as endpoint name).
     /// </param>
-    protected void RegisterEndpoint<TSerializer, TResult>(TSerializer serializer, Func<AppServiceParameters, Task<TResult?>> endpoint, [CallerArgumentExpression("endpoint")] string? endpointName = null)
+    protected void RegisterEndpoint<TSerializer, TResult>(TSerializer serializer, Func<AppServiceParameters, Task<TResult?>> endpoint, [CallerArgumentExpression(nameof(endpoint))] string? endpointName = null)
         where TSerializer : IValueSetSerializer<TResult>
     {
         _endpoints.Add(endpointName!, async parameters => serializer.Serialize(await endpoint(parameters)));
@@ -568,7 +568,7 @@ public abstract class AppServiceComponent : IDisposable
         /// <param name="parameter">The resulting parameter.</param>
         /// <param name="parameterName">The parameter name.</param>
         /// <exception cref="InvalidOperationException">Thrown if there is no parameter with the specified name.</exception>
-        public void GetParameter<T>(out T parameter, [CallerArgumentExpression("parameter")] string? parameterName = null)
+        public void GetParameter<T>(out T parameter, [CallerArgumentExpression(nameof(parameter))] string? parameterName = null)
         {
             FixupParameterName(ref parameterName);
 
@@ -592,7 +592,7 @@ public abstract class AppServiceComponent : IDisposable
         /// <param name="parameterName">The parameter name.</param>
         /// <exception cref="InvalidOperationException">Thrown if there is no parameter with the specified name.</exception>
         /// <exception cref="Exception">Thrown if the deserialization failed.</exception>
-        public void GetParameter<TSerializer, TParameter>(TSerializer serializer, out TParameter? parameter, [CallerArgumentExpression("parameter")] string? parameterName = null)
+        public void GetParameter<TSerializer, TParameter>(TSerializer serializer, out TParameter? parameter, [CallerArgumentExpression(nameof(parameter))] string? parameterName = null)
             where TSerializer: IValueSetSerializer<TParameter>
         {
             FixupParameterName(ref parameterName);
