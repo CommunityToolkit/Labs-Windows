@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -83,7 +83,7 @@ public abstract class AppServiceHost
     /// </para>
     /// <para>
     /// This method should be used as follows (from <c>App.xaml.cs</c>):
-    /// <code>
+    /// <code language="cs">
     /// protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
     /// {
     ///     base.OnBackgroundActivated(args);

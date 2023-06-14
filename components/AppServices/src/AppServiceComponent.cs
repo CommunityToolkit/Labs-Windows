@@ -73,6 +73,42 @@ public abstract class AppServiceComponent : IDisposable
     }
 
     /// <summary>
+    /// Runs a given app service component (in a simplified way).
+    /// </summary>
+    /// <typeparam name="T">The type of app service component to run.</typeparam>
+    /// <returns>A <see cref="Task"/> representing the app service operaton.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method provides an easy, high-level API in cases where an app service component
+    /// just needs to initialize itself and handle incoming connections, with no additional
+    /// configuration needed. In that case, its entry point can just do:
+    /// <code language="cs">
+    /// await AppServiceComponent.RunAsync&lt;MyAppService&gt;();
+    /// </code>
+    /// </para>
+    /// <para>
+    /// For more advanced cases (eg. when additional logging is required), consider using
+    /// <see cref="InitializeAppServiceAsync"/> directly instead, and handle things manually.
+    /// </para>
+    /// </remarks>
+    public static async Task RunAsync<T>()
+        where T : AppServiceComponent, new()
+    {
+        T appServiceComponent = new();
+        TaskCompletionSource<object?> taskCompletionSource = new();
+
+        // Initialize the app service
+        await appServiceComponent.InitializeAppServiceAsync();
+
+        // Handle connection failures and closures
+        appServiceComponent.ConnectionFailed += (s, e) => taskCompletionSource.TrySetResult(null);
+        appServiceComponent.ConnectionClosed += (s, e) => taskCompletionSource.TrySetResult(null);
+
+        // Wait for the connection to be completed
+        await taskCompletionSource.Task;
+    }
+
+    /// <summary>
     /// Initializes the app service.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the initialization operation.</returns>
