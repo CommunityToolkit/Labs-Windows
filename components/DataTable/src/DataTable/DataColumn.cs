@@ -4,23 +4,57 @@
 
 namespace CommunityToolkit.WinUI.Controls;
 
-// TODO: This will probably be a Control?
-public partial class DataColumn : ContentPresenter
+[TemplatePart(Name = nameof(PART_ColumnSizer), Type = typeof(ContentSizer))]
+public partial class DataColumn : ContentControl
 {
     private static GridLength StarLength = new GridLength(1, GridUnitType.Star);
 
+    private ContentSizer? PART_ColumnSizer;
+
+    /// <summary>
+    /// Gets or sets whether the column can be resized by the user.
+    /// </summary>
+    public bool CanResize
+    {
+        get { return (bool)GetValue(CanResizeProperty); }
+        set { SetValue(CanResizeProperty, value); }
+    }
+
+    /// <summary>
+    /// Identifies the <see cref="CanResize"/> property.
+    /// </summary>
+    public static readonly DependencyProperty CanResizeProperty =
+        DependencyProperty.Register("CanResize", typeof(bool), typeof(DataColumn), new PropertyMetadata(false));
+
+    /// <summary>
+    /// Gets or sets the desired width of the column upon initialization. Defaults to a <see cref="GridLength"/> of 1 <see cref="GridUnitType.Star"/>.
+    /// </summary>
     public GridLength DesiredWidth
     {
         get { return (GridLength)GetValue(DesiredWidthProperty); }
         set { SetValue(DesiredWidthProperty, value); }
     }
 
-    // Using a DependencyProperty as the backing store for DesiredWidth.  This enables animation, styling, binding, etc...
+    /// <summary>
+    /// Identifies the <see cref="DesiredWidth"/> property.
+    /// </summary>
     public static readonly DependencyProperty DesiredWidthProperty =
         DependencyProperty.Register(nameof(DesiredWidth), typeof(GridLength), typeof(DataColumn), new PropertyMetadata(StarLength));
 
-    //public DataColumn()
-    //{
-    //    this.DefaultStyleKey = typeof(DataColumn);
-    //}
+    public DataColumn()
+    {
+        this.DefaultStyleKey = typeof(DataColumn);
+    }
+
+    protected override void OnApplyTemplate()
+    {
+        PART_ColumnSizer = GetTemplateChild(nameof(PART_ColumnSizer)) as ContentSizer;
+
+        if (PART_ColumnSizer != null)
+        {
+            PART_ColumnSizer.TargetControl = this;
+        }
+
+        base.OnApplyTemplate();
+    }
 }
