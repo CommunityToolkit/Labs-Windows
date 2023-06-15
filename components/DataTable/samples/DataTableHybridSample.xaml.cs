@@ -6,8 +6,8 @@ using CommunityToolkit.WinUI.Controls;
 
 namespace DataTableExperiment.Samples;
 
-[ToolkitSample(id: nameof(DataTableBasicSample), "Basic DataTable Example", description: $"A sample for showing how to create and use a {nameof(DataRow)} control.")]
-public sealed partial class DataTableBasicSample : Page
+[ToolkitSample(id: nameof(DataTableHybridSample), "Hybrid DataTable Example", description: $"A sample for showing how to create and use a {nameof(DataRow)} control alongside an existing traditional setup with Grid.")]
+public sealed partial class DataTableHybridSample : Page
 {
     public ObservableCollection<InventoryItem> InventoryItems { get; set; } = new()
     {
@@ -41,7 +41,7 @@ public sealed partial class DataTableBasicSample : Page
         },
     };
 
-    public DataTableBasicSample()
+    public DataTableHybridSample()
     {
         this.InitializeComponent();
     }

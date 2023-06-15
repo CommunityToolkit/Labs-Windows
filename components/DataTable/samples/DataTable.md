@@ -40,7 +40,7 @@ As a first step, moving to **DataTable** is easy, just replace the `Grid` in you
 and remove the Column attributes from your controls. `DataRow` automatically will lay each subsequent control in the next column
 for you automatically:
 
-> [!Sample DataTableBasicSample]
+> [!Sample DataTableHybridSample]
 
 ## DataTable Setup
 
