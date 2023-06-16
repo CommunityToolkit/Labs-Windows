@@ -10,6 +10,9 @@ namespace CommunityToolkit.WinUI.Controls;
 /// </summary>
 public partial class DataTable : Panel
 {
+    // TODO: We should cache this result and update if column properties change
+    internal bool IsAnyColumnAuto => Children.Any(static e => e is DataColumn { DesiredWidth.GridUnitType: GridUnitType.Auto });
+
     protected override Size MeasureOverride(Size availableSize)
     {
         double fixedWidth = 0;
@@ -58,8 +61,8 @@ public partial class DataTable : Panel
                 // For now, we'll just use the header content as a guideline to see if things work.
                 column.Measure(new Size(availableSize.Width - fixedWidth - autoSized, availableSize.Height));
 
-                // Keep track of already 'allotted' space
-                autoSized += column.DesiredSize.Width;
+                // Keep track of already 'allotted' space, use either the maximum child size (if we know it) or the header content
+                autoSized += Math.Max(column.DesiredSize.Width, column.MaxChildDesiredWidth);
             }
 
             maxHeight = Math.Max(maxHeight, column.DesiredSize.Height);
@@ -89,8 +92,7 @@ public partial class DataTable : Panel
             }
             else
             {
-                // Note: This is different that the measure step as we know the desired width now from the measure.
-                autoSized += column.DesiredSize.Width;
+                autoSized += Math.Max(column.DesiredSize.Width, column.MaxChildDesiredWidth);
             }
         }
 
@@ -114,10 +116,8 @@ public partial class DataTable : Panel
             }
             else
             {
-                // TODO: See Note in Measure step about how we need to coordinate with DataRow for true 'Auto' support
-
-                // For now, we'll just use the header content as a guideline to see if things work.
-                width = column.DesiredSize.Width;
+                // TODO: We use the comparison of sizes a lot, should we cache in the DataColumn itself?
+                width = Math.Max(column.DesiredSize.Width, column.MaxChildDesiredWidth);
                 column.Arrange(new Rect(x, 0, width, finalSize.Height));
             }
 
