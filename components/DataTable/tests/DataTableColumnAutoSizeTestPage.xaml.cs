@@ -7,9 +7,9 @@ namespace DataTableExperiment.Tests;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class ExampleDataTableTestPage : Page
+public sealed partial class DataTableColumnAutoSizeTestPage : Page
 {
-    public ExampleDataTableTestPage()
+    public DataTableColumnAutoSizeTestPage()
     {
         this.InitializeComponent();
     }

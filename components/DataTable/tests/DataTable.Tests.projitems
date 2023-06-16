@@ -9,13 +9,13 @@
     <Import_RootNamespace>DataTableExperiment.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleDataTableTestClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleDataTableTestPage.xaml.cs">
-      <DependentUpon>ExampleDataTableTestPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)DataTableLayoutTestClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataTableColumnAutoSizeTestPage.xaml.cs">
+      <DependentUpon>DataTableColumnAutoSizeTestPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)ExampleDataTableTestPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)DataTableColumnAutoSizeTestPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

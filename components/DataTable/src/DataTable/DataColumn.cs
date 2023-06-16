@@ -12,6 +12,11 @@ public partial class DataColumn : ContentControl
     private ContentSizer? PART_ColumnSizer;
 
     /// <summary>
+    /// Gets or sets the width of the largest child contained within the visible <see cref="DataRow"/>s of the <see cref="DataTable"/>.
+    /// </summary>
+    internal double MaxChildDesiredWidth { get; set; }
+
+    /// <summary>
     /// Gets or sets whether the column can be resized by the user.
     /// </summary>
     public bool CanResize
@@ -77,6 +82,9 @@ public partial class DataColumn : ContentControl
         {
             foreach (DataRow row in parent.FindDescendants().Where(element => element is DataRow))
             {
+                // TODO: We should create a better connection here between the DataColumn and the DataRow to do this more directly.
+                // We don't want to be searching the visual tree all the time for the DataRow's when they're reaching up to us to
+                // get data already. Should just have them register/unregister with a WeakReference?
                 row.InvalidateArrange();
             }
         }
