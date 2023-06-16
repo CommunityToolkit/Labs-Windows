@@ -56,7 +56,7 @@ cd components
 dotnet new ctk-component -n MyExperimentNameHere
 ```
 
-[Read more about creating a new experiment from the template folder here.](https://github.com/CommunityToolkit/Labs-Windows/tree/main/tooling/ProjectTemplate)
+[Read more about creating a new experiment from the template folder here.](https://github.com/CommunityToolkit/Tooling-Windows-Submodule/tree/main/ProjectTemplate)
 
 Then open a PR, not everything needs to be done in your initial PR, but some basically functionality and a usage example should exist. The Labs space is a great place to work on something over time, get feedback from the community, and collaborate with others. However, your initial PR should compile and have enough content for folks to understand how to leverage your component.
 
