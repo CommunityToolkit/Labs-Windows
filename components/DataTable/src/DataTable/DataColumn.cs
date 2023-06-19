@@ -44,7 +44,7 @@ public partial class DataColumn : ContentControl
     /// Identifies the <see cref="DesiredWidth"/> property.
     /// </summary>
     public static readonly DependencyProperty DesiredWidthProperty =
-        DependencyProperty.Register(nameof(DesiredWidth), typeof(GridLength), typeof(DataColumn), new PropertyMetadata(StarLength));
+        DependencyProperty.Register(nameof(DesiredWidth), typeof(GridLength), typeof(DataColumn), new PropertyMetadata(GridLength.Auto));
 
     public DataColumn()
     {

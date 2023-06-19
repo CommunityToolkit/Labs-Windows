@@ -54,6 +54,12 @@ you use. For example:
 
 > [!Sample DataTableSample]
 
+### Virtualization
+
+Since `DataTable` is just built on top of `ListView` it can handle many data rows just the same as a ListView can.
+
+> [!Sample DataTableVirtualizationSample]
+
 ## DataTable + TreeView (Test)
 
 The `DataTable` setup works with other types of views as well, like `TreeView`. This enables a "TreeGrid" like experience, if required.

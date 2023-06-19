@@ -1,5 +1,5 @@
 <!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<Page x:Class="DataTableExperiment.Samples.DataTableSample"
+<Page x:Class="DataTableExperiment.Samples.DataTableVirtualizationSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -8,26 +8,25 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <ListView ItemsSource="{x:Bind InventoryItems}">
+    <!--  We need to set height here to enable virtualization due to the SampleRenderer setup  -->
+    <ListView Height="300"
+              VerticalAlignment="Top"
+              ItemsSource="{x:Bind InventoryItems}">
         <ListView.Header>
             <controls:DataTable>
-                <controls:DataColumn Content="Id"
-                                     DesiredWidth="80" />
-                <controls:DataColumn MinWidth="120"
-                                     CanResize="True"
-                                     Content="Name" />
-                <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
-                <controls:DataColumn DesiredWidth="*">
+                <controls:DataColumn Content="Id" />
+                <controls:DataColumn Content="Name" />
+                <controls:DataColumn>
                     <TextBlock FontWeight="Bold"
                                Text="Description" />
                 </controls:DataColumn>
-                <controls:DataColumn Content="Quantity"
-                                     DesiredWidth="100" />
+                <controls:DataColumn Content="Quantity" />
             </controls:DataTable>
         </ListView.Header>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="local:InventoryItem">
-                <controls:DataRow>
+                <!--  We set HorizontalAlignment to Left here as we're not stretching our content with a star column  -->
+                <controls:DataRow HorizontalAlignment="Left">
                     <TextBlock Text="{x:Bind Id}" />
                     <TextBlock Text="{x:Bind Name}" />
                     <TextBlock Text="{x:Bind Description}" />
@@ -37,7 +36,7 @@
         </ListView.ItemTemplate>
         <ListView.ItemContainerStyle>
             <Style TargetType="ListViewItem">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
             </Style>
         </ListView.ItemContainerStyle>
     </ListView>
