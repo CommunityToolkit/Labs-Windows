@@ -11,8 +11,4 @@ discussion-id: 129
 issue-id: 216
 ---
 
-# Settings Page Example
-
-This example uses `SettingsCard` and `SettingsExpander` to showcase a complete Windows 11 style settings page.
-
 > [!SAMPLE SettingsPageExample]
