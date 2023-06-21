@@ -19,8 +19,6 @@ issue-id: 0
 
 <!-- Be sure to update the discussion/issue numbers above with your Labs discussion/issue id numbers in order for UI links to them from the sample app to work. -->
 
-# TokenView
-
 The TokenView is used to display `Tokens` in a consistent way that is inline with the Windows 11 design language. This control can be easily used to to display e.g. filters, contacts or other snippets of information.
 
 Tokens allow for setting the `Icon` and `Content` while they can be removed as well. 

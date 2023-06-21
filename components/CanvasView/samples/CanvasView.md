@@ -11,10 +11,6 @@ discussion-id: 310
 issue-id: 212
 ---
 
-# CanvasView
-
-CanvasView is an ItemsControl which uses a Canvas for the layout of its items.
-
 It which provides built-in support for presenting a collection of items bound to specific coordinates and drag-and-drop support of those items.
 
 **Note:** This control isn't working on Web Assembly at the moment.

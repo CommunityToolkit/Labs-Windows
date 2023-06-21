@@ -11,11 +11,7 @@ discussion-id: 353
 issue-id: 0
 ---
 
-# TransitionHelper
-
-An animation helper that morphs between two controls.
-
-### Example
+## Example
 
 > [!SAMPLE TransitionHelperFullExample]
 
