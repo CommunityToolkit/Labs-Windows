@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Runtime.CompilerServices;
+
 namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
@@ -12,6 +14,19 @@ public partial class DataTable : Panel
 {
     // TODO: We should cache this result and update if column properties change
     internal bool IsAnyColumnAuto => Children.Any(static e => e is DataColumn { DesiredWidth.GridUnitType: GridUnitType.Auto });
+
+    // TODO: Check with Sergio if there's a better structure here, as I don't need a Dictionary like ConditionalWeakTable
+    internal HashSet<DataRow> Rows { get; private set; } = new();
+
+    internal void ColumnResized()
+    {
+        InvalidateArrange();
+
+        foreach (var row in Rows)
+        {
+            row.InvalidateArrange();
+        }
+    }
 
     protected override Size MeasureOverride(Size availableSize)
     {
