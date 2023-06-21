@@ -9,7 +9,7 @@ namespace DataTableExperiment.Samples;
 [ToolkitSample(id: nameof(DataTableVirtualizationSample), "DataTable Virtualization Example", description: $"A sample for showing how to create and use a {nameof(DataTable)} control with many rows.")]
 public sealed partial class DataTableVirtualizationSample : Page
 {
-    public const int NumberOfRows = 500;
+    public const int NumberOfRows = 10000;
 
     public ObservableCollection<InventoryItem> InventoryItems { get; set; }
 
@@ -29,6 +29,8 @@ public sealed partial class DataTableVirtualizationSample : Page
         }
 
         items[6].Name = "Hello, testing!";
+
+        items[1500].Description = "This is a very long description that should have been out of view at the start...";
 
         InventoryItems = new(items);
 

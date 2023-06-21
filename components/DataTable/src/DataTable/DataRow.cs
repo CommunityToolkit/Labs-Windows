@@ -9,8 +9,22 @@ public partial class DataRow : Panel
     // TODO: Create our own helper class here for the Header as well vs. straight-Grid.
     // TODO: WeakReference?
     private Panel? _parentPanel;
+    private DataTable? _parentTable;
 
-    private Panel? FindParentHeader()
+    public DataRow()
+    {
+        Unloaded += this.DataRow_Unloaded;
+    }
+
+    private void DataRow_Unloaded(object sender, RoutedEventArgs e)
+    {
+        // Remove our references on unloaded
+        _parentTable?.Rows.Remove(this);
+        _parentTable = null;
+        _parentPanel = null;
+    }
+
+    private Panel? InitializeParentHeaderConnection()
     {
         // TODO: Think about this expression instead...
         //       Drawback: Can't have Grid between table and header
@@ -18,6 +32,7 @@ public partial class DataRow : Panel
         ////var parent = this.FindAscendant<FrameworkElement>(static (element) => element is ItemsPresenter or Grid);
 
         // TODO: Investigate what a scenario with an ItemsRepeater would look like (with a StackLayout, but using DataRow as the item's panel inside)
+        Panel? panel = null;
 
         // 1a. Get parent ItemsPresenter to find header
         if (this.FindAscendant<ItemsPresenter>() is ItemsPresenter itemsPresenter)
@@ -25,21 +40,32 @@ public partial class DataRow : Panel
             // 2. Quickly check if the header is just what we're looking for.
             if (itemsPresenter.Header is Grid or DataTable)
             {
-                return itemsPresenter.Header as Panel;
+                panel = itemsPresenter.Header as Panel;
             }
-
-            // 3. Otherwise, try and find the inner thing we want.
-            return itemsPresenter.FindDescendant<Panel>(static (element) => element is Grid or DataTable);
+            else
+            {
+                // 3. Otherwise, try and find the inner thing we want.
+                panel = itemsPresenter.FindDescendant<Panel>(static (element) => element is Grid or DataTable);
+            }            
         }
 
         // 1b. If we can't find the ItemsPresenter, then we reach up outside to find the next thing we could use as a parent
-        return this.FindAscendant<Panel>(static (element) => element is Grid or DataTable);
+        panel ??= this.FindAscendant<Panel>(static (element) => element is Grid or DataTable);
+
+        // Cache actual datatable reference
+        if (panel is DataTable table)
+        {
+            _parentTable = table;
+            _parentTable.Rows.Add(this); // Add us to the row list.
+        }
+
+        return panel;
     }
 
     protected override Size MeasureOverride(Size availableSize)
     {
         // We should probably only have to do this once ever?
-        _parentPanel ??= FindParentHeader();
+        _parentPanel ??= InitializeParentHeaderConnection();
         
         if (Children.Count > 0)
         {
@@ -49,13 +75,13 @@ public partial class DataRow : Panel
                 Children[0].Measure(availableSize);
                 return new Size(availableSize.Width, Children[0].DesiredSize.Height);
             }
-            else if (_parentPanel is DataTable table && table.IsAnyColumnAuto &&
-                     table.Children.Count == Children.Count)
+            else if (_parentTable != null && _parentTable.IsAnyColumnAuto &&
+                     _parentTable.Children.Count == Children.Count)
             {
                 // Measure all children since we have a column that cares about it
                 for (int i = 0; i < Children.Count; i++)
                 {
-                    if (table.Children[i] is DataColumn { DesiredWidth.GridUnitType: GridUnitType.Auto } col)
+                    if (_parentTable.Children[i] is DataColumn { DesiredWidth.GridUnitType: GridUnitType.Auto } col)
                     {
                         Children[i].Measure(availableSize);
 
@@ -64,9 +90,8 @@ public partial class DataRow : Panel
                         col.MaxChildDesiredWidth = Math.Max(col.MaxChildDesiredWidth, Children[i].DesiredSize.Width);
                         if (col.MaxChildDesiredWidth != prev)
                         {
-                            // TODO: Clean this logic up?
                             // If our measure has changed, then we have to invalidate the arrange of the DataTable
-                            _parentPanel.InvalidateArrange();
+                            _parentTable.ColumnResized();
                         }
                     }
                 }
