@@ -9,6 +9,7 @@ category: Controls
 subcategory: Input
 discussion-id: 314
 issue-id: 392
+icon: Assets/Segmented.png
 ---
 
 # Segmented control

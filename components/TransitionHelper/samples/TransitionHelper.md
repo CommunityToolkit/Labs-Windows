@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 353
 issue-id: 0
+icon: Assets/TransitionHelper.png
 ---
 
 # TransitionHelper

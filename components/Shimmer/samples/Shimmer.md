@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 381
 issue-id: 390
+icon: Assets/Shimmer.png
 ---
 # Shimmer
 

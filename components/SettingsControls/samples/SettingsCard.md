@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 129
 issue-id: 216
+icon: Assets/SettingsCard.png
 ---
 
 # SettingsCard

@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 310
 issue-id: 212
+icon: Assets/CanvasView.png
 ---
 
 # CanvasView

@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 311
 issue-id: 213
+icon: Assets/CanvasLayout.png
 ---
 
 # CanvasLayout
