@@ -12,6 +12,8 @@
         <controls:HeaderedItemsControl.Header>
             <controls:DataTable>
                 <controls:DataColumn DesiredWidth="Auto" />
+                <!--  Need 2nd column to force size of available for testing  -->
+                <controls:DataColumn DesiredWidth="*" />
             </controls:DataTable>
         </controls:HeaderedItemsControl.Header>
         <controls:HeaderedItemsControl.ItemTemplate>
@@ -21,6 +23,7 @@
                             Tag="BorderItem">
                         <TextBlock Text="{Binding}" />
                     </Border>
+                    <Border Tag="ExtraArea" />
                 </controls:DataRow>
             </DataTemplate>
         </controls:HeaderedItemsControl.ItemTemplate>
@@ -31,6 +34,7 @@
         </controls:HeaderedItemsControl.ItemContainerStyle>
 
         <!--  Content  -->
+        <x:String>1</x:String>
         <x:String>SuperLongString</x:String>
         <x:String>Short</x:String>
     </controls:HeaderedItemsControl>

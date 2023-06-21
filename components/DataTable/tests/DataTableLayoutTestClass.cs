@@ -28,44 +28,41 @@ public partial class DataTableLayoutTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public void DataColumnDataRowAutoSizeTest(DataTableColumnAutoSizeTestPage page)
     {
-        // Setup: Check the core item we want to adapt to
-        var row = page.FindDescendant<DataRow>();
+        // Setup: Find all rows in our table
+        var rows = page.FindDescendants().OfType<DataRow>();
 
-        Assert.IsNotNull(row);
+        double? targetWidth = null;
+        int index = 0;
+        bool found = false;
 
-        var itemBorder = row.FindDescendant<Border>();
+        foreach (DataRow row in rows)
+        {
+            var itemBorder = row.FindDescendant<Border>();
 
-        Assert.IsNotNull(itemBorder);
-        Assert.AreEqual("BorderItem", itemBorder.Tag, "Couldn't find proper border item");
+            Assert.IsNotNull(itemBorder);
+            Assert.AreEqual("BorderItem", itemBorder.Tag, "Couldn't find proper border item");
+            Assert.IsTrue(itemBorder.ActualWidth >= 50, "Border should be equal to or larger than MinWidth");
 
-        Assert.IsTrue(itemBorder.ActualWidth > 50, "Border should be larger than MinWidth");
+            targetWidth ??= itemBorder.ActualWidth;
 
-        var longItemTextBlock = itemBorder.FindDescendant<TextBlock>();
+            // All columns should have the same width
+            Assert.AreEqual(targetWidth.Value, itemBorder.ActualWidth, 1.0, $"Column for row at index {index}, is wrong size");
 
-        Assert.IsNotNull(longItemTextBlock, "Couldn't find long text textblock");
-        Assert.AreEqual("SuperLongString", longItemTextBlock.Text, "Didn't find right textblock");
+            // Check if this is our 'longest' textbox
+            var longItemTextBlock = row.FindDescendant<TextBlock>();
+            if (longItemTextBlock?.Text == "SuperLongString")
+            {
+                Assert.AreEqual(targetWidth.Value, longItemTextBlock.ActualWidth, 1.0, "Column not same size as longest textblock");
+                found = true;
+            }
+        }
 
-        var targetWidth = longItemTextBlock.ActualWidth; // or desired size?
+        Assert.IsTrue(found, "Didn't find longest textblock to check measurement.");
 
         // Test: Check the column is the appropriate size
         var column = page.FindDescendant<DataColumn>();
 
         Assert.IsNotNull(column);
-        Assert.AreEqual(targetWidth, column.ActualWidth, 1.0, "Column didn't autosize");
-
-        // Test2: Check the other row is the same size too.
-
-        var row2 = page.FindDescendants().Where(element => element is DataRow).Skip(1).FirstOrDefault() as DataRow;
-
-        Assert.IsNotNull(row2, "Couldn't find short row");
-        var shortItemTextBlock = row2.FindDescendant<TextBlock>();
-
-        Assert.IsNotNull(shortItemTextBlock);
-        Assert.AreEqual("Short", shortItemTextBlock.Text, "Couldn't find short text");
-
-        var borderShort = row2.FindDescendant<Border>();
-
-        Assert.IsNotNull(borderShort);
-        Assert.AreEqual(targetWidth, borderShort.ActualWidth, 1.0, "Other row didn't match size of larger row");
+        Assert.AreEqual(targetWidth!.Value, column.ActualWidth, 1.0, "Column didn't autosize to match");
     }
 }
