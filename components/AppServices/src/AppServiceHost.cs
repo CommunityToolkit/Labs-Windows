@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -83,7 +83,7 @@ public abstract class AppServiceHost
     /// </para>
     /// <para>
     /// This method should be used as follows (from <c>App.xaml.cs</c>):
-    /// <code>
+    /// <code language="cs">
     /// protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
     /// {
     ///     base.OnBackgroundActivated(args);
@@ -521,7 +521,7 @@ public abstract class AppServiceHost
         /// <param name="parameter">The parameter to add to the request.</param>
         /// <param name="parameterName">The parameter name.</param>
         /// <returns>The current <see cref="AppServiceRequest"/> instance.</returns>
-        public AppServiceRequest WithParameter<T>(T parameter, [CallerArgumentExpression("parameter")] string? parameterName = null)
+        public AppServiceRequest WithParameter<T>(T parameter, [CallerArgumentExpression(nameof(parameter))] string? parameterName = null)
         {
             _valueSet.Add(parameterName!, ValueSetMarshaller.ToObject(parameter));
 
@@ -537,7 +537,7 @@ public abstract class AppServiceHost
         /// <param name="parameter">The parameter to add to the request.</param>
         /// <param name="parameterName">The parameter name.</param>
         /// <returns>The current <see cref="AppServiceRequest"/> instance.</returns>
-        public AppServiceRequest WithParameter<TSerializer, TParameter>(TSerializer serializer, TParameter? parameter, [CallerArgumentExpression("parameter")] string? parameterName = null)
+        public AppServiceRequest WithParameter<TSerializer, TParameter>(TSerializer serializer, TParameter? parameter, [CallerArgumentExpression(nameof(parameter))] string? parameterName = null)
             where TSerializer : IValueSetSerializer<TParameter>
         {
             _valueSet.Add(parameterName!, serializer.Serialize(parameter));

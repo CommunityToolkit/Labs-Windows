@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -17,7 +17,7 @@ namespace CommunityToolkit.AppServices.SourceGenerators;
 /// </para>
 /// <para>
 /// That is, this diagnostic suppressor will suppress the following diagnostic:
-/// <code>
+/// <code language="cs">
 /// public partial class MyAppService : IMyAppService
 /// { 
 ///     public async Task&lt;string&gt; GreetUserAsync()
