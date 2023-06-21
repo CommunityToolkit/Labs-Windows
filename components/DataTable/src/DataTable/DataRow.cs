@@ -60,7 +60,14 @@ public partial class DataRow : Panel
                         Children[i].Measure(availableSize);
 
                         // TODO: Do we want this to ever shrink back?
+                        var prev = col.MaxChildDesiredWidth;
                         col.MaxChildDesiredWidth = Math.Max(col.MaxChildDesiredWidth, Children[i].DesiredSize.Width);
+                        if (col.MaxChildDesiredWidth != prev)
+                        {
+                            // TODO: Clean this logic up?
+                            // If our measure has changed, then we have to invalidate the arrange of the DataTable
+                            _parentPanel.InvalidateArrange();
+                        }
                     }
                 }
             }
