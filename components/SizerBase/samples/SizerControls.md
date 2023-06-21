@@ -12,8 +12,6 @@ issue-id: 101
 icon: Assets/Sizers.png
 ---
 
-# Sizer Controls
-
 The Sizer controls consist of the following:
 
 - GridSplitter

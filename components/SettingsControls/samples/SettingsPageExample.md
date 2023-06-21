@@ -12,8 +12,4 @@ issue-id: 216
 icon: Assets/SettingsExpander.png
 ---
 
-# Settings Page Example
-
-This example uses `SettingsCard` and `SettingsExpander` to showcase a complete Windows 11 style settings page.
-
 > [!SAMPLE SettingsPageExample]

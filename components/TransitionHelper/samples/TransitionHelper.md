@@ -12,11 +12,7 @@ issue-id: 0
 icon: Assets/TransitionHelper.png
 ---
 
-# TransitionHelper
-
-An animation helper that morphs between two controls.
-
-### Example
+## Example
 
 > [!SAMPLE TransitionHelperFullExample]
 

@@ -12,8 +12,6 @@ issue-id: 210
 icon: Assets/StackedNotificationsBehavior.png
 ---
 
-# StackedNotificationsBehavior
-
 This initial example shows how to attach the behavior to an `InfoBar` and send it a message.
 
 Clicking on the button multiple times will queue up multiple messages to be displayed one after another.

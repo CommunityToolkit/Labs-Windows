@@ -12,8 +12,6 @@ issue-id: 216
 icon: Assets/SettingsCard.png
 ---
 
-# SettingsCard
-
 SettingsCard is a control that can be used to display settings in your experience. It uses the default styling found in Windows 11 and is easy to use, meets all accesibility standards and will make your settings page look great!
 You can set the `Header`, `Description`, `HeaderIcon` and `Content` properties to create an easy to use experience, like so:
 

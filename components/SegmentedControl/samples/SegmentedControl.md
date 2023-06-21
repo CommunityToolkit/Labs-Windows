@@ -12,10 +12,6 @@ issue-id: 392
 icon: Assets/Segmented.png
 ---
 
-# Segmented control
-
-The `Segmented` control is a control to be used for configuring a view or setting.
-
 ## The basics
 
 The `Segmented` control is best used with 2-5 items and does not support overflow. The `Icon` and `Content` property can be set on the `SegmentedItems`.

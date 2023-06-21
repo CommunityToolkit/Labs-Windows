@@ -12,8 +12,6 @@ issue-id: 213
 icon: Assets/CanvasLayout.png
 ---
 
-# CanvasLayout
-
 The `CanvasLayout` is an early prototype for a custom Layout for ItemsRepeater which provides a virtualized canvas.
 
 > [!SAMPLE CanvasLayoutSample]
