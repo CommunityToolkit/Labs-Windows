@@ -81,7 +81,7 @@ public partial class DataRow : Panel
                 // Measure all children since we have a column that cares about it
                 for (int i = 0; i < Children.Count; i++)
                 {
-                    if (_parentTable.Children[i] is DataColumn { DesiredWidth.GridUnitType: GridUnitType.Auto } col)
+                    if (_parentTable.Children[i] is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto } col)
                     {
                         Children[i].Measure(availableSize);
 

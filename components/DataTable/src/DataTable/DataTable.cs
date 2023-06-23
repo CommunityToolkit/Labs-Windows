@@ -13,7 +13,7 @@ namespace CommunityToolkit.WinUI.Controls;
 public partial class DataTable : Panel
 {
     // TODO: We should cache this result and update if column properties change
-    internal bool IsAnyColumnAuto => Children.Any(static e => e is DataColumn { DesiredWidth.GridUnitType: GridUnitType.Auto });
+    internal bool IsAnyColumnAuto => Children.Any(static e => e is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto });
 
     // TODO: Check with Sergio if there's a better structure here, as I don't need a Dictionary like ConditionalWeakTable
     internal HashSet<DataRow> Rows { get; private set; } = new();
@@ -41,11 +41,11 @@ public partial class DataTable : Panel
         // We only need to measure elements that are visible
         foreach (DataColumn column in elements)
         {
-            if (column.DesiredWidth.IsStar)
+            if (column.CurrentWidth.IsStar)
             {
                 proportionalUnits += column.DesiredWidth.Value;
             }
-            else if (column.DesiredWidth.IsAbsolute)
+            else if (column.CurrentWidth.IsAbsolute)
             {
                 fixedWidth += column.DesiredWidth.Value;
             }
@@ -56,13 +56,13 @@ public partial class DataTable : Panel
 
         foreach (DataColumn column in elements)
         {
-            if (column.DesiredWidth.IsStar)
+            if (column.CurrentWidth.IsStar)
             {
-                column.Measure(new Size(proportionalAmount * column.DesiredWidth.Value, availableSize.Height));
+                column.Measure(new Size(proportionalAmount * column.CurrentWidth.Value, availableSize.Height));
             }
-            else if (column.DesiredWidth.IsAbsolute)
+            else if (column.CurrentWidth.IsAbsolute)
             {
-                column.Measure(new Size(column.DesiredWidth.Value, availableSize.Height));
+                column.Measure(new Size(column.CurrentWidth.Value, availableSize.Height));
             }
             else
             {
@@ -97,13 +97,13 @@ public partial class DataTable : Panel
         // We only need to measure elements that are visible
         foreach (DataColumn column in elements)
         {
-            if (column.DesiredWidth.IsStar)
+            if (column.CurrentWidth.IsStar)
             {
-                proportionalUnits += column.DesiredWidth.Value;
+                proportionalUnits += column.CurrentWidth.Value;
             }
-            else if (column.DesiredWidth.IsAbsolute)
+            else if (column.CurrentWidth.IsAbsolute)
             {
-                fixedWidth += column.DesiredWidth.Value;
+                fixedWidth += column.CurrentWidth.Value;
             }
             else
             {
@@ -119,14 +119,14 @@ public partial class DataTable : Panel
 
         foreach (DataColumn column in elements)
         {
-            if (column.DesiredWidth.IsStar)
+            if (column.CurrentWidth.IsStar)
             {
-                width = proportionalAmount * column.DesiredWidth.Value;
+                width = proportionalAmount * column.CurrentWidth.Value;
                 column.Arrange(new Rect(x, 0, width, finalSize.Height));
             }
-            else if (column.DesiredWidth.IsAbsolute)
+            else if (column.CurrentWidth.IsAbsolute)
             {
-                width = column.DesiredWidth.Value;
+                width = column.CurrentWidth.Value;
                 column.Arrange(new Rect(x, 0, width, finalSize.Height));
             }
             else

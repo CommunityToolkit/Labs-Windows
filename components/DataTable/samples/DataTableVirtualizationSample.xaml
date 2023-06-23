@@ -15,8 +15,9 @@
         <ListView.Header>
             <controls:DataTable>
                 <controls:DataColumn Content="Id" />
-                <controls:DataColumn Content="Name" />
-                <controls:DataColumn>
+                <controls:DataColumn CanResize="True"
+                                     Content="Name" />
+                <controls:DataColumn CanResize="True">
                     <TextBlock FontWeight="Bold"
                                Text="Description" />
                 </controls:DataColumn>
