@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 310
 issue-id: 212
+icon: Assets/CanvasView.png
 ---
 
 It which provides built-in support for presenting a collection of items bound to specific coordinates and drag-and-drop support of those items.

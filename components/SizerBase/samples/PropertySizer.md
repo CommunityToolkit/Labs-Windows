@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 96
 issue-id: 101
+icon: Assets/PropertySizer.png
 ---
 
 **If you are using a `Grid`, use `GridSplitter` instead.**
