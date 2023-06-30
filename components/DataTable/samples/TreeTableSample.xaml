@@ -12,8 +12,9 @@
     <controls:HeaderedTreeView ItemsSource="{x:Bind InventoryItems}">
         <controls:HeaderedTreeView.Header>
             <controls:DataTable>
+                <!--  In a Tree based DataTable, setting the first column to Auto will account for indentation in the Tree automatically  -->
                 <controls:DataColumn Content="Id"
-                                     DesiredWidth="80" />
+                                     DesiredWidth="Auto" />
                 <controls:DataColumn MinWidth="120"
                                      Content="Name" />
                 <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
