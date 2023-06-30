@@ -112,6 +112,7 @@ public partial class DataTable : Panel
         }
 
         // TODO: Handle infinite width?
+        // TODO: This can go out of bounds or something around here when pushing a resized column to the right...
         var proportionalAmount = (finalSize.Width - fixedWidth - autoSized) / proportionalUnits;
 
         double width = 0;
