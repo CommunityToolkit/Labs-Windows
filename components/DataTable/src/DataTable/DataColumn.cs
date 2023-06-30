@@ -97,15 +97,15 @@ public partial class DataColumn : ContentControl
 
     private void PART_ColumnSizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
     {
-        ResizeColumn();
+        ColumnResizedByUserSizer();
     }
 
     private void PART_ColumnSizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
     {
-        ResizeColumn();
+        ColumnResizedByUserSizer();
     }
 
-    private void ResizeColumn()
+    private void ColumnResizedByUserSizer()
     {
         // Update our internal representation to be our size now as a fixed value.
         CurrentWidth = new(this.ActualWidth);
