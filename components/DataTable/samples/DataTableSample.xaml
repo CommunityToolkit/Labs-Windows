@@ -10,7 +10,7 @@
 
     <ListView ItemsSource="{x:Bind InventoryItems}">
         <ListView.Header>
-            <controls:DataTable>
+            <controls:DataTable Margin="12,0,0,0">
                 <controls:DataColumn Content="Id"
                                      DesiredWidth="80" />
                 <controls:DataColumn MinWidth="120"

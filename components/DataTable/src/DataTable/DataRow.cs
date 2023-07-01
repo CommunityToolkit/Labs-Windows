@@ -137,7 +137,8 @@ public partial class DataRow : Panel
         int column = 0;
         double x = 0;
 
-        double spacing = (_parentPanel as Grid)?.ColumnSpacing ?? 0; // TODO: Spacing for DataTable?
+        // Try and grab Column Spacing from DataTable, if not a parent Grid, if not 0.
+        double spacing = _parentTable?.ColumnSpacing ?? (_parentPanel as Grid)?.ColumnSpacing ?? 0;
 
         double width = 0;
 
