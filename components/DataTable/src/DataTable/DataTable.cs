@@ -28,6 +28,22 @@ public partial class DataTable : Panel
         }
     }
 
+    //// TODO: Would we want this named 'Spacing' instead if we support an Orientation in the future for columns being items instead of rows?
+    /// <summary>
+    /// Gets or sets the amount of space to place between columns within the table.
+    /// </summary>
+    public double ColumnSpacing
+    {
+        get { return (double)GetValue(ColumnSpacingProperty); }
+        set { SetValue(ColumnSpacingProperty, value); }
+    }
+
+    /// <summary>
+    /// Gets the <see cref="ColumnSpacing"/> <see cref="DependencyProperty"/>.
+    /// </summary>
+    public static readonly DependencyProperty ColumnSpacingProperty =
+        DependencyProperty.Register(nameof(ColumnSpacing), typeof(double), typeof(DataTable), new PropertyMetadata(0d));
+
     protected override Size MeasureOverride(Size availableSize)
     {
         double fixedWidth = 0;
@@ -50,6 +66,9 @@ public partial class DataTable : Panel
                 fixedWidth += column.DesiredWidth.Value;
             }
         }
+
+        // Add in spacing between columns to our fixed size allotment
+        fixedWidth += (elements.Count() - 1) * ColumnSpacing;
 
         // TODO: Handle infinite width?
         var proportionalAmount = (availableSize.Width - fixedWidth) / proportionalUnits;
@@ -137,7 +156,7 @@ public partial class DataTable : Panel
                 column.Arrange(new Rect(x, 0, width, finalSize.Height));
             }
 
-            x += width;
+            x += width + ColumnSpacing;
         }
 
         return finalSize;
