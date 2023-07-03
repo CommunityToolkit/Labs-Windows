@@ -1,6 +1,5 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using Markdig.Syntax.Inlines;
-using System;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers.ObjectRenderers.Inlines;
 

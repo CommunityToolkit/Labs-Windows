@@ -1,7 +1,4 @@
-﻿using HtmlAgilityPack;
-using System;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
+using HtmlAgilityPack;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements.Html;
 
@@ -25,7 +22,7 @@ internal class MyInline : IAddChild
         _richTextBlock = new RichTextBlock();
         _richTextBlock.Blocks.Add(_paragraph);
 
-        _richTextBlock.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
+        _richTextBlock.HorizontalAlignment = HorizontalAlignment.Stretch;
         _inlineUIContainer.Child = _richTextBlock;
     }
 

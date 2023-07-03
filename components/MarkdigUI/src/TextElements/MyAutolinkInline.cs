@@ -1,6 +1,4 @@
-﻿using Markdig.Syntax.Inlines;
-using System;
-using Windows.UI.Xaml.Documents;
+using Markdig.Syntax.Inlines;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 

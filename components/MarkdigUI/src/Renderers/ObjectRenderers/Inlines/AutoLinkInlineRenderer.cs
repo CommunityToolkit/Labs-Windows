@@ -1,6 +1,5 @@
-﻿using Markdig.Syntax.Inlines;
+using Markdig.Syntax.Inlines;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
-using System;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers.ObjectRenderers.Inlines;
 

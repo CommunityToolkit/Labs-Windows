@@ -4,16 +4,6 @@ using ColorCode.Styling;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using Windows.Foundation;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Media;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI;
 
@@ -401,7 +391,7 @@ public static class Extensions
         }
     }
 
-    public static string RemoveImageSize(string url)
+    public static string RemoveImageSize(string? url)
     {
         if (string.IsNullOrEmpty(url))
         {
@@ -417,7 +407,7 @@ public static class Extensions
         return result;
     }
 
-    public static Uri GetUri(string url, string @base)
+    public static Uri GetUri(string? url, string? @base)
     {
         var validUrl = RemoveImageSize(url);
         Uri result;
@@ -430,7 +420,7 @@ public static class Extensions
         {
             //the url is relative, so append the base
             //trim any trailing "/" from the base and any leading "/" from the url
-            @base = @base.TrimEnd('/');
+            @base = @base?.TrimEnd('/');
             validUrl = validUrl.TrimStart('/');
             //return the base and the url separated by a single "/"
             return new Uri(@base + "/" + validUrl);

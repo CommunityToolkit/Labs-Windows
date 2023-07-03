@@ -1,12 +1,9 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI;
 
 public partial class MarkdownViewer : Control
 {
     private const string MarkdownContainerName = "MarkdownContainerName";
-    private Grid _container;
+    private Grid? _container;
 
     private static readonly DependencyProperty ConfigProperty = DependencyProperty.Register(
         nameof(Config),
@@ -20,8 +17,8 @@ public partial class MarkdownViewer : Control
         if (d is MarkdownViewer self && e.NewValue != null)
         {
             var uiElement = MarkdownUIBuilder.Build(self.Config);
-            self._container.Children.Clear();
-            self._container.Children.Add(uiElement);
+            self._container?.Children.Clear();
+            self._container?.Children.Add(uiElement);
         }
     }
 
@@ -29,10 +26,6 @@ public partial class MarkdownViewer : Control
     {
         get => (MarkdownConfig)GetValue(ConfigProperty);
         set => SetValue(ConfigProperty, value);
-    }
-
-    public MarkdownViewer()
-    {
     }
 
     protected override void OnApplyTemplate()

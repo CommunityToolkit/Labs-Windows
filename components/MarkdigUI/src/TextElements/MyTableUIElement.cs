@@ -1,12 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.Foundation;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Shapes;
-
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 
 internal class MyTableUIElement : Panel
@@ -14,8 +5,8 @@ internal class MyTableUIElement : Panel
     private readonly int _columnCount;
     private readonly int _rowCount;
     private readonly double _borderThickness;
-    private double[] _columnWidths;
-    private double[] _rowHeights;
+    private double[]? _columnWidths;
+    private double[]? _rowHeights;
 
     public MyTableUIElement(int columnCount, int rowCount, double borderThickness, Brush borderBrush)
     {

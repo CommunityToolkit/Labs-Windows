@@ -1,8 +1,7 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements.Html;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
-using System.Linq;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI;
 
@@ -30,11 +29,11 @@ internal class HtmlWriter
                     IAddChild hyperLink;
                     if (node.ChildNodes.Any(n => n.Name != "#text"))
                     {
-                        hyperLink = new MyHyperlinkButton(node, renderer.Config.BaseUrl);
+                        hyperLink = new MyHyperlinkButton(node, renderer.Config?.BaseUrl);
                     }
                     else
                     {
-                        hyperLink = new MyHyperlink(node, renderer.Config.BaseUrl);
+                        hyperLink = new MyHyperlink(node, renderer.Config?.BaseUrl);
                     }
                     renderer.Push(hyperLink);
                     WriteHtml(renderer, node.ChildNodes);
@@ -55,7 +54,7 @@ internal class HtmlWriter
             }
             else if (node.NodeType == HtmlNodeType.Element && node.Name.TagToType() == TextElements.HtmlElementType.Block)
             {
-                IAddChild block = null;
+                IAddChild block;
                 var tag = node.Name.ToLower();
                 if (tag == "details")
                 {

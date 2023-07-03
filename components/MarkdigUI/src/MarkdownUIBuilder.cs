@@ -1,8 +1,6 @@
 using CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 using Markdig;
-using System;
-using Windows.UI.Xaml;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI;
 

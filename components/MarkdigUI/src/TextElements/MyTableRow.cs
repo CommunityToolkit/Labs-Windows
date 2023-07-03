@@ -1,6 +1,4 @@
-﻿using Markdig.Extensions.Tables;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
+using Markdig.Extensions.Tables;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 

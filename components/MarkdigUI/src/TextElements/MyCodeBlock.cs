@@ -1,14 +1,4 @@
-﻿using ColorCode;
-using Markdig.Helpers;
 using Markdig.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Media;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 
@@ -29,15 +19,18 @@ internal class MyCodeBlock : IAddChild
         var container = new InlineUIContainer();
         var border = new Border();
         border.Background = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
-        border.Padding = new Windows.UI.Xaml.Thickness(8);
-        border.Margin = new Windows.UI.Xaml.Thickness(4);
-        border.CornerRadius = new Windows.UI.Xaml.CornerRadius(4);
+        border.Padding = new Thickness(8);
+        border.Margin = new Thickness(4);
+        border.CornerRadius = new CornerRadius(4);
         var richTextBlock = new RichTextBlock();
 
         if (codeBlock is FencedCodeBlock fencedCodeBlock)
         {
-            var formatter = new RichTextBlockFormatter(Extensions.GetOneDarkProStyle());
-
+#if !WINAPPSDK
+            var formatter = new ColorCode.RichTextBlockFormatter(Extensions.GetOneDarkProStyle());
+#else
+            var formatter = new ColorCode.RichTextBlockFormatter(Extensions.GetOneDarkProStyle());
+#endif
             var stringBuilder = new StringBuilder();
 
             // go through all the lines backwards and only add the lines to a stack if we have encountered the first non-empty line

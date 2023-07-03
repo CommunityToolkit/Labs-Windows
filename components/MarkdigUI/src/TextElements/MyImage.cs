@@ -1,22 +1,16 @@
-﻿using Markdig.Syntax.Inlines;
-using System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Media.Imaging;
-using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Storage.Streams;
+using Markdig.Syntax.Inlines;
 using HtmlAgilityPack;
+
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 
 internal class MyImage : IAddChild
 {
-    private InlineUIContainer _container;
-    private LinkInline _linkInline;
-    private Windows.UI.Xaml.Controls.Image _image;
+    private InlineUIContainer _container = new InlineUIContainer();
+    private LinkInline? _linkInline;
+    private Image _image = new Image();
     private Uri _uri;
-    private HtmlNode _htmlNode;
-    private IImageProvider _imageProvider;
+    private HtmlNode? _htmlNode;
+    private IImageProvider? _imageProvider;
     private ISVGRenderer _svgRenderer;
     private double _precedentWidth;
     private double _precedentHeight;
@@ -45,23 +39,23 @@ internal class MyImage : IAddChild
         }
     }
 
-    public MyImage(HtmlNode htmlNode, MarkdownConfig config)
+    public MyImage(HtmlNode htmlNode, MarkdownConfig? config)
     {
         Uri.TryCreate(htmlNode.GetAttributeValue("src", "#"), UriKind.RelativeOrAbsolute, out _uri);
         _htmlNode = htmlNode;
-        _imageProvider = config.ImageProvider;
-        _svgRenderer = config.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
+        _imageProvider = config?.ImageProvider;
+        _svgRenderer = config?.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
         Init();
         int.TryParse(
             htmlNode.GetAttributeValue("width", "0"),
-            System.Globalization.NumberStyles.Integer,
-            System.Globalization.CultureInfo.InvariantCulture,
+            NumberStyles.Integer,
+            CultureInfo.InvariantCulture,
             out var width
         );
         int.TryParse(
             htmlNode.GetAttributeValue("height", "0"),
-            System.Globalization.NumberStyles.Integer,
-            System.Globalization.CultureInfo.InvariantCulture,
+            NumberStyles.Integer,
+            CultureInfo.InvariantCulture,
             out var height
         );
         if (width > 0)
@@ -76,11 +70,7 @@ internal class MyImage : IAddChild
 
     private void Init()
     {
-        _container = new InlineUIContainer();
-        _image = new Windows.UI.Xaml.Controls.Image();
-
         _image.Loaded += LoadImage;
-
         _container.Child = _image;
     }
 

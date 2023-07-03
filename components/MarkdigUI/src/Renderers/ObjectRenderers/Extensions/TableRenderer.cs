@@ -1,7 +1,5 @@
-﻿using Markdig.Extensions.Tables;
+using Markdig.Extensions.Tables;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
-using System;
-using Windows.UI.Xaml;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers.ObjectRenderers.Extensions;
 

@@ -1,15 +1,14 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using Markdig.Syntax.Inlines;
-using Windows.UI.Xaml.Documents;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 
 internal class MyHyperlink : IAddChild
 {
     private Hyperlink _hyperlink;
-    private LinkInline _linkInline;
-    private HtmlNode _htmlNode;
-    private string _baseUrl;
+    private LinkInline? _linkInline;
+    private HtmlNode? _htmlNode;
+    private string? _baseUrl;
 
     public bool IsHtml => _htmlNode != null;
 
@@ -18,7 +17,7 @@ internal class MyHyperlink : IAddChild
         get => _hyperlink;
     }
 
-    public MyHyperlink(LinkInline linkInline, string baseUrl)
+    public MyHyperlink(LinkInline linkInline, string? baseUrl)
     {
         _baseUrl = baseUrl;
         var url = linkInline.GetDynamicUrl != null ? linkInline.GetDynamicUrl() ?? linkInline.Url : linkInline.Url;
@@ -29,7 +28,7 @@ internal class MyHyperlink : IAddChild
         };
     }
 
-    public MyHyperlink(HtmlNode htmlNode, string baseUrl)
+    public MyHyperlink(HtmlNode htmlNode, string? baseUrl)
     {
         _baseUrl = baseUrl;
         var url = htmlNode.GetAttributeValue("href", "#");
@@ -42,6 +41,7 @@ internal class MyHyperlink : IAddChild
 
     public void AddChild(IAddChild child)
     {
+#if !WINAPPSDK
         if (child.TextElement is Windows.UI.Xaml.Documents.Inline inlineChild)
         {
             try
@@ -51,5 +51,16 @@ internal class MyHyperlink : IAddChild
             }
             catch { }
         }
+#else
+        if (child.TextElement is Microsoft.UI.Xaml.Documents.Inline inlineChild)
+        {
+            try
+            {
+                _hyperlink.Inlines.Add(inlineChild);
+                // TODO: Add support for click handler
+            }
+            catch { }
+        }
+#endif
     }
 }

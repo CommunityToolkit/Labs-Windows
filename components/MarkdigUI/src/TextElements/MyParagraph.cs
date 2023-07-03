@@ -1,6 +1,4 @@
-﻿using Markdig.Syntax;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
+using Markdig.Syntax;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 
@@ -26,11 +24,15 @@ internal class MyParagraph : IAddChild
         {
             _paragraph.Inlines.Add(inlineChild);
         }
+#if !WINAPPSDK
         else if (child.TextElement is Windows.UI.Xaml.Documents.Block blockChild)
+#else
+        else if (child.TextElement is Microsoft.UI.Xaml.Documents.Block blockChild)
+#endif
         {
             var inlineUIContainer = new InlineUIContainer();
             var richTextBlock = new RichTextBlock();
-            richTextBlock.TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
+            richTextBlock.TextWrapping = TextWrapping.Wrap;
             richTextBlock.Blocks.Add(blockChild);
             inlineUIContainer.Child = richTextBlock;
             _paragraph.Inlines.Add(inlineUIContainer);

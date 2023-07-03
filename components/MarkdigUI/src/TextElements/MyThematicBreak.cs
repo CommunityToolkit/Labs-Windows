@@ -1,9 +1,4 @@
-﻿using Markdig.Syntax;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Media;
+using Markdig.Syntax;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 

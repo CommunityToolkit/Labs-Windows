@@ -1,15 +1,11 @@
-﻿using Markdig.Extensions.Tables;
-using Windows.UI.Text;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
+using Markdig.Extensions.Tables;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 
 internal class MyTableCell : IAddChild
 {
     private TableCell _tableCell;
-    private Paragraph _paragraph;
+    private Paragraph _paragraph = new Paragraph();
     private MyFlowDocument _flowDocument;
     private bool _isHeader;
     private int _columnIndex;

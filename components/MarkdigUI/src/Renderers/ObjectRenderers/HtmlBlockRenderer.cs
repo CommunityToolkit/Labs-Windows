@@ -1,8 +1,5 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using Markdig.Syntax;
-using System;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers.ObjectRenderers;
 

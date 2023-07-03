@@ -1,12 +1,10 @@
-﻿using Markdig.Renderers;
-using Markdig.Syntax;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers.ObjectRenderers;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers.ObjectRenderers.Inlines;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers.ObjectRenderers.Extensions;
-using System;
-using System.Collections.Generic;
-using Markdig.Helpers;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
+using Markdig.Renderers;
+using Markdig.Syntax;
+using Markdig.Helpers;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.Renderers;
 
@@ -14,7 +12,7 @@ public class UWPRenderer : RendererBase
 {
     private readonly Stack<IAddChild> _stack = new Stack<IAddChild>();
     private char[] _buffer;
-    public MyFlowDocument FlowDocument { get; private set; }
+    public MyFlowDocument? FlowDocument { get; private set; }
     public MarkdownConfig Config { get; private set; }
 
     public UWPRenderer(MyFlowDocument document, MarkdownConfig config)
@@ -27,7 +25,7 @@ public class UWPRenderer : RendererBase
     public override object Render(MarkdownObject markdownObject)
     {
         Write(markdownObject);
-        return FlowDocument;
+        return FlowDocument ?? new();
     }
 
     public void LoadDocument(MyFlowDocument document)
@@ -40,8 +38,8 @@ public class UWPRenderer : RendererBase
 
     public void WriteLeafInline(LeafBlock leafBlock)
     {
-        if (leafBlock == null) throw new ArgumentNullException(nameof(leafBlock));
-        var inline = (Syntax.Inlines.Inline)leafBlock.Inline;
+        if (leafBlock == null || leafBlock.Inline == null) throw new ArgumentNullException(nameof(leafBlock));
+        var inline = (Markdig.Syntax.Inlines.Inline)leafBlock.Inline;
         while (inline != null)
         {
             Write(inline);
@@ -97,7 +95,7 @@ public class UWPRenderer : RendererBase
 
     public void WriteText(string? text)
     {
-        WriteInline(new MyInlineText(text));
+        WriteInline(new MyInlineText(text ?? ""));
     }
 
     public void WriteText(string? text, int offset, int length)

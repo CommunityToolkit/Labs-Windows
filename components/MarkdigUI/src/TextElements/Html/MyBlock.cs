@@ -1,7 +1,4 @@
-﻿using HtmlAgilityPack;
-using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
+using HtmlAgilityPack;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements.Html;
 
@@ -24,11 +21,11 @@ internal class MyBlock : IAddChild
         _paragraph = new Paragraph();
         _paragraph.TextAlignment = align switch
         {
-            "left" => Windows.UI.Xaml.TextAlignment.Left,
-            "right" => Windows.UI.Xaml.TextAlignment.Right,
-            "center" => Windows.UI.Xaml.TextAlignment.Center,
-            "justify" => Windows.UI.Xaml.TextAlignment.Justify,
-            _ => Windows.UI.Xaml.TextAlignment.Left,
+            "left" => TextAlignment.Left,
+            "right" => TextAlignment.Right,
+            "center" => TextAlignment.Center,
+            "justify" => TextAlignment.Justify,
+            _ => TextAlignment.Left,
         };
         StyleBlock();
     }
@@ -57,10 +54,10 @@ internal class MyBlock : IAddChild
         switch (_htmlNode.Name.ToLower())
         {
             case "address":
-                _paragraph.FontStyle = Windows.UI.Text.FontStyle.Italic;
+                _paragraph.FontStyle = FontStyle.Italic;
                 foreach (var richTextBlock in _richTextBlocks)
                 {
-                    richTextBlock.FontStyle = Windows.UI.Text.FontStyle.Italic;
+                    richTextBlock.FontStyle = FontStyle.Italic;
                 }
                 //_flowDocument.RichTextBlock.Style = (Windows.UI.Xaml.Style)Windows.UI.Xaml.Application.Current.Resources["AddressBlockStyle"];
                 break;

@@ -1,5 +1,3 @@
-using Windows.UI.Xaml.Media.Imaging;
-
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI;
 
 internal class DefaultSVGRenderer : ISVGRenderer
