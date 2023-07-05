@@ -1,4 +1,4 @@
-<Page x:Class="TitleBarExperiment.Samples.SecondPage"
+﻿<Page x:Class="TitleBarExperiment.Samples.SecondPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -11,8 +11,8 @@
     <Grid>
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
+                   FontSize="48"
                    FontWeight="SemiBold"
-                   FontSize="48" 
                    Text="2" />
     </Grid>
 </Page>
