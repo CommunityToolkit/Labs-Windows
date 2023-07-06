@@ -21,7 +21,6 @@ namespace CommunityToolkit.WinUI.Controls;
 
 public partial class TitleBar : Control
 {
-    private AppWindow? appWindow;
     ColumnDefinition? PART_ButtonsHolderColumn;
     ColumnDefinition? PART_IconColumn;
     ColumnDefinition? PART_TitleColumn;
@@ -40,8 +39,7 @@ public partial class TitleBar : Control
         }
         if (AutoConfigureCustomTitleBar)
         {
-            appWindow = GetAppWindow();
-            appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+            Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
             this.Window.Activated -= Window_Activated;
             this.Window.Activated += Window_Activated;
@@ -66,8 +64,8 @@ public partial class TitleBar : Control
             PART_TitleHolder = GetTemplateChild(nameof(PART_TitleHolder)) as StackPanel;
 
             // Get caption button occlusion information.
-            int CaptionButtonOcclusionWidthRight = appWindow.TitleBar.RightInset;
-            int CaptionButtonOcclusionWidthLeft = appWindow.TitleBar.LeftInset;
+            int CaptionButtonOcclusionWidthRight = Window.AppWindow.TitleBar.RightInset;
+            int CaptionButtonOcclusionWidthLeft = Window.AppWindow.TitleBar.LeftInset;
             PART_LeftPaddingColumn!.Width = new GridLength(CaptionButtonOcclusionWidthLeft);
             PART_RightPaddingColumn!.Width = new GridLength(CaptionButtonOcclusionWidthRight);
 
@@ -76,31 +74,31 @@ public partial class TitleBar : Control
             {
                 // Choose a tall title bar to provide more room for interactive elements 
                 // like search box or person picture controls.
-                appWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+                Window.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
             }
             else
             {
-                appWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
+                Window.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
             }
             // Recalculate the drag region for the custom title bar 
             // if you explicitly defined new draggable areas.
-            SetDragRegionForCustomTitleBar(appWindow);
+            SetDragRegionForCustomTitleBar();
         }
     }
 
     private void UpdateCaptionButtons(FrameworkElement rootElement)
     {
-        appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-        appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+        Window.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+        Window.AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
         if (rootElement.ActualTheme == ElementTheme.Dark)
         {
-            appWindow.TitleBar.ButtonForegroundColor = Colors.White;
-            appWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
+            Window.AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+            Window.AppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
         }
         else
         {
-            appWindow.TitleBar.ButtonForegroundColor = Colors.Black;
-            appWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
+            Window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+            Window.AppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
         }
     }
 
@@ -112,14 +110,13 @@ public partial class TitleBar : Control
             // TO DO: Throw exception that window has not been set? 
         }
 
-        appWindow = GetAppWindow();
-        appWindow.TitleBar.ResetToDefault();
+        Window.AppWindow.TitleBar.ResetToDefault();
     }
 
     private void UpdateRegionToSize()
     {
         // Update drag region if the size of the title bar changes.
-        SetDragRegionForCustomTitleBar(appWindow!);
+        SetDragRegionForCustomTitleBar();
     }
 
     private void Window_Activated(object sender, WindowActivatedEventArgs args)
@@ -134,14 +131,14 @@ public partial class TitleBar : Control
         }
     }
 
-    private void SetDragRegionForCustomTitleBar(AppWindow appWindow)
+    private void SetDragRegionForCustomTitleBar()
     {
-        if (appWindow != null)
+        if (Window != null)
         {
             double scaleAdjustment = GetScaleAdjustment();
 
-            PART_RightPaddingColumn!.Width = new GridLength(appWindow.TitleBar.RightInset / scaleAdjustment);
-            PART_LeftPaddingColumn!.Width = new GridLength(appWindow.TitleBar.LeftInset / scaleAdjustment);
+            PART_RightPaddingColumn!.Width = new GridLength(Window.AppWindow.TitleBar.RightInset / scaleAdjustment);
+            PART_LeftPaddingColumn!.Width = new GridLength(Window.AppWindow.TitleBar.LeftInset / scaleAdjustment);
 
             List<Windows.Graphics.RectInt32> dragRectsList = new();
 
@@ -172,16 +169,8 @@ public partial class TitleBar : Control
 
             Windows.Graphics.RectInt32[] dragRects = dragRectsList.ToArray();
 
-            appWindow.TitleBar.SetDragRectangles(dragRects);
+            Window.AppWindow.TitleBar.SetDragRectangles(dragRects);
         }
-    }
-
-
-    private AppWindow GetAppWindow()
-    {
-        IntPtr hWnd = WindowNative.GetWindowHandle(this.Window);
-        WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-        return AppWindow.GetFromWindowId(wndId);
     }
 
     [DllImport("Shcore.dll", SetLastError = true)]
