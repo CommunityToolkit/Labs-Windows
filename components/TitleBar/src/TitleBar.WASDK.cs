@@ -46,8 +46,14 @@ public partial class TitleBar : Control
             this.Window.Activated -= Window_Activated;
             this.Window.Activated += Window_Activated;
 
-            appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            if (Window.Content is FrameworkElement rootElement)
+            {
+                UpdateCaptionButtons(rootElement);
+                rootElement.ActualThemeChanged += (s, e) =>
+                {
+                    UpdateCaptionButtons(rootElement);
+                };
+            }
 
             // Set the width of padding columns in the UI.
             PART_ButtonsHolderColumn = GetTemplateChild(nameof(PART_ButtonsHolderColumn)) as ColumnDefinition;
@@ -79,6 +85,22 @@ public partial class TitleBar : Control
             // Recalculate the drag region for the custom title bar 
             // if you explicitly defined new draggable areas.
             SetDragRegionForCustomTitleBar(appWindow);
+        }
+    }
+
+    private void UpdateCaptionButtons(FrameworkElement rootElement)
+    {
+        appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+        appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+        if (rootElement.ActualTheme == ElementTheme.Dark)
+        {
+            appWindow.TitleBar.ButtonForegroundColor = Colors.White;
+            appWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
+        }
+        else
+        {
+            appWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+            appWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
         }
     }
 
