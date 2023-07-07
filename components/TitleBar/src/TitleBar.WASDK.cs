@@ -88,6 +88,9 @@ public partial class TitleBar : Control
             // TO DO: Throw exception that window has not been set? 
         }
 
+        Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = false;
+        this.Window.Activated -= Window_Activated;
+        SizeChanged -= this.TitleBar_SizeChanged;
         Window.AppWindow.TitleBar.ResetToDefault();
     }
 

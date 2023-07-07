@@ -37,6 +37,7 @@ public partial class TitleBar : Control
     {
         CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
         Window.Current.Activated -= this.Current_Activated;
+        SizeChanged -= this.TitleBar_SizeChanged;
         CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged -= this.TitleBar_LayoutMetricsChanged;
         Window.Current.SetTitleBar(null);
     }
