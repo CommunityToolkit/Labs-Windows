@@ -18,12 +18,16 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Id" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Id" />
                 <TextBlock Grid.Column="1"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="Name" />
                 <TextBlock Grid.Column="2"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="Description" />
                 <TextBlock Grid.Column="3"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="Quantity" />
             </Grid>
         </controls:HeaderedItemsControl.Header>

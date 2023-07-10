@@ -13,13 +13,12 @@
               VerticalAlignment="Top"
               ItemsSource="{x:Bind InventoryItems}">
         <ListView.Header>
-            <controls:DataTable Margin="12,0,0,0"
-                                ColumnSpacing="16">
+            <controls:DataTable ColumnSpacing="0">
                 <controls:DataColumn Content="Id" />
                 <controls:DataColumn CanResize="True"
                                      Content="Name" />
                 <controls:DataColumn CanResize="True">
-                    <TextBlock FontWeight="Bold"
+                    <TextBlock FontWeight="SemiBold"
                                Text="Description" />
                 </controls:DataColumn>
                 <controls:DataColumn Content="Quantity" />
@@ -29,15 +28,15 @@
             <DataTemplate x:DataType="local:InventoryItem">
                 <!--  We set HorizontalAlignment to Left here as we're not stretching our content with a star column  -->
                 <controls:DataRow HorizontalAlignment="Left">
-                    <TextBlock Text="{x:Bind Id}" />
-                    <TextBlock Text="{x:Bind Name}" />
-                    <TextBlock Text="{x:Bind Description}" />
-                    <TextBlock Text="{x:Bind Quantity}" />
+                    <TextBlock Text="{x:Bind Id}" VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Bind Name}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Bind Description}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Bind Quantity}" VerticalAlignment="Center"/>
                 </controls:DataRow>
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.ItemContainerStyle>
-            <Style TargetType="ListViewItem">
+            <Style TargetType="ListViewItem" BasedOn="{StaticResource DefaultListViewItemStyle}">
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
             </Style>
         </ListView.ItemContainerStyle>

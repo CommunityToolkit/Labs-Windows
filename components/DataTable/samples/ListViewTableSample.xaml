@@ -9,7 +9,7 @@
 
     <ListView ItemsSource="{x:Bind InventoryItems}">
         <ListView.Header>
-            <Grid Padding="12"
+            <Grid Padding="16,12"
                   ColumnSpacing="16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
@@ -17,12 +17,16 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Id" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Id" />
                 <TextBlock Grid.Column="1"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="Name" />
                 <TextBlock Grid.Column="2"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="Description" />
                 <TextBlock Grid.Column="3"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="Quantity" />
             </Grid>
         </ListView.Header>
@@ -46,7 +50,8 @@
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.ItemContainerStyle>
-            <Style TargetType="ListViewItem">
+            <Style BasedOn="{StaticResource DefaultListViewItemStyle}"
+                   TargetType="ListViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
         </ListView.ItemContainerStyle>
