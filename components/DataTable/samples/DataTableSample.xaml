@@ -18,7 +18,7 @@
                                      Content="Name" />
                 <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
                 <controls:DataColumn DesiredWidth="*">
-                    <TextBlock FontWeight="Bold"
+                    <TextBlock FontWeight="SemiBold"
                                Text="Description" />
                 </controls:DataColumn>
                 <controls:DataColumn Content="Quantity"
@@ -28,15 +28,20 @@
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="local:InventoryItem">
                 <controls:DataRow>
-                    <TextBlock Text="{x:Bind Id}" />
-                    <TextBlock Text="{x:Bind Name}" />
-                    <TextBlock Text="{x:Bind Description}" />
-                    <TextBlock Text="{x:Bind Quantity}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{x:Bind Id}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{x:Bind Name}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{x:Bind Description}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{x:Bind Quantity}" />
                 </controls:DataRow>
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.ItemContainerStyle>
-            <Style TargetType="ListViewItem">
+            <Style BasedOn="{StaticResource DefaultListViewItemStyle}"
+                   TargetType="ListViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
         </ListView.ItemContainerStyle>

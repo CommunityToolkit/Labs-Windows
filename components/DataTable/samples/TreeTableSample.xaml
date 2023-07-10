@@ -11,8 +11,7 @@
 
     <controls:HeaderedTreeView ItemsSource="{x:Bind InventoryItems}">
         <controls:HeaderedTreeView.Header>
-            <controls:DataTable Margin="4,0,0,0"
-                                ColumnSpacing="8">
+            <controls:DataTable ColumnSpacing="8">
                 <!--  In a Tree based DataTable, setting the first column to Auto will account for indentation in the Tree automatically  -->
                 <controls:DataColumn Content="Id"
                                      DesiredWidth="Auto" />
@@ -20,7 +19,7 @@
                                      Content="Name" />
                 <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
                 <controls:DataColumn DesiredWidth="*">
-                    <TextBlock FontWeight="Bold"
+                    <TextBlock FontWeight="SemiBold"
                                Text="Description" />
                 </controls:DataColumn>
                 <controls:DataColumn Content="Quantity"

@@ -14,28 +14,37 @@
            TargetType="controls:DataColumn">
         <Style.Setters>
             <!--  TODO: This is going to be different between ListView and HeaderedItemsControl, how do we want to handle?  -->
-            <Setter Property="Padding" Value="8,0" />
+            <Setter Property="Padding" Value="4,0" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="controls:DataColumn">
-                        <Grid>
+                        <Grid Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Foreground="{TemplateBinding Foreground}" />
                             <controls:ContentSizer x:Name="PART_ColumnSizer"
                                                    Grid.Column="1"
-                                                   Width="4"
+                                                   Width="8"
                                                    MinWidth="4"
-                                                   Margin="4"
+                                                   Margin="0"
+                                                   Foreground="{ThemeResource ControlStrokeColorSecondaryBrush}"
                                                    Background="Transparent"
                                                    Visibility="{Binding CanResize, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DataColumnBoolToVisibilityConverter}}">
                                 <controls:ContentSizer.Resources>
                                     <Thickness x:Key="SizerBaseThumbMargin">0</Thickness>
+                                    <x:Double x:Key="SizerBaseThumbWidth">2</x:Double>
+                                    <x:Double x:Key="SizerBaseThumbHeight">16</x:Double>
                                 </controls:ContentSizer.Resources>
                             </controls:ContentSizer>
                         </Grid>
