@@ -17,6 +17,7 @@
         <PackageReference Include="CommunityToolkit.Uwp.Converters" Version="8.0.0-beta.1"/>
         <PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.0.0-beta.1"/>
         <PackageReference Include="CommunityToolkit.Uwp.Controls.Sizers" Version="8.0.0-beta.2"/>
+        <PackageReference Include="CommunityToolkit.Uwp.Controls.HeaderedControls" Version="8.0.0-beta.1"/>
     </ItemGroup>
 
     <!-- WinUI 3 / WinAppSdk / Uno -->
@@ -24,5 +25,6 @@
         <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.0-beta.1"/>
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.0.0-beta.1"/>
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.0.0-beta.2"/>
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.0-beta.1"/>
     </ItemGroup>
 </Project>
