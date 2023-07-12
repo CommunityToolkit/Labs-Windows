@@ -1,5 +1,6 @@
 using Markdig.Syntax;
 using RomanNumerals;
+using System.Globalization;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 

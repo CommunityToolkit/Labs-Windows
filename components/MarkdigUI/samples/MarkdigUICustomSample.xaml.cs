@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.WinUI.MarkdigUI;
-using CommunityToolkit.WinUI.Controls;
 
 namespace MarkdigUIExperiment.Samples;
 

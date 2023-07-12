@@ -4,6 +4,9 @@ using ColorCode.Styling;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
+using System.Xml.Linq;
+using System.Globalization;
+using Windows.UI.ViewManagement;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI;
 

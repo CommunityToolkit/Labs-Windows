@@ -6,6 +6,7 @@
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
     <RootNamespace>CommunityToolkit.WinUI.Controls.MarkdigUIRns</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
@@ -16,14 +17,20 @@
     <PackageReference Include="Markdig" Version="0.31.0" />
     <PackageReference Include="Roman-Numerals" Version="2.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.17763'">
-    <PackageReference Include="ColorCode.UWP">
-      <Version>2.0.14</Version>
-    </PackageReference>
+  <ItemGroup Condition="'$(IsUwp)' == 'true'">
+    <Using Include="Windows.UI"/>
+    <Using Include="Windows.UI.Xaml.Documents"/>
+    <Using Include="Windows.UI.Xaml.Media.Imaging"/>
+    <Using Include="Windows.UI.Xaml.Media.Media3D"/>
+    <Using Include="Windows.UI.Xaml.Shapes"/>
+    <Using Include="Windows.UI.Text"/>
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041.0'">
-    <PackageReference Include="ColorCode.WinUI">
-      <Version>2.0.14</Version>
-    </PackageReference>
+  <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
+    <Using Include="Microsoft.UI"/>
+    <Using Include="Microsoft.UI.Xaml.Documents"/>
+    <Using Include="Microsoft.UI.Xaml.Media.Imaging"/>
+    <Using Include="Microsoft.UI.Xaml.Media.Media3D"/>
+    <Using Include="Microsoft.UI.Xaml.Shapes"/>
+    <Using Include="Microsoft.UI.Text"/>
   </ItemGroup>
 </Project>

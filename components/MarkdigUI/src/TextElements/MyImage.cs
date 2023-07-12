@@ -1,5 +1,7 @@
 using Markdig.Syntax.Inlines;
 using HtmlAgilityPack;
+using System.Globalization;
+using Windows.Storage.Streams;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdigUI.TextElements;
 
