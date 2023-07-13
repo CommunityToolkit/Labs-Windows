@@ -41,24 +41,3 @@ Otherwise, pick one method for your component and delete the files related to th
 classes (and the custom non-suffixed one as well). Then, rename your component to just be your component name.
 
 The `_ClassicBinding` class shows the traditional method used to develop components with best practices.
-
-### Implict style
-
-> [!SAMPLE MarkdigUITemplatedSample]
-
-### Custom style
-
-> [!SAMPLE MarkdigUITemplatedStyleCustomSample]
-
-## Templated Controls with x:Bind
-
-This is an _experimental_ new way to define components which allows for the use of x:Bind within the style.
-
-### Implict style
-
-> [!SAMPLE MarkdigUIXbindBackedSample]
-
-### Custom style
-
-> [!SAMPLE MarkdigUIXbindBackedStyleCustomSample]
-
