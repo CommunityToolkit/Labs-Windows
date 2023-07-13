@@ -424,7 +424,7 @@ public static class Extensions
             //the url is already absolute
             return result;
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(@base))
         {
             //the url is relative, so append the base
             //trim any trailing "/" from the base and any leading "/" from the url
@@ -432,6 +432,13 @@ public static class Extensions
             validUrl = validUrl.TrimStart('/');
             //return the base and the url separated by a single "/"
             return new Uri(@base + "/" + validUrl);
+        }
+        else
+        {
+            //the url is relative to the file system
+            //add ms-appx
+            validUrl = validUrl.TrimStart('/');
+            return new Uri("ms-appx:///" + validUrl);
         }
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
     }
