@@ -11,6 +11,10 @@
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
   <!-- Source generator project reference for packing -->
   <ItemGroup>
     <ProjectReference Include="..\CommunityToolkit.Extensions.DependencyInjection.SourceGenerators\CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.csproj" ReferenceOutputAssembly="false" />
