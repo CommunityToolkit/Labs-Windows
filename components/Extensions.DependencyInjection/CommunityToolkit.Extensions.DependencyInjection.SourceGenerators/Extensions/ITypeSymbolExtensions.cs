@@ -25,7 +25,7 @@ internal static class ITypeSymbolExtensions
 
         symbol.AppendFullyQualifiedMetadataName(in builder);
 
-        return builder.Span.SequenceEqual(name.AsSpan());
+        return builder.WrittenSpan.SequenceEqual(name.AsSpan());
     }
 
     /// <summary>

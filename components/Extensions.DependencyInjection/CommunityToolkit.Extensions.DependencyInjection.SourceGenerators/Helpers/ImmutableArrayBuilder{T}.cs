@@ -19,7 +19,7 @@ namespace CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.Helpe
 /// A helper type to build sequences of values with pooled buffers.
 /// </summary>
 /// <typeparam name="T">The type of items to create sequences for.</typeparam>
-internal ref struct ImmutableArrayBuilder<T>
+internal struct ImmutableArrayBuilder<T> : IDisposable
 {
     /// <summary>
     /// The rented <see cref="Writer"/> instance to use.

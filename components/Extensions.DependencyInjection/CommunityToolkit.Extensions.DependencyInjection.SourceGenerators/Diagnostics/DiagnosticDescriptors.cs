@@ -20,7 +20,7 @@ internal static class DiagnosticDescriptors
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidRegistrationImplementationType = new DiagnosticDescriptor(
-        id: "SRVCNFG0001",
+        id: "TKEXDI0001",
         title: "Invalid registration implementation type",
         messageFormat: "Cannot register a service of implementation type {0}, as the type has to be a non static, non abstract class with a public constructor",
         category: typeof(InvalidServiceRegistrationAnalyzer).FullName,
@@ -35,7 +35,7 @@ internal static class DiagnosticDescriptors
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidRegistrationServiceType = new DiagnosticDescriptor(
-        id: "SRVCNFG0002",
+        id: "TKEXDI0002",
         title: "Invalid registration service type",
         messageFormat: "Cannot register a service of implementation type {0} with the type {1}, as there is no implicit type conversion between the two",
         category: typeof(InvalidServiceRegistrationAnalyzer).FullName,
@@ -50,7 +50,7 @@ internal static class DiagnosticDescriptors
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor DuplicateImplementationTypeRegistration = new DiagnosticDescriptor(
-        id: "SRVCNFG0003",
+        id: "TKEXDI0003",
         title: "Duplicate implementation type registration",
         messageFormat: "The implementation type {0} has already been registered on the target service collection",
         category: typeof(InvalidServiceRegistrationAnalyzer).FullName,
@@ -65,7 +65,7 @@ internal static class DiagnosticDescriptors
     /// </para>
     /// </summary>
     public static readonly DiagnosticDescriptor DuplicateServiceTypeRegistration = new DiagnosticDescriptor(
-        id: "SRVCNFG0004",
+        id: "TKEXDI0004",
         title: "Duplicate service type registration",
         messageFormat: "The service type {0} has already been registered on the target service collection",
         category: typeof(InvalidServiceRegistrationAnalyzer).FullName,

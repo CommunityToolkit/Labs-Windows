@@ -1,4 +1,4 @@
-﻿// ------------------------------------------------------
+// ------------------------------------------------------
 // Copyright (C) Microsoft. All rights reserved.
 // ------------------------------------------------------
 
@@ -202,7 +202,7 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                 // Special case when the service is a singleton and no dependent services are present, just use eager instantiation instead:
                 //
                 // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(<PARAMETER_NAME>, typeof(<ROOT_SERVICE_TYPE>), new <IMPLEMENTATION_TYPE>());
-                if (serviceInfo.RegistrationKind == ServiceRegistrationKind.Singleton && constructorArguments.Span.IsEmpty)
+                if (serviceInfo.RegistrationKind == ServiceRegistrationKind.Singleton && constructorArguments.Count == 0)
                 {
                     registrationStatements.Add(
                         ExpressionStatement(
