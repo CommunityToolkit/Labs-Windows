@@ -7,4 +7,7 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-TKEXDI0001 | ServiceProviderGenerator | Error |
+TKEXDI0001 | CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.InvalidServiceRegistrationAnalyzer | Error |
+TKEXDI0002 | CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.InvalidServiceRegistrationAnalyzer | Error |
+TKEXDI0003 | CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.InvalidServiceRegistrationAnalyzer | Error |
+TKEXDI0004 | CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.InvalidServiceRegistrationAnalyzer | Warning |
