@@ -45,9 +45,13 @@ internal class MyImage : IAddChild
         }
     }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public MyImage(HtmlNode htmlNode, MarkdownConfig? config)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
+#pragma warning disable CS8601 // Possible null reference assignment.
         Uri.TryCreate(htmlNode.GetAttributeValue("src", "#"), UriKind.RelativeOrAbsolute, out _uri);
+#pragma warning restore CS8601 // Possible null reference assignment.
         _htmlNode = htmlNode;
         _imageProvider = config?.ImageProvider;
         _svgRenderer = config?.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
@@ -99,7 +103,11 @@ internal class MyImage : IAddChild
 
 
                 // Get the Content-Type header
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 string contentType = response.Content.Headers.ContentType.MediaType;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
                 if (contentType == "image/svg+xml")
                 {

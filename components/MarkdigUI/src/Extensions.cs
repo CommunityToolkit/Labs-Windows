@@ -418,6 +418,7 @@ public static class Extensions
     {
         var validUrl = RemoveImageSize(url);
         Uri result;
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
         if (Uri.TryCreate(validUrl, UriKind.Absolute, out result))
         {
             //the url is already absolute
@@ -432,6 +433,7 @@ public static class Extensions
             //return the base and the url separated by a single "/"
             return new Uri(@base + "/" + validUrl);
         }
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
     }
 
     public static StyleDictionary GetOneDarkProStyle()
@@ -641,11 +643,15 @@ public static class Extensions
         XDocument svgDocument = XDocument.Parse(svgString);
 
         // Get the root element of the document
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
         XElement svgElement = svgDocument.Root;
 
         // Get the height and width attributes of the root element
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         XAttribute heightAttribute = svgElement.Attribute("height");
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         XAttribute widthAttribute = svgElement.Attribute("width");
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
         // Convert the attribute values to double
         double.TryParse(heightAttribute?.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out double height);
