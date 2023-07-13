@@ -9,10 +9,8 @@
       mc:Ignorable="d">
 
     <StackPanel Spacing="16">
-        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                   Text="{x:Bind TitleText, Mode=OneWay}" />
         <StackPanel Spacing="16">
-            <controls:MarkdigUI Config="{x:Bind MarkdownConfig, Mode=OneWay}"/>
+            <controls:MarkdownViewer Config="{x:Bind MarkdownConfig, Mode=OneWay}"/>
         </StackPanel>
     </StackPanel>
 </Page>
