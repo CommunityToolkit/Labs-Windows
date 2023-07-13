@@ -2,14 +2,28 @@
   <PropertyGroup>
     <ToolkitComponentName>Extensions.DependencyInjection</ToolkitComponentName>
     <Description>This package contains Extensions.DependencyInjection.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>0.0.1</Version>
     <RootNamespace>CommunityToolkit.Extensions.DependencyInjection</RootNamespace>
+    <PackageId>$(PackageIdPrefix).$(ToolkitComponentName)</PackageId>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
+
+  <!-- Pack the source generator and the .targets file -->
+  <ItemGroup Label="Package">
+
+    <!-- Include the custom .targets file to check the source generator -->
+    <None Include="CommunityToolkit.Extensions.DependencyInjection.targets" PackagePath="buildTransitive\netstandard2.0" Pack="true" />
+    <None Include="CommunityToolkit.Extensions.DependencyInjection.targets" PackagePath="build\netstandard2.0" Pack="true" />
+
+    <!-- Pack the source generator to the right package folder -->
+    <None Include="..\CommunityToolkit.Extensions.DependencyInjection.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
+  </ItemGroup>
+  
+  <!-- Remove imported global usings -->
   <ItemGroup>
-    <Compile Remove="C:\Users\sergiopedri\git\Labs-Windows\tooling\GlobalUsings.cs" />
-    <Compile Remove="C:\Users\sergiopedri\git\Labs-Windows\\tooling\GlobalUsings_WinUI.cs" />
+    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
   </ItemGroup>
 </Project>
