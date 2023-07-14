@@ -1,6 +1,13 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <PropertyGroup>
     <ToolkitComponentName>Extensions.DependencyInjection</ToolkitComponentName>
+
+    <!--
+      There are no samples currently, so suppress the following warning:
+      "The documentation page '...\AppServices\samples\AppServices.md' does not reference any
+      sample examples, it is recommended to have at least one code sample per document page."
+    -->
+    <NoWarn>$(NoWarn);TKSMPL0014</NoWarn>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's sample project -->
