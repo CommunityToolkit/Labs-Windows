@@ -41,6 +41,8 @@ public partial class TitleBar : Control
         {
             Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 
+            ConfigPresenter();
+
             this.Window.Activated -= Window_Activated;
             this.Window.Activated += Window_Activated;
 
@@ -203,6 +205,18 @@ public partial class TitleBar : Control
 
         uint scaleFactorPercent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96);
         return scaleFactorPercent / 100.0;
+    }
+
+    private void ConfigPresenter()
+    {
+        if (Window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+        {
+            presenter.IsAlwaysOnTop = IsAlwaysOnTop;
+            presenter.IsResizable = IsResizable;
+            presenter.IsMaximizable = IsMaximizable;
+            presenter.IsMinimizable = IsMinimizable;
+            presenter.SetBorderAndTitleBar(true, HasTitleBar);
+        }
     }
 }
 #endif

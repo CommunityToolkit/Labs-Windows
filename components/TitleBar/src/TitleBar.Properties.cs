@@ -62,6 +62,16 @@ public partial class TitleBar : Control
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Window"/> property.
     /// </summary>
     public static readonly DependencyProperty WindowProperty = DependencyProperty.Register(nameof(Window), typeof(Window), typeof(TitleBar), new PropertyMetadata(null));
+
+    public static readonly DependencyProperty HasTitleBarProperty = DependencyProperty.Register("HasTitleBar", typeof(bool), typeof(TitleBar), new PropertyMetadata(true, OnHasTitleBarChanged));
+
+    public static readonly DependencyProperty IsResizableProperty = DependencyProperty.Register("IsResizable", typeof(bool), typeof(TitleBar), new PropertyMetadata(true, OnIsResizableChanged));
+
+    public static readonly DependencyProperty IsMaximizableProperty = DependencyProperty.Register("IsMaximizable", typeof(bool), typeof(TitleBar), new PropertyMetadata(true, OnIsMaximizableChanged));
+
+    public static readonly DependencyProperty IsMinimizableProperty = DependencyProperty.Register("IsMinimizable", typeof(bool), typeof(TitleBar), new PropertyMetadata(true, OnIsMinimizableChanged));
+
+    public static readonly DependencyProperty IsAlwaysOnTopProperty = DependencyProperty.Register("IsAlwaysOnTop", typeof(bool), typeof(TitleBar), new PropertyMetadata(false, OnIsAlwaysOnTopChanged));
 #endif
 
     /// <summary>
@@ -173,6 +183,36 @@ public partial class TitleBar : Control
         get => (Window)GetValue(WindowProperty);
         set => SetValue(WindowProperty, value);
     }
+
+    public bool HasTitleBar
+    {
+        get { return (bool)GetValue(HasTitleBarProperty); }
+        set { SetValue(HasTitleBarProperty, value); }
+    }
+
+    public bool IsResizable
+    {
+        get { return (bool)GetValue(IsResizableProperty); }
+        set { SetValue(IsResizableProperty, value); }
+    }
+
+    public bool IsMaximizable
+    {
+        get { return (bool)GetValue(IsMaximizableProperty); }
+        set { SetValue(IsMaximizableProperty, value); }
+    }
+
+    public bool IsMinimizable
+    {
+        get { return (bool)GetValue(IsMinimizableProperty); }
+        set { SetValue(IsMinimizableProperty, value); }
+    }
+
+    public bool IsAlwaysOnTop
+    {
+        get { return (bool)GetValue(IsAlwaysOnTopProperty); }
+        set { SetValue(IsAlwaysOnTopProperty, value); }
+    }
 #endif
 
     private static void IsBackButtonVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -206,6 +246,75 @@ public partial class TitleBar : Control
             ((TitleBar)d).Reset();
         }
     }
+
+#if WINAPPSDK
+    private static void OnHasTitleBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var titleBar = (TitleBar)d;
+        if (titleBar.Window != null)
+        {
+            if (titleBar.Window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            {
+                var value = (bool)e.NewValue;
+                var hasBorder = presenter.HasBorder;
+                if (value)
+                {
+                    hasBorder = true;
+                }
+
+                presenter.SetBorderAndTitleBar(hasBorder, value);
+            }
+        }
+    }
+
+    private static void OnIsResizableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var titleBar = (TitleBar)d;
+        if (titleBar.Window != null)
+        {
+            if (titleBar.Window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            {
+                presenter.IsResizable = (bool)e.NewValue;
+            }
+        }
+    }
+
+    private static void OnIsMaximizableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var titleBar = (TitleBar)d;
+        if (titleBar.Window != null)
+        {
+            if (titleBar.Window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            {
+                presenter.IsMaximizable = (bool)e.NewValue;
+            }
+        }
+    }
+
+    private static void OnIsMinimizableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var titleBar = (TitleBar)d;
+        if (titleBar.Window != null)
+        {
+            if (titleBar.Window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            {
+                presenter.IsMinimizable = (bool)e.NewValue;
+            }
+        }
+    }
+
+    private static void OnIsAlwaysOnTopChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var titleBar = (TitleBar)d;
+        if (titleBar.Window != null)
+        {
+            if (titleBar.Window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            {
+                presenter.IsAlwaysOnTop = (bool)e.NewValue;
+            }
+        }
+    }
+#endif
 }
 
 public enum DisplayMode
