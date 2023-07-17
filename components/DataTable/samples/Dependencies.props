@@ -9,6 +9,16 @@
     For UWP / WinAppSDK / Uno packages, place the package references here.
 -->
 <Project>
+    <!-- WinUI 2 / UWP / Uno -->
+    <ItemGroup Condition="'$(IsUwp)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '2')">
+        <PackageReference Include="CommunityToolkit.Uwp.Controls.HeaderedControls" Version="8.0.0-beta.1"/>
+    </ItemGroup>
+
+    <!-- WinUI 3 / WinAppSdk / Uno -->
+    <ItemGroup Condition="'$(IsWinAppSdk)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '3')">
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.0-beta.1"/>
+    </ItemGroup>
+
     <!-- WinUI 2 / UWP -->
     <ItemGroup Condition="'$(IsUwp)' == 'true'">
         <!-- <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.2"/> -->
