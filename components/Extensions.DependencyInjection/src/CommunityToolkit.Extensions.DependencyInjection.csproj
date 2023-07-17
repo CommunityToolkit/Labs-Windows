@@ -6,7 +6,6 @@
     <Version>0.0.1</Version>
     <RootNamespace>CommunityToolkit.Extensions.DependencyInjection</RootNamespace>
     <PackageId>$(PackageIdPrefix).$(ToolkitComponentName)</PackageId>
-    <HasWinUI>false</HasWinUI>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
