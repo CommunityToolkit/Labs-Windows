@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 415
 issue-id: 0
+icon: Assets/DataTable.png
 ---
 
 # DataTable
