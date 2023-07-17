@@ -24,10 +24,10 @@ public partial class TitleBar : Control
             CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += this.TitleBar_LayoutMetricsChanged;
             Window.Current.Activated -= this.Current_Activated;
             Window.Current.Activated += this.Current_Activated;
-       
+
             ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = Colors.Transparent;
             ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-         
+
             PART_DragRegion = GetTemplateChild(nameof(PART_DragRegion)) as Grid;
             Window.Current.SetTitleBar(PART_DragRegion);
         }

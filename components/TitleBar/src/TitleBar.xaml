@@ -7,6 +7,7 @@
 
     <x:Double x:Key="TitleBarCompactHeight">32</x:Double>
     <x:Double x:Key="TitleBarTallHeight">48</x:Double>
+    <x:Double x:Key="TitleBarContentMaxWidth">360</x:Double>
     <Style BasedOn="{StaticResource DefaultTitleBarStyle}"
            TargetType="local:TitleBar" />
 
@@ -31,11 +32,13 @@
                             <ColumnDefinition x:Name="PART_TitleColumn"
                                               Width="Auto" />
                             <ColumnDefinition x:Name="PART_LeftDragColumn"
-                                              Width="*" />
+                                              Width="*"
+                                              MinWidth="4" />
                             <ColumnDefinition x:Name="PART_ContentColumn"
                                               Width="Auto" />
                             <ColumnDefinition x:Name="PART_RightDragColumn"
-                                              Width="*" />
+                                              Width="*"
+                                              MinWidth="4" />
                             <ColumnDefinition x:Name="PART_FooterColumn"
                                               Width="Auto" />
                             <ColumnDefinition x:Name="PART_RightPaddingColumn"
@@ -68,6 +71,22 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="ContentStates">
+                                <VisualState x:Name="ContentVisible" />
+                                <VisualState x:Name="ContentCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_ContentPresenter.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FooterStates">
+                                <VisualState x:Name="FooterVisible" />
+                                <VisualState x:Name="FooterCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_FooterPresenter.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                             <VisualStateGroup x:Name="ReflowStates">
                                 <VisualState x:Name="Wide" />
                                 <VisualState x:Name="Narrow">
@@ -75,8 +94,10 @@
                                         <Setter Target="PART_TitleHolder.Visibility" Value="Collapsed" />
                                         <Setter Target="PART_LeftDragColumn.Width" Value="Auto" />
                                         <Setter Target="PART_RightDragColumn.Width" Value="Auto" />
+                                        <Setter Target="PART_RightDragColumn.MinWidth" Value="16" />
+                                        <Setter Target="PART_LeftDragColumn.MinWidth" Value="16" />
                                         <Setter Target="PART_ContentColumn.Width" Value="*" />
-                                        <Setter Target="PART_ContentPresenter.Margin" Value="16,0,0,0" />
+                                        <!--  Content can stretch now  -->
                                         <Setter Target="PART_ContentPresenter.MinWidth" Value="0" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -140,8 +161,6 @@
                                        TextTrimming="CharacterEllipsis"
                                        TextWrapping="NoWrap" />
                         </StackPanel>
-
-
                         <Grid x:Name="PART_DragRegion"
                               Grid.Column="2"
                               Grid.ColumnSpan="6"
@@ -154,21 +173,22 @@
                                     ToolTipService.ToolTip="Back" />
                             <Button x:Name="PART_PaneButton"
                                     Style="{StaticResource TitleBarPaneToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Back" />
+                                    ToolTipService.ToolTip="Toggle menu" />
                         </StackPanel>
 
                         <ContentPresenter x:Name="PART_ContentPresenter"
                                           Grid.Column="5"
                                           MinWidth="360"
-                                          Margin="4,0,4,0"
+                                          HorizontalAlignment="Stretch"
                                           VerticalAlignment="Center"
                                           HorizontalContentAlignment="Stretch"
                                           Content="{TemplateBinding Content}" />
-                        <ContentPresenter x:Name="PART_Footer"
+                        <ContentPresenter x:Name="PART_FooterPresenter"
                                           Grid.Column="7"
                                           Margin="4,0,8,0"
                                           HorizontalContentAlignment="Right"
                                           Content="{TemplateBinding Footer}" />
+
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

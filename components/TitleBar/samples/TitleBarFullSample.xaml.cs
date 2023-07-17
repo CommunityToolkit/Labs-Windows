@@ -7,8 +7,6 @@ using CommunityToolkit.WinUI.Controls;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
-using Windows.UI.Xaml.Hosting;
 #endif
 namespace TitleBarExperiment.Samples;
 

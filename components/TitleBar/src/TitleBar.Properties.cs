@@ -24,12 +24,12 @@ public partial class TitleBar : Control
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
     /// </summary>
-    public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(TitleBar), new PropertyMetadata(null));
+    public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(TitleBar), new PropertyMetadata(null, ContentChanged));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Footer"/> property.
     /// </summary>
-    public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(nameof(Footer), typeof(object), typeof(TitleBar), new PropertyMetadata(null));
+    public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(nameof(Footer), typeof(object), typeof(TitleBar), new PropertyMetadata(null, FooterChanged));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="IsBackButtonVisible"/> property.
@@ -186,6 +186,16 @@ public partial class TitleBar : Control
     }
 
     private static void DisplayModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        ((TitleBar)d).Update();
+    }
+
+    private static void ContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        ((TitleBar)d).Update();
+    }
+
+    private static void FooterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         ((TitleBar)d).Update();
     }
