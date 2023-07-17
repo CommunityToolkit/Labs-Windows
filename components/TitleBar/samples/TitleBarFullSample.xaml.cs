@@ -18,7 +18,10 @@ public sealed partial class TitleBarFullSample : Page
         this.InitializeComponent();
     }
 
-    private async void Button_Click(object sender, RoutedEventArgs e)
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+    private async void LaunchSample_Click(object sender, RoutedEventArgs e)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     {
 #if WINDOWS_UWP
         CoreApplicationView newView = CoreApplication.CreateNewView();
