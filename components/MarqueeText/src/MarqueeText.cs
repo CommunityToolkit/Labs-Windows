@@ -67,6 +67,7 @@ public partial class MarqueeText : Control
     {
         base.OnApplyTemplate();
 
+        // Implicit casting throws early when parts are missing from the template
         _marqueeContainer = (Panel)GetTemplateChild(MarqueeContainerPartName);
         _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
         _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
@@ -111,6 +112,7 @@ public partial class MarqueeText : Control
     /// <summary>
     /// Begins the Marquee animation if not running.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when template parts are not supplied.</exception>
     public void StartMarquee()
     {
         bool initial = _isActive;
@@ -127,6 +129,7 @@ public partial class MarqueeText : Control
     /// <summary>
     /// Stops the Marquee animation.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when template parts are not supplied.</exception>
     public void StopMarquee()
     {
         StopMarquee(_isActive);
@@ -149,6 +152,7 @@ public partial class MarqueeText : Control
     /// Updates the animation to match the current control state.
     /// </summary>
     /// <param name="resume">True if animation should resume from its current position, false if it should restart.</param>
+    /// <exception cref="InvalidOperationException">Thrown when template parts are not supplied.</exception>
     /// <returns>True if the Animation is now playing.</returns>
     private bool UpdateAnimation(bool resume = true)
     {
@@ -204,7 +208,7 @@ public partial class MarqueeText : Control
             // than the container then the animation does not not need to play.
 
             // NOTE: Use resume as initial because _isActive is updated before
-            // calling update animation. Passing _isActive would allow for
+            // calling update animation. If _isActive were passed, it would allow for
             // MarqueeStopped to be invoked when the marquee was already stopped.
 
             StopMarquee(resume);
@@ -242,10 +246,17 @@ public partial class MarqueeText : Control
         // Calculate the animation duration by dividing the distance by the speed
         TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
 
-        // Create the storyboard and animation
-        // NOTE: _marqueeStoryboard assignment is made to get around nullability.
-        // Ideally, the MemberNotNullAttribute would be added to CreateMarqueeStoryboardAnimation.
+        // Unbind events from the old storyboard
+        if (_marqueeStoryboard is not null)
+        {
+            _marqueeStoryboard.Completed -= StoryBoard_Completed;
+        }
+
+        // Create new storyboard and animation
         _marqueeStoryboard = CreateMarqueeStoryboardAnimation(start, end, duration, targetProperty);
+
+        // Bind the storyboard completed event
+        _marqueeStoryboard.Completed += StoryBoard_Completed;
 
         // Set the visual state to active and begin the animation
         VisualStateManager.GoToState(this, MarqueeActiveState, true);
@@ -262,15 +273,9 @@ public partial class MarqueeText : Control
     }
 
     private Storyboard CreateMarqueeStoryboardAnimation(double start, double end, TimeSpan duration, string targetProperty)
-    {
-        // Unbind events from the old storyboard
-        if (_marqueeStoryboard is not null)
-        {
-            _marqueeStoryboard.Completed -= StoryBoard_Completed;
-        }
-        
+    {   
         // Initialize the new storyboard
-        _marqueeStoryboard = new Storyboard
+        var marqueeStoryboard = new Storyboard
         {
             Duration = duration,
             RepeatBehavior = RepeatBehavior,
@@ -278,10 +283,6 @@ public partial class MarqueeText : Control
             AutoReverse = IsBouncing,
 #endif
         };
-
-        // Bind the storyboard completed event
-        _marqueeStoryboard.Completed += StoryBoard_Completed;
-
         
         // Create a new double animation, moving from [start] to [end] positions in [duration] time.
         var animation = new DoubleAnimationUsingKeyFrames
@@ -310,13 +311,13 @@ public partial class MarqueeText : Control
         animation.KeyFrames.Add(frame2);
 
         // Add the double animation to the storyboard
-        _marqueeStoryboard.Children.Add(animation);
+        marqueeStoryboard.Children.Add(animation);
         
         // Set the storyboard target and target property
         Storyboard.SetTarget(animation, _marqueeTransform);
         Storyboard.SetTargetProperty(animation, targetProperty);
 
-        return _marqueeStoryboard;
+        return marqueeStoryboard;
     }
 }
 
