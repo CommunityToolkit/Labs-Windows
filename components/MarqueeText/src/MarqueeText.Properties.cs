@@ -26,8 +26,10 @@ public partial class MarqueeText
     private static readonly DependencyProperty DirectionProperty =
         DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
 
+    #if !HAS_UNO
     private static readonly DependencyProperty TextDecorationsProperty =
         DependencyProperty.Register(nameof(TextDecorations), typeof(TextDecorations), typeof(MarqueeText), new PropertyMetadata(TextDecorations.None));
+    #endif
 
     /// <summary>
     /// Gets or sets the text being displayed in Marquee.
@@ -91,6 +93,8 @@ public partial class MarqueeText
 
     private bool IsDirectionInverse => Direction is MarqueeDirection.Up or MarqueeDirection.Right;
 
+    // Waiting on https://github.com/unoplatform/uno/issues/12929
+    #if !HAS_UNO
     /// <summary>
     /// Gets or sets a value that indicates what decorations are applied to the text.
     /// </summary>
@@ -99,6 +103,7 @@ public partial class MarqueeText
         get => (TextDecorations)GetValue(TextDecorationsProperty);
         set => SetValue(TextDecorationsProperty, value);
     }
+    #endif
 
     private static void BehaviorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
