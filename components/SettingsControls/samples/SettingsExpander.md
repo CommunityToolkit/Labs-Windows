@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 129
 issue-id: 216
+icon: Assets/SettingsExpander.png
 ---
 
 The `SettingsExpander` can be used to group multiple `SettingsCard`s into a single collapsable group.
