@@ -205,7 +205,7 @@ public partial class MarqueeText : Control
         if (IsLooping && segmentSize < containerSize)
         {
             // If the marquee is in looping mode and the segment is smaller
-            // than the container then the animation does not not need to play.
+            // than the container, then the animation does not not need to play.
 
             // NOTE: Use resume as initial because _isActive is updated before
             // calling update animation. If _isActive were passed, it would allow for
