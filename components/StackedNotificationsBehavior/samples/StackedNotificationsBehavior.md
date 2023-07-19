@@ -9,6 +9,7 @@ category: Xaml
 subcategory: Behaviors
 discussion-id: 312
 issue-id: 210
+icon: Assets/StackedNotificationsBehavior.png
 ---
 
 This initial example shows how to attach the behavior to an `InfoBar` and send it a message.

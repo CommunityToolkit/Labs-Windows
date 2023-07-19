@@ -9,6 +9,7 @@ category: Controls
 subcategory: StatusAndInfo
 discussion-id: 231 
 issue-id: 0
+icon: Assets/MarqueeText.png
 ---
 
 The MarqueeText control allows text to scroll in a marquee fashion. The control is heavily templated and many changes can be made by modifying the style. The control can also be adjusted using the Speed, Behavior, RepeatBehavior, and Direction properties.

@@ -67,7 +67,7 @@ public partial class MarqueeText : Control
     {
         base.OnApplyTemplate();
 
-        // Implicit casting throws early when parts are missing from the template
+        // Explicit casting throws early when parts are missing from the template
         _marqueeContainer = (Panel)GetTemplateChild(MarqueeContainerPartName);
         _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
         _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
@@ -135,14 +135,14 @@ public partial class MarqueeText : Control
         StopMarquee(_isActive);
     }
 
-    private void StopMarquee(bool initial)
+    private void StopMarquee(bool initialState)
     {
         // Set _isActive and update the animation to match
         _isActive = false;
         bool playing = UpdateAnimation(false);
 
         // Invoke MarqueeStopped if Marquee is not playing and was before
-        if (!playing && initial)
+        if (!playing && initialState)
         {
             MarqueeStopped?.Invoke(this, EventArgs.Empty);
         }
@@ -157,8 +157,8 @@ public partial class MarqueeText : Control
     private bool UpdateAnimation(bool resume = true)
     {
         // Crucial template parts are missing!
-        // This should never happen because an exception should have been thrown in OnApplyTemplate.
-        // However, should this happen, just return false meaning the animation could not play.
+        // This can happen during initialization of certain properties.
+        // Gracefully return when this happens. Proper checks for these template parts happen in OnApplyTemplate.
         if (_marqueeContainer is null ||
             _marqueeTransform is null ||
             _segment1 is null ||
@@ -205,14 +205,14 @@ public partial class MarqueeText : Control
         if (IsLooping && segmentSize < containerSize)
         {
             // If the marquee is in looping mode and the segment is smaller
-            // than the container then the animation does not not need to play.
+            // than the container, then the animation does not not need to play.
 
             // NOTE: Use resume as initial because _isActive is updated before
             // calling update animation. If _isActive were passed, it would allow for
             // MarqueeStopped to be invoked when the marquee was already stopped.
-
             StopMarquee(resume);
             _segment2.Visibility = Visibility.Collapsed;
+            
             return false;
         }
 

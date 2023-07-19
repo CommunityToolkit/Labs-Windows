@@ -9,6 +9,7 @@ category: Animations
 subcategory: Media
 discussion-id: 309
 issue-id: 0
+icon: Assets/RivePlayer.png
 ---
 
 ![Rive hero image](https://rive-app.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fff44ed5f-1eea-4154-81ef-84547e61c3fd%2Frive_notion.png?table=block&id=f198cab2-c0bc-4ce8-970c-42220379bcf3&spaceId=9c949665-9ad9-445f-b9c4-5ee204f8b60c&width=512&userId=&cache=v2)
