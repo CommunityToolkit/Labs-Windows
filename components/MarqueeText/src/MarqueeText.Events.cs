@@ -41,14 +41,16 @@ public partial class MarqueeText
 
     private void Container_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (_marqueeContainer is not null)
+        if (_marqueeContainer is null)
         {
-            // Clip the marquee within its bounds
-            _marqueeContainer.Clip = new RectangleGeometry
-            {
-                Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
-            };
+            return;
         }
+        
+        // Clip the marquee within its bounds
+        _marqueeContainer.Clip = new RectangleGeometry
+        {
+            Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
+        };
 
         // The marquee should run when the size changes in case the text gets cutoff
         StartMarquee();
