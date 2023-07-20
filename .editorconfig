@@ -355,7 +355,6 @@ dotnet_diagnostic.CA2200.severity = warning
 dotnet_diagnostic.CA2202.severity = warning
 dotnet_diagnostic.CA2207.severity = warning
 dotnet_diagnostic.CA2212.severity = warning
-dotnet_diagnostic.CA2213.severity = warning
 dotnet_diagnostic.CA2214.severity = warning
 dotnet_diagnostic.CA2216.severity = warning
 dotnet_diagnostic.CA2220.severity = warning
@@ -435,3 +434,6 @@ dotnet_diagnostic.IDE0073.severity = warning
 
 # Uno platform exposes IDisposable on Storyboard publicly when it should be internal. Ignore this.
 dotnet_code_quality.CA1001.excluded_type_names_with_derived_types = T:Windows.UI.Xaml.Media.Animation.Storyboard
+
+# Member owns disposable field
+dotnet_diagnostic.CA2213.severity = suggestion
