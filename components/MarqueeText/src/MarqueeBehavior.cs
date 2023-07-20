@@ -22,6 +22,7 @@ public enum MarqueeBehavior
     /// </remarks>
     Looping,
 
+    // Waiting on AutoReverse implementation for Uno storyboards
 #if !HAS_UNO
     /// <summary>
     /// The text bounces back and forth across the screen.
