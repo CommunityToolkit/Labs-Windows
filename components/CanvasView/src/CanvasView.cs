@@ -45,7 +45,7 @@ public partial class CanvasView : ItemsControl
             cp.ManipulationDelta += ContentPresenter_ManipulationDelta;
         }
 
-        /// TODO: Do we want to support something else in a custom template?? else if (item is FrameworkElement fe && fe.FindDescendant/GetContentControl?)
+        // TODO: Do we want to support something else in a custom template?? else if (item is FrameworkElement fe && fe.FindDescendant/GetContentControl?)
     }
 
     protected override void ClearContainerForItemOverride(DependencyObject element, object item)
