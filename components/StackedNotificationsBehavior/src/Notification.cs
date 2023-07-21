@@ -7,7 +7,7 @@ namespace CommunityToolkit.Labs.WinUI;
 /// <summary>
 /// The content of a notification to display in <see cref="StackedNotificationsBehavior"/>.
 /// The <see cref="Title"/>, <see cref="Message"/>, <see cref="Duration"/> and <see cref="Severity"/> values will
-/// always be applied to the targeted <see cref="InfoBar"/>.
+/// always be applied to the targeted <see cref="MUXC.InfoBar"/>.
 /// The <see cref="IsIconVisible"/>, <see cref="Content"/>, <see cref="ContentTemplate"/> and <see cref="ActionButton"/> values
 /// will be applied only if set.
 /// </summary>
@@ -36,7 +36,7 @@ public class Notification
     public TimeSpan? Duration { get; set; }
 
     /// <summary>
-    /// Gets or sets the type of the <see cref="InfoBar"/> to apply consistent status color, icon,
+    /// Gets or sets the type of the <see cref="MUXC.InfoBar"/> to apply consistent status color, icon,
     /// and assistive technology settings dependent on the criticality of the notification.
     /// </summary>
     public MUXC.InfoBarSeverity Severity { get; set; }
