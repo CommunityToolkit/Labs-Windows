@@ -435,3 +435,6 @@ dotnet_diagnostic.IDE0073.severity = warning
 # Member owns disposable field
 dotnet_diagnostic.CA2213.severity = none
 dotnet_diagnostic.CA1001.severity = none
+
+# Labs only: XML comment has param tag but no paramater by that name.
+dotnet_diagnostic.CS1572.severity = none
