@@ -10,11 +10,11 @@ public class TokenItemRemovingEventArgs : EventArgs
     /// Initializes a new instance of the <see cref="TokenItemRemovingEventArgs"/> class.
     /// </summary>
     /// <param name="item">Item being removed.</param>
-    /// <param name="Token"><see cref="TokenItem"/> container being closed.</param>
-    public TokenItemRemovingEventArgs(object item, TokenItem tokenITem)
+    /// <param name="tokenItem"><see cref="TokenItem"/> container being closed.</param>
+    public TokenItemRemovingEventArgs(object item, TokenItem tokenItem)
     {
         Item = item;
-        TokenItem = tokenITem;
+        TokenItem = tokenItem;
     }
 
     /// <summary>
