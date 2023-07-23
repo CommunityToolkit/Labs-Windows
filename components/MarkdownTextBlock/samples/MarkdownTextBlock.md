@@ -29,3 +29,5 @@ MarkdownTextBlock is a evolution of the existing MarkdownTextBlock in the commun
 The Toolkit is built with templated controls. This provides developers a flexible way to restyle components
 easily while still inheriting the general functionality a control provides. The examples below show
 how a component can use a default style and then get overridden by the end developer.
+
+> [!Sample MarkdownTextBlockCustomSample]
