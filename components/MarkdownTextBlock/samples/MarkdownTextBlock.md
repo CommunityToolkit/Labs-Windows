@@ -9,6 +9,7 @@ category: Controls
 subcategory: Layout
 discussion-id: 0
 issue-id: 0
+icon: Assets/MarkdownTextBlock.png
 ---
 
 <!-- To know about all the available Markdown syntax, Check out https://docs.microsoft.com/contribute/markdown-reference -->
