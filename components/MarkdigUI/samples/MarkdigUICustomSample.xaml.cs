@@ -9,20 +9,18 @@ namespace MarkdigUIExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-[ToolkitSampleTextOption("TitleText", "This is a title", Title = "Input the text")]
 [ToolkitSample(id: nameof(MarkdigUICustomSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(CommunityToolkit.Labs.WinUI.MarkdigUI)} custom control.")]
-public sealed partial class MarkdigUICustomSample : Page
+public sealed partial class MarkdigUICustomSample : Page, INotifyPropertyChanged
 {
-    public MarkdownConfig? MarkdownConfig { get; set; } = new MarkdownConfig()
-    {
-        Markdown = @"
-            This control was originally written by [Quinn Damerell](https://github.com/QuinnDamerell) and [Paul Bartrum](https://github.com/paulbartrum) for [Baconit](https://github.com/QuinnDamerell/Baconit), a popular open source reddit UWP. The control *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering. The control is efficient enough to be used in virtualizing lists.
+    private MarkdownConfig _config;
+    private const string _markdown = @"
+This control was originally written by [Nero Cui](https://github.com/nerocui) for [JitHub](https://github.com/JitHubApp/JitHubV2). The control is powered by the popular [Markdig](https://github.com/xoofx/markdig) markdown parsing library and *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering.
 
 *Note:* For a full list of markdown syntax, see the [official syntax guide](http://daringfireball.net/projects/markdown/syntax).
 
 &nbsp;
 
-**Try it live!** Type in the *unformatted text box* above!
+**Try it live!** Type in the *unformatted text box*!
 
 &nbsp;
 
@@ -138,17 +136,17 @@ Text can be displayed in a subscript font by preceding it with a caret ( <sub></
 
 Markdown supports 6 levels of headers (some of which don't actually display as headers in reddit):
 
-#Header 1
+# Header 1
 
-##Header 2
+## Header 2
 
-###Header 3
+### Header 3
 
-####Header 4
+#### Header 4
 
-#####Header 5
+##### Header 5
 
-######Header 6
+###### Header 6
 
 ...which can be created in a couple of different ways.  Level 1 and 2 headers can be created by adding a line of equals signs (=) or dashes (\-), respectively, underneath the header text.
 
@@ -168,17 +166,17 @@ However, *all* types of headers can be created with a second method.  Simply pre
 
 results in:
 
->#Header 1
+># Header 1
 
->##Header 2
+>## Header 2
 
->###Header 3
+>### Header 3
 
->####Header 4
+>#### Header 4
 
->#####Header 5
+>##### Header 5
 
->######Header 6
+>###### Header 6
 
 Note: you can add hashes after the header text to balance out how the source code looks without affecting what is displayed. So:
 
@@ -186,7 +184,7 @@ Note: you can add hashes after the header text to balance out how the source cod
 
 also produces:
 
->## Header 2
+>## Header 2 ##
 
 
 *****
@@ -214,7 +212,7 @@ results in
 
 ### Ordered Lists
 
-Ordered lists work roughly the same way, but you prepend each item in the list with a number plus a period (.) plus a space.  Also, it makes no difference what numbers you use.  The ordered list will always start with the number 1, and will always increment sequentially.  So
+Ordered lists work roughly the same way, but you prepend each item in the list with a number plus a period (.) plus a space.  The number will increment by 1 starting from the number from the number of the first list item. So
 
 >7\. Item 1
 
@@ -296,24 +294,6 @@ public static void Main(string[] args)
 }
 ```
 
-*You can implement your own Syntax Highlighting or override the built in Highlighting with the `CodeBlockResolving` event. The Syntax Highlighting Style can be changed by setting the `StyleDictionary` on the `CodeStyling` Property.*
-
-As an example of CodeBlockResolving, a Custom Identifier has been created, to make text Red and Bold:
-
-\`\`\`CUSTOM
-
-This is very angry.
-
-\`\`\`
-
-makes
-
-```CUSTOM
-This is very angry.
-```
-
-See the Code Page for an implementation example.
-
 *****
 
 # LINKS
@@ -376,15 +356,12 @@ and
 
 # Email Links
 
-Emails can be used as Masked Links or Direct email links.
+Emails can be used as Masked Links.
 
->[Email\]\(`email@email.com`)
+>\[Email\]\(email@email.com)
 
 will be rendered to [Email](email@email.com)
 
->`email@email.com`
-
-will be rendered to email@email.com
 
 *****
 
@@ -484,7 +461,6 @@ You'll probably do a lot of quoting of other redditors.  In those cases, you'll 
 
     Plain text.
 
-
 Is displayed as:
 
 
@@ -515,7 +491,7 @@ Plain text.
 
 # EMOJIS
 
-You can use nearly all emojis from this [list](https://gist.github.com/rxaviers/7360908). Text like `:smile:` will display :smile: emoji.
+You can use nearly all emojis from this [list](https://gist.github.com/rxaviers/7360908). Text like `:smile:` will display :smile:  emoji.
 
 *****
 
@@ -593,11 +569,36 @@ results in
 >*****
 
 Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_primer_or_how_do_you_do_all_that/c03nik6
-        ",
-    };
+";
+
+    public MarkdownConfig MarkdownConfig
+    {
+        get => _config;
+        set
+        {
+            _config = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MarkdownConfig)));
+        }
+    }
 
     public MarkdigUICustomSample()
     {
         this.InitializeComponent();
+        _config = new MarkdownConfig()
+        {
+            Markdown = _markdown
+        };
+        MarkdownTextBox.Text = _markdown;
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        var textBox = (TextBox)sender;
+        MarkdownConfig = new MarkdownConfig()
+        {
+            Markdown = textBox.Text
+        };
     }
 }

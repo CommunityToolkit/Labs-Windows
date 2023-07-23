@@ -8,9 +8,18 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <StackPanel Spacing="16">
-        <StackPanel Spacing="16">
-            <controls:MarkdownViewer Config="{x:Bind MarkdownConfig, Mode=OneWay}"/>
-        </StackPanel>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <controls:MarkdownViewer
+            Grid.Column="0"
+            Config="{x:Bind MarkdownConfig, Mode=OneWay}"/>
+        <TextBox
+            x:Name="MarkdownTextBox"
+            Grid.Column="1"
+            AcceptsReturn="True"
+            TextChanged="TextBox_TextChanged"/>
+    </Grid>
 </Page>

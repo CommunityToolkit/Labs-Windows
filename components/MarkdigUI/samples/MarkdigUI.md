@@ -1,7 +1,7 @@
 ---
 title: MarkdigUI
-author: githubaccount
-description: TODO: Your experiment's description here
+author: nerocui
+description: A control for displaying markdown natively.
 keywords: MarkdigUI, Control, Layout
 dev_langs:
   - csharp

@@ -134,6 +134,9 @@ internal class MyImage : IAddChild
                         await bitmap.SetSourceAsync(stream);
                     }
                     _image.Source = bitmap;
+                    _image.Width = bitmap.PixelWidth == 0 ? bitmap.DecodePixelWidth : bitmap.PixelWidth;
+                    _image.Height = bitmap.PixelHeight == 0 ? bitmap.DecodePixelHeight : bitmap.PixelHeight;
+
                 }
 
                 _loaded = true;
