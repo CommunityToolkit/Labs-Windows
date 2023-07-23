@@ -250,6 +250,15 @@ results in:
 >    This is the second paragraph
 >* Item 2
 
+
+### Task List
+You can also use the GitHub style task list. The syntax is the following:
+
+- [ ] Task 1
+- [x] Task 2
+- [ ] Task 3
+
+
 Notice how the spaces in my source were stripped out?  What if you need to preserve formatting?  That brings us to:
 
 *****
