@@ -1,0 +1,44 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <ToolkitComponentName>MarkdownTextBlock</ToolkitComponentName>
+    <Description>This package contains MarkdownTextBlock.</Description>
+    <Version>0.0.1</Version>
+
+    <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
+    <RootNamespace>CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's source project -->
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
+  <ItemGroup>
+    <UpToDateCheckInput Remove="MarkdownTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ColorCode.Core" Version="2.0.14" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.48" />
+    <PackageReference Include="Markdig" Version="0.31.0" />
+    <PackageReference Include="Roman-Numerals" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsUwp)' == 'true'">
+    <Using Include="Windows.UI" />
+    <Using Include="Windows.UI.Xaml.Documents" />
+    <Using Include="Windows.UI.Xaml.Media.Imaging" />
+    <Using Include="Windows.UI.Xaml.Media.Media3D" />
+    <Using Include="Windows.UI.Xaml.Shapes" />
+    <Using Include="Windows.UI.Text" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
+    <Using Include="Microsoft.UI" />
+    <Using Include="Microsoft.UI.Xaml.Documents" />
+    <Using Include="Microsoft.UI.Xaml.Media.Imaging" />
+    <Using Include="Microsoft.UI.Xaml.Media.Media3D" />
+    <Using Include="Microsoft.UI.Xaml.Shapes" />
+    <Using Include="Microsoft.UI.Text" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="MarkdownTextBlock.xaml.cs">
+      <DependentUpon>MarkdownTextBlock.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>
