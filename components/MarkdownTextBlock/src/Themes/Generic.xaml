@@ -3,7 +3,7 @@
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.MarkdownTextBlock/MarkdownViewer.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.MarkdownTextBlock/MarkdownTextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
