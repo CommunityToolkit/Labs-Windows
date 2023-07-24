@@ -14,15 +14,15 @@
   
     <!-- WinUI 2 / UWP / Uno -->
     <ItemGroup Condition="'$(IsUwp)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '2')">
-        <PackageReference Include="CommunityToolkit.Uwp.Converters" Version="8.0.0-beta.1"/>
-        <PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.0.0-beta.1"/>
-        <PackageReference Include="CommunityToolkit.Uwp.Controls.Sizers" Version="8.0.0-beta.2"/>
+        <PackageReference Include="CommunityToolkit.Uwp.Converters" Version="8.0.230801-preview"/>
+        <PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.0.230801-preview"/>
+        <PackageReference Include="CommunityToolkit.Uwp.Controls.Sizers" Version="8.0.230801-preview"/>
     </ItemGroup>
 
     <!-- WinUI 3 / WinAppSdk / Uno -->
     <ItemGroup Condition="'$(IsWinAppSdk)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '3')">
-        <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.0-beta.1"/>
-        <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.0.0-beta.1"/>
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.0.0-beta.2"/>
+        <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.230801-preview"/>
+        <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.0.230801-preview"/>
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.0.230801-preview"/>
     </ItemGroup>
 </Project>

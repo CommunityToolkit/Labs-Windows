@@ -11,14 +11,14 @@
 <Project>
     <!-- WinUI 2 / UWP / Uno -->
     <ItemGroup Condition="'$(IsUwp)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '2')">
-        <PackageReference Include="CommunityToolkit.Uwp.Behaviors" Version="8.0.0-beta.3"/>
-        <PackageReference Include="CommunityToolkit.Uwp.Controls.HeaderedControls" Version="8.0.0-beta.1"/>
+        <PackageReference Include="CommunityToolkit.Uwp.Behaviors" Version="8.0.230801-preview"/>
+        <PackageReference Include="CommunityToolkit.Uwp.Controls.HeaderedControls" Version="8.0.230801-preview"/>
     </ItemGroup>
 
     <!-- WinUI 3 / WinAppSdk / Uno -->
     <ItemGroup Condition="'$(IsWinAppSdk)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '3')">
-        <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.0-beta.3"/>
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.0-beta.1"/>
+        <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230801-preview"/>
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230801-preview"/>
     </ItemGroup>
 
     <!-- WinUI 2 / UWP -->
