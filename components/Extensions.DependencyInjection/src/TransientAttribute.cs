@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CommunityToolkit.Extensions.DependencyInjection;
@@ -25,21 +26,36 @@ public sealed class TransientAttribute : Attribute
     /// <summary>
     /// Creates a new <see cref="TransientAttribute"/> instance with the specified parameters.
     /// </summary>
-    /// <param name="implementationType">The implementation type for the service.</param>
-    /// <param name="serviceTypes">The service types to register for the provided implementation.</param>
-    public TransientAttribute(Type implementationType, params Type[] serviceTypes)
+    /// <param name="serviceType">The service type to register (must be a concrete service type).</param>
+    public TransientAttribute(Type serviceType)
     {
-        ImplementationType = implementationType;
-        ServiceTypes = serviceTypes;
+        ServiceType = serviceType;
     }
 
     /// <summary>
-    /// Gets the implementation type for the service to register.
+    /// Creates a new <see cref="TransientAttribute"/> instance with the specified parameters.
     /// </summary>
-    public Type ImplementationType { get; }
+    /// <param name="serviceType">The service type to register for the provided implementation.</param>
+    /// <param name="implementationType">The implementation type for the service.</param>
+    public TransientAttribute(Type serviceType, Type implementationType)
+    {
+        ServiceType = serviceType;
+        ImplementationType = implementationType;
+    }
 
     /// <summary>
-    /// Gets the supported service types for the implementation being registered.
+    /// Gets the service type for the current service registration.
     /// </summary>
-    public Type[] ServiceTypes { get; }
+    public Type ServiceType { get; }
+
+    /// <summary>
+    /// Gets the optional implementation type for the service to register (if it's not the same as <see cref="ServiceType"/>).
+    /// </summary>
+    public Type? ImplementationType { get; }
+
+    /// <summary>
+    /// Gets the additional supported service types for the implementation or service being registered.
+    /// </summary>
+    [DisallowNull]
+    public Type[]? AdditionalServiceTypes { get; init; }
 }
