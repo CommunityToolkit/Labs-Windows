@@ -76,24 +76,24 @@
                                 </StackPanel.RenderTransform>
                                 <TextBlock x:Name="Segment1"
                                            win:FontStretch="{TemplateBinding FontStretch}"
+                                           win:TextDecorations="{TemplateBinding TextDecorations}"
                                            CharacterSpacing="{TemplateBinding CharacterSpacing}"
                                            FontFamily="{TemplateBinding FontFamily}"
                                            FontSize="{TemplateBinding FontSize}"
                                            FontStyle="{TemplateBinding FontStyle}"
                                            FontWeight="{TemplateBinding FontWeight}"
                                            Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}"
-                                           TextDecorations="{TemplateBinding TextDecorations}" />
+                                           Text="{TemplateBinding Text}" />
                                 <TextBlock x:Name="Segment2"
                                            win:FontStretch="{TemplateBinding FontStretch}"
+                                           win:TextDecorations="{TemplateBinding TextDecorations}"
                                            CharacterSpacing="{TemplateBinding CharacterSpacing}"
                                            FontFamily="{TemplateBinding FontFamily}"
                                            FontSize="{TemplateBinding FontSize}"
                                            FontStyle="{TemplateBinding FontStyle}"
                                            FontWeight="{TemplateBinding FontWeight}"
                                            Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}"
-                                           TextDecorations="{TemplateBinding TextDecorations}" />
+                                           Text="{TemplateBinding Text}" />
                             </StackPanel>
                         </Grid>
                     </Grid>
