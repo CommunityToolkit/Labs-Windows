@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class EmphasisInlineRenderer : UWPObjectRenderer<EmphasisInline>
 {
-    protected override void Write(UWPRenderer renderer, EmphasisInline obj)
+    protected override void Write(WinUIRenderer renderer, EmphasisInline obj)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));

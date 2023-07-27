@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class ParagraphRenderer : UWPObjectRenderer<ParagraphBlock>
 {
-    protected override void Write(UWPRenderer renderer, ParagraphBlock obj)
+    protected override void Write(WinUIRenderer renderer, ParagraphBlock obj)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));

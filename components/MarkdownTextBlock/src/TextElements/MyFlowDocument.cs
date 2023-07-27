@@ -4,6 +4,13 @@
 
 using HtmlAgilityPack;
 using Markdig.Syntax;
+#if !WINAPPSDK
+using Block = Windows.UI.Xaml.Documents.Block;
+using Inline = Windows.UI.Xaml.Documents.Inline;
+#else
+using Block = Microsoft.UI.Xaml.Documents.Block;
+using Inline = Microsoft.UI.Xaml.Documents.Inline;
+#endif
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 
@@ -44,19 +51,11 @@ public class MyFlowDocument : IAddChild
         TextElement element = child.TextElement;
         if (element != null)
         {
-#if !WINAPPSDK
-            if (element is Windows.UI.Xaml.Documents.Block block)
-#else
-            if (element is Microsoft.UI.Xaml.Documents.Block block)
-#endif
+            if (element is Block block)
             {
                 _richTextBlock.Blocks.Add(block);
             }
-#if !WINAPPSDK
-            else if (element is Windows.UI.Xaml.Documents.Inline inline)
-#else
-            else if (element is Microsoft.UI.Xaml.Documents.Inline inline)
-#endif
+            else if (element is Inline inline)
             {
                 var paragraph = new Paragraph();
                 paragraph.Inlines.Add(inline);

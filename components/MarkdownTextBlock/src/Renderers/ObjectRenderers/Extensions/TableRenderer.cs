@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 public class TableRenderer : UWPObjectRenderer<Table>
 {
-    protected override void Write(UWPRenderer renderer, Table table)
+    protected override void Write(WinUIRenderer renderer, Table table)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (table == null) throw new ArgumentNullException(nameof(table));

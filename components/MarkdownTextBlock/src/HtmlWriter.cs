@@ -11,7 +11,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 
 internal class HtmlWriter
 {
-    public static void WriteHtml(UWPRenderer renderer, HtmlNodeCollection nodes)
+    public static void WriteHtml(WinUIRenderer renderer, HtmlNodeCollection nodes)
     {
         if (nodes == null || nodes.Count == 0) return;
         foreach (var node in nodes)

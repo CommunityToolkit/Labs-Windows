@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class TaskListRenderer : UWPObjectRenderer<TaskList>
 {
-    protected override void Write(UWPRenderer renderer, TaskList taskList)
+    protected override void Write(WinUIRenderer renderer, TaskList taskList)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (taskList == null) throw new ArgumentNullException(nameof(taskList));

@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class ListRenderer : UWPObjectRenderer<ListBlock>
 {
-    protected override void Write(UWPRenderer renderer, ListBlock listBlock)
+    protected override void Write(WinUIRenderer renderer, ListBlock listBlock)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (listBlock == null) throw new ArgumentNullException(nameof(listBlock));

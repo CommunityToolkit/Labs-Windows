@@ -10,15 +10,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="labs:MarkdownTextBlock">
-                    <Grid Padding="{TemplateBinding Padding}"
+                    <Grid x:Name="MarkdownContainer" 
+                          Padding="{TemplateBinding Padding}"
                           HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
-                          CornerRadius="{TemplateBinding CornerRadius}">
-                        <Grid x:Name="MarkdownContainer" />
-                    </Grid>
+                          CornerRadius="{TemplateBinding CornerRadius}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

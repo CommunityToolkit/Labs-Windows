@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class ThematicBreakRenderer : UWPObjectRenderer<ThematicBreakBlock>
 {
-    protected override void Write(UWPRenderer renderer, ThematicBreakBlock obj)
+    protected override void Write(WinUIRenderer renderer, ThematicBreakBlock obj)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));

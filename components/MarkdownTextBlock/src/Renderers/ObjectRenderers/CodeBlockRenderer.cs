@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class CodeBlockRenderer : UWPObjectRenderer<CodeBlock>
 {
-    protected override void Write(UWPRenderer renderer, CodeBlock obj)
+    protected override void Write(WinUIRenderer renderer, CodeBlock obj)
     {
         var code = new MyCodeBlock(obj);
         renderer.Push(code);

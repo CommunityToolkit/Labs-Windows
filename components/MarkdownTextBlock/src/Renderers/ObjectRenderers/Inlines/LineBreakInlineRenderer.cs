@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class LineBreakInlineRenderer : UWPObjectRenderer<LineBreakInline>
 {
-    protected override void Write(UWPRenderer renderer, LineBreakInline obj)
+    protected override void Write(WinUIRenderer renderer, LineBreakInline obj)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));

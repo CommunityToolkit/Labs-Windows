@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class HtmlInlineRenderer : UWPObjectRenderer<HtmlInline>
 {
-    protected override void Write(UWPRenderer renderer, HtmlInline obj)
+    protected override void Write(WinUIRenderer renderer, HtmlInline obj)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));

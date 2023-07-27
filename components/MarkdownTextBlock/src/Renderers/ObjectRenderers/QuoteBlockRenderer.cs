@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class QuoteBlockRenderer : UWPObjectRenderer<QuoteBlock>
 {
-    protected override void Write(UWPRenderer renderer, QuoteBlock obj)
+    protected override void Write(WinUIRenderer renderer, QuoteBlock obj)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));

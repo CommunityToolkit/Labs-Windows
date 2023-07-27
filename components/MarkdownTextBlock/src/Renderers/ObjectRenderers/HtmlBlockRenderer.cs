@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class HtmlBlockRenderer : UWPObjectRenderer<HtmlBlock>
 {
-    protected override void Write(UWPRenderer renderer, HtmlBlock obj)
+    protected override void Write(WinUIRenderer renderer, HtmlBlock obj)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));
@@ -21,8 +21,8 @@ internal class HtmlBlockRenderer : UWPObjectRenderer<HtmlBlock>
             stringBuilder.AppendLine(lineText);
         }
 
-        var html = Regex.Replace(stringBuilder.ToString(), @"\t|\n|\r", "");
-        html = Regex.Replace(html, @"&nbsp;", " ");
+        var html = Regex.Replace(stringBuilder.ToString(), @"\t|\n|\r", "", RegexOptions.Compiled);
+        html = Regex.Replace(html, @"&nbsp;", " ", RegexOptions.Compiled);
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
         HtmlWriter.WriteHtml(renderer, doc.DocumentNode.ChildNodes);

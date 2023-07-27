@@ -5,7 +5,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class AutoLinkInlineRenderer : UWPObjectRenderer<AutolinkInline>
 {
-    protected override void Write(UWPRenderer renderer, AutolinkInline link)
+    protected override void Write(WinUIRenderer renderer, AutolinkInline link)
     {
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (link == null) throw new ArgumentNullException(nameof(link));

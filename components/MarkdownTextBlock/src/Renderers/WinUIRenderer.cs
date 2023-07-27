@@ -8,18 +8,26 @@ using Markdig.Helpers;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
 
-public class UWPRenderer : RendererBase
+public class WinUIRenderer : RendererBase
 {
     private readonly Stack<IAddChild> _stack = new Stack<IAddChild>();
     private char[] _buffer;
-    public MyFlowDocument? FlowDocument { get; private set; }
-    public MarkdownConfig Config { get; private set; }
+    public MyFlowDocument FlowDocument { get; private set; }
+    public MarkdownConfig Config { get; set; }
 
-    public UWPRenderer(MyFlowDocument document, MarkdownConfig config)
+    public WinUIRenderer(MyFlowDocument document, MarkdownConfig config)
     {
         _buffer = new char[1024];
         Config = config;
-        LoadDocument(document);
+        FlowDocument = document;
+        // set style
+        _stack.Push(FlowDocument);
+        LoadOverridenRenderers();
+    }
+
+    private void LoadOverridenRenderers()
+    {
+        LoadRenderers();
     }
 
     public override object Render(MarkdownObject markdownObject)
@@ -28,12 +36,12 @@ public class UWPRenderer : RendererBase
         return FlowDocument ?? new();
     }
 
-    public void LoadDocument(MyFlowDocument document)
+    public void ReloadDocument()
     {
-        FlowDocument = document;
-        // set style
+        _stack.Clear();
+        FlowDocument.RichTextBlock.Blocks.Clear();
         _stack.Push(FlowDocument);
-        LoadRenderers();
+        LoadOverridenRenderers();
     }
 
     public void WriteLeafInline(LeafBlock leafBlock)

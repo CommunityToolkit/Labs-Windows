@@ -4,7 +4,7 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderer
 
 internal class ContainerInlineRenderer : UWPObjectRenderer<ContainerInline>
 {
-    protected override void Write(UWPRenderer renderer, ContainerInline obj)
+    protected override void Write(WinUIRenderer renderer, ContainerInline obj)
     {
         foreach (var inline in obj)
         {
