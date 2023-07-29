@@ -10,7 +10,7 @@ namespace MarkdownTextBlockExperiment.Samples;
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
 [ToolkitSample(id: nameof(MarkdownTextBlockCustomSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(CommunityToolkit.Labs.WinUI.MarkdownTextBlock)} custom control.")]
-public sealed partial class MarkdownTextBlockCustomSample : Page, INotifyPropertyChanged
+public sealed partial class MarkdownTextBlockCustomSample : Page
 {
     private MarkdownConfig _config;
     private string _text;
@@ -584,20 +584,7 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
     public MarkdownConfig MarkdownConfig
     {
         get => _config;
-        set
-        {
-            _config = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MarkdownConfig)));
-        }
-    }
-    public string Text
-    {
-        get => _text;
-        set
-        {
-            _text = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Text)));
-        }
+        set => _config = value;
     }
 
     public MarkdownTextBlockCustomSample()
@@ -606,13 +593,5 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
         _config = new MarkdownConfig();
         _text = _markdown;
         MarkdownTextBox.Text = _markdown;
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        var textBox = (TextBox)sender;
-        Text = textBox.Text;
     }
 }

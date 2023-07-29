@@ -15,12 +15,11 @@
         </Grid.ColumnDefinitions>
         <controls:MarkdownTextBlock
             Grid.Column="0"
-            Text="{x:Bind Text, Mode=OneWay}"
-            Config="{x:Bind MarkdownConfig, Mode=OneWay}"/>
+            Text="{x:Bind MarkdownTextBox.Text, Mode=OneWay}"
+            Config="{x:Bind MarkdownConfig, Mode=OneTime}"/>
         <TextBox
             x:Name="MarkdownTextBox"
             Grid.Column="1"
-            AcceptsReturn="True"
-            TextChanged="TextBox_TextChanged"/>
+            AcceptsReturn="True"/>
     </Grid>
 </Page>
