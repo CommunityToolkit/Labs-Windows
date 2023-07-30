@@ -16,10 +16,10 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
-                   Margin="0 0 0 12"
+                   Margin="0,0,0,12"
                    FontSize="16"
                    FontWeight="Bold"
-                   Text="Try it live!"/>
+                   Text="Try it live!" />
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -33,10 +33,10 @@
                      AcceptsReturn="True" />
         </Grid>
         <TextBlock Grid.Row="2"
-                   Margin="0 0 0 12"
+                   Margin="0,0,0,12"
                    FontSize="16"
                    FontWeight="Bold"
-                   Text="Built-in Sample"/>
+                   Text="Built-in Sample" />
         <controls:MarkdownTextBlock Grid.Row="3"
                                     Config="{x:Bind MarkdownConfig, Mode=OneTime}"
                                     Text="{x:Bind Text, Mode=OneTime}" />
