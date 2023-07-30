@@ -102,7 +102,7 @@ public partial class MarkdownTextBlock : Control
 
     private void Build()
     {
-        if (Config != null && !string.IsNullOrWhiteSpace(Text))
+        if (Config != null)
         {
             if (_renderer == null)
             {
