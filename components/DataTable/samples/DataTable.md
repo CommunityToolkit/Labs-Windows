@@ -55,6 +55,12 @@ you use. For example:
 
 > [!Sample DataTableSample]
 
+### Simple Table
+
+If you don't need headers and want to show a simple table of data, just don't provide any content to the `DataColumn` headers:
+
+> [!Sample DataTableBlankHeaderSample]
+
 ### Virtualization
 
 Since `DataTable` is just built on top of `ListView` it can handle many data rows just the same as a ListView can.

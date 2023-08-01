@@ -74,7 +74,9 @@ public partial class DataRow : Panel
     {
         // We should probably only have to do this once ever?
         _parentPanel ??= InitializeParentHeaderConnection();
-        
+
+        double maxHeight = 0;
+
         if (Children.Count > 0)
         {
             // If we don't have a grid, just measure first child to get row height and take available space
@@ -83,11 +85,12 @@ public partial class DataRow : Panel
                 Children[0].Measure(availableSize);
                 return new Size(availableSize.Width, Children[0].DesiredSize.Height);
             }
-            else if (_parentTable != null && _parentTable.IsAnyColumnAuto &&
-                     _parentTable.Children.Count == Children.Count)
+            // Handle DataTable Parent
+            else if (_parentTable != null
+                     && _parentTable.Children.Count == Children.Count)
             {
                 // TODO: Need to check visibility
-                // Measure all children since we have a column that cares about it
+                // Measure all children since we need to determine the row's height at minimum
                 for (int i = 0; i < Children.Count; i++)
                 {
                     if (_parentTable.Children[i] is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto } col)
@@ -123,13 +126,46 @@ public partial class DataRow : Panel
                             // If our measure has changed, then we have to invalidate the arrange of the DataTable
                             _parentTable.ColumnResized();
                         }
+
                     }
+                    else if (_parentTable.Children[i] is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Pixel } pixel)
+                    {
+                        Children[i].Measure(new(pixel.DesiredWidth.Value, availableSize.Height));
+                    }
+                    else
+                    {
+                        Children[i].Measure(availableSize);
+                    }
+
+                    maxHeight = Math.Max(maxHeight, Children[i].DesiredSize.Height);
                 }
             }
+            // Fallback for Grid Hybrid scenario...
+            else if (_parentPanel is Grid grid
+                     && _parentPanel.Children.Count == Children.Count
+                     && grid.ColumnDefinitions.Count == Children.Count)
+            {
+                // TODO: Need to check visibility
+                // Measure all children since we need to determine the row's height at minimum
+                for (int i = 0; i < Children.Count; i++)
+                {
+                    if (grid.ColumnDefinitions[i].Width.GridUnitType == GridUnitType.Pixel)
+                    {
+                        Children[i].Measure(new(grid.ColumnDefinitions[i].Width.Value, availableSize.Height));
+                    }
+                    else
+                    {
+                        Children[i].Measure(availableSize);
+                    }
+
+                    maxHeight = Math.Max(maxHeight, Children[i].DesiredSize.Height);
+                }
+            }
+            // TODO: What do we want to do if there's unequal children in the DataTable vs. DataRow?
         }
 
         // Otherwise, return our parent's size as the desired size.
-        return _parentPanel?.DesiredSize ?? new Size(availableSize.Width, 0);
+        return new(_parentPanel?.DesiredSize.Width ?? availableSize.Width, maxHeight);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
