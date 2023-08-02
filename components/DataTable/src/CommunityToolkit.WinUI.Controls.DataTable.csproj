@@ -2,7 +2,6 @@
   <PropertyGroup>
     <ToolkitComponentName>DataTable</ToolkitComponentName>
     <Description>This package contains DataTable.</Description>
-    <Version>0.0.1</Version>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
     <RootNamespace>CommunityToolkit.WinUI.Controls.DataTableRns</RootNamespace>
