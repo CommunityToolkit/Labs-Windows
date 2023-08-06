@@ -33,11 +33,11 @@ internal class HtmlWriter
                     IAddChild hyperLink;
                     if (node.ChildNodes.Any(n => n.Name != "#text"))
                     {
-                        hyperLink = new MyHyperlinkButton(node, renderer.Config?.BaseUrl);
+                        hyperLink = new MyHyperlinkButton(node, renderer.Config.BaseUrl);
                     }
                     else
                     {
-                        hyperLink = new MyHyperlink(node, renderer.Config?.BaseUrl);
+                        hyperLink = new MyHyperlink(node, renderer.Config.BaseUrl);
                     }
                     renderer.Push(hyperLink);
                     WriteHtml(renderer, node.ChildNodes);
@@ -69,7 +69,7 @@ internal class HtmlWriter
                 }
                 else if (tag.IsHeading())
                 {
-                    var heading = new MyHeading(node);
+                    var heading = new MyHeading(node, renderer.Config);
                     renderer.Push(heading);
                     WriteHtml(renderer, node.ChildNodes);
                 }

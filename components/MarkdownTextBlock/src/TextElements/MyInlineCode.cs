@@ -10,28 +10,31 @@ internal class MyInlineCode : IAddChild
 {
     private CodeInline _codeInline;
     private InlineUIContainer _inlineContainer;
+    private MarkdownConfig _config;
 
     public TextElement TextElement
     {
         get => _inlineContainer;
     }
 
-    public MyInlineCode(CodeInline codeInline)
+    public MyInlineCode(CodeInline codeInline, MarkdownConfig config)
     {
         _codeInline = codeInline;
+        _config = config;
         _inlineContainer = new InlineUIContainer();
         var border = new Border();
         border.VerticalAlignment = VerticalAlignment.Bottom;
-        border.Background = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
-        border.BorderBrush = new SolidColorBrush(Colors.Gray);
-        border.BorderThickness = new Thickness(1);
-        border.CornerRadius = new CornerRadius(2);
-        border.Padding = new Thickness(0);
+        border.Background = _config.Themes.InlineCodeBackground;
+        border.BorderBrush = _config.Themes.InlineCodeBorderBrush;
+        border.BorderThickness = _config.Themes.InlineCodeBorderThickness;
+        border.CornerRadius = _config.Themes.InlineCodeCornerRadius;
+        border.Padding = _config.Themes.InlineCodePadding;
         CompositeTransform3D transform = new CompositeTransform3D();
         transform.TranslateY = 4;
         border.Transform3D = transform;
         var textBlock = new TextBlock();
-        textBlock.FontSize = 10;
+        textBlock.FontSize = _config.Themes.InlineCodeFontSize;
+        textBlock.FontWeight = _config.Themes.InlineCodeFontWeight;
         textBlock.Text = codeInline.Content.ToString();
         border.Child = textBlock;
         _inlineContainer.Child = border;

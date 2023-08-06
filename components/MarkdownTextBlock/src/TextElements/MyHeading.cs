@@ -12,6 +12,7 @@ internal class MyHeading : IAddChild
     private Paragraph _paragraph;
     private HeadingBlock? _headingBlock;
     private HtmlNode? _htmlNode;
+    private MarkdownConfig _config;
 
     public bool IsHtml => _htmlNode != null;
 
@@ -20,21 +21,39 @@ internal class MyHeading : IAddChild
         get => _paragraph;
     }
 
-    public MyHeading(HeadingBlock headingBlock)
+    public MyHeading(HeadingBlock headingBlock, MarkdownConfig config)
     {
         _headingBlock = headingBlock;
         _paragraph = new Paragraph();
+        _config = config;
 
         var level = headingBlock.Level;
-        _paragraph.FontSize = 24 - (level * 2);
-        _paragraph.Foreground = Extensions.GetAccentColorBrush();
-        _paragraph.FontWeight = level == 1 ? FontWeights.Bold : FontWeights.Normal;
+        _paragraph.FontSize = level switch
+        {
+            1 => _config.Themes.H1FontSize,
+            2 => _config.Themes.H2FontSize,
+            3 => _config.Themes.H3FontSize,
+            4 => _config.Themes.H4FontSize,
+            5 => _config.Themes.H5FontSize,
+            _ => _config.Themes.H6FontSize,
+        };
+        _paragraph.Foreground = _config.Themes.HeadingForeground;
+        _paragraph.FontWeight = level switch
+        {
+            1 => _config.Themes.H1FontWeight,
+            2 => _config.Themes.H2FontWeight,
+            3 => _config.Themes.H3FontWeight,
+            4 => _config.Themes.H4FontWeight,
+            5 => _config.Themes.H5FontWeight,
+            _ => _config.Themes.H6FontWeight,
+        };
     }
 
-    public MyHeading(HtmlNode htmlNode)
+    public MyHeading(HtmlNode htmlNode, MarkdownConfig config)
     {
         _htmlNode = htmlNode;
         _paragraph = new Paragraph();
+        _config = config;
 
         var align = _htmlNode.GetAttributeValue("align", "left");
         _paragraph.TextAlignment = align switch
@@ -47,9 +66,25 @@ internal class MyHeading : IAddChild
         };
 
         var level = int.Parse(htmlNode.Name.Substring(1));
-        _paragraph.FontSize = 24 - (level * 2);
-        _paragraph.Foreground = Extensions.GetAccentColorBrush();
-        _paragraph.FontWeight = level == 1 ? FontWeights.Bold : FontWeights.Normal;
+        _paragraph.FontSize = level switch
+        {
+            1 => _config.Themes.H1FontSize,
+            2 => _config.Themes.H2FontSize,
+            3 => _config.Themes.H3FontSize,
+            4 => _config.Themes.H4FontSize,
+            5 => _config.Themes.H5FontSize,
+            _ => _config.Themes.H6FontSize,
+        };
+        _paragraph.Foreground = _config.Themes.HeadingForeground;
+        _paragraph.FontWeight = level switch
+        {
+            1 => _config.Themes.H1FontWeight,
+            2 => _config.Themes.H2FontWeight,
+            3 => _config.Themes.H3FontWeight,
+            4 => _config.Themes.H4FontWeight,
+            5 => _config.Themes.H5FontWeight,
+            _ => _config.Themes.H6FontWeight,
+        };
     }
 
     public void AddChild(IAddChild child)

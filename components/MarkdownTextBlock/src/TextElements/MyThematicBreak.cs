@@ -26,7 +26,7 @@ internal class MyThematicBreak : IAddChild
         border.Width = 500;
         border.BorderThickness = new Thickness(1);
         border.Margin = new Thickness(0, 4, 0, 4);
-        border.BorderBrush = new SolidColorBrush(Colors.White);
+        border.BorderBrush = new SolidColorBrush(Colors.Gray);
         border.Height = 1;
         border.HorizontalAlignment = HorizontalAlignment.Stretch;
         inlineUIContainer.Child = border;

@@ -10,22 +10,24 @@ internal class MyCodeBlock : IAddChild
 {
     private CodeBlock _codeBlock;
     private Paragraph _paragraph;
+    private MarkdownConfig _config;
 
     public TextElement TextElement
     {
         get => _paragraph;
     }
 
-    public MyCodeBlock(CodeBlock codeBlock)
+    public MyCodeBlock(CodeBlock codeBlock, MarkdownConfig config)
     {
         _codeBlock = codeBlock;
+        _config = config;
         _paragraph = new Paragraph();
         var container = new InlineUIContainer();
         var border = new Border();
         border.Background = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
-        border.Padding = new Thickness(8);
-        border.Margin = new Thickness(4);
-        border.CornerRadius = new CornerRadius(4);
+        border.Padding = _config.Themes.Padding;
+        border.Margin = _config.Themes.InternalMargin;
+        border.CornerRadius = _config.Themes.CornerRadius;
         var richTextBlock = new RichTextBlock();
 
         if (codeBlock is FencedCodeBlock fencedCodeBlock)
