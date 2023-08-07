@@ -3,6 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+#if !WINAPPSDK
+using FontWeight = Windows.UI.Text.FontWeight;
+using FontWeights = Windows.UI.Text.FontWeights;
+#else
+using FontWeight = Windows.UI.Text.FontWeight;
+using FontWeights = Microsoft.UI.Text.FontWeights;
+#endif
 
 namespace CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns;
 
