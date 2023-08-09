@@ -3,7 +3,6 @@
     <ToolkitComponentName>Extensions.DependencyInjection</ToolkitComponentName>
     <Description>This package contains Extensions.DependencyInjection.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.1</Version>
     <RootNamespace>CommunityToolkit.Extensions.DependencyInjection</RootNamespace>
     <PackageId>$(PackageIdPrefix).$(ToolkitComponentName)</PackageId>
   </PropertyGroup>

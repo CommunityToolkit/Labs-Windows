@@ -1,0 +1,49 @@
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="DataTableExperiment.Samples.DataTableSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:DataTableExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <ListView ItemsSource="{x:Bind InventoryItems}">
+        <ListView.Header>
+            <controls:DataTable Margin="12,0,0,0">
+                <controls:DataColumn Content="Id"
+                                     DesiredWidth="80" />
+                <controls:DataColumn MinWidth="120"
+                                     CanResize="True"
+                                     Content="Name" />
+                <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
+                <controls:DataColumn DesiredWidth="*">
+                    <TextBlock FontWeight="SemiBold"
+                               Text="Description" />
+                </controls:DataColumn>
+                <controls:DataColumn Content="Quantity"
+                                     DesiredWidth="100" />
+            </controls:DataTable>
+        </ListView.Header>
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="local:InventoryItem">
+                <controls:DataRow>
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{x:Bind Id}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{x:Bind Name}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{x:Bind Description}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{x:Bind Quantity}" />
+                </controls:DataRow>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.ItemContainerStyle>
+            <Style BasedOn="{StaticResource DefaultListViewItemStyle}"
+                   TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
+        </ListView.ItemContainerStyle>
+    </ListView>
+</Page>

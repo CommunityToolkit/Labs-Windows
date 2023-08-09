@@ -1,0 +1,50 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="DataTableExperiment.Samples.DataTableHybridSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:DataTableExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <controls:HeaderedItemsControl ItemsSource="{x:Bind InventoryItems}">
+        <controls:HeaderedItemsControl.Header>
+            <Grid Padding="0,8"
+                  ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Id" />
+                <TextBlock Grid.Column="1"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Name" />
+                <TextBlock Grid.Column="2"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Description" />
+                <TextBlock Grid.Column="3"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Quantity" />
+            </Grid>
+        </controls:HeaderedItemsControl.Header>
+        <controls:HeaderedItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="local:InventoryItem">
+                <controls:DataRow>
+                    <TextBlock Text="{x:Bind Id}" />
+                    <TextBlock Text="{x:Bind Name}" />
+                    <TextBlock Text="{x:Bind Description}" />
+                    <TextBlock Text="{x:Bind Quantity}" />
+                </controls:DataRow>
+            </DataTemplate>
+        </controls:HeaderedItemsControl.ItemTemplate>
+        <controls:HeaderedItemsControl.ItemContainerStyle>
+            <Style TargetType="ContentPresenter">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
+        </controls:HeaderedItemsControl.ItemContainerStyle>
+    </controls:HeaderedItemsControl>
+</Page>

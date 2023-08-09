@@ -1,0 +1,42 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="DataTableExperiment.Samples.TreeTableSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:DataTableExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      mc:Ignorable="d">
+
+    <controls:HeaderedTreeView ItemsSource="{x:Bind InventoryItems}">
+        <controls:HeaderedTreeView.Header>
+            <controls:DataTable ColumnSpacing="8">
+                <!--  In a Tree based DataTable, setting the first column to Auto will account for indentation in the Tree automatically  -->
+                <controls:DataColumn Content="Id"
+                                     DesiredWidth="Auto" />
+                <controls:DataColumn MinWidth="120"
+                                     Content="Name" />
+                <!--  Each column can be text or quickly customized by containing any content or restyled of course  -->
+                <controls:DataColumn DesiredWidth="*">
+                    <TextBlock FontWeight="SemiBold"
+                               Text="Description" />
+                </controls:DataColumn>
+                <controls:DataColumn Content="Quantity"
+                                     DesiredWidth="100" />
+            </controls:DataTable>
+        </controls:HeaderedTreeView.Header>
+        <controls:HeaderedTreeView.ItemTemplate>
+            <DataTemplate x:DataType="local:InventoryItem">
+                <muxc:TreeViewItem ItemsSource="{x:Bind SubItems}">
+                    <controls:DataRow>
+                        <TextBlock Text="{x:Bind Id}" />
+                        <TextBlock Text="{x:Bind Name}" />
+                        <TextBlock Text="{x:Bind Description}" />
+                        <TextBlock Text="{x:Bind Quantity}" />
+                    </controls:DataRow>
+                </muxc:TreeViewItem>
+            </DataTemplate>
+        </controls:HeaderedTreeView.ItemTemplate>
+    </controls:HeaderedTreeView>
+</Page>

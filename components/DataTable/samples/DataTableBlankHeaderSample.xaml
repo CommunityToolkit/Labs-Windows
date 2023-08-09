@@ -1,0 +1,43 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="DataTableExperiment.Samples.DataTableBlankHeaderSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:DataTableExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <controls:HeaderedItemsControl ItemsSource="{x:Bind InventoryItems}">
+        <controls:HeaderedItemsControl.Header>
+            <controls:DataTable ColumnSpacing="16">
+                <controls:DataColumn />
+                <controls:DataColumn />
+                <controls:DataColumn DesiredWidth="80" />
+                <controls:DataColumn />
+            </controls:DataTable>
+        </controls:HeaderedItemsControl.Header>
+        <controls:HeaderedItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="local:InventoryItem">
+                <controls:DataRow>
+                    <TextBlock VerticalAlignment="Top"
+                               Text="{x:Bind Id}" />
+                    <TextBlock VerticalAlignment="Top"
+                               Text="{x:Bind Name}" />
+                    <TextBlock VerticalAlignment="Top"
+                               Text="{x:Bind Description}"
+                               TextWrapping="WrapWholeWords" />
+                    <TextBlock VerticalAlignment="Top"
+                               Text="{x:Bind Quantity}" />
+                </controls:DataRow>
+            </DataTemplate>
+        </controls:HeaderedItemsControl.ItemTemplate>
+        <controls:HeaderedItemsControl.ItemContainerStyle>
+            <Style TargetType="ContentPresenter">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <!--  Add some Row Spacing  -->
+                <Setter Property="Margin" Value="0,4,0,4" />
+            </Style>
+        </controls:HeaderedItemsControl.ItemContainerStyle>
+    </controls:HeaderedItemsControl>
+</Page>
