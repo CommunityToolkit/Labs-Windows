@@ -1,8 +1,11 @@
 <Project>
   <PropertyGroup>
+    <MajorVersion>0</MajorVersion>
+    <MinorVersion>1</MinorVersion>
+
     <PackageIdPrefix>CommunityToolkit.Labs</PackageIdPrefix>
-    <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
-    <ToolingDirectory>$(RepositoryDirectory)\tooling</ToolingDirectory>
+    <RepositoryDirectory>$([MSBuild]::EnsureTrailingSlash('$(MSBuildThisFileDirectory)'))</RepositoryDirectory>
+    <ToolingDirectory>$(RepositoryDirectory)tooling</ToolingDirectory>    
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
