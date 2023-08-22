@@ -8,16 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>OpacityMaskViewExperiment.Tests</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleOpacityMaskViewTestClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleOpacityMaskViewTestPage.xaml.cs">
-      <DependentUpon>ExampleOpacityMaskViewTestPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)ExampleOpacityMaskViewTestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
 </Project>

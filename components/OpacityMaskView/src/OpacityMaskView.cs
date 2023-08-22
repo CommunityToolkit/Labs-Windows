@@ -2,107 +2,106 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Numerics;
+#if WINDOWS_WINAPPSDK
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Shapes;
+#else
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Shapes;
+#endif
+
 namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
-/// This is an example control based off of the BoxPanel sample here: https://docs.microsoft.com/windows/apps/design/layout/boxpanel-example-custom-panel. If you need this similar sort of layout component for an application, see UniformGrid in the Toolkit.
-/// It is provided as an example of how to inherit from another control like <see cref="Panel"/>.
-/// You can choose to start here or from the <see cref="OpacityMaskView_ClassicBinding"/> or <see cref="OpacityMaskView_xBind"/> example components. Remove unused components and rename as appropriate.
+/// TODO
 /// </summary>
-public partial class OpacityMaskView : Panel
+[TemplatePart(Name = RootGridTemplateName, Type = typeof(Grid))]
+[TemplatePart(Name = MaskRectangleTemplateName, Type = typeof(Rectangle))]
+[TemplatePart(Name = ContentPresenterTemplateName, Type = typeof(ContentPresenter))]
+public partial class OpacityMaskView : ContentControl
 {
     /// <summary>
-    /// Identifies the <see cref="Orientation"/> property.
+    /// Identifies the <see cref="OpacityMask"/> property.
     /// </summary>
-    public static readonly DependencyProperty OrientationProperty =
-        DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(OpacityMaskView), new PropertyMetadata(null, OnOrientationChanged));
+    public static readonly DependencyProperty OpacityMaskProperty =
+        DependencyProperty.Register(nameof(OpacityMask), typeof(Brush), typeof(OpacityMaskView), new PropertyMetadata(null, OnOpacityMaskChanged));
+
+    private const string ContentPresenterTemplateName = "PART_ContentPresenter";
+    private const string MaskRectangleTemplateName = "PART_MaskRectangle";
+    private const string RootGridTemplateName = "PART_RootGrid";
+
+    private readonly Compositor _compositor = Window.Current.Compositor;
+    private CompositionBrush? _mask;
+    private CompositionMaskBrush? _maskBrush;
 
     /// <summary>
-    /// Gets the preference of the rows/columns when there are a non-square number of children. Defaults to Vertical.
+    /// Creates a new instance of the <see cref="OpacityMaskView"/> class.
     /// </summary>
-    public Orientation Orientation
+    public OpacityMaskView()
     {
-        get { return (Orientation)GetValue(OrientationProperty); }
-        set { SetValue(OrientationProperty, value); }
+        DefaultStyleKey = typeof(OpacityMaskView);
     }
 
-    // Invalidate our layout when the property changes.
-    private static void OnOrientationChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+    /// <summary>
+    /// Gets or sets an opacity mask, as a <see cref="Brush"/> implementation that is applied to any alpha-channel masking for the rendered content of the content.
+    /// </summary>
+    public Brush? OpacityMask
     {
-        if (dependencyObject is OpacityMaskView panel)
-        {
-            panel.InvalidateMeasure();
-        }
+        get => (Brush?)GetValue(OpacityMaskProperty);
+        set => SetValue(OpacityMaskProperty, value);
     }
 
-    // Store calculations we want to use between the Measure and Arrange methods.
-    int _columnCount;
-    double _cellWidth, _cellHeight;
-
-    protected override Size MeasureOverride(Size availableSize)
+    /// <inheritdoc />
+    protected override void OnApplyTemplate()
     {
-        // Determine the square that can contain this number of items.
-        var maxrc = (int)Math.Ceiling(Math.Sqrt(Children.Count));
-        // Get an aspect ratio from availableSize, decides whether to trim row or column.
-        var aspectratio = availableSize.Width / availableSize.Height;
-        if (Orientation == Orientation.Vertical) { aspectratio = 1 / aspectratio; }
+        base.OnApplyTemplate();
 
-        int rowcount;
+        Grid rootGrid = (Grid)GetTemplateChild(RootGridTemplateName);
+        ContentPresenter contentPresenter = (ContentPresenter)GetTemplateChild(ContentPresenterTemplateName);
+        Rectangle maskRectangle = (Rectangle)GetTemplateChild(MaskRectangleTemplateName);
 
-        // Now trim this square down to a rect, many times an entire row or column can be omitted.
-        if (aspectratio > 1)
-        {
-            rowcount = maxrc;
-            _columnCount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
-        }
-        else
-        {
-            rowcount = (maxrc > 2 && Children.Count <= maxrc * (maxrc - 1)) ? maxrc - 1 : maxrc;
-            _columnCount = maxrc;
-        }
+        _maskBrush = _compositor.CreateMaskBrush();
+        _maskBrush.Source = GetVisualBrush(contentPresenter);
+        _mask = GetVisualBrush(maskRectangle);
+        _maskBrush.Mask = OpacityMask is null ? null : _mask;
 
-        // Now that we have a column count, divide available horizontal, that's our cell width.
-        _cellWidth = (int)Math.Floor(availableSize.Width / _columnCount);
-        // Next get a cell height, same logic of dividing available vertical by rowcount.
-        _cellHeight = Double.IsInfinity(availableSize.Height) ? Double.PositiveInfinity : availableSize.Height / rowcount;
-
-        double maxcellheight = 0;
-
-        foreach (UIElement child in Children)
-        {
-            child.Measure(new Size(_cellWidth, _cellHeight));
-            maxcellheight = (child.DesiredSize.Height > maxcellheight) ? child.DesiredSize.Height : maxcellheight;
-        }
-
-        return LimitUnboundedSize(availableSize, maxcellheight);
+        SpriteVisual redirectVisual = _compositor.CreateSpriteVisual();
+        redirectVisual.RelativeSizeAdjustment = Vector2.One;
+        redirectVisual.Brush = _maskBrush;
+        ElementCompositionPreview.SetElementChildVisual(rootGrid, redirectVisual);
     }
 
-    // This method limits the panel height when no limit is imposed by the panel's parent.
-    // That can happen to height if the panel is close to the root of main app window.
-    // In this case, base the height of a cell on the max height from desired size
-    // and base the height of the panel on that number times the #rows.
-    Size LimitUnboundedSize(Size input, double maxcellheight)
-    { 
-        if (Double.IsInfinity(input.Height))
-        {
-            input.Height = maxcellheight * _columnCount;
-            _cellHeight = maxcellheight;
-        }
-        return input;
+    private static CompositionBrush GetVisualBrush(UIElement element)
+    {
+        Visual visual = ElementCompositionPreview.GetElementVisual(element);
+
+        Compositor compositor = visual.Compositor;
+
+        CompositionVisualSurface visualSurface = compositor.CreateVisualSurface();
+        visualSurface.SourceVisual = visual;
+        ExpressionAnimation sourceSizeAnimation = compositor.CreateExpressionAnimation($"{nameof(visual)}.Size");
+        sourceSizeAnimation.SetReferenceParameter(nameof(visual), visual);
+        visualSurface.StartAnimation(nameof(visualSurface.SourceSize), sourceSizeAnimation);
+
+        CompositionSurfaceBrush brush = compositor.CreateSurfaceBrush(visualSurface);
+
+        visual.Opacity = 0;
+
+        return brush;
     }
 
-    protected override Size ArrangeOverride(Size finalSize)
+    private static void OnOpacityMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        int count = 1;
-        double x, y;
-        foreach (UIElement child in Children)
+        OpacityMaskView self = (OpacityMaskView)d;
+        if (self._maskBrush is not { } maskBrush)
         {
-            x = (count - 1) % _columnCount * _cellWidth;
-            y = ((int)(count - 1) / _columnCount) * _cellHeight;
-            Point anchorPoint = new Point(x, y);
-            child.Arrange(new Rect(anchorPoint, child.DesiredSize));
-            count++;
+            return;
         }
-        return finalSize;
+
+        Brush? opacityMask = (Brush?)e.NewValue;
+        maskBrush.Mask = opacityMask is null ? null : self._mask;
     }
 }
