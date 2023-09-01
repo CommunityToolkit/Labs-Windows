@@ -30,7 +30,7 @@
                     BorderBrush="Red"
                     BorderThickness="1"
                     CornerRadius="12">
-                <Image Source="ms-appx:///Assets/Owl2.jpg" />
+                <Image Source="ms-appx:///Assets/Owl3.jpg" />
             </Border>
         </controls:OpacityMaskView>
     </StackPanel>
