@@ -7,6 +7,7 @@ dev_langs:
   - csharp
 category: Animations
 subcategory: Media
+experimental: true
 discussion-id: 309
 issue-id: 0
 icon: Assets/RivePlayer.png

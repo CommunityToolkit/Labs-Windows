@@ -7,6 +7,7 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: StatusAndInfo
+experimental: true
 discussion-id: 231 
 issue-id: 0
 icon: Assets/MarqueeText.png

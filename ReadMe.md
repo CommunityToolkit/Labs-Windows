@@ -1,7 +1,7 @@
 
 # 🧪 Windows Community Toolkit Labs (Preview) 🧪
 
-![Windows Community Toolkit Labs Social Image](tooling/ToolkitLabsSocial.png)
+![Windows Community Toolkit Labs header](CommunityToolkitLabs-Header.png)
 
 Welcome to the home of Windows Community Toolkit Labs. A place for all new components to be developed in 'experiments' for the [Windows Community Toolkit](https://aka.ms/windowstoolkitdocs) (built on top of WinUI 2, [WinUI 3](https://aka.ms/winui3), and [Uno Platform](https://platform.uno))! Find out more about Toolkit Labs in our [blog post here](https://devblogs.microsoft.com/ifdef-windows/announcing-the-windows-community-toolkit-labs/). It includes more about our motivations for having this space as well as how to setup the NuGet feed required to easily use experiments found in this repo.
 
