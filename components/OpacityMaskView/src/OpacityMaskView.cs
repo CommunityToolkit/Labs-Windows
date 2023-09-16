@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Shapes;
 namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
-/// TODO
+/// A control that applies an opacity mask to its content.
 /// </summary>
 [TemplatePart(Name = RootGridTemplateName, Type = typeof(Grid))]
 [TemplatePart(Name = MaskRectangleTemplateName, Type = typeof(Rectangle))]
@@ -33,7 +33,11 @@ public partial class OpacityMaskView : ContentControl
     private const string MaskRectangleTemplateName = "PART_MaskRectangle";
     private const string RootGridTemplateName = "PART_RootGrid";
 
+#if WINDOWS_WINAPPSDK
+    private readonly Compositor _compositor = CompositionTarget.GetCompositorForCurrentThread();
+#else
     private readonly Compositor _compositor = Window.Current.Compositor;
+#endif
     private CompositionBrush? _mask;
     private CompositionMaskBrush? _maskBrush;
 
