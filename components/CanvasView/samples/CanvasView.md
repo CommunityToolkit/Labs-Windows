@@ -7,6 +7,7 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+experimental: true
 discussion-id: 310
 issue-id: 212
 icon: Assets/CanvasView.png

@@ -7,6 +7,7 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+experimental: true
 discussion-id: 415
 issue-id: 0
 icon: Assets/DataTable.png

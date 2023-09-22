@@ -7,6 +7,7 @@ dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
+experimental: true
 discussion-id: 381
 issue-id: 390
 icon: Assets/Shimmer.png
