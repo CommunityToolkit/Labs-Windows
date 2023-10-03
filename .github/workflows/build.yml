@@ -14,18 +14,24 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  merge_group:
 
 env:
   DOTNET_VERSION: ${{ '7.0.100' }}
   ENABLE_DIAGNOSTICS: false
   #COREHOST_TRACE: 1
+  MSBUILD_VERBOSITY: normal
   COREHOST_TRACEFILE: corehosttrace.log
+  IS_MAIN: ${{ github.ref == 'refs/heads/main' }}
+  IS_PR: ${{ startsWith(github.ref, 'refs/pull/') }}
+  # Labs components are finalized and released via the CommunityToolkit/Windows repo, not here.
+  IS_RELEASE: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "Xaml-Style-Check"
   Xaml-Style-Check:
-    runs-on: windows-latest
+    runs-on: windows-latest-large
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -61,8 +67,9 @@ jobs:
     env:
       MULTI_TARGET_DIRECTORY: tooling/MultiTarget
       # faux-ternary expression to select which platforms to build for each platform vs. duplicating step below.
-      TARGET_PLATFORMS: ${{ matrix.platform != 'WinUI3' && 'all' || 'all-uwp' }}
+      TARGET_PLATFORMS: ${{ matrix.platform != 'WinUI3' && 'all-wasdk' || 'all-uwp' }}
       TEST_PLATFORM: ${{ matrix.platform != 'WinUI3' && 'UWP' || 'WinAppSdk' }}
+      VERSION_PROPERTY: ${{ github.ref == 'refs/heads/main' && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -102,7 +109,15 @@ jobs:
         run: dotnet tool restore
 
       - name: Run Uno Check to Install Dependencies
-        run: dotnet tool run uno-check --ci --fix --non-interactive --skip wsl --skip androidemulator --skip vswinworkloads --verbose
+        run: >
+          dotnet tool run uno-check 
+          --ci
+          --fix
+          --non-interactive
+          --skip wsl
+          --skip androidemulator
+          --skip vswinworkloads
+          --verbose
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.3.1
@@ -116,13 +131,34 @@ jobs:
         run: powershell -version 5.1 -command "./tooling/GenerateAllSolution.ps1 -IncludeHeads ${{ env.TEST_PLATFORM }}${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}" -ErrorAction Stop
 
       - name: Enable Uno.WinUI (in WinUI3 matrix only)
+        if: ${{ matrix.platform == 'WinUI3' }}
         working-directory: ./${{ env.MULTI_TARGET_DIRECTORY }}
         run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3" -ErrorAction Stop
-        if: ${{ matrix.platform == 'WinUI3' }}
+
+      - name: Format Date/Time of Commit for Package Version
+        if: ${{ env.IS_RELEASE == 'false' }}
+        run: |
+          echo "VERSION_DATE=$(git log -1 --format=%cd --date=format:%y%m%d)" >> $env:GITHUB_ENV
+      # Semver regex: https://regex101.com/r/Ly7O1x/3/
+      - name: Format Date/Time of Release Package Version
+        if: ${{ env.IS_RELEASE == 'true' }}
+        run: |
+          $ref = "${{ github.ref }}"
+          $ref -match "^refs/heads/rel/(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
+          echo "VERSION_DATE=$($matches['patch'])" >> $env:GITHUB_ENV
+          echo "VERSION_PROPERTY=$($matches['prerelease'])" >> $env:GITHUB_ENV
 
       - name: MSBuild (With diagnostics)
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
-        run: msbuild.exe CommunityToolkit.AllComponents.sln /restore /nowarn:MSB4011 -p:Configuration=Release /bl -v:diag
+        run: >
+          msbuild.exe /restore /nowarn:MSB4011
+          /p:Configuration=Release
+          /m
+          /p:DateForVersion=${{ env.VERSION_DATE }}
+          /p:PreviewVersion=${{ env.VERSION_PROPERTY }}
+          ${{ env.ENABLE_DIAGNOSTICS == 'true' && '/bl' || '' }}
+          /v:${{ env.MSBUILD_VERBOSITY }}
+          CommunityToolkit.AllComponents.sln
 
       - name: MSBuild
         if: ${{ env.ENABLE_DIAGNOSTICS == 'false' }}
@@ -131,16 +167,16 @@ jobs:
       # Build All Packages
       - name: pack experiments
         working-directory: ./tooling/Scripts/
-        run: ./PackEachExperiment.ps1 all
-
-      # Push Packages to our DevOps Artifacts Feed
-      - name: Add source
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: dotnet nuget update source LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
-
-      - name: Push packages
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
+        run: ./PackEachExperiment.ps1 -extraBuildProperties "${{ env.VERSION_PROPERTY }}"
+        
+      # Push Pull Request Packages to our DevOps Artifacts Feed (see nuget.config)
+      - name: Push Pull Request Packages (if not fork)
+        if: ${{ env.IS_PR == 'true' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
+        run: |
+          dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-PullRequests/nuget/v3/index.json `
+            --name PullRequests `
+            --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
+          dotnet nuget push "**/*.nupkg" --api-key dummy --source PullRequests --skip-duplicate
 
       # Run tests
       - name: Setup VSTest Path
