@@ -72,16 +72,15 @@ jobs:
           minimum-size: 32GB
           maximum-size: 32GB
           disk-root: "C:"
-
-      - name: Configure User-Mode crash dump type
+      
+      - name: Enable User-Mode Dumps collecting
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '' }}
+        shell: powershell
         run: |
-          reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps" /v DumpType /t REG_DWORD /d 2 /f
-
-      - name: Configure User-Mode crash dump folder
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '' }}
-        run: |
-          reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps" /v DumpFolder /t REG_EXPAND_SZ /d C:\CrashDumps\ /f
+          New-Item '${{ github.workspace }}\CrashDumps' -Type Directory
+          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpFolder' -Type ExpandString -Value '${{ github.workspace }}\CrashDumps'
+          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpCount' -Type DWord -Value '10'
+          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpType' -Type DWord -Value '2'
 
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
@@ -154,7 +153,7 @@ jobs:
 
       - name: Run experiment tests against ${{ env.TEST_PLATFORM }}
         id: test-platform
-        run:  vstest.console.exe ./tooling/**/CommunityToolkit.Tests.${{ env.TEST_PLATFORM }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PLATFORM }}.trx"
+        run:  vstest.console.exe ./tooling/**/CommunityToolkit.Tests.${{ env.TEST_PLATFORM }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ env.TEST_PLATFORM }}.trx" /Blame
 
       - name: Create test reports
         run: |
@@ -174,13 +173,28 @@ jobs:
         with:
           name: ilc-repro
           path: ./*.zip
-          
-      - name: Artifact - WER crash dumps
-        uses: actions/upload-artifact@v2
-        if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
+  
+      # https://github.com/dorny/paths-filter#custom-processing-of-changed-files
+      - name: Detect If any Dump Files
+        uses: dorny/paths-filter@v2.11.1
+        id: filter
         with:
-          name: Crash Dumps
-          path: C:\CrashDumps\*
+          list-files: shell
+          filters: |
+            dump:
+              - added: '${{ github.workspace }}/CrashDumps/*.dmp'
+      - name: Artifact - WER crash dumps
+        uses: actions/upload-artifact@v3
+        if: ${{ steps.filter.outputs.dump == 'true' && (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
+        with:
+          name: CrashDumps-${{ matrix.platform }}
+          path: '${{ github.workspace }}/CrashDumps'
+
+      - name: Analyze Dump
+        if: ${{ steps.filter.outputs.dump == 'true' && (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
+        run: |
+          dotnet tool install --global dotnet-dump
+          dotnet-dump analyze ${{ steps.filter.outputs.dump_files }} -c "clrstack" -c "pe -lines" -c "exit"
 
   wasm-linux:
     runs-on: ubuntu-latest
