@@ -433,5 +433,7 @@ csharp_style_prefer_extended_property_pattern = true:suggestion
 dotnet_diagnostic.IDE0073.severity = warning
 
 # Member owns disposable field
+# Todo: Clean up suppression of CA1063 and implement IDisposable correctly
+# https://github.com/CommunityToolkit/Labs-Windows/issues/443
 dotnet_diagnostic.CA2213.severity = none
 dotnet_diagnostic.CA1001.severity = none
