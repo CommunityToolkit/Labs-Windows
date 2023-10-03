@@ -11,4 +11,12 @@
 
   <!-- Sets this up as a toolkit component's sample project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
+
+  <ItemGroup>
+    <None Remove="Assets\RivePlayer.png" />
+
+    <Content Include="Assets\RivePlayer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
