@@ -24,8 +24,6 @@ env:
   COREHOST_TRACEFILE: corehosttrace.log
   IS_MAIN: ${{ github.ref == 'refs/heads/main' }}
   IS_PR: ${{ startsWith(github.ref, 'refs/pull/') }}
-  # Labs components are finalized and released via the CommunityToolkit/Windows repo, not here.
-  IS_RELEASE: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -135,27 +133,12 @@ jobs:
         working-directory: ./${{ env.MULTI_TARGET_DIRECTORY }}
         run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3" -ErrorAction Stop
 
-      - name: Format Date/Time of Commit for Package Version
-        if: ${{ env.IS_RELEASE == 'false' }}
-        run: |
-          echo "VERSION_DATE=$(git log -1 --format=%cd --date=format:%y%m%d)" >> $env:GITHUB_ENV
-      # Semver regex: https://regex101.com/r/Ly7O1x/3/
-      - name: Format Date/Time of Release Package Version
-        if: ${{ env.IS_RELEASE == 'true' }}
-        run: |
-          $ref = "${{ github.ref }}"
-          $ref -match "^refs/heads/rel/(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
-          echo "VERSION_DATE=$($matches['patch'])" >> $env:GITHUB_ENV
-          echo "VERSION_PROPERTY=$($matches['prerelease'])" >> $env:GITHUB_ENV
-
       - name: MSBuild (With diagnostics)
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
         run: >
           msbuild.exe /restore /nowarn:MSB4011
           /p:Configuration=Release
           /m
-          /p:DateForVersion=${{ env.VERSION_DATE }}
-          /p:PreviewVersion=${{ env.VERSION_PROPERTY }}
           ${{ env.ENABLE_DIAGNOSTICS == 'true' && '/bl' || '' }}
           /v:${{ env.MSBUILD_VERBOSITY }}
           CommunityToolkit.AllComponents.sln
