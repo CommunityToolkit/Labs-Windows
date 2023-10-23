@@ -133,6 +133,10 @@ jobs:
         working-directory: ./${{ env.MULTI_TARGET_DIRECTORY }}
         run: powershell -version 5.1 -command "./UseUnoWinUI.ps1 3" -ErrorAction Stop
 
+      - name: Format Date/Time of Commit for Package Version
+        run: |
+          echo "VERSION_DATE=$(git log -1 --format=%cd --date=format:%y%m%d)" >> $env:GITHUB_ENV
+
       - name: MSBuild (With diagnostics)
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
         run: >
@@ -150,7 +154,7 @@ jobs:
       # Build All Packages
       - name: pack experiments
         working-directory: ./tooling/Scripts/
-        run: ./PackEachExperiment.ps1 -extraBuildProperties "${{ env.VERSION_PROPERTY }}"
+        run: ./PackEachExperiment.ps1 -date ${{ env.VERSION_DATE }}${{ env.VERSION_PROPERTY != '' && format(' -postfix {0}', env.VERSION_PROPERTY) || '' }}
         
       # Push Pull Request Packages to our DevOps Artifacts Feed (see nuget.config)
       - name: Push Pull Request Packages (if not fork)
