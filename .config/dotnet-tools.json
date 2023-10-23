@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "uno.check": {
-      "version": "1.15.0",
+      "version": "1.16.1",
       "commands": [
         "uno-check"
       ]
