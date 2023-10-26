@@ -152,17 +152,12 @@ jobs:
         run: msbuild.exe CommunityToolkit.AllComponents.sln /restore /nowarn:MSB4011 -p:Configuration=Release 
 
       # Build All Packages
-      - name: pack experiments
+      - name: Pack experiments
         working-directory: ./tooling/Scripts/
         run: ./PackEachExperiment.ps1 -date ${{ env.VERSION_DATE }}${{ env.VERSION_PROPERTY != '' && format(' -postfix {0}', env.VERSION_PROPERTY) || '' }}
-        
-      # Push Packages to our DevOps Artifacts Feed
-      - name: Add source
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: dotnet nuget update source LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
 
       # Push Pull Request Packages to our DevOps Artifacts Feed (see nuget.config)
-      - name: Push Pull Request Packages (if not fork)
+      - name: Push PR packages (if not fork)
         if: ${{ env.IS_PR == 'true' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
         run: |
           dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-PullRequests/nuget/v3/index.json `
@@ -170,9 +165,11 @@ jobs:
             --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
           dotnet nuget push "**/*.nupkg" --api-key dummy --source PullRequests --skip-duplicate
 
-      - name: Push packages
+      - name: Push packages (main)
         if: ${{ github.ref == 'refs/heads/main' }}
-        run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
+        run: |
+          dotnet nuget update source LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }} `
+          dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
 
       # Run tests
       - name: Setup VSTest Path
