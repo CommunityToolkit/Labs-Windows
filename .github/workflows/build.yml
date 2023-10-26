@@ -156,6 +156,11 @@ jobs:
         working-directory: ./tooling/Scripts/
         run: ./PackEachExperiment.ps1 -date ${{ env.VERSION_DATE }}${{ env.VERSION_PROPERTY != '' && format(' -postfix {0}', env.VERSION_PROPERTY) || '' }}
         
+      # Push Packages to our DevOps Artifacts Feed
+      - name: Add source
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: dotnet nuget update source LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
+
       # Push Pull Request Packages to our DevOps Artifacts Feed (see nuget.config)
       - name: Push Pull Request Packages (if not fork)
         if: ${{ env.IS_PR == 'true' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
