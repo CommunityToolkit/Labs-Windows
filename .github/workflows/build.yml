@@ -168,7 +168,8 @@ jobs:
       - name: Push packages (main)
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          dotnet nuget update source LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }} `
+          dotnet nuget update source LabsFeed `
+            --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
           dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
 
       # Run tests
