@@ -19,7 +19,7 @@
                 <ControlTemplate TargetType="local:TitleBar">
                     <Grid x:Name="PART_RootGrid"
                           Height="{TemplateBinding MinHeight}"
-                          Padding="4,0,4,0"
+                          Padding="4,0,0,0"
                           VerticalAlignment="Stretch"
                           Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
