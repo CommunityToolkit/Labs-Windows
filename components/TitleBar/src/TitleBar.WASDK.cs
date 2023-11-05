@@ -6,7 +6,6 @@
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using static CommunityToolkit.WinUI.Controls.NativeMethods;
-using WinRT.Interop;
 
 namespace CommunityToolkit.WinUI.Controls;
 
@@ -173,9 +172,7 @@ public partial class TitleBar : Control
 
     private double GetScaleAdjustment()
     {
-        IntPtr hWnd = WindowNative.GetWindowHandle(this.Window);
-        WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-        DisplayArea displayArea = DisplayArea.GetFromWindowId(wndId, DisplayAreaFallback.Primary);
+        DisplayArea displayArea = DisplayArea.GetFromWindowId(this.Window.AppWindow.Id, DisplayAreaFallback.Primary);
         IntPtr hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
 
         // Get DPI.
