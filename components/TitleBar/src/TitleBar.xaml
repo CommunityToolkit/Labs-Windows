@@ -165,7 +165,7 @@
                               Grid.Column="2"
                               Grid.ColumnSpan="6"
                               Background="Transparent" />
-                        <StackPanel x:Name="ButtonHolder"
+                        <StackPanel x:Name="PART_ButtonHolder"
                                     Grid.Column="1"
                                     Orientation="Horizontal">
                             <Button x:Name="PART_BackButton"
