@@ -6,7 +6,6 @@
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using static CommunityToolkit.WinUI.Controls.NativeMethods;
-using WinRT.Interop;
 
 namespace CommunityToolkit.WinUI.Controls;
 
@@ -18,6 +17,7 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplatePart(Name = nameof(PART_FooterColumn), Type = typeof(ColumnDefinition))]
 [TemplatePart(Name = nameof(PART_RightDragColumn), Type = typeof(ColumnDefinition))]
 [TemplatePart(Name = nameof(PART_TitleHolder), Type = typeof(StackPanel))]
+[TemplatePart(Name = nameof(PART_RootGrid), Type = typeof(Grid))]
 
 public partial class TitleBar : Control
 {
@@ -29,6 +29,7 @@ public partial class TitleBar : Control
     ColumnDefinition? PART_FooterColumn;
     ColumnDefinition? PART_RightDragColumn;
     StackPanel? PART_TitleHolder;
+    Grid? PART_RootGrid;
 
     private void SetWASDKTitleBar()
     {
@@ -62,6 +63,7 @@ public partial class TitleBar : Control
             PART_RightDragColumn = GetTemplateChild(nameof(PART_RightDragColumn)) as ColumnDefinition;
             PART_FooterColumn = GetTemplateChild(nameof(PART_FooterColumn)) as ColumnDefinition;
             PART_TitleHolder = GetTemplateChild(nameof(PART_TitleHolder)) as StackPanel;
+            PART_RootGrid = GetTemplateChild(nameof(PART_RootGrid)) as Grid;
 
             // Get caption button occlusion information.
             int CaptionButtonOcclusionWidthRight = Window.AppWindow.TitleBar.RightInset;
@@ -136,34 +138,33 @@ public partial class TitleBar : Control
             PART_RightPaddingColumn.Width = new GridLength(Window.AppWindow.TitleBar.RightInset / scaleAdjustment);
             PART_LeftPaddingColumn.Width = new GridLength(Window.AppWindow.TitleBar.LeftInset / scaleAdjustment);
 
-            List<Windows.Graphics.RectInt32> dragRectsList = new();
+            var height = (int)(this.ActualHeight * scaleAdjustment);
+            Windows.Graphics.RectInt32 rect1 = new(0, 0, 0, height);
+            Windows.Graphics.RectInt32 rect2 = new(0, 0, 0, height);
+            Windows.Graphics.RectInt32 rect3 = new(0, 0, 0, height);
+            Windows.Graphics.RectInt32 rect4 = new(0, 0, 0, height);
 
-            Windows.Graphics.RectInt32 dragRectL;
-            dragRectL.X = (int)((PART_LeftPaddingColumn.ActualWidth
-                            + PART_ButtonsHolderColumn!.ActualWidth)
-                            * scaleAdjustment);
-            dragRectL.Y = 0;
-            dragRectL.Height = (int)(this.ActualHeight * scaleAdjustment);
-            dragRectL.Width = (int)((PART_IconColumn!.ActualWidth
-                                + PART_TitleColumn!.ActualWidth
-                                + PART_LeftDragColumn!.ActualWidth)
+            rect1.X = 0;
+            rect1.Width = (int)((PART_RootGrid.Padding.Left
+                                + PART_LeftPaddingColumn.ActualWidth)
                                 * scaleAdjustment);
-            dragRectsList.Add(dragRectL);
 
-            Windows.Graphics.RectInt32 dragRectR;
-            dragRectR.X = (int)((PART_LeftPaddingColumn.ActualWidth
-                                + PART_IconColumn.ActualWidth
-                                + PART_ButtonsHolderColumn!.ActualWidth
-                                + PART_TitleHolder!.ActualWidth
-                                + PART_LeftDragColumn.ActualWidth
-                                + PART_ContentColumn!.ActualWidth)
+            rect2.X = rect1.X + rect1.Width + (int)((PART_ButtonsHolderColumn.ActualWidth) * scaleAdjustment);
+            rect2.Width = (int)((PART_IconColumn.ActualWidth
+                                + PART_TitleColumn.ActualWidth
+                                + PART_LeftDragColumn.ActualWidth)
                                 * scaleAdjustment);
-            dragRectR.Y = 0;
-            dragRectR.Height = (int)(this.ActualHeight * scaleAdjustment);
-            dragRectR.Width = (int)(PART_RightDragColumn!.ActualWidth * scaleAdjustment);
-            dragRectsList.Add(dragRectR);
+            
+            rect3.X = rect2.X + rect2.Width + (int)(PART_ContentColumn.ActualWidth * scaleAdjustment);
+            rect3.Width = (int)(PART_RightDragColumn.ActualWidth * scaleAdjustment);
 
-            Windows.Graphics.RectInt32[] dragRects = dragRectsList.ToArray();
+            rect4.X = rect3.X + rect3.Width + (int)((PART_FooterColumn.ActualWidth
+                                                    + PART_RightPaddingColumn.ActualWidth
+                                                    + PART_RootGrid.Padding.Right)
+                                                    * scaleAdjustment);
+            rect4.Width = (int)(PART_RightPaddingColumn.ActualWidth * scaleAdjustment);
+ 
+            Windows.Graphics.RectInt32[] dragRects = new[] { rect1, rect2, rect3, rect4 };
 
             Window.AppWindow.TitleBar.SetDragRectangles(dragRects);
         }
@@ -171,9 +172,7 @@ public partial class TitleBar : Control
 
     private double GetScaleAdjustment()
     {
-        IntPtr hWnd = WindowNative.GetWindowHandle(this.Window);
-        WindowId wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-        DisplayArea displayArea = DisplayArea.GetFromWindowId(wndId, DisplayAreaFallback.Primary);
+        DisplayArea displayArea = DisplayArea.GetFromWindowId(this.Window.AppWindow.Id, DisplayAreaFallback.Primary);
         IntPtr hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
 
         // Get DPI.
