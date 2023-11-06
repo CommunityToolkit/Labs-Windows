@@ -100,7 +100,12 @@ public partial class TitleBar : Control
 
     private void TitleBar_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (e.NewSize.Width <= CompactStateBreakpoint)
+        UpdateVisualStateAndDragRegion(e.NewSize);
+    }
+
+    private void UpdateVisualStateAndDragRegion(Windows.Foundation.Size size)
+    {
+        if (size.Width <= CompactStateBreakpoint)
         {
             if (Content != null || Footer != null)
             {
