@@ -21,7 +21,7 @@ The `TitleBar` provides an easy way to display a modern titlebar experience. The
 ## Using TitleBar in WASDK apps
 If `AutoConfigureCustomTitleBar` is enabled, the `TitleBar` will make the required code-behind changes to make your content extend into the titlebar area and setting the correct caption background brushes. However, launching the app might briefly show the standard titlebar. To overcome this, make sure you set the following code in the `OnLaunched` method (in `App.xaml.cs`) or wherever you create your window:
 
-`
+```CS
 currentWindow.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 currentWindow.AppWindow.TitleBar.ButtonBackgroundColor = Microsoft.UI.Colors.Transparent;
 `
