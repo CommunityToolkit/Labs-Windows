@@ -138,12 +138,12 @@ public partial class TitleBar : Control
     {
         var nonClientInputSrc = InputNonClientPointerSource.GetForWindowId(Window.AppWindow.Id);
         List<Windows.Graphics.RectInt32> rects = new List<Windows.Graphics.RectInt32>();
-
+        var scale = GetRasterizationScaleForElement(this);
+        
         foreach (var frameworkElement in frameworkElements)
         {
             GeneralTransform transformElement = frameworkElement.TransformToVisual(null);
             Windows.Foundation.Rect bounds = transformElement.TransformBounds(new Windows.Foundation.Rect(0, 0, frameworkElement.ActualWidth, frameworkElement.ActualHeight));
-            var scale = GetRasterizationScaleForElement(this);
             var transparentRect = new Windows.Graphics.RectInt32(
                 _X: (int)Math.Round(bounds.X * scale),
                 _Y: (int)Math.Round(bounds.Y * scale),
