@@ -76,8 +76,8 @@ public partial class TitleBar : Control
     {
         PART_LeftPaddingColumn = GetTemplateChild(nameof(PART_LeftPaddingColumn)) as ColumnDefinition;
         PART_RightPaddingColumn = GetTemplateChild(nameof(PART_RightPaddingColumn)) as ColumnDefinition;
-        Configure();
         ConfigureButtonHolder();
+        Configure();
         if (GetTemplateChild(PartBackButton) is Button backButton)
         {
             backButton.Click -= BackButton_Click;

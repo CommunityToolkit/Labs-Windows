@@ -4,8 +4,9 @@
 
 #if WINAPPSDK
 using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
-using static CommunityToolkit.WinUI.Controls.NativeMethods;
+using Microsoft.UI.Xaml.Media;
 
 namespace CommunityToolkit.WinUI.Controls;
 
@@ -18,6 +19,8 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplatePart(Name = nameof(PART_RightDragColumn), Type = typeof(ColumnDefinition))]
 [TemplatePart(Name = nameof(PART_TitleHolder), Type = typeof(StackPanel))]
 [TemplatePart(Name = nameof(PART_RootGrid), Type = typeof(Grid))]
+[TemplatePart(Name = nameof(PART_FooterPresenter), Type = typeof(ContentPresenter))]
+[TemplatePart(Name = nameof(PART_ContentPresenter), Type = typeof(ContentPresenter))]
 
 public partial class TitleBar : Control
 {
@@ -30,6 +33,8 @@ public partial class TitleBar : Control
     ColumnDefinition? PART_RightDragColumn;
     StackPanel? PART_TitleHolder;
     Grid? PART_RootGrid;
+    ContentPresenter? PART_ContentPresenter;
+    ContentPresenter? PART_FooterPresenter;
 
     private void SetWASDKTitleBar()
     {
@@ -66,6 +71,8 @@ public partial class TitleBar : Control
             PART_FooterColumn = GetTemplateChild(nameof(PART_FooterColumn)) as ColumnDefinition;
             PART_TitleHolder = GetTemplateChild(nameof(PART_TitleHolder)) as StackPanel;
             PART_RootGrid = GetTemplateChild(nameof(PART_RootGrid)) as Grid;
+            PART_ContentPresenter = GetTemplateChild(nameof(PART_ContentPresenter)) as ContentPresenter;
+            PART_FooterPresenter = GetTemplateChild(nameof(PART_FooterPresenter)) as ContentPresenter;
 
             // Get caption button occlusion information.
             int CaptionButtonOcclusionWidthRight = Window.AppWindow.TitleBar.RightInset;
@@ -137,61 +144,50 @@ public partial class TitleBar : Control
         }
     }
 
-    private void SetDragRegionForCustomTitleBar()
+    public void SetDragRegionForCustomTitleBar()
     {
-        if (AutoConfigureCustomTitleBar && Window != null && PART_RightPaddingColumn != null && PART_LeftPaddingColumn != null)
+        if (AutoConfigureCustomTitleBar && Window != null)
         {
-            double scaleAdjustment = GetScaleAdjustment();
-
-            PART_RightPaddingColumn.Width = new GridLength(Window.AppWindow.TitleBar.RightInset / scaleAdjustment);
-            PART_LeftPaddingColumn.Width = new GridLength(Window.AppWindow.TitleBar.LeftInset / scaleAdjustment);
-
-            var height = (int)(this.ActualHeight * scaleAdjustment);
-            Windows.Graphics.RectInt32 rect1 = new(0, 0, 0, height);
-            Windows.Graphics.RectInt32 rect2 = new(0, 0, 0, height);
-            Windows.Graphics.RectInt32 rect3 = new(0, 0, 0, height);
-            Windows.Graphics.RectInt32 rect4 = new(0, 0, 0, height);
-
-            rect1.X = 0;
-            rect1.Width = (int)((PART_RootGrid.Padding.Left
-                                + PART_LeftPaddingColumn.ActualWidth)
-                                * scaleAdjustment);
-
-            rect2.X = rect1.X + rect1.Width + (int)((PART_ButtonsHolderColumn.ActualWidth) * scaleAdjustment);
-            rect2.Width = (int)((PART_IconColumn.ActualWidth
-                                + PART_TitleColumn.ActualWidth
-                                + PART_LeftDragColumn.ActualWidth)
-                                * scaleAdjustment);
-            
-            rect3.X = rect2.X + rect2.Width + (int)(PART_ContentColumn.ActualWidth * scaleAdjustment);
-            rect3.Width = (int)(PART_RightDragColumn.ActualWidth * scaleAdjustment);
-
-            rect4.X = rect3.X + rect3.Width + (int)((PART_FooterColumn.ActualWidth
-                                                    + PART_RightPaddingColumn.ActualWidth
-                                                    + PART_RootGrid.Padding.Right)
-                                                    * scaleAdjustment);
-            rect4.Width = (int)(PART_RightPaddingColumn.ActualWidth * scaleAdjustment);
- 
-            Windows.Graphics.RectInt32[] dragRects = new[] { rect1, rect2, rect3, rect4 };
-
-            Window.AppWindow.TitleBar.SetDragRectangles(dragRects);
+            ClearDragRegions(NonClientRegionKind.Passthrough);
+            SetDragRegion(NonClientRegionKind.Passthrough, PART_ContentPresenter, PART_FooterPresenter, PART_ButtonHolder);
         }
     }
 
-    private double GetScaleAdjustment()
+    public double GetRasterizationScaleForElement(UIElement element)
     {
-        DisplayArea displayArea = DisplayArea.GetFromWindowId(this.Window.AppWindow.Id, DisplayAreaFallback.Primary);
-        IntPtr hMonitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
-
-        // Get DPI.
-        int result = GetDpiForMonitor(hMonitor, Monitor_DPI_Type.MDT_Default, out uint dpiX, out uint _);
-        if (result != 0)
+        if (element.XamlRoot != null)
         {
-            throw new Exception("Could not get DPI for monitor.");
+            return element.XamlRoot.RasterizationScale;
         }
+        return 0.0;
+    }
 
-        uint scaleFactorPercent = (uint)(((long)dpiX * 100 + (96 >> 1)) / 96);
-        return scaleFactorPercent / 100.0;
+    public void SetDragRegion(NonClientRegionKind nonClientRegionKind, params FrameworkElement[] frameworkElements)
+    {
+        var nonClientInputSrc = InputNonClientPointerSource.GetForWindowId(Window.AppWindow.Id);
+        List<Windows.Graphics.RectInt32> rects = new List<Windows.Graphics.RectInt32>();
+
+        foreach (var frameworkElement in frameworkElements)
+        {
+            GeneralTransform transformElement = frameworkElement.TransformToVisual(null);
+            Windows.Foundation.Rect bounds = transformElement.TransformBounds(new Windows.Foundation.Rect(0, 0, frameworkElement.ActualWidth, frameworkElement.ActualHeight));
+            var scale = GetRasterizationScaleForElement(this);
+            var transparentRect = new Windows.Graphics.RectInt32(
+                _X: (int)Math.Round(bounds.X * scale),
+                _Y: (int)Math.Round(bounds.Y * scale),
+                _Width: (int)Math.Round(bounds.Width * scale),
+                _Height: (int)Math.Round(bounds.Height * scale)
+            );
+            rects.Add(transparentRect);
+        }
+        
+        nonClientInputSrc.SetRegionRects(nonClientRegionKind, rects.ToArray());
+    }
+
+    public void ClearDragRegions(NonClientRegionKind nonClientRegionKind)
+    {
+        var noninputsrc = InputNonClientPointerSource.GetForWindowId(Window.AppWindow.Id);
+        noninputsrc.ClearRegionRects(nonClientRegionKind);
     }
 }
 #endif
