@@ -15,6 +15,8 @@ namespace CommunityToolkit.WinUI.Controls;
 
 public partial class TitleBar : Control
 {
+    WndProcHelper WndProcHelper;
+    MenuFlyout MenuFlyout;
     ContentPresenter? PART_ContentPresenter;
     ContentPresenter? PART_FooterPresenter;
 
@@ -28,6 +30,14 @@ public partial class TitleBar : Control
         if (AutoConfigureCustomTitleBar)
         {
             Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
+            if (this.ContextFlyout != null && this.ContextFlyout is MenuFlyout menuFlyout)
+            {
+                this.MenuFlyout = menuFlyout;
+                WndProcHelper = new WndProcHelper(this.Window);
+                WndProcHelper.RegisterWndProc(WindowWndProc);
+                WndProcHelper.RegisterInputNonClientPointerSourceWndProc(InputNonClientPointerSourceWndProc);
+            }
 
             this.Window.SizeChanged -= Window_SizeChanged;
             this.Window.SizeChanged += Window_SizeChanged;
@@ -160,6 +170,69 @@ public partial class TitleBar : Control
     {
         var noninputsrc = InputNonClientPointerSource.GetForWindowId(Window.AppWindow.Id);
         noninputsrc.ClearRegionRects(nonClientRegionKind);
+    }
+
+    private IntPtr InputNonClientPointerSourceWndProc(IntPtr hWnd, NativeMethods.WindowMessage Msg, IntPtr wParam, IntPtr lParam)
+    {
+        switch (Msg)
+        {
+            case NativeMethods.WindowMessage.WM_NCLBUTTONDOWN:
+                {
+                    if (MenuFlyout.IsOpen)
+                    {
+                        MenuFlyout.Hide();
+                    }
+                    break;
+                }
+            case NativeMethods.WindowMessage.WM_NCRBUTTONDOWN:
+                {
+                    PointInt32 pt = new PointInt32(lParam.ToInt32() & 0xFFFF, lParam.ToInt32() >> 16);
+                    FlyoutShowOptions options = new FlyoutShowOptions();
+                    options.ShowMode = FlyoutShowMode.Standard;
+                    options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
+                    new Windows.Foundation.Point((pt.X - this.Window.AppWindow.Position.X - 8) / XamlRoot.RasterizationScale, (pt.Y - this.Window.AppWindow.Position.Y) / XamlRoot.RasterizationScale) :
+                    new Windows.Foundation.Point(pt.X - this.Window.AppWindow.Position.X - 8, pt.Y - this.Window.AppWindow.Position.Y);
+
+                    MenuFlyout.ShowAt(this, options);
+                    return (IntPtr)0;
+                }
+        }
+        return WndProcHelper.CallInputNonClientPointerSourceWindowProc(hWnd, Msg, wParam, lParam);
+    }
+
+    private IntPtr WindowWndProc(IntPtr hWnd, NativeMethods.WindowMessage Msg, IntPtr wParam, IntPtr lParam)
+    {
+        switch (Msg)
+        {
+            case NativeMethods.WindowMessage.WM_SYSMENU:
+            {
+                return (IntPtr)0;
+            }
+
+            case NativeMethods.WindowMessage.WM_SYSCOMMAND:
+            {
+                NativeMethods.SystemCommand sysCommand = (NativeMethods.SystemCommand)(wParam.ToInt32() & 0xFFF0);
+
+                if (sysCommand is NativeMethods.SystemCommand.SC_MOUSEMENU)
+                {
+                    FlyoutShowOptions options = new FlyoutShowOptions();
+                    options.Position = new Windows.Foundation.Point(0, 15);
+                    options.ShowMode = FlyoutShowMode.Standard;
+                    MenuFlyout.ShowAt(null, options);
+                    return (IntPtr)0;
+                }
+                else if (sysCommand is NativeMethods.SystemCommand.SC_KEYMENU)
+                {
+                    FlyoutShowOptions options = new FlyoutShowOptions();
+                    options.Position = new Windows.Foundation.Point(0, 45);
+                    options.ShowMode = FlyoutShowMode.Standard;
+                    MenuFlyout.ShowAt(null, options);
+                    return (IntPtr)0;
+                }
+                break;
+            }
+        }
+        return WndProcHelper.CallWindowProc(hWnd, Msg, wParam, lParam);
     }
 }
 #endif
