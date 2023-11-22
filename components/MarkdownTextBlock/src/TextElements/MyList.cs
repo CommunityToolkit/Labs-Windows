@@ -64,7 +64,8 @@ internal class MyList : IAddChild
                 BulletType.UpperAlpha => $"{_index.ToAlphabetical().ToUpper()}. ",
                 BulletType.LowerRoman => $"{_index.ToRomanNumerals().ToLower()} ",
                 BulletType.UpperRoman => $"{_index.ToRomanNumerals().ToUpper()} ",
-                BulletType.Circle => _dot
+                BulletType.Circle => _dot,
+                _ => _dot
             };
             _index++;
         }
