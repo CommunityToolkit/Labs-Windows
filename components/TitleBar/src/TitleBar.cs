@@ -76,8 +76,8 @@ public partial class TitleBar : Control
     {
         PART_LeftPaddingColumn = GetTemplateChild(nameof(PART_LeftPaddingColumn)) as ColumnDefinition;
         PART_RightPaddingColumn = GetTemplateChild(nameof(PART_RightPaddingColumn)) as ColumnDefinition;
-        Configure();
         ConfigureButtonHolder();
+        Configure();
         if (GetTemplateChild(PartBackButton) is Button backButton)
         {
             backButton.Click -= BackButton_Click;
@@ -100,7 +100,12 @@ public partial class TitleBar : Control
 
     private void TitleBar_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (e.NewSize.Width <= CompactStateBreakpoint)
+        UpdateVisualStateAndDragRegion(e.NewSize);
+    }
+
+    private void UpdateVisualStateAndDragRegion(Windows.Foundation.Size size)
+    {
+        if (size.Width <= CompactStateBreakpoint)
         {
             if (Content != null || Footer != null)
             {
