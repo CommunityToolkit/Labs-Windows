@@ -16,6 +16,15 @@ public partial class DataRow : Panel
     private bool _isTreeView;
     private double _treePadding;
 
+    public DataTable TargetTable
+    {
+        get { return (DataTable)GetValue(TargetTableProperty); }
+        set { SetValue(TargetTableProperty, value); }
+    }
+
+    public static readonly DependencyProperty TargetTableProperty =
+        DependencyProperty.Register(nameof(TargetTable), typeof(DataTable), typeof(DataRow), new PropertyMetadata(null));
+
     public DataRow()
     {
         Unloaded += this.DataRow_Unloaded;
@@ -31,6 +40,15 @@ public partial class DataRow : Panel
 
     private Panel? InitializeParentHeaderConnection()
     {
+        var value = GetValue(TargetTableProperty);
+        if (value != DependencyProperty.UnsetValue &&
+            value != null)
+        {
+            _parentTable = value as DataTable;
+            _parentTable!.Rows.Add(this); // Add us to the row list.
+            return _parentTable;
+        }
+
         // TODO: Think about this expression instead...
         //       Drawback: Can't have Grid between table and header
         //       Positive: don't have to restart climbing the Visual Tree if we don't find ItemsPresenter...

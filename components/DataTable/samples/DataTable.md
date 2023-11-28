@@ -68,6 +68,12 @@ Since `DataTable` is just built on top of `ListView` it can handle many data row
 
 > [!Sample DataTableVirtualizationSample]
 
+## Dynamic Columns
+
+Test for Dynamic Columns...
+
+> [!Sample DataTableDynamicSample]
+
 ## DataTable + TreeView (Test)
 
 The `DataTable` setup works with other types of views as well, like `TreeView`. This enables a "TreeGrid" like experience, if required.
@@ -103,3 +109,5 @@ with additional code.
 For instance, sorting can be provided like so:
 
 TODO: Add Header based Sorting sample
+
+`DataTable` can also act, in some scenarios, as a polyfill for WPF's [`SharedSizeGroup`](https://learn.microsoft.com/dotnet/desktop/wpf/controls/how-to-share-sizing-properties-between-grids).
