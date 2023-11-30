@@ -40,8 +40,10 @@ public abstract class AppServiceHost
     /// The name of the app service.
     /// </summary>
     private readonly string _appServiceName;
+    #pragma warning disable CA1001
     private readonly SemaphoreSlim _semaphoreConnection = new(0, 1);
     private readonly SemaphoreSlim _lockConnection = new(1, 1);
+    #pragma warning restore CA1001
 
     /// <summary>
     /// <para>
