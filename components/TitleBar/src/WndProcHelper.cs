@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿#if WINAPPSDK
+using System.Runtime.InteropServices;
 using WinRT.Interop;
 
 namespace CommunityToolkit.WinUI.Controls;
@@ -47,3 +48,4 @@ internal class WndProcHelper
         }
     }
 }
+#endif

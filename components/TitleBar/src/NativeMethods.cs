@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿#if WINAPPSDK
+using System.Runtime.InteropServices;
 
 namespace CommunityToolkit.WinUI.Controls;
 internal static class NativeMethods
@@ -82,3 +83,4 @@ internal static class NativeMethods
     [DllImport("user32.dll")]
     public static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, WindowMessage Msg, IntPtr wParam, IntPtr lParam);
 }
+#endif

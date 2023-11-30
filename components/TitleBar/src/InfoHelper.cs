@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel;
+﻿#if WINAPPSDK
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System.Profile;
 
@@ -32,3 +33,4 @@ internal static class InfoHelper
             );
     }
 }
+#endif
