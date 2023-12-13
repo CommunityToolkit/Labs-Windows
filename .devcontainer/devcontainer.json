@@ -19,7 +19,8 @@
 		"ms-dotnettools.csharp",
 		"unoplatform.vscode",
 		"ms-vsliveshare.vsliveshare",
-		"ms-vscode.powershell"
+		"ms-vscode.powershell",
+		"fernandoescolar.vscode-solution-explorer"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
