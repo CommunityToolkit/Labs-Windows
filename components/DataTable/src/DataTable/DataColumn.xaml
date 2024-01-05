@@ -39,11 +39,11 @@
                                                    Width="8"
                                                    MinWidth="4"
                                                    Margin="0"
+                                                   Padding="0"
                                                    Background="Transparent"
                                                    Foreground="{ThemeResource ControlStrokeColorSecondaryBrush}"
                                                    Visibility="{Binding CanResize, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DataColumnBoolToVisibilityConverter}}">
                                 <controls:ContentSizer.Resources>
-                                    <Thickness x:Key="SizerBaseThumbMargin">0</Thickness>
                                     <x:Double x:Key="SizerBaseThumbWidth">2</x:Double>
                                     <x:Double x:Key="SizerBaseThumbHeight">16</x:Double>
                                 </controls:ContentSizer.Resources>
