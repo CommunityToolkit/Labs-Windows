@@ -4,7 +4,7 @@
 
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
-using CommunityToolkit.WinUI.Controls;
+using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 
 namespace MarkdownTextBlockExperiment.Tests;
 
@@ -57,7 +57,7 @@ public partial class ExampleMarkdownTextBlockTestClass : VisualUITestBase
     public void SimpleUIExamplePageTest(ExampleMarkdownTextBlockTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<MarkdownTextBlock_ClassicBinding>();
+        var component = page.FindDescendant<MarkdownTextBlock>();
 
         Assert.IsNotNull(component);
 
@@ -74,7 +74,7 @@ public partial class ExampleMarkdownTextBlockTestClass : VisualUITestBase
         // Note, this is already done by loading a Page with the [UIThreadTestMethod] helper.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<MarkdownTextBlock_ClassicBinding>();
+        var component = page.FindDescendant<MarkdownTextBlock>();
 
         Assert.IsNotNull(component);
     }
@@ -89,7 +89,7 @@ public partial class ExampleMarkdownTextBlockTestClass : VisualUITestBase
     {
         await EnqueueAsync(() =>
         {
-            var component = new MarkdownTextBlock_ClassicBinding();
+            var component = new MarkdownTextBlock();
             Assert.IsNotNull(component);
         });
     }
@@ -101,7 +101,7 @@ public partial class ExampleMarkdownTextBlockTestClass : VisualUITestBase
     {
         await EnqueueAsync(async () =>
         {
-            var component = new MarkdownTextBlock_ClassicBinding();
+            var component = new MarkdownTextBlock();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -119,7 +119,7 @@ public partial class ExampleMarkdownTextBlockTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new MarkdownTextBlock_ClassicBinding();
+        var component = new MarkdownTextBlock();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 
