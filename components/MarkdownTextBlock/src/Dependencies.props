@@ -12,28 +12,24 @@
     <!-- WinUI 2 / UWP -->
     <ItemGroup Condition="'$(IsUwp)' == 'true'">
       <PackageReference Include="ColorCode.UWP" Version="2.0.14" />
-      <PackageReference Include="ColorCode.Core" Version="2.0.14" />
         <!-- <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.2"/> -->
     </ItemGroup>
 
     <!-- WinUI 2 / Uno -->
     <ItemGroup Condition="'$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '2'">
       <PackageReference Include="Uno.ColorCode.UWP" Version="2.1.0-uno.36" />
-      <PackageReference Include="ColorCode.Core" Version="2.0.14" />
         <!-- <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.11"/> -->
     </ItemGroup>
 
     <!-- WinUI 3 / WinAppSdk -->
     <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
       <PackageReference Include="ColorCode.WinUI" Version="2.0.14" />
-      <PackageReference Include="ColorCode.Core" Version="2.0.14" />
         <!-- <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2"/> -->
     </ItemGroup>
 
     <!-- WinUI 3 / Uno -->
     <ItemGroup Condition="'$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '3'">
       <PackageReference Include="Uno.ColorCode.WinUI" Version="2.1.0-uno.36" />
-      <PackageReference Include="ColorCode.Core" Version="2.0.14" />
         <!-- <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.100-dev.15.g12261e2626"/> -->
     </ItemGroup>
 </Project>
