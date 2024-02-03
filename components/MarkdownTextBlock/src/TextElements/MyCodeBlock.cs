@@ -32,11 +32,11 @@ internal class MyCodeBlock : IAddChild
 
         if (codeBlock is FencedCodeBlock fencedCodeBlock)
         {
-#if !WINAPPSDK
-            var formatter = new ColorCode.RichTextBlockFormatter(Extensions.GetOneDarkProStyle());
-#else
-            var formatter = new ColorCode.RichTextBlockFormatter(Extensions.GetOneDarkProStyle());
-#endif
+//#if !WINAPPSDK
+//            var formatter = new ColorCode.RichTextBlockFormatter(Extensions.GetOneDarkProStyle());
+//#else
+//            var formatter = new ColorCode.RichTextBlockFormatter(Extensions.GetOneDarkProStyle());
+//#endif
             var stringBuilder = new StringBuilder();
 
             // go through all the lines backwards and only add the lines to a stack if we have encountered the first non-empty line
@@ -64,7 +64,7 @@ internal class MyCodeBlock : IAddChild
                 }
             }
 
-            formatter.FormatRichTextBlock(stringBuilder.ToString(), fencedCodeBlock.ToLanguage(), richTextBlock);
+            //formatter.FormatRichTextBlock(stringBuilder.ToString(), fencedCodeBlock.ToLanguage(), richTextBlock);
         }
         else
         {

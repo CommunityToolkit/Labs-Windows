@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using ColorCode;
-using ColorCode.Common;
-using ColorCode.Styling;
+//using ColorCode;
+//using ColorCode.Common;
+//using ColorCode.Styling;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
@@ -51,284 +51,284 @@ public static class Extensions
     public const string DarkOliveGreen = "#FF556B2F";
     public const string DarkCyan = "#FF008B8B";
 
-    public static ILanguage ToLanguage(this FencedCodeBlock fencedCodeBlock)
-    {
-        switch (fencedCodeBlock.Info?.ToLower())
-        {
-            case "aspx":
-                return Languages.Aspx;
-            case "aspx - vb":
-                return Languages.AspxVb;
-            case "asax":
-                return Languages.Asax;
-            case "ascx":
-                return Languages.AspxCs;
-            case "ashx":
-            case "asmx":
-            case "axd":
-                return Languages.Ashx;
-            case "cs":
-            case "csharp":
-            case "c#":
-                return Languages.CSharp;
-            case "xhtml":
-            case "html":
-            case "hta":
-            case "htm":
-            case "html.hl":
-            case "inc":
-            case "xht":
-                return Languages.Html;
-            case "java":
-            case "jav":
-            case "jsh":
-                return Languages.Java;
-            case "js":
-            case "node":
-            case "_js":
-            case "bones":
-            case "cjs":
-            case "es":
-            case "es6":
-            case "frag":
-            case "gs":
-            case "jake":
-            case "javascript":
-            case "jsb":
-            case "jscad":
-            case "jsfl":
-            case "jslib":
-            case "jsm":
-            case "jspre":
-            case "jss":
-            case "jsx":
-            case "mjs":
-            case "njs":
-            case "pac":
-            case "sjs":
-            case "ssjs":
-            case "xsjs":
-            case "xsjslib":
-                return Languages.JavaScript;
-            case "posh":
-            case "pwsh":
-            case "ps1":
-            case "psd1":
-            case "psm1":
-                return Languages.PowerShell;
-            case "sql":
-            case "cql":
-            case "ddl":
-            case "mysql":
-            case "prc":
-            case "tab":
-            case "udf":
-            case "viw":
-                return Languages.Sql;
-            case "vb":
-            case "vbhtml":
-            case "visual basic":
-            case "vbnet":
-            case "vb .net":
-            case "vb.net":
-                return Languages.VbDotNet;
-            case "rss":
-            case "xsd":
-            case "wsdl":
-            case "xml":
-            case "adml":
-            case "admx":
-            case "ant":
-            case "axaml":
-            case "axml":
-            case "builds":
-            case "ccproj":
-            case "ccxml":
-            case "clixml":
-            case "cproject":
-            case "cscfg":
-            case "csdef":
-            case "csl":
-            case "csproj":
-            case "ct":
-            case "depproj":
-            case "dita":
-            case "ditamap":
-            case "ditaval":
-            case "dll.config":
-            case "dotsettings":
-            case "filters":
-            case "fsproj":
-            case "fxml":
-            case "glade":
-            case "gml":
-            case "gmx":
-            case "grxml":
-            case "gst":
-            case "hzp":
-            case "iml":
-            case "ivy":
-            case "jelly":
-            case "jsproj":
-            case "kml":
-            case "launch":
-            case "mdpolicy":
-            case "mjml":
-            case "mm":
-            case "mod":
-            case "mxml":
-            case "natvis":
-            case "ncl":
-            case "ndproj":
-            case "nproj":
-            case "nuspec":
-            case "odd":
-            case "osm":
-            case "pkgproj":
-            case "pluginspec":
-            case "proj":
-            case "props":
-            case "ps1xml":
-            case "psc1":
-            case "pt":
-            case "qhelp":
-            case "rdf":
-            case "res":
-            case "resx":
-            case "rs":
-            case "sch":
-            case "scxml":
-            case "sfproj":
-            case "shproj":
-            case "srdf":
-            case "storyboard":
-            case "sublime-snippet":
-            case "sw":
-            case "targets":
-            case "tml":
-            case "ui":
-            case "urdf":
-            case "ux":
-            case "vbproj":
-            case "vcxproj":
-            case "vsixmanifest":
-            case "vssettings":
-            case "vstemplate":
-            case "vxml":
-            case "wixproj":
-            case "workflow":
-            case "wsf":
-            case "wxi":
-            case "wxl":
-            case "wxs":
-            case "x3d":
-            case "xacro":
-            case "xaml":
-            case "xib":
-            case "xlf":
-            case "xliff":
-            case "xmi":
-            case "xml.dist":
-            case "xmp":
-            case "xproj":
-            case "xspec":
-            case "xul":
-            case "zcml":
-                return Languages.Xml;
-            case "php":
-            case "aw":
-            case "ctp":
-            case "fcgi":
-            case "php3":
-            case "php4":
-            case "php5":
-            case "phps":
-            case "phpt":
-                return Languages.Php;
-            case "css":
-            case "scss":
-            case "less":
-                return Languages.Css;
-            case "cpp":
-            case "c++":
-            case "cc":
-            case "cp":
-            case "cxx":
-            case "h":
-            case "h++":
-            case "hh":
-            case "hpp":
-            case "hxx":
-            case "inl":
-            case "ino":
-            case "ipp":
-            case "ixx":
-            case "re":
-            case "tcc":
-            case "tpp":
-                return Languages.Cpp;
-            case "ts":
-            case "tsx":
-            case "cts":
-            case "mts":
-                return Languages.Typescript;
-            case "fsharp":
-            case "fs":
-            case "fsi":
-            case "fsx":
-                return Languages.FSharp;
-            case "koka":
-                return Languages.Koka;
-            case "hs":
-            case "hs-boot":
-            case "hsc":
-                return Languages.Haskell;
-            case "pandoc":
-            case "md":
-            case "livemd":
-            case "markdown":
-            case "mdown":
-            case "mdwn":
-            case "mdx":
-            case "mkd":
-            case "mkdn":
-            case "mkdown":
-            case "ronn":
-            case "scd":
-            case "workbook":
-                return Languages.Markdown;
-            case "fortran":
-            case "f":
-            case "f77":
-            case "for":
-            case "fpp":
-                return Languages.Fortran;
-            case "python":
-            case "py":
-            case "cgi":
-            case "gyp":
-            case "gypi":
-            case "lmi":
-            case "py3":
-            case "pyde":
-            case "pyi":
-            case "pyp":
-            case "pyt":
-            case "pyw":
-            case "rpy":
-            case "smk":
-            case "spec":
-            case "tac":
-            case "wsgi":
-            case "xpy":
-                return Languages.Python;
-            case "matlab":
-            case "m":
-                return Languages.MATLAB;
-            default:
-                return Languages.JavaScript;
-        }
-    }
+    //public static ILanguage ToLanguage(this FencedCodeBlock fencedCodeBlock)
+    //{
+    //    switch (fencedCodeBlock.Info?.ToLower())
+    //    {
+    //        case "aspx":
+    //            return Languages.Aspx;
+    //        case "aspx - vb":
+    //            return Languages.AspxVb;
+    //        case "asax":
+    //            return Languages.Asax;
+    //        case "ascx":
+    //            return Languages.AspxCs;
+    //        case "ashx":
+    //        case "asmx":
+    //        case "axd":
+    //            return Languages.Ashx;
+    //        case "cs":
+    //        case "csharp":
+    //        case "c#":
+    //            return Languages.CSharp;
+    //        case "xhtml":
+    //        case "html":
+    //        case "hta":
+    //        case "htm":
+    //        case "html.hl":
+    //        case "inc":
+    //        case "xht":
+    //            return Languages.Html;
+    //        case "java":
+    //        case "jav":
+    //        case "jsh":
+    //            return Languages.Java;
+    //        case "js":
+    //        case "node":
+    //        case "_js":
+    //        case "bones":
+    //        case "cjs":
+    //        case "es":
+    //        case "es6":
+    //        case "frag":
+    //        case "gs":
+    //        case "jake":
+    //        case "javascript":
+    //        case "jsb":
+    //        case "jscad":
+    //        case "jsfl":
+    //        case "jslib":
+    //        case "jsm":
+    //        case "jspre":
+    //        case "jss":
+    //        case "jsx":
+    //        case "mjs":
+    //        case "njs":
+    //        case "pac":
+    //        case "sjs":
+    //        case "ssjs":
+    //        case "xsjs":
+    //        case "xsjslib":
+    //            return Languages.JavaScript;
+    //        case "posh":
+    //        case "pwsh":
+    //        case "ps1":
+    //        case "psd1":
+    //        case "psm1":
+    //            return Languages.PowerShell;
+    //        case "sql":
+    //        case "cql":
+    //        case "ddl":
+    //        case "mysql":
+    //        case "prc":
+    //        case "tab":
+    //        case "udf":
+    //        case "viw":
+    //            return Languages.Sql;
+    //        case "vb":
+    //        case "vbhtml":
+    //        case "visual basic":
+    //        case "vbnet":
+    //        case "vb .net":
+    //        case "vb.net":
+    //            return Languages.VbDotNet;
+    //        case "rss":
+    //        case "xsd":
+    //        case "wsdl":
+    //        case "xml":
+    //        case "adml":
+    //        case "admx":
+    //        case "ant":
+    //        case "axaml":
+    //        case "axml":
+    //        case "builds":
+    //        case "ccproj":
+    //        case "ccxml":
+    //        case "clixml":
+    //        case "cproject":
+    //        case "cscfg":
+    //        case "csdef":
+    //        case "csl":
+    //        case "csproj":
+    //        case "ct":
+    //        case "depproj":
+    //        case "dita":
+    //        case "ditamap":
+    //        case "ditaval":
+    //        case "dll.config":
+    //        case "dotsettings":
+    //        case "filters":
+    //        case "fsproj":
+    //        case "fxml":
+    //        case "glade":
+    //        case "gml":
+    //        case "gmx":
+    //        case "grxml":
+    //        case "gst":
+    //        case "hzp":
+    //        case "iml":
+    //        case "ivy":
+    //        case "jelly":
+    //        case "jsproj":
+    //        case "kml":
+    //        case "launch":
+    //        case "mdpolicy":
+    //        case "mjml":
+    //        case "mm":
+    //        case "mod":
+    //        case "mxml":
+    //        case "natvis":
+    //        case "ncl":
+    //        case "ndproj":
+    //        case "nproj":
+    //        case "nuspec":
+    //        case "odd":
+    //        case "osm":
+    //        case "pkgproj":
+    //        case "pluginspec":
+    //        case "proj":
+    //        case "props":
+    //        case "ps1xml":
+    //        case "psc1":
+    //        case "pt":
+    //        case "qhelp":
+    //        case "rdf":
+    //        case "res":
+    //        case "resx":
+    //        case "rs":
+    //        case "sch":
+    //        case "scxml":
+    //        case "sfproj":
+    //        case "shproj":
+    //        case "srdf":
+    //        case "storyboard":
+    //        case "sublime-snippet":
+    //        case "sw":
+    //        case "targets":
+    //        case "tml":
+    //        case "ui":
+    //        case "urdf":
+    //        case "ux":
+    //        case "vbproj":
+    //        case "vcxproj":
+    //        case "vsixmanifest":
+    //        case "vssettings":
+    //        case "vstemplate":
+    //        case "vxml":
+    //        case "wixproj":
+    //        case "workflow":
+    //        case "wsf":
+    //        case "wxi":
+    //        case "wxl":
+    //        case "wxs":
+    //        case "x3d":
+    //        case "xacro":
+    //        case "xaml":
+    //        case "xib":
+    //        case "xlf":
+    //        case "xliff":
+    //        case "xmi":
+    //        case "xml.dist":
+    //        case "xmp":
+    //        case "xproj":
+    //        case "xspec":
+    //        case "xul":
+    //        case "zcml":
+    //            return Languages.Xml;
+    //        case "php":
+    //        case "aw":
+    //        case "ctp":
+    //        case "fcgi":
+    //        case "php3":
+    //        case "php4":
+    //        case "php5":
+    //        case "phps":
+    //        case "phpt":
+    //            return Languages.Php;
+    //        case "css":
+    //        case "scss":
+    //        case "less":
+    //            return Languages.Css;
+    //        case "cpp":
+    //        case "c++":
+    //        case "cc":
+    //        case "cp":
+    //        case "cxx":
+    //        case "h":
+    //        case "h++":
+    //        case "hh":
+    //        case "hpp":
+    //        case "hxx":
+    //        case "inl":
+    //        case "ino":
+    //        case "ipp":
+    //        case "ixx":
+    //        case "re":
+    //        case "tcc":
+    //        case "tpp":
+    //            return Languages.Cpp;
+    //        case "ts":
+    //        case "tsx":
+    //        case "cts":
+    //        case "mts":
+    //            return Languages.Typescript;
+    //        case "fsharp":
+    //        case "fs":
+    //        case "fsi":
+    //        case "fsx":
+    //            return Languages.FSharp;
+    //        case "koka":
+    //            return Languages.Koka;
+    //        case "hs":
+    //        case "hs-boot":
+    //        case "hsc":
+    //            return Languages.Haskell;
+    //        case "pandoc":
+    //        case "md":
+    //        case "livemd":
+    //        case "markdown":
+    //        case "mdown":
+    //        case "mdwn":
+    //        case "mdx":
+    //        case "mkd":
+    //        case "mkdn":
+    //        case "mkdown":
+    //        case "ronn":
+    //        case "scd":
+    //        case "workbook":
+    //            return Languages.Markdown;
+    //        case "fortran":
+    //        case "f":
+    //        case "f77":
+    //        case "for":
+    //        case "fpp":
+    //            return Languages.Fortran;
+    //        case "python":
+    //        case "py":
+    //        case "cgi":
+    //        case "gyp":
+    //        case "gypi":
+    //        case "lmi":
+    //        case "py3":
+    //        case "pyde":
+    //        case "pyi":
+    //        case "pyp":
+    //        case "pyt":
+    //        case "pyw":
+    //        case "rpy":
+    //        case "smk":
+    //        case "spec":
+    //        case "tac":
+    //        case "wsgi":
+    //        case "xpy":
+    //            return Languages.Python;
+    //        case "matlab":
+    //        case "m":
+    //            return Languages.MATLAB;
+    //        default:
+    //            return Languages.JavaScript;
+    //    }
+    //}
 
     public static string ToAlphabetical(this int index)
     {
@@ -443,158 +443,158 @@ public static class Extensions
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
     }
 
-    public static StyleDictionary GetOneDarkProStyle()
-    {
-        return new StyleDictionary
-                {
-                    new ColorCode.Styling.Style(ScopeName.PlainText)
-                    {
-                        Foreground = OneDarkPlainText,
-                        Background = OneDarkBackground,
-                        ReferenceName = "plainText"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.HtmlServerSideScript)
-                    {
-                        Background = Yellow,
-                        ReferenceName = "htmlServerSideScript"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.HtmlComment)
-                    {
-                        Foreground = OneDarkComment,
-                        ReferenceName = "htmlComment"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.HtmlTagDelimiter)
-                    {
-                        Foreground = OneDarkKeyword,
-                        ReferenceName = "htmlTagDelimiter"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.HtmlElementName)
-                    {
-                        Foreground = DullRed,
-                        ReferenceName = "htmlElementName"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.HtmlAttributeName)
-                    {
-                        Foreground = Red,
-                        ReferenceName = "htmlAttributeName"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.HtmlAttributeValue)
-                    {
-                        Foreground = OneDarkKeyword,
-                        ReferenceName = "htmlAttributeValue"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.HtmlOperator)
-                    {
-                        Foreground = OneDarkKeyword,
-                        ReferenceName = "htmlOperator"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.Comment)
-                    {
-                        Foreground = OneDarkComment,
-                        ReferenceName = "comment"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.XmlDocTag)
-                    {
-                        Foreground = OneDarkXMLComment,
-                        ReferenceName = "xmlDocTag"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.XmlDocComment)
-                    {
-                        Foreground = OneDarkXMLComment,
-                        ReferenceName = "xmlDocComment"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.String)
-                    {
-                        Foreground = OneDarkString,
-                        ReferenceName = "string"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.StringCSharpVerbatim)
-                    {
-                        Foreground = OneDarkString,
-                        ReferenceName = "stringCSharpVerbatim"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.Keyword)
-                    {
-                        Foreground = OneDarkKeyword,
-                        ReferenceName = "keyword"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.PreprocessorKeyword)
-                    {
-                        Foreground = OneDarkKeyword,
-                        ReferenceName = "preprocessorKeyword"
-                    },
-                    new ColorCode.Styling.Style(ScopeName.Number)
-                     {
-                         Foreground=OneDarkNumber,
-                         ReferenceName="number"
-                     },
+    //public static StyleDictionary GetOneDarkProStyle()
+    //{
+    //    return new StyleDictionary
+    //            {
+    //                new ColorCode.Styling.Style(ScopeName.PlainText)
+    //                {
+    //                    Foreground = OneDarkPlainText,
+    //                    Background = OneDarkBackground,
+    //                    ReferenceName = "plainText"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.HtmlServerSideScript)
+    //                {
+    //                    Background = Yellow,
+    //                    ReferenceName = "htmlServerSideScript"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.HtmlComment)
+    //                {
+    //                    Foreground = OneDarkComment,
+    //                    ReferenceName = "htmlComment"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.HtmlTagDelimiter)
+    //                {
+    //                    Foreground = OneDarkKeyword,
+    //                    ReferenceName = "htmlTagDelimiter"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.HtmlElementName)
+    //                {
+    //                    Foreground = DullRed,
+    //                    ReferenceName = "htmlElementName"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.HtmlAttributeName)
+    //                {
+    //                    Foreground = Red,
+    //                    ReferenceName = "htmlAttributeName"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.HtmlAttributeValue)
+    //                {
+    //                    Foreground = OneDarkKeyword,
+    //                    ReferenceName = "htmlAttributeValue"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.HtmlOperator)
+    //                {
+    //                    Foreground = OneDarkKeyword,
+    //                    ReferenceName = "htmlOperator"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.Comment)
+    //                {
+    //                    Foreground = OneDarkComment,
+    //                    ReferenceName = "comment"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.XmlDocTag)
+    //                {
+    //                    Foreground = OneDarkXMLComment,
+    //                    ReferenceName = "xmlDocTag"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.XmlDocComment)
+    //                {
+    //                    Foreground = OneDarkXMLComment,
+    //                    ReferenceName = "xmlDocComment"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.String)
+    //                {
+    //                    Foreground = OneDarkString,
+    //                    ReferenceName = "string"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.StringCSharpVerbatim)
+    //                {
+    //                    Foreground = OneDarkString,
+    //                    ReferenceName = "stringCSharpVerbatim"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.Keyword)
+    //                {
+    //                    Foreground = OneDarkKeyword,
+    //                    ReferenceName = "keyword"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.PreprocessorKeyword)
+    //                {
+    //                    Foreground = OneDarkKeyword,
+    //                    ReferenceName = "preprocessorKeyword"
+    //                },
+    //                new ColorCode.Styling.Style(ScopeName.Number)
+    //                 {
+    //                     Foreground=OneDarkNumber,
+    //                     ReferenceName="number"
+    //                 },
 
-                     new ColorCode.Styling.Style(ScopeName.CssPropertyName)
-                     {
-                         Foreground=OneDarkClass,
-                         ReferenceName="cssPropertyName"
-                     },
+    //                 new ColorCode.Styling.Style(ScopeName.CssPropertyName)
+    //                 {
+    //                     Foreground=OneDarkClass,
+    //                     ReferenceName="cssPropertyName"
+    //                 },
 
-                     new ColorCode.Styling.Style(ScopeName.CssPropertyValue)
-                     {
-                         Foreground=OneDarkString,
-                         ReferenceName="cssPropertyValue"
-                     },
+    //                 new ColorCode.Styling.Style(ScopeName.CssPropertyValue)
+    //                 {
+    //                     Foreground=OneDarkString,
+    //                     ReferenceName="cssPropertyValue"
+    //                 },
 
-                     new ColorCode.Styling.Style(ScopeName.CssSelector)
-                     {
-                         Foreground=OneDarkKeyword,
-                         ReferenceName="cssSelector"
-                     },
+    //                 new ColorCode.Styling.Style(ScopeName.CssSelector)
+    //                 {
+    //                     Foreground=OneDarkKeyword,
+    //                     ReferenceName="cssSelector"
+    //                 },
 
-                     new ColorCode.Styling.Style(ScopeName.SqlSystemFunction)
-                     {
-                         Foreground=OneDarkClass,
-                         ReferenceName="sqlSystemFunction"
-                     },
+    //                 new ColorCode.Styling.Style(ScopeName.SqlSystemFunction)
+    //                 {
+    //                     Foreground=OneDarkClass,
+    //                     ReferenceName="sqlSystemFunction"
+    //                 },
 
-                    new ColorCode.Styling.Style(ScopeName.XmlAttribute)
-                    {
-                        Foreground=OneDarkXMLAttribute,
-                        ReferenceName="xmlAttribute"
-                    },
+    //                new ColorCode.Styling.Style(ScopeName.XmlAttribute)
+    //                {
+    //                    Foreground=OneDarkXMLAttribute,
+    //                    ReferenceName="xmlAttribute"
+    //                },
 
-                    new ColorCode.Styling.Style(ScopeName.XmlAttributeQuotes)
-                    {
-                        Foreground=OneDarkXMLDelimiter,
-                        ReferenceName="xmlAttributeQuotes"
-                    },
+    //                new ColorCode.Styling.Style(ScopeName.XmlAttributeQuotes)
+    //                {
+    //                    Foreground=OneDarkXMLDelimiter,
+    //                    ReferenceName="xmlAttributeQuotes"
+    //                },
 
-                    new ColorCode.Styling.Style(ScopeName.XmlAttributeValue)
-                    {
-                        Foreground=OneDarkString,
-                        ReferenceName="xmlAttributeValue"
-                    },
+    //                new ColorCode.Styling.Style(ScopeName.XmlAttributeValue)
+    //                {
+    //                    Foreground=OneDarkString,
+    //                    ReferenceName="xmlAttributeValue"
+    //                },
 
-                    new ColorCode.Styling.Style(ScopeName.XmlCDataSection)
-                    {
-                        Foreground=OneDarkXAMLCData,
-                        ReferenceName="xmlCDataSection"
-                    },
+    //                new ColorCode.Styling.Style(ScopeName.XmlCDataSection)
+    //                {
+    //                    Foreground=OneDarkXAMLCData,
+    //                    ReferenceName="xmlCDataSection"
+    //                },
 
-                    new ColorCode.Styling.Style(ScopeName.XmlComment)
-                    {
-                        Foreground=OneDarkXMLComment,
-                        ReferenceName="xmlComment"
-                    },
+    //                new ColorCode.Styling.Style(ScopeName.XmlComment)
+    //                {
+    //                    Foreground=OneDarkXMLComment,
+    //                    ReferenceName="xmlComment"
+    //                },
 
-                    new ColorCode.Styling.Style(ScopeName.XmlDelimiter)
-                    {
-                        Foreground=OneDarkXMLDelimiter,
-                        ReferenceName="xmlDelimiter"
-                    },
-            new ColorCode.Styling.Style(ScopeName.XmlName)
-            {
-                Foreground=OneDarkXMLName,
-                ReferenceName="xmlName"
-            }
-        };
-    }
+    //                new ColorCode.Styling.Style(ScopeName.XmlDelimiter)
+    //                {
+    //                    Foreground=OneDarkXMLDelimiter,
+    //                    ReferenceName="xmlDelimiter"
+    //                },
+    //        new ColorCode.Styling.Style(ScopeName.XmlName)
+    //        {
+    //            Foreground=OneDarkXMLName,
+    //            ReferenceName="xmlName"
+    //        }
+    //    };
+    //}
 
     public static HtmlElementType TagToType(this string tag)
     {

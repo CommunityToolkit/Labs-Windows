@@ -14,7 +14,7 @@
     <UpToDateCheckInput Remove="MarkdownTextBlock.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ColorCode.Core" Version="2.0.14" />
+    <!--<PackageReference Include="ColorCode.Core" Version="2.0.14" />-->
     <PackageReference Include="HtmlAgilityPack" Version="1.11.48" />
     <PackageReference Include="Markdig" Version="0.31.0" />
     <PackageReference Include="Roman-Numerals" Version="2.0.0" />
