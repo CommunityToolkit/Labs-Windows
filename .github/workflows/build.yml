@@ -158,6 +158,10 @@ jobs:
         working-directory: ./tooling/Scripts/
         run: ./PackEachExperiment.ps1 -date ${{ env.VERSION_DATE }}${{ env.VERSION_PROPERTY != '' && format(' -postfix {0}', env.VERSION_PROPERTY) || '' }}
 
+      - name: Validate package names
+        if: ${{ env.VERSION_PROPERTY != '' }}
+        run: powershell -version 5.1 -command "Get-ChildItem -Path '**/*.nupkg' | ForEach-Object { if ($_.Name -notmatch '${{ env.VERSION_PROPERTY }}') { throw 'Nupkg name is missing trailing VERSION_PROPERTY' + $_.Name } }" -ErrorAction Stop
+
       # Push Pull Request Packages to our DevOps Artifacts Feed (see nuget.config)
       - name: Push PR packages (if not fork)
         if: ${{ env.IS_PR == 'true' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
