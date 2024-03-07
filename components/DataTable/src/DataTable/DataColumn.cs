@@ -2,8 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Runtime.Versioning;
+
 namespace CommunityToolkit.WinUI.Controls;
 
+[SupportedOSPlatform("osx10.14")]
+[SupportedOSPlatform("maccatalyst13.1")]
 [TemplatePart(Name = nameof(PART_ColumnSizer), Type = typeof(ContentSizer))]
 public partial class DataColumn : ContentControl
 {
@@ -97,18 +101,18 @@ public partial class DataColumn : ContentControl
 
     private void PART_ColumnSizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
     {
-        ColumnResizedByUserSizer();
+        ColumnResizedByUserSizer(true);
     }
 
     private void PART_ColumnSizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
     {
-        ColumnResizedByUserSizer();
+        ColumnResizedByUserSizer(false);
     }
 
-    private void ColumnResizedByUserSizer()
+    private void ColumnResizedByUserSizer(bool resizing)
     {
         // Update our internal representation to be our size now as a fixed value.
-        CurrentWidth = new(this.ActualWidth);
+        CurrentWidth = new(this.Width);
 
         // Notify the rest of the table to update
         if (_parent?.TryGetTarget(out DataTable? parent) == true

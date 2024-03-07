@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 
 namespace CommunityToolkit.WinUI.Controls;
 
@@ -10,6 +11,9 @@ namespace CommunityToolkit.WinUI.Controls;
 /// A <see cref="DataTable"/> is a <see cref="Panel"/> which lays out <see cref="DataColumn"/>s based on
 /// their configured properties (akin to <see cref="ColumnDefinition"/>); similar to a <see cref="Grid"/> with a single row.
 /// </summary>
+/// 
+[SupportedOSPlatform("osx10.14")]
+[SupportedOSPlatform("maccatalyst13.1")]
 public partial class DataTable : Panel
 {
     // TODO: We should cache this result and update if column properties change
@@ -20,12 +24,14 @@ public partial class DataTable : Panel
 
     internal void ColumnResized()
     {
+#pragma warning disable Uno0001
         InvalidateArrange();
 
         foreach (var row in Rows)
         {
             row.InvalidateArrange();
         }
+#pragma warning restore Uno0001
     }
 
     //// TODO: Would we want this named 'Spacing' instead if we support an Orientation in the future for columns being items instead of rows?
