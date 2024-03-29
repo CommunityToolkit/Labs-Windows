@@ -34,13 +34,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -72,7 +72,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Configure Pagefile
-        uses: al-cheb/configure-pagefile-action@v1.2
+        uses: al-cheb/configure-pagefile-action@v1.4
         with:
           minimum-size: 32GB
           maximum-size: 32GB
@@ -88,7 +88,7 @@ jobs:
           Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpType' -Type DWord -Value '2'
 
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -98,7 +98,7 @@ jobs:
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -197,14 +197,14 @@ jobs:
         if: ${{ always() && (steps.test-generator.conclusion == 'success' || steps.test-platform.conclusion == 'success') }}
 
       - name: Artifact - Diagnostic Logs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
           name: build-logs
           path: ./**/*.*log
 
       - name: Artifact - ILC Repro
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
           name: ilc-repro
@@ -220,7 +220,7 @@ jobs:
             dump:
               - added: '${{ github.workspace }}/CrashDumps/*.dmp'
       - name: Artifact - WER crash dumps
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ steps.filter.outputs.dump == 'true' && (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
           name: CrashDumps-${{ matrix.platform }}
@@ -239,7 +239,7 @@ jobs:
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -249,7 +249,7 @@ jobs:
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -274,7 +274,7 @@ jobs:
       # TODO: Do we want to run tests here? Can we do that on linux easily?
 
       - name: Artifact - Diagnostic Logs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
           name: linux-logs
