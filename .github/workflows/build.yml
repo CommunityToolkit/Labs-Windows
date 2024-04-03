@@ -17,7 +17,7 @@ on:
   merge_group:
 
 env:
-  DOTNET_VERSION: ${{ '7.0.402' }}
+  DOTNET_VERSION: ${{ '8.0.201' }}
   ENABLE_DIAGNOSTICS: false
   #COREHOST_TRACE: 1
   MSBUILD_VERBOSITY: normal
@@ -106,7 +106,6 @@ jobs:
       - name: Restore dotnet tools
         run: dotnet tool restore
 
-        # Pinning Manifest for 1.18 version of Uno.Check at the moment to unblock build, see https://github.com/CommunityToolkit/Windows/pull/320
       - name: Run Uno Check to Install Dependencies
         run: >
           dotnet tool run uno-check 
@@ -117,10 +116,11 @@ jobs:
           --skip androidemulator
           --skip vswinworkloads
           --verbose
-          --manifest https://raw.githubusercontent.com/unoplatform/uno.check/1660eba219684491362704c75153b40ce6ef7a35/manifests/uno.ui.manifest.json
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.3.1
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[17.9,)'
 
       - name: Enable ${{ env.TARGET_PLATFORMS }} TargetFrameworks
         working-directory: ./${{ env.MULTI_TARGET_DIRECTORY }} 
@@ -157,6 +157,10 @@ jobs:
       - name: Pack experiments
         working-directory: ./tooling/Scripts/
         run: ./PackEachExperiment.ps1 -date ${{ env.VERSION_DATE }}${{ env.VERSION_PROPERTY != '' && format(' -postfix {0}', env.VERSION_PROPERTY) || '' }}
+
+      - name: Validate package names
+        if: ${{ env.VERSION_PROPERTY != '' }}
+        run: powershell -version 5.1 -command "Get-ChildItem -Path '**/*.nupkg' | ForEach-Object { if (`$_.Name -notmatch '${{ env.VERSION_PROPERTY }}') { throw 'Nupkg name is missing trailing VERSION_PROPERTY' + `$_.Name } }" -ErrorAction Stop
 
       # Push Pull Request Packages to our DevOps Artifacts Feed (see nuget.config)
       - name: Push PR packages (if not fork)
