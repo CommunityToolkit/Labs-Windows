@@ -42,7 +42,7 @@ public partial class TitleBar : Control
     public static readonly DependencyProperty IsPaneButtonVisibleProperty = DependencyProperty.Register(nameof(IsPaneButtonVisible), typeof(bool), typeof(TitleBar), new PropertyMetadata(false, IsPaneButtonVisibleChanged));
 
     /// <summary>
-    /// The backing <see cref="DependencyProperty"/> for the <see cref="Display"/> property.
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="DisplayMode"/> property.
     /// </summary>
     public static readonly DependencyProperty DisplayModeProperty = DependencyProperty.Register(nameof(DisplayMode), typeof(DisplayMode), typeof(TitleBar), new PropertyMetadata(DisplayMode.Standard, DisplayModeChanged));
 
