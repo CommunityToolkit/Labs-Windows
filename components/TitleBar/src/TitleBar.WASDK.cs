@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 #if WINAPPSDK
+using Windows.Graphics;
 using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
@@ -15,8 +16,8 @@ namespace CommunityToolkit.WinUI.Controls;
 
 public partial class TitleBar : Control
 {
-    WndProcHelper WndProcHelper;
-    MenuFlyout MenuFlyout;
+    WndProcHelper? WndProcHelper;
+    MenuFlyout? MenuFlyout;
     ContentPresenter? PART_ContentPresenter;
     ContentPresenter? PART_FooterPresenter;
 
@@ -128,10 +129,13 @@ public partial class TitleBar : Control
 
     public void SetDragRegionForCustomTitleBar()
     {
-        if (AutoConfigureCustomTitleBar && Window != null)
+        if (AutoConfigureCustomTitleBar && Window is not null)
         {
             ClearDragRegions(NonClientRegionKind.Passthrough);
-            SetDragRegion(NonClientRegionKind.Passthrough, PART_ContentPresenter, PART_FooterPresenter, PART_ButtonHolder);
+            var items = new FrameworkElement?[] { PART_ContentPresenter, PART_FooterPresenter, PART_ButtonHolder };
+            var validItems = items.Where(x => x is not null).Select(x => x!).ToArray(); // Prune null items
+
+            SetDragRegion(NonClientRegionKind.Passthrough, validItems);
         }
     }
 
@@ -149,7 +153,7 @@ public partial class TitleBar : Control
         var nonClientInputSrc = InputNonClientPointerSource.GetForWindowId(Window.AppWindow.Id);
         List<Windows.Graphics.RectInt32> rects = new List<Windows.Graphics.RectInt32>();
         var scale = GetRasterizationScaleForElement(this);
-        
+
         foreach (var frameworkElement in frameworkElements)
         {
             if (frameworkElement == null)
@@ -183,26 +187,32 @@ public partial class TitleBar : Control
         switch (Msg)
         {
             case NativeMethods.WindowMessage.WM_NCLBUTTONDOWN:
+            {
+                if (MenuFlyout?.IsOpen ?? false)
                 {
-                    if (MenuFlyout.IsOpen)
-                    {
-                        MenuFlyout.Hide();
-                    }
-                    break;
+                    MenuFlyout.Hide();
                 }
+                break;
+            }
             case NativeMethods.WindowMessage.WM_NCRBUTTONDOWN:
-                {
-                    PointInt32 pt = new PointInt32(lParam.ToInt32() & 0xFFFF, lParam.ToInt32() >> 16);
-                    FlyoutShowOptions options = new FlyoutShowOptions();
-                    options.ShowMode = FlyoutShowMode.Standard;
-                    options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
-                    new Windows.Foundation.Point((pt.X - this.Window.AppWindow.Position.X - 8) / XamlRoot.RasterizationScale, (pt.Y - this.Window.AppWindow.Position.Y) / XamlRoot.RasterizationScale) :
-                    new Windows.Foundation.Point(pt.X - this.Window.AppWindow.Position.X - 8, pt.Y - this.Window.AppWindow.Position.Y);
+            {
+                PointInt32 pt = new PointInt32(lParam.ToInt32() & 0xFFFF, lParam.ToInt32() >> 16);
+                FlyoutShowOptions options = new FlyoutShowOptions();
+                options.ShowMode = FlyoutShowMode.Standard;
+                options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
+                new Windows.Foundation.Point((pt.X - this.Window.AppWindow.Position.X - 8) / XamlRoot.RasterizationScale, (pt.Y - this.Window.AppWindow.Position.Y) / XamlRoot.RasterizationScale) :
+                new Windows.Foundation.Point(pt.X - this.Window.AppWindow.Position.X - 8, pt.Y - this.Window.AppWindow.Position.Y);
 
-                    MenuFlyout.ShowAt(this, options);
-                    return (IntPtr)0;
-                }
+                MenuFlyout?.ShowAt(this, options);
+                return (IntPtr)0;
+            }
         }
+
+        if (WndProcHelper is null)
+        {
+            throw new InvalidOperationException($"Internal error: {nameof(WndProcHelper)} is missing.");
+        }
+
         return WndProcHelper.CallInputNonClientPointerSourceWindowProc(hWnd, Msg, wParam, lParam);
     }
 
@@ -224,7 +234,7 @@ public partial class TitleBar : Control
                     FlyoutShowOptions options = new FlyoutShowOptions();
                     options.Position = new Windows.Foundation.Point(0, 15);
                     options.ShowMode = FlyoutShowMode.Standard;
-                    MenuFlyout.ShowAt(null, options);
+                    MenuFlyout?.ShowAt(null, options);
                     return (IntPtr)0;
                 }
                 else if (sysCommand is NativeMethods.SystemCommand.SC_KEYMENU)
@@ -232,12 +242,18 @@ public partial class TitleBar : Control
                     FlyoutShowOptions options = new FlyoutShowOptions();
                     options.Position = new Windows.Foundation.Point(0, 45);
                     options.ShowMode = FlyoutShowMode.Standard;
-                    MenuFlyout.ShowAt(null, options);
+                    MenuFlyout?.ShowAt(null, options);
                     return (IntPtr)0;
                 }
                 break;
             }
         }
+
+        if (WndProcHelper is null)
+        {
+            throw new InvalidOperationException($"Internal error: {nameof(WndProcHelper)} is missing.");
+        }
+
         return WndProcHelper.CallWindowProc(hWnd, Msg, wParam, lParam);
     }
 }

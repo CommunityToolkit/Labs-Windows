@@ -1,4 +1,4 @@
-﻿#if WINAPPSDK
+#if WINAPPSDK
 using System.Runtime.InteropServices;
 using WinRT.Interop;
 
@@ -8,10 +8,10 @@ internal class WndProcHelper
     public delegate IntPtr WNDPROC(IntPtr hWnd, NativeMethods.WindowMessage Msg, IntPtr wParam, IntPtr lParam);
 
     private IntPtr Handle { get; set; }
-    private WNDPROC newMainWindowWndProc = null;
+    private WNDPROC? newMainWindowWndProc = null;
     private IntPtr oldMainWindowWndProc = IntPtr.Zero;
 
-    private WNDPROC newInputNonClientPointerSourceWndProc = null;
+    private WNDPROC? newInputNonClientPointerSourceWndProc = null;
     private IntPtr oldInputNonClientPointerSourceWndProc = IntPtr.Zero;
 
     public WndProcHelper(Window window)
@@ -36,7 +36,7 @@ internal class WndProcHelper
 
     public void RegisterInputNonClientPointerSourceWndProc(WNDPROC wndProc)
     {
-        IntPtr inputNonClientPointerSourceHandle = NativeMethods.FindWindowEx(Handle, IntPtr.Zero, "InputNonClientPointerSource", null);
+        IntPtr inputNonClientPointerSourceHandle = NativeMethods.FindWindowEx(Handle, IntPtr.Zero, "InputNonClientPointerSource", string.Empty);
 
         if (inputNonClientPointerSourceHandle != IntPtr.Zero)
         {
