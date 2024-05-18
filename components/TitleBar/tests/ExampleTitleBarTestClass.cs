@@ -70,30 +70,4 @@ public partial class ExampleTitleBarTestClass : VisualUITestBase
 
     
     }
-
-    //// ----------------------------- ADVANCED TEST SCENARIOS -----------------------------
-
-    // If you need to use DataRow, you can use this pattern with the UI dispatch still.
-    // Otherwise, checkout the UIThreadTestMethod attribute above.
-    // See https://github.com/CommunityToolkit/Labs-Windows/issues/186
-    [TestMethod]
-    public async Task ComplexAsyncUIExampleTest()
-    {
-   
-    }
-
-    // If you want to load other content not within a XAML page using the UIThreadTestMethod above.
-    // Then you can do that using the Load/UnloadTestContentAsync methods.
-    [TestMethod]
-    public async Task ComplexAsyncLoadUIExampleTest()
-    {
-     
-    }
-
-    // You can still use the UIThreadTestMethod to remove the extra layer for the dispatcher as well:
-    [UIThreadTestMethod]
-    public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
-    {
-       
-    }
 }
