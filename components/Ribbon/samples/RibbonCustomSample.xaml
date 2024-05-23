@@ -1,17 +1,17 @@
 <!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<Page
-    x:Class="RibbonExperiment.Samples.RibbonCustomSample"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:RibbonExperiment.Samples"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+<Page x:Class="RibbonExperiment.Samples.RibbonCustomSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:RibbonExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
     <StackPanel Spacing="16">
         <StackPanel.Resources>
-            <Style BasedOn="{StaticResource DefaultAppBarButtonStyle}" TargetType="AppBarButton">
+            <Style BasedOn="{StaticResource DefaultAppBarButtonStyle}"
+                   TargetType="AppBarButton">
                 <Setter Property="LabelPosition" Value="Collapsed" />
                 <Setter Property="Width" Value="48" />
                 <Setter Property="Margin" Value="8" />
@@ -21,11 +21,10 @@
 
         <controls:Ribbon HorizontalAlignment="Stretch">
 
-            <controls:RibbonCollapsibleGroup
-                AccessKey="AB"
-                CollapsedAccessKey="AA"
-                Label="Edit"
-                Style="{StaticResource RibbonLeftCollapsibleGroupStyle}">
+            <controls:RibbonCollapsibleGroup AccessKey="AB"
+                                             CollapsedAccessKey="AA"
+                                             Label="Edit"
+                                             Style="{StaticResource RibbonLeftCollapsibleGroupStyle}">
                 <controls:RibbonCollapsibleGroup.IconSource>
                     <SymbolIconSource Symbol="Add" />
                 </controls:RibbonCollapsibleGroup.IconSource>
@@ -42,25 +41,24 @@
                     </Grid.RowDefinitions>
 
                     <AppBarButton Icon="Accept" />
-                    <AppBarButton Grid.Column="1" Icon="Account" />
+                    <AppBarButton Grid.Column="1"
+                                  Icon="Account" />
 
-                    <AppBarButton Grid.Row="1" Icon="Add" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Icon="AddFriend" />
-                    <AppBarButton
-                        Grid.RowSpan="2"
-                        Grid.Column="2"
-                        Icon="Admin" />
+                    <AppBarButton Grid.Row="1"
+                                  Icon="Add" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="1"
+                                  Icon="AddFriend" />
+                    <AppBarButton Grid.RowSpan="2"
+                                  Grid.Column="2"
+                                  Icon="Admin" />
                 </Grid>
             </controls:RibbonCollapsibleGroup>
 
-            <controls:RibbonCollapsibleGroup
-                CollapsedAccessKey="B"
-                Label="Text"
-                Priority="1"
-                Style="{StaticResource RibbonLeftCollapsibleGroupStyle}">
+            <controls:RibbonCollapsibleGroup CollapsedAccessKey="B"
+                                             Label="Text"
+                                             Priority="1"
+                                             Style="{StaticResource RibbonLeftCollapsibleGroupStyle}">
                 <controls:RibbonCollapsibleGroup.IconSource>
                     <SymbolIconSource Symbol="Remove" />
                 </controls:RibbonCollapsibleGroup.IconSource>
@@ -77,27 +75,27 @@
                     </Grid.RowDefinitions>
 
                     <AppBarButton Icon="AllApps" />
-                    <AppBarButton Grid.Column="1" Icon="Attach" />
-                    <DropDownButton Grid.Column="2" Content="Color">
+                    <AppBarButton Grid.Column="1"
+                                  Icon="Attach" />
+                    <DropDownButton Grid.Column="2"
+                                    Content="Color">
                         <DropDownButton.Flyout>
                             <Flyout>
-                                <Border
-                                    Width="200"
-                                    Height="200"
-                                    Background="Red" />
+                                <Border Width="200"
+                                        Height="200"
+                                        Background="Red" />
                             </Flyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
 
-                    <AppBarButton Grid.Row="1" Icon="GoToStart" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Icon="GlobalNavigationButton" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Icon="ClosePane" />
+                    <AppBarButton Grid.Row="1"
+                                  Icon="GoToStart" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="1"
+                                  Icon="GlobalNavigationButton" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="2"
+                                  Icon="ClosePane" />
                 </Grid>
             </controls:RibbonCollapsibleGroup>
 
@@ -105,7 +103,8 @@
                 <Button Content="Pick color" />
             </controls:RibbonGroup>
 
-            <controls:RibbonCollapsibleGroup CollapsedAccessKey="C" Label="Text">
+            <controls:RibbonCollapsibleGroup CollapsedAccessKey="C"
+                                             Label="Text">
                 <controls:RibbonCollapsibleGroup.IconSource>
                     <SymbolIconSource Symbol="Font" />
                 </controls:RibbonCollapsibleGroup.IconSource>
@@ -122,48 +121,44 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <AppBarButton
-                        Grid.RowSpan="2"
-                        VerticalAlignment="Center"
-                        Icon="Font" />
-                    <AppBarButton Grid.Column="1" Icon="AlignLeft" />
-                    <AppBarButton Grid.Column="2" Icon="AlignCenter" />
-                    <AppBarButton Grid.Column="3" Icon="AlignRight" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Icon="FontIncrease" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Icon="FontDecrease" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Icon="FontColor" />
+                    <AppBarButton Grid.RowSpan="2"
+                                  VerticalAlignment="Center"
+                                  Icon="Font" />
+                    <AppBarButton Grid.Column="1"
+                                  Icon="AlignLeft" />
+                    <AppBarButton Grid.Column="2"
+                                  Icon="AlignCenter" />
+                    <AppBarButton Grid.Column="3"
+                                  Icon="AlignRight" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="1"
+                                  Icon="FontIncrease" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="2"
+                                  Icon="FontDecrease" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="3"
+                                  Icon="FontColor" />
                 </Grid>
             </controls:RibbonCollapsibleGroup>
 
-            <controls:RibbonCollapsibleGroup
-                CollapsedAccessKey="G"
-                Label="Advanved"
-                Priority="5"
-                RequestedWidths="400,200,300">
+            <controls:RibbonCollapsibleGroup CollapsedAccessKey="G"
+                                             Label="Advanved"
+                                             Priority="5"
+                                             RequestedWidths="400,200,300">
                 <controls:RibbonCollapsibleGroup.IconSource>
                     <SymbolIconSource Symbol="AllApps" />
                 </controls:RibbonCollapsibleGroup.IconSource>
-                <GridView
-                    MinHeight="72"
-                    MaxWidth="400"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1">
+                <GridView MinHeight="72"
+                          MaxWidth="400"
+                          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                          BorderThickness="1">
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock
-                                Width="24"
-                                Height="24"
-                                HorizontalTextAlignment="Center"
-                                Text="{Binding}" />
+                            <TextBlock Width="24"
+                                       Height="24"
+                                       HorizontalTextAlignment="Center"
+                                       Text="{Binding}" />
                         </DataTemplate>
                     </GridView.ItemTemplate>
                     <GridView.Items>
@@ -185,11 +180,10 @@
                 </GridView>
             </controls:RibbonCollapsibleGroup>
 
-            <controls:RibbonCollapsibleGroup
-                CollapsedAccessKey="E"
-                Label="Commands"
-                Priority="2"
-                Style="{StaticResource RibbonRightCollapsibleGroupStyle}">
+            <controls:RibbonCollapsibleGroup CollapsedAccessKey="E"
+                                             Label="Commands"
+                                             Priority="2"
+                                             Style="{StaticResource RibbonRightCollapsibleGroupStyle}">
                 <controls:RibbonCollapsibleGroup.IconSource>
                     <SymbolIconSource Symbol="Library" />
                 </controls:RibbonCollapsibleGroup.IconSource>
@@ -208,32 +202,34 @@
                     </Grid.RowDefinitions>
 
                     <AppBarButton Icon="Accept" />
-                    <AppBarButton Grid.Column="1" Icon="Favorite" />
-                    <AppBarButton Grid.Column="2" Icon="Filter" />
-                    <AppBarButton Grid.Column="3" Icon="Find" />
-                    <AppBarButton Grid.Column="4" Icon="Flag" />
+                    <AppBarButton Grid.Column="1"
+                                  Icon="Favorite" />
+                    <AppBarButton Grid.Column="2"
+                                  Icon="Filter" />
+                    <AppBarButton Grid.Column="3"
+                                  Icon="Find" />
+                    <AppBarButton Grid.Column="4"
+                                  Icon="Flag" />
 
-                    <AppBarButton Grid.Row="1" Icon="Folder" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Icon="Font" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Icon="FontColor" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Icon="FontDecrease" />
-                    <AppBarButton
-                        Grid.Row="1"
-                        Grid.Column="4"
-                        Icon="FontIncrease" />
+                    <AppBarButton Grid.Row="1"
+                                  Icon="Folder" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="1"
+                                  Icon="Font" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="2"
+                                  Icon="FontColor" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="3"
+                                  Icon="FontDecrease" />
+                    <AppBarButton Grid.Row="1"
+                                  Grid.Column="4"
+                                  Icon="FontIncrease" />
                 </Grid>
             </controls:RibbonCollapsibleGroup>
 
-            <controls:RibbonGroup Label="Options" Style="{StaticResource RibbonRightGroupStyle}">
+            <controls:RibbonGroup Label="Options"
+                                  Style="{StaticResource RibbonRightGroupStyle}">
                 <AppBarButton Icon="Setting" />
             </controls:RibbonGroup>
         </controls:Ribbon>
