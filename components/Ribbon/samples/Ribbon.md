@@ -8,12 +8,10 @@ dev_langs:
 category: Controls
 subcategory: Layout
 experimental: true
-discussion-id: 0
-issue-id: 0
+discussion-id: 544
+issue-id: 545
 icon: Assets/Ribbon.png
 ---
-
-<!-- Be sure to update the discussion/issue numbers above with your Labs discussion/issue id numbers in order for UI links to them from the sample app to work. -->
 
 # Ribbon
 

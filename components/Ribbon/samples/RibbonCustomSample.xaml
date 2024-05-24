@@ -8,6 +8,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
+    <!--
+        TODO: The generic.xaml file from the code project is not imported when the sample is loaded in the gallery app.
+        As a mitigation, we are manually importing the style dictionary here.
+    -->
+    <Page.Resources>
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.Ribbon/RibbonStyle.xaml" />
+    </Page.Resources>
+
     <StackPanel Spacing="16">
         <StackPanel.Resources>
             <Style BasedOn="{StaticResource DefaultAppBarButtonStyle}"
