@@ -1,0 +1,25 @@
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+  <PropertyGroup>
+    <ToolkitComponentName>TitleBar</ToolkitComponentName>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's sample project -->
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
+  <ItemGroup>
+    <None Remove="Assets\AppTitleBarIcon.png" />
+    <None Remove="Assets\Avatar.png" />
+    <None Remove="Assets\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\AppTitleBarIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Avatar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
