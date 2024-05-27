@@ -1,0 +1,88 @@
+<Page x:Class="TitleBarExperiment.Samples.ShellPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:TitleBarExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <controls:TitleBar x:Name="appTitleBar"
+                           Title="Contoso"
+                           AutoConfigureCustomTitleBar="True"
+                           BackButtonClick="appTitleBar_BackButtonClick"
+                           DisplayMode="Tall"
+                           IsBackButtonVisible="True"
+                           IsPaneButtonVisible="True"
+                           PaneButtonClick="appTitleBar_PaneButtonClick"
+                           Subtitle="Preview">
+            <controls:TitleBar.Icon>
+                <BitmapIcon ShowAsMonochrome="False"
+                            UriSource="ms-appx:///Assets/AppTitleBarIcon.png" />
+            </controls:TitleBar.Icon>
+            <controls:TitleBar.Content>
+                <AutoSuggestBox PlaceholderText="Search.." />
+            </controls:TitleBar.Content>
+            <controls:TitleBar.Footer>
+                <Button Width="32"
+                        Height="32"
+                        Padding="0"
+                        BorderBrush="{ThemeResource CircleElevationBorderBrush}"
+                        CornerRadius="16">
+                    <Button.Content>
+                        <muxc:PersonPicture Width="32"
+                                            Height="32"
+                                            Initials="AB"
+                                            ProfilePicture="ms-appx:///Assets/Avatar.png" />
+                    </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem Text="Manage account">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE77B;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem Text="Settings">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE713;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </controls:TitleBar.Footer>
+        </controls:TitleBar>
+        <muxc:NavigationView x:Name="NavView"
+                             Grid.Row="1"
+                             IsBackButtonVisible="Collapsed"
+                             IsPaneToggleButtonVisible="False"
+                             IsSettingsVisible="False"
+                             Loaded="NavView_Loaded"
+                             SelectionChanged="NavView_SelectionChanged">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="First item"
+                                         Tag="1">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE787;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="Second item"
+                                         Tag="2">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7C5;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
+            <Frame x:Name="NavFrame"
+                   Navigated="NavFrame_Navigated" />
+        </muxc:NavigationView>
+    </Grid>
+</Page>
