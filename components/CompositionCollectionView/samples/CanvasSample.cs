@@ -31,7 +31,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace CompositionCollectionView.Sample
 {
-    [ToolkitSample(id: nameof(CanvasSample), "Canvas layout", description: "DisplayS elements in a 2d canvas, animating between updates.")]
+    [ToolkitSample(id: nameof(CanvasSample), "Canvas layout", description: "Displays elements in a 2d canvas, animating between updates.")]
     public sealed partial class CanvasSample : Page
     {
         public CanvasSample()
