@@ -19,6 +19,7 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = TickerVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = LoopingVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = BouncingVisualStateName)]
+[TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = CycleVisualStateName)]
 [ContentProperty(Name = nameof(Text))]
 
 #if HAS_UNO
@@ -45,6 +46,9 @@ public partial class MarqueeText : Control
     private const string TickerVisualStateName = "Ticker";
     private const string LoopingVisualStateName = "Looping";
     private const string BouncingVisualStateName = "Bouncing";
+    private const string CycleVisualStateName = "Cycle";
+
+    private const double CycleDistance = 20d;
 
     private Panel? _marqueeContainer;
     private FrameworkElement? _segment1;
@@ -220,9 +224,32 @@ public partial class MarqueeText : Control
         // Otherwise it's 0
         double start = IsTicker ? containerSize : 0;
 
-        // The end is when the end of the text reaches the border if in bouncing mode
-        // Otherwise it is when the first set of text is 100% out of view
-        double end = IsBouncing ? containerSize - segmentSize : -segmentSize;
+        double end = Behavior switch
+        {
+            // Offset by cycle distance pixels
+            MarqueeBehavior.Cycle => CycleDistance,
+#if !HAS_UNO
+            // When the end of the text reaches the border if in bouncing mode
+            MarqueeBehavior.Bouncing => containerSize - segmentSize,
+#endif
+            // When the first set of text is 100% out of view
+            MarqueeBehavior.Ticker or MarqueeBehavior.Looping or _ => -segmentSize,
+        };
+
+        // Swap the directions if inverse direction animation
+        if (IsDirectionInverse)
+        {
+            if (IsCycling)
+            {
+                // Swap the offset of the cycle
+                end = -end;
+            }
+            else
+            {
+                // Swap the start and end to inverse direction for right or upwards
+                (start, end) = (end, start);
+            }
+        }
 
         // The distance is used for calculating the duration and the previous
         // animation progress if resuming
@@ -234,17 +261,14 @@ public partial class MarqueeText : Control
             return false;
         }
 
-        // Swap the start and end to inverse direction for right or upwards
-        if (IsDirectionInverse)
-        {
-            (start, end) = (end, start);
-        }
+        // Calculate the animation duration by dividing the distance by the speed
+        TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
+
+        // Set the delay (only relevent in cycling mode)
+        TimeSpan delay = IsCycling ? TimeSpan.FromSeconds(3) : TimeSpan.Zero;
 
         // The second segment of text should be hidden if the marquee is not in looping mode
         _segment2.Visibility = IsLooping ? Visibility.Visible : Visibility.Collapsed;
-
-        // Calculate the animation duration by dividing the distance by the speed
-        TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
 
         // Unbind events from the old storyboard
         if (_marqueeStoryboard is not null)
@@ -253,7 +277,11 @@ public partial class MarqueeText : Control
         }
 
         // Create new storyboard and animation
-        _marqueeStoryboard = CreateMarqueeStoryboardAnimation(start, end, duration, targetProperty);
+        _marqueeStoryboard = Behavior switch
+        {
+            MarqueeBehavior.Cycle => CreateCyclingStoryboardAnimation(start, end, delay, duration, targetProperty),
+            _ => CreateMarqueeStoryboardAnimation(start, end, duration, targetProperty),
+        };
 
         // Bind the storyboard completed event
         _marqueeStoryboard.Completed += StoryBoard_Completed;
@@ -272,6 +300,9 @@ public partial class MarqueeText : Control
         return true;
     }
 
+    /// <remarks>
+    /// This is method is used for all modes except cycling.
+    /// </remarks>
     private Storyboard CreateMarqueeStoryboardAnimation(double start, double end, TimeSpan duration, string targetProperty)
     {   
         // Initialize the new storyboard
@@ -285,7 +316,7 @@ public partial class MarqueeText : Control
         };
         
         // Create a new double animation, moving from [start] to [end] positions in [duration] time.
-        var animation = new DoubleAnimationUsingKeyFrames
+        var posAnim = new DoubleAnimationUsingKeyFrames
         {
             Duration = duration,
             RepeatBehavior = RepeatBehavior,
@@ -293,29 +324,97 @@ public partial class MarqueeText : Control
             AutoReverse = IsBouncing,
 #endif
         };
+        
+        // Set the animation target and target property
+        Storyboard.SetTarget(posAnim, _marqueeTransform);
+        Storyboard.SetTargetProperty(posAnim, targetProperty);
 
         // Create the key frames
-        var frame1 = new DiscreteDoubleKeyFrame
+        var posFrame0 = new LinearDoubleKeyFrame
         {
             KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero),
             Value = start,
         };
-        var frame2 = new EasingDoubleKeyFrame
+        var posFrame1 = new LinearDoubleKeyFrame
         {
             KeyTime = KeyTime.FromTimeSpan(duration),
             Value = end,
         };
 
         // Add the key frames to the animation
-        animation.KeyFrames.Add(frame1);
-        animation.KeyFrames.Add(frame2);
+        posAnim.KeyFrames.Add(posFrame0);
+        posAnim.KeyFrames.Add(posFrame1);
 
         // Add the double animation to the storyboard
-        marqueeStoryboard.Children.Add(animation);
+        marqueeStoryboard.Children.Add(posAnim);
+
+        return marqueeStoryboard;
+    }
+
+    private Storyboard CreateCyclingStoryboardAnimation(double start, double end, TimeSpan delay, TimeSpan duration, string targetProperty)
+    {
+        // Initialize the new storyboard
+        var marqueeStoryboard = new Storyboard
+        {
+            Duration = duration,
+            BeginTime = delay,
+        };
         
-        // Set the storyboard target and target property
-        Storyboard.SetTarget(animation, _marqueeTransform);
-        Storyboard.SetTargetProperty(animation, targetProperty);
+        // Create a new double animation, moving from [start] to [end] positions in [duration] time after [delay].
+        var posAnim = new DoubleAnimationUsingKeyFrames
+        {
+            Duration = duration,
+        };
+        
+        // Set the animation target and target property
+        Storyboard.SetTarget(posAnim, _marqueeTransform);
+        Storyboard.SetTargetProperty(posAnim, targetProperty);
+
+        // Create the position key frames
+        var posFrame0 = new LinearDoubleKeyFrame
+        {
+            KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero),
+            Value = start,
+        };
+        var posFrame1 = new LinearDoubleKeyFrame
+        {
+            KeyTime = KeyTime.FromTimeSpan(duration),
+            Value = end,
+        };
+
+        // Add the key frames to the animation
+        posAnim.KeyFrames.Add(posFrame0);
+        posAnim.KeyFrames.Add(posFrame1);
+        
+        // Create a new double animation, from 1 to 0 opacity in [duration] time after [delay].
+        var opacityAnim = new DoubleAnimationUsingKeyFrames
+        {
+            Duration = duration,
+        };
+        
+        // Set the animation target and target property
+        Storyboard.SetTarget(opacityAnim, _segment1);
+        Storyboard.SetTargetProperty(opacityAnim, ("(UIElement.Opacity)"));
+
+        // Create the opacity key frames
+        var opacFrame0 = new LinearDoubleKeyFrame
+        {
+            KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero),
+            Value = 1,
+        };
+        var opacFrame1 = new LinearDoubleKeyFrame
+        {
+            KeyTime = KeyTime.FromTimeSpan(duration),
+            Value = 0,
+        };
+
+        // Add the key frames to the animation
+        opacityAnim.KeyFrames.Add(opacFrame0);
+        opacityAnim.KeyFrames.Add(opacFrame1);
+
+        // Add the double animation to the storyboard
+        marqueeStoryboard.Children.Add(posAnim);
+        marqueeStoryboard.Children.Add(opacityAnim);
 
         return marqueeStoryboard;
     }

@@ -26,6 +26,9 @@ public partial class MarqueeText
     private static readonly DependencyProperty DirectionProperty =
         DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
 
+    private static readonly DependencyProperty RepeatQueueProperty =
+        DependencyProperty.Register(nameof(RepeatQueue), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false));
+
     #if !HAS_UNO
     private static readonly DependencyProperty TextDecorationsProperty =
         DependencyProperty.Register(nameof(TextDecorations), typeof(TextDecorations), typeof(MarqueeText), new PropertyMetadata(TextDecorations.None));
@@ -41,6 +44,11 @@ public partial class MarqueeText
     }
 
     /// <summary>
+    /// Gets or sets the texts queue to be displayed in the Marquee.
+    /// </summary>
+    public Queue<string>? Texts { get; set; }
+
+    /// <summary>
     /// Gets or sets the speed the text moves in the Marquee.
     /// </summary>
     public double Speed
@@ -52,6 +60,9 @@ public partial class MarqueeText
     /// <summary>
     /// Gets or sets a value indicating whether or not the marquee scroll repeats.
     /// </summary>
+    /// <remarks>
+    /// Ignored if the behavior is <see cref="MarqueeBehavior.Cycle"/>
+    /// </remarks>
     public RepeatBehavior RepeatBehavior
     {
         get => (RepeatBehavior)GetValue(RepeatBehaviorProperty);
@@ -61,6 +72,9 @@ public partial class MarqueeText
     /// <summary>
     /// Gets or sets the marquee behavior.
     /// </summary>
+    /// <remarks>
+    /// When <see cref="MarqueeBehavior.Looping"/> the text won't scroll if the text can already fit in the screen.
+    /// </remarks>
     public MarqueeBehavior Behavior
     {
         get => (MarqueeBehavior)GetValue(BehaviorProperty);
@@ -77,12 +91,11 @@ public partial class MarqueeText
     private bool IsBouncing => false;
 #endif
 
+    private bool IsCycling => Behavior == MarqueeBehavior.Cycle;
+
     /// <summary>
-    /// Gets or sets a value indicating whether or not the marquee text wraps.
+    /// Gets or sets the direction the Marquee should scroll
     /// </summary>
-    /// <remarks>
-    /// Wrapping text won't scroll if the text can already fit in the screen.
-    /// </remarks>
     public MarqueeDirection Direction
     {
         get => (MarqueeDirection)GetValue(DirectionProperty);
@@ -91,7 +104,16 @@ public partial class MarqueeText
 
     private bool IsDirectionHorizontal => Direction is MarqueeDirection.Left or MarqueeDirection.Right;
 
-    private bool IsDirectionInverse => Direction is MarqueeDirection.Up or MarqueeDirection.Right;
+    private bool IsDirectionInverse => Direction is MarqueeDirection.Down or MarqueeDirection.Right;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether or not messages in the <see cref="Texts"/> queue repeat.
+    /// </summary>
+    public bool RepeatQueue
+    {
+        get => (bool)GetValue(RepeatQueueProperty);
+        set => SetValue(RepeatQueueProperty, value);
+    }
 
     // Waiting on https://github.com/unoplatform/uno/issues/12929
     #if !HAS_UNO
