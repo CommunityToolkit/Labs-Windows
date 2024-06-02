@@ -51,6 +51,9 @@ public partial class MarqueeText
     /// <summary>
     /// Gets or sets the speed the text moves in the Marquee.
     /// </summary>
+    /// <remarks>
+    /// Ignored if the behavior is <see cref="MarqueeBehavior.Cycle"/>
+    /// </remarks>
     public double Speed
     {
         get => (double)GetValue(SpeedProperty);
@@ -96,6 +99,9 @@ public partial class MarqueeText
     /// <summary>
     /// Gets or sets the direction the Marquee should scroll
     /// </summary>
+    /// <remarks>
+    /// Ignored if the behavior is <see cref="MarqueeBehavior.Cycle"/>
+    /// </remarks>
     public MarqueeDirection Direction
     {
         get => (MarqueeDirection)GetValue(DirectionProperty);

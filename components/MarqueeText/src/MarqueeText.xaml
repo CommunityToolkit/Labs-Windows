@@ -73,6 +73,23 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
+                        <Grid.Resources>
+                            <Storyboard x:Name="CyclingAnimation" Duration="0:0:1.2">
+                                <DoubleAnimationUsingKeyFrames Duration="0:0:1.2" Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="MarqueeTransform">
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="20"/>
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.7" Value="-20"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:1.2" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Duration="0:0:1.2" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MarqueePanel">
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+                                    <LinearDoubleKeyFrame KeyTime="0:0:1.2" Value="1"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </Grid.Resources>
+                        
                         <Grid x:Name="MarqueeContainer">
                             <StackPanel x:Name="MarqueePanel"
                                         Orientation="Horizontal">
