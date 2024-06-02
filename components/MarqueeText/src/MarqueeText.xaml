@@ -31,21 +31,33 @@
                                 <VisualState x:Name="Leftwards">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueePanel.Orientation" Value="Horizontal" />
+                                        <Setter Target="CycleAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(TranslateTransform.X)" />
+                                        <Setter Target="CycleAnimationFadeOutPosition.Value" Value="-20" />
+                                        <Setter Target="CycleAnimationFadeInPosition.Value" Value="20" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Rightwards">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueePanel.Orientation" Value="Horizontal" />
+                                        <Setter Target="CycleAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(TranslateTransform.X)" />
+                                        <Setter Target="CycleAnimationFadeOutPosition.Value" Value="20" />
+                                        <Setter Target="CycleAnimationFadeInPosition.Value" Value="-20" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Upwards">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueePanel.Orientation" Value="Vertical" />
+                                        <Setter Target="CycleAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(TranslateTransform.Y)" />
+                                        <Setter Target="CycleAnimationFadeOutPosition.Value" Value="-20" />
+                                        <Setter Target="CycleAnimationFadeInPosition.Value" Value="20" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Downwards">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueePanel.Orientation" Value="Vertical" />
+                                        <Setter Target="CycleAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(TranslateTransform.Y)" />
+                                        <Setter Target="CycleAnimationFadeOutPosition.Value" Value="20" />
+                                        <Setter Target="CycleAnimationFadeInPosition.Value" Value="-20" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -75,10 +87,10 @@
 
                         <Grid.Resources>
                             <Storyboard x:Name="CyclingAnimation" Duration="0:0:1.2">
-                                <DoubleAnimationUsingKeyFrames Duration="0:0:1.2" Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="MarqueeTransform">
+                                <DoubleAnimationUsingKeyFrames x:Name="CycleAnimationTranslationAnimation" Duration="0:0:1.2" Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="MarqueeTransform">
                                     <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                    <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="20"/>
-                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.7" Value="-20"/>
+                                    <LinearDoubleKeyFrame x:Name="CycleAnimationFadeOutPosition" KeyTime="0:0:0.5" Value="20"/>
+                                    <DiscreteDoubleKeyFrame x:Name="CycleAnimationFadeInPosition" KeyTime="0:0:0.7" Value="-20"/>
                                     <LinearDoubleKeyFrame KeyTime="0:0:1.2" Value="0"/>
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Duration="0:0:1.2" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MarqueePanel">
@@ -105,7 +117,7 @@
                                            FontStyle="{TemplateBinding FontStyle}"
                                            FontWeight="{TemplateBinding FontWeight}"
                                            Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}" />
+                                           Text="{TemplateBinding SecondaryText}" />
                                 <TextBlock x:Name="Segment2"
                                            win:FontStretch="{TemplateBinding FontStretch}"
                                            win:TextDecorations="{TemplateBinding TextDecorations}"

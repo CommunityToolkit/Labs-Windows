@@ -12,7 +12,10 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 public partial class MarqueeText
 {
     private static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register(nameof(Text), typeof(string), typeof(MarqueeText), new PropertyMetadata(null, PropertyChanged));
+        DependencyProperty.Register(nameof(Text), typeof(string), typeof(MarqueeText), new PropertyMetadata(null, TextPropertyChanged));
+
+    private static readonly DependencyProperty SecondaryTextProperty =
+        DependencyProperty.Register(nameof(SecondaryText), typeof(string), typeof(MarqueeText), new PropertyMetadata(null));
 
     private static readonly DependencyProperty SpeedProperty =
         DependencyProperty.Register(nameof(Speed), typeof(double), typeof(MarqueeText), new PropertyMetadata(32d, PropertyChanged));
@@ -44,9 +47,13 @@ public partial class MarqueeText
     }
 
     /// <summary>
-    /// Gets or sets the texts queue to be displayed in the Marquee.
+    /// Gets a secondary text field used for binding the secondary text block.
     /// </summary>
-    public Queue<string>? Texts { get; set; }
+    public string SecondaryText
+    {
+        get => (string)GetValue(SecondaryTextProperty);
+        private set => SetValue(SecondaryTextProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets the speed the text moves in the Marquee.
@@ -99,9 +106,6 @@ public partial class MarqueeText
     /// <summary>
     /// Gets or sets the direction the Marquee should scroll
     /// </summary>
-    /// <remarks>
-    /// Ignored if the behavior is <see cref="MarqueeBehavior.Cycle"/>
-    /// </remarks>
     public MarqueeDirection Direction
     {
         get => (MarqueeDirection)GetValue(DirectionProperty);
@@ -165,17 +169,35 @@ public partial class MarqueeText
         bool oldAxisX = oldDirection is MarqueeDirection.Left or MarqueeDirection.Right;
         bool newAxisX = newDirection is MarqueeDirection.Left or MarqueeDirection.Right;
 
-        VisualStateManager.GoToState(control, GetVisualStateName(newDirection), true);
-
         if (oldAxisX != newAxisX)
         {
             control.StopMarquee(false);
         }
 
+        VisualStateManager.GoToState(control, GetVisualStateName(newDirection), true);
+
         if (active)
         {
             control.StartMarquee();
         }
+    }
+
+    private static void TextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not MarqueeText control)
+        {
+            return;
+        }
+
+        // If the mode is not cycling, update the secondary text to match and handle with standard property changed.
+        if (!control.IsCycling)
+        {
+            control.SecondaryText = (string)e.NewValue;
+            PropertyChanged(d, e);
+            return;
+        }
+
+        control.StartMarquee();
     }
 
     private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

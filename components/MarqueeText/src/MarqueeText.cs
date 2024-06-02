@@ -180,6 +180,7 @@ public partial class MarqueeText : Control
         // Update the animation to the stopped position.
         if (!_isActive)
         {
+            _marqueeStoryboard?.Stop();
             VisualStateManager.GoToState(this, MarqueeStoppedState, false);
 
             return false;
@@ -269,16 +270,14 @@ public partial class MarqueeText : Control
         // Calculate the animation duration by dividing the distance by the speed
         TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
 
-        // Set the delay (only relevent in cycling mode)
-        TimeSpan delay = IsCycling ? TimeSpan.FromSeconds(3) : TimeSpan.Zero;
-
         // The second segment of text should be hidden if the marquee is not in looping mode
         _segment2.Visibility = IsLooping ? Visibility.Visible : Visibility.Collapsed;
-
-        // Unbind events from the old storyboard
+        
+        // Unbind events from the old storyboard and stop it before disposal.
         if (_marqueeStoryboard is not null)
         {
             _marqueeStoryboard.Completed -= StoryBoard_Completed;
+            _marqueeStoryboard?.Stop();
         }
 
         // Create new storyboard and animation
@@ -290,7 +289,7 @@ public partial class MarqueeText : Control
 
         // Bind the storyboard completed event
         _marqueeStoryboard.Completed += StoryBoard_Completed;
-
+        
         // Set the visual state to active and begin the animation
         VisualStateManager.GoToState(this, MarqueeActiveState, true);
         _marqueeStoryboard.Begin();
