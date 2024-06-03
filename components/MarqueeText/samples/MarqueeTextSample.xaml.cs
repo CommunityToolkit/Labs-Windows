@@ -44,4 +44,9 @@ public sealed partial class MarqueeTextSample : Page
         "Down" => MarqueeDirection.Down,
         _ => throw new System.NotImplementedException(),
     };
+
+    private void StartMarquee_Click(object sender, RoutedEventArgs e)
+    {
+        Marquee?.StartMarquee();
+    }
 }
