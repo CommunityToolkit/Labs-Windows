@@ -17,9 +17,17 @@
 
   <ItemGroup>
     <None Remove="Assets\MarqueeText.png" />
+    <None Remove="CustomStyleMarqueeTextSample.xaml" />
+    <UpToDateCheckInput Remove="CustomStyleMarqueeTextSample.xaml" />
 
     <Content Include="Assets\MarqueeText.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="CustomStyleMarqueeTextSample.xaml.cs">
+      <DependentUpon>CustomStyleMarqueeTextSample.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
