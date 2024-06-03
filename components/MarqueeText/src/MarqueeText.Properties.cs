@@ -29,9 +29,6 @@ public partial class MarqueeText
     private static readonly DependencyProperty DirectionProperty =
         DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
 
-    private static readonly DependencyProperty RepeatQueueProperty =
-        DependencyProperty.Register(nameof(RepeatQueue), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false));
-
     #if !HAS_UNO
     private static readonly DependencyProperty TextDecorationsProperty =
         DependencyProperty.Register(nameof(TextDecorations), typeof(TextDecorations), typeof(MarqueeText), new PropertyMetadata(TextDecorations.None));
@@ -115,15 +112,6 @@ public partial class MarqueeText
     private bool IsDirectionHorizontal => Direction is MarqueeDirection.Left or MarqueeDirection.Right;
 
     private bool IsDirectionInverse => Direction is MarqueeDirection.Down or MarqueeDirection.Right;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether or not messages in the <see cref="Texts"/> queue repeat.
-    /// </summary>
-    public bool RepeatQueue
-    {
-        get => (bool)GetValue(RepeatQueueProperty);
-        set => SetValue(RepeatQueueProperty, value);
-    }
 
     // Waiting on https://github.com/unoplatform/uno/issues/12929
     #if !HAS_UNO
