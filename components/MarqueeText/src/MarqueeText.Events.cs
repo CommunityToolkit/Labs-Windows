@@ -47,10 +47,7 @@ public partial class MarqueeText
         }
         
         // Clip the marquee within its bounds
-        _marqueeContainer.Clip = new RectangleGeometry
-        {
-            Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
-        };
+        UpdateClipping();
 
         // Update the animation when the size changes
         // Unless in cycling mode where the container size doesn't affect the animation.

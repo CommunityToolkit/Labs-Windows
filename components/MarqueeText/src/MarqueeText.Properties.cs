@@ -134,7 +134,8 @@ public partial class MarqueeText
 
         bool active = control._isActive;
         var newBehavior = (MarqueeBehavior)e.NewValue;
-
+        
+        control.UpdateClipping();
         VisualStateManager.GoToState(control, GetVisualStateName(newBehavior), true);
 
         control.StopMarquee(false);

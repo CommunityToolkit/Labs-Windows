@@ -55,7 +55,7 @@ public partial class MarqueeText : Control
     private Panel? _marqueeContainer;
     private FrameworkElement? _segment1;
     private FrameworkElement? _segment2;
-    private TranslateTransform? _marqueeTransform;
+    private CompositeTransform? _marqueeTransform;
     private Storyboard? _cyclingStoryboard;
     private Storyboard? _marqueeStoryboard;
 
@@ -78,7 +78,7 @@ public partial class MarqueeText : Control
         _marqueeContainer = (Panel)GetTemplateChild(MarqueeContainerPartName);
         _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
         _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
-        _marqueeTransform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
+        _marqueeTransform = (CompositeTransform)GetTemplateChild(MarqueeTransformPartName);
         _cyclingStoryboard = (Storyboard)GetTemplateChild(CyclingAnaimationPartName);
 
         _marqueeContainer.SizeChanged += Container_SizeChanged;
@@ -90,6 +90,7 @@ public partial class MarqueeText : Control
 
         VisualStateManager.GoToState(this, GetVisualStateName(Direction), false);
         VisualStateManager.GoToState(this, GetVisualStateName(Behavior), false);
+        StopMarquee();
     }
 
     private static string GetVisualStateName(MarqueeDirection direction)
@@ -199,8 +200,8 @@ public partial class MarqueeText : Control
             // are defined by width and X coordinates.
             containerSize = _marqueeContainer.ActualWidth;
             segmentSize = _segment1.ActualWidth;
-            value = _marqueeTransform.X;
-            targetProperty = "(TranslateTransform.X)";
+            value = _marqueeTransform.TranslateX;
+            targetProperty = "(CompositeTransform.TranslateX)";
         }
         else
         {
@@ -208,8 +209,8 @@ public partial class MarqueeText : Control
             // are defined by height and Y coordinates.
             containerSize = _marqueeContainer.ActualHeight;
             segmentSize = _segment1.ActualHeight;
-            value = _marqueeTransform.Y;
-            targetProperty = "(TranslateTransform.Y)";
+            value = _marqueeTransform.TranslateY;
+            targetProperty = "(CompositeTransform.TranslateY)";
         }
 
         if (IsLooping && segmentSize < containerSize)
@@ -352,6 +353,25 @@ public partial class MarqueeText : Control
         marqueeStoryboard.Children.Add(posAnim);
 
         return marqueeStoryboard;
+    }
+
+    private void UpdateClipping()
+    {
+        if (_marqueeContainer is null)
+        {
+            return;
+        }
+
+        _marqueeContainer.Clip = new RectangleGeometry
+        {
+            Rect = new Rect(0, 0, ActualWidth, ActualHeight)
+        };
+
+        if (IsCycling)
+        {
+            // Don't clip in cycling mode
+            _marqueeContainer.Clip = null;
+        }
     }
 }
 
