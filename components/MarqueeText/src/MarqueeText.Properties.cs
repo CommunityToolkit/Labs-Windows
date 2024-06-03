@@ -197,8 +197,13 @@ public partial class MarqueeText
             return;
         }
 
-        // If the mode is cycling, start the marquee.
-        control.StartMarquee();
+        if (!control._isActive)
+        {
+            // If the mode is cycling, start the marquee.
+            // We can skip this if the animation is already
+            // playing because that's smoother than starting a new animation.
+            control.StartMarquee();
+        }
     }
 
     private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
