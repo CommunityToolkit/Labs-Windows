@@ -108,11 +108,11 @@
                                 <!--Toggle the visible segment between fade out and fade in-->
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Segment2">
                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
-                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="Collapsed"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.6" Value="Collapsed"/>
                                 </ObjectAnimationUsingKeyFrames>
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Segment1">
                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed"/>
-                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="Visible"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.6" Value="Visible"/>
                                 </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
                         </Grid.Resources>
