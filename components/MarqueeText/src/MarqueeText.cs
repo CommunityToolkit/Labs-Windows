@@ -221,7 +221,6 @@ public partial class MarqueeText : Control
             // calling update animation. If _isActive were passed, it would allow for
             // MarqueeStopped to be invoked when the marquee was already stopped.
             StopMarquee(resume);
-            _segment2.Visibility = Visibility.Collapsed;
             
             return false;
         }

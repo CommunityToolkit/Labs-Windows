@@ -5,7 +5,9 @@
 using CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 
 namespace MarqueeTextExperiment.Samples;
+
 [ToolkitSample(id: nameof(MarqueeTextSample), "MarqueeText", description: "A control for scrolling text in a marquee fashion.")]
+[ToolkitSampleTextOption("MQText", LoremIpsum, Title = "Text")]
 [ToolkitSampleNumericOption("MQSpeed", initial: 96, min: 48, max: 196, step: 1, Title = "Speed")]
 [ToolkitSampleMultiChoiceOption("MQDirection", "Left", "Right", "Up", "Down", Title = "Marquee Direction")]
 //[ToolkitSampleMultiChoiceOption("MarqueeRepeat", "Repeat", "Forever", "1x", "2x")]
@@ -16,6 +18,8 @@ namespace MarqueeTextExperiment.Samples;
 #endif
 public sealed partial class MarqueeTextSample : Page
 {
+    private const string LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
     public MarqueeTextSample()
     {
         this.InitializeComponent();

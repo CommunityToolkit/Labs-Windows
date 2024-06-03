@@ -169,7 +169,7 @@ public partial class MarqueeText
         bool oldAxisX = oldDirection is MarqueeDirection.Left or MarqueeDirection.Right;
         bool newAxisX = newDirection is MarqueeDirection.Left or MarqueeDirection.Right;
 
-        if (oldAxisX != newAxisX)
+        if (control.IsCycling || oldAxisX != newAxisX)
         {
             control.StopMarquee(false);
         }
@@ -197,6 +197,7 @@ public partial class MarqueeText
             return;
         }
 
+        // If the mode is cycling, start the marquee.
         control.StartMarquee();
     }
 

@@ -52,13 +52,23 @@ public partial class MarqueeText
             Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
         };
 
-        // The marquee should run when the size changes in case the text gets cutoff
-        StartMarquee();
+        // Update the animation when the size changes
+        // Unless in cycling mode where the container size doesn't affect the animation.
+        if (!IsCycling)
+        {
+            UpdateAnimation(true);
+        }
     }
 
     private void StoryBoard_Completed(object? sender, object e)
     {
         StopMarquee(true);
         MarqueeCompleted?.Invoke(this, EventArgs.Empty);
+
+        // Update the secondary text to match the new text
+        if (IsCycling)
+        {
+            SecondaryText = Text;
+        }
     }
 }

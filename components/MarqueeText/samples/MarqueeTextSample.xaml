@@ -9,11 +9,11 @@
       mc:Ignorable="d">
 
     <StackPanel Padding="16">
-        <labs:MarqueeText Behavior="{x:Bind ConvertStringToMarqueeBehavior(MQBehavior), Mode=OneWay}"
+        <labs:MarqueeText Text="{x:Bind MQText, Mode=OneWay}"
+                          Behavior="{x:Bind ConvertStringToMarqueeBehavior(MQBehavior), Mode=OneWay}"
                           Direction="{x:Bind ConvertStringToMarqueeDirection(MQDirection), Mode=OneWay}"
                           FontSize="18"
                           RepeatBehavior="Forever"
-                          Speed="{x:Bind MQSpeed, Mode=OneWay}"
-                          Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+                          Speed="{x:Bind MQSpeed, Mode=OneWay}"/>
     </StackPanel>
 </Page>

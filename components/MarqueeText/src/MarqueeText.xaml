@@ -65,21 +65,25 @@
                                 <VisualState x:Name="Ticker">
                                     <VisualState.Setters>
                                         <Setter Target="Segment1.Padding" Value="0" />
+                                        <Setter Target="Segment2.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Looping">
                                     <VisualState.Setters>
                                         <Setter Target="Segment1.Padding" Value="0,0,32,0" />
+                                        <Setter Target="Segment2.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Bouncing">
                                     <VisualState.Setters>
                                         <Setter Target="Segment1.Padding" Value="0" />
+                                        <Setter Target="Segment2.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Cycle">
                                     <VisualState.Setters>
                                         <Setter Target="Segment1.Padding" Value="0" />
+                                        <Setter Target="Segment2.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -87,18 +91,29 @@
 
                         <Grid.Resources>
                             <Storyboard x:Name="CyclingAnimation" Duration="0:0:1.2">
+                                <!--Animate the translation-->
                                 <DoubleAnimationUsingKeyFrames x:Name="CycleAnimationTranslationAnimation" Duration="0:0:1.2" Storyboard.TargetProperty="(TranslateTransform.X)" Storyboard.TargetName="MarqueeTransform">
                                     <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
                                     <LinearDoubleKeyFrame x:Name="CycleAnimationFadeOutPosition" KeyTime="0:0:0.5" Value="20"/>
                                     <DiscreteDoubleKeyFrame x:Name="CycleAnimationFadeInPosition" KeyTime="0:0:0.7" Value="-20"/>
                                     <LinearDoubleKeyFrame KeyTime="0:0:1.2" Value="0"/>
                                 </DoubleAnimationUsingKeyFrames>
+                                <!--Animate the opacity-->
                                 <DoubleAnimationUsingKeyFrames Duration="0:0:1.2" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MarqueePanel">
                                     <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                     <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
                                     <DiscreteDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
                                     <LinearDoubleKeyFrame KeyTime="0:0:1.2" Value="1"/>
                                 </DoubleAnimationUsingKeyFrames>
+                                <!--Toggle the visible segment between fade out and fade in-->
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Segment2">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="Collapsed"/>
+                                </ObjectAnimationUsingKeyFrames>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Segment1">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Collapsed"/>
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="Visible"/>
+                                </ObjectAnimationUsingKeyFrames>
                             </Storyboard>
                         </Grid.Resources>
                         
@@ -117,7 +132,7 @@
                                            FontStyle="{TemplateBinding FontStyle}"
                                            FontWeight="{TemplateBinding FontWeight}"
                                            Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding SecondaryText}" />
+                                           Text="{TemplateBinding Text}"/>
                                 <TextBlock x:Name="Segment2"
                                            win:FontStretch="{TemplateBinding FontStretch}"
                                            win:TextDecorations="{TemplateBinding TextDecorations}"
@@ -127,7 +142,8 @@
                                            FontStyle="{TemplateBinding FontStyle}"
                                            FontWeight="{TemplateBinding FontWeight}"
                                            Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}" />
+                                           Text="{TemplateBinding SecondaryText}"
+                                           Visibility="Collapsed"/>
                             </StackPanel>
                         </Grid>
                     </Grid>
