@@ -50,8 +50,6 @@ public partial class MarqueeText : Control
     private const string BouncingVisualStateName = "Bouncing";
     private const string CycleVisualStateName = "Cycle";
 
-    private const double CycleDistance = 20d;
-
     private Panel? _marqueeContainer;
     private FrameworkElement? _segment1;
     private FrameworkElement? _segment2;
@@ -232,8 +230,8 @@ public partial class MarqueeText : Control
 
         double end = Behavior switch
         {
-            // Offset by cycle distance pixels
-            MarqueeBehavior.Cycle => CycleDistance,
+            // (this value just needs to be non-Zero, the real number is handled in the Style)
+            MarqueeBehavior.Cycle => 20,
 #if !HAS_UNO
             // When the end of the text reaches the border if in bouncing mode
             MarqueeBehavior.Bouncing => containerSize - segmentSize,
@@ -245,16 +243,8 @@ public partial class MarqueeText : Control
         // Swap the directions if inverse direction animation
         if (IsDirectionInverse)
         {
-            if (IsCycling)
-            {
-                // Swap the offset of the cycle
-                end = -end;
-            }
-            else
-            {
-                // Swap the start and end to inverse direction for right or upwards
-                (start, end) = (end, start);
-            }
+            // Swap the start and end to inverse direction for right or upwards
+            (start, end) = (end, start);
         }
 
         // The distance is used for calculating the duration and the previous
@@ -269,9 +259,6 @@ public partial class MarqueeText : Control
 
         // Calculate the animation duration by dividing the distance by the speed
         TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
-
-        // The second segment of text should be hidden if the marquee is not in looping mode
-        _segment2.Visibility = IsLooping ? Visibility.Visible : Visibility.Collapsed;
         
         // Unbind events from the old storyboard and stop it before disposal.
         if (_marqueeStoryboard is not null)
@@ -308,7 +295,7 @@ public partial class MarqueeText : Control
     /// This is method is used for all modes except cycling.
     /// </remarks>
     private Storyboard CreateMarqueeStoryboardAnimation(double start, double end, TimeSpan duration, string targetProperty)
-    {   
+    {
         // Initialize the new storyboard
         var marqueeStoryboard = new Storyboard
         {
