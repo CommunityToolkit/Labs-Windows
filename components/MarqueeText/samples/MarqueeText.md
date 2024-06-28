@@ -44,3 +44,9 @@ The repeat behavior determines how many times the marquee will loop before the a
 The default direction is left, meaning the text will move leftwards, but this can be changed to right, up, or down. Direction changed between left and right or up and down are handled continously, meaning that the animation will resume from its current position if changed between these directions.
 
 > [!Sample MarqueeTextSample]
+
+### Custom Cycle Animations
+
+The cycle animation can be customized using a style.
+
+> [!Sample CustomStyleMarqueeTextSample]

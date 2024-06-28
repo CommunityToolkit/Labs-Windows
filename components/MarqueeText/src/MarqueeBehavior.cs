@@ -29,4 +29,9 @@ public enum MarqueeBehavior
     /// </summary>
     Bouncing,
 #endif
+
+    /// <summary>
+    /// The text will cycle fading between a list of statements.
+    /// </summary>
+    Cycle,
 }

@@ -47,18 +47,19 @@ public partial class MarqueeText
         }
         
         // Clip the marquee within its bounds
-        _marqueeContainer.Clip = new RectangleGeometry
-        {
-            Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
-        };
+        UpdateClipping();
 
-        // The marquee should run when the size changes in case the text gets cutoff
-        StartMarquee();
+        // Update the animation when the size changes
+        UpdateAnimationProperties();
+        ResumeAnimation(true);
     }
 
     private void StoryBoard_Completed(object? sender, object e)
     {
         StopMarquee(true);
         MarqueeCompleted?.Invoke(this, EventArgs.Empty);
+
+        // Update the secondary text to match the new text
+        SecondaryText = Text;
     }
 }

@@ -9,16 +9,13 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 /// </summary>
 [TemplatePart(Name = MarqueeContainerPartName, Type = typeof(Panel))]
 [TemplatePart(Name = Segment1PartName, Type = typeof(FrameworkTemplate))]
-[TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
-[TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
 [TemplatePart(Name = MarqueeTransformPartName, Type = typeof(TranslateTransform))]
+[TemplatePart(Name = MarqueeAnimationPartName, Type = typeof(Storyboard))]
+[TemplatePart(Name = TranslationAnimationPartName, Type = typeof(Storyboard))]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = LeftwardsVisualStateName)]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = RightwardsVisualStateName)]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = UpwardsVisualStateName)]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = DownwardsVisualStateName)]
-[TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = TickerVisualStateName)]
-[TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = LoopingVisualStateName)]
-[TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = BouncingVisualStateName)]
 [ContentProperty(Name = nameof(Text))]
 
 #if HAS_UNO
@@ -29,8 +26,9 @@ public partial class MarqueeText : Control
 {
     private const string MarqueeContainerPartName = "MarqueeContainer";
     private const string Segment1PartName = "Segment1";
-    private const string Segment2PartName = "Segment2";
     private const string MarqueeTransformPartName = "MarqueeTransform";
+    private const string MarqueeAnimationPartName = "MarqueeAnimation";
+    private const string TranslationAnimationPartName = "TranslationAnimation";
 
     private const string MarqueeActiveState = "MarqueeActive";
     private const string MarqueeStoppedState = "MarqueeStopped";
@@ -41,16 +39,11 @@ public partial class MarqueeText : Control
     private const string UpwardsVisualStateName = "Upwards";
     private const string DownwardsVisualStateName = "Downwards";
 
-    private const string BehaviorVisualStateGroupName = "BehaviorStateGroup";
-    private const string TickerVisualStateName = "Ticker";
-    private const string LoopingVisualStateName = "Looping";
-    private const string BouncingVisualStateName = "Bouncing";
-
     private Panel? _marqueeContainer;
     private FrameworkElement? _segment1;
-    private FrameworkElement? _segment2;
-    private TranslateTransform? _marqueeTransform;
+    private CompositeTransform? _marqueeTransform;
     private Storyboard? _marqueeStoryboard;
+    private DoubleAnimation? _translationAnimation;
 
     private bool _isActive;
 
@@ -70,8 +63,9 @@ public partial class MarqueeText : Control
         // Explicit casting throws early when parts are missing from the template
         _marqueeContainer = (Panel)GetTemplateChild(MarqueeContainerPartName);
         _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
-        _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
-        _marqueeTransform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
+        _marqueeTransform = (CompositeTransform)GetTemplateChild(MarqueeTransformPartName);
+        _marqueeStoryboard = (Storyboard)GetTemplateChild(MarqueeAnimationPartName);
+        _translationAnimation = (DoubleAnimation)GetTemplateChild(TranslationAnimationPartName);
 
         _marqueeContainer.SizeChanged += Container_SizeChanged;
 
@@ -81,7 +75,9 @@ public partial class MarqueeText : Control
         //Unloaded += MarqueeText_Unloaded;
 
         VisualStateManager.GoToState(this, GetVisualStateName(Direction), false);
-        VisualStateManager.GoToState(this, GetVisualStateName(Behavior), false);
+
+        UpdateAnimationProperties();
+        StopMarquee();
     }
 
     private static string GetVisualStateName(MarqueeDirection direction)
@@ -96,19 +92,6 @@ public partial class MarqueeText : Control
         };
     }
 
-    private static string GetVisualStateName(MarqueeBehavior behavior)
-    {
-        return behavior switch
-        {
-            MarqueeBehavior.Ticker => TickerVisualStateName,
-            MarqueeBehavior.Looping => LoopingVisualStateName,
-#if !HAS_UNO
-            MarqueeBehavior.Bouncing => BouncingVisualStateName,
-#endif
-            _ => TickerVisualStateName,
-        };
-    }
-
     /// <summary>
     /// Begins the Marquee animation if not running.
     /// </summary>
@@ -117,7 +100,7 @@ public partial class MarqueeText : Control
     {
         bool initial = _isActive;
         _isActive = true;
-        bool playing = UpdateAnimation(initial);
+        bool playing = ResumeAnimation(initial);
 
         // Invoke MarqueeBegan if Marquee is now playing and was not before
         if (playing && !initial)
@@ -139,7 +122,7 @@ public partial class MarqueeText : Control
     {
         // Set _isActive and update the animation to match
         _isActive = false;
-        bool playing = UpdateAnimation(false);
+        bool playing = ResumeAnimation(false);
 
         // Invoke MarqueeStopped if Marquee is not playing and was before
         if (!playing && initialState)
@@ -154,7 +137,7 @@ public partial class MarqueeText : Control
     /// <param name="resume">True if animation should resume from its current position, false if it should restart.</param>
     /// <exception cref="InvalidOperationException">Thrown when template parts are not supplied.</exception>
     /// <returns>True if the Animation is now playing.</returns>
-    private bool UpdateAnimation(bool resume = true)
+    private bool ResumeAnimation(bool resume = true)
     {
         // Crucial template parts are missing!
         // This can happen during initialization of certain properties.
@@ -162,7 +145,7 @@ public partial class MarqueeText : Control
         if (_marqueeContainer is null ||
             _marqueeTransform is null ||
             _segment1 is null ||
-            _segment2 is null)
+            _marqueeStoryboard is null)
         {
             return false;
         }
@@ -171,6 +154,7 @@ public partial class MarqueeText : Control
         // Update the animation to the stopped position.
         if (!_isActive)
         {
+            _marqueeStoryboard.Stop();
             VisualStateManager.GoToState(this, MarqueeStoppedState, false);
 
             return false;
@@ -181,7 +165,6 @@ public partial class MarqueeText : Control
         double containerSize;
         double segmentSize;
         double value;
-        string targetProperty;
 
         if (IsDirectionHorizontal)
         {
@@ -189,8 +172,7 @@ public partial class MarqueeText : Control
             // are defined by width and X coordinates.
             containerSize = _marqueeContainer.ActualWidth;
             segmentSize = _segment1.ActualWidth;
-            value = _marqueeTransform.X;
-            targetProperty = "(TranslateTransform.X)";
+            value = _marqueeTransform.TranslateX;
         }
         else
         {
@@ -198,11 +180,10 @@ public partial class MarqueeText : Control
             // are defined by height and Y coordinates.
             containerSize = _marqueeContainer.ActualHeight;
             segmentSize = _segment1.ActualHeight;
-            value = _marqueeTransform.Y;
-            targetProperty = "(TranslateTransform.Y)";
+            value = _marqueeTransform.TranslateY;
         }
 
-        if (IsLooping && segmentSize < containerSize)
+        if (!IgnoreFitting && segmentSize < containerSize)
         {
             // If the marquee is in looping mode and the segment is smaller
             // than the container, then the animation does not not need to play.
@@ -211,60 +192,27 @@ public partial class MarqueeText : Control
             // calling update animation. If _isActive were passed, it would allow for
             // MarqueeStopped to be invoked when the marquee was already stopped.
             StopMarquee(resume);
-            _segment2.Visibility = Visibility.Collapsed;
             
             return false;
         }
-
-        // The start position is offset 100% if in ticker mode
-        // Otherwise it's 0
-        double start = IsTicker ? containerSize : 0;
-
-        // The end is when the end of the text reaches the border if in bouncing mode
-        // Otherwise it is when the first set of text is 100% out of view
-        double end = IsBouncing ? containerSize - segmentSize : -segmentSize;
-
-        // The distance is used for calculating the duration and the previous
-        // animation progress if resuming
-        double distance = Math.Abs(start - end);
-
-        // If the distance is zero, don't play an animation
-        if (distance is 0)
-        {
-            return false;
-        }
-
-        // Swap the start and end to inverse direction for right or upwards
-        if (IsDirectionInverse)
-        {
-            (start, end) = (end, start);
-        }
-
-        // The second segment of text should be hidden if the marquee is not in looping mode
-        _segment2.Visibility = IsLooping ? Visibility.Visible : Visibility.Collapsed;
-
-        // Calculate the animation duration by dividing the distance by the speed
-        TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
-
-        // Unbind events from the old storyboard
-        if (_marqueeStoryboard is not null)
-        {
-            _marqueeStoryboard.Completed -= StoryBoard_Completed;
-        }
-
-        // Create new storyboard and animation
-        _marqueeStoryboard = CreateMarqueeStoryboardAnimation(start, end, duration, targetProperty);
+        
+        _marqueeStoryboard.Stop();
 
         // Bind the storyboard completed event
         _marqueeStoryboard.Completed += StoryBoard_Completed;
-
+        
         // Set the visual state to active and begin the animation
         VisualStateManager.GoToState(this, MarqueeActiveState, true);
         _marqueeStoryboard.Begin();
-        
+
         // If resuming, seek the animation so the text resumes from its current position.
-        if (resume)
+        if (resume && _translationAnimation is not null)
         {
+            double start = _translationAnimation.From ?? 0;
+            double end = _translationAnimation.To ?? 0;
+            double distance = start - end;
+            TimeSpan duration = _translationAnimation.Duration.TimeSpan;
+
             double progress = Math.Abs(start - value) / distance;
             _marqueeStoryboard.Seek(TimeSpan.FromTicks((long)(duration.Ticks * progress)));
         }
@@ -272,52 +220,17 @@ public partial class MarqueeText : Control
         return true;
     }
 
-    private Storyboard CreateMarqueeStoryboardAnimation(double start, double end, TimeSpan duration, string targetProperty)
-    {   
-        // Initialize the new storyboard
-        var marqueeStoryboard = new Storyboard
+    private void UpdateClipping()
+    {
+        if (_marqueeContainer is null)
         {
-            Duration = duration,
-            RepeatBehavior = RepeatBehavior,
-#if !HAS_UNO
-            AutoReverse = IsBouncing,
-#endif
-        };
-        
-        // Create a new double animation, moving from [start] to [end] positions in [duration] time.
-        var animation = new DoubleAnimationUsingKeyFrames
+            return;
+        }
+
+        _marqueeContainer.Clip = new RectangleGeometry
         {
-            Duration = duration,
-            RepeatBehavior = RepeatBehavior,
-#if !HAS_UNO
-            AutoReverse = IsBouncing,
-#endif
+            Rect = new Rect(0, 0, ActualWidth, ActualHeight)
         };
-
-        // Create the key frames
-        var frame1 = new DiscreteDoubleKeyFrame
-        {
-            KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero),
-            Value = start,
-        };
-        var frame2 = new EasingDoubleKeyFrame
-        {
-            KeyTime = KeyTime.FromTimeSpan(duration),
-            Value = end,
-        };
-
-        // Add the key frames to the animation
-        animation.KeyFrames.Add(frame1);
-        animation.KeyFrames.Add(frame2);
-
-        // Add the double animation to the storyboard
-        marqueeStoryboard.Children.Add(animation);
-        
-        // Set the storyboard target and target property
-        Storyboard.SetTarget(animation, _marqueeTransform);
-        Storyboard.SetTargetProperty(animation, targetProperty);
-
-        return marqueeStoryboard;
     }
 }
 

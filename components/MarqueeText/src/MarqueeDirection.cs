@@ -10,22 +10,22 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 public enum MarqueeDirection
 {
     /// <summary>
-    /// The text will flow from left to right.
+    /// The text will move from left to right.
     /// </summary>
     Left,
 
     /// <summary>
-    /// The text will flow from right to left.
+    /// The text will move from right to left.
     /// </summary>
     Right,
 
     /// <summary>
-    /// The text will flow from bottom to top.
+    /// The text will move from bottom to top.
     /// </summary>
     Up,
 
     /// <summary>
-    /// The text will flow from top to bottom.
+    /// The text will move from top to bottom.
     /// </summary>
     Down,
 }

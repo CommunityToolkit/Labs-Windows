@@ -12,7 +12,10 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 public partial class MarqueeText
 {
     private static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register(nameof(Text), typeof(string), typeof(MarqueeText), new PropertyMetadata(null, PropertyChanged));
+        DependencyProperty.Register(nameof(Text), typeof(string), typeof(MarqueeText), new PropertyMetadata(null, TextPropertyChanged));
+
+    private static readonly DependencyProperty SecondaryTextProperty =
+        DependencyProperty.Register(nameof(SecondaryText), typeof(string), typeof(MarqueeText), new PropertyMetadata(null));
 
     private static readonly DependencyProperty SpeedProperty =
         DependencyProperty.Register(nameof(Speed), typeof(double), typeof(MarqueeText), new PropertyMetadata(32d, PropertyChanged));
@@ -20,11 +23,20 @@ public partial class MarqueeText
     private static readonly DependencyProperty RepeatBehaviorProperty =
         DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(MarqueeText), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
 
-    private static readonly DependencyProperty BehaviorProperty =
-        DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(MarqueeText), new PropertyMetadata(0, BehaviorPropertyChanged));
+    private static readonly DependencyProperty StartOnTextChangedProperety =
+        DependencyProperty.Register(nameof(StartOnTextChanged), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false));
 
     private static readonly DependencyProperty DirectionProperty =
         DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
+
+    private static readonly DependencyProperty TickerStartPositionProperty =
+        DependencyProperty.Register(nameof(TickerStartPosition), typeof(double), typeof(MarqueeText), new PropertyMetadata(0));
+
+    private static readonly DependencyProperty TickerEndPositionProperty =
+        DependencyProperty.Register(nameof(TickerEndPosition), typeof(double), typeof(MarqueeText), new PropertyMetadata(0));
+
+    private static readonly DependencyProperty TickerAnimationDurationProperty =
+        DependencyProperty.Register(nameof(TickerAnimationDuration), typeof(TimeSpan), typeof(MarqueeText), new PropertyMetadata(TimeSpan.Zero));
 
     #if !HAS_UNO
     private static readonly DependencyProperty TextDecorationsProperty =
@@ -41,13 +53,42 @@ public partial class MarqueeText
     }
 
     /// <summary>
+    /// Gets a secondary text field used for binding the secondary text block.
+    /// </summary>
+    /// <remarks>
+    /// When the <see cref="TextProperty"/> is updated, this 
+    /// </remarks>
+    public string SecondaryText
+    {
+        get => (string)GetValue(SecondaryTextProperty);
+        private set => SetValue(SecondaryTextProperty, value);
+    }
+
+    /// <summary>
     /// Gets or sets the speed the text moves in the Marquee.
     /// </summary>
+    /// <remarks>
+    /// Ignored if the behavior is <see cref="MarqueeBehavior.Cycle"/>
+    /// </remarks>
     public double Speed
     {
         get => (double)GetValue(SpeedProperty);
         set => SetValue(SpeedProperty, value);
     }
+
+    /// <summary>
+    /// Gets or sets whether or not the animation begin when the <see cref="TextProperty"/> is updated.
+    /// </summary>
+    public bool StartOnTextChanged
+    {
+        get => (bool)GetValue(StartOnTextChangedProperety);
+        set => SetValue(StartOnTextChangedProperety, value);
+    }
+
+    /// <summary>
+    /// Gets or sets whether or not to ignore if the text fits when running the animation.
+    /// </summary>
+    public bool IgnoreFitting => true;
 
     /// <summary>
     /// Gets or sets a value indicating whether or not the marquee scroll repeats.
@@ -59,39 +100,40 @@ public partial class MarqueeText
     }
 
     /// <summary>
-    /// Gets or sets the marquee behavior.
+    /// Gets or sets the direction the Marquee should scroll
     /// </summary>
-    public MarqueeBehavior Behavior
-    {
-        get => (MarqueeBehavior)GetValue(BehaviorProperty);
-        set => SetValue(BehaviorProperty, value);
-    }
-
-    private bool IsTicker => Behavior == MarqueeBehavior.Ticker;
-
-    private bool IsLooping => Behavior == MarqueeBehavior.Looping;
-
-#if !HAS_UNO
-    private bool IsBouncing => Behavior == MarqueeBehavior.Bouncing;
-#else
-    private bool IsBouncing => false;
-#endif
-
-    /// <summary>
-    /// Gets or sets a value indicating whether or not the marquee text wraps.
-    /// </summary>
-    /// <remarks>
-    /// Wrapping text won't scroll if the text can already fit in the screen.
-    /// </remarks>
     public MarqueeDirection Direction
     {
         get => (MarqueeDirection)GetValue(DirectionProperty);
         set => SetValue(DirectionProperty, value);
     }
 
+    public double TickerStartPosition
+    {
+        get => (double)GetValue(TickerStartPositionProperty);
+        set => SetValue(TickerStartPositionProperty, value);
+    }
+
+    public double TickerEndPosition
+    {
+        get => (double)GetValue(TickerEndPositionProperty);
+        set => SetValue(TickerEndPositionProperty, value);
+    }
+
+    public TimeSpan TickerAnimationDuration
+    {
+        get => (TimeSpan)GetValue(TickerAnimationDurationProperty);
+        set => SetValue(TickerAnimationDurationProperty, value);
+    }
+
+    /// <summary>
+    /// Gets whether or not the marquee animation is playing.
+    /// </summary>
+    public bool IsRunning => _isActive;
+
     private bool IsDirectionHorizontal => Direction is MarqueeDirection.Left or MarqueeDirection.Right;
 
-    private bool IsDirectionInverse => Direction is MarqueeDirection.Up or MarqueeDirection.Right;
+    private bool IsDirectionInverse => Direction is MarqueeDirection.Down or MarqueeDirection.Right;
 
     // Waiting on https://github.com/unoplatform/uno/issues/12929
     #if !HAS_UNO
@@ -114,8 +156,8 @@ public partial class MarqueeText
 
         bool active = control._isActive;
         var newBehavior = (MarqueeBehavior)e.NewValue;
-
-        VisualStateManager.GoToState(control, GetVisualStateName(newBehavior), true);
+        
+        control.UpdateClipping();
 
         control.StopMarquee(false);
         if (active)
@@ -136,16 +178,34 @@ public partial class MarqueeText
         var newDirection = (MarqueeDirection)e.NewValue;
         bool oldAxisX = oldDirection is MarqueeDirection.Left or MarqueeDirection.Right;
         bool newAxisX = newDirection is MarqueeDirection.Left or MarqueeDirection.Right;
+        
+        control.StopMarquee(false);
 
         VisualStateManager.GoToState(control, GetVisualStateName(newDirection), true);
 
-        if (oldAxisX != newAxisX)
-        {
-            control.StopMarquee(false);
-        }
-
         if (active)
         {
+            control.StartMarquee();
+        }
+    }
+
+    private static void TextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not MarqueeText control)
+        {
+            return;
+        }
+
+        if (!control.StartOnTextChanged)
+        {
+            PropertyChanged(d, e);
+            return;
+        }
+        
+        if (!control._isActive)
+        {
+            // We can skip this if the animation is already
+            // playing because that's smoother than starting a new animation.
             control.StartMarquee();
         }
     }
@@ -157,6 +217,19 @@ public partial class MarqueeText
             return;
         }
 
-        control.UpdateAnimation();
+        control.UpdateAnimationProperties();
+        control.ResumeAnimation();
+    }
+
+    private void UpdateAnimationProperties()
+    {
+        if (_marqueeContainer is null || _segment1 is null)
+        {
+            return;
+        }
+
+        TickerStartPosition = IsDirectionHorizontal ? _marqueeContainer.ActualWidth : _marqueeContainer.ActualHeight;
+        TickerEndPosition = IsDirectionHorizontal ? -_segment1.ActualWidth : -_segment1.ActualHeight;
+        TickerAnimationDuration = TimeSpan.FromSeconds(Math.Abs(TickerStartPosition - TickerEndPosition) / Speed);
     }
 }
