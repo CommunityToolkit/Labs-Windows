@@ -2,16 +2,21 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Runtime.Versioning;
 using TreeView = Microsoft.UI.Xaml.Controls.TreeView;
 
 namespace CommunityToolkit.WinUI.Controls;
 
+[SupportedOSPlatform("osx10.14")]
+[SupportedOSPlatform("maccatalyst13.1")]
 public partial class DataRow : Panel
 {
     // TODO: Create our own helper class here for the Header as well vs. straight-Grid.
     // TODO: WeakReference?
     private Panel? _parentPanel;
+#pragma warning disable CA2213
     private DataTable? _parentTable;
+#pragma warning restore CA2213
 
     private bool _isTreeView;
     private double _treePadding;
@@ -42,6 +47,7 @@ public partial class DataRow : Panel
         // 1a. Get parent ItemsPresenter to find header
         if (this.FindAscendant<ItemsPresenter>() is ItemsPresenter itemsPresenter)
         {
+#if !HAS_UNO
             // 2. Quickly check if the header is just what we're looking for.
             if (itemsPresenter.Header is Grid or DataTable)
             {
@@ -49,13 +55,21 @@ public partial class DataRow : Panel
             }
             else
             {
-                // 3. Otherwise, try and find the inner thing we want.
-                panel = itemsPresenter.FindDescendant<Panel>(static (element) => element is Grid or DataTable);
+#endif
+                // 3. Use a container from outside
+                panel = this.FindAscendant<DataTableContainer>()?.Header;
+
+                // 4. Otherwise, try and find the inner thing we want.
+                panel ??= itemsPresenter.FindDescendant<Panel>(static (element) => element is Grid or DataTable);
+#if !HAS_UNO
             }
+#endif
 
             // Check if we're in a TreeView
             _isTreeView = itemsPresenter.FindAscendant<TreeView>() is TreeView;
         }
+
+        panel ??= this.FindAscendant<DataTableContainer>()?.Header;
 
         // 1b. If we can't find the ItemsPresenter, then we reach up outside to find the next thing we could use as a parent
         panel ??= this.FindAscendant<Panel>(static (element) => element is Grid or DataTable);
