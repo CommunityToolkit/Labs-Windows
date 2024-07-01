@@ -9,7 +9,7 @@ namespace CommunityToolkit.WinUI.Controls;
 /// It adds a <see cref="Label"/> to the wrapped <see cref="Content"/>.
 /// </summary>
 [ContentProperty(Name = nameof(Content))]
-public class RibbonGroup : Control
+public partial class RibbonGroup : Control
 {
     /// <summary>
     /// The DP to store the <see cref="Content"/> property value.

@@ -8,7 +8,7 @@ namespace CommunityToolkit.WinUI.Controls;
 /// A panel which will set the <see cref="RibbonCollapsibleGroup"/> items in a collapsed state if there is not enough space to render them.
 /// It is used by the <see cref="Ribbon"/> control.
 /// </summary>
-internal sealed class RibbonPanel : Panel
+internal sealed partial class RibbonPanel : Panel
 {
     private static readonly Size GroupAvailableSize = new(double.PositiveInfinity, double.PositiveInfinity);
 

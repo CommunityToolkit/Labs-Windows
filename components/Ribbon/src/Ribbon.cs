@@ -19,7 +19,7 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplateVisualState(GroupName = ScrollButtonGroupNameTemplatePart, Name = DecrementButtonStateTemplatePart)]
 [TemplateVisualState(GroupName = ScrollButtonGroupNameTemplatePart, Name = IncrementButtonStateTemplatePart)]
 [TemplateVisualState(GroupName = ScrollButtonGroupNameTemplatePart, Name = BothButtonsStateTemplatePart)]
-public sealed class Ribbon : Control
+public sealed partial class Ribbon : Control
 {
     private const string PanelTemplatePart = "Panel";
     private const string ScrollViewerTemplatePart = "ScrollViewer";

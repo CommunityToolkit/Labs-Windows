@@ -16,7 +16,7 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplatePart(Name = CollapsedButtonTemplatePart, Type = typeof(Button))]
 [TemplatePart(Name = CollapsedFlyoutTemplatePart, Type = typeof(Flyout))]
 [TemplatePart(Name = CollapsedContentPresenterTemplatePart, Type = typeof(ContentPresenter))]
-public class RibbonCollapsibleGroup : RibbonGroup
+public partial class RibbonCollapsibleGroup : RibbonGroup
 {
     private const string VisibleContentContainerTemplatePart = "VisibleContentContainer";
     private const string CollapsedButtonTemplatePart = "CollapsedButton";
