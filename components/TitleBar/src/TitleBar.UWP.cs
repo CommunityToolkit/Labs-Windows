@@ -30,16 +30,22 @@ public partial class TitleBar : Control
 
             PART_DragRegion = GetTemplateChild(nameof(PART_DragRegion)) as Grid;
             Window.Current.SetTitleBar(PART_DragRegion);
+
+            _isAutoConfigCompleted = true;
         }
     }
 
     private void ResetUWPTitleBar()
     {
-        CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
-        Window.Current.Activated -= this.Current_Activated;
-        SizeChanged -= this.TitleBar_SizeChanged;
-        CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged -= this.TitleBar_LayoutMetricsChanged;
-        Window.Current.SetTitleBar(null);
+        // Only reset if we were the ones who configured
+        if (_isAutoConfigCompleted)
+        {
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+            Window.Current.Activated -= this.Current_Activated;
+            SizeChanged -= this.TitleBar_SizeChanged;
+            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged -= this.TitleBar_LayoutMetricsChanged;
+            Window.Current.SetTitleBar(null);
+        }
     }
 
     private void Current_Activated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
