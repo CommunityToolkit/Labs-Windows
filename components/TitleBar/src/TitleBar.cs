@@ -67,6 +67,10 @@ public partial class TitleBar : Control
     ColumnDefinition? PART_RightPaddingColumn;
     StackPanel? PART_ButtonHolder;
 
+    // Internal tracking (if AutoConfigureCustomTitleBar is on) if we've actually setup the TitleBar yet or not
+    // We only want to reset TitleBar configuration in app, if we're the TitleBar instance that's managing that state.
+    private bool _isAutoConfigCompleted = false;
+
     public TitleBar()
     {
         this.DefaultStyleKey = typeof(TitleBar);

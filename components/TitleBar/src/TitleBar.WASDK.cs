@@ -76,6 +76,8 @@ public partial class TitleBar : Control
             // Recalculate the drag region for the custom title bar 
             // if you explicitly defined new draggable areas.
             SetDragRegionForCustomTitleBar();
+
+            _isAutoConfigCompleted = true;
         }
     }
 
@@ -108,11 +110,15 @@ public partial class TitleBar : Control
             // TO DO: Throw exception that window has not been set? 
         }
 
-        Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = false;
-        this.Window.SizeChanged -= Window_SizeChanged;
-        this.Window.Activated -= Window_Activated;
-        SizeChanged -= this.TitleBar_SizeChanged;
-        Window.AppWindow.TitleBar.ResetToDefault();
+        // Only reset if we were the ones who configured
+        if (_isAutoConfigCompleted)
+        {
+            Window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = false;
+            this.Window.SizeChanged -= Window_SizeChanged;
+            this.Window.Activated -= Window_Activated;
+            SizeChanged -= this.TitleBar_SizeChanged;
+            Window.AppWindow.TitleBar.ResetToDefault();
+        }
     }
 
     private void Window_Activated(object sender, WindowActivatedEventArgs args)
