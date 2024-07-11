@@ -171,22 +171,26 @@ public partial class RibbonCollapsibleGroup : RibbonGroup
             _collapsedContentContainer.RemoveHandler(KeyUpEvent, new KeyEventHandler(OnFlyoutKeyUp));
         }
 
-        _visibleContentContainer = GetOrThrow<ContentControl>(VisibleContentContainerTemplatePart);
-        _collapsedContentContainer = GetOrThrow<ContentControl>(CollapsedContentPresenterTemplatePart);
-        _collapsedButton = GetOrThrow<Button>(CollapsedButtonTemplatePart);
-        _collapsedFlyout = GetOrThrow<Flyout>(CollapsedFlyoutTemplatePart);
+        _visibleContentContainer = Get<ContentControl>(VisibleContentContainerTemplatePart);
+        _collapsedContentContainer = Get<ContentControl>(CollapsedContentPresenterTemplatePart);
+        _collapsedButton = Get<Button>(CollapsedButtonTemplatePart);
+        _collapsedFlyout = Get<Flyout>(CollapsedFlyoutTemplatePart);
 
-        _collapsedFlyout.Opened += OnFlyoutOpened;
-        _collapsedContentContainer.AddHandler(PointerReleasedEvent, new PointerEventHandler(OnFlyoutPointerReleased), handledEventsToo: true);
-        _collapsedContentContainer.AddHandler(KeyUpEvent, new KeyEventHandler(OnFlyoutKeyUp), handledEventsToo: true);
+        if (_collapsedFlyout is not null)
+        {
+            _collapsedFlyout.Opened += OnFlyoutOpened;
+        }
+
+        if (_collapsedContentContainer is not null)
+        {
+            _collapsedContentContainer.AddHandler(PointerReleasedEvent, new PointerEventHandler(OnFlyoutPointerReleased), handledEventsToo: true);
+            _collapsedContentContainer.AddHandler(KeyUpEvent, new KeyEventHandler(OnFlyoutKeyUp), handledEventsToo: true);
+        }
 
         UpdateState();
     }
 
-    private T GetOrThrow<T>(string templatePart) where T : class
-        => GetTemplateChild(templatePart) is T element
-            ? element
-            : throw new ArgumentException($"{templatePart} missing or not of the expected type: {typeof(T).Name}");
+    private T? Get<T>(string templatePart) where T : class => GetTemplateChild(templatePart) as T;
 
     private void OnFlyoutOpened(object? sender, object e)
         => _collapsedContentContainer?.Focus(FocusState.Programmatic);
@@ -209,7 +213,7 @@ public partial class RibbonCollapsibleGroup : RibbonGroup
         // We only consider events which have been processed since it usually means
         // that a control has processed the event and that the click is not in an
         // empty/non-interactive area.
-        if (eventHasBeenHandled && AutoCloseFlyout && _collapsedFlyout!.IsOpen && !DoesRoutedEventOriginateFromAFlyoutHost(originalSource as UIElement))
+        if (eventHasBeenHandled && AutoCloseFlyout && _collapsedFlyout?.IsOpen == true && !DoesRoutedEventOriginateFromAFlyoutHost(originalSource as UIElement))
         {
             _collapsedFlyout.Hide();
         }
@@ -217,10 +221,15 @@ public partial class RibbonCollapsibleGroup : RibbonGroup
 
     private bool DoesRoutedEventOriginateFromAFlyoutHost(UIElement? source)
     {
+        if (_collapsedContentContainer is null)
+        {
+            return false;
+        }
+
         while (source != null && source != _collapsedContentContainer)
         {
-            // TODO: handle MUX variants in UWP
-            if (source is DropDownButton ||
+            if (source is MUXC.DropDownButton ||
+                source is DropDownButton ||
                 source is ComboBox ||
                 source is ComboBoxItem ||
                 (source is Button buttonSource && buttonSource.Flyout != null) ||
@@ -243,28 +252,35 @@ public partial class RibbonCollapsibleGroup : RibbonGroup
 
     private void UpdateState()
     {
-        if (_visibleContentContainer is null)
-        {
-            // Template is not ready yet.
-            return;
-        }
-
         switch (State)
         {
             case Visibility.Visible:
-                _collapsedFlyout!.Hide();
-                _collapsedContentContainer!.Content = null;
-                _visibleContentContainer.Content = Content;
+                _collapsedFlyout?.Hide();
 
-                _collapsedButton!.Visibility = Visibility.Collapsed;
-                _visibleContentContainer.Visibility = Visibility.Visible;
+                if (_collapsedContentContainer is not null && _visibleContentContainer is not null)
+                {
+                    _collapsedContentContainer.Content = null;
+                    _visibleContentContainer.Content = Content;
+                }
+
+                if (_collapsedButton is not null && _visibleContentContainer is not null)
+                {
+                    _collapsedButton.Visibility = Visibility.Collapsed;
+                    _visibleContentContainer.Visibility = Visibility.Visible;
+                }
                 break;
             case Visibility.Collapsed:
-                _visibleContentContainer.Content = null;
-                _collapsedContentContainer!.Content = Content;
+                if (_collapsedContentContainer is not null && _visibleContentContainer is not null)
+                {
+                    _visibleContentContainer.Content = null;
+                    _collapsedContentContainer.Content = Content;
+                }
 
-                _visibleContentContainer.Visibility = Visibility.Collapsed;
-                _collapsedButton!.Visibility = Visibility.Visible;
+                if (_collapsedButton is not null && _visibleContentContainer is not null)
+                {
+                    _visibleContentContainer.Visibility = Visibility.Collapsed;
+                    _collapsedButton.Visibility = Visibility.Visible;
+                }
                 break;
             default:
                 throw new ArgumentException("Invalid state");

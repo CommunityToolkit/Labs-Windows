@@ -22,7 +22,7 @@
                    TargetType="AppBarButton">
                 <Setter Property="LabelPosition" Value="Collapsed" />
                 <Setter Property="Width" Value="48" />
-                <Setter Property="Margin" Value="8" />
+                <Setter Property="Margin" Value="4" />
                 <Setter Property="Height" Value="48" />
             </Style>
         </StackPanel.Resources>
@@ -151,16 +151,21 @@
             </controls:RibbonCollapsibleGroup>
 
             <controls:RibbonCollapsibleGroup CollapsedAccessKey="G"
-                                             Label="Advanved"
+                                             Label="Advanced"
                                              Priority="5"
                                              RequestedWidths="400,200,300">
                 <controls:RibbonCollapsibleGroup.IconSource>
                     <SymbolIconSource Symbol="AllApps" />
                 </controls:RibbonCollapsibleGroup.IconSource>
-                <GridView MinHeight="72"
+                <GridView Height="96"
                           MaxWidth="400"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center"
                           BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                          BorderThickness="1">
+                          BorderThickness="1"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.HorizontalScrollMode="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <GridView.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Width="24"

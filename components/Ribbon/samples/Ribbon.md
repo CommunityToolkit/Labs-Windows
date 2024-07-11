@@ -25,11 +25,6 @@ some of them can be collapsed based on a priority order.
 A basic group displayed in a Ribbon.
 It mostly adds a *label* to some content and will not collapse if there is not enough space available.
 
-### Label
-The label of the group.
-
-### Content
-The content of the group.
 
 ## RibbonCollapsibleGroup
 
@@ -40,7 +35,7 @@ a flyout containing the group's content.
 ### IconSource
 The icon to display when the group is collapsed.
 
-### AutoCloseflyout
+### AutoCloseFlyout
 Set to true to automatically close the overflow flyout if one interactive element is clicked.
 Note that the logic to detect the click is very basic. It will request the flyout to close
 for all the handled pointer released events. It assumes that if the pointer has been handled

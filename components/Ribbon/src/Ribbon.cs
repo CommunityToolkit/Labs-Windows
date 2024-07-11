@@ -63,7 +63,7 @@ public sealed partial class Ribbon : Control
         _items.CollectionChanged += OnItemsCollectionChanged;
     }
 
-    public ICollection<UIElement> Items => _items;
+    public IList<UIElement> Items => _items;
 
     protected override void OnApplyTemplate()
     {
