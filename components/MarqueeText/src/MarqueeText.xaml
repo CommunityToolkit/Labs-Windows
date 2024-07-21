@@ -3,8 +3,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:labs="using:CommunityToolkit.Labs.WinUI.MarqueeTextRns"
                     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-    
-    <Style x:Key="MarqueeTextTickerStyle" TargetType="labs:MarqueeText">
+
+    <Style TargetType="labs:MarqueeText">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Template">
@@ -19,94 +19,7 @@
                           CornerRadius="{TemplateBinding CornerRadius}">
 
                         <Grid.Resources>
-                            <Storyboard x:Name="MarqueeAnimation"
-                                        Duration="Automatic">
-                                <!--  Animate the translation  -->
-                                <DoubleAnimation x:Name="TranslationAnimation"
-                                                 Storyboard.TargetName="MarqueeTransform"
-                                                 Storyboard.TargetProperty="(CompositeTransform.TranslateX)"
-                                                 Duration="0:0:20" From="{Binding ElementName=MarqueeContainer, Path=ActualWidth, Mode=OneWay}" To="0"/>
-                            </Storyboard>
-                        </Grid.Resources>
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="MarqueeStateGroup">
-                                <VisualState x:Name="MarqueeActive" />
-                                <VisualState x:Name="MarqueeStopped">
-                                    <VisualState.Setters>
-                                        <Setter Target="MarqueeTransform.TranslateX" Value="0.0" />
-                                        <Setter Target="MarqueeTransform.TranslateY" Value="0.0" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="DirectionStateGroup">
-                                <VisualState x:Name="Leftwards">
-                                    <VisualState.Setters>
-                                        <Setter Target="MarqueePanel.Orientation" Value="Horizontal" />
-                                        <Setter Target="TranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateX)" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Rightwards">
-                                    <VisualState.Setters>
-                                        <Setter Target="MarqueePanel.Orientation" Value="Horizontal" />
-                                        <Setter Target="TranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateX)" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Upwards">
-                                    <VisualState.Setters>
-                                        <Setter Target="MarqueePanel.Orientation" Value="Vertical" />
-                                        <Setter Target="TranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateY)" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Downwards">
-                                    <VisualState.Setters>
-                                        <Setter Target="MarqueePanel.Orientation" Value="Vertical" />
-                                        <Setter Target="TranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateY)" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <Grid x:Name="MarqueeContainer">
-                            <StackPanel x:Name="MarqueePanel"
-                                        Orientation="Horizontal">
-                                <StackPanel.RenderTransform>
-                                    <CompositeTransform x:Name="MarqueeTransform" />
-                                </StackPanel.RenderTransform>
-                                <TextBlock x:Name="Segment1"
-                                           win:FontStretch="{TemplateBinding FontStretch}"
-                                           win:TextDecorations="{TemplateBinding TextDecorations}"
-                                           CharacterSpacing="{TemplateBinding CharacterSpacing}"
-                                           FontFamily="{TemplateBinding FontFamily}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           FontStyle="{TemplateBinding FontStyle}"
-                                           FontWeight="{TemplateBinding FontWeight}"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}" />
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <Style x:Key="MarqueeTextCycleStyle" TargetType="labs:MarqueeText">
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="labs:MarqueeText">
-                    <Grid Padding="{TemplateBinding Padding}"
-                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          CornerRadius="{TemplateBinding CornerRadius}">
-
-                        <Grid.Resources>
-                            <Storyboard x:Name="MarqueeAnimation"
+                            <Storyboard x:Name="CyclingAnimation"
                                         Duration="0:0:1.2">
                                 <!--  Animate the translation  -->
                                 <DoubleAnimationUsingKeyFrames x:Name="CycleAnimationTranslationAnimation"
@@ -198,6 +111,32 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="BehaviorStateGroup">
+                                <VisualState x:Name="Ticker">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0" />
+                                        <Setter Target="Segment2.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Looping">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0,0,32,0" />
+                                        <Setter Target="Segment2.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Bouncing">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0" />
+                                        <Setter Target="Segment2.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Cycle">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0" />
+                                        <Setter Target="Segment2.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid x:Name="MarqueeContainer">
@@ -234,7 +173,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!--  Make Ticker the default style  -->
-    <Style TargetType="labs:MarqueeText" BasedOn="{StaticResource MarqueeTextTickerStyle}"/>
 </ResourceDictionary>

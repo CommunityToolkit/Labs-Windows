@@ -23,20 +23,11 @@ public partial class MarqueeText
     private static readonly DependencyProperty RepeatBehaviorProperty =
         DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(MarqueeText), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
 
-    private static readonly DependencyProperty StartOnTextChangedProperety =
-        DependencyProperty.Register(nameof(StartOnTextChanged), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false));
+    private static readonly DependencyProperty BehaviorProperty =
+        DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(MarqueeText), new PropertyMetadata(0, BehaviorPropertyChanged));
 
     private static readonly DependencyProperty DirectionProperty =
         DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
-
-    private static readonly DependencyProperty TickerStartPositionProperty =
-        DependencyProperty.Register(nameof(TickerStartPosition), typeof(double), typeof(MarqueeText), new PropertyMetadata(0));
-
-    private static readonly DependencyProperty TickerEndPositionProperty =
-        DependencyProperty.Register(nameof(TickerEndPosition), typeof(double), typeof(MarqueeText), new PropertyMetadata(0));
-
-    private static readonly DependencyProperty TickerAnimationDurationProperty =
-        DependencyProperty.Register(nameof(TickerAnimationDuration), typeof(TimeSpan), typeof(MarqueeText), new PropertyMetadata(TimeSpan.Zero));
 
     #if !HAS_UNO
     private static readonly DependencyProperty TextDecorationsProperty =
@@ -55,9 +46,6 @@ public partial class MarqueeText
     /// <summary>
     /// Gets a secondary text field used for binding the secondary text block.
     /// </summary>
-    /// <remarks>
-    /// When the <see cref="TextProperty"/> is updated, this 
-    /// </remarks>
     public string SecondaryText
     {
         get => (string)GetValue(SecondaryTextProperty);
@@ -77,27 +65,40 @@ public partial class MarqueeText
     }
 
     /// <summary>
-    /// Gets or sets whether or not the animation begin when the <see cref="TextProperty"/> is updated.
-    /// </summary>
-    public bool StartOnTextChanged
-    {
-        get => (bool)GetValue(StartOnTextChangedProperety);
-        set => SetValue(StartOnTextChangedProperety, value);
-    }
-
-    /// <summary>
-    /// Gets or sets whether or not to ignore if the text fits when running the animation.
-    /// </summary>
-    public bool IgnoreFitting => true;
-
-    /// <summary>
     /// Gets or sets a value indicating whether or not the marquee scroll repeats.
     /// </summary>
+    /// <remarks>
+    /// Ignored if the behavior is <see cref="MarqueeBehavior.Cycle"/>
+    /// </remarks>
     public RepeatBehavior RepeatBehavior
     {
         get => (RepeatBehavior)GetValue(RepeatBehaviorProperty);
         set => SetValue(RepeatBehaviorProperty, value);
     }
+
+    /// <summary>
+    /// Gets or sets the marquee behavior.
+    /// </summary>
+    /// <remarks>
+    /// When <see cref="MarqueeBehavior.Looping"/> the text won't scroll if the text can already fit in the screen.
+    /// </remarks>
+    public MarqueeBehavior Behavior
+    {
+        get => (MarqueeBehavior)GetValue(BehaviorProperty);
+        set => SetValue(BehaviorProperty, value);
+    }
+
+    private bool IsTicker => Behavior == MarqueeBehavior.Ticker;
+
+    private bool IsLooping => Behavior == MarqueeBehavior.Looping;
+
+#if !HAS_UNO
+    private bool IsBouncing => Behavior == MarqueeBehavior.Bouncing;
+#else
+    private bool IsBouncing => false;
+#endif
+
+    private bool IsCycling => Behavior == MarqueeBehavior.Cycle;
 
     /// <summary>
     /// Gets or sets the direction the Marquee should scroll
@@ -107,29 +108,6 @@ public partial class MarqueeText
         get => (MarqueeDirection)GetValue(DirectionProperty);
         set => SetValue(DirectionProperty, value);
     }
-
-    public double TickerStartPosition
-    {
-        get => (double)GetValue(TickerStartPositionProperty);
-        set => SetValue(TickerStartPositionProperty, value);
-    }
-
-    public double TickerEndPosition
-    {
-        get => (double)GetValue(TickerEndPositionProperty);
-        set => SetValue(TickerEndPositionProperty, value);
-    }
-
-    public TimeSpan TickerAnimationDuration
-    {
-        get => (TimeSpan)GetValue(TickerAnimationDurationProperty);
-        set => SetValue(TickerAnimationDurationProperty, value);
-    }
-
-    /// <summary>
-    /// Gets whether or not the marquee animation is playing.
-    /// </summary>
-    public bool IsRunning => _isActive;
 
     private bool IsDirectionHorizontal => Direction is MarqueeDirection.Left or MarqueeDirection.Right;
 
@@ -158,6 +136,7 @@ public partial class MarqueeText
         var newBehavior = (MarqueeBehavior)e.NewValue;
         
         control.UpdateClipping();
+        VisualStateManager.GoToState(control, GetVisualStateName(newBehavior), true);
 
         control.StopMarquee(false);
         if (active)
@@ -178,8 +157,11 @@ public partial class MarqueeText
         var newDirection = (MarqueeDirection)e.NewValue;
         bool oldAxisX = oldDirection is MarqueeDirection.Left or MarqueeDirection.Right;
         bool newAxisX = newDirection is MarqueeDirection.Left or MarqueeDirection.Right;
-        
-        control.StopMarquee(false);
+
+        if (control.IsCycling || oldAxisX != newAxisX)
+        {
+            control.StopMarquee(false);
+        }
 
         VisualStateManager.GoToState(control, GetVisualStateName(newDirection), true);
 
@@ -196,14 +178,17 @@ public partial class MarqueeText
             return;
         }
 
-        if (!control.StartOnTextChanged)
+        // If the mode is not cycling, update the secondary text to match and handle with standard property changed.
+        if (!control.IsCycling)
         {
+            control.SecondaryText = (string)e.NewValue;
             PropertyChanged(d, e);
             return;
         }
-        
+
         if (!control._isActive)
         {
+            // If the mode is cycling, start the marquee.
             // We can skip this if the animation is already
             // playing because that's smoother than starting a new animation.
             control.StartMarquee();
@@ -217,19 +202,6 @@ public partial class MarqueeText
             return;
         }
 
-        control.UpdateAnimationProperties();
-        control.ResumeAnimation();
-    }
-
-    private void UpdateAnimationProperties()
-    {
-        if (_marqueeContainer is null || _segment1 is null)
-        {
-            return;
-        }
-
-        TickerStartPosition = IsDirectionHorizontal ? _marqueeContainer.ActualWidth : _marqueeContainer.ActualHeight;
-        TickerEndPosition = IsDirectionHorizontal ? -_segment1.ActualWidth : -_segment1.ActualHeight;
-        TickerAnimationDuration = TimeSpan.FromSeconds(Math.Abs(TickerStartPosition - TickerEndPosition) / Speed);
+        control.UpdateAnimation();
     }
 }

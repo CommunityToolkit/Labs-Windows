@@ -50,8 +50,11 @@ public partial class MarqueeText
         UpdateClipping();
 
         // Update the animation when the size changes
-        UpdateAnimationProperties();
-        ResumeAnimation(true);
+        // Unless in cycling mode where the container size doesn't affect the animation.
+        if (!IsCycling)
+        {
+            UpdateAnimation(true);
+        }
     }
 
     private void StoryBoard_Completed(object? sender, object e)
@@ -60,6 +63,9 @@ public partial class MarqueeText
         MarqueeCompleted?.Invoke(this, EventArgs.Empty);
 
         // Update the secondary text to match the new text
-        SecondaryText = Text;
+        if (IsCycling)
+        {
+            SecondaryText = Text;
+        }
     }
 }
