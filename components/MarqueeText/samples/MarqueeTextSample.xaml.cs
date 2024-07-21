@@ -12,9 +12,9 @@ namespace MarqueeTextExperiment.Samples;
 [ToolkitSampleMultiChoiceOption("MQDirection", "Left", "Right", "Up", "Down", Title = "Marquee Direction")]
 //[ToolkitSampleMultiChoiceOption("MarqueeRepeat", "Repeat", "Forever", "1x", "2x")]
 #if !HAS_UNO
-[ToolkitSampleMultiChoiceOption("MQBehavior", "Ticker", "Looping", "Bouncing", "Cycle", Title = "Marquee Behavior")]
+[ToolkitSampleMultiChoiceOption("MQBehavior", "Ticker", "Looping", "Bouncing", "Transition", Title = "Marquee Behavior")]
 #else
-[ToolkitSampleMultiChoiceOption("MQBehavior", "Ticker", "Looping", "Cycle", Title = "Marquee Behavior")]
+[ToolkitSampleMultiChoiceOption("MQBehavior", "Ticker", "Looping", "Transition", Title = "Marquee Behavior")]
 #endif
 public sealed partial class MarqueeTextSample : Page
 {
@@ -32,7 +32,7 @@ public sealed partial class MarqueeTextSample : Page
 #if !HAS_UNO
         "Bouncing" => MarqueeBehavior.Bouncing,
 #endif
-        "Cycle" => MarqueeBehavior.Cycle,
+        "Transition" => MarqueeBehavior.Transition,
         _ => throw new NotImplementedException(),
     };
 

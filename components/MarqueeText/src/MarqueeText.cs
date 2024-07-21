@@ -12,7 +12,7 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
 [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
 [TemplatePart(Name = MarqueeTransformPartName, Type = typeof(TranslateTransform))]
-[TemplatePart(Name = CyclingAnaimationPartName, Type = typeof(Storyboard))]
+[TemplatePart(Name = TransitionAnaimationPartName, Type = typeof(Storyboard))]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = LeftwardsVisualStateName)]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = RightwardsVisualStateName)]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = UpwardsVisualStateName)]
@@ -20,7 +20,7 @@ namespace CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = TickerVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = LoopingVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = BouncingVisualStateName)]
-[TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = CycleVisualStateName)]
+[TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = TransitionVisualStateName)]
 [ContentProperty(Name = nameof(Text))]
 
 #if HAS_UNO
@@ -33,7 +33,7 @@ public partial class MarqueeText : Control
     private const string Segment1PartName = "Segment1";
     private const string Segment2PartName = "Segment2";
     private const string MarqueeTransformPartName = "MarqueeTransform";
-    private const string CyclingAnaimationPartName = "CyclingAnimation";
+    private const string TransitionAnaimationPartName = "TransitionAnimation";
 
     private const string MarqueeActiveState = "MarqueeActive";
     private const string MarqueeStoppedState = "MarqueeStopped";
@@ -48,13 +48,13 @@ public partial class MarqueeText : Control
     private const string TickerVisualStateName = "Ticker";
     private const string LoopingVisualStateName = "Looping";
     private const string BouncingVisualStateName = "Bouncing";
-    private const string CycleVisualStateName = "Cycle";
+    private const string TransitionVisualStateName = "Transition";
 
     private Panel? _marqueeContainer;
     private FrameworkElement? _segment1;
     private FrameworkElement? _segment2;
     private CompositeTransform? _marqueeTransform;
-    private Storyboard? _cyclingStoryboard;
+    private Storyboard? _transitionStoryboard;
     private Storyboard? _marqueeStoryboard;
 
     private bool _isActive;
@@ -77,7 +77,7 @@ public partial class MarqueeText : Control
         _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
         _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
         _marqueeTransform = (CompositeTransform)GetTemplateChild(MarqueeTransformPartName);
-        _cyclingStoryboard = (Storyboard)GetTemplateChild(CyclingAnaimationPartName);
+        _transitionStoryboard = (Storyboard)GetTemplateChild(TransitionAnaimationPartName);
 
         _marqueeContainer.SizeChanged += Container_SizeChanged;
 
@@ -170,7 +170,7 @@ public partial class MarqueeText : Control
             _marqueeTransform is null ||
             _segment1 is null ||
             _segment2 is null ||
-            _cyclingStoryboard is null)
+            _transitionStoryboard is null)
         {
             return false;
         }
@@ -231,7 +231,7 @@ public partial class MarqueeText : Control
         double end = Behavior switch
         {
             // (this value just needs to be non-Zero, the real number is handled in the Style)
-            MarqueeBehavior.Cycle => 20,
+            MarqueeBehavior.Transition => 20,
 #if !HAS_UNO
             // When the end of the text reaches the border if in bouncing mode
             MarqueeBehavior.Bouncing => containerSize - segmentSize,
@@ -270,7 +270,7 @@ public partial class MarqueeText : Control
         // Create new storyboard and animation
         _marqueeStoryboard = Behavior switch
         {
-            MarqueeBehavior.Cycle => _cyclingStoryboard,
+            MarqueeBehavior.Transition => _transitionStoryboard,
             _ => CreateMarqueeStoryboardAnimation(start, end, duration, targetProperty),
         };
 
@@ -292,7 +292,7 @@ public partial class MarqueeText : Control
     }
 
     /// <remarks>
-    /// This is method is used for all modes except cycling.
+    /// This is method is used for all modes except transition.
     /// </remarks>
     private Storyboard CreateMarqueeStoryboardAnimation(double start, double end, TimeSpan duration, string targetProperty)
     {
@@ -354,9 +354,9 @@ public partial class MarqueeText : Control
             Rect = new Rect(0, 0, ActualWidth, ActualHeight)
         };
 
-        if (IsCycling)
+        if (IsTransition)
         {
-            // Don't clip in cycling mode
+            // Don't clip in transition mode
             _marqueeContainer.Clip = null;
         }
     }

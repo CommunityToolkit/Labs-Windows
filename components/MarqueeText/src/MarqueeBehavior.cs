@@ -31,7 +31,7 @@ public enum MarqueeBehavior
 #endif
 
     /// <summary>
-    /// The text will cycle fading between a list of statements.
+    /// The text will transition when the text property changes.
     /// </summary>
-    Cycle,
+    Transition,
 }

@@ -50,8 +50,8 @@ public partial class MarqueeText
         UpdateClipping();
 
         // Update the animation when the size changes
-        // Unless in cycling mode where the container size doesn't affect the animation.
-        if (!IsCycling)
+        // Unless in transition mode where the container size doesn't affect the animation.
+        if (!IsTransition)
         {
             UpdateAnimation(true);
         }
@@ -63,7 +63,7 @@ public partial class MarqueeText
         MarqueeCompleted?.Invoke(this, EventArgs.Empty);
 
         // Update the secondary text to match the new text
-        if (IsCycling)
+        if (IsTransition)
         {
             SecondaryText = Text;
         }

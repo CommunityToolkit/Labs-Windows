@@ -56,7 +56,7 @@ public partial class MarqueeText
     /// Gets or sets the speed the text moves in the Marquee.
     /// </summary>
     /// <remarks>
-    /// Ignored if the behavior is <see cref="MarqueeBehavior.Cycle"/>
+    /// Ignored if the behavior is <see cref="MarqueeBehavior.Transition"/>
     /// </remarks>
     public double Speed
     {
@@ -68,7 +68,7 @@ public partial class MarqueeText
     /// Gets or sets a value indicating whether or not the marquee scroll repeats.
     /// </summary>
     /// <remarks>
-    /// Ignored if the behavior is <see cref="MarqueeBehavior.Cycle"/>
+    /// Ignored if the behavior is <see cref="MarqueeBehavior.Transition"/>
     /// </remarks>
     public RepeatBehavior RepeatBehavior
     {
@@ -98,7 +98,7 @@ public partial class MarqueeText
     private bool IsBouncing => false;
 #endif
 
-    private bool IsCycling => Behavior == MarqueeBehavior.Cycle;
+    private bool IsTransition => Behavior == MarqueeBehavior.Transition;
 
     /// <summary>
     /// Gets or sets the direction the Marquee should scroll
@@ -158,7 +158,7 @@ public partial class MarqueeText
         bool oldAxisX = oldDirection is MarqueeDirection.Left or MarqueeDirection.Right;
         bool newAxisX = newDirection is MarqueeDirection.Left or MarqueeDirection.Right;
 
-        if (control.IsCycling || oldAxisX != newAxisX)
+        if (control.IsTransition || oldAxisX != newAxisX)
         {
             control.StopMarquee(false);
         }
@@ -178,8 +178,8 @@ public partial class MarqueeText
             return;
         }
 
-        // If the mode is not cycling, update the secondary text to match and handle with standard property changed.
-        if (!control.IsCycling)
+        // If the mode is not transition, update the secondary text to match and handle with standard property changed.
+        if (!control.IsTransition)
         {
             control.SecondaryText = (string)e.NewValue;
             PropertyChanged(d, e);
@@ -188,7 +188,7 @@ public partial class MarqueeText
 
         if (!control._isActive)
         {
-            // If the mode is cycling, start the marquee.
+            // If the mode is transition, start the marquee.
             // We can skip this if the animation is already
             // playing because that's smoother than starting a new animation.
             control.StartMarquee();

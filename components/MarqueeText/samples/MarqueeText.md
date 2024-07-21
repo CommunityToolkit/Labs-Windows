@@ -45,8 +45,8 @@ The default direction is left, meaning the text will move leftwards, but this ca
 
 > [!Sample MarqueeTextSample]
 
-### Custom Cycle Animations
+### Custom Transition Animations
 
-The cycle animation can be customized using a style.
+The transition animation can be customized using a style.
 
 > [!Sample CustomStyleMarqueeTextSample]

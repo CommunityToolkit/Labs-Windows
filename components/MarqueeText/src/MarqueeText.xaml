@@ -19,19 +19,19 @@
                           CornerRadius="{TemplateBinding CornerRadius}">
 
                         <Grid.Resources>
-                            <Storyboard x:Name="CyclingAnimation"
+                            <Storyboard x:Name="TransitionAnimation"
                                         Duration="0:0:1.2">
                                 <!--  Animate the translation  -->
-                                <DoubleAnimationUsingKeyFrames x:Name="CycleAnimationTranslationAnimation"
+                                <DoubleAnimationUsingKeyFrames x:Name="TransitionAnimationTranslationAnimation"
                                                                Storyboard.TargetName="MarqueeTransform"
                                                                Storyboard.TargetProperty="(CompositeTransform.TranslateX)"
                                                                Duration="0:0:1.2">
                                     <DiscreteDoubleKeyFrame KeyTime="0:0:0"
                                                             Value="0" />
-                                    <LinearDoubleKeyFrame x:Name="CycleAnimationFadeOutPosition"
+                                    <LinearDoubleKeyFrame x:Name="TransitionAnimationFadeOutPosition"
                                                           KeyTime="0:0:0.5"
                                                           Value="20" />
-                                    <DiscreteDoubleKeyFrame x:Name="CycleAnimationFadeInPosition"
+                                    <DiscreteDoubleKeyFrame x:Name="TransitionAnimationFadeInPosition"
                                                             KeyTime="0:0:0.7"
                                                             Value="-20" />
                                     <LinearDoubleKeyFrame KeyTime="0:0:1.2"
@@ -81,33 +81,33 @@
                                 <VisualState x:Name="Leftwards">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueePanel.Orientation" Value="Horizontal" />
-                                        <Setter Target="CycleAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateX)" />
-                                        <Setter Target="CycleAnimationFadeOutPosition.Value" Value="-20" />
-                                        <Setter Target="CycleAnimationFadeInPosition.Value" Value="20" />
+                                        <Setter Target="TransitionAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateX)" />
+                                        <Setter Target="TransitionAnimationFadeOutPosition.Value" Value="-20" />
+                                        <Setter Target="TransitionAnimationFadeInPosition.Value" Value="20" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Rightwards">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueePanel.Orientation" Value="Horizontal" />
-                                        <Setter Target="CycleAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateX)" />
-                                        <Setter Target="CycleAnimationFadeOutPosition.Value" Value="20" />
-                                        <Setter Target="CycleAnimationFadeInPosition.Value" Value="-20" />
+                                        <Setter Target="TransitionAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateX)" />
+                                        <Setter Target="TransitionAnimationFadeOutPosition.Value" Value="20" />
+                                        <Setter Target="TransitionAnimationFadeInPosition.Value" Value="-20" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Upwards">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueePanel.Orientation" Value="Vertical" />
-                                        <Setter Target="CycleAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateY)" />
-                                        <Setter Target="CycleAnimationFadeOutPosition.Value" Value="-20" />
-                                        <Setter Target="CycleAnimationFadeInPosition.Value" Value="20" />
+                                        <Setter Target="TransitionAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateY)" />
+                                        <Setter Target="TransitionAnimationFadeOutPosition.Value" Value="-20" />
+                                        <Setter Target="TransitionAnimationFadeInPosition.Value" Value="20" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Downwards">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueePanel.Orientation" Value="Vertical" />
-                                        <Setter Target="CycleAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateY)" />
-                                        <Setter Target="CycleAnimationFadeOutPosition.Value" Value="20" />
-                                        <Setter Target="CycleAnimationFadeInPosition.Value" Value="-20" />
+                                        <Setter Target="TransitionAnimationTranslationAnimation.(Storyboard.TargetProperty)" Value="(CompositeTransform.TranslateY)" />
+                                        <Setter Target="TransitionAnimationFadeOutPosition.Value" Value="20" />
+                                        <Setter Target="TransitionAnimationFadeInPosition.Value" Value="-20" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -130,7 +130,7 @@
                                         <Setter Target="Segment2.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="Cycle">
+                                <VisualState x:Name="Transition">
                                     <VisualState.Setters>
                                         <Setter Target="Segment1.Padding" Value="0" />
                                         <Setter Target="Segment2.Visibility" Value="Collapsed" />
