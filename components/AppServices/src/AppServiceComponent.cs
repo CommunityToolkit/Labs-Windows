@@ -462,7 +462,7 @@ public abstract class AppServiceComponent : IDisposable
                 try
                 {
                     // Try to get the registered endpoint with the command name, and invoke it
-                    if (_endpoints.TryGetValue(commandStr, out Func<AppServiceParameters, Task<object?>> endpoint))
+                    if (_endpoints.TryGetValue(commandStr, out Func<AppServiceParameters, Task<object?>>? endpoint) && endpoint is {})
                     {
                         response = await endpoint(new AppServiceParameters(this, sender, parameters));
                     }

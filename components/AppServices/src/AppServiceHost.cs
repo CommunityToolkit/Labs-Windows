@@ -204,9 +204,9 @@ public abstract class AppServiceHost
         if (args.Request.Message.TryGetValue(ProgressKey, out object? progressKey) &&
             args.Request.Message.TryGetValue(ProgressValue, out object? progressValue) &&
             progressKey is Guid id &&
-            _progressTrackers.TryGetValue(id, out IProgress<object> progress))
+            _progressTrackers.TryGetValue(id, out IProgress<object>? progress))
         {
-            progress.Report(progressValue);
+            progress?.Report(progressValue);
         }
     }
 
