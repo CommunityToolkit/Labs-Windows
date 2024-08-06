@@ -29,7 +29,7 @@
   </PropertyGroup>
 
   <!-- Add the Desktop Extension SDK when on UWP-->
-  <ItemGroup Condition="'$(IsUwp)' == 'true'">
+  <ItemGroup Condition="'$(IsUwp)' == 'true' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'windows'">
     <SDKReference Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
@@ -55,7 +55,7 @@
     <None Include="CommunityToolkit.AppServices.targets" PackagePath="build\uap10.0" Pack="true" />
 
     <!-- Pack the source generator to the right package folder -->
-    <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
+    <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Platform)\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
   </ItemGroup>
 
   <!-- Remove imported global usings -->
