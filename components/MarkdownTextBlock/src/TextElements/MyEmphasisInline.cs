@@ -51,7 +51,7 @@ internal class MyEmphasisInline : IAddChild
 
     public void SetBold()
     {
-        _span.FontWeight = FontWeights.Bold;
+        _span.FontWeight = Windows.UI.Text.FontWeights.Bold;
         _isBold = true;
     }
 
@@ -63,7 +63,12 @@ internal class MyEmphasisInline : IAddChild
 
     public void SetStrikeThrough()
     {
+        #if WINUI3
         _span.TextDecorations = TextDecorations.Strikethrough;
+        #elif WINUI2
+        _span.TextDecorations = Windows.UI.Text.TextDecorations.Strikethrough;
+        #endif
+
         _isStrikeThrough = true;
     }
 
