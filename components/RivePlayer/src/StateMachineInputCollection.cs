@@ -15,7 +15,7 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 ///   </rive:RivePlayer>
 ///
 /// </summary>
-public class StateMachineInputCollection : DependencyObjectCollection
+public partial class StateMachineInputCollection : DependencyObjectCollection
 {
     private WeakReference<RivePlayer> _rivePlayer = new WeakReference<RivePlayer>(null!);
 
