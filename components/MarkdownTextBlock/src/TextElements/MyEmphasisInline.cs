@@ -52,7 +52,7 @@ internal class MyEmphasisInline : IAddChild
     public void SetBold()
     {
         #if WINUI3
-        _span.FontWeight = FontWeights.Bold;
+        _span.FontWeight = Microsoft.UI.Text.FontWeights.Bold;
         #elif WINUI2
         _span.FontWeight = Windows.UI.Text.FontWeights.Bold;
         #endif
