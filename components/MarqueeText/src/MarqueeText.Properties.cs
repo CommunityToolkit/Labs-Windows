@@ -99,7 +99,7 @@ public partial class MarqueeText
     /// Gets or sets a value that indicates what decorations are applied to the text.
     /// </summary>
 #if WINUI3
-    public TextDecorations TextDecorations
+    public Windows.UI.Text.TextDecorations TextDecorations
 #elif WINUI2
     public Windows.UI.Text.TextDecorations TextDecorations
 #endif

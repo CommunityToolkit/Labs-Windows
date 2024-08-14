@@ -69,7 +69,7 @@ internal class MyEmphasisInline : IAddChild
     public void SetStrikeThrough()
     {
         #if WINUI3
-        _span.TextDecorations = TextDecorations.Strikethrough;
+        _span.TextDecorations = Windows.UI.Text.TextDecorations.Strikethrough;
         #elif WINUI2
         _span.TextDecorations = Windows.UI.Text.TextDecorations.Strikethrough;
         #endif
