@@ -8,7 +8,11 @@ using CommunityToolkit.Labs.WinUI.Rive;
 
 namespace RivePlayerExperiment.Tests;
 
+// Track https://github.com/CommunityToolkit/Labs-Windows/issues/567
+#if !WINDOWS_WINAPPSDK
 [TestClass]
+#endif
+
 public partial class ExampleRivePlayerTestClass : VisualUITestBase
 {
     // If you don't need access to UI objects directly or async code, use this pattern.
