@@ -4,7 +4,7 @@
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 
-internal class MyTableUIElement : Panel
+internal partial class MyTableUIElement : Panel
 {
     private readonly int _columnCount;
     private readonly int _rowCount;
