@@ -4,7 +4,7 @@
 
 namespace CommunityToolkit.Labs.WinUI;
 
-public class CanvasLayout : MUXC.VirtualizingLayout
+public partial class CanvasLayout : MUXC.VirtualizingLayout
 {
 #region Setup / teardown
     protected override void InitializeForContextCore(MUXC.VirtualizingLayoutContext context)

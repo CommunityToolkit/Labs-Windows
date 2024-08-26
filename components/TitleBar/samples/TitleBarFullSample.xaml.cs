@@ -10,7 +10,7 @@ using Windows.UI.ViewManagement;
 #endif
 namespace TitleBarExperiment.Samples;
 
-[ToolkitSample(id: nameof(TitleBarFullSample), "Full titlebar sample", description: $"A sample for showing how to create and use a {nameof(TitleBar)} in a window.")]
+[ToolkitSample(id: nameof(TitleBarFullSample), "Full titlebar sample", description: $"A sample for showing how to create and use a {nameof(CommunityToolkit.WinUI.Controls.TitleBar)} in a window.")]
 public sealed partial class TitleBarFullSample : Page
 {
     public TitleBarFullSample()

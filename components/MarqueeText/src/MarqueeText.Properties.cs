@@ -98,7 +98,11 @@ public partial class MarqueeText
     /// <summary>
     /// Gets or sets a value that indicates what decorations are applied to the text.
     /// </summary>
-    public TextDecorations TextDecorations
+#if WINUI3
+    public Windows.UI.Text.TextDecorations TextDecorations
+#elif WINUI2
+    public Windows.UI.Text.TextDecorations TextDecorations
+#endif
     {
         get => (TextDecorations)GetValue(TextDecorationsProperty);
         set => SetValue(TextDecorationsProperty, value);
