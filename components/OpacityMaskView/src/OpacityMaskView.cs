@@ -19,7 +19,7 @@ namespace CommunityToolkit.WinUI.Controls;
 /// A control that applies an opacity mask to its content.
 /// </summary>
 [TemplatePart(Name = RootGridTemplateName, Type = typeof(Grid))]
-[TemplatePart(Name = MaskRectangleTemplateName, Type = typeof(Rectangle))]
+[TemplatePart(Name = MaskContainerTemplateName, Type = typeof(Border))]
 [TemplatePart(Name = ContentPresenterTemplateName, Type = typeof(ContentPresenter))]
 public partial class OpacityMaskView : ContentControl
 {
@@ -27,10 +27,10 @@ public partial class OpacityMaskView : ContentControl
     /// Identifies the <see cref="OpacityMask"/> property.
     /// </summary>
     public static readonly DependencyProperty OpacityMaskProperty =
-        DependencyProperty.Register(nameof(OpacityMask), typeof(Brush), typeof(OpacityMaskView), new PropertyMetadata(null, OnOpacityMaskChanged));
+        DependencyProperty.Register(nameof(OpacityMask), typeof(UIElement), typeof(OpacityMaskView), new PropertyMetadata(null, OnOpacityMaskChanged));
 
     private const string ContentPresenterTemplateName = "PART_ContentPresenter";
-    private const string MaskRectangleTemplateName = "PART_MaskRectangle";
+    private const string MaskContainerTemplateName = "PART_MaskContainer";
     private const string RootGridTemplateName = "PART_RootGrid";
 
 #if WINDOWS_WINAPPSDK
@@ -50,11 +50,11 @@ public partial class OpacityMaskView : ContentControl
     }
 
     /// <summary>
-    /// Gets or sets an opacity mask, as a <see cref="Brush"/> implementation that is applied to any alpha-channel masking for the rendered content of the content.
+    /// Gets or sets a <see cref="UIElement"/> as the opacity mask that is applied to alpha-channel masking for the rendered content of the content.
     /// </summary>
-    public Brush? OpacityMask
+    public UIElement? OpacityMask
     {
-        get => (Brush?)GetValue(OpacityMaskProperty);
+        get => (UIElement?)GetValue(OpacityMaskProperty);
         set => SetValue(OpacityMaskProperty, value);
     }
 
@@ -65,11 +65,11 @@ public partial class OpacityMaskView : ContentControl
 
         Grid rootGrid = (Grid)GetTemplateChild(RootGridTemplateName);
         ContentPresenter contentPresenter = (ContentPresenter)GetTemplateChild(ContentPresenterTemplateName);
-        Rectangle maskRectangle = (Rectangle)GetTemplateChild(MaskRectangleTemplateName);
+        Border maskContainer = (Border)GetTemplateChild(MaskContainerTemplateName);
 
         _maskBrush = _compositor.CreateMaskBrush();
         _maskBrush.Source = GetVisualBrush(contentPresenter);
-        _mask = GetVisualBrush(maskRectangle);
+        _mask = GetVisualBrush(maskContainer);
         _maskBrush.Mask = OpacityMask is null ? null : _mask;
 
         SpriteVisual redirectVisual = _compositor.CreateSpriteVisual();
@@ -105,7 +105,7 @@ public partial class OpacityMaskView : ContentControl
             return;
         }
 
-        Brush? opacityMask = (Brush?)e.NewValue;
+        UIElement? opacityMask = (UIElement?)e.NewValue;
         maskBrush.Mask = opacityMask is null ? null : self._mask;
     }
 }

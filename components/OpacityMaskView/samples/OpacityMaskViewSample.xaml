@@ -11,19 +11,27 @@
     <StackPanel Spacing="12">
         <controls:OpacityMaskView>
             <controls:OpacityMaskView.OpacityMask>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Offset="0" Color="White" />
-                    <GradientStop Offset="1" Color="Transparent" />
-                </LinearGradientBrush>
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="White" />
+                            <GradientStop Offset="1" Color="Transparent" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                                </Rectangle>
             </controls:OpacityMaskView.OpacityMask>
             <Button Content="Hello Windows Community Toolkit" />
         </controls:OpacityMaskView>
         <controls:OpacityMaskView>
             <controls:OpacityMaskView.OpacityMask>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Offset="0" Color="White" />
-                    <GradientStop Offset="0.6" Color="Transparent" />
-                </LinearGradientBrush>
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Offset="0" Color="White" />
+                            <GradientStop Offset="0.6" Color="Transparent" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
             </controls:OpacityMaskView.OpacityMask>
             <Border Width="96"
                     Height="96"
