@@ -10,7 +10,7 @@ namespace CommunityToolkit.WinUI.Controls;
 /// A list of <see cref="double"/> values.
 /// </summary>
 [CreateFromString(MethodName = "CommunityToolkit.WinUI.Controls.DoubleList.CreateFromString")]
-public class DoubleList : List<double>
+public partial class DoubleList : List<double>
 {
     /// <summary>
     /// Initializes a new instance of <see cref="DoubleList"/> that is empty and has the default
