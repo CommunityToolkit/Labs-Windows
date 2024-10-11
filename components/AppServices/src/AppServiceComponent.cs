@@ -14,7 +14,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.AppServices.Helpers;
 
-#pragma warning disable CA2213, CA1063
+#pragma warning disable CA2213, CA1063, CsWinRT1028
 
 namespace CommunityToolkit.AppServices;
 
