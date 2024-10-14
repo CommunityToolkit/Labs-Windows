@@ -4,6 +4,6 @@
           MultiTarget is a custom property that indicates which target a project is designed to be built for / run on.
           Used to create project references, generate solution files, enable/disable TargetFrameworks, and build nuget packages.
         -->
-        <MultiTarget>uwp;netstandard;net8.0-windows10.0.17763.0</MultiTarget>
+        <MultiTarget>uwp;netstandard;</MultiTarget>
     </PropertyGroup>
 </Project>
