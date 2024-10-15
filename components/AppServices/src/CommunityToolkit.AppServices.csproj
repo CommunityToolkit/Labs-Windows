@@ -49,8 +49,8 @@
   <ItemGroup Label="Package">
 
     <!-- Include the custom .targets file to check the source generator -->
-    <None Include="CommunityToolkit.AppServices.targets" PackagePath="buildTransitive" Pack="true" />
-    <None Include="CommunityToolkit.AppServices.targets" PackagePath="build" Pack="true" />
+    <None Include="CommunityToolkit.Labs.AppServices.targets" PackagePath="buildTransitive" Pack="true" />
+    <None Include="CommunityToolkit.Labs.AppServices.targets" PackagePath="build" Pack="true" />
 
     <!-- Pack the source generator to the right package folder -->
     <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Platform)\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
