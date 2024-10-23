@@ -2,9 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINDOWS_UWP
 using Windows.Data.Xml.Dom;
-#endif
 
 namespace CommunityToolkit.Notifications
 {
@@ -62,7 +60,6 @@ namespace CommunityToolkit.Notifications
             return GetContent();
         }
 
-#if WINDOWS_UWP
         /// <summary>
         /// Retrieves the notification Xml content as a WinRT Xml document.
         /// </summary>
@@ -73,7 +70,6 @@ namespace CommunityToolkit.Notifications
             xml.LoadXml(GetContent());
             return xml;
         }
-#endif
 
         private uint _number = 0;
     }

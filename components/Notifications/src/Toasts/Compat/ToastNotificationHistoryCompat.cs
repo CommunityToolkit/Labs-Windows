@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINDOWS_UWP
-
 using System.Collections.Generic;
 using Windows.UI.Notifications;
 
@@ -90,5 +88,3 @@ namespace CommunityToolkit.Notifications
         }
     }
 }
-
-#endif

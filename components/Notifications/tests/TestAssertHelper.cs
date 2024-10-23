@@ -272,20 +272,14 @@ namespace NotificationsExperiment.Tests
         {
             AssertHelper.AssertXml(expected.ToLower(), toast.GetContent().ToLower());
 
-#if WINDOWS_UWP
-            // For WinRT, we'll test the XmlDocument method too, make sure it works.
             AssertHelper.AssertXml(expected, toast.GetXml().GetXml());
-#endif
         }
 
         public static void AssertTile(string expected, TileContent tile)
         {
             AssertHelper.AssertXml(expected.ToLower(), tile.GetContent().ToLower());
 
-#if WINDOWS_UWP
-            // For WinRT, we'll test the XmlDocument method too, make sure it works.
             AssertHelper.AssertXml(expected, tile.GetXml().GetXml());
-#endif
         }
 
         public static void AssertXml(string expected, string actual)

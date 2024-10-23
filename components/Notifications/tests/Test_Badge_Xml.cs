@@ -68,10 +68,7 @@ namespace NotificationsExperiment.Tests
         {
             AssertHelper.AssertXml(expectedXml, notificationContent.GetContent());
 
-#if WINDOWS_UWP
-            // For WinRT, we'll test the XmlDocument method too, make sure it works.
             AssertHelper.AssertXml(expectedXml, notificationContent.GetXml().GetXml());
-#endif
         }
     }
 }

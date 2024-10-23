@@ -338,7 +338,6 @@ namespace CommunityToolkit.Notifications
             return Content;
         }
 
-#if WINDOWS_UWP
         /// <summary>
         /// Retrieves the notification XML content as a WinRT XmlDocument, so that it can be used with a local Toast notification's constructor on either <see cref="Windows.UI.Notifications.ToastNotification"/> or <see cref="Windows.UI.Notifications.ScheduledToastNotification"/>.
         /// </summary>
@@ -436,6 +435,5 @@ namespace CommunityToolkit.Notifications
 
             ToastNotificationManagerCompat.CreateToastNotifier().AddToSchedule(notif);
         }
-#endif
     }
 }

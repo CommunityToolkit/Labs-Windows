@@ -6,10 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#if WINDOWS_UWP
 using Windows.UI.Notifications;
-#endif
 
 namespace CommunityToolkit.Notifications
 {
@@ -79,7 +76,6 @@ namespace CommunityToolkit.Notifications
             }
         }
 
-#if WINDOWS_UWP
         /// <summary>
         /// Create an instance of NotificationData that can be used to update toast that has a progress bar.
         /// </summary>
@@ -125,7 +121,6 @@ namespace CommunityToolkit.Notifications
 
             return data;
         }
-#endif
 
         /// <summary>
         /// Add an Attribution Text to be displayed on the toast.
