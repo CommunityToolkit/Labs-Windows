@@ -6,15 +6,8 @@
 
 using System;
 using CommunityToolkit.Notifications.Adaptive.Elements;
-
-#if WINRT
-using System.Collections.Generic;
-using BindableProgressBarValue = CommunityToolkit.Notifications.AdaptiveProgressBarValue;
-using BindableString = System.String;
-#else
 using BindableProgressBarValue = CommunityToolkit.Notifications.BindableProgressBarValue;
 using BindableString = CommunityToolkit.Notifications.BindableString;
-#endif
 
 namespace CommunityToolkit.Notifications
 {
@@ -23,13 +16,6 @@ namespace CommunityToolkit.Notifications
     /// </summary>
     public sealed class AdaptiveProgressBar : IToastBindingGenericChild
     {
-#if WINRT
-        /// <summary>
-        /// Gets a dictionary of the current data bindings, where you can assign new bindings.
-        /// </summary>
-        public IDictionary<AdaptiveProgressBarBindableProperty, string> Bindings { get; private set; } = new Dictionary<AdaptiveProgressBarBindableProperty, string>();
-#endif
-
         /// <summary>
         /// Gets or sets an optional title string. Supports data binding.
         /// </summary>
@@ -61,17 +47,10 @@ namespace CommunityToolkit.Notifications
 
             var answer = new Element_AdaptiveProgressBar();
 
-#if WINRT
-            answer.Title = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveProgressBarBindableProperty.Title, Title);
-            answer.Value = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveProgressBarBindableProperty.Value, val.ToXmlString());
-            answer.ValueStringOverride = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveProgressBarBindableProperty.ValueStringOverride, ValueStringOverride);
-            answer.Status = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveProgressBarBindableProperty.Status, Status);
-#else
             answer.Title = Title?.ToXmlString();
             answer.Value = val.ToXmlString();
             answer.ValueStringOverride = ValueStringOverride?.ToXmlString();
             answer.Status = Status?.ToXmlString();
-#endif
 
             if (answer.Status == null)
             {

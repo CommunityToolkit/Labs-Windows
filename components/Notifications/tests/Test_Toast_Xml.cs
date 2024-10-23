@@ -1931,14 +1931,11 @@ namespace NotificationsExperiment.Tests
         {
             AssertProgressBar("<progress value='0' status='Downloading...'/>", new AdaptiveProgressBar() { Status = "Downloading..." });
 
-            // Only non-WinRT supports implicit converters
-#if !WINRT
             AssertProgressBar("<progress value='0.3' status='Downloading...'/>", new AdaptiveProgressBar()
             {
                 Value = 0.3,
                 Status = "Downloading..."
             });
-#endif
 
             AssertProgressBar("<progress value='0.3' status='Downloading...'/>", new AdaptiveProgressBar()
             {
@@ -1952,14 +1949,7 @@ namespace NotificationsExperiment.Tests
             });
             AssertProgressBar("<progress value='{progressValue}' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-#if WINRT
-                Bindings =
-                {
-                    { AdaptiveProgressBarBindableProperty.Value, "progressValue" }
-                },
-#else
                 Value = new BindableProgressBarValue("progressValue"),
-#endif
                 Status = "Downloading..."
             });
 
@@ -2024,20 +2014,10 @@ namespace NotificationsExperiment.Tests
 
             AssertProgressBar("<progress value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
             {
-#if WINRT
-                Bindings =
-                {
-                    { AdaptiveProgressBarBindableProperty.Value, "progressValue" },
-                    { AdaptiveProgressBarBindableProperty.Title, "progressTitle" },
-                    { AdaptiveProgressBarBindableProperty.ValueStringOverride, "progressValueOverride" },
-                    { AdaptiveProgressBarBindableProperty.Status, "progressStatus" }
-                }
-#else
                 Value = new BindableProgressBarValue("progressValue"),
                 Title = new BindableString("progressTitle"),
                 ValueStringOverride = new BindableString("progressValueOverride"),
                 Status = new BindableString("progressStatus")
-#endif
             });
 
             AssertProgressBar("<progress value='0' status='Downloading...'/>", new AdaptiveProgressBar()

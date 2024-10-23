@@ -24,7 +24,6 @@ namespace CommunityToolkit.Notifications
             };
         }
 
-#if !WINRT
         /// <summary>
         /// Gets the value of the specified key. Throws <see cref="KeyNotFoundException"/> if the key could not be found.
         /// </summary>
@@ -57,7 +56,6 @@ namespace CommunityToolkit.Notifications
                 _dictionary[key] = value;
             }
         }
-#endif
 
         /// <summary>
         /// Attempts to get the value of the specified key. If no key exists, returns false.
@@ -65,9 +63,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key to find.</param>
         /// <param name="value">The key's value will be written here if found.</param>
         /// <returns>True if found the key and set the value, otherwise false.</returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("found")]
-#endif
         public bool TryGetValue(string key, out string value)
         {
             if (key == null)
@@ -78,7 +73,6 @@ namespace CommunityToolkit.Notifications
             return _dictionary.TryGetValue(key, out value);
         }
 
-#if !WINRT
         /// <summary>
         /// Attempts to get the value of the specified key. If no key exists, returns false.
         /// </summary>
@@ -97,7 +91,6 @@ namespace CommunityToolkit.Notifications
             value = default(T);
             return false;
         }
-#endif
 
         /// <summary>
         /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
@@ -169,7 +162,6 @@ namespace CommunityToolkit.Notifications
             return Get(key) == "1" ? true : false;
         }
 
-#if !WINRT
         /// <summary>
         /// Gets the value of the specified key, or throws <see cref="KeyNotFoundException"/> if key didn't exist.
         /// </summary>
@@ -186,7 +178,6 @@ namespace CommunityToolkit.Notifications
 
             throw new KeyNotFoundException();
         }
-#endif
 
         /// <summary>
         /// Gets the number of key/value pairs contained in the toast arguments.
@@ -198,9 +189,6 @@ namespace CommunityToolkit.Notifications
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
-#endif
         public ToastArguments Add(string key)
         {
             if (key == null)
@@ -219,10 +207,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The optional value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
-#endif
         public ToastArguments Add(string key, string value)
         {
             if (key == null)
@@ -241,9 +225,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
-#endif
         public ToastArguments Add(string key, int value)
         {
             return AddHelper(key, value);
@@ -255,9 +236,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
-#endif
         public ToastArguments Add(string key, double value)
         {
             return AddHelper(key, value);
@@ -269,9 +247,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
-#endif
         public ToastArguments Add(string key, float value)
         {
             return AddHelper(key, value);
@@ -283,15 +258,11 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key.</param>
         /// <param name="value">The value of the key.</param>
         /// <returns>The current <see cref="ToastArguments"/> object.</returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastArguments")]
-#endif
         public ToastArguments Add(string key, bool value)
         {
             return Add(key, value ? "1" : "0"); // Encode as 1 or 0 to save string space
         }
 
-#if !WINRT
         /// <summary>
         /// Adds a key and value. If there is an existing key, it is replaced.
         /// </summary>
@@ -302,7 +273,6 @@ namespace CommunityToolkit.Notifications
         {
             return Add(key, (int)(object)value);
         }
-#endif
 
         private ToastArguments AddHelper(string key, object value)
         {
@@ -337,9 +307,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key to look for.</param>
         /// <param name="value">The value to look for when the key has been matched.</param>
         /// <returns>True if the key and value were found, else false.</returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("doesContain")]
-#endif
         public bool Contains(string key, string value)
         {
             if (key == null)

@@ -178,7 +178,6 @@ namespace NotificationsExperiment.Tests
             AssertDecode("-_.!~*'()", "-_.!~*'()");
         }
 
-#if !WINRT
         [TestMethod]
         public void TestIndexer_NullException()
         {
@@ -223,7 +222,6 @@ namespace NotificationsExperiment.Tests
 
             AssertIndexer("Andrew", "count=2;name=Andrew", "name");
         }
-#endif
 
         [TestMethod]
         public void TestRemove_OnlyKey()
@@ -369,9 +367,7 @@ namespace NotificationsExperiment.Tests
                 .Add("gpa", 3.97)
                 .Add("percent", 97.3f);
 
-#if !WINRT
             args.Add("activationKind", ToastActivationType.Background);
-#endif
 
             AssertEqual(
                 new ToastArguments()
@@ -382,9 +378,7 @@ namespace NotificationsExperiment.Tests
                     { "level", "0" },
                     { "gpa", "3.97" },
                     { "percent", "97.3" },
-#if !WINRT
                     { "activationKind", "1" }
-#endif
                 }, args);
 
             Assert.AreEqual(true, args.GetBool("isAdult"));
@@ -404,7 +398,6 @@ namespace NotificationsExperiment.Tests
 
             Assert.AreEqual(97.3f, args.GetFloat("percent"));
 
-#if !WINRT
             Assert.AreEqual(ToastActivationType.Background, args.GetEnum<ToastActivationType>("activationKind"));
 
             if (args.TryGetValue("activationKind", out ToastActivationType activationType))
@@ -418,7 +411,6 @@ namespace NotificationsExperiment.Tests
 
             // Trying to get enum that isn't an enum should return false
             Assert.IsFalse(args.TryGetValue("percent", out activationType));
-#endif
 
             // After serializing and deserializing, the same should work
             args = ToastArguments.Parse(args.ToString());
@@ -440,7 +432,6 @@ namespace NotificationsExperiment.Tests
 
             Assert.AreEqual(97.3f, args.GetFloat("percent"));
 
-#if !WINRT
             Assert.AreEqual(ToastActivationType.Background, args.GetEnum<ToastActivationType>("activationKind"));
 
             if (args.TryGetValue("activationKind", out activationType))
@@ -454,17 +445,14 @@ namespace NotificationsExperiment.Tests
 
             // Trying to get enum that isn't an enum should return false
             Assert.IsFalse(args.TryGetValue("percent", out activationType));
-#endif
         }
 
-#if !WINRT
         private static void AssertIndexer(string expected, string queryString, string paramName)
         {
             ToastArguments q = ToastArguments.Parse(queryString);
 
             Assert.AreEqual(expected, q[paramName]);
         }
-#endif
 
         private static void AssertDecode(string expected, string encoded)
         {

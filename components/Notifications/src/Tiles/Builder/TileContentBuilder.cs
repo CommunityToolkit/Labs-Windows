@@ -6,8 +6,6 @@ using System;
 
 namespace CommunityToolkit.Notifications
 {
-#if !WINRT
-
     /// <summary>
     /// Builder class used to create <see cref="TileContent"/>
     /// </summary>
@@ -526,6 +524,4 @@ namespace CommunityToolkit.Notifications
             return binding.Content as TileBindingContentAdaptive;
         }
     }
-
-#endif
 }

@@ -9,7 +9,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 #nullable disable
 namespace NotificationsExperiment.Tests
 {
-#if !WINRT
     [TestClass]
     public class TestTileContentBuilder
     {
@@ -110,5 +109,4 @@ namespace NotificationsExperiment.Tests
             return content.Children.FirstOrDefault() as AdaptiveText;
         }
     }
-#endif
 }

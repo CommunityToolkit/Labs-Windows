@@ -13,11 +13,7 @@ namespace CommunityToolkit.Notifications
     /// <summary>
     /// Builder class used to create <see cref="ToastContent"/>
     /// </summary>
-    public
-#if WINRT
-        sealed
-#endif
-        partial class ToastContentBuilder
+    public partial class ToastContentBuilder
     {
         private IToastActions Actions
         {
@@ -86,9 +82,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="arguments">App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
         /// <param name="imageUri">Optional image icon for the button to display (required for buttons adjacent to inputs like quick reply).</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
         public ToastContentBuilder AddButton(string content, ToastActivationType activationType, string arguments, Uri imageUri)
         {
             // Add new button
@@ -178,29 +171,6 @@ namespace CommunityToolkit.Notifications
             return AddButton(button);
         }
 
-#if WINRT
-        /// <summary>
-        /// Add an input text box that the user can type into.
-        /// </summary>
-        /// <param name="id">Required ID property so that developers can retrieve user input once the app is activated.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddInputTextBox(string id)
-        {
-            return AddInputTextBox(id, default, default);
-        }
-
-        /// <summary>
-        /// Add an input text box that the user can type into.
-        /// </summary>
-        /// <param name="id">Required ID property so that developers can retrieve user input once the app is activated.</param>
-        /// <param name="placeHolderContent">Placeholder text to be displayed on the text box when the user hasn't typed any text yet.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddInputTextBox(string id, string placeHolderContent)
-        {
-            return AddInputTextBox(id, placeHolderContent, default);
-        }
-#endif
-
         /// <summary>
         /// Add an input text box that the user can type into.
         /// </summary>
@@ -210,13 +180,8 @@ namespace CommunityToolkit.Notifications
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddInputTextBox(
             string id,
-#if WINRT
-            string placeHolderContent,
-            string title)
-#else
             string placeHolderContent = default,
             string title = default)
-#endif
         {
             var inputTextBox = new ToastTextBox(id);
 
@@ -233,7 +198,6 @@ namespace CommunityToolkit.Notifications
             return AddToastInput(inputTextBox);
         }
 
-#if !WINRT
         /// <summary>
         /// Add a combo box / drop-down menu that contain options for user to select.
         /// </summary>
@@ -300,7 +264,6 @@ namespace CommunityToolkit.Notifications
 
             return AddToastInput(box);
         }
-#endif
 
         /// <summary>
         /// Add an input option to the Toast.

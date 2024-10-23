@@ -10,10 +10,7 @@ namespace CommunityToolkit.Notifications
     /// <summary>
     /// Builder class used to create <see cref="ToastContent"/>
     /// </summary>
-    public partial class ToastContentBuilder
-#if !WINRT
-        : IToastActivateableBuilder<ToastContentBuilder>
-#endif
+    public partial class ToastContentBuilder : IToastActivateableBuilder<ToastContentBuilder>
     {
         private Dictionary<string, string> _genericArguments = new Dictionary<string, string>();
 
@@ -40,12 +37,7 @@ namespace CommunityToolkit.Notifications
         /// </summary>
         /// <param name="dateTime">Custom Time to be displayed on the toast</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddCustomTimeStamp(
-#if WINRT
-            DateTimeOffset dateTime)
-#else
-            DateTime dateTime)
-#endif
+        public ToastContentBuilder AddCustomTimeStamp(DateTime dateTime)
         {
             Content.DisplayTimestamp = dateTime;
 
@@ -60,9 +52,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="arguments">Developer-defined arguments that are returned to the app when the user clicks this header.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         /// <remarks>More info about toast header: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/toast-headers </remarks>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
         public ToastContentBuilder AddHeader(string id, string title, ToastArguments arguments)
         {
             return AddHeader(id, title, arguments.ToString());
@@ -99,10 +88,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
-#endif
         public ToastContentBuilder AddArgument(string key, string value)
         {
             return AddArgumentHelper(key, value);
@@ -114,9 +99,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
-#endif
         public ToastContentBuilder AddArgument(string key, int value)
         {
             return AddArgumentHelper(key, value.ToString());
@@ -128,9 +110,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
-#endif
         public ToastContentBuilder AddArgument(string key, double value)
         {
             return AddArgumentHelper(key, value.ToString());
@@ -142,9 +121,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
-#endif
         public ToastContentBuilder AddArgument(string key, float value)
         {
             return AddArgumentHelper(key, value.ToString());
@@ -156,15 +132,11 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("toastContentBuilder")]
-#endif
         public ToastContentBuilder AddArgument(string key, bool value)
         {
             return AddArgumentHelper(key, value ? "1" : "0"); // Encode as 1 or 0 to save string space
         }
 
-#if !WINRT
         /// <summary>
         /// Adds a key/value to the activation arguments that will be returned when the toast notification or its buttons are clicked.
         /// </summary>
@@ -175,7 +147,6 @@ namespace CommunityToolkit.Notifications
         {
             return AddArgumentHelper(key, ((int)(object)value).ToString());
         }
-#endif
 
         private ToastContentBuilder AddArgumentHelper(string key, string value)
         {
@@ -314,30 +285,6 @@ namespace CommunityToolkit.Notifications
             return this;
         }
 
-#if WINRT
-        /// <summary>
-        /// Set custom audio to go along with the toast.
-        /// </summary>
-        /// <param name="src">Source to the media that will be played when the toast is pop</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        [Windows.Foundation.Metadata.DefaultOverload]
-        public ToastContentBuilder AddAudio(Uri src)
-        {
-            return AddAudio(src, default, default);
-        }
-
-        /// <summary>
-        /// Set custom audio to go along with the toast.
-        /// </summary>
-        /// <param name="src">Source to the media that will be played when the toast is pop</param>
-        /// <param name="loop">Indicating whether sound should repeat as long as the Toast is shown; false to play only once (default).</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddAudio(Uri src, bool? loop)
-        {
-            return AddAudio(src, loop, default);
-        }
-#endif
-
         /// <summary>
         /// Set custom audio to go along with the toast.
         /// </summary>
@@ -347,13 +294,8 @@ namespace CommunityToolkit.Notifications
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddAudio(
             Uri src,
-#if WINRT
-            bool? loop,
-            bool? silent)
-#else
             bool? loop = default,
             bool? silent = default)
-#endif
         {
             var audio = new ToastAudio();
             audio.Src = src;
@@ -419,9 +361,6 @@ namespace CommunityToolkit.Notifications
         /// Shows a new toast notification with the current content.
         /// </summary>
         /// <param name="customize">Allows you to set additional properties on the <see cref="Windows.UI.Notifications.ToastNotification"/> object.</param>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
         public void Show(CustomizeToast customize)
         {
             var notif = new Windows.UI.Notifications.ToastNotification(GetToastContent().GetXml());
@@ -467,9 +406,6 @@ namespace CommunityToolkit.Notifications
         /// </summary>
         /// <param name="deliveryTime">The date and time that Windows should display the toast notification. This time must be in the future.</param>
         /// <param name="customize">Allows you to set additional properties on the <see cref="Windows.UI.Notifications.ScheduledToastNotification"/> object.</param>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
         public void Schedule(DateTimeOffset deliveryTime, CustomizeScheduledToast customize)
         {
             var notif = new Windows.UI.Notifications.ScheduledToastNotification(GetToastContent().GetXml(), deliveryTime);

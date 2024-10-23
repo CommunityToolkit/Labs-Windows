@@ -11,9 +11,7 @@ namespace CommunityToolkit.Notifications
     /// A button that the user can click on a Toast notification.
     /// </summary>
     public sealed class ToastButton :
-#if !WINRT
         IToastActivateableBuilder<ToastButton>,
-#endif
         IToastButton
     {
         private Dictionary<string, string> _arguments = new Dictionary<string, string>();
@@ -129,10 +127,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastButton"/></returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("ToastButton")]
-#endif
         public ToastButton AddArgument(string key, string value)
         {
             return AddArgumentHelper(key, value);
@@ -144,9 +138,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastButton"/></returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("ToastButton")]
-#endif
         public ToastButton AddArgument(string key, int value)
         {
             return AddArgumentHelper(key, value.ToString());
@@ -158,9 +149,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastButton"/></returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("ToastButton")]
-#endif
         public ToastButton AddArgument(string key, double value)
         {
             return AddArgumentHelper(key, value.ToString());
@@ -172,9 +160,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastButton"/></returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("ToastButton")]
-#endif
         public ToastButton AddArgument(string key, float value)
         {
             return AddArgumentHelper(key, value.ToString());
@@ -186,15 +171,11 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of <see cref="ToastButton"/></returns>
-#if WINRT
-        [return: System.Runtime.InteropServices.WindowsRuntime.ReturnValueName("ToastButton")]
-#endif
         public ToastButton AddArgument(string key, bool value)
         {
             return AddArgumentHelper(key, value ? "1" : "0"); // Encode as 1 or 0 to save string space
         }
 
-#if !WINRT
         /// <summary>
         /// Adds a key/value to the activation arguments that will be returned when the toast notification or its buttons are clicked.
         /// </summary>
@@ -205,7 +186,6 @@ namespace CommunityToolkit.Notifications
         {
             return AddArgumentHelper(key, ((int)(object)value).ToString());
         }
-#endif
 
         private ToastButton AddArgumentHelper(string key, string value)
         {

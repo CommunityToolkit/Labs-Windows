@@ -10,7 +10,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 #nullable disable
 namespace NotificationsExperiment.Tests
 {
-#if !WINRT
     [TestClass]
     public class TestToastContentBuilder
     {
@@ -1196,6 +1195,4 @@ namespace NotificationsExperiment.Tests
             Assert.AreEqual(testComboBoxTitle, comboBox.Title);
         }
     }
-
-#endif
 }

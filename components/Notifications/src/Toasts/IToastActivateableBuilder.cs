@@ -25,9 +25,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="key">The key for this value.</param>
         /// <param name="value">The value itself.</param>
         /// <returns>The current instance of the object.</returns>
-#if WINRT
-        [Windows.Foundation.Metadata.DefaultOverload]
-#endif
         T AddArgument(string key, string value);
 
         /// <summary>
@@ -62,7 +59,6 @@ namespace CommunityToolkit.Notifications
         /// <returns>The current instance of the object.</returns>
         T AddArgument(string key, bool value);
 
-#if !WINRT
         /// <summary>
         /// Adds a key/value to the activation arguments that will be returned when the content is clicked.
         /// </summary>
@@ -70,7 +66,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="value">The value itself. Note that the enums are stored using their numeric value, so be aware that changing your enum number values might break existing activation of toasts currently in Action Center.</param>
         /// <returns>The current instance of the object.</returns>
         T AddArgument(string key, Enum value);
-#endif
 
         /// <summary>
         /// Configures the content to use background activation when it is clicked.

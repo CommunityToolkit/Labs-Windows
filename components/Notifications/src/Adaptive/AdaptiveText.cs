@@ -6,13 +6,7 @@
 
 using System;
 using CommunityToolkit.Notifications.Adaptive.Elements;
-
-#if WINRT
-using System.Collections.Generic;
-using BindableString = System.String;
-#else
 using BindableString = CommunityToolkit.Notifications.BindableString;
-#endif
 
 namespace CommunityToolkit.Notifications
 {
@@ -25,13 +19,6 @@ namespace CommunityToolkit.Notifications
         ITileBindingContentAdaptiveChild,
         IToastBindingGenericChild
     {
-#if WINRT
-        /// <summary>
-        /// Gets a dictionary of the current data bindings, where you can assign new bindings.
-        /// </summary>
-        public IDictionary<AdaptiveTextBindableProperty, string> Bindings { get; private set; } = new Dictionary<AdaptiveTextBindableProperty, string>();
-#endif
-
         /// <summary>
         /// Gets or sets the text to display. Data binding support added in Creators Update,
         /// only works for toast top-level text elements.
@@ -129,11 +116,7 @@ namespace CommunityToolkit.Notifications
                 Align = HintAlign
             };
 
-#if WINRT
-            answer.Text = XmlWriterHelper.GetBindingOrAbsoluteXmlValue(Bindings, AdaptiveTextBindableProperty.Text, Text);
-#else
             answer.Text = Text?.ToXmlString();
-#endif
 
             return answer;
         }

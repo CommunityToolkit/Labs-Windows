@@ -9,7 +9,6 @@ using System.Text;
 
 namespace CommunityToolkit.Notifications
 {
-#if !WINRT
 #pragma warning disable SA1008
 #pragma warning disable SA1009
     /// <summary>
@@ -159,5 +158,4 @@ namespace CommunityToolkit.Notifications
     }
 #pragma warning restore SA1008
 #pragma warning restore SA1009
-#endif
 }

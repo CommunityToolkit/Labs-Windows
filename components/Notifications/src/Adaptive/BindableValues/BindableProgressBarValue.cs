@@ -4,9 +4,6 @@
 
 namespace CommunityToolkit.Notifications
 {
-    // Note that this code is NOT compiled for WinRT.
-    // WinRT uses a different binding system since it doesn't support implicit type converters.
-#if !WINRT
     /// <summary>
     /// A binding value for doubles.
     /// </summary>
@@ -88,5 +85,4 @@ namespace CommunityToolkit.Notifications
             return AdaptiveProgressBarValue.FromValue(d);
         }
     }
-#endif
 }

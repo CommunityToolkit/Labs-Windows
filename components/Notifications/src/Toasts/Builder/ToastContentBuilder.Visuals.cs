@@ -80,7 +80,6 @@ namespace CommunityToolkit.Notifications
         }
 
 #if WINDOWS_UWP
-#if !WINRT
         /// <summary>
         /// Create an instance of NotificationData that can be used to update toast that has a progress bar.
         /// </summary>
@@ -127,7 +126,6 @@ namespace CommunityToolkit.Notifications
             return data;
         }
 #endif
-#endif
 
         /// <summary>
         /// Add an Attribution Text to be displayed on the toast.
@@ -160,41 +158,6 @@ namespace CommunityToolkit.Notifications
             return this;
         }
 
-#if WINRT
-        /// <summary>
-        /// Override the app logo with custom image of choice that will be displayed on the toast.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddAppLogoOverride(Uri uri)
-        {
-            return AddAppLogoOverride(uri, default);
-        }
-
-        /// <summary>
-        /// Override the app logo with custom image of choice that will be displayed on the toast.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <param name="hintCrop">Specify how the image should be cropped.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddAppLogoOverride(Uri uri, ToastGenericAppLogoCrop? hintCrop)
-        {
-            return AddAppLogoOverride(uri, hintCrop, default);
-        }
-
-        /// <summary>
-        /// Override the app logo with custom image of choice that will be displayed on the toast.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <param name="hintCrop">Specify how the image should be cropped.</param>
-        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddAppLogoOverride(Uri uri, ToastGenericAppLogoCrop? hintCrop, string alternateText)
-        {
-            return AddAppLogoOverride(uri, hintCrop, alternateText, default);
-        }
-#endif
-
         /// <summary>
         /// Override the app logo with custom image of choice that will be displayed on the toast.
         /// </summary>
@@ -205,15 +168,9 @@ namespace CommunityToolkit.Notifications
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddAppLogoOverride(
             Uri uri,
-#if WINRT
-            ToastGenericAppLogoCrop? hintCrop,
-            string alternateText,
-            bool? addImageQuery)
-#else
             ToastGenericAppLogoCrop? hintCrop = default,
             string alternateText = default,
             bool? addImageQuery = default)
-#endif
         {
             AppLogoOverrideUri = new ToastGenericAppLogo()
             {
@@ -238,29 +195,6 @@ namespace CommunityToolkit.Notifications
             return this;
         }
 
-#if WINRT
-        /// <summary>
-        /// Add a hero image to the toast.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddHeroImage(Uri uri)
-        {
-            return AddHeroImage(uri, default);
-        }
-
-        /// <summary>
-        /// Add a hero image to the toast.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddHeroImage(Uri uri, string alternateText)
-        {
-            return AddHeroImage(uri, alternateText, default);
-        }
-#endif
-
         /// <summary>
         /// Add a hero image to the toast.
         /// </summary>
@@ -270,13 +204,8 @@ namespace CommunityToolkit.Notifications
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddHeroImage(
             Uri uri,
-#if WINRT
-            string alternateText,
-            bool? addImageQuery)
-#else
             string alternateText = default,
             bool? addImageQuery = default)
-#endif
         {
             HeroImage = new ToastGenericHeroImage()
             {
@@ -296,56 +225,6 @@ namespace CommunityToolkit.Notifications
             return this;
         }
 
-#if WINRT
-        /// <summary>
-        /// Add an image inline with other toast content.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddInlineImage(Uri uri)
-        {
-            return AddInlineImage(uri, default);
-        }
-
-        /// <summary>
-        /// Add an image inline with other toast content.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddInlineImage(Uri uri, string alternateText)
-        {
-            return AddInlineImage(uri, alternateText, default);
-        }
-
-        /// <summary>
-        /// Add an image inline with other toast content.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
-        /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddInlineImage(Uri uri, string alternateText, bool? addImageQuery)
-        {
-            return AddInlineImage(uri, alternateText, addImageQuery, default);
-        }
-#endif
-
-#if WINRT
-        /// <summary>
-        /// Add an image inline with other toast content.
-        /// </summary>
-        /// <param name="uri">The URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.</param>
-        /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
-        /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
-        /// <param name="hintCrop">A value whether a margin is removed. images have an 8px margin around them.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddInlineImage(
-            Uri uri,
-            string alternateText,
-            bool? addImageQuery,
-            AdaptiveImageCrop? hintCrop)
-#else
         /// <summary>
         /// Add an image inline with other toast content.
         /// </summary>
@@ -361,7 +240,6 @@ namespace CommunityToolkit.Notifications
             bool? addImageQuery = default,
             AdaptiveImageCrop? hintCrop = default,
             bool? hintRemoveMargin = default)
-#endif
         {
             var inlineImage = new AdaptiveImage()
             {
@@ -386,7 +264,6 @@ namespace CommunityToolkit.Notifications
             return AddVisualChild(inlineImage);
         }
 
-#if !WINRT
         /// <summary>
         /// Add a progress bar to the toast.
         /// </summary>
@@ -447,53 +324,7 @@ namespace CommunityToolkit.Notifications
 
             return AddVisualChild(progressBar);
         }
-#endif
 
-#if WINRT
-        /// <summary>
-        /// Add text to the toast.
-        /// </summary>
-        /// <param name="text">Custom text to display on the tile.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        /// <exception cref="InvalidOperationException">Throws when attempting to add/reserve more than 4 lines on a single toast. </exception>
-        /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements</remarks>
-        public ToastContentBuilder AddText(string text)
-        {
-            return AddText(text, default, default);
-        }
-
-        /// <summary>
-        /// Add text to the toast.
-        /// </summary>
-        /// <param name="text">Custom text to display on the tile.</param>
-        /// <param name="hintMaxLines">The maximum number of lines the text element is allowed to display.</param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        /// <exception cref="InvalidOperationException">Throws when attempting to add/reserve more than 4 lines on a single toast. </exception>
-        /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements</remarks>
-        public ToastContentBuilder AddText(string text, int? hintMaxLines)
-        {
-            return AddText(text, hintMaxLines, default);
-        }
-#endif
-
-#if WINRT
-        /// <summary>
-        /// Add text to the toast.
-        /// </summary>
-        /// <param name="text">Custom text to display on the tile.</param>
-        /// <param name="hintMaxLines">The maximum number of lines the text element is allowed to display.</param>
-        /// <param name="language">
-        /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides any other specified locale, such as that in binding or visual.
-        /// </param>
-        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        /// <exception cref="InvalidOperationException">Throws when attempting to add/reserve more than 4 lines on a single toast. </exception>
-        /// <exception cref="ArgumentOutOfRangeException">Throws when <paramref name="hintMaxLines"/> value is larger than 2. </exception>
-        /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements</remarks>
-        public ToastContentBuilder AddText(
-            string text,
-            int? hintMaxLines,
-            string language)
-#else
         /// <summary>
         /// Add text to the toast.
         /// </summary>
@@ -518,7 +349,6 @@ namespace CommunityToolkit.Notifications
             int? hintMinLines = default,
             AdaptiveTextAlign? hintAlign = null,
             string language = default)
-#endif
         {
             int lineCount = GetCurrentTextLineCount();
             if (GetCurrentTextLineCount() == 4)
