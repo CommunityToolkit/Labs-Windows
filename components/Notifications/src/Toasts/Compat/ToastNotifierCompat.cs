@@ -27,15 +27,7 @@ namespace CommunityToolkit.Notifications
         /// <param name="notification">The object that contains the content of the toast notification to display.</param>
         public void Show(ToastNotification notification)
         {
-#if WIN32
-            PreprocessToast(notification);
-#endif
-
             _notifier.Show(notification);
-
-#if WIN32
-            ToastNotificationManagerCompat.SetHasSentToastNotification();
-#endif
         }
 
         /// <summary>
@@ -44,10 +36,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="notification">The object that specifies the toast to hide.</param>
         public void Hide(ToastNotification notification)
         {
-#if WIN32
-            PreprocessToast(notification);
-#endif
-
             _notifier.Hide(notification);
         }
 
@@ -57,12 +45,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="scheduledToast">The scheduled toast notification, which includes its content and timing instructions.</param>
         public void AddToSchedule(ScheduledToastNotification scheduledToast)
         {
-#if WIN32
-            ToastNotificationManagerCompat.PreRegisterIdentityLessApp();
-
-            PreprocessScheduledToast(scheduledToast);
-#endif
-
             _notifier.AddToSchedule(scheduledToast);
         }
 
@@ -72,10 +54,6 @@ namespace CommunityToolkit.Notifications
         /// <param name="scheduledToast">The notification to remove from the schedule.</param>
         public void RemoveFromSchedule(ScheduledToastNotification scheduledToast)
         {
-#if WIN32
-            PreprocessScheduledToast(scheduledToast);
-#endif
-
             _notifier.RemoveFromSchedule(scheduledToast);
         }
 
@@ -108,15 +86,6 @@ namespace CommunityToolkit.Notifications
         /// <returns>A value that indicates the result of the update (failure, success, etc).</returns>
         public NotificationUpdateResult Update(NotificationData data, string tag)
         {
-#if WIN32
-            // For apps that don't have identity...
-            if (!DesktopBridgeHelpers.HasIdentity())
-            {
-                // If group isn't specified, we have to add a group since otherwise can't remove without a group
-                return Update(data, tag, ToastNotificationManagerCompat.DEFAULT_GROUP);
-            }
-#endif
-
             return _notifier.Update(data, tag);
         }
 
@@ -127,45 +96,9 @@ namespace CommunityToolkit.Notifications
         {
             get
             {
-#if WIN32
-                // Just like scheduled notifications, apps need to have sent a notification
-                // before checking the setting value works
-                ToastNotificationManagerCompat.PreRegisterIdentityLessApp();
-#endif
-
                 return _notifier.Setting;
             }
         }
-
-#if WIN32
-        private void PreprocessToast(ToastNotification notification)
-        {
-            // For apps that don't have identity...
-            if (!DesktopBridgeHelpers.HasIdentity())
-            {
-                // If tag is specified and group isn't specified
-                if (!string.IsNullOrEmpty(notification.Tag) && string.IsNullOrEmpty(notification.Group))
-                {
-                    // We have to add a group since otherwise can't remove without a group
-                    notification.Group = ToastNotificationManagerCompat.DEFAULT_GROUP;
-                }
-            }
-        }
-
-        private void PreprocessScheduledToast(ScheduledToastNotification notification)
-        {
-            // For apps that don't have identity...
-            if (!DesktopBridgeHelpers.HasIdentity())
-            {
-                // If tag is specified and group isn't specified
-                if (!string.IsNullOrEmpty(notification.Tag) && string.IsNullOrEmpty(notification.Group))
-                {
-                    // We have to add a group since otherwise can't remove without a group
-                    notification.Group = ToastNotificationManagerCompat.DEFAULT_GROUP;
-                }
-            }
-        }
-#endif
     }
 }
 

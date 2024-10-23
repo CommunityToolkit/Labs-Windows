@@ -53,18 +53,7 @@ namespace CommunityToolkit.Notifications
         /// <param name="tag">The tag label of the toast notification to be removed.</param>
         public void Remove(string tag)
         {
-#if WIN32
-            if (_aumid != null)
-            {
-                _history.Remove(tag, ToastNotificationManagerCompat.DEFAULT_GROUP, _aumid);
-            }
-            else
-            {
-                _history.Remove(tag);
-            }
-#else
             _history.Remove(tag);
-#endif
         }
 
         /// <summary>
