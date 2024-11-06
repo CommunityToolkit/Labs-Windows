@@ -11,6 +11,7 @@ using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 using System.Xml.Linq;
 using System.Globalization;
 using Windows.UI.ViewManagement;
+using HtmlAgilityPack;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 
@@ -721,5 +722,15 @@ public static class Extensions
         var accentBrush = new SolidColorBrush(accentColor);
 
         return accentBrush;
+    }
+
+    public static string GetAttribute(this HtmlNode node, string attributeName, string defaultValue)
+    {
+        if (attributeName == null)
+        {
+            throw new ArgumentNullException(nameof(attributeName));
+        }
+
+        return node.Attributes?[attributeName]?.Value ?? defaultValue;
     }
 }

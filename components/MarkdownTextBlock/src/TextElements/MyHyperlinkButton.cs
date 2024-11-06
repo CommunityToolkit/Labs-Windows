@@ -35,7 +35,7 @@ internal class MyHyperlinkButton : IAddChild
     {
         _baseUrl = baseUrl;
         _htmlNode = htmlNode;
-        var url = htmlNode.GetAttributeValue("href", "#");
+        var url = htmlNode.GetAttribute("href", "#");
         Init(url, baseUrl);
     }
 

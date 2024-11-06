@@ -55,7 +55,7 @@ internal class MyHeading : IAddChild
         _paragraph = new Paragraph();
         _config = config;
 
-        var align = _htmlNode.GetAttributeValue("align", "left");
+        var align = _htmlNode.GetAttribute("align", "left");
         _paragraph.TextAlignment = align switch
         {
             "left" => TextAlignment.Left,
