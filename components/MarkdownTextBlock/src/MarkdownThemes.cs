@@ -49,6 +49,13 @@ public sealed class MarkdownThemes : DependencyObject
 
     public FontWeight H6FontWeight { get; set; } = FontWeights.Normal;
 
+    public Thickness H1Margin { get; set; } = new(0);
+    public Thickness H2Margin { get; set; } = new(0);
+    public Thickness H3Margin { get; set; } = new(0);
+    public Thickness H4Margin { get; set; } = new(0);
+    public Thickness H5Margin { get; set; } = new(0);
+    public Thickness H6Margin { get; set; } = new(0);
+
     public Brush InlineCodeBackground { get; set; } = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
     public Brush InlineCodeForeground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
 
