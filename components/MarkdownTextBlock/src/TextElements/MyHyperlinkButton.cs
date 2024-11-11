@@ -9,12 +9,24 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 
 internal class MyHyperlinkButton : IAddChild
 {
-    private HyperlinkButton? _hyperLinkButton;
+    private HyperlinkButton _hyperLinkButton;
     private InlineUIContainer _inlineUIContainer = new InlineUIContainer();
-    private MyFlowDocument? _flowDoc;
+    private MyFlowDocument _flowDoc;
     private string? _baseUrl;
     private LinkInline? _linkInline;
     private HtmlNode? _htmlNode;
+    
+    public event RoutedEventHandler? ClickEvent
+    {
+        add
+        {
+            _hyperLinkButton.Click += value;
+        }
+        remove
+        {
+            _hyperLinkButton.Click -= value;
+        }
+    }
 
     public bool IsHtml => _htmlNode != null;
 
@@ -24,43 +36,40 @@ internal class MyHyperlinkButton : IAddChild
     }
 
     public MyHyperlinkButton(LinkInline linkInline, string? baseUrl)
+        : this(linkInline.GetDynamicUrl != null ? linkInline.GetDynamicUrl() ?? linkInline.Url : linkInline.Url, baseUrl, null, linkInline)
     {
-        _baseUrl = baseUrl;
-        var url = linkInline.GetDynamicUrl != null ? linkInline.GetDynamicUrl() ?? linkInline.Url : linkInline.Url;
-        _linkInline = linkInline;
-        Init(url, baseUrl);
     }
 
     public MyHyperlinkButton(HtmlNode htmlNode, string? baseUrl)
+        : this(htmlNode.GetAttribute("href", "#"), baseUrl, htmlNode, null)
+    {
+    }
+
+    private MyHyperlinkButton(string? url, string? baseUrl, HtmlNode? htmlNode, LinkInline? linkInline)
     {
         _baseUrl = baseUrl;
         _htmlNode = htmlNode;
-        var url = htmlNode.GetAttribute("href", "#");
-        Init(url, baseUrl);
-    }
-
-    private void Init(string? url, string? baseUrl)
-    {
-        _hyperLinkButton = new HyperlinkButton()
+        _linkInline = linkInline;
+        _hyperLinkButton = new HyperlinkButton
         {
             NavigateUri = Extensions.GetUri(url, baseUrl),
         };
         _hyperLinkButton.Padding = new Thickness(0);
         _hyperLinkButton.Margin = new Thickness(0);
-        if (IsHtml && _htmlNode != null)
+        if (_htmlNode != null)
         {
             _flowDoc = new MyFlowDocument(_htmlNode);
         }
-        else if (_linkInline != null)
+        else
         {
-            _flowDoc = new MyFlowDocument(_linkInline);
+            _flowDoc = new MyFlowDocument(_linkInline!);
         }
         _inlineUIContainer.Child = _hyperLinkButton;
-        _hyperLinkButton.Content = _flowDoc?.RichTextBlock;
+        _hyperLinkButton.Content = _flowDoc.RichTextBlock;
     }
 
     public void AddChild(IAddChild child)
     {
-        _flowDoc?.AddChild(child);
+        _flowDoc.AddChild(child);
     }
 }

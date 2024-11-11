@@ -14,6 +14,18 @@ internal class MyHyperlink : IAddChild
     private HtmlNode? _htmlNode;
     private string? _baseUrl;
 
+    public event TypedEventHandler<Hyperlink, HyperlinkClickEventArgs> ClickEvent
+    {
+        add
+        {
+            _hyperlink.Click += value;
+        }
+        remove
+        {
+            _hyperlink.Click -= value;
+        }
+    }
+
     public bool IsHtml => _htmlNode != null;
 
     public TextElement TextElement
