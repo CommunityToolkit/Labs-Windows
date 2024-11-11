@@ -33,11 +33,21 @@ internal class HtmlWriter
                     IAddChild hyperLink;
                     if (node.ChildNodes.Any(n => n.Name != "#text"))
                     {
-                        hyperLink = new MyHyperlinkButton(node, renderer.Config.BaseUrl);
+                        var myHyperlinkButton = new MyHyperlinkButton(node, renderer.Config.BaseUrl);
+                        myHyperlinkButton.ClickEvent += (sender, e) =>
+                        {
+                            renderer.Config.RaiseLinkClickedEvent(renderer, ((HyperlinkButton)sender).NavigateUri);
+                        };
+                        hyperLink = myHyperlinkButton;
                     }
                     else
                     {
-                        hyperLink = new MyHyperlink(node, renderer.Config.BaseUrl);
+                        var myHyperlink = new MyHyperlink(node, renderer.Config.BaseUrl);
+                        myHyperlink.ClickEvent += (sender, e) =>
+                        {
+                            renderer.Config.RaiseLinkClickedEvent(renderer, sender.NavigateUri);
+                        };
+                        hyperLink = myHyperlink;
                     }
                     renderer.Push(hyperLink);
                     WriteHtml(renderer, node.ChildNodes);
