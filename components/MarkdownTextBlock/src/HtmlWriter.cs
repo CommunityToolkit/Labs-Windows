@@ -36,7 +36,7 @@ internal class HtmlWriter
                         var myHyperlinkButton = new MyHyperlinkButton(node, renderer.Config.BaseUrl);
                         myHyperlinkButton.ClickEvent += (sender, e) =>
                         {
-                            renderer.Config.RaiseLinkClickedEvent(renderer, ((HyperlinkButton)sender).NavigateUri);
+                            renderer.MarkdownTextBlock.RaiseLinkClickedEvent(((HyperlinkButton)sender).NavigateUri);
                         };
                         hyperLink = myHyperlinkButton;
                     }
@@ -45,7 +45,7 @@ internal class HtmlWriter
                         var myHyperlink = new MyHyperlink(node, renderer.Config.BaseUrl);
                         myHyperlink.ClickEvent += (sender, e) =>
                         {
-                            renderer.Config.RaiseLinkClickedEvent(renderer, sender.NavigateUri);
+                            renderer.MarkdownTextBlock.RaiseLinkClickedEvent(sender.NavigateUri);
                         };
                         hyperLink = myHyperlink;
                     }

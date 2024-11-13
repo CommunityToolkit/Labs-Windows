@@ -12,8 +12,6 @@ public record MarkdownConfig
     public IImageProvider? ImageProvider { get; set; }
     public ISVGRenderer? SVGRenderer { get; set; }
     public MarkdownThemes Themes { get; set; } = MarkdownThemes.Default;
-    public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
-    internal void RaiseLinkClickedEvent(object? sender, Uri uri) => OnLinkClicked?.Invoke(sender, new LinkClickedEventArgs(uri));
 
     public static MarkdownConfig Default = new();
 }

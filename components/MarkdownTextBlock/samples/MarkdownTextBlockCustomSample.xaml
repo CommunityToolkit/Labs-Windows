@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="MarkdownTextBlockExperiment.Samples.MarkdownTextBlockCustomSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -25,7 +25,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <controls:MarkdownTextBlock Grid.Column="0"
+            <controls:MarkdownTextBlock x:Name="MarkdownTextBlock1"
+                                        Grid.Column="0"
                                         Config="{x:Bind LiveMarkdownConfig, Mode=OneTime}"
                                         Text="{x:Bind MarkdownTextBox.Text, Mode=OneWay}" />
             <TextBox x:Name="MarkdownTextBox"
@@ -37,7 +38,8 @@
                    FontSize="16"
                    FontWeight="Bold"
                    Text="Built-in Sample" />
-        <controls:MarkdownTextBlock Grid.Row="3"
+        <controls:MarkdownTextBlock x:Name="MarkdownTextBlock2"
+                                    Grid.Row="3"
                                     Config="{x:Bind MarkdownConfig, Mode=OneTime}"
                                     Text="{x:Bind Text, Mode=OneTime}" />
     </Grid>

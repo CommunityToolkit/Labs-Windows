@@ -42,6 +42,10 @@ public partial class MarkdownTextBlock : Control
         set => SetValue(TextProperty, value);
     }
 
+    public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
+
+    internal void RaiseLinkClickedEvent(Uri uri) => OnLinkClicked?.Invoke(this, new LinkClickedEventArgs(uri));
+
     private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
@@ -110,7 +114,7 @@ public partial class MarkdownTextBlock : Control
         {
             if (_renderer == null)
             {
-                _renderer = new WinUIRenderer(_document, Config);
+                _renderer = new WinUIRenderer(_document, Config, this);
             }
             _pipeline.Setup(_renderer);
             ApplyText(false);
