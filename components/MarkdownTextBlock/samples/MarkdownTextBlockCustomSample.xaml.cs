@@ -604,14 +604,14 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
     {
         this.InitializeComponent();
         _config = new MarkdownConfig();
-        _config.OnLinkClicked += this._config_OnLinkClicked;
         _liveConfig = new MarkdownConfig();
-        _liveConfig.OnLinkClicked += this._config_OnLinkClicked;
         _text = _markdown;
         MarkdownTextBox.Text = "# Hello World\n\n";
+        MarkdownTextBlock1.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
+        MarkdownTextBlock2.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
     }
 
-    private void _config_OnLinkClicked(object? sender, LinkClickedEventArgs e)
+    private void MarkdownTextBlock_OnLinkClicked(object? sender, LinkClickedEventArgs e)
     {
         Debug.WriteLine($"Link Clicked: {e.Uri}");
     }

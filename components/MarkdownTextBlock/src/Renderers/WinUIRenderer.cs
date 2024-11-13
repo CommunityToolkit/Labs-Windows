@@ -23,11 +23,13 @@ public class WinUIRenderer : RendererBase
         get => _config;
         set => _config = value;
     }
+    public MarkdownTextBlock MarkdownTextBlock { get; }
 
-    public WinUIRenderer(MyFlowDocument document, MarkdownConfig config)
+    public WinUIRenderer(MyFlowDocument document, MarkdownConfig config, MarkdownTextBlock markdownTextBlock)
     {
         _buffer = new char[1024];
         Config = config;
+        MarkdownTextBlock = markdownTextBlock;
         FlowDocument = document;
         // set style
         _stack.Push(FlowDocument);
