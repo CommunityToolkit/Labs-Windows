@@ -12,7 +12,7 @@ namespace CommunityToolkit.Notifications
     /// <summary>
     /// A class that supports serializing simple key/value pairs into a format that's friendly for being used within toast notifications. The serialized format is similar to a query string, however optimized for being placed within an XML property (uses semicolons instead of ampersands since those don't need to be XML-escaped, doesn't url-encode all special characters since not being used within a URL, etc).
     /// </summary>
-    public sealed class ToastArguments : IEnumerable<KeyValuePair<string, string>>
+    public sealed partial class ToastArguments : IEnumerable<KeyValuePair<string, string>>
     {
         private Dictionary<string, string> _dictionary = new Dictionary<string, string>();
 
