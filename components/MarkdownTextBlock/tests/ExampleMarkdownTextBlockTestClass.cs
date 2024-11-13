@@ -131,4 +131,22 @@ public partial class ExampleMarkdownTextBlockTestClass : VisualUITestBase
 
         Assert.IsFalse(component.IsLoaded);
     }
+
+    [UIThreadTestMethod]
+    public async Task MarkdownTextBlockEmptyTextValueTest()
+    {
+        var component = new MarkdownTextBlock
+        {
+            Config = new()
+        };
+
+        Assert.IsNotNull(component);
+        Assert.IsFalse(component.IsLoaded);
+
+        await LoadTestContentAsync(component);
+        Assert.IsTrue(component.IsLoaded);
+
+        await UnloadTestContentAsync(component);
+        Assert.IsFalse(component.IsLoaded);
+    }
 }

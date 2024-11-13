@@ -54,7 +54,7 @@ public partial class MarkdownTextBlock : Control
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
         {
-            self.ApplyText(self.Text, true);
+            self.ApplyText(true);
         }
     }
 
@@ -87,16 +87,20 @@ public partial class MarkdownTextBlock : Control
         }
     }
 
-    private void ApplyText(string text, bool rerender)
+    private void ApplyText(bool rerender)
     {
-        var markdown = Markdown.Parse(text, _pipeline);
         if (_renderer != null)
         {
             if (rerender)
             {
                 _renderer.ReloadDocument();
             }
-            _renderer.Render(markdown);
+
+            if (!string.IsNullOrEmpty(Text))
+            {
+                var markdown = Markdown.Parse(Text, _pipeline);
+                _renderer.Render(markdown);
+            }
         }
     }
 
@@ -109,7 +113,7 @@ public partial class MarkdownTextBlock : Control
                 _renderer = new WinUIRenderer(_document, Config);
             }
             _pipeline.Setup(_renderer);
-            ApplyText(Text, false);
+            ApplyText(false);
         }
     }
 }
