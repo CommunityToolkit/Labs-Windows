@@ -5,6 +5,7 @@
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 using Markdig;
+using Markdig.Syntax;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 
@@ -30,6 +31,12 @@ public partial class MarkdownTextBlock : Control
         typeof(MarkdownTextBlock),
         new PropertyMetadata(null, OnTextChanged));
 
+    private static readonly DependencyProperty MarkdownDocumentProperty = DependencyProperty.Register(
+        nameof(MarkdownDocument),
+        typeof(MarkdownDocument),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(null, OnMarkdownDocumentChanged));
+
     public MarkdownConfig Config
     {
         get => (MarkdownConfig)GetValue(ConfigProperty);
@@ -42,6 +49,12 @@ public partial class MarkdownTextBlock : Control
         set => SetValue(TextProperty, value);
     }
 
+    public MarkdownDocument? MarkdownDocument
+    {
+        get => (MarkdownDocument?)GetValue(MarkdownDocumentProperty);
+        set => SetValue(MarkdownDocumentProperty, value);
+    }
+
     private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
@@ -51,6 +64,14 @@ public partial class MarkdownTextBlock : Control
     }
 
     private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is MarkdownTextBlock self && e.NewValue != null)
+        {
+            self.MarkdownDocument = string.IsNullOrEmpty(self.Text) ? null : Markdown.Parse(self.Text, self._pipeline);
+        }
+    }
+
+    private static void OnMarkdownDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
         {
@@ -96,10 +117,9 @@ public partial class MarkdownTextBlock : Control
                 _renderer.ReloadDocument();
             }
 
-            if (!string.IsNullOrEmpty(Text))
+            if (MarkdownDocument != null)
             {
-                var markdown = Markdown.Parse(Text, _pipeline);
-                _renderer.Render(markdown);
+                _renderer.Render(MarkdownDocument);
             }
         }
     }

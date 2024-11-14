@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+using Markdig;
+using Markdig.Syntax;
 
 namespace MarkdownTextBlockExperiment.Samples;
 
@@ -14,7 +16,7 @@ public sealed partial class MarkdownTextBlockCustomSample : Page
 {
     private MarkdownConfig _config;
     private MarkdownConfig _liveConfig;
-    private string _text;
+    private MarkdownDocument _doc;
     private const string _markdown = @"
 This control was originally written by [Nero Cui](https://github.com/nerocui) for [JitHub](https://github.com/JitHubApp/JitHubV2). The control is powered by the popular [Markdig](https://github.com/xoofx/markdig) markdown parsing library and *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering.
 
@@ -594,10 +596,10 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
         set => _liveConfig = value;
     }
 
-    public string Text
+    public MarkdownDocument Doc
     {
-        get => _text;
-        set => _text = value;
+        get => _doc;
+        set => _doc = value;
     }
 
     public MarkdownTextBlockCustomSample()
@@ -605,7 +607,7 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
         this.InitializeComponent();
         _config = new MarkdownConfig();
         _liveConfig = new MarkdownConfig();
-        _text = _markdown;
+        _doc = Markdown.Parse(_markdown);
         MarkdownTextBox.Text = "# Hello World\n\n";
     }
 }
