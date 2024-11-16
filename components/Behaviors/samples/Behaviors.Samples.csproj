@@ -1,0 +1,21 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
+  
+  <PropertyGroup>
+    <ToolkitComponentName>Behaviors</ToolkitComponentName>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's sample project -->
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
+  <ItemGroup Condition="'$(IsWinAppSdk)' != 'true'">
+    <None Remove="NeedMoreItemTriggerBehavior.xaml" />
+    <Page Remove="NeedMoreItemTriggerBehavior.xaml" />
+    <Content Remove="NeedMoreItemTriggerBehavior.xaml" />
+    <Resource Remove="NeedMoreItemTriggerBehavior.xaml" />
+    <Compile Remove="NeedMoreItemTriggerBehavior.xaml.cs" />
+    <Content Remove="NeedMoreItemTriggerBehavior.xaml.cs" />
+    <AdditionalFiles Remove="ItemsView Behaviors.md" />
+    <Content Remove="ItemsView Behaviors.md" />
+    <None Remove="ItemsView Behaviors.md" />
+  </ItemGroup>
+</Project>
