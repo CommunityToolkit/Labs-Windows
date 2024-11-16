@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:CommunityToolkit.WinUI.Controls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <controls:BehaviorsStyle_xBind />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.Behaviors/BehaviorsStyle_ClassicBinding.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>
