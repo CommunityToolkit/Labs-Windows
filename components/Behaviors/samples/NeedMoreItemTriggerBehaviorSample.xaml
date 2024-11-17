@@ -27,7 +27,7 @@
                     MinRowSpacing="5" />
             </ItemsView.Layout>
             <interactivity:Interaction.Behaviors>
-                <controls:NeedMoreItemTriggerBehavior LoadingOffset="{x:Bind LoadingOffset, Mode=OneWay}">
+                <controls:NeedMoreItemTriggerBehavior IsActive="{x:Bind IsActive, Mode=OneWay}"  LoadingOffset="{x:Bind LoadingOffset, Mode=OneWay}">
                     <core:CallMethodAction MethodName="IncrementCount" TargetObject="{x:Bind}" />
                 </controls:NeedMoreItemTriggerBehavior>
 

@@ -9,7 +9,8 @@ using Microsoft.UI;
 
 namespace BehaviorsExperiment.Samples;
 
-[ToolkitSampleNumericOption("LoadingOffset", 100d, 50d, 500d, 50d, Title = "LoadingOffset")]
+[ToolkitSampleBoolOption(nameof(NeedMoreItemTriggerBehavior.IsActive), true, Title = nameof(NeedMoreItemTriggerBehavior.IsActive))]
+[ToolkitSampleNumericOption(nameof(NeedMoreItemTriggerBehavior.LoadingOffset), 100d, 50d, 500d, 50d, Title = nameof(NeedMoreItemTriggerBehavior.LoadingOffset))]
 
 [ToolkitSample(id: nameof(NeedMoreItemTriggerBehaviorSample), "NeedMoreItemTriggerBehavior", description: $"A sample for showing how to create and use a NeedMoreItemTriggerBehavior.")]
 public sealed partial class NeedMoreItemTriggerBehaviorSample : Page

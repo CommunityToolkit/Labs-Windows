@@ -9,7 +9,9 @@ using Microsoft.UI;
 
 namespace BehaviorsExperiment.Samples;
 
-[ToolkitSampleNumericOption("LoadingOffset", 100d, 50d, 500d, 50d, Title = "LoadingOffset")]
+[ToolkitSampleBoolOption(nameof(LoadMoreItemBehavior.IsActive), true, Title = nameof(LoadMoreItemBehavior.IsActive))]
+[ToolkitSampleNumericOption(nameof(LoadMoreItemBehavior.LoadingOffset), 100d, 50d, 500d, 50d, Title = nameof(LoadMoreItemBehavior.LoadingOffset))]
+[ToolkitSampleNumericOption(nameof(LoadMoreItemBehavior.LoadCount), 20, 1, 50, 1, Title = nameof(LoadMoreItemBehavior.LoadCount))]
 
 [ToolkitSample(id: nameof(LoadMoreItemBehaviorSample), "LoadMoreItemBehavior", description: $"A sample for showing how to create and use a LoadMoreItemBehavior.")]
 public sealed partial class LoadMoreItemBehaviorSample : Page
