@@ -186,7 +186,7 @@ public class LoadMoreItemBehavior : Behavior<ItemsView>
     /// </summary>
     public async Task TryRaiseLoadMoreRequestedAsync()
     {
-        if (this.ScrollView is null)
+        if (this.AssociatedObject is null || this.ScrollView is null)
             return;
 
         var loadMore = true;
