@@ -45,11 +45,12 @@ The `_ClassicBinding` class shows the traditional method used to develop compone
 
 ### Implict style
 
-> [!SAMPLE BehaviorsTemplatedSample]
+> [!SAMPLE NeedMoreItemTriggerBehaviorSample]
+
+> [!SAMPLE LoadMoreItemBehaviorSample]
 
 ### Custom style
 
-> [!SAMPLE BehaviorsTemplatedStyleCustomSample]
 
 ## Templated Controls with x:Bind
 
@@ -57,9 +58,7 @@ This is an _experimental_ new way to define components which allows for the use 
 
 ### Implict style
 
-> [!SAMPLE BehaviorsXbindBackedSample]
 
 ### Custom style
 
-> [!SAMPLE BehaviorsXbindBackedStyleCustomSample]
 

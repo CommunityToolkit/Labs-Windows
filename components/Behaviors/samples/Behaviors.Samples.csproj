@@ -8,12 +8,14 @@
   <!-- Sets this up as a toolkit component's sample project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
   <ItemGroup Condition="'$(IsWinAppSdk)' != 'true'">
-    <None Remove="NeedMoreItemTriggerBehavior.xaml" />
-    <Page Remove="NeedMoreItemTriggerBehavior.xaml" />
-    <Content Remove="NeedMoreItemTriggerBehavior.xaml" />
-    <Resource Remove="NeedMoreItemTriggerBehavior.xaml" />
-    <Compile Remove="NeedMoreItemTriggerBehavior.xaml.cs" />
-    <Content Remove="NeedMoreItemTriggerBehavior.xaml.cs" />
+    <None Remove="NeedMoreItemTriggerBehaviorSample.xaml" />
+    <Page Remove="NeedMoreItemTriggerBehaviorSample.xaml" />
+    <Content Remove="NeedMoreItemTriggerBehaviorSample.xaml" />
+    <Resource Remove="NeedMoreItemTriggerBehaviorSample.xaml" />
+    <None Remove="LoadMoreItemBehaviorSample.xaml" />
+    <Page Remove="LoadMoreItemBehaviorSample.xaml" />
+    <Content Remove="LoadMoreItemBehaviorSample.xaml" />
+    <Resource Remove="LoadMoreItemBehaviorSample.xaml" />
     <AdditionalFiles Remove="ItemsView Behaviors.md" />
     <Content Remove="ItemsView Behaviors.md" />
     <None Remove="ItemsView Behaviors.md" />
