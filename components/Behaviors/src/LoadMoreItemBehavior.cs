@@ -96,9 +96,9 @@ public class LoadMoreItemBehavior : Behavior<ItemsView>
     /// </summary>
     public event Func<ItemsView, EventArgs, Task<bool>>? LoadMoreRequested;
 
-    private MUXC.ItemsRepeater? ItemsRepeater => (MUXC.ItemsRepeater?)this.ScrollView?.Content;
+    private ItemsRepeater? ItemsRepeater => (ItemsRepeater?)this.ScrollView?.Content;
 
-    private ScrollView? ScrollView => this.AssociatedObject.ScrollView;
+    private ScrollView? ScrollView => this.AssociatedObject?.ScrollView;
 
     private long _scrollViewOnPropertyChangedToken;
     private long _itemsSourceOnPropertyChangedToken;
@@ -166,7 +166,7 @@ public class LoadMoreItemBehavior : Behavior<ItemsView>
     /// </summary>
     /// <remarks>
     /// <see cref="ItemsRepeater.SizeChanged"/> is the key to continuous loading.
-    /// When new data is loaded, it makes the <see cref="Microsoft.UI.Xaml.Controls.ItemsRepeater"/> of the <see cref="FrameworkElement.ActualHeight"/> larger,
+    /// When new data is loaded, it makes the <see cref="ItemsRepeater"/> of the <see cref="FrameworkElement.ActualHeight"/> larger,
     /// Or when the <see cref="ItemsView.ItemsSource"/> is changed to a different source or set for the first time, <see cref="FrameworkElement.ActualHeight"/> becomes 0.
     /// This method can reload the data.
     /// </remarks>
@@ -193,7 +193,7 @@ public class LoadMoreItemBehavior : Behavior<ItemsView>
         // Load until a new item is loaded in
         while (loadMore)
         {
-            if (!this.IsActive || this.IsLoadingMore)
+            if (this.AssociatedObject is null || !this.IsActive || this.IsLoadingMore)
                 return;
 
             // LoadMoreRequested is only triggered when the view is not filled.
@@ -231,7 +231,7 @@ public class LoadMoreItemBehavior : Behavior<ItemsView>
 
     private int GetItemsCount()
     {
-        return this.AssociatedObject.ItemsSource switch
+        return this.AssociatedObject?.ItemsSource switch
         {
             ICollection list => list.Count,
             IEnumerable enumerable => enumerable.Cast<object>().Count(),

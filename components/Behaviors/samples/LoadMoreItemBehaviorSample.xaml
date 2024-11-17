@@ -26,7 +26,10 @@
                     MinRowSpacing="5" />
             </ItemsView.Layout>
             <interactivity:Interaction.Behaviors>
-                <controls:LoadMoreItemBehavior LoadingOffset="{x:Bind LoadingOffset, Mode=OneWay}" />
+                <controls:LoadMoreItemBehavior
+                    IsActive="{x:Bind IsActive, Mode=OneWay}"
+                    LoadCount="{x:Bind (x:Int32)LoadCount, Mode=OneWay}"
+                    LoadingOffset="{x:Bind LoadingOffset, Mode=OneWay}" />
             </interactivity:Interaction.Behaviors>
             <ItemsView.ItemTemplate>
                 <DataTemplate x:DataType="x:Int32">
