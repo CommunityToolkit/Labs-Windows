@@ -47,6 +47,7 @@ internal class MyHeading : IAddChild
             5 => _config.Themes.H5FontWeight,
             _ => _config.Themes.H6FontWeight,
         };
+        _paragraph.Margin = new Thickness(left: 0, top: 14, right: 0, bottom: 0);
     }
 
     public MyHeading(HtmlNode htmlNode, MarkdownConfig config)
