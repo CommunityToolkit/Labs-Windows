@@ -27,26 +27,7 @@ internal class MyHeading : IAddChild
         _paragraph = new Paragraph();
         _config = config;
 
-        var level = headingBlock.Level;
-        _paragraph.FontSize = level switch
-        {
-            1 => _config.Themes.H1FontSize,
-            2 => _config.Themes.H2FontSize,
-            3 => _config.Themes.H3FontSize,
-            4 => _config.Themes.H4FontSize,
-            5 => _config.Themes.H5FontSize,
-            _ => _config.Themes.H6FontSize,
-        };
-        _paragraph.Foreground = _config.Themes.HeadingForeground;
-        _paragraph.FontWeight = level switch
-        {
-            1 => _config.Themes.H1FontWeight,
-            2 => _config.Themes.H2FontWeight,
-            3 => _config.Themes.H3FontWeight,
-            4 => _config.Themes.H4FontWeight,
-            5 => _config.Themes.H5FontWeight,
-            _ => _config.Themes.H6FontWeight,
-        };
+        SetHProperties(headingBlock.Level);
     }
 
     public MyHeading(HtmlNode htmlNode, MarkdownConfig config)
@@ -65,7 +46,11 @@ internal class MyHeading : IAddChild
             _ => TextAlignment.Left,
         };
 
-        var level = int.Parse(htmlNode.Name.Substring(1));
+        SetHProperties(int.Parse(htmlNode.Name.Substring(1)));
+    }
+
+    private void SetHProperties(int level)
+    {
         _paragraph.FontSize = level switch
         {
             1 => _config.Themes.H1FontSize,
@@ -84,6 +69,15 @@ internal class MyHeading : IAddChild
             4 => _config.Themes.H4FontWeight,
             5 => _config.Themes.H5FontWeight,
             _ => _config.Themes.H6FontWeight,
+        };
+        _paragraph.Margin = level switch
+        {
+            1 => _config.Themes.H1Margin,
+            2 => _config.Themes.H2Margin,
+            3 => _config.Themes.H3Margin,
+            4 => _config.Themes.H4Margin,
+            5 => _config.Themes.H5Margin,
+            _ => _config.Themes.H6Margin,
         };
     }
 

@@ -34,6 +34,7 @@ internal class MyInlineCode : IAddChild
         border.Transform3D = transform;
         var textBlock = new TextBlock();
         textBlock.FontSize = _config.Themes.InlineCodeFontSize;
+        textBlock.Foreground = _config.Themes.InlineCodeForeground;
         textBlock.FontWeight = _config.Themes.InlineCodeFontWeight;
         textBlock.Text = codeInline.Content.ToString();
         border.Child = textBlock;
