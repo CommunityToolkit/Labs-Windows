@@ -42,6 +42,10 @@ public partial class MarkdownTextBlock : Control
         set => SetValue(TextProperty, value);
     }
 
+    public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
+
+    internal void RaiseLinkClickedEvent(Uri uri) => OnLinkClicked?.Invoke(this, new LinkClickedEventArgs(uri));
+
     private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
@@ -54,7 +58,7 @@ public partial class MarkdownTextBlock : Control
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
         {
-            self.ApplyText(self.Text, true);
+            self.ApplyText(true);
         }
     }
 
@@ -87,16 +91,20 @@ public partial class MarkdownTextBlock : Control
         }
     }
 
-    private void ApplyText(string text, bool rerender)
+    private void ApplyText(bool rerender)
     {
-        var markdown = Markdown.Parse(text, _pipeline);
         if (_renderer != null)
         {
             if (rerender)
             {
                 _renderer.ReloadDocument();
             }
-            _renderer.Render(markdown);
+
+            if (!string.IsNullOrEmpty(Text))
+            {
+                var markdown = Markdown.Parse(Text, _pipeline);
+                _renderer.Render(markdown);
+            }
         }
     }
 
@@ -106,10 +114,10 @@ public partial class MarkdownTextBlock : Control
         {
             if (_renderer == null)
             {
-                _renderer = new WinUIRenderer(_document, Config);
+                _renderer = new WinUIRenderer(_document, Config, this);
             }
             _pipeline.Setup(_renderer);
-            ApplyText(Text, false);
+            ApplyText(false);
         }
     }
 }

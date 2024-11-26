@@ -607,5 +607,12 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
         _liveConfig = new MarkdownConfig();
         _text = _markdown;
         MarkdownTextBox.Text = "# Hello World\n\n";
+        MarkdownTextBlock1.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
+        MarkdownTextBlock2.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
+    }
+
+    private void MarkdownTextBlock_OnLinkClicked(object? sender, LinkClickedEventArgs e)
+    {
+        Debug.WriteLine($"Link Clicked: {e.Uri}");
     }
 }
