@@ -30,6 +30,7 @@ internal class MyCodeBlock : IAddChild
         border.CornerRadius = _config.Themes.CornerRadius;
         var richTextBlock = new RichTextBlock();
 
+#if false
         if (codeBlock is FencedCodeBlock fencedCodeBlock)
         {
 //#if !WINAPPSDK
@@ -68,17 +69,19 @@ internal class MyCodeBlock : IAddChild
         }
         else
         {
-            foreach (var line in codeBlock.Lines.Lines)
+#endif
+
+        foreach (var line in codeBlock.Lines.Lines)
+        {
+            var paragraph = new Paragraph();
+            var lineString = line.ToString();
+            if (!String.IsNullOrWhiteSpace(lineString))
             {
-                var paragraph = new Paragraph();
-                var lineString = line.ToString();
-                if (!String.IsNullOrWhiteSpace(lineString))
-                {
-                    paragraph.Inlines.Add(new Run() { Text = lineString });
-                }
-                richTextBlock.Blocks.Add(paragraph);
+                paragraph.Inlines.Add(new Run() { Text = lineString });
             }
+            richTextBlock.Blocks.Add(paragraph);
         }
+        
         border.Child = richTextBlock;
         container.Child = border;
         _paragraph.Inlines.Add(container);
