@@ -22,14 +22,14 @@ internal class MyThematicBreak : IAddChild
         _paragraph = new Paragraph();
 
         var inlineUIContainer = new InlineUIContainer();
-        var border = new Border();
-        border.Width = 500;
-        border.BorderThickness = new Thickness(1);
-        border.Margin = new Thickness(0, 4, 0, 4);
-        border.BorderBrush = new SolidColorBrush(Colors.Gray);
-        border.Height = 1;
-        border.HorizontalAlignment = HorizontalAlignment.Stretch;
-        inlineUIContainer.Child = border;
+        Line line = new Line
+        {
+            Stretch = Stretch.Fill,
+            Stroke = new SolidColorBrush(Colors.Gray),
+            X2 = 1,
+            Margin = new Thickness(0, 12, 0, 12)
+        };
+        inlineUIContainer.Child = line;
         _paragraph.Inlines.Add(inlineUIContainer);
     }
 
