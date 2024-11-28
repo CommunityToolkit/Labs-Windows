@@ -85,6 +85,8 @@ internal class MyHeading : IAddChild
     {
         if (child.TextElement is Inline inlineChild)
         {
+            if (child is ICascadeChild cascadeChild)
+                cascadeChild.InheritProperties(this);
             _paragraph.Inlines.Add(inlineChild);
         }
     }
