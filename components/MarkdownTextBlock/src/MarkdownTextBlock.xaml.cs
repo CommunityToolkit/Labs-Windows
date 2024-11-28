@@ -20,90 +20,6 @@ public partial class MarkdownTextBlock : Control
     private MyFlowDocument _document;
     private WinUIRenderer? _renderer;
 
-    private static readonly DependencyProperty ConfigProperty = DependencyProperty.Register(
-        nameof(Config),
-        typeof(MarkdownConfig),
-        typeof(MarkdownTextBlock),
-        new PropertyMetadata(null, OnConfigChanged)
-    );
-
-    private static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-        nameof(Text),
-        typeof(string),
-        typeof(MarkdownTextBlock),
-        new PropertyMetadata(null, OnTextChanged));
-
-    public MarkdownConfig Config
-    {
-        get => (MarkdownConfig)GetValue(ConfigProperty);
-        set => SetValue(ConfigProperty, value);
-    }
-
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
-
-#region Built in Extensions
-
-    private static readonly DependencyProperty UseEmphasisExtrasProperty = DependencyProperty.Register(
-        nameof(UseEmphasisExtras),
-        typeof(bool),
-        typeof(MarkdownTextBlock),
-        new PropertyMetadata(false));
-    public bool UseEmphasisExtras
-    {
-        get => (bool)GetValue(UseEmphasisExtrasProperty);
-        set => SetValue(UseEmphasisExtrasProperty, value);
-    }
-
-    private static readonly DependencyProperty UsePipeTablesProperty = DependencyProperty.Register(
-        nameof(UsePipeTables),
-        typeof(bool),
-        typeof(MarkdownTextBlock),
-        new PropertyMetadata(false));
-    public bool UsePipeTables
-    {
-        get => (bool)GetValue(UsePipeTablesProperty);
-        set => SetValue(UsePipeTablesProperty, value);
-    }
-
-    private static readonly DependencyProperty UseListExtrasProperty = DependencyProperty.Register(
-        nameof(UseListExtras),
-        typeof(bool),
-        typeof(MarkdownTextBlock),
-        new PropertyMetadata(false));
-    public bool UseListExtras
-    {
-        get => (bool)GetValue(UseListExtrasProperty);
-        set => SetValue(UseListExtrasProperty, value);
-    }
-
-    private static readonly DependencyProperty UseTaskListsProperty = DependencyProperty.Register(
-        nameof(UseTaskLists),
-        typeof(bool),
-        typeof(MarkdownTextBlock),
-        new PropertyMetadata(false));
-    public bool UseTaskLists
-    {
-        get => (bool)GetValue(UseTaskListsProperty);
-        set => SetValue(UseTaskListsProperty, value);
-    }
-
-    private static readonly DependencyProperty UseAutoLinksProperty = DependencyProperty.Register(
-        nameof(UseAutoLinks),
-        typeof(bool),
-        typeof(MarkdownTextBlock),
-        new PropertyMetadata(false));
-    public bool UseAutoLinks
-    {
-        get => (bool)GetValue(UseAutoLinksProperty);
-        set => SetValue(UseAutoLinksProperty, value);
-    }
-
-    #endregion
-
     private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
@@ -138,6 +54,7 @@ public partial class MarkdownTextBlock : Control
         if (UseListExtras) pipelineBuilder = pipelineBuilder.UseListExtras();
         if (UseTaskLists) pipelineBuilder = pipelineBuilder.UseTaskLists();
         if (UseAutoLinks) pipelineBuilder = pipelineBuilder.UseAutoLinks();
+        if (UseSoftlineBreakAsHardlineBreak) pipelineBuilder = pipelineBuilder.UseSoftlineBreakAsHardlineBreak();
 
         _pipeline = pipelineBuilder.Build();
 
