@@ -77,13 +77,13 @@ internal class MyEmphasisInline : IAddChild, ICascadeChild
     public void SetSubscript()
     {
         _isSubscript = true;
-        ConstructContainer();
+        ConstructSubSuperContainer();
     }
 
     public void SetSuperscript()
     {
         _isSuperscript = true;
-        ConstructContainer();
+        ConstructSubSuperContainer();
     }
 
     public void InheritProperties(IAddChild parent)
@@ -97,8 +97,12 @@ internal class MyEmphasisInline : IAddChild, ICascadeChild
         _textElementCur.Foreground = parent.TextElement.Foreground;
     }
 
-    private void ConstructContainer()
+    private void ConstructSubSuperContainer()
     {
+        // usually runs get added directly under _span.Inlines (_span -> Run)
+        // for sub/superscript, we use a inline container under _span to translate the Y position of the text
+        // (_span -> InlineUIContainer -> RichTextBlock -> Paragraph -> Run)
+
         var container = new InlineUIContainer();
         var richText = new RichTextBlock();
         var paragraph = new Paragraph
