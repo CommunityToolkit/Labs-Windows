@@ -45,6 +45,7 @@ internal class MyList : IAddChild
         }
 
         _stackPanel.Orientation = Orientation.Vertical;
+        _stackPanel.Margin = new Thickness(left: 0, top: 8, right: 0, bottom: 8);
         _container.Child = _stackPanel;
         _paragraph.Inlines.Add(_container);
     }
@@ -52,7 +53,8 @@ internal class MyList : IAddChild
     public void AddChild(IAddChild child)
     {
         var grid = new Grid();
-        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(20, GridUnitType.Pixel) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(10, GridUnitType.Pixel) });
         grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
         string bullet;
         if (_isOrdered)
@@ -79,11 +81,12 @@ internal class MyList : IAddChild
         };
         textBlock.SetValue(Grid.ColumnProperty, 0);
         textBlock.VerticalAlignment = VerticalAlignment.Top;
+        textBlock.TextAlignment = TextAlignment.Right;
         grid.Children.Add(textBlock);
         var flowDoc = new MyFlowDocument();
         flowDoc.AddChild(child);
 
-        flowDoc.RichTextBlock.SetValue(Grid.ColumnProperty, 1);
+        flowDoc.RichTextBlock.SetValue(Grid.ColumnProperty, 2);
         flowDoc.RichTextBlock.Padding = new Thickness(0);
         flowDoc.RichTextBlock.VerticalAlignment = VerticalAlignment.Top;
         grid.Children.Add(flowDoc.RichTextBlock);

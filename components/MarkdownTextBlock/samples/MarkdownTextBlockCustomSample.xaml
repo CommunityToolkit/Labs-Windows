@@ -25,7 +25,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <controls:MarkdownTextBlock Grid.Column="0"
+            <controls:MarkdownTextBlock x:Name="MarkdownTextBlock1"
+                                        Grid.Column="0"
                                         Config="{x:Bind LiveMarkdownConfig, Mode=OneTime}"
                                         Text="{x:Bind MarkdownTextBox.Text, Mode=OneWay}" />
             <TextBox x:Name="MarkdownTextBox"
@@ -37,7 +38,8 @@
                    FontSize="16"
                    FontWeight="Bold"
                    Text="Built-in Sample" />
-        <controls:MarkdownTextBlock Grid.Row="3"
+        <controls:MarkdownTextBlock x:Name="MarkdownTextBlock2"
+                                    Grid.Row="3"
                                     Config="{x:Bind MarkdownConfig, Mode=OneTime}"
                                     Text="{x:Bind Text, Mode=OneTime}"
                                     UseAutoLinks="True"
