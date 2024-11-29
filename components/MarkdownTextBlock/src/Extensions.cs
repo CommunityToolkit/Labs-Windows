@@ -710,13 +710,13 @@ public static class Extensions
         return new(0, 0);
     }
 
-    public static SolidColorBrush GetAccentColorBrush()
+    public static SolidColorBrush GetAccentColorBrush(UIColorType colorType = UIColorType.Accent)
     {
         // Create a UISettings object to get the accent color
         var uiSettings = new UISettings();
 
         // Get the accent color as a Color value
-        var accentColor = uiSettings.GetColorValue(UIColorType.Accent);
+        var accentColor = uiSettings.GetColorValue(colorType);
 
         // Create a SolidColorBrush from the accent color
         var accentBrush = new SolidColorBrush(accentColor);
