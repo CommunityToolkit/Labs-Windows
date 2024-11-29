@@ -18,7 +18,7 @@
                             <GradientStop Offset="1" Color="Transparent" />
                         </LinearGradientBrush>
                     </Rectangle.Fill>
-                                </Rectangle>
+                </Rectangle>
             </controls:OpacityMaskView.OpacityMask>
             <Button Content="Hello Windows Community Toolkit" />
         </controls:OpacityMaskView>
