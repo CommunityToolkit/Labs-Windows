@@ -8,6 +8,7 @@ using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Ex
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Inlines;
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 using Markdig;
+using Markdig.Syntax;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 
@@ -87,8 +88,8 @@ public partial class MarkdownTextBlock : Control
 
             if (!string.IsNullOrEmpty(Text))
             {
-                var markdown = Markdown.Parse(Text, _pipeline);
-                _renderer.Render(markdown);
+                this.MarkdownDocument = Markdown.Parse(Text, _pipeline);
+                _renderer.Render(this.MarkdownDocument);
             }
         }
     }

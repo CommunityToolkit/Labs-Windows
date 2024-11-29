@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Markdig.Syntax;
+
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 
 public partial class MarkdownTextBlock
@@ -79,6 +81,15 @@ public partial class MarkdownTextBlock
         typeof(MarkdownTextBlock),
         new PropertyMetadata(false));
 
+    /// <summary>
+    /// Identifies the <see cref="MarkdownDocument"/> dependency property.
+    /// </summary>
+    private static readonly DependencyProperty MarkdownDocumentProperty = DependencyProperty.Register(
+        nameof(MarkdownDocument),
+        typeof(MarkdownDocument),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(null));
+
     public MarkdownConfig Config
     {
         get => (MarkdownConfig)GetValue(ConfigProperty);
@@ -146,5 +157,14 @@ public partial class MarkdownTextBlock
     {
         get => (bool)GetValue(UseSoftlineBreakAsHardlineBreakProperty);
         set => SetValue(UseSoftlineBreakAsHardlineBreakProperty, value);
+    }
+
+    /// <summary>
+    /// Gets the parsed markdown document. May be null if the document has not been parsed yet.
+    /// </summary>
+    public MarkdownDocument? MarkdownDocument
+    {
+        get => (MarkdownDocument)GetValue(MarkdownDocumentProperty);
+        private set => SetValue(MarkdownDocumentProperty, value);
     }
 }
