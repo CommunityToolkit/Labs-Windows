@@ -6,7 +6,7 @@
     <Description>This package contains DependencyPropertyGenerator.</Description>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
-    <RootNamespace>CommunityToolkit.DependencyPropertyGeneratorRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.WinUI.DependencyPropertyGeneratorRns</RootNamespace>
     <HasWinUI2>false</HasWinUI2>
   </PropertyGroup>
 
@@ -38,10 +38,10 @@
   <ItemGroup Label="Package">
 
     <!-- Include the custom .targets file to check the source generator -->
-    <None Include="CommunityToolkit.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\net8.0-windows10.0.17763.0" Pack="true" />
-    <None Include="CommunityToolkit.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\uap10.0" Pack="true" />
-    <None Include="CommunityToolkit.DependencyPropertyGenerator.targets" PackagePath="build\net8.0-windows10.0.17763.0" Pack="true" />
-    <None Include="CommunityToolkit.DependencyPropertyGenerator.targets" PackagePath="build\uap10.0" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\net8.0-windows10.0.17763.0" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\uap10.0" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\net8.0-windows10.0.17763.0" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\uap10.0" Pack="true" />
 
     <!-- Pack the source generator to the right package folder -->
     <None Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
