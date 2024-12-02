@@ -8,6 +8,7 @@
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
     <RootNamespace>CommunityToolkit.WinUI.DependencyPropertyGeneratorRns</RootNamespace>
     <HasWinUI2>false</HasWinUI2>
+    <EnableGlobalUsings>false</EnableGlobalUsings>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
@@ -20,12 +21,7 @@
   <!-- Only include the polyfills the library needs (to minimize binary size) -->
   <PropertyGroup>
     <PolySharpIncludeGeneratedTypes>
-      System.Diagnostics.CodeAnalysis.NotNullAttribute;
-      System.Diagnostics.CodeAnalysis.NotNullWhenAttribute;
-      System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute;
-      System.Diagnostics.CodeAnalysis.MemberNotNullAttribute;
-      System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute;
-      System.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
+      System.Runtime.CompilerServices.IsExternalInit;
     </PolySharpIncludeGeneratedTypes>
   </PropertyGroup>
 
@@ -45,10 +41,5 @@
 
     <!-- Pack the source generator to the right package folder -->
     <None Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
-  </ItemGroup>
-
-  <!-- Remove imported global usings -->
-  <ItemGroup>
-    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
   </ItemGroup>
 </Project>
