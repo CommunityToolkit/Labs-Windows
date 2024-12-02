@@ -5,6 +5,7 @@
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 using Markdig;
+using Markdig.Syntax;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 
@@ -30,6 +31,12 @@ public partial class MarkdownTextBlock : Control
         typeof(MarkdownTextBlock),
         new PropertyMetadata(null, OnTextChanged));
 
+    private static readonly DependencyProperty MarkdownDocumentProperty = DependencyProperty.Register(
+        nameof(MarkdownDocument),
+        typeof(MarkdownDocument),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(null));
+
     public MarkdownConfig Config
     {
         get => (MarkdownConfig)GetValue(ConfigProperty);
@@ -40,6 +47,12 @@ public partial class MarkdownTextBlock : Control
     {
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
+    }
+
+    public MarkdownDocument? MarkdownDocument
+    {
+        get => (MarkdownDocument)GetValue(MarkdownDocumentProperty);
+        private set => SetValue(MarkdownDocumentProperty, value);
     }
 
     public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
@@ -102,8 +115,8 @@ public partial class MarkdownTextBlock : Control
 
             if (!string.IsNullOrEmpty(Text))
             {
-                var markdown = Markdown.Parse(Text, _pipeline);
-                _renderer.Render(markdown);
+                this.MarkdownDocument = Markdown.Parse(Text, _pipeline);
+                _renderer.Render(this.MarkdownDocument);
             }
         }
     }
