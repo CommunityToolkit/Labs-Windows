@@ -1,0 +1,54 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
+  
+  <PropertyGroup>
+    <ToolkitComponentName>DependencyPropertyGenerator</ToolkitComponentName>
+    <Description>This package contains DependencyPropertyGenerator.</Description>
+
+    <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
+    <RootNamespace>CommunityToolkit.DependencyPropertyGeneratorRns</RootNamespace>
+    <HasWinUI2>false</HasWinUI2>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's source project -->
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
+
+  <ItemGroup>
+    <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <!-- Only include the polyfills the library needs (to minimize binary size) -->
+  <PropertyGroup>
+    <PolySharpIncludeGeneratedTypes>
+      System.Diagnostics.CodeAnalysis.NotNullAttribute;
+      System.Diagnostics.CodeAnalysis.NotNullWhenAttribute;
+      System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute;
+      System.Diagnostics.CodeAnalysis.MemberNotNullAttribute;
+      System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute;
+      System.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
+    </PolySharpIncludeGeneratedTypes>
+  </PropertyGroup>
+
+  <!-- Source generator project reference for packing -->
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <!-- Pack the source generator and the .targets file -->
+  <ItemGroup Label="Package">
+
+    <!-- Include the custom .targets file to check the source generator -->
+    <None Include="CommunityToolkit.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\net8.0-windows10.0.17763.0" Pack="true" />
+    <None Include="CommunityToolkit.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\uap10.0" Pack="true" />
+    <None Include="CommunityToolkit.DependencyPropertyGenerator.targets" PackagePath="build\net8.0-windows10.0.17763.0" Pack="true" />
+    <None Include="CommunityToolkit.DependencyPropertyGenerator.targets" PackagePath="build\uap10.0" Pack="true" />
+
+    <!-- Pack the source generator to the right package folder -->
+    <None Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
+  </ItemGroup>
+
+  <!-- Remove imported global usings -->
+  <ItemGroup>
+    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
+  </ItemGroup>
+</Project>
