@@ -30,12 +30,12 @@
   <!-- Embedded resources to validate the post initialization sources -->
   <ItemGroup>
     <EmbeddedResource
-      Include="..\..\src\CommunityToolkit.GeneratedDependencyProperty.SourceGenerator\EmbeddedResources\GeneratedDependencyProperty.g.cs"
-      Link="EmbeddedResources\GeneratedDependencyProperty.g.cs"
+      Include="..\..\src\CommunityToolkit.GeneratedDependencyProperty.SourceGenerator\EmbeddedResources\GeneratedDependencyProperty.cs"
+      Link="EmbeddedResources\GeneratedDependencyProperty.cs"
       LogicalName="GeneratedDependencyProperty.g.cs" />
     <EmbeddedResource
-      Include="..\..\src\CommunityToolkit.GeneratedDependencyProperty.SourceGenerator\EmbeddedResources\GeneratedDependencyPropertyAttribute.g.cs"
-      Link="EmbeddedResources\GeneratedDependencyPropertyAttribute.g.cs"
+      Include="..\..\src\CommunityToolkit.GeneratedDependencyProperty.SourceGenerator\EmbeddedResources\GeneratedDependencyPropertyAttribute.cs"
+      Link="EmbeddedResources\GeneratedDependencyPropertyAttribute.cs"
       LogicalName="GeneratedDependencyPropertyAttribute.g.cs" />
   </ItemGroup>
 </Project>

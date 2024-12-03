@@ -23,8 +23,8 @@
 
   <!-- Include the embedded resources for the post initialization source outputs -->
   <ItemGroup>
-    <Compile Remove="EmbeddedResources\*.g.cs" />
-    <EmbeddedResource Include="EmbeddedResources\GeneratedDependencyProperty.g.cs" LogicalName="GeneratedDependencyProperty.g.cs" />
-    <EmbeddedResource Include="EmbeddedResources\GeneratedDependencyPropertyAttribute.g.cs" LogicalName="GeneratedDependencyPropertyAttribute.g.cs" />
+    <Compile Remove="EmbeddedResources\*.cs" />
+    <EmbeddedResource Include="EmbeddedResources\GeneratedDependencyProperty.cs" LogicalName="GeneratedDependencyProperty.g.cs" />
+    <EmbeddedResource Include="EmbeddedResources\GeneratedDependencyPropertyAttribute.cs" LogicalName="GeneratedDependencyPropertyAttribute.g.cs" />
   </ItemGroup>
 </Project>
