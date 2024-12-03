@@ -22,9 +22,4 @@
     <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
     <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
   </ItemGroup>
-
-  <!-- Remove imported global usings -->
-  <ItemGroup>
-    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
-  </ItemGroup>
 </Project>
