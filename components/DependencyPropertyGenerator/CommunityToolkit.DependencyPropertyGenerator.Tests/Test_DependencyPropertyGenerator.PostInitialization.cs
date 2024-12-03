@@ -33,7 +33,7 @@ partial class Test_DependencyPropertyGenerator
         string fileName = $"{typeName}.g.cs";
         string sourceText;
 
-        using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(fileName))
+        using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(fileName)!)
         using (StreamReader reader = new(stream))
         {
             sourceText = reader.ReadToEnd();
@@ -41,7 +41,7 @@ partial class Test_DependencyPropertyGenerator
 
         string updatedSourceText = sourceText
             .Replace("<GENERATOR_NAME>", "CommunityToolkit.WinUI.DependencyPropertyGenerator")
-            .Replace("<ASSEMBLY_VERSION>", typeof(DependencyPropertyGenerator).Assembly.GetName().Version.ToString());
+            .Replace("<ASSEMBLY_VERSION>", typeof(DependencyPropertyGenerator).Assembly.GetName().Version!.ToString());
 
         CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, (fileName, updatedSourceText), languageVersion: LanguageVersion.CSharp13);
     }
