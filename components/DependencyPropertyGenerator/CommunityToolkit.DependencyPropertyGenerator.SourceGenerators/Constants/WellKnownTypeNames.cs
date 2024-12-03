@@ -15,6 +15,11 @@ internal static class WellKnownTypeNames
     public const string GeneratedDependencyPropertyAttribute = "CommunityToolkit.WinUI.GeneratedDependencyPropertyAttribute";
 
     /// <summary>
+    /// The fully qualified type name for the <c>GeneratedDependencyProperty</c> type.
+    /// </summary>
+    public const string GeneratedDependencyProperty = "CommunityToolkit.WinUI.GeneratedDependencyProperty";
+
+    /// <summary>
     /// The fully qualified type name for the <c>XAML</c> namespace.
     /// </summary>
     public const string XamlNamespace =

@@ -14,6 +14,7 @@ using CommunityToolkit.GeneratedDependencyProperty.Models;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace CommunityToolkit.GeneratedDependencyProperty;
 
@@ -227,10 +228,28 @@ partial class DependencyPropertyGenerator
                     return TypedConstantInfo.Create(defaultValue);
                 }
 
-                // Handle 'UnsetValue' as well
-                if (InvalidPropertyDefaultValueTypeAttribute.IsDependencyPropertyUnsetValue(attributeData, semanticModel, token))
+                // If we do have a default value, we also want to check whether it's the special 'UnsetValue' placeholder.
+                // To do so, we get the application syntax, find the argument, then get the operation and inspect it.
+                if (attributeData.ApplicationSyntaxReference?.GetSyntax(token) is AttributeSyntax attributeSyntax)
                 {
-                    return UnsetValueInfo;
+                    foreach (AttributeArgumentSyntax attributeArgumentSyntax in attributeSyntax.ArgumentList?.Arguments ?? [])
+                    {
+                        // Let's see whether the current argument is the one that set the 'DefaultValue' property
+                        if (attributeArgumentSyntax.NameEquals?.Name.Identifier.Text is "DefaultValue")
+                        {
+                            IOperation? operation = semanticModel.GetOperation(attributeArgumentSyntax.Expression, token);
+
+                            // Double check that it's a constant field reference (it could also be a literal of some kind, etc.)
+                            if (operation is IFieldReferenceOperation { Field: { Name: "UnsetValue" } fieldSymbol })
+                            {
+                                // Last step: we want to validate that the reference is actually to the special placeholder
+                                if (fieldSymbol.ContainingType!.HasFullyQualifiedMetadataName(WellKnownTypeNames.GeneratedDependencyProperty))
+                                {
+                                    return UnsetValueInfo;
+                                }
+                            }
+                        }
+                    }
                 }
 
                 // Otherwise, the value has been explicitly set to 'null', so let's respect that
