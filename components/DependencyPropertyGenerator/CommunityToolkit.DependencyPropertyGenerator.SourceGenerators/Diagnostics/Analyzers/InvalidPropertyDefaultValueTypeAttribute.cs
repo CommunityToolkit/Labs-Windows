@@ -80,7 +80,7 @@ public sealed class InvalidPropertyDefaultValueTypeAttribute : DiagnosticAnalyze
                 {
                     SyntaxNode propertyNode = propertyReference.GetSyntax(context.CancellationToken);
 
-                    if (!IsValidPropertyDeclaration(propertyNode))
+                    // if (!IsValidPropertyDeclaration(propertyNode))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(
                             InvalidPropertyDeclaration,
