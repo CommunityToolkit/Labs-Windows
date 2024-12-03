@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Immutable;
+using CommunityToolkit.GeneratedDependencyProperty.Constants;
 using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -28,7 +29,7 @@ public sealed class InvalidPropertyNonNullableDeclarationAnalyzer : DiagnosticAn
         context.RegisterCompilationStartAction(static context =>
         {
             // Get the '[GeneratedDependencyProperty]' symbol (there might be multiples, due to embedded mode)
-            ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName("CommunityToolkit.WinUI.GeneratedDependencyPropertyAttribute");
+            ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName(WellKnownTypeNames.GeneratedDependencyPropertyAttribute);
 
             // Attempt to also get the '[MaybeNull]' symbols (there might be multiples, due to polyfills)
             ImmutableArray<INamedTypeSymbol> maybeNullAttributeSymbol = context.Compilation.GetTypesByMetadataName("System.Diagnostics.CodeAnalysis.MaybeNullAttribute");

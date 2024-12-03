@@ -4,6 +4,7 @@
 
 using System.Collections.Immutable;
 using System.Threading;
+using CommunityToolkit.GeneratedDependencyProperty.Constants;
 using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -36,7 +37,7 @@ public sealed class InvalidPropertyDefaultValueTypeAttribute : DiagnosticAnalyze
         context.RegisterCompilationStartAction(static context =>
         {
             // Get the '[GeneratedDependencyProperty]' symbol (there might be multiples, due to embedded mode)
-            ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName("CommunityToolkit.WinUI.GeneratedDependencyPropertyAttribute");
+            ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName(WellKnownTypeNames.GeneratedDependencyPropertyAttribute);
 
             context.RegisterSymbolAction(context =>
             {

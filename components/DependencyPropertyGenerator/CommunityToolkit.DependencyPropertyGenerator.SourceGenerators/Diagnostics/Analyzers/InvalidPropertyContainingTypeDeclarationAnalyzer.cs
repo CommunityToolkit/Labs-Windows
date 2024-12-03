@@ -29,7 +29,7 @@ public sealed class InvalidPropertyContainingTypeDeclarationAnalyzer : Diagnosti
         context.RegisterCompilationStartAction(static context =>
         {
             // Get the '[GeneratedDependencyProperty]' symbol (there might be multiples, due to embedded mode)
-            ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName("CommunityToolkit.WinUI.GeneratedDependencyPropertyAttribute");
+            ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName(WellKnownTypeNames.GeneratedDependencyPropertyAttribute);
 
             // Get the 'DependencyObject' symbol
             if (context.Compilation.GetTypeByMetadataName(WellKnownTypeNames.DependencyObject) is not { } dependencyObjectSymbol)

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Immutable;
+using CommunityToolkit.GeneratedDependencyProperty.Constants;
 using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -30,7 +31,7 @@ public sealed class InvalidPropertySyntaxDeclarationAnalyzer : DiagnosticAnalyze
         context.RegisterCompilationStartAction(static context =>
         {
             // Get the '[GeneratedDependencyProperty]' symbol (there might be multiples, due to embedded mode)
-            ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName("CommunityToolkit.WinUI.GeneratedDependencyPropertyAttribute");
+            ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName(WellKnownTypeNames.GeneratedDependencyPropertyAttribute);
 
             context.RegisterSymbolAction(context =>
             {
