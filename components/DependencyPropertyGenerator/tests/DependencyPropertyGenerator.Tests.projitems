@@ -8,16 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>DependencyPropertyGeneratorExperiment.Tests</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleDependencyPropertyGeneratorTestClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleDependencyPropertyGeneratorTestPage.xaml.cs">
-      <DependentUpon>ExampleDependencyPropertyGeneratorTestPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)ExampleDependencyPropertyGeneratorTestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
 </Project>
