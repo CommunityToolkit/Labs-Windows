@@ -27,4 +27,9 @@
     <EmbeddedResource Include="EmbeddedResources\GeneratedDependencyProperty.cs" LogicalName="GeneratedDependencyProperty.g.cs" />
     <EmbeddedResource Include="EmbeddedResources\GeneratedDependencyPropertyAttribute.cs" LogicalName="GeneratedDependencyPropertyAttribute.g.cs" />
   </ItemGroup>
+
+  <!-- We don't want global usings here -->
+  <ItemGroup>
+    <Compile Remove="..\..\..\tooling\GlobalUsings.cs" />
+  </ItemGroup>
 </Project>
