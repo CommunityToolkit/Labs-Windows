@@ -23,18 +23,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.csproj" />
     <ProjectReference Include="..\src\CommunityToolkit.WinUI.DependencyPropertyGenerator.csproj" />
   </ItemGroup>
 
   <!-- Embedded resources to validate the post initialization sources -->
   <ItemGroup>
     <EmbeddedResource
-      Include="..\src\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\EmbeddedResources\GeneratedDependencyProperty.cs"
+      Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\EmbeddedResources\GeneratedDependencyProperty.cs"
       Link="EmbeddedResources\GeneratedDependencyProperty.cs"
       LogicalName="GeneratedDependencyProperty.g.cs" />
     <EmbeddedResource
-      Include="..\src\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\EmbeddedResources\GeneratedDependencyPropertyAttribute.cs"
+      Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\EmbeddedResources\GeneratedDependencyPropertyAttribute.cs"
       Link="EmbeddedResources\GeneratedDependencyPropertyAttribute.cs"
       LogicalName="GeneratedDependencyPropertyAttribute.g.cs" />
   </ItemGroup>
