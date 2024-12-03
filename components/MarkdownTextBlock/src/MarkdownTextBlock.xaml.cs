@@ -55,8 +55,6 @@ public partial class MarkdownTextBlock : Control
         private set => SetValue(MarkdownDocumentProperty, value);
     }
 
-    public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
-
     internal void RaiseLinkClickedEvent(Uri uri) => OnLinkClicked?.Invoke(this, new LinkClickedEventArgs(uri));
 
     private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -116,6 +114,7 @@ public partial class MarkdownTextBlock : Control
             if (!string.IsNullOrEmpty(Text))
             {
                 this.MarkdownDocument = Markdown.Parse(Text, _pipeline);
+                OnMarkdownParsed?.Invoke(this, new MarkdownParsedEventArgs(this.MarkdownDocument));
                 _renderer.Render(this.MarkdownDocument);
             }
         }
