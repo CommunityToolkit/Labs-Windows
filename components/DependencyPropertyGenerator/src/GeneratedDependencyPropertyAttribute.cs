@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if WINDOWS_UWP
+#if WINDOWS_UWP || HAS_UNO
 using DependencyObject = Windows.UI.Xaml.DependencyObject;
 using DependencyProperty = Windows.UI.Xaml.DependencyProperty;
 using PropertyMetadata = Windows.UI.Xaml.PropertyMetadata;
