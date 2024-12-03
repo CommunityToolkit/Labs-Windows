@@ -13,6 +13,7 @@ partial class MarkdownTextBlock
 
     /// <summary>
     /// Event raised when markdown is done parsing, with a complete MarkdownDocument.
+    /// It is always raised before the control renders the document.
     /// </summary>
     public event EventHandler<MarkdownParsedEventArgs>? OnMarkdownParsed;
 }
