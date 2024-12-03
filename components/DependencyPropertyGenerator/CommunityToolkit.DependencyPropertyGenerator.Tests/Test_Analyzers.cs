@@ -743,4 +743,161 @@ public class Test_Analyzers
 
         await CSharpAnalyzerTest<InvalidPropertyNonNullableDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_NoAttribute_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public class MyControl : Control
+            {
+                public string? Name { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_NoDefaultValue_DoesNotWarn()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string?")]
+    [DataRow("int")]
+    [DataRow("int?")]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_UnsetValue_DoesNotWarn(string propertyType)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = GeneratedDependencyProperty.UnsetValue)]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string")]
+    [DataRow("int?")]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_NullValue_Nullable_DoesNotWarn(string propertyType)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = null)]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string", "\"test\"")]
+    [DataRow("int", "42")]
+    [DataRow("double", "3.14")]
+    [DataRow("int?", "42")]
+    [DataRow("double?", "3.14")]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_CompatibleType_DoesNotWarn(string propertyType, string defaultValueType)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = {{defaultValueType}})]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_NullValue_NonNullable_Warns()
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0010:GeneratedDependencyProperty(DefaultValue = null)|}]
+                public partial int {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string", "42")]
+    [DataRow("string", "3.14")]
+    [DataRow("int", "\"test\"")]
+    [DataRow("int?", "\"test\"")]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_IncompatibleType_Warns(string propertyType, string defaultValueType)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0011:GeneratedDependencyProperty(DefaultValue = {{defaultValueType}})|}]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
 }
