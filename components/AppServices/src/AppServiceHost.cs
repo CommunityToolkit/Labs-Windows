@@ -75,7 +75,7 @@ public abstract class AppServiceHost
     private static bool CanUseAppServiceFunctionality { get; } = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop" && ApiInformation.IsApiContractPresent("Windows.ApplicationModel.FullTrustAppContract", 1, 0);
 
     /// <summary>
-    /// Handles the app service activation when <see cref="Windows.UI.Xaml.Application.OnBackgroundActivated(BackgroundActivatedEventArgs)"/> is invoked.
+    /// Handles the app service activation when <see cref="OnBackgroundActivated(BackgroundActivatedEventArgs)"/> is invoked.
     /// </summary>
     /// <param name="args">The args for the background activation.</param>
     /// <returns>Whether this activation was an app service connection that could be handled by this host.</returns>
@@ -204,9 +204,9 @@ public abstract class AppServiceHost
         if (args.Request.Message.TryGetValue(ProgressKey, out object? progressKey) &&
             args.Request.Message.TryGetValue(ProgressValue, out object? progressValue) &&
             progressKey is Guid id &&
-            _progressTrackers.TryGetValue(id, out IProgress<object> progress))
+            _progressTrackers.TryGetValue(id, out IProgress<object>? progress))
         {
-            progress.Report(progressValue);
+            progress?.Report(progressValue);
         }
     }
 
