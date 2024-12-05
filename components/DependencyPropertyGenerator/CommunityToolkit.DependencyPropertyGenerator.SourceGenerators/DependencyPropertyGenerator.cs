@@ -47,7 +47,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
 
                     // This generator requires C# preview to be used (due to the use of the 'field' keyword).
                     // The 'field' keyword is actually only used when local caching is enabled, so filter to that.
-                    if (!isLocalCachingEnabled && !context.SemanticModel.Compilation.IsLanguageVersionPreview())
+                    if (isLocalCachingEnabled && !context.SemanticModel.Compilation.IsLanguageVersionPreview())
                     {
                         return null;
                     }
