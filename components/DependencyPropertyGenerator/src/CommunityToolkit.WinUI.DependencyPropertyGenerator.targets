@@ -16,27 +16,22 @@
     <DefineConstants>$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_USE_WINDOWS_UI_XAML</DefineConstants>
   </PropertyGroup>
 
-  <!-- Emit additional messages for invalid configurations when referencing the WinUI runtime library -->
+  <!-- Emit additional messages for invalid configurations when referencing the runtime library -->
   <Target Name="CommunityToolkitGeneratedDependencyPropertyCheckForInvalidEmbeddedMode"
           DependsOnTargets="ResolveAssemblyReferences"
           BeforeTargets="CoreCompile"
           Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true'">
     <ItemGroup>
-      <CommunityToolkitGeneratedDependencyPropertyDllReferencePath Include="@(ReferencePath)" Condition="'%(Filename)%(Extension)' == 'CommunityToolkit.GeneratedDependencyProperty.dll'" />
+      <CommunityToolkitGeneratedDependencyPropertyUwpDllReferencePath Include="@(ReferencePath)" Condition="'%(Filename)%(Extension)' == 'CommunityToolkit.Uwp.GeneratedDependencyProperty.dll'" />
+      <CommunityToolkitGeneratedDependencyPropertyWinUIDllReferencePath Include="@(ReferencePath)" Condition="'%(Filename)%(Extension)' == 'CommunityToolkit.WinUI.GeneratedDependencyProperty.dll'" />
     </ItemGroup>
     <PropertyGroup>
       <CommunityToolkitGeneratedDependencyPropertyDllReferenced>false</CommunityToolkitGeneratedDependencyPropertyDllReferenced>
-      <CommunityToolkitGeneratedDependencyPropertyDllReferenced Condition="@(CommunityToolkitGeneratedDependencyPropertyDllReferencePath->Count()) != 0">true</CommunityToolkitGeneratedDependencyPropertyDllReferenced>
+      <CommunityToolkitGeneratedDependencyPropertyDllReferenced Condition="@(CommunityToolkitGeneratedDependencyPropertyUwpDllReferencePath->Count()) != 0">true</CommunityToolkitGeneratedDependencyPropertyDllReferenced>
+      <CommunityToolkitGeneratedDependencyPropertyDllReferenced Condition="@(CommunityToolkitGeneratedDependencyPropertyWinUIDllReferencePath->Count()) != 0">true</CommunityToolkitGeneratedDependencyPropertyDllReferenced>
     </PropertyGroup>
 
-    <!--
-      We validate two scenarios:
-        - WinUI assemblies are referenced, UWP XAML projections are used (this doesn't imply the app is actually UWP, it could also be a Win32 app), and
-          'EnableUnsafeMixedMicrosoftWindowsUIXamlProjections' is not set. This is an error: 'EnableUnsafeMixedMicrosoftWindowsUIXamlProjections' needs
-          to be set explicitly in this case so that it's clear for developers that this scenario is advanced and requires additional setup to work.
-        - WinUI assemblies are not referenced, and 'EnableUnsafeMixedMicrosoftWindowsUIXamlProjections' is set. This is useless, so we emit a warning.
-          This condition being true would most likely indicate some kind of build or configuration issue, so we might as well let the user know.
-    -->
+    <!-- Emit an error if embedded mode is enabled while the runtime .dll (either the UWP or the WinUI one) is also being referenced -->
     <Error Condition="'$(CommunityToolkitGeneratedDependencyPropertyDllReferenced)' == 'true'"
            Code="WCTDPCFG0001"
            HelpLink="https://aka.ms/toolkit/labs/windows"
