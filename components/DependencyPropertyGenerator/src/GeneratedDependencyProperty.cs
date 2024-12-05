@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINDOWS_UWP || HAS_UNO
-using DependencyProperty = Windows.UI.Xaml.DependencyProperty;
-#else
+#if WINAPPSDK 
 using DependencyProperty = Microsoft.UI.Xaml.DependencyProperty;
+#else
+using DependencyProperty = Windows.UI.Xaml.DependencyProperty;
 #endif
 
 namespace CommunityToolkit.WinUI;
