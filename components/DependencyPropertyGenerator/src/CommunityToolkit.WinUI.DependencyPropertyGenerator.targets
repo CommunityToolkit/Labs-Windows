@@ -2,6 +2,7 @@
 
   <!-- Allow manually specifying the XAML mode for the analyzers -->
   <PropertyGroup>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'uap10.0'))">true<DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' == 'true'">true<DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' != 'true'">false<DependencyPropertyGeneratorUseWindowsUIXaml>
   </PropertyGroup>
