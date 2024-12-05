@@ -31,8 +31,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
 
         // Get the info on all dependency properties to generate
         IncrementalValuesProvider<DependencyPropertyInfo> propertyInfo =
-            context.SyntaxProvider
-            .ForAttributeWithMetadataName(
+            context.ForAttributeWithMetadataNameAndOptions(
                 WellKnownTypeNames.GeneratedDependencyPropertyAttribute,
                 Execute.IsCandidateSyntaxValid,
                 static (context, token) =>
@@ -60,8 +59,11 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         return null;
                     }
 
+                    // Get the XAML mode to use
+                    bool useWindowsUIXaml = context.GlobalOptions.GetMSBuildBooleanPropertyValue(WellKnownPropertyNames.DependencyPropertyGeneratorUseWindowsUIXaml);
+
                     // Do an initial filtering on the symbol as well
-                    if (!Execute.IsCandidateSymbolValid(propertySymbol))
+                    if (!Execute.IsCandidateSymbolValid(propertySymbol, useWindowsUIXaml))
                     {
                         return null;
                     }
@@ -87,8 +89,8 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     token.ThrowIfCancellationRequested();
 
                     bool isRequired = Execute.IsRequiredProperty(propertySymbol);
-                    bool isPropertyChangedCallbackImplemented = Execute.IsPropertyChangedCallbackImplemented(propertySymbol);
-                    bool isSharedPropertyChangedCallbackImplemented = Execute.IsSharedPropertyChangedCallbackImplemented(propertySymbol);
+                    bool isPropertyChangedCallbackImplemented = Execute.IsPropertyChangedCallbackImplemented(propertySymbol, useWindowsUIXaml);
+                    bool isSharedPropertyChangedCallbackImplemented = Execute.IsSharedPropertyChangedCallbackImplemented(propertySymbol, useWindowsUIXaml);
                     bool isNet8OrGreater = !context.SemanticModel.Compilation.IsWindowsRuntimeApplication();
 
                     token.ThrowIfCancellationRequested();
@@ -103,6 +105,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         context.Attributes[0],
                         propertySymbol,
                         context.SemanticModel,
+                        useWindowsUIXaml,
                         token);
 
                     // The 'UnsetValue' can only be used when local caching is disabled
@@ -132,7 +135,8 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         IsLocalCachingEnabled: isLocalCachingEnabled,
                         IsPropertyChangedCallbackImplemented: isPropertyChangedCallbackImplemented,
                         IsSharedPropertyChangedCallbackImplemented: isSharedPropertyChangedCallbackImplemented,
-                        IsNet8OrGreater: isNet8OrGreater);
+                        IsNet8OrGreater: isNet8OrGreater,
+                        UseWindowsUIXaml: useWindowsUIXaml);
                 })
             .WithTrackingName(WellKnownTrackingNames.Execute)
             .Where(static item => item is not null)!;

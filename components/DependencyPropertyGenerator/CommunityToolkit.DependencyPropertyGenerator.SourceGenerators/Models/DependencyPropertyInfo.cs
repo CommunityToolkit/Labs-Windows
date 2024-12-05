@@ -23,6 +23,7 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Models;
 /// <param name="IsPropertyChangedCallbackImplemented">Indicates whether the WinRT-based property changed callback is implemented.</param>
 /// <param name="IsSharedPropertyChangedCallbackImplemented">Indicates whether the WinRT-based shared property changed callback is implemented.</param>
 /// <param name="IsNet8OrGreater">Indicates whether the current target is .NET 8 or greater.</param>
+/// <param name="UseWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
 internal sealed record DependencyPropertyInfo(
     HierarchyInfo Hierarchy,
     string PropertyName,
@@ -37,4 +38,5 @@ internal sealed record DependencyPropertyInfo(
     bool IsLocalCachingEnabled,
     bool IsPropertyChangedCallbackImplemented,
     bool IsSharedPropertyChangedCallbackImplemented,
-    bool IsNet8OrGreater);
+    bool IsNet8OrGreater,
+    bool UseWindowsUIXaml);

@@ -28,11 +28,14 @@ public sealed class InvalidPropertyConflictingDeclarationAnalyzer : DiagnosticAn
 
         context.RegisterCompilationStartAction(static context =>
         {
+            // Get the XAML mode to use
+            bool useWindowsUIXaml = context.Options.AnalyzerConfigOptionsProvider.GlobalOptions.GetMSBuildBooleanPropertyValue(WellKnownPropertyNames.DependencyPropertyGeneratorUseWindowsUIXaml);
+
             // Get the '[GeneratedDependencyProperty]' symbol (there might be multiples, due to embedded mode)
             ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName(WellKnownTypeNames.GeneratedDependencyPropertyAttribute);
 
             // Get the 'DependencyPropertyChangedEventArgs' symbol
-            if (context.Compilation.GetTypeByMetadataName(WellKnownTypeNames.DependencyPropertyChangedEventArgs) is not { } dependencyPropertyChangedEventArgsSymbol)
+            if (context.Compilation.GetTypeByMetadataName(WellKnownTypeNames.DependencyPropertyChangedEventArgs(useWindowsUIXaml)) is not { } dependencyPropertyChangedEventArgsSymbol)
             {
                 return;
             }

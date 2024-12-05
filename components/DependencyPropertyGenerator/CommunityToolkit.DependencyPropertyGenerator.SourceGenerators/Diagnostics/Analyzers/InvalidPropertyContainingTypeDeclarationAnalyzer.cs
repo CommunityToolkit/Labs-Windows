@@ -28,11 +28,14 @@ public sealed class InvalidPropertyContainingTypeDeclarationAnalyzer : Diagnosti
 
         context.RegisterCompilationStartAction(static context =>
         {
+            // Get the XAML mode to use
+            bool useWindowsUIXaml = context.Options.AnalyzerConfigOptionsProvider.GlobalOptions.GetMSBuildBooleanPropertyValue(WellKnownPropertyNames.DependencyPropertyGeneratorUseWindowsUIXaml);
+
             // Get the '[GeneratedDependencyProperty]' symbol (there might be multiples, due to embedded mode)
             ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName(WellKnownTypeNames.GeneratedDependencyPropertyAttribute);
 
             // Get the 'DependencyObject' symbol
-            if (context.Compilation.GetTypeByMetadataName(WellKnownTypeNames.DependencyObject) is not { } dependencyObjectSymbol)
+            if (context.Compilation.GetTypeByMetadataName(WellKnownTypeNames.DependencyObject(useWindowsUIXaml)) is not { } dependencyObjectSymbol)
             {
                 return;
             }

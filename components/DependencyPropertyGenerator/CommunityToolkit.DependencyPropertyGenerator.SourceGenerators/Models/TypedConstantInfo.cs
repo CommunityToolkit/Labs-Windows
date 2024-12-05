@@ -176,12 +176,13 @@ internal abstract partial record TypedConstantInfo
     /// <summary>
     /// A <see cref="TypedConstantInfo"/> type representing the special unset value.
     /// </summary>
-    public sealed record UnsetValue : TypedConstantInfo
+    /// <param name="UseWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
+    public sealed record UnsetValue(bool UseWindowsUIXaml) : TypedConstantInfo
     {
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"global::{WellKnownTypeNames.DependencyProperty}.UnsetValue";
+            return $"global::{WellKnownTypeNames.DependencyProperty(UseWindowsUIXaml)}.UnsetValue";
         }
     }
 }

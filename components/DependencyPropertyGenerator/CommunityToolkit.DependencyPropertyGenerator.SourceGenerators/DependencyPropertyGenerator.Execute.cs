@@ -32,11 +32,6 @@ partial class DependencyPropertyGenerator
         private static readonly TypedConstantInfo.Null NullInfo = new();
 
         /// <summary>
-        /// Placeholder for the unset value of a given property type.
-        /// </summary>
-        private static readonly TypedConstantInfo.UnsetValue UnsetValueInfo = new();
-
-        /// <summary>
         /// Generates the sources for the embedded types, for <c>PrivateAssets="all"</c> scenarios.
         /// </summary>
         /// <param name="context">The input <see cref="IncrementalGeneratorPostInitializationContext"/> value to use to emit sources.</param>
@@ -109,8 +104,9 @@ partial class DependencyPropertyGenerator
         /// Checks whether an input symbol is a candidate property declaration for the generator.
         /// </summary>
         /// <param name="propertySymbol">The input symbol to check.</param>
+        /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
         /// <returns>Whether <paramref name="propertySymbol"/> is a candidate property declaration.</returns>
-        public static bool IsCandidateSymbolValid(IPropertySymbol propertySymbol)
+        public static bool IsCandidateSymbolValid(IPropertySymbol propertySymbol, bool useWindowsUIXaml)
         {
             // Ensure that the property declaration is a partial definition with no implementation
             if (propertySymbol is not { IsPartialDefinition: true, PartialImplementationPart: null })
@@ -131,7 +127,7 @@ partial class DependencyPropertyGenerator
             }
 
             // Ensure that the containing type derives from 'DependencyObject'
-            if (!typeSymbol.InheritsFromFullyQualifiedMetadataName(WellKnownTypeNames.DependencyObject))
+            if (!typeSymbol.InheritsFromFullyQualifiedMetadataName(WellKnownTypeNames.DependencyObject(useWindowsUIXaml)))
             {
                 return false;
             }
@@ -143,7 +139,7 @@ partial class DependencyPropertyGenerator
             {
                 bool propertyTypeWouldCauseConflicts =
                     propertySymbol.Type.SpecialType == SpecialType.System_Object ||
-                    propertySymbol.Type.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyPropertyChangedEventArgs);
+                    propertySymbol.Type.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyPropertyChangedEventArgs(useWindowsUIXaml));
 
                 return !propertyTypeWouldCauseConflicts;
             }
@@ -211,12 +207,14 @@ partial class DependencyPropertyGenerator
         /// <param name="attributeData">The input <see cref="AttributeData"/> that triggered the annotation.</param>
         /// <param name="propertySymbol">The input <see cref="IPropertySymbol"/> instance.</param>
         /// <param name="semanticModel">The <see cref="SemanticModel"/> for the current compilation.</param>
+        /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
         /// <param name="token">The <see cref="CancellationToken"/> used to cancel the operation, if needed.</param>
         /// <returns>The default value to use to initialize the generated property.</returns>
         public static TypedConstantInfo GetDefaultValue(
             AttributeData attributeData,
             IPropertySymbol propertySymbol,
             SemanticModel semanticModel,
+            bool useWindowsUIXaml,
             CancellationToken token)
         {
             // First, check whether the default value is explicitly set or not
@@ -245,7 +243,7 @@ partial class DependencyPropertyGenerator
                                 // Last step: we want to validate that the reference is actually to the special placeholder
                                 if (fieldSymbol.ContainingType!.HasFullyQualifiedMetadataName(WellKnownTypeNames.GeneratedDependencyProperty))
                                 {
-                                    return UnsetValueInfo;
+                                    return new TypedConstantInfo.UnsetValue(useWindowsUIXaml);
                                 }
                             }
                         }
@@ -281,8 +279,9 @@ partial class DependencyPropertyGenerator
         /// Checks whether the generated code has to register the property changed callback with WinRT.
         /// </summary>
         /// <param name="propertySymbol">The input <see cref="IPropertySymbol"/> instance to process.</param>
+        /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
         /// <returns>Whether the generated should register the property changed callback.</returns>
-        public static bool IsPropertyChangedCallbackImplemented(IPropertySymbol propertySymbol)
+        public static bool IsPropertyChangedCallbackImplemented(IPropertySymbol propertySymbol, bool useWindowsUIXaml)
         {
             // Check for any 'On<PROPERTY_NAME>Changed' methods
             foreach (ISymbol symbol in propertySymbol.ContainingType.GetMembers($"On{propertySymbol.Name}PropertyChanged"))
@@ -296,7 +295,7 @@ partial class DependencyPropertyGenerator
                 // There might be other property changed callback methods when field caching is enabled, or in other scenarios.
                 // Because the callback method existing adds overhead (since we have to register it with WinRT), we want to
                 // avoid false positives. To do that, we check that the parameter type is exactly the one we need.
-                if (argsType.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyPropertyChangedEventArgs))
+                if (argsType.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyPropertyChangedEventArgs(useWindowsUIXaml)))
                 {
                     return true;
                 }
@@ -309,8 +308,9 @@ partial class DependencyPropertyGenerator
         /// Checks whether the generated code has to register the shared property changed callback with WinRT.
         /// </summary>
         /// <param name="propertySymbol">The input <see cref="IPropertySymbol"/> instance to process.</param>
+        /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
         /// <returns>Whether the generated should register the shared property changed callback.</returns>
-        public static bool IsSharedPropertyChangedCallbackImplemented(IPropertySymbol propertySymbol)
+        public static bool IsSharedPropertyChangedCallbackImplemented(IPropertySymbol propertySymbol, bool useWindowsUIXaml)
         {
             // Check for any 'OnPropertyChanged' methods
             foreach (ISymbol symbol in propertySymbol.ContainingType.GetMembers("OnPropertyChanged"))
@@ -322,7 +322,7 @@ partial class DependencyPropertyGenerator
                 }
 
                 // Also same actual check as above
-                if (argsType.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyPropertyChangedEventArgs))
+                if (argsType.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyPropertyChangedEventArgs(useWindowsUIXaml)))
                 {
                     return true;
                 }
@@ -385,36 +385,36 @@ partial class DependencyPropertyGenerator
                     { DefaultValue: TypedConstantInfo.Null, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                             => "null",
                     { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
-                        => $"new global::{WellKnownTypeNames.PropertyMetadata}({defaultValue})",
+                        => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue})",
 
                     // Codegen for legacy UWP
                     { IsNet8OrGreater: false } => propertyInfo switch
                     {
                         { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
-                            => $"new global::{WellKnownTypeNames.PropertyMetadata}({defaultValue}, static (d, e) => (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e))",
+                            => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, static (d, e) => (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e))",
                         { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: true }
-                            => $"new global::{WellKnownTypeNames.PropertyMetadata}({defaultValue}, static (d, e) => (({typeQualifiedName})d).OnPropertyChanged(e))",
+                            => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, static (d, e) => (({typeQualifiedName})d).OnPropertyChanged(e))",
                         { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: true }
-                            => $"new global::{WellKnownTypeNames.PropertyMetadata}({defaultValue}, static (d, e) => {{ (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e); (({typeQualifiedName})d).OnPropertyChanged(e); }})",
+                            => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, static (d, e) => {{ (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e); (({typeQualifiedName})d).OnPropertyChanged(e); }})",
                         _ => throw new ArgumentException($"Invalid default value '{propertyInfo.DefaultValue}'."),
                     },
 
                     // Codegen for .NET 8 or greater
                     { DefaultValue: TypedConstantInfo.Null } and ({ IsPropertyChangedCallbackImplemented: true } or { IsSharedPropertyChangedCallbackImplemented: true })
-                        => $"new global::{WellKnownTypeNames.PropertyMetadata}(null, global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
+                        => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}(null, global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
                     { DefaultValue: { } defaultValue } and ({ IsPropertyChangedCallbackImplemented: true } or { IsSharedPropertyChangedCallbackImplemented: true })
-                        => $"new global::{WellKnownTypeNames.PropertyMetadata}({defaultValue}, global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
+                        => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
                     _ => throw new ArgumentException($"Invalid default value '{propertyInfo.DefaultValue}'."),
                 };
 
                 writer.WriteLine($$"""
                     /// <summary>
-                    /// The backing <see cref="global::{{WellKnownTypeNames.DependencyProperty}}"/> instance for <see cref="{{propertyInfo.PropertyName}}"/>.
+                    /// The backing <see cref="global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}}"/> instance for <see cref="{{propertyInfo.PropertyName}}"/>.
                     /// </summary>
                     """, isMultiline: true);
                 writer.WriteGeneratedAttributes(GeneratorName, includeNonUserCodeAttributes: false);
                 writer.WriteLine($$"""
-                    public static readonly global::{{WellKnownTypeNames.DependencyProperty}} {{propertyInfo.PropertyName}}Property = global::{{WellKnownTypeNames.DependencyProperty}}.Register(
+                    public static readonly global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}} {{propertyInfo.PropertyName}}Property = global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}}.Register(
                         name: "{{propertyInfo.PropertyName}}",
                         propertyType: typeof({{propertyInfo.TypeName}}),
                         ownerType: typeof({{typeQualifiedName}}),
@@ -650,7 +650,7 @@ partial class DependencyPropertyGenerator
                 writer.WriteLine($"""
                     /// <summary>Executes the logic for when <see cref="{propertyInfo.PropertyName}"/> has just changed.</summary>
                     /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
-                    /// <remarks>This method is invoked by the <see cref="global::{WellKnownTypeNames.DependencyProperty}"/> infrastructure, after the value of <see cref="{propertyInfo.PropertyName}"/> is changed.</remarks>
+                    /// <remarks>This method is invoked by the <see cref="global::{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}"/> infrastructure, after the value of <see cref="{propertyInfo.PropertyName}"/> is changed.</remarks>
                     """, isMultiline: true);
                 writer.WriteGeneratedAttributes(GeneratorName, includeNonUserCodeAttributes: false);
                 writer.WriteLine($"partial void On{propertyInfo.PropertyName}PropertyChanged(global::{WellKnownTypeNames.DependencyPropertyChangedEventArgs} e);");
@@ -661,7 +661,7 @@ partial class DependencyPropertyGenerator
             writer.WriteLine($"""
                 /// <summary>Executes the logic for when any dependency property has just changed.</summary>
                 /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
-                /// <remarks>This method is invoked by the <see cref="global::{WellKnownTypeNames.DependencyProperty}"/> infrastructure, after the value of any dependency property has just changed.</remarks>
+                /// <remarks>This method is invoked by the <see cref="global::{WellKnownTypeNames.DependencyProperty(propertyInfos[0].UseWindowsUIXaml)}"/> infrastructure, after the value of any dependency property has just changed.</remarks>
                 """, isMultiline: true);
             writer.WriteGeneratedAttributes(GeneratorName, includeNonUserCodeAttributes: false);
             writer.WriteLine($"partial void OnPropertyChanged(global::{WellKnownTypeNames.DependencyPropertyChangedEventArgs} e);");
@@ -700,7 +700,7 @@ partial class DependencyPropertyGenerator
         public static void WriteAdditionalTypes(EquatableArray<DependencyPropertyInfo> propertyInfos, IndentedTextWriter writer)
         {
             writer.WriteLine("using global::System.Runtime.CompilerServices;");
-            writer.WriteLine($"using global::{WellKnownTypeNames.XamlNamespace};");
+            writer.WriteLine($"using global::{WellKnownTypeNames.XamlNamespace(propertyInfos[0].UseWindowsUIXaml)};");
             writer.WriteLine();
             writer.WriteLine($$"""
                 /// <summary>
