@@ -134,43 +134,7 @@ jobs:
 
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
-        working-directory: ./components/DependencyPropertyGenerator
-        run: powershell -version 5.1 -command "../../tooling/ProjectHeads/GenerateSingleSampleHeads.ps1 -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
-
-      # Build solution
-      - name: MSBuild (With diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
-        working-directory: ./components/DependencyPropertyGenerator
-        run: >
-          msbuild.exe /restore /nowarn:MSB4011
-          /p:Configuration=Release
-          /m
-          ${{ env.ENABLE_DIAGNOSTICS == 'true' && '/bl' || '' }}
-          /v:${{ env.MSBUILD_VERBOSITY }}
-
-      - name: MSBuild
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'false' }}
-        working-directory: ./components/DependencyPropertyGenerator
-        run: msbuild.exe /restore /nowarn:MSB4011 -p:Configuration=Release
-
-      # Run tests
-      - name: Setup VSTest Path
-        uses: darenm/setup-vstest@3a16d909a1f3bbc65b52f8270d475d905e7d3e44
-
-      - name: Install Testspace Module
-        uses: testspace-com/setup-testspace@v1
-        with:
-          domain: ${{ github.repository_owner }}
-
-      - name: Run component tests against ${{ matrix.multitarget }}
-        if: ${{ matrix.multitarget == 'uwp' || matrix.multitarget == 'wasdk' }}
-        id: test-platform
-        run:  vstest.console.exe ./tooling/**/CommunityToolkit.Tests.${{ matrix.multitarget }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ matrix.multitarget }}.trx" /Blame
-
-      - name: Create test reports
-        run: |
-          testspace '[${{ matrix.multitarget }}]./TestResults/*.trx'
-        if: ${{ (matrix.multitarget == 'uwp' || matrix.multitarget == 'wasdk') && (steps.test-generator.conclusion == 'success' || steps.test-platform.conclusion == 'success') }}
+        run: powershell -version 5.1 -command "./tooling/Build-Toolkit-Components.ps1 -Components DependencyPropertyGenerator -Release -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v4
