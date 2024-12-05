@@ -60,8 +60,8 @@ jobs:
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them all to run to completion.
       matrix:
-        winui: [2] # Temporary until we can get Uno/Wasm working
-        multitarget: ['uwp'] # Temporary until we can get Uno/Wasm working
+        winui: [2, 3] # Temporary until we can get Uno/Wasm working
+        multitarget: ['uwp', 'wasdk'] # Temporary until we can get Uno/Wasm working
         exclude:
           # WinUI 2 not supported on wasdk
           - winui: 2
@@ -135,7 +135,7 @@ jobs:
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
         working-directory: ./components/DependencyPropertyGenerator
-        run: powershell -version 5.1 -command "./GenerateSingleSampleHeads.ps1 -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
+        run: powershell -version 5.1 -command "../../tooling/ProjectHeads/GenerateSingleSampleHeads.ps1 -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
 
       # Build solution
       - name: MSBuild (With diagnostics)
@@ -214,7 +214,7 @@ jobs:
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them all to run to completion.
       matrix:
-        winui: [2]
+        winui: [2, 3] # Temporary until we can get Uno/Wasm working
 
     env:
       VERSION_PROPERTY: ${{ github.ref == 'refs/heads/main' && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
@@ -270,7 +270,7 @@ jobs:
           
       # Build and pack component nupkg
       - name: Build and pack component packages
-        run: ./tooling/Build-Toolkit-Components.ps1 -Components DependencyPropertyGenerator -MultiTargets uwp -ExcludeMultiTargets ${{ env.EXCLUDED_MULTITARGETS }} -WinUIMajorVersion ${{ matrix.winui }} -DateForVersion ${{ env.VERSION_DATE }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
+        run: ./tooling/Build-Toolkit-Components.ps1 -Components DependencyPropertyGenerator -MultiTargets uwp,wasdk -ExcludeMultiTargets ${{ env.EXCLUDED_MULTITARGETS }} -WinUIMajorVersion ${{ matrix.winui }} -DateForVersion ${{ env.VERSION_DATE }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
 
       - name: Validate package names
         if: ${{ env.VERSION_PROPERTY != '' }}
