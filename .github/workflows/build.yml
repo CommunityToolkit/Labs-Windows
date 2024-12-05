@@ -60,8 +60,8 @@ jobs:
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them all to run to completion.
       matrix:
-        winui: [2, 3]
-        multitarget: ['uwp', 'wasdk', 'wasm', 'wpf', 'linuxgtk', 'macos', 'ios', 'android']
+        winui: [2] # Temporary until we can get Uno/Wasm working
+        multitarget: ['uwp'] # Temporary until we can get Uno/Wasm working
         exclude:
           # WinUI 2 not supported on wasdk
           - winui: 2
