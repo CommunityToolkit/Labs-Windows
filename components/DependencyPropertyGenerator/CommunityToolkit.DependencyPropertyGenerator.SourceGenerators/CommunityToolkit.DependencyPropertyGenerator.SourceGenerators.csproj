@@ -4,7 +4,6 @@
     <Nullable>enable</Nullable>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
 
     <!-- We're intentionally not always matching the namespace with folder path, to better organize the code -->
     <NoWarn>$(NoWarn);IDE0130</NoWarn>
