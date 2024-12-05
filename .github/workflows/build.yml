@@ -134,23 +134,24 @@ jobs:
 
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
-        working-directory: ./
-        run: powershell -version 5.1 -command "./tooling/GenerateAllSolution.ps1 -Components DependencyPropertyGenerator -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
+        working-directory: ./components/DependencyPropertyGenerator
+        run: powershell -version 5.1 -command "./GenerateSingleSampleHeads.ps1 -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
 
       # Build solution
       - name: MSBuild (With diagnostics)
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
+        working-directory: ./components/DependencyPropertyGenerator
         run: >
           msbuild.exe /restore /nowarn:MSB4011
           /p:Configuration=Release
           /m
           ${{ env.ENABLE_DIAGNOSTICS == 'true' && '/bl' || '' }}
           /v:${{ env.MSBUILD_VERBOSITY }}
-          CommunityToolkit.AllComponents.sln
 
       - name: MSBuild
         if: ${{ env.ENABLE_DIAGNOSTICS == 'false' }}
-        run: msbuild.exe CommunityToolkit.AllComponents.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+        working-directory: ./components/DependencyPropertyGenerator
+        run: msbuild.exe /restore /nowarn:MSB4011 -p:Configuration=Release
 
       # Run tests
       - name: Setup VSTest Path
