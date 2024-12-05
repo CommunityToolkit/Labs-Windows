@@ -1,7 +1,18 @@
 <Project>
 
+  <!-- Allow manually specifying the XAML mode for the analyzers -->
+  <PropertyGroup>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' == 'true'">true<DependencyPropertyGeneratorUseWindowsUIXaml>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' != 'true'">false<DependencyPropertyGeneratorUseWindowsUIXaml>
+  </PropertyGroup>
+
+  <!-- Allow the source generators to detect the selected XAML mode -->
+  <ItemGroup>
+    <CompilerVisibleProperty Include="DependencyPropertyGeneratorUseWindowsUIXaml" />
+  </ItemGroup>
+
   <!-- Define the 'GENERATED_DEPENDENCY_PROPERTY_USE_WINDOWS_UI_XAML' name, if needed -->
-  <PropertyGroup Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true' AND '$(UseUwp)' == 'true' AND '$(UseWinUI)' != 'true'">
+  <PropertyGroup Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true' AND '$(DependencyPropertyGeneratorUseWindowsUIXaml)' == 'true'">
     <DefineConstants>$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_USE_WINDOWS_UI_XAML</DefineConstants>
   </PropertyGroup>
 
