@@ -48,8 +48,21 @@ public sealed class GeneratedDependencyPropertyAttribute : Attribute
     /// <para>
     /// To set the default value to <see cref="DependencyProperty.UnsetValue"/>, use <see cref="GeneratedDependencyProperty.UnsetValue"/>.
     /// </para>
+    /// <para>
+    /// Using this property is mutually exclusive with <see cref="DefaultValueCallback"/>.
+    /// </para>
     /// </remarks>
     public object? DefaultValue { get; init; } = null;
+
+    /// <summary>
+    /// Gets or sets the name of the method that will be invoked to produce the default value of the
+    /// property, for each instance of the containing type. The referenced method needs to return either
+    /// an <see cref="object"/>, or a value of exactly the property type, and it needs to be parameterless.
+    /// </summary>
+    /// <remarks>
+    /// Using this property is mutually exclusive with <see cref="DefaultValue"/>.
+    /// </remarks>
+    public string? DefaultValueCallback { get; init; } = null;
 
     /// <summary>
     /// Gets a value indicating whether or not property values should be cached locally, to improve performance.
