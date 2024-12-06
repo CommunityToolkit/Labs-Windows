@@ -153,4 +153,20 @@ internal static class DiagnosticDescriptors
         isEnabledByDefault: true,
         description: "Properties annotated with [GeneratedDependencyProperty] and setting 'DefaultValue' should do so with an expression of a type comparible with the property type. Alternatively, the 'Get(ref object)' method should be implemented to handle the type mismatch.",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// Gets a <see cref="DiagnosticDescriptor"/> for when <c>[ObservableProperty]</c> is used on a property that returns a pointer type.
+    /// <para>
+    /// Format: <c>"The property {0}.{1} returns a pointer or function pointer value ([ObservableProperty] must be used on properties of a non pointer-like type)"</c>.
+    /// </para>
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidPropertyDeclarationReturnsPointerType = new(
+        id: "WCTDP0012",
+        title: "Using [GeneratedDependencyProperty] on a property that returns pointer type",
+        messageFormat: """The property '{0}' cannot be used to generate a dependency property, as it returns a pointer value ([GeneratedDependencyProperty] must be used on properties returning a non pointer value)""",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Properties annotated with [GeneratedDependencyProperty] must not return a pointer value (only reference types and non byref-like types are supported).",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }

@@ -22,7 +22,8 @@ public sealed class InvalidPropertySymbolDeclarationAnalyzer : DiagnosticAnalyze
     [
         InvalidPropertyDeclarationIsNotIncompletePartialDefinition,
         InvalidPropertyDeclarationReturnsByRef,
-        InvalidPropertyDeclarationReturnsRefLikeType
+        InvalidPropertyDeclarationReturnsRefLikeType,
+        InvalidPropertyDeclarationReturnsPointerType
     ];
 
     /// <inheritdoc/>
@@ -86,12 +87,19 @@ public sealed class InvalidPropertySymbolDeclarationAnalyzer : DiagnosticAnalyze
                         attributeData.GetLocation(),
                         propertySymbol));
                 }
-
-                // Emit an error if the property type is a ref struct
-                if (propertySymbol.Type.IsRefLikeType)
+                else if (propertySymbol.Type.IsRefLikeType)
                 {
+                    // Emit an error if the property type is a ref struct
                     context.ReportDiagnostic(Diagnostic.Create(
                         InvalidPropertyDeclarationReturnsRefLikeType,
+                        attributeData.GetLocation(),
+                        propertySymbol));
+                }
+                else if (propertySymbol.Type.TypeKind is TypeKind.Pointer or TypeKind.FunctionPointer)
+                {
+                    // Emit a diagnostic if the type is a pointer type
+                    context.ReportDiagnostic(Diagnostic.Create(
+                        InvalidPropertyDeclarationReturnsPointerType,
                         attributeData.GetLocation(),
                         propertySymbol));
                 }

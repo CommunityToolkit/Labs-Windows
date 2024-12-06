@@ -115,8 +115,15 @@ partial class DependencyPropertyGenerator
                 return false;
             }
 
-            // Also ignore all properties that have an invalid declaration
-            if (propertySymbol.IsStatic || propertySymbol.ReturnsByRef || propertySymbol.ReturnsByRefReadonly || propertySymbol.Type.IsRefLikeType)
+            // Also ignore all properties returning a byref-like value. We don't need to also
+            // check for ref values here, as that's already validated by the syntax filter.
+            if (propertySymbol.Type.IsRefLikeType)
+            {
+                return false;
+            }
+
+            // Pointer types are never allowed
+            if (propertySymbol.Type.TypeKind is TypeKind.Pointer or TypeKind.FunctionPointer)
             {
                 return false;
             }

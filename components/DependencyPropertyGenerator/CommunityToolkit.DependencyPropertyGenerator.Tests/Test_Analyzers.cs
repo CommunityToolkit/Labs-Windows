@@ -340,6 +340,44 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    public async Task InvalidPropertySymbolDeclarationAnalyzer_ReturnsPointerType_Warns()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public unsafe partial class MyControl : Control
+            {
+                [{|WCTDP0012:GeneratedDependencyProperty|}]
+                public partial int* {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertySymbolDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertySymbolDeclarationAnalyzer_ReturnsFunctionPointerType_Warns()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public unsafe partial class MyControl : Control
+            {
+                [{|WCTDP0012:GeneratedDependencyProperty|}]
+                public partial delegate* unmanaged[Stdcall]<int, void> {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertySymbolDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     public async Task InvalidPropertyContainingTypeDeclarationAnalyzer_NoAttribute_DoesNotWarn()
     {
         const string source = """
