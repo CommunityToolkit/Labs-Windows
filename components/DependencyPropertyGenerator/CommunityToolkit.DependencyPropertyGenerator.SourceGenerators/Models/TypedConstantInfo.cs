@@ -5,7 +5,6 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using CommunityToolkit.GeneratedDependencyProperty.Constants;
 using CommunityToolkit.GeneratedDependencyProperty.Helpers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -17,9 +16,20 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Models;
 /// <summary>
 /// A model representing a typed constant item.
 /// </summary>
-/// <remarks>This model is fully serializable and comparable.</remarks>
 internal abstract partial record TypedConstantInfo
 {
+    /// <summary>
+    /// A <see cref="TypedConstantInfo"/> type representing a <see langword="null"/> value.
+    /// </summary>
+    public sealed record Null : TypedConstantInfo
+    {
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return "null";
+        }
+    }
+
     /// <summary>
     /// A <see cref="TypedConstantInfo"/> type representing an array.
     /// </summary>
@@ -145,44 +155,6 @@ internal abstract partial record TypedConstantInfo
 
             // Now we can safely return the cast expression for the target enum type (with optional parentheses if needed)
             return $"({TypeName}){valueExpression.NormalizeWhitespace(eol: "\n").ToFullString()}";
-        }
-    }
-
-    /// <summary>
-    /// A <see cref="TypedConstantInfo"/> type representing a <see langword="null"/> value.
-    /// </summary>
-    public sealed record Null : TypedConstantInfo
-    {
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return "null";
-        }
-    }
-
-    /// <summary>
-    /// A <see cref="TypedConstantInfo"/> type representing default value for a specific type.
-    /// </summary>
-    /// <param name="TypeName">The input type name.</param>
-    public sealed record Default(string TypeName) : TypedConstantInfo
-    {
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return $"default({TypeName})";
-        }
-    }
-
-    /// <summary>
-    /// A <see cref="TypedConstantInfo"/> type representing the special unset value.
-    /// </summary>
-    /// <param name="UseWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
-    public sealed record UnsetValue(bool UseWindowsUIXaml) : TypedConstantInfo
-    {
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return $"global::{WellKnownTypeNames.DependencyProperty(UseWindowsUIXaml)}.UnsetValue";
         }
     }
 }

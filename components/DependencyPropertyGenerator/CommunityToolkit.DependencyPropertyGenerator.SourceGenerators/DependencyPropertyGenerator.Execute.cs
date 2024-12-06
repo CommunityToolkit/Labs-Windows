@@ -30,7 +30,7 @@ partial class DependencyPropertyGenerator
         /// <summary>
         /// Placeholder for <see langword="null"/>.
         /// </summary>
-        private static readonly TypedConstantInfo.Null NullInfo = new();
+        private static readonly DependencyPropertyDefaultValue.Null NullInfo = new();
 
         /// <summary>
         /// Generates the sources for the embedded types, for <c>PrivateAssets="all"</c> scenarios.
@@ -249,20 +249,64 @@ partial class DependencyPropertyGenerator
         /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
         /// <param name="token">The <see cref="CancellationToken"/> used to cancel the operation, if needed.</param>
         /// <returns>The default value to use to initialize the generated property.</returns>
-        public static TypedConstantInfo GetDefaultValue(
+        public static DependencyPropertyDefaultValue GetDefaultValue(
             AttributeData attributeData,
             IPropertySymbol propertySymbol,
             SemanticModel semanticModel,
             bool useWindowsUIXaml,
             CancellationToken token)
         {
-            // First, check whether the default value is explicitly set or not
+            // First, check if we have a callback
+            if (attributeData.TryGetNamedArgument("DefaultValueCallback", out TypedConstant defaultValueCallback))
+            {
+                // This must be a valid 'string' value
+                if (defaultValueCallback is { Type.SpecialType: SpecialType.System_String, Value: string { Length: > 0 } methodName })
+                {
+                    ImmutableArray<ISymbol> memberSymbols = propertySymbol.ContainingType!.GetMembers(methodName);
+
+                    foreach (ISymbol member in memberSymbols)
+                    {
+                        // We need methods which are static and with no parameters (and that is not explicitly implemented)
+                        if (member is not IMethodSymbol { IsStatic: true, Parameters: [], ExplicitInterfaceImplementations: [] } methodSymbol)
+                        {
+                            continue;
+                        }
+
+                        // Match the exact method name too
+                        if (methodSymbol.Name != methodName)
+                        {
+                            continue;
+                        }
+
+                        bool isNullableValueType = propertySymbol.Type is INamedTypeSymbol { IsValueType: true, IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
+
+                        // We have a candidate, now we need to match the return type. Also handle
+                        // for nullable value types where we're returning the raw value directly.
+                        if (methodSymbol.ReturnType.SpecialType is SpecialType.System_Object ||
+                            (isNullableValueType && SymbolEqualityComparer.Default.Equals(((INamedTypeSymbol)propertySymbol.Type).TypeArguments[0], methodSymbol.ReturnType)) ||
+                            (!isNullableValueType && SymbolEqualityComparer.Default.Equals(propertySymbol.Type, methodSymbol.ReturnType)))
+                        {
+                            return new DependencyPropertyDefaultValue.Callback(methodName);
+                        }
+
+                        // The method name cannot possibly be valid, we can stop here
+                        break;
+                    }
+                }
+
+                // Invalid callback, the analyzer will emit an error
+                return NullInfo;
+            }
+
+            token.ThrowIfCancellationRequested();
+
+            // Next, check whether the default value is explicitly set or not
             if (attributeData.TryGetNamedArgument("DefaultValue", out TypedConstant defaultValue))
             {
                 // If the explicit value is anything other than 'null', we can return it directly
                 if (!defaultValue.IsNull)
                 {
-                    return TypedConstantInfo.Create(defaultValue);
+                    return new DependencyPropertyDefaultValue.Constant(TypedConstantInfo.Create(defaultValue));
                 }
 
                 // If we do have a default value, we also want to check whether it's the special 'UnsetValue' placeholder.
@@ -282,7 +326,7 @@ partial class DependencyPropertyGenerator
                                 // Last step: we want to validate that the reference is actually to the special placeholder
                                 if (fieldSymbol.ContainingType!.HasFullyQualifiedMetadataName(WellKnownTypeNames.GeneratedDependencyProperty))
                                 {
-                                    return new TypedConstantInfo.UnsetValue(useWindowsUIXaml);
+                                    return new DependencyPropertyDefaultValue.UnsetValue(useWindowsUIXaml);
                                 }
                             }
                         }
@@ -293,11 +337,13 @@ partial class DependencyPropertyGenerator
                 return NullInfo;
             }
 
+            token.ThrowIfCancellationRequested();
+
             // In all other cases, we'll automatically use the default value of the type in question.
             // First we need to special case non nullable values, as for those we need 'default'.
             if (propertySymbol.Type is { IsValueType: true } and not INamedTypeSymbol { IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T })
             {
-                return new TypedConstantInfo.Default(propertySymbol.Type.GetFullyQualifiedName());
+                return new DependencyPropertyDefaultValue.Default(propertySymbol.Type.GetFullyQualifiedName());
             }
 
             // For all other ones, we can just use the 'null' placeholder again
@@ -411,8 +457,10 @@ partial class DependencyPropertyGenerator
                 string typeMetadata = propertyInfo switch
                 {
                     // Shared codegen
-                    { DefaultValue: TypedConstantInfo.Null, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
-                            => "null",
+                    { DefaultValue: DependencyPropertyDefaultValue.Null, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
+                        => "null",
+                    { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
+                        => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}{methodName})",
                     { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue})",
 
@@ -429,7 +477,7 @@ partial class DependencyPropertyGenerator
                     },
 
                     // Codegen for .NET 8 or greater
-                    { DefaultValue: TypedConstantInfo.Null } and ({ IsPropertyChangedCallbackImplemented: true } or { IsSharedPropertyChangedCallbackImplemented: true })
+                    { DefaultValue: DependencyPropertyDefaultValue.Null } and ({ IsPropertyChangedCallbackImplemented: true } or { IsSharedPropertyChangedCallbackImplemented: true })
                         => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}(null, global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
                     { DefaultValue: { } defaultValue } and ({ IsPropertyChangedCallbackImplemented: true } or { IsSharedPropertyChangedCallbackImplemented: true })
                         => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
@@ -512,7 +560,7 @@ partial class DependencyPropertyGenerator
                             """, isMultiline: true);
 
                         // If the default value is not what the default field value would be, add an initializer
-                        if (propertyInfo.DefaultValue is not (TypedConstantInfo.Null or TypedConstantInfo.Default))
+                        if (propertyInfo.DefaultValue is not (DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default or DependencyPropertyDefaultValue.Callback))
                         {
                             writer.Write($" = {propertyInfo.DefaultValue};");
                         }

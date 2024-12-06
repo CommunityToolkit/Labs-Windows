@@ -106,7 +106,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     bool isReferenceTypeOrUnconstraindTypeParameter = !propertySymbol.Type.IsValueType;
 
                     // Also get the default value (this might be slightly expensive, so do it towards the end)
-                    TypedConstantInfo defaultValue = Execute.GetDefaultValue(
+                    DependencyPropertyDefaultValue defaultValue = Execute.GetDefaultValue(
                         context.Attributes[0],
                         propertySymbol,
                         context.SemanticModel,
@@ -114,7 +114,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         token);
 
                     // The 'UnsetValue' can only be used when local caching is disabled
-                    if (defaultValue is TypedConstantInfo.UnsetValue && isLocalCachingEnabled)
+                    if (defaultValue is DependencyPropertyDefaultValue.UnsetValue && isLocalCachingEnabled)
                     {
                         return null;
                     }

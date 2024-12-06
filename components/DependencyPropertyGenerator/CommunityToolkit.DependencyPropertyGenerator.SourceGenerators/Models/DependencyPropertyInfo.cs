@@ -34,7 +34,7 @@ internal sealed record DependencyPropertyInfo(
     Accessibility SetterAccessibility,
     string TypeName,
     string TypeNameWithNullabilityAnnotations,
-    TypedConstantInfo DefaultValue,
+    DependencyPropertyDefaultValue DefaultValue,
     bool IsReferenceTypeOrUnconstraindTypeParameter,
     bool IsLocalCachingEnabled,
     bool IsPropertyChangedCallbackImplemented,
