@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -145,6 +146,37 @@ partial class DependencyPropertyGenerator
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Gathers all allowed property modifiers that should be forwarded to the generated property.
+        /// </summary>
+        /// <param name="node">The input <see cref="PropertyDeclarationSyntax"/> node.</param>
+        /// <returns>The returned set of property modifiers, if any.</returns>
+        public static ImmutableArray<SyntaxKind> GetPropertyModifiers(PropertyDeclarationSyntax node)
+        {
+            // We only allow a subset of all possible modifiers (aside from the accessibility modifiers)
+            ReadOnlySpan<SyntaxKind> candidateKinds =
+            [
+                SyntaxKind.NewKeyword,
+                SyntaxKind.VirtualKeyword,
+                SyntaxKind.SealedKeyword,
+                SyntaxKind.OverrideKeyword,
+                SyntaxKind.RequiredKeyword
+            ];
+
+            using ImmutableArrayBuilder<SyntaxKind> builder = new();
+
+            // Track all modifiers from the allowed set on the input property declaration
+            foreach (SyntaxKind kind in candidateKinds)
+            {
+                if (node.Modifiers.Any(kind))
+                {
+                    builder.Add(kind);
+                }
+            }
+
+            return builder.ToImmutable();
         }
 
         /// <summary>
@@ -332,16 +364,6 @@ partial class DependencyPropertyGenerator
         }
 
         /// <summary>
-        /// Checks whether an input property is required.
-        /// </summary>
-        /// <param name="propertySymbol">The input <see cref="IPropertySymbol"/> instance to process.</param>
-        /// <returns>Whether <paramref name="propertySymbol"/> is required.</returns>
-        public static bool IsRequiredProperty(IPropertySymbol propertySymbol)
-        {
-            return propertySymbol.IsRequired;
-        }
-
-        /// <summary>
         /// Writes all implementations of partial dependency property declarations.
         /// </summary>
         /// <param name="propertyInfos">The input set of declared dependency properties.</param>
@@ -367,7 +389,7 @@ partial class DependencyPropertyGenerator
             // Helper to get the accessibility with a trailing space
             static string GetExpressionWithTrailingSpace(Accessibility accessibility)
             {
-                return accessibility.GetExpression() switch
+                return SyntaxFacts.GetText(accessibility) switch
                 {
                     { Length: > 0 } expression => expression + " ",
                     _ => ""
@@ -428,11 +450,20 @@ partial class DependencyPropertyGenerator
             {
                 string oldValueTypeNameAsNullable = GetOldValueTypeNameAsNullable(propertyInfo);
 
+                // Declare the property
                 writer.WriteLine(skipIfPresent: true);
                 writer.WriteLine("/// <inheritdoc/>");
                 writer.WriteGeneratedAttributes(GeneratorName);
                 writer.Write(GetExpressionWithTrailingSpace(propertyInfo.DeclaredAccessibility));
-                writer.WriteIf(propertyInfo.IsRequired, "required ");
+
+                // Add all gathered modifiers
+                foreach (SyntaxKind modifier in propertyInfo.PropertyModifiers.AsImmutableArray().AsSyntaxKindArray())
+                {
+                    writer.Write($"{SyntaxFacts.GetText(modifier)} ");
+                }
+
+                // The 'partial' modifier always goes last, right before the property type and the property name.
+                // We will never have the 'partial' modifier in the set of property modifiers processed above.
                 writer.WriteLine($"partial {propertyInfo.TypeNameWithNullabilityAnnotations} {propertyInfo.PropertyName}");
 
                 using (writer.WriteBlock())
@@ -653,7 +684,7 @@ partial class DependencyPropertyGenerator
                     /// <remarks>This method is invoked by the <see cref="global::{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}"/> infrastructure, after the value of <see cref="{propertyInfo.PropertyName}"/> is changed.</remarks>
                     """, isMultiline: true);
                 writer.WriteGeneratedAttributes(GeneratorName, includeNonUserCodeAttributes: false);
-                writer.WriteLine($"partial void On{propertyInfo.PropertyName}PropertyChanged(global::{WellKnownTypeNames.DependencyPropertyChangedEventArgs} e);");
+                writer.WriteLine($"partial void On{propertyInfo.PropertyName}PropertyChanged(global::{WellKnownTypeNames.DependencyPropertyChangedEventArgs(propertyInfo.UseWindowsUIXaml)} e);");
             }
 
             // OnPropertyChanged, for the shared property metadata callback
@@ -664,7 +695,7 @@ partial class DependencyPropertyGenerator
                 /// <remarks>This method is invoked by the <see cref="global::{WellKnownTypeNames.DependencyProperty(propertyInfos[0].UseWindowsUIXaml)}"/> infrastructure, after the value of any dependency property has just changed.</remarks>
                 """, isMultiline: true);
             writer.WriteGeneratedAttributes(GeneratorName, includeNonUserCodeAttributes: false);
-            writer.WriteLine($"partial void OnPropertyChanged(global::{WellKnownTypeNames.DependencyPropertyChangedEventArgs} e);");
+            writer.WriteLine($"partial void OnPropertyChanged(global::{WellKnownTypeNames.DependencyPropertyChangedEventArgs(propertyInfos[0].UseWindowsUIXaml)} e);");
         }
 
         /// <summary>

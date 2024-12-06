@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Immutable;
 using CommunityToolkit.GeneratedDependencyProperty.Constants;
 using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using CommunityToolkit.GeneratedDependencyProperty.Helpers;
@@ -70,6 +71,11 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
 
                     token.ThrowIfCancellationRequested();
 
+                    // Get all additional modifiers for the property
+                    ImmutableArray<SyntaxKind> propertyModifiers = Execute.GetPropertyModifiers((PropertyDeclarationSyntax)context.TargetNode);
+
+                    token.ThrowIfCancellationRequested();
+
                     // Get the accessibility values, if the property is valid
                     if (!Execute.TryGetAccessibilityModifiers(
                         node: (PropertyDeclarationSyntax)context.TargetNode,
@@ -88,7 +94,6 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
 
                     token.ThrowIfCancellationRequested();
 
-                    bool isRequired = Execute.IsRequiredProperty(propertySymbol);
                     bool isPropertyChangedCallbackImplemented = Execute.IsPropertyChangedCallbackImplemented(propertySymbol, useWindowsUIXaml);
                     bool isSharedPropertyChangedCallbackImplemented = Execute.IsSharedPropertyChangedCallbackImplemented(propertySymbol, useWindowsUIXaml);
                     bool isNet8OrGreater = !context.SemanticModel.Compilation.IsWindowsRuntimeApplication();
@@ -124,6 +129,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     return new DependencyPropertyInfo(
                         Hierarchy: hierarchyInfo,
                         PropertyName: propertySymbol.Name,
+                        PropertyModifiers: propertyModifiers.AsUnderlyingType(),
                         DeclaredAccessibility: declaredAccessibility,
                         GetterAccessibility: getterAccessibility,
                         SetterAccessibility: setterAccessibility,
@@ -131,7 +137,6 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         TypeNameWithNullabilityAnnotations: typeNameWithNullabilityAnnotations,
                         DefaultValue: defaultValue,
                         IsReferenceTypeOrUnconstraindTypeParameter: isReferenceTypeOrUnconstraindTypeParameter,
-                        IsRequired: isRequired,
                         IsLocalCachingEnabled: isLocalCachingEnabled,
                         IsPropertyChangedCallbackImplemented: isPropertyChangedCallbackImplemented,
                         IsSharedPropertyChangedCallbackImplemented: isSharedPropertyChangedCallbackImplemented,
