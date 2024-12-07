@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+#if NET8_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 #if WINDOWS_UWP || HAS_UNO
 using DependencyObject = Windows.UI.Xaml.DependencyObject;
 using DependencyProperty = Windows.UI.Xaml.DependencyProperty;
@@ -62,6 +65,9 @@ public sealed class GeneratedDependencyPropertyAttribute : Attribute
     /// <remarks>
     /// Using this property is mutually exclusive with <see cref="DefaultValue"/>.
     /// </remarks>
+#if NET8_0_OR_GREATER
+    [DisallowNull]
+#endif
     public string? DefaultValueCallback { get; init; } = null;
 
     /// <summary>

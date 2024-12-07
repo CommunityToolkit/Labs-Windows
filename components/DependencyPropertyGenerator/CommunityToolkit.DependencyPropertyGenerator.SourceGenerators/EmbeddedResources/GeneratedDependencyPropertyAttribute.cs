@@ -71,6 +71,9 @@ namespace CommunityToolkit.WinUI
         /// <remarks>
         /// Using this property is mutually exclusive with <see cref="DefaultValue"/>.
         /// </remarks>
+#if NET8_0_OR_GREATER
+        [global::System.Diagnostics.CodeAnalysis.DisallowNull]
+#endif
         public string? DefaultValueCallback { get; init; } = null;
 
         /// <summary>
