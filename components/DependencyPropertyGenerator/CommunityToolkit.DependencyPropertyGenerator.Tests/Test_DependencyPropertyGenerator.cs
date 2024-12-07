@@ -175,7 +175,9 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
-                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(default(int), global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: default(int),
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -698,7 +700,9 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
-                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(default(int), global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: default(int),
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -969,7 +973,9 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
-                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(42, global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: 42,
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -1124,7 +1130,9 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
-                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(default(int), global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: default(int),
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -1283,7 +1291,9 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
-                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(default(int), global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: default(int),
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.Number()));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -2359,7 +2369,8 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
-                        typeMetadata: global::Windows.UI.Xaml.PropertyMetadata.Create(new Windows.UI.Xaml.CreateDefaultValueCallback(CreateNumber)));
+                        typeMetadata: global::Windows.UI.Xaml.PropertyMetadata.Create(
+                            createDefaultValueCallback: new Windows.UI.Xaml.CreateDefaultValueCallback(CreateNumber)));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -2481,7 +2492,8 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int?),
                         ownerType: typeof(MyControl),
-                        typeMetadata: global::Windows.UI.Xaml.PropertyMetadata.Create(new Windows.UI.Xaml.CreateDefaultValueCallback(CreateNumber)));
+                        typeMetadata: global::Windows.UI.Xaml.PropertyMetadata.Create(
+                            createDefaultValueCallback: new Windows.UI.Xaml.CreateDefaultValueCallback(CreateNumber)));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -2605,7 +2617,8 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Name",
                         propertyType: typeof(string),
                         ownerType: typeof(MyControl),
-                        typeMetadata: global::Windows.UI.Xaml.PropertyMetadata.Create(new Windows.UI.Xaml.CreateDefaultValueCallback(CreateName)));
+                        typeMetadata: global::Windows.UI.Xaml.PropertyMetadata.Create(
+                            createDefaultValueCallback: new Windows.UI.Xaml.CreateDefaultValueCallback(CreateName)));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]

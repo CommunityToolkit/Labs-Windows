@@ -439,7 +439,10 @@ partial class DependencyPropertyGenerator
                     { DefaultValue: DependencyPropertyDefaultValue.Null, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => "null",
                     { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
-                        => $"global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}))",
+                        => $"""
+                        global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
+                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}))
+                        """,
                     { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue})",
 
@@ -447,27 +450,63 @@ partial class DependencyPropertyGenerator
                     { IsNet8OrGreater: false } => propertyInfo switch
                     {
                         { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
-                            => $"global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}), static (d, e) => (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e))",
+                            => $"""
+                            global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
+                                 createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                                 propertyChangedCallback: static (d, e) => (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e))
+                            """,
                         { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: true }
-                            => $"global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}), static (d, e) => (({typeQualifiedName})d).OnPropertyChanged(e))",
+                            => $"""
+                            global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
+                                createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                                propertyChangedCallback: static (d, e) => (({typeQualifiedName})d).OnPropertyChanged(e))
+                            """,
                         { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: true }
-                            => $"global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}), static (d, e) => {{ (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e); (({typeQualifiedName})d).OnPropertyChanged(e); }})",
+                            => $$"""
+                            global::{{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}}.Create(
+                                createDefaultValueCallback: new {{WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}}({{methodName}}),
+                                propertyChangedCallback: static (d, e) => { (({{typeQualifiedName}})d).On{{propertyInfo.PropertyName}}PropertyChanged(e); (({{typeQualifiedName}})d).OnPropertyChanged(e); })
+                            """,
                         { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
-                            => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, static (d, e) => (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e))",
+                            => $"""
+                            new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}(
+                                defaultValue: {defaultValue},
+                                propertyChangedCallback: static (d, e) => (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e))
+                            """,
                         { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: true }
-                            => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, static (d, e) => (({typeQualifiedName})d).OnPropertyChanged(e))",
+                            => $"""
+                            new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}(
+                                defaultValue: {defaultValue},
+                                propertyChangedCallback: static (d, e) => (({typeQualifiedName})d).OnPropertyChanged(e))
+                            """,
                         { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: true }
-                            => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, static (d, e) => {{ (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e); (({typeQualifiedName})d).OnPropertyChanged(e); }})",
+                            => $$"""
+                            new global::{{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}}(
+                                defaultValue: {{defaultValue}},
+                                propertyChangedCallback: static (d, e) => { (({{typeQualifiedName}})d).On{{propertyInfo.PropertyName}}PropertyChanged(e); (({{typeQualifiedName}})d).OnPropertyChanged(e); })
+                            """,
                         _ => throw new ArgumentException($"Invalid default value '{propertyInfo.DefaultValue}'."),
                     },
 
                     // Codegen for .NET 8 or greater
                     { DefaultValue: DependencyPropertyDefaultValue.Null }
-                        => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}(null, global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
+                        => $"""
+                        new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}(
+                            defaultValue: null,
+                            propertyChangedCallback: global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())
+                        """,
                     { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName) }
-                        => $"global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}), global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
+                        => $"""
+                        global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
+                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                            propertyChangedCallback: global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())
+                        """,
                     { DefaultValue: { } defaultValue } and ({ IsPropertyChangedCallbackImplemented: true } or { IsSharedPropertyChangedCallbackImplemented: true })
-                        => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue}, global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())",
+                        => $"""
+                        new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}(
+                            defaultValue: {defaultValue},
+                            propertyChangedCallback: global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())
+                        """,
                     _ => throw new ArgumentException($"Invalid default value '{propertyInfo.DefaultValue}'."),
                 };
 
@@ -477,13 +516,16 @@ partial class DependencyPropertyGenerator
                     /// </summary>
                     """, isMultiline: true);
                 writer.WriteGeneratedAttributes(GeneratorName, includeNonUserCodeAttributes: false);
-                writer.WriteLine($$"""
+                writer.Write($$"""
                     public static readonly global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}} {{propertyInfo.PropertyName}}Property = global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}}.Register(
                         name: "{{propertyInfo.PropertyName}}",
                         propertyType: typeof({{propertyInfo.TypeName}}),
                         ownerType: typeof({{typeQualifiedName}}),
-                        typeMetadata: {{typeMetadata}});
+                        typeMetadata: 
                     """, isMultiline: true);
+                writer.IncreaseIndent();
+                writer.WriteLine($"{typeMetadata});", isMultiline: true);
+                writer.DecreaseIndent();
                 writer.WriteLine();
             }
 
