@@ -42,11 +42,7 @@ public sealed class InvalidPropertyConflictingDeclarationAnalyzer : DiagnosticAn
 
             context.RegisterSymbolAction(context =>
             {
-                // Validate that we do have a property
-                if (context.Symbol is not IPropertySymbol propertySymbol)
-                {
-                    return;
-                }
+                IPropertySymbol propertySymbol = (IPropertySymbol)context.Symbol;
 
                 // If the property is not using '[GeneratedDependencyProperty]', there's nothing to do
                 if (!propertySymbol.TryGetAttributeWithAnyType(generatedDependencyPropertyAttributeSymbols, out AttributeData? attributeData))

@@ -1155,4 +1155,69 @@ public class Test_Analyzers
 
         await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
+
+    [TestMethod]
+    [DataRow("Name")]
+    [DataRow("TestProperty")]
+    public async Task PropertyDeclarationWithPropertyNameSuffixAnalyzer_NoAttribute_DoesNotWarn(string propertyName)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public partial string? {|CS9248:{{propertyName}}|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<PropertyDeclarationWithPropertyNameSuffixAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("Name")]
+    [DataRow("PropertyGroup")]
+    public async Task PropertyDeclarationWithPropertyNameSuffixAnalyzer_ValidName_DoesNotWarn(string propertyName)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:{{propertyName}}|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<PropertyDeclarationWithPropertyNameSuffixAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task PropertyDeclarationWithPropertyNameSuffixAnalyzer_InvalidName_Warns()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0016:GeneratedDependencyProperty|}]
+                public partial string? {|CS9248:TestProperty|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<PropertyDeclarationWithPropertyNameSuffixAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
 }

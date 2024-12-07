@@ -12,13 +12,13 @@ using static CommunityToolkit.GeneratedDependencyProperty.Diagnostics.Diagnostic
 namespace CommunityToolkit.GeneratedDependencyProperty;
 
 /// <summary>
-/// A diagnostic analyzer that generates an error when a property with <c>[GeneratedDependencyProperty]</c> is in an invalid type.
+/// A diagnostic analyzer that generates a diagnostic whenever <c>[GeneratedDependencyProperty]</c> is used on a property with the 'Property' suffix in its name.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public sealed class InvalidPropertyContainingTypeDeclarationAnalyzer : DiagnosticAnalyzer
+public sealed class PropertyDeclarationWithPropertyNameSuffixAnalyzer : DiagnosticAnalyzer
 {
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [InvalidPropertyDeclarationContainingTypeIsNotDependencyObject];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [PropertyDeclarationWithPropertySuffix];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -28,35 +28,26 @@ public sealed class InvalidPropertyContainingTypeDeclarationAnalyzer : Diagnosti
 
         context.RegisterCompilationStartAction(static context =>
         {
-            // Get the XAML mode to use
-            bool useWindowsUIXaml = context.Options.AnalyzerConfigOptionsProvider.GlobalOptions.GetMSBuildBooleanPropertyValue(WellKnownPropertyNames.DependencyPropertyGeneratorUseWindowsUIXaml);
-
             // Get the '[GeneratedDependencyProperty]' symbol (there might be multiples, due to embedded mode)
             ImmutableArray<INamedTypeSymbol> generatedDependencyPropertyAttributeSymbols = context.Compilation.GetTypesByMetadataName(WellKnownTypeNames.GeneratedDependencyPropertyAttribute);
-
-            // Get the 'DependencyObject' symbol
-            if (context.Compilation.GetTypeByMetadataName(WellKnownTypeNames.DependencyObject(useWindowsUIXaml)) is not { } dependencyObjectSymbol)
-            {
-                return;
-            }
 
             context.RegisterSymbolAction(context =>
             {
                 IPropertySymbol propertySymbol = (IPropertySymbol)context.Symbol;
 
-                // If the property is not using '[GeneratedDependencyProperty]', there's nothing to do
-                if (!propertySymbol.TryGetAttributeWithAnyType(generatedDependencyPropertyAttributeSymbols, out AttributeData? attributeData))
+                // We only want to lookup the attribute if the property name actually ends with the 'Property' suffix
+                if (!propertySymbol.Name.EndsWith("Property"))
                 {
                     return;
                 }
 
-                // Emit the diagnostic if the target is not valid
-                if (!propertySymbol.ContainingType.InheritsFromType(dependencyObjectSymbol))
+                // Emit a diagnostic if the property is using '[GeneratedDependencyProperty]'
+                if (propertySymbol.TryGetAttributeWithAnyType(generatedDependencyPropertyAttributeSymbols, out AttributeData? attributeData))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
-                       InvalidPropertyDeclarationContainingTypeIsNotDependencyObject,
-                       attributeData.GetLocation(),
-                       propertySymbol));
+                        PropertyDeclarationWithPropertySuffix,
+                        attributeData.GetLocation(),
+                        propertySymbol));
                 }
             }, SymbolKind.Property);
         });

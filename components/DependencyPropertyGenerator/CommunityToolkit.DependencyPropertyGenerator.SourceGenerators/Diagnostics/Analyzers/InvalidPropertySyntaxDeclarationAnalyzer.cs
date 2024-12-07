@@ -35,11 +35,7 @@ public sealed class InvalidPropertySyntaxDeclarationAnalyzer : DiagnosticAnalyze
 
             context.RegisterSymbolAction(context =>
             {
-                // We're intentionally only looking for properties here
-                if (context.Symbol is not IPropertySymbol propertySymbol)
-                {
-                    return;
-                }
+                IPropertySymbol propertySymbol = (IPropertySymbol)context.Symbol;
 
                 // If the property isn't using '[GeneratedDependencyProperty]', there's nothing to do
                 if (!propertySymbol.TryGetAttributeWithAnyType(generatedDependencyPropertyAttributeSymbols, out AttributeData? attributeData))

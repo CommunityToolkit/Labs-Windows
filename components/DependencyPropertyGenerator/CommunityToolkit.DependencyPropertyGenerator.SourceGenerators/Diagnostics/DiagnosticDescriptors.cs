@@ -205,4 +205,17 @@ internal static class DiagnosticDescriptors
         isEnabledByDefault: true,
         description: "Properties annotated with [GeneratedDependencyProperty] and setting 'DefaultValueCallback' must use the name of a method with a valid signature (it must be a static method with no parameters, returning a value compatible with the property type: either the same type, or 'object').",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The property '{0}' is using [GeneratedDependencyProperty] and has a name ending with the 'Property' suffix, which is redundant (the generated dependency property will always add the 'Property' suffix to the name of its associated property)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor PropertyDeclarationWithPropertySuffix = new(
+        id: "WCTDP0016",
+        title: "Using [GeneratedDependencyProperty] on a property with the 'Property' suffix",
+        messageFormat: """The property '{0}' is using [GeneratedDependencyProperty] and has a name ending with the 'Property' suffix, which is redundant (the generated dependency property will always add the 'Property' suffix to the name of its associated property)""",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Info,
+        isEnabledByDefault: true,
+        description: "Properties annotated with [GeneratedDependencyProperty] should not have the 'Property' suffix in their name, as it is redundant (the generated dependency properties will always add the 'Property' suffix to the name of their associated properties).",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }

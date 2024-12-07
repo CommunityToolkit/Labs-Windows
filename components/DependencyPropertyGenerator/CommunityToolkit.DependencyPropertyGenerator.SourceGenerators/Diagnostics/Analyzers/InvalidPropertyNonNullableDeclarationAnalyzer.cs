@@ -36,7 +36,7 @@ public sealed class InvalidPropertyNonNullableDeclarationAnalyzer : DiagnosticAn
 
             context.RegisterSymbolAction(context =>
             {
-                // Validate that we do have a property, and that it is of some type that can be explicitly nullable.
+                // Validate that we have a property that is of some type that can be explicitly nullable.
                 // We're intentionally ignoring 'Nullable<T>' values here, since those are by defintiion nullable.
                 // Additionally, we only care about properties that are explicitly marked as not nullable.
                 // Lastly, we can skip required properties, since for those it's completely fine to be non-nullable.
