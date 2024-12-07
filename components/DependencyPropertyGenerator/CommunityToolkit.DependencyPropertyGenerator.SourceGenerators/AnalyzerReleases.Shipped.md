@@ -19,3 +19,6 @@ WCTDP0009 | CommunityToolkit.GeneratedDependencyPropertyDependencyPropertyGenera
 WCTDP0010 | CommunityToolkit.GeneratedDependencyPropertyDependencyPropertyGenerator | Warning |
 WCTDP0011 | CommunityToolkit.GeneratedDependencyPropertyDependencyPropertyGenerator | Warning |
 WCTDP0012 | CommunityToolkit.GeneratedDependencyPropertyDependencyPropertyGenerator | Error |
+WCTDP0013 | CommunityToolkit.GeneratedDependencyPropertyDependencyPropertyGenerator | Error |
+WCTDP0014 | CommunityToolkit.GeneratedDependencyPropertyDependencyPropertyGenerator | Error |
+WCTDP0015 | CommunityToolkit.GeneratedDependencyPropertyDependencyPropertyGenerator | Error |

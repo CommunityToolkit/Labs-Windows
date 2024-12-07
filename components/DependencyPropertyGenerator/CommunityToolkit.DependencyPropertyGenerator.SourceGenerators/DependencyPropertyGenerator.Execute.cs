@@ -262,42 +262,14 @@ partial class DependencyPropertyGenerator
                 // This must be a valid 'string' value
                 if (defaultValueCallback is { Type.SpecialType: SpecialType.System_String, Value: string { Length: > 0 } methodName })
                 {
-                    ImmutableArray<ISymbol> memberSymbols = propertySymbol.ContainingType!.GetMembers(methodName);
-
-                    foreach (ISymbol member in memberSymbols)
+                    // Check that we can find a potential candidate callback method
+                    if (InvalidPropertyDefaultValueCallbackTypeAnalyzer.TryFindDefaultValueCallbackMethod(propertySymbol, methodName, out IMethodSymbol? methodSymbol))
                     {
-                        // We need methods which are static and with no parameters (and that is not explicitly implemented)
-                        if (member is not IMethodSymbol { IsStatic: true, Parameters: [], ExplicitInterfaceImplementations: [] } methodSymbol)
-                        {
-                            continue;
-                        }
-
-                        // Match the exact method name too
-                        if (methodSymbol.Name != methodName)
-                        {
-                            continue;
-                        }
-
-                        // We have a candidate, now we need to match the return type. First,
-                        // we just check whether the return is 'object', or an exact match.
-                        if (methodSymbol.ReturnType.SpecialType is SpecialType.System_Object ||
-                            SymbolEqualityComparer.Default.Equals(propertySymbol.Type, methodSymbol.ReturnType))
+                        // Validate the method has a valid signature as well
+                        if (InvalidPropertyDefaultValueCallbackTypeAnalyzer.IsDefaultValueCallbackValid(propertySymbol, methodSymbol))
                         {
                             return new DependencyPropertyDefaultValue.Callback(methodName);
                         }
-
-                        bool isNullableValueType = propertySymbol.Type is INamedTypeSymbol { IsValueType: true, IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
-
-                        // Otherwise, try to see if the return is the type argument of a nullable value type
-                        if (isNullableValueType &&
-                            methodSymbol.ReturnType.TypeKind is TypeKind.Struct &&
-                            SymbolEqualityComparer.Default.Equals(((INamedTypeSymbol)propertySymbol.Type).TypeArguments[0], methodSymbol.ReturnType))
-                        {
-                            return new DependencyPropertyDefaultValue.Callback(methodName);
-                        }
-
-                        // The method name cannot possibly be valid, we can stop here
-                        break;
                     }
                 }
 

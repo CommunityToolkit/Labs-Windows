@@ -155,10 +155,7 @@ internal static class DiagnosticDescriptors
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 
     /// <summary>
-    /// Gets a <see cref="DiagnosticDescriptor"/> for when <c>[ObservableProperty]</c> is used on a property that returns a pointer type.
-    /// <para>
-    /// Format: <c>"The property {0}.{1} returns a pointer or function pointer value ([ObservableProperty] must be used on properties of a non pointer-like type)"</c>.
-    /// </para>
+    /// <c>"The property '{0}' returns a pointer or function pointer value ([ObservableProperty] must be used on properties of a non pointer-like type)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationReturnsPointerType = new(
         id: "WCTDP0012",
@@ -168,5 +165,44 @@ internal static class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
         description: "Properties annotated with [GeneratedDependencyProperty] must not return a pointer value (only reference types and non byref-like types are supported).",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The property '{0}' is using [GeneratedDependencyProperty] with both 'DefaultValue' and 'DefaultValueCallback' and being set, which is not supported (only one of these properties can be set at a time)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidPropertyDeclarationDefaultValueCallbackMixed = new(
+        id: "WCTDP0013",
+        title: "Using [GeneratedDependencyProperty] with both 'DefaultValue' and 'DefaultValueCallback'",
+        messageFormat: """The property '{0}' is using [GeneratedDependencyProperty] with both 'DefaultValue' and 'DefaultValueCallback' and being set, which is not supported (only one of these properties can be set at a time)""",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Properties annotated with [GeneratedDependencyProperty] cannot use both 'DefaultValue' and 'DefaultValueCallback' at the same time.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The property '{0}' is using [GeneratedDependencyProperty] with 'DefaultValueCallback' set to '{1}', but no accessible method with that name was found (make sure the target method is in the same containing type)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidPropertyDeclarationDefaultValueCallbackNoMethodFound = new(
+        id: "WCTDP0014",
+        title: "Using [GeneratedDependencyProperty] with missing 'DefaultValueCallback' method",
+        messageFormat: """The property '{0}' is using [GeneratedDependencyProperty] with 'DefaultValueCallback' set to '{1}', but no accessible method with that name was found (make sure the target method is in the same containing type)""",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Properties annotated with [GeneratedDependencyProperty] and setting 'DefaultValueCallback' must use the name of an accessible method in their same containing type.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The property '{0}' is using [GeneratedDependencyProperty] with 'DefaultValueCallback' set to '{1}', but the method has an invalid signature (it must be a static method with no parameters, returning a value compatible with the property type: either the same type, or 'object')"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidPropertyDeclarationDefaultValueCallbackInvalidMethod = new(
+        id: "WCTDP0015",
+        title: "Using [GeneratedDependencyProperty] with invalid 'DefaultValueCallback' method",
+        messageFormat: """The property '{0}' is using [GeneratedDependencyProperty] with 'DefaultValueCallback' set to '{1}', but the method has an invalid signature (it must be a static method with no parameters, returning a value compatible with the property type: either the same type, or 'object')""",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Properties annotated with [GeneratedDependencyProperty] and setting 'DefaultValueCallback' must use the name of a method with a valid signature (it must be a static method with no parameters, returning a value compatible with the property type: either the same type, or 'object').",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }
