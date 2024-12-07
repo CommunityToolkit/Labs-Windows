@@ -108,8 +108,8 @@ public sealed class InvalidPropertyDefaultValueCallbackTypeAnalyzer : Diagnostic
 
         foreach (ISymbol member in memberSymbols)
         {
-            // We need methods which are static and with no parameters (and that is not explicitly implemented)
-            if (member is not IMethodSymbol { IsStatic: true, Parameters: [], ExplicitInterfaceImplementations: [] } candidateSymbol)
+            // Ignore all other member types
+            if (member is not IMethodSymbol candidateSymbol)
             {
                 continue;
             }
@@ -136,6 +136,12 @@ public sealed class InvalidPropertyDefaultValueCallbackTypeAnalyzer : Diagnostic
     /// <returns>Whether <paramref name="methodSymbol"/> is a valid default value callback method for <paramref name="propertySymbol"/>.</returns>
     public static bool IsDefaultValueCallbackValid(IPropertySymbol propertySymbol, IMethodSymbol methodSymbol)
     {
+        // We need methods which are static and with no parameters (and that are not explicitly implemented)
+        if (methodSymbol is not { IsStatic: true, Parameters: [], ExplicitInterfaceImplementations: [] })
+        {
+            return false;
+        }
+
         // We have a candidate, now we need to match the return type. First,
         // we just check whether the return is 'object', or an exact match.
         if (methodSymbol.ReturnType.SpecialType is SpecialType.System_Object ||

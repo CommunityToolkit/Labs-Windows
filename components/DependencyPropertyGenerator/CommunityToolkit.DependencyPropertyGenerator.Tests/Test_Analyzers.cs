@@ -659,7 +659,7 @@ public class Test_Analyzers
     [TestMethod]
     public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithMaybeNullAttribute_DoesNotWarn()
     {
-        string source = $$"""
+        const string source = """
             using System.Diagnostics.CodeAnalysis;
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml.Controls;
@@ -682,7 +682,7 @@ public class Test_Analyzers
     [TestMethod]
     public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_Required_DoesNotWarn()
     {
-        string source = $$"""
+        const string source = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml.Controls;
 
@@ -703,7 +703,7 @@ public class Test_Analyzers
     [TestMethod]
     public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_NullableDisabled_DoesNotWarn()
     {
-        string source = $$"""
+        const string source = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml.Controls;
 
@@ -722,7 +722,7 @@ public class Test_Analyzers
     [TestMethod]
     public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithNonNullDefaultValue_DoesNotWarn()
     {
-        string source = $$"""
+        const string source = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml.Controls;
 
@@ -743,7 +743,7 @@ public class Test_Analyzers
     [TestMethod]
     public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_Warns()
     {
-        string source = $$"""
+        const string source = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml.Controls;
 
@@ -764,7 +764,7 @@ public class Test_Analyzers
     [TestMethod]
     public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithNullDefaultValue_Warns()
     {
-        string source = $$"""
+        const string source = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml.Controls;
 
@@ -896,7 +896,7 @@ public class Test_Analyzers
     [TestMethod]
     public async Task InvalidPropertyDefaultValueTypeAnalyzer_NullValue_NonNullable_Warns()
     {
-        string source = $$"""
+        const string source = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml.Controls;
 
@@ -937,5 +937,222 @@ public class Test_Analyzers
             """;
 
         await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_NoAttribute_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_NoDefaultValueCallback1_DoesNotWarn()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_NoDefaultValueCallback2_DoesNotWarn()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = "Bob")]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_NullDefaultValueCallback_DoesNotWarn()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValueCallback = null)]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string", "string")]
+    [DataRow("string", "string?")]
+    [DataRow("string", "object")]
+    [DataRow("string", "object?")]
+    [DataRow("string?", "string")]
+    [DataRow("string?", "string?")]
+    [DataRow("int", "int")]
+    [DataRow("int", "object")]
+    [DataRow("int", "object?")]
+    [DataRow("int?", "int")]
+    [DataRow("int?", "int?")]
+    [DataRow("int?", "object")]
+    [DataRow("int?", "object?")]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_ValidDefaultValueCallback_DoesNotWarn(string propertyType, string returnType)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValueCallback = nameof(GetDefaultValue))]
+                public partial {{propertyType}} {|CS9248:Value|} { get; set; }
+
+                private static {{returnType}} GetDefaultValue() => default!;
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_BothDefaultValuePropertiesSet_Warns()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0013:GeneratedDependencyProperty(DefaultValue = "Bob", DefaultValueCallback = nameof(GetDefaultName))|}]
+                public partial string? {|CS9248:Name|} { get; set; }
+
+                private static string? GetDefaultName() => "Bob";
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_MethodNotFound_Warns()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0014:GeneratedDependencyProperty(DefaultValueCallback = "MissingMethod")|}]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_InvalidMethod_ExplicitlyImplemented_Warns()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control, IGetDefaultValue
+            {
+                [{|WCTDP0014:GeneratedDependencyProperty(DefaultValueCallback = "GetDefaultValue")|}]
+                public partial string? {|CS9248:Name|} { get; set; }
+
+                static string? IGetDefaultValue.GetDefaultValue() => "Bob";
+            }
+
+            public interface IGetDefaultValue
+            {
+                static abstract string? GetDefaultValue();
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("private string? GetDefaultName()")]
+    [DataRow("private static string? GetDefaultName(int x)")]
+    [DataRow("private static int GetDefaultName()")]
+    [DataRow("private static int GetDefaultName(int x)")]
+    public async Task InvalidPropertyDefaultValueCallbackTypeAnalyzer_InvalidMethod_Warns(string methodSignature)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0015:GeneratedDependencyProperty(DefaultValueCallback = "GetDefaultName")|}]
+                public partial string? {|CS9248:Name|} { get; set; }
+
+                {{methodSignature}} => default!;
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueCallbackTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
 }
