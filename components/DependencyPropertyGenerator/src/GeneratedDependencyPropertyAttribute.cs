@@ -68,7 +68,7 @@ public sealed class GeneratedDependencyPropertyAttribute : Attribute
 #if NET8_0_OR_GREATER
     [DisallowNull]
 #endif
-    public string? DefaultValueCallback { get; init; } = null;
+    public string? DefaultValueCallback { get; init; } = null!;
 
     /// <summary>
     /// Gets a value indicating whether or not property values should be cached locally, to improve performance.
