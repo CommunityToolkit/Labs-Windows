@@ -278,13 +278,20 @@ partial class DependencyPropertyGenerator
                             continue;
                         }
 
+                        // We have a candidate, now we need to match the return type. First,
+                        // we just check whether the return is 'object', or an exact match.
+                        if (methodSymbol.ReturnType.SpecialType is SpecialType.System_Object ||
+                            SymbolEqualityComparer.Default.Equals(propertySymbol.Type, methodSymbol.ReturnType))
+                        {
+                            return new DependencyPropertyDefaultValue.Callback(methodName);
+                        }
+
                         bool isNullableValueType = propertySymbol.Type is INamedTypeSymbol { IsValueType: true, IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
 
-                        // We have a candidate, now we need to match the return type. Also handle
-                        // for nullable value types where we're returning the raw value directly.
-                        if (methodSymbol.ReturnType.SpecialType is SpecialType.System_Object ||
-                            (isNullableValueType && SymbolEqualityComparer.Default.Equals(((INamedTypeSymbol)propertySymbol.Type).TypeArguments[0], methodSymbol.ReturnType)) ||
-                            (!isNullableValueType && SymbolEqualityComparer.Default.Equals(propertySymbol.Type, methodSymbol.ReturnType)))
+                        // Otherwise, try to see if the return is the type argument of a nullable value type
+                        if (isNullableValueType &&
+                            methodSymbol.ReturnType.TypeKind is TypeKind.Struct &&
+                            SymbolEqualityComparer.Default.Equals(((INamedTypeSymbol)propertySymbol.Type).TypeArguments[0], methodSymbol.ReturnType))
                         {
                             return new DependencyPropertyDefaultValue.Callback(methodName);
                         }
@@ -460,7 +467,7 @@ partial class DependencyPropertyGenerator
                     { DefaultValue: DependencyPropertyDefaultValue.Null, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => "null",
                     { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
-                        => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}{methodName})",
+                        => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}))",
                     { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue})",
 
