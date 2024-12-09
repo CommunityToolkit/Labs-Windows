@@ -6,7 +6,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if GENERATED_DEPENDENCY_PROPERTY_PRIVATE_ASSETS_ALL_MODE
+#if GENERATED_DEPENDENCY_PROPERTY_EMBEDDED_MODE
 
 namespace CommunityToolkit.WinUI
 {

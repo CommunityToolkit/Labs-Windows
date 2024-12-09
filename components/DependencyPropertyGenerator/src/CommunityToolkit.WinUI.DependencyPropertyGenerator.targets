@@ -7,21 +7,29 @@
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' != 'true'">false<DependencyPropertyGeneratorUseWindowsUIXaml>
   </PropertyGroup>
 
+  <!-- Properties for the embedded mode, with defaults -->
+  <PropertyGroup>
+    <EnableGeneratedDependencyPropertyAttributeEmbeddedMode Condition="'$(EnableGeneratedDependencyPropertyAttributeEmbeddedMode)' == ''">false</EnableGeneratedDependencyPropertyAttributeEmbeddedMode>
+    <EnableGeneratedDependencyPropertyEmbeddedMode Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == ''">false</EnableGeneratedDependencyPropertyEmbeddedMode>
+  </PropertyGroup>
+
   <!-- Allow the source generators to detect the selected XAML mode -->
   <ItemGroup>
     <CompilerVisibleProperty Include="DependencyPropertyGeneratorUseWindowsUIXaml" />
   </ItemGroup>
 
-  <!-- Define the 'GENERATED_DEPENDENCY_PROPERTY_USE_WINDOWS_UI_XAML' name, if needed -->
-  <PropertyGroup Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true' AND '$(DependencyPropertyGeneratorUseWindowsUIXaml)' == 'true'">
-    <DefineConstants>$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_USE_WINDOWS_UI_XAML</DefineConstants>
+  <!-- Define the build constants depending on the current configuration -->
+  <PropertyGroup>
+    <DefineConstants Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == 'true'">$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_USE_WINDOWS_UI_XAML</DefineConstants>
+    <DefineConstants Condition="'$(EnableGeneratedDependencyPropertyAttributeEmbeddedMode)' == 'true'">$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_ATTRIBUTE_EMBEDDED_MODE</DefineConstants>
+    <DefineConstants Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true'">$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_EMBEDDED_MODE</DefineConstants>
   </PropertyGroup>
 
   <!-- Emit additional messages for invalid configurations when referencing the runtime library -->
   <Target Name="CommunityToolkitGeneratedDependencyPropertyCheckForInvalidEmbeddedMode"
           DependsOnTargets="ResolveAssemblyReferences"
           BeforeTargets="CoreCompile"
-          Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true'">
+          Condition="'$(EnableGeneratedDependencyPropertyAttributeEmbeddedMode)' == 'true' OR '$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true'">
     <ItemGroup>
       <CommunityToolkitGeneratedDependencyPropertyUwpDllReferencePath Include="@(ReferencePath)" Condition="'%(Filename)%(Extension)' == 'CommunityToolkit.Uwp.GeneratedDependencyProperty.dll'" />
       <CommunityToolkitGeneratedDependencyPropertyWinUIDllReferencePath Include="@(ReferencePath)" Condition="'%(Filename)%(Extension)' == 'CommunityToolkit.WinUI.GeneratedDependencyProperty.dll'" />
@@ -36,7 +44,7 @@
     <Error Condition="'$(CommunityToolkitGeneratedDependencyPropertyDllReferenced)' == 'true'"
            Code="WCTDPCFG0001"
            HelpLink="https://aka.ms/toolkit/labs/windows"
-           Text="This project is referencing the '[GeneratedDependencyProperty]' .dll file, but it's also setting 'EnableGeneratedDependencyPropertyEmbeddedMode'. The embedded mode can only be used when the .dll file is not being referenced. Make sure to use 'PrivateAssets=&quot;all&quot;' and 'ExcludeAssets=&quot;lib&quot;' in the '&lt;PackageReference&gt;' element for the NuGet package." />
+           Text="This project is referencing the '[GeneratedDependencyProperty]' .dll file, but it's also enabling the embedded mode for its public APIs. The embedded mode can only be used when the .dll file is not being referenced. Make sure to use 'PrivateAssets=&quot;all&quot;' and 'ExcludeAssets=&quot;lib&quot;' in the '&lt;PackageReference&gt;' element for the NuGet package." />
   </Target>
 
   <!-- Check the Roslyn version and warn if it's not high enough (we don't need to remove the analyzers, as they're leveraging multi-targeting) -->
