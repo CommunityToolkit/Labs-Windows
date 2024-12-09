@@ -97,7 +97,7 @@ internal sealed class IndentedTextWriter : IDisposable
         }
 
         // Set both the current indentation and the current position in the indentations
-        // array to the expected indentation for the incremented level (ie. one level more).
+        // array to the expected indentation for the incremented level (i.e. one level more).
         this.currentIndentation = this.availableIndentations[this.currentIndentationLevel]
             ??= this.availableIndentations[this.currentIndentationLevel - 1] + DefaultIndentation;
     }

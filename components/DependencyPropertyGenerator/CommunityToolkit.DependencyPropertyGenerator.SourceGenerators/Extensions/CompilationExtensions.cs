@@ -34,7 +34,7 @@ internal static class CompilationExtensions
     }
 
     /// <summary>
-    /// Gets whether the current target is a WinRT application (ie. legacy UWP).
+    /// Gets whether the current target is a WinRT application (i.e. legacy UWP).
     /// </summary>
     /// <param name="compilation">The input <see cref="Compilation"/> instance to inspect.</param>
     /// <returns>Whether the current target is a WinRT application.</returns>
