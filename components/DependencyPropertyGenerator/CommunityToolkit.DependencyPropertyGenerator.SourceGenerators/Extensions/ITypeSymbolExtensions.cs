@@ -106,7 +106,7 @@ internal static class ITypeSymbolExtensions
                     builder.AddRange(symbol.MetadataName.AsSpan());
                     break;
 
-                // Other namespaces (ie. the one right before global) skip the leading '.'
+                // Other namespaces (i.e. the one right before global) skip the leading '.'
                 case INamespaceSymbol { IsGlobalNamespace: false }:
                     builder.AddRange(symbol.MetadataName.AsSpan());
                     break;
