@@ -211,7 +211,7 @@ internal static class CSharpGeneratorTest<TGenerator>
     {
         Compilation originalCompilation = CreateCompilation(source, languageVersion);
 
-        // Create the generator driver with the D2D shader generator
+        // Create the generator driver with the specified generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(new TGenerator()).WithUpdatedParseOptions(originalCompilation.SyntaxTrees.First().Options);
 
         // Run all source generators on the input source code
