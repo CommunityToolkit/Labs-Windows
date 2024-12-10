@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns;
 using Markdig.Extensions.Tables;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
@@ -17,7 +18,7 @@ internal class MyTable : IAddChild
         get => _paragraph;
     }
 
-    public MyTable(Table table)
+    public MyTable(Table table, MarkdownThemes themes)
     {
         _table = table;
         _paragraph = new Paragraph();
@@ -28,8 +29,10 @@ internal class MyTable : IAddChild
         (
             column,
             table.Count,
-            1,
-            new SolidColorBrush(Colors.Gray)
+            borderThickness: 1,
+            themes.BorderBrush,
+            themes.TableHeadingBackground,
+            themes.CornerRadius
         );
 
         var inlineUIContainer = new InlineUIContainer();
