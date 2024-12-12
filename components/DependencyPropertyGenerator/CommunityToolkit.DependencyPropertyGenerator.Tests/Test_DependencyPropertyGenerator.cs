@@ -45,7 +45,7 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
-                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(default(int)));
+                        typeMetadata: null);
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -464,7 +464,7 @@ public partial class Test_DependencyPropertyGenerator
                         name: "Number",
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
-                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(default(int)));
+                        typeMetadata: null);
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]

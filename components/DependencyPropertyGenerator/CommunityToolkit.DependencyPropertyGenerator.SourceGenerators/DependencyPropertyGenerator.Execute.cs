@@ -436,7 +436,7 @@ partial class DependencyPropertyGenerator
                 string typeMetadata = propertyInfo switch
                 {
                     // Shared codegen
-                    { DefaultValue: DependencyPropertyDefaultValue.Null, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
+                    { DefaultValue: DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => "null",
                     { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"""
