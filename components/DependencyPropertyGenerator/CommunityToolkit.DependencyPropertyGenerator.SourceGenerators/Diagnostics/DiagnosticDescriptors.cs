@@ -12,6 +12,11 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Diagnostics;
 internal static class DiagnosticDescriptors
 {
     /// <summary>
+    /// The diagnostic id for <see cref="UseGeneratedDependencyPropertyForManualProperty"/>.
+    /// </summary>
+    public const string UseGeneratedDependencyPropertyForManualPropertyId = "WCTDP0017";
+
+    /// <summary>
     /// <c>"The property '{0}' cannot be used to generate a dependency property, as its declaration is not valid (it must be an instance (non static) partial property, with a getter and a setter that is not init-only)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclaration = new(
@@ -217,5 +222,18 @@ internal static class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Info,
         isEnabledByDefault: true,
         description: "Properties annotated with [GeneratedDependencyProperty] should not have the 'Property' suffix in their name, as it is redundant (the generated dependency properties will always add the 'Property' suffix to the name of their associated properties).",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The manual property '{0}' can be converted to a partial property using [GeneratedDependencyProperty], which is recommended (doing so makes the code less verbose and results in more optimized code)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor UseGeneratedDependencyPropertyForManualProperty = new(
+        id: UseGeneratedDependencyPropertyForManualPropertyId,
+        title: "Prefer using [GeneratedDependencyProperty] over manual properties",
+        messageFormat: """The manual property '{0}' can be converted to a partial property using [GeneratedDependencyProperty], which is recommended (doing so makes the code less verbose and results in more optimized code)""",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Info,
+        isEnabledByDefault: true,
+        description: "Manual properties should be converted to partial properties using [GeneratedDependencyProperty] when possible, which is recommended (doing so makes the code less verbose and results in more optimized code).",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }
