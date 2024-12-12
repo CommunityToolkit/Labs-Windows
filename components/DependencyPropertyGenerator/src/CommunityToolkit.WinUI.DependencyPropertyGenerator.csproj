@@ -25,9 +25,10 @@
     </PolySharpIncludeGeneratedTypes>
   </PropertyGroup>
 
-  <!-- Source generator project reference for packing -->
+  <!-- Source generator project references for packing -->
   <ItemGroup>
     <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.CodeFixers\CommunityToolkit.DependencyPropertyGenerator.CodeFixers.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <!-- Pack the source generator and the .targets file -->
@@ -39,7 +40,8 @@
     <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\net8.0-windows10.0.17763.0" Pack="true" />
     <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\uap10.0" Pack="true" />
 
-    <!-- Pack the source generator to the right package folder -->
+    <!-- Pack the source generators to the right package folder -->
     <None Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
+    <None Include="..\CommunityToolkit.DependencyPropertyGenerator.CodeFixers\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.CodeFixers.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
   </ItemGroup>
 </Project>
