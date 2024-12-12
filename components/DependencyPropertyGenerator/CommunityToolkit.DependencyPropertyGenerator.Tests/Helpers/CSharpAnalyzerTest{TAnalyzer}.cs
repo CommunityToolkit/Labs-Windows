@@ -13,7 +13,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using CommunityToolkit.WinUI;
 
-namespace CommunityToolkit.Mvvm.SourceGenerators.UnitTests.Helpers;
+namespace CommunityToolkit.GeneratedDependencyProperty.Tests.Helpers;
 
 /// <summary>
 /// A custom <see cref="CSharpAnalyzerTest{TAnalyzer, TVerifier}"/> that uses a specific C# language version to parse code.

@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.SourceGenerators.UnitTests.Helpers;
+using CommunityToolkit.GeneratedDependencyProperty.Tests.Helpers;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
