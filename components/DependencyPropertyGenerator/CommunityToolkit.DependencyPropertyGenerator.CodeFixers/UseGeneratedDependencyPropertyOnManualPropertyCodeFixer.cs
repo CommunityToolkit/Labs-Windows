@@ -20,7 +20,7 @@ using Microsoft.CodeAnalysis.Text;
 using static CommunityToolkit.GeneratedDependencyProperty.Diagnostics.DiagnosticDescriptors;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace CommunityToolkit.Mvvm.CodeFixers;
+namespace CommunityToolkit.GeneratedDependencyProperty;
 
 /// <summary>
 /// A code fixer that converts manual properties into partial properties using <c>[GeneratedDependencytProperty]</c>.

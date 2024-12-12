@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.CodeFixers\CommunityToolkit.DependencyPropertyGenerator.CodeFixers.csproj" />
     <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.csproj" />
     <ProjectReference Include="..\src\CommunityToolkit.WinUI.DependencyPropertyGenerator.csproj" />
   </ItemGroup>
