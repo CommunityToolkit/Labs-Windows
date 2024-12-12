@@ -392,9 +392,15 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         return;
                     }
 
+                    // Find the parent field for the operation (we're guaranteed to only fine one)
+                    if (context.Operation.Syntax.FirstAncestor<FieldDeclarationSyntax>()?.GetLocation() is not Location fieldLocation)
+                    {
+                        return;
+                    }
+
                     fieldFlags.PropertyName = propertyName;
                     fieldFlags.PropertyType = propertyTypeSymbol;
-                    fieldFlags.IsInitializerValid = true;
+                    fieldFlags.FieldLocation = fieldLocation;
                 }, OperationKind.FieldInitializer);
 
                 // Finally, we can consume this information when we finish processing the symbol
@@ -421,14 +427,27 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             continue;
                         }
 
-                        // Validate the combination of accessors and target field, and warn if that's the case
-                        if (fieldFlags.PropertyName == pair.Key.Name &&
-                            SymbolEqualityComparer.Default.Equals(fieldFlags.PropertyType, pair.Key.Type) &&
-                            fieldFlags.IsInitializerValid)
+                        // We only support rewriting when the property name matches the field being initialized.
+                        // Note that the property name here is the literal being passed for the 'name' parameter.
+                        if (fieldFlags.PropertyName != pair.Key.Name)
+                        {
+                            continue;
+                        }
+
+                        // Make sure that the 'propertyType' value matches the actual type of the property.
+                        // We are intentionally not handling combinations of nullable value types here.
+                        if (!SymbolEqualityComparer.Default.Equals(fieldFlags.PropertyType, pair.Key.Type))
+                        {
+                            return;
+                        }
+
+                        // Finally, check whether the field was valid (if so, we will have a valid location)
+                        if (fieldFlags.FieldLocation is Location fieldLocation)
                         {
                             context.ReportDiagnostic(Diagnostic.Create(
                                 UseGeneratedDependencyPropertyForManualProperty,
                                 pair.Key.Locations.FirstOrDefault(),
+                                [fieldLocation],
                                 pair.Key));
                         }
                     }
@@ -448,7 +467,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     {
                         fieldFlags.PropertyName = null;
                         fieldFlags.PropertyType = null;
-                        fieldFlags.IsInitializerValid = false;
+                        fieldFlags.FieldLocation = null;
 
                         fieldFlagsStack.Push(fieldFlags);
                     }
@@ -518,8 +537,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         public ITypeSymbol? PropertyType;
 
         /// <summary>
-        /// Whether the initializer is valid.
+        /// The location of the target field being initialized.
         /// </summary>
-        public bool IsInitializerValid;
+        public Location? FieldLocation;
     }
 }
