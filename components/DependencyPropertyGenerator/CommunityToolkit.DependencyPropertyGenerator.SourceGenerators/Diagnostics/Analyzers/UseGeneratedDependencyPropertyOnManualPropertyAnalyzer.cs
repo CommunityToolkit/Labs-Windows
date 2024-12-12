@@ -413,14 +413,26 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             return;
                         }
 
-                        // Check whether the value is a default constant value.
-                        // If it is, then the property is valid (no explicit value).
-                        if (!conversionOperation.Operand.IsConstantValueDefault())
+                        bool isNullableValueType = propertyTypeSymbol is INamedTypeSymbol { IsValueType: true, IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
+
+                        // Check whether the value is a default constant value. If it is, then the property is valid (no explicit value).
+                        // We need to special case nullable value types, as the default value for the underlying type is not the actual default.
+                        if (!conversionOperation.Operand.IsConstantValueDefault() || isNullableValueType)
                         {
-                            // If that is not the case, check if it's some constant value we can forward
-                            if (!TypedConstantInfo.TryCreate(conversionOperation.Operand, out fieldFlags.DefaultValue))
+                            // The value is just 'null' with no type, special case this one and skip the other checks below
+                            if (conversionOperation.Operand is { Type: null, ConstantValue: { HasValue: true, Value: null } })
                             {
-                                // As a last resort, check if this is explicitly a 'default(T)' expression
+                                // This is only allowed for reference or nullable types. This 'null' is redundant, but support it nonetheless.
+                                // It's not that uncommon for especially legacy codebases to have this kind of pattern in dependency properties.
+                                if (!propertyTypeSymbol.IsReferenceType && !isNullableValueType)
+                                {
+                                    return;
+                                }
+                            }
+                            else if (!TypedConstantInfo.TryCreate(conversionOperation.Operand, out fieldFlags.DefaultValue))
+                            {
+                                // If that is not the case, check if it's some constant value we can forward. In this case, we did not
+                                // retrieve it. As a last resort, check if this is explicitly a 'default(T)' expression.
                                 if (conversionOperation.Operand is not IDefaultValueOperation { Type: { } defaultValueExpressionType })
                                 {
                                     return;

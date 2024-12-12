@@ -1225,7 +1225,6 @@ public class Test_Analyzers
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_FieldNotInitialized_DoesNotWarn()
     {
         const string source = """
-            using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -1252,7 +1251,6 @@ public class Test_Analyzers
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_FieldWithDifferentName_DoesNotWarn()
     {
         const string source = """
-            using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -1297,7 +1295,6 @@ public class Test_Analyzers
         string typeMetadata)
     {
         string source = $$"""
-            using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -1328,7 +1325,6 @@ public class Test_Analyzers
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_MissingGetter_DoesNotWarn()
     {
         const string source = """
-            using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -1358,7 +1354,6 @@ public class Test_Analyzers
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_MissingSetter_DoesNotWarn()
     {
         const string source = """
-            using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -1396,7 +1391,6 @@ public class Test_Analyzers
         string propertyType)
     {
         string source = $$"""
-            using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -1447,7 +1441,6 @@ public class Test_Analyzers
         string defaultValueExpression)
     {
         string source = $$"""
-            using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 

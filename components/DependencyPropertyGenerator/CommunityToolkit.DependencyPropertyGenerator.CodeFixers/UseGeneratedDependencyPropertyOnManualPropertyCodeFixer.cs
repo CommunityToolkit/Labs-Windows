@@ -56,6 +56,9 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             return;
         }
 
+        // Retrieve the properties passed by the analyzer
+        string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
+
         SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
         // Get the property declaration and the field declaration from the target diagnostic
@@ -69,7 +72,13 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: "Use a partial property",
-                    createChangedDocument: token => ConvertToPartialProperty(context.Document, semanticModel, root, propertyDeclaration, fieldDeclaration),
+                    createChangedDocument: token => ConvertToPartialProperty(
+                        context.Document,
+                        semanticModel,
+                        root,
+                        propertyDeclaration,
+                        fieldDeclaration,
+                        defaultValue),
                     equivalenceKey: "Use a partial property"),
                 diagnostic);
         }
@@ -113,13 +122,15 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="root">The original tree root belonging to the current document.</param>
     /// <param name="propertyDeclaration">The <see cref="PropertyDeclarationSyntax"/> for the property being updated.</param>
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
+    /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
     /// <returns>An updated document with the applied code fix, and <paramref name="propertyDeclaration"/> being replaced with a partial property.</returns>
     private static async Task<Document> ConvertToPartialProperty(
         Document document,
         SemanticModel semanticModel,
         SyntaxNode root,
         PropertyDeclarationSyntax propertyDeclaration,
-        FieldDeclarationSyntax fieldDeclaration)
+        FieldDeclarationSyntax fieldDeclaration,
+        string? defaultValueExpression)
     {
         await Task.CompletedTask;
 
@@ -136,7 +147,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             propertyDeclaration,
             fieldDeclaration,
             observablePropertyAttributeList,
-            syntaxEditor);
+            syntaxEditor,
+            defaultValueExpression);
 
         // Create the new document with the single change
         return document.WithSyntaxRoot(syntaxEditor.GetChangedRoot());
@@ -149,13 +161,28 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
     /// <param name="observablePropertyAttributeList">The <see cref="AttributeListSyntax"/> with the attribute to add.</param>
     /// <param name="syntaxEditor">The <see cref="SyntaxEditor"/> instance to use.</param>
+    /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
     /// <returns>An updated document with the applied code fix, and <paramref name="propertyDeclaration"/> being replaced with a partial property.</returns>
     private static void ConvertToPartialProperty(
         PropertyDeclarationSyntax propertyDeclaration,
         FieldDeclarationSyntax fieldDeclaration,
         AttributeListSyntax observablePropertyAttributeList,
-        SyntaxEditor syntaxEditor)
+        SyntaxEditor syntaxEditor,
+        string? defaultValueExpression)
     {
+        // If we do have a default value expression, set it in the attribute.
+        // We extract the generated attribute so we can add the new argument.
+        // It's important to reuse it, as it has the "add usings" annotation.
+        if (defaultValueExpression is not null)
+        {
+            observablePropertyAttributeList =
+                AttributeList(SingletonSeparatedList(
+                    observablePropertyAttributeList.Attributes[0]
+                    .AddArgumentListArguments(
+                        AttributeArgument(ParseExpression(defaultValueExpression))
+                        .WithNameEquals(NameEquals(IdentifierName("DefaultValue"))))));
+        }
+
         // Start setting up the updated attribute lists
         SyntaxList<AttributeListSyntax> attributeLists = propertyDeclaration.AttributeLists;
 
@@ -264,11 +291,15 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                     continue;
                 }
 
+                // Retrieve the properties passed by the analyzer
+                string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
+
                 ConvertToPartialProperty(
                     propertyDeclaration,
                     fieldDeclaration,
                     observablePropertyAttributeList,
-                    syntaxEditor);
+                    syntaxEditor,
+                    defaultValue);
             }
 
             return document.WithSyntaxRoot(syntaxEditor.GetChangedRoot());

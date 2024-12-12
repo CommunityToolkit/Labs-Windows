@@ -30,7 +30,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     [DataRow("object", "object?")]
     [DataRow("int", "int")]
     [DataRow("int?", "int?")]
-    public async Task SimpleProperty(string underlyingType, string propertyType)
+    public async Task SimpleProperty(string dependencyPropertyType, string propertyType)
     {
         string original = $$"""
             using Windows.UI.Xaml;
@@ -42,7 +42,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             {
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
                     name: nameof(Name),
-                    propertyType: typeof({{underlyingType}}),
+                    propertyType: typeof({{dependencyPropertyType}}),
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
 
@@ -64,6 +64,147 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             public partial class MyControl : Control
             {
                 [GeneratedDependencyProperty]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestState = { AdditionalReferences =
+            {
+                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
+            }}
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    [DataRow("string", "string", "null")]
+    [DataRow("string", "string", "default(string)")]
+    [DataRow("string", "string", "(string)null")]
+    [DataRow("string", "string?", "null")]
+    [DataRow("object", "object", "null")]
+    [DataRow("object", "object?", "null")]
+    [DataRow("int", "int", "0")]
+    [DataRow("int", "int", "default(int)")]
+    [DataRow("int?", "int?", "null")]
+    [DataRow("int?", "int?", "default(int?)")]
+    [DataRow("int?", "int?", "null")]
+    [DataRow("System.TimeSpan", "System.TimeSpan", "default(System.TimeSpan)")]
+    public async Task SimpleProperty_WithExplicitValue_DefaultValue(
+        string dependencyPropertyType,
+        string propertyType,
+        string defaultValueExpression)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{dependencyPropertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{defaultValueExpression}}));
+
+                public {{propertyType}} [|Name|]
+                {
+                    get => ({{propertyType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestState = { AdditionalReferences =
+            {
+                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
+            }}
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    [DataRow("string", "string", "\"\"")]
+    [DataRow("string", "string", "\"Hello\"")]
+    [DataRow("int", "int", "42")]
+    [DataRow("int?", "int?", "0")]
+    [DataRow("int?", "int?", "42")]
+    public async Task SimpleProperty_WithExplicitValue_NotDefault(
+        string dependencyPropertyType,
+        string propertyType,
+        string defaultValueExpression)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{dependencyPropertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{defaultValueExpression}}));
+
+                public {{propertyType}} [|Name|]
+                {
+                    get => ({{propertyType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = {{defaultValueExpression}})]
                 public partial {{propertyType}} {|CS9248:Name|} { get; set; }
             }
             """;
