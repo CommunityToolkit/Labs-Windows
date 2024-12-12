@@ -1289,7 +1289,6 @@ public class Test_Analyzers
     [DataRow("\"Name\"", "typeof(string)", "typeof(string)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(Control)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(DependencyObject)", "null")]
-    [DataRow("\"Name\"", "typeof(string)", "typeof(MyControl)", "new PropertyMetadata(42)")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(MyControl)", "new PropertyMetadata(null, (d, e) => { })")]
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_DoesNotWarn(
         string name,
@@ -1412,6 +1411,57 @@ public class Test_Analyzers
                     propertyType: typeof({{dependencyPropertyType}}),
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
+
+                public {{propertyType}} {|WCTDP0017:Name|}
+                {
+                    get => ({{propertyType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string", "string", "null")]
+    [DataRow("string", "string", "default(string)")]
+    [DataRow("string", "string", "(string)null")]
+    [DataRow("string", "string", "\"\"")]
+    [DataRow("string", "string", "\"Hello\"")]
+    [DataRow("string", "string?", "null")]
+    [DataRow("object", "object", "null")]
+    [DataRow("object", "object?", "null")]
+    [DataRow("int", "int", "0")]
+    [DataRow("int", "int", "42")]
+    [DataRow("int", "int", "default(int)")]
+    [DataRow("int?", "int?", "null")]
+    [DataRow("int?", "int?", "0")]
+    [DataRow("int?", "int?", "42")]
+    [DataRow("int?", "int?", "default(int?)")]
+    [DataRow("int?", "int?", "null")]
+    [DataRow("System.TimeSpan", "System.TimeSpan", "default(System.TimeSpan)")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_ExplicitDefaultValue_Warns(
+        string dependencyPropertyType,
+        string propertyType,
+        string defaultValueExpression)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{dependencyPropertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{defaultValueExpression}}));
 
                 public {{propertyType}} {|WCTDP0017:Name|}
                 {

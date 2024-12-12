@@ -9,6 +9,7 @@ using System.Linq;
 using CommunityToolkit.GeneratedDependencyProperty.Constants;
 using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using CommunityToolkit.GeneratedDependencyProperty.Helpers;
+using CommunityToolkit.GeneratedDependencyProperty.Models;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -49,6 +50,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
     /// Shared pool for <see cref="Stack{T}"/>-s of field flags, one per type being processed.
     /// </summary>
     private static readonly ObjectPool<Stack<FieldFlags>> FieldFlagsStackPool = new(CreateFlagsStack<FieldFlags>);
+
+    /// <summary>
+    /// The property name for the serialized property value, if present.
+    /// </summary>
+    public const string DefaultValuePropertyName = "DefaultValue";
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [UseGeneratedDependencyPropertyForManualProperty];
@@ -386,10 +392,48 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         return;
                     }
 
-                    // For now, just check that the metadata is 'null'
+                    // First, check if the metadata is 'null' (simplest case)
                     if (propertyMetadataArgument.Value.ConstantValue is not { HasValue: true, Value: null })
                     {
-                        return;
+                        // Next, check if the argument is 'new PropertyMetadata(...)' with the default value for the property type
+                        if (propertyMetadataArgument.Value is not IObjectCreationOperation { Arguments: [{ } defaultValueArgument] } objectCreationOperation)
+                        {
+                            return;
+                        }
+
+                        // Make sure the object being created is actually 'PropertyMetadata'
+                        if (!SymbolEqualityComparer.Default.Equals(objectCreationOperation.Type, propertyMetadataSymbol))
+                        {
+                            return;
+                        }
+
+                        // The argument should be a conversion operation (boxing)
+                        if (defaultValueArgument.Value is not IConversionOperation { IsTryCast: false, Type.SpecialType: SpecialType.System_Object } conversionOperation)
+                        {
+                            return;
+                        }
+
+                        // Check whether the value is a default constant value.
+                        // If it is, then the property is valid (no explicit value).
+                        if (!conversionOperation.Operand.IsConstantValueDefault())
+                        {
+                            // If that is not the case, check if it's some constant value we can forward
+                            if (!TypedConstantInfo.TryCreate(conversionOperation.Operand, out fieldFlags.DefaultValue))
+                            {
+                                // As a last resort, check if this is explicitly a 'default(T)' expression
+                                if (conversionOperation.Operand is not IDefaultValueOperation { Type: { } defaultValueExpressionType })
+                                {
+                                    return;
+                                }
+
+                                // Also make sure the type matches the property type (it's not technically guaranteed).
+                                // If this succeeds, we can safely convert the property, the generated code will be fine.
+                                if (!SymbolEqualityComparer.Default.Equals(defaultValueExpressionType, propertyTypeSymbol))
+                                {
+                                    return;
+                                }
+                            }
+                        }
                     }
 
                     // Find the parent field for the operation (we're guaranteed to only fine one)
@@ -448,6 +492,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 UseGeneratedDependencyPropertyForManualProperty,
                                 pair.Key.Locations.FirstOrDefault(),
                                 [fieldLocation],
+                                ImmutableDictionary.Create<string, string?>().Add(DefaultValuePropertyName, fieldFlags.DefaultValue?.ToString()),
                                 pair.Key));
                         }
                     }
@@ -467,6 +512,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     {
                         fieldFlags.PropertyName = null;
                         fieldFlags.PropertyType = null;
+                        fieldFlags.DefaultValue = null;
                         fieldFlags.FieldLocation = null;
 
                         fieldFlagsStack.Push(fieldFlags);
@@ -535,6 +581,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// The type of the property (as in, of values that can be assigned to it).
         /// </summary>
         public ITypeSymbol? PropertyType;
+
+        /// <summary>
+        /// The default value to use (not present if it does not need to be set explicitly).
+        /// </summary>
+        public TypedConstantInfo? DefaultValue;
 
         /// <summary>
         /// The location of the target field being initialized.
