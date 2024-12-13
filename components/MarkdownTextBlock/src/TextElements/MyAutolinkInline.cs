@@ -12,6 +12,18 @@ internal class MyAutolinkInline : IAddChild
 
     public TextElement TextElement { get; private set; }
 
+    public event TypedEventHandler<Hyperlink, HyperlinkClickEventArgs>? ClickEvent
+    {
+        add
+        {
+            ((Hyperlink)TextElement).Click += value;
+        }
+        remove
+        {
+            ((Hyperlink)TextElement).Click -= value;
+        }
+    }
+
     public MyAutolinkInline(AutolinkInline autoLinkInline)
     {
         _autoLinkInline = autoLinkInline;
@@ -20,7 +32,6 @@ internal class MyAutolinkInline : IAddChild
             NavigateUri = new Uri(autoLinkInline.Url),
         };
     }
-
 
     public void AddChild(IAddChild child)
     {

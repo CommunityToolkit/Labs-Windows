@@ -50,20 +50,20 @@ internal class MyImage : IAddChild
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
 #pragma warning disable CS8601 // Possible null reference assignment.
-        Uri.TryCreate(htmlNode.GetAttributeValue("src", "#"), UriKind.RelativeOrAbsolute, out _uri);
+        Uri.TryCreate(htmlNode.GetAttribute("src", "#"), UriKind.RelativeOrAbsolute, out _uri);
 #pragma warning restore CS8601 // Possible null reference assignment.
         _htmlNode = htmlNode;
         _imageProvider = config?.ImageProvider;
         _svgRenderer = config?.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
         Init();
         int.TryParse(
-            htmlNode.GetAttributeValue("width", "0"),
+            htmlNode.GetAttribute("width", "0"),
             NumberStyles.Integer,
             CultureInfo.InvariantCulture,
             out var width
         );
         int.TryParse(
-            htmlNode.GetAttributeValue("height", "0"),
+            htmlNode.GetAttribute("height", "0"),
             NumberStyles.Integer,
             CultureInfo.InvariantCulture,
             out var height

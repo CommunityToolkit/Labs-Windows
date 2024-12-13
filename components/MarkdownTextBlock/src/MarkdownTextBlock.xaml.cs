@@ -5,6 +5,7 @@
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 using Markdig;
+using Markdig.Syntax;
 
 namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 
@@ -30,6 +31,12 @@ public partial class MarkdownTextBlock : Control
         typeof(MarkdownTextBlock),
         new PropertyMetadata(null, OnTextChanged));
 
+    private static readonly DependencyProperty MarkdownDocumentProperty = DependencyProperty.Register(
+        nameof(MarkdownDocument),
+        typeof(MarkdownDocument),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(null));
+
     public MarkdownConfig Config
     {
         get => (MarkdownConfig)GetValue(ConfigProperty);
@@ -41,6 +48,16 @@ public partial class MarkdownTextBlock : Control
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
+
+    public MarkdownDocument? MarkdownDocument
+    {
+        get => (MarkdownDocument)GetValue(MarkdownDocumentProperty);
+        private set => SetValue(MarkdownDocumentProperty, value);
+    }
+
+    public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
+
+    internal void RaiseLinkClickedEvent(Uri uri) => OnLinkClicked?.Invoke(this, new LinkClickedEventArgs(uri));
 
     private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -54,7 +71,7 @@ public partial class MarkdownTextBlock : Control
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
         {
-            self.ApplyText(self.Text, true);
+            self.ApplyText(true);
         }
     }
 
@@ -87,16 +104,20 @@ public partial class MarkdownTextBlock : Control
         }
     }
 
-    private void ApplyText(string text, bool rerender)
+    private void ApplyText(bool rerender)
     {
-        var markdown = Markdown.Parse(text, _pipeline);
         if (_renderer != null)
         {
             if (rerender)
             {
                 _renderer.ReloadDocument();
             }
-            _renderer.Render(markdown);
+
+            if (!string.IsNullOrEmpty(Text))
+            {
+                this.MarkdownDocument = Markdown.Parse(Text, _pipeline);
+                _renderer.Render(this.MarkdownDocument);
+            }
         }
     }
 
@@ -106,10 +127,10 @@ public partial class MarkdownTextBlock : Control
         {
             if (_renderer == null)
             {
-                _renderer = new WinUIRenderer(_document, Config);
+                _renderer = new WinUIRenderer(_document, Config, this);
             }
             _pipeline.Setup(_renderer);
-            ApplyText(Text, false);
+            ApplyText(false);
         }
     }
 }
