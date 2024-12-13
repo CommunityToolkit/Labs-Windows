@@ -16,6 +16,11 @@ internal abstract partial record DependencyPropertyDefaultValue
     /// </summary>
     public sealed record Null : DependencyPropertyDefaultValue
     {
+        /// <summary>
+        /// The shared <see cref="Null"/> instance (the type is stateless).
+        /// </summary>
+        public static Null Instance { get; } = new();
+
         /// <inheritdoc/>
         public override string ToString()
         {

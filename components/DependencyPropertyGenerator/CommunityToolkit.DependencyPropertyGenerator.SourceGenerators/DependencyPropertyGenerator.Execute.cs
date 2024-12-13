@@ -28,11 +28,6 @@ partial class DependencyPropertyGenerator
     private static partial class Execute
     {
         /// <summary>
-        /// Placeholder for <see langword="null"/>.
-        /// </summary>
-        private static readonly DependencyPropertyDefaultValue.Null NullInfo = new();
-
-        /// <summary>
         /// Generates the sources for the embedded types, for <c>PrivateAssets="all"</c> scenarios.
         /// </summary>
         /// <param name="context">The input <see cref="IncrementalGeneratorPostInitializationContext"/> value to use to emit sources.</param>
@@ -274,7 +269,7 @@ partial class DependencyPropertyGenerator
                 }
 
                 // Invalid callback, the analyzer will emit an error
-                return NullInfo;
+                return DependencyPropertyDefaultValue.Null.Instance;
             }
 
             token.ThrowIfCancellationRequested();
@@ -313,7 +308,7 @@ partial class DependencyPropertyGenerator
                 }
 
                 // Otherwise, the value has been explicitly set to 'null', so let's respect that
-                return NullInfo;
+                return DependencyPropertyDefaultValue.Null.Instance;
             }
 
             token.ThrowIfCancellationRequested();
@@ -322,54 +317,14 @@ partial class DependencyPropertyGenerator
             // First we need to special case non nullable values, as for those we need 'default'.
             if (!propertySymbol.Type.IsDefaultValueNull())
             {
-                string fullyQualifiedTypeName = propertySymbol.Type.GetFullyQualifiedName();
-
-                // There is a special case for this: if the type of the property is a built-in WinRT
-                // projected enum type or struct type (ie. some projected value type in general, except
-                // for 'Nullable<T>' values), then we can just use 'null' and bypass creating the property
-                // metadata. The WinRT runtime will automatically instantiate a default value for us.
-                if (propertySymbol.Type.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)) ||
-                    propertySymbol.Type.IsContainedInNamespace("System.Numerics"))
-                {
-                    return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
-                }
-
-                // Special case a few more well known value types that are mapped for WinRT
-                if (propertySymbol.Type.Name is "Point" or "Rect" or "Size" &&
-                    propertySymbol.Type.IsContainedInNamespace("Windows.Foundation"))
-                {
-                    return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
-                }
-
-                // Special case two more system types
-                if (propertySymbol.Type is INamedTypeSymbol { MetadataName: "TimeSpan" or "DateTimeOffset", ContainingNamespace.MetadataName: "System" })
-                {
-                    return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
-                }
-
-                // Lastly, special case the well known primitive types
-                if (propertySymbol.Type.SpecialType is
-                        SpecialType.System_Int32 or
-                        SpecialType.System_Byte or
-                        SpecialType.System_SByte or
-                        SpecialType.System_Int16 or
-                        SpecialType.System_UInt16 or
-                        SpecialType.System_UInt32 or
-                        SpecialType.System_Int64 or
-                        SpecialType.System_UInt64 or
-                        SpecialType.System_Char or
-                        SpecialType.System_Single or
-                        SpecialType.System_Double)
-                {
-                    return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
-                }
-
-                // In all other cases, just use 'default(T)' here
-                return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: false);
+                // For non nullable types, we return 'default(T)', unless we can optimize for projected types
+                return new DependencyPropertyDefaultValue.Default(
+                    TypeName: propertySymbol.Type.GetFullyQualifiedName(),
+                    IsProjectedType: propertySymbol.Type.IsWellKnownWinRTProjectedValueType(useWindowsUIXaml));
             }
 
             // For all other ones, we can just use the 'null' placeholder again
-            return NullInfo;
+            return DependencyPropertyDefaultValue.Null.Instance;
         }
 
         /// <summary>

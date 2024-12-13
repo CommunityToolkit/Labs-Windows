@@ -23,6 +23,11 @@ internal abstract partial record TypedConstantInfo
     /// </summary>
     public sealed record Null : TypedConstantInfo
     {
+        /// <summary>
+        /// The shared <see cref="Null"/> instance (the type is stateless).
+        /// </summary>
+        public static Null Instance { get; } = new();
+
         /// <inheritdoc/>
         public override string ToString()
         {

@@ -65,6 +65,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
+
         context.RegisterCompilationStartAction(static context =>
         {
             // Get the XAML mode to use
@@ -393,7 +394,18 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     }
 
                     // First, check if the metadata is 'null' (simplest case)
-                    if (propertyMetadataArgument.Value.ConstantValue is not { HasValue: true, Value: null })
+                    if (propertyMetadataArgument.Value.ConstantValue is { HasValue: true, Value: null })
+                    {
+                        // Here we need to special case non nullable value types that are not well known WinRT projected types.
+                        // In this case, we cannot rely on XAML calling their default constructor. Rather, we need to preserve
+                        // the explicit 'null' value that users had in their code. The analyzer will then warn on these cases
+                        if (!propertyTypeSymbol.IsDefaultValueNull() &&
+                            !propertyTypeSymbol.IsWellKnownWinRTProjectedValueType(useWindowsUIXaml))
+                        {
+                            fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
+                        }
+                    }
+                    else
                     {
                         // Next, check if the argument is 'new PropertyMetadata(...)' with the default value for the property type
                         if (propertyMetadataArgument.Value is not IObjectCreationOperation { Arguments: [{ } defaultValueArgument] } objectCreationOperation)

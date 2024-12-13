@@ -57,11 +57,81 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     [DataRow("global::System.TimeSpan?", "global::System.TimeSpan?")]
     [DataRow("global::System.Guid?", "global::System.Guid?")]
     [DataRow("global::System.Collections.Generic.KeyValuePair<int, float>?", "global::System.Collections.Generic.KeyValuePair<int, float>?")]
-    [DataRow("global::MyApp.MyStruct", "global::MyApp.MyStruct")]
     [DataRow("global::MyApp.MyStruct?", "global::MyApp.MyStruct?")]
-    [DataRow("global::MyApp.MyEnum", "global::MyApp.MyEnum")]
     [DataRow("global::MyApp.MyEnum?", "global::MyApp.MyEnum?")]
+    [DataRow("global::MyApp.MyClass", "global::MyApp.MyClass")]
+    [DataRow("global::MyApp.MyClass", "global::MyApp.MyClass?")]
     public async Task SimpleProperty(string dependencyPropertyType, string propertyType)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            namespace MyApp;
+
+            public class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: nameof(Name),
+                    propertyType: typeof({{dependencyPropertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public {{propertyType}} [|Name|]
+                {
+                    get => ({{propertyType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public struct MyStruct { public string X { get; set; } }
+            public enum MyEnum { A, B, C }
+            public class MyClass { }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+
+            public struct MyStruct { public string X { get; set; } }
+            public enum MyEnum { A, B, C }
+            public class MyClass { }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestState = { AdditionalReferences =
+            {
+                MetadataReference.CreateFromFile(typeof(Point).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
+            }}
+        };
+
+        await test.RunAsync();
+    }
+
+    // These are custom value types, on properties where the metadata was set to 'null'. In this case, the
+    // default value would just be 'null', as XAML can't default initialize them. To preserve behavior,
+    // we must include an explicit default value. This will warn when the code is recompiled, but that
+    // is expected, because this specific scenario was (1) niche, and (2) kinda busted already anyway.
+    [TestMethod]
+    [DataRow("global::MyApp.MyStruct", "global::MyApp.MyStruct")]
+    [DataRow("global::MyApp.MyEnum", "global::MyApp.MyEnum")]
+    public async Task SimpleProperty_ExplicitNull(string dependencyPropertyType, string propertyType)
     {
         string original = $$"""
             using Windows.UI.Xaml;
@@ -97,7 +167,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
             public partial class MyControl : Control
             {
-                [GeneratedDependencyProperty]
+                [GeneratedDependencyProperty(DefaultValue = null)]
                 public partial {{propertyType}} {|CS9248:Name|} { get; set; }
             }
 
