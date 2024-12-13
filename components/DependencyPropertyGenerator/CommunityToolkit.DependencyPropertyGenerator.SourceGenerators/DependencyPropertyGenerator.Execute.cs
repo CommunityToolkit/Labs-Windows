@@ -322,7 +322,44 @@ partial class DependencyPropertyGenerator
             // First we need to special case non nullable values, as for those we need 'default'.
             if (propertySymbol.Type is { IsValueType: true } and not INamedTypeSymbol { IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T })
             {
-                return new DependencyPropertyDefaultValue.Default(propertySymbol.Type.GetFullyQualifiedName());
+                string fullyQualifiedTypeName = propertySymbol.Type.GetFullyQualifiedName();
+
+                // There is a special case for this: if the type of the property is a built-in WinRT
+                // projected enum type or struct type (ie. some projected value type in general, except
+                // for 'Nullable<T>' values), then we can just use 'null' and bypass creating the property
+                // metadata. The WinRT runtime will automatically instantiate a default value for us.
+                if (propertySymbol.Type.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)) ||
+                    propertySymbol.Type.IsContainedInNamespace("Windows.Foundation.Numerics"))
+                {
+                    return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
+                }
+
+                // Special case a few more well known value types that are mapped for WinRT
+                if (propertySymbol.Type.Name is "Point" or "Rect" or "Size" &&
+                    propertySymbol.Type.IsContainedInNamespace("Windows.Foundation"))
+                {
+                    return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
+                }
+
+                // Lastly, special case the well known primitive types
+                if (propertySymbol.Type.SpecialType is
+                        SpecialType.System_Int32 or
+                        SpecialType.System_Byte or
+                        SpecialType.System_SByte or
+                        SpecialType.System_Int16 or
+                        SpecialType.System_UInt16 or
+                        SpecialType.System_UInt32 or
+                        SpecialType.System_Int64 or
+                        SpecialType.System_UInt64 or
+                        SpecialType.System_Char or
+                        SpecialType.System_Single or
+                        SpecialType.System_Double)
+                {
+                    return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
+                }
+
+                // In all other cases, just use 'default(T)' here
+                return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: false);
             }
 
             // For all other ones, we can just use the 'null' placeholder again
@@ -436,7 +473,7 @@ partial class DependencyPropertyGenerator
                 string typeMetadata = propertyInfo switch
                 {
                     // Shared codegen
-                    { DefaultValue: DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
+                    { DefaultValue: DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default(_, true), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => "null",
                     { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"""

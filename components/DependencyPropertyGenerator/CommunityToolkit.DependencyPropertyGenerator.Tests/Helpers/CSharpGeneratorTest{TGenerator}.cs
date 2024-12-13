@@ -12,6 +12,7 @@ using CommunityToolkit.WinUI;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
@@ -178,6 +179,7 @@ internal static class CSharpGeneratorTest<TGenerator>
         IEnumerable<MetadataReference> metadataReferences =
         [
             .. Net80.References.All,
+            MetadataReference.CreateFromFile(typeof(Point).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)

@@ -136,4 +136,51 @@ internal static class ITypeSymbolExtensions
 
         BuildFrom(symbol, in builder);
     }
+
+    /// <summary>
+    /// Checks whether a given type is contained in a namespace with a specified name.
+    /// </summary>
+    /// <param name="symbol">The input <see cref="ITypeSymbol"/> instance.</param>
+    /// <param name="namespaceName">The namespace to check.</param>
+    /// <returns>Whether <paramref name="symbol"/> is contained within <paramref name="namespaceName"/>.</returns>
+    public static bool IsContainedInNamespace(this ITypeSymbol symbol, string? namespaceName)
+    {
+        static void BuildFrom(INamespaceSymbol? symbol, ref readonly ImmutableArrayBuilder<char> builder)
+        {
+            switch (symbol)
+            {
+                // Namespaces that are nested also append a leading '.'
+                case INamespaceSymbol { ContainingNamespace.IsGlobalNamespace: false }:
+                    BuildFrom(symbol.ContainingNamespace, in builder);
+                    builder.Add('.');
+                    builder.AddRange(symbol.MetadataName.AsSpan());
+                    break;
+
+                // Other namespaces (i.e. the one right before global) skip the leading '.'
+                case INamespaceSymbol { IsGlobalNamespace: false }:
+                    builder.AddRange(symbol.MetadataName.AsSpan());
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Special case for no containing namespace
+        if (symbol.ContainingNamespace is not { } containingNamespace)
+        {
+            return namespaceName is null;
+        }
+
+        // Special case if the type is directly in the global namespace
+        if (containingNamespace.IsGlobalNamespace)
+        {
+            return containingNamespace.MetadataName == namespaceName;
+        }
+
+        using ImmutableArrayBuilder<char> builder = new();
+
+        BuildFrom(containingNamespace, in builder);
+
+        return builder.WrittenSpan.SequenceEqual(namespaceName.AsSpan());
+    }
 }

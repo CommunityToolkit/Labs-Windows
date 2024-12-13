@@ -27,7 +27,8 @@ internal abstract partial record DependencyPropertyDefaultValue
     /// A <see cref="DependencyPropertyDefaultValue"/> type representing default value for a specific type.
     /// </summary>
     /// <param name="TypeName">The input type name.</param>
-    public sealed record Default(string TypeName) : DependencyPropertyDefaultValue
+    /// <param name="IsProjectedType">Indicates whether the type is projected, meaning WinRT can default initialize it automatically if needed.</param>
+    public sealed record Default(string TypeName, bool IsProjectedType) : DependencyPropertyDefaultValue
     {
         /// <inheritdoc/>
         public override string ToString()

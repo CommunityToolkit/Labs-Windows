@@ -2702,64 +2702,68 @@ public partial class Test_DependencyPropertyGenerator
 
     [TestMethod]
 
-    // The 'string' and 'object' types are special
-    [DataRow("string", "string", "null")]
-    [DataRow("string", "string?", "null")]
-    [DataRow("object", "object", "null")]
-    [DataRow("object", "object?", "null")]
+    // The 'string' type is special
+    [DataRow("string", "string", "object", "null")]
+    [DataRow("string", "string?", "object?", "null")]
 
     // Well known WinRT primitive types
-    [DataRow("int", "int", "null")]
-    [DataRow("byte", "byte", "null")]
-    [DataRow("sbyte", "sbyte", "null")]
-    [DataRow("short", "short", "null")]
-    [DataRow("ushort", "ushort", "null")]
-    [DataRow("uint", "uint", "null")]
-    [DataRow("long", "long", "null")]
-    [DataRow("ulong", "ulong", "null")]
-    [DataRow("char", "char", "null")]
-    [DataRow("float", "float", "null")]
-    [DataRow("double", "double", "null")]
+    [DataRow("int", "int", "object", "null")]
+    [DataRow("byte", "byte", "object", "null")]
+    [DataRow("sbyte", "sbyte", "object", "null")]
+    [DataRow("short", "short", "object", "null")]
+    [DataRow("ushort", "ushort", "object", "null")]
+    [DataRow("uint", "uint", "object", "null")]
+    [DataRow("long", "long", "object", "null")]
+    [DataRow("ulong", "ulong", "object", "null")]
+    [DataRow("char", "char", "object", "null")]
+    [DataRow("float", "float", "object", "null")]
+    [DataRow("double", "double", "object", "null")]
 
     // Well known WinRT struct types
-    [DataRow("Matrix3x2", "Matrix3x2", "null")]
-    [DataRow("Matrix4x4", "Matrix4x4", "null")]
-    [DataRow("Plane", "Plane", "null")]
-    [DataRow("Quaternion", "Quaternion", "null")]
-    [DataRow("Vector2", "Vector2", "null")]
-    [DataRow("Vector3", "Vector3", "null")]
-    [DataRow("Vector4", "Vector4", "null")]
-    [DataRow("Point", "Point", "null")]
-    [DataRow("Rect", "Rect", "null")]
+    [DataRow("global::Windows.Foundation.Numerics.Matrix3x2", "global::Windows.Foundation.Numerics.Matrix3x2", "object", "null")]
+    [DataRow("global::Windows.Foundation.Numerics.Matrix4x4", "global::Windows.Foundation.Numerics.Matrix4x4", "object", "null")]
+    [DataRow("global::Windows.Foundation.Numerics.Plane", "global::Windows.Foundation.Numerics.Plane", "object", "null")]
+    [DataRow("global::Windows.Foundation.Numerics.Quaternion", "global::Windows.Foundation.Numerics.Quaternion", "object", "null")]
+    [DataRow("global::Windows.Foundation.Numerics.Vector2", "global::Windows.Foundation.Numerics.Vector2", "object", "null")]
+    [DataRow("global::Windows.Foundation.Numerics.Vector3", "global::Windows.Foundation.Numerics.Vector3", "object", "null")]
+    [DataRow("global::Windows.Foundation.Numerics.Vector4", "global::Windows.Foundation.Numerics.Vector4", "object", "null")]
+    [DataRow("global::Windows.Foundation.Point", "global::Windows.Foundation.Point", "object", "null")]
+    [DataRow("global::Windows.Foundation.Rect", "global::Windows.Foundation.Rect", "object", "null")]
+    [DataRow("global::Windows.Foundation.Size", "global::Windows.Foundation.Size", "object", "null")]
 
     // Well known WinRT enum types
-    [DataRow("Visibility", "Visibility", "null")]
+    [DataRow("global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility", "object", "null")]
 
     // Nullable types, they're always just 'null'
-    [DataRow("int?", "int?", "null")]
-    [DataRow("byte?", "byte?", "null")]
-    [DataRow("char?", "char?", "null")]
-    [DataRow("long?", "long?", "null")]
-    [DataRow("float?", "float?", "null")]
-    [DataRow("double?", "double?", "null")]
-    [DataRow("DateTimeOffset?", "DateTimeOffset?", "null")]
-    [DataRow("TimeSpan?", "TimeSpan?", "null")]
-    [DataRow("Guid?", "Guid?", "null")]
-    [DataRow("KeyValuePair<int, float>?", "KeyValuePair<int, float>?", "null")]
+    [DataRow("int?", "int?", "object?", "null")]
+    [DataRow("byte?", "byte?", "object?", "null")]
+    [DataRow("char?", "char?", "object?", "null")]
+    [DataRow("long?", "long?", "object?", "null")]
+    [DataRow("float?", "float?", "object?", "null")]
+    [DataRow("double?", "double?", "object?", "null")]
+    [DataRow("global::System.DateTimeOffset?", "global::System.DateTimeOffset?", "object?", "null")]
+    [DataRow("global::System.TimeSpan?", "global::System.TimeSpan?", "object?", "null")]
+    [DataRow("global::System.Guid?", "global::System.Guid?", "object?", "null")]
+    [DataRow("global::System.Collections.Generic.KeyValuePair<int, float>?", "global::System.Collections.Generic.KeyValuePair<int, float>?", "object?", "null")]
 
     // Custom struct types
-    [DataRow("MyStruct", "MyStruct", "new PropertyMetadata(default(MyStruct))", "public struct MyStruct { public int X; }")]
-    [DataRow("MyStruct", "MyStruct", "new PropertyMetadata(default(MyStruct))", "public struct MyStruct { public string X { get; set; }")]
+    [DataRow("global::MyNamespace.MyStruct", "global::MyNamespace.MyStruct", "object", "new global::Windows.UI.Xaml.PropertyMetadata(default(global::MyNamespace.MyStruct))", "public struct MyStruct { public int X; }")]
+    [DataRow("global::MyNamespace.MyStruct", "global::MyNamespace.MyStruct", "object", "new global::Windows.UI.Xaml.PropertyMetadata(default(global::MyNamespace.MyStruct))", "public struct MyStruct { public string X { get; set; } }")]
 
     // Custom enum types
-    [DataRow("MyEnum", "MyEnum", "new PropertyMetadata(default(MyEnum))", "public enum MyEnum { A, B, C }")]
+    [DataRow("global::MyNamespace.MyEnum", "global::MyNamespace.MyEnum", "object", "new global::Windows.UI.Xaml.PropertyMetadata(default(global::MyNamespace.MyEnum))", "public enum MyEnum { A, B, C }")]
     public void SingleProperty_MultipleTypes_WithNoCaching_DefaultValueIsOptimized(
         string dependencyPropertyType,
         string propertyType,
+        string defaultValueDefinition,
         string propertyMetadataExpression,
         string? typeDefinition = "")
     {
         string source = $$"""
+            using System;
+            using System.Collections.Generic;
+            using Windows.Foundation;
+            using Windows.Foundation.Numerics;
             using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
 
@@ -2832,7 +2836,7 @@ public partial class Test_DependencyPropertyGenerator
                     /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="NameProperty"/>.</param>
                     /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="NameProperty"/>.</remarks>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
-                    partial void OnNameGet(ref object? propertyValue);
+                    partial void OnNameGet(ref {{defaultValueDefinition}} propertyValue);
 
                     /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="Name"/> is invoked</summary>
                     /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="NameProperty"/>.</param>
@@ -2844,7 +2848,7 @@ public partial class Test_DependencyPropertyGenerator
                     /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="NameProperty"/>.</param>
                     /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="NameProperty"/>.</remarks>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
-                    partial void OnNameSet(ref object? propertyValue);
+                    partial void OnNameSet(ref {{defaultValueDefinition}} propertyValue);
 
                     /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Name"/> is invoked</summary>
                     /// <param name="propertyValue">The property value that is being assigned to <see cref="Name"/>.</param>
