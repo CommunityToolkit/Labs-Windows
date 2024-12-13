@@ -14,6 +14,16 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Extensions;
 internal static class ITypeSymbolExtensions
 {
     /// <summary>
+    /// Checks whether a given type has a default value of <see langword="null"/>.
+    /// </summary>
+    /// <param name="symbol">The input <see cref="ITypeSymbol"/> instance to check.</param>
+    /// <returns>Whether the default value of <paramref name="symbol"/> is <see langword="null"/>.</returns>
+    public static bool IsDefaultValueNull(this ITypeSymbol symbol)
+    {
+        return symbol is { IsValueType: false } or INamedTypeSymbol { IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
+    }
+
+    /// <summary>
     /// Checks whether or not a given type symbol has a specified fully qualified metadata name.
     /// </summary>
     /// <param name="symbol">The input <see cref="ITypeSymbol"/> instance to check.</param>

@@ -2720,16 +2720,18 @@ public partial class Test_DependencyPropertyGenerator
     [DataRow("double", "double", "object", "null")]
 
     // Well known WinRT struct types
-    [DataRow("global::Windows.Foundation.Numerics.Matrix3x2", "global::Windows.Foundation.Numerics.Matrix3x2", "object", "null")]
-    [DataRow("global::Windows.Foundation.Numerics.Matrix4x4", "global::Windows.Foundation.Numerics.Matrix4x4", "object", "null")]
-    [DataRow("global::Windows.Foundation.Numerics.Plane", "global::Windows.Foundation.Numerics.Plane", "object", "null")]
-    [DataRow("global::Windows.Foundation.Numerics.Quaternion", "global::Windows.Foundation.Numerics.Quaternion", "object", "null")]
-    [DataRow("global::Windows.Foundation.Numerics.Vector2", "global::Windows.Foundation.Numerics.Vector2", "object", "null")]
-    [DataRow("global::Windows.Foundation.Numerics.Vector3", "global::Windows.Foundation.Numerics.Vector3", "object", "null")]
-    [DataRow("global::Windows.Foundation.Numerics.Vector4", "global::Windows.Foundation.Numerics.Vector4", "object", "null")]
+    [DataRow("global::System.Numerics.Matrix3x2", "global::System.Numerics.Matrix3x2", "object", "null")]
+    [DataRow("global::System.Numerics.Matrix4x4", "global::System.Numerics.Matrix4x4", "object", "null")]
+    [DataRow("global::System.Numerics.Plane", "global::System.Numerics.Plane", "object", "null")]
+    [DataRow("global::System.Numerics.Quaternion", "global::System.Numerics.Quaternion", "object", "null")]
+    [DataRow("global::System.Numerics.Vector2", "global::System.Numerics.Vector2", "object", "null")]
+    [DataRow("global::System.Numerics.Vector3", "global::System.Numerics.Vector3", "object", "null")]
+    [DataRow("global::System.Numerics.Vector4", "global::System.Numerics.Vector4", "object", "null")]
     [DataRow("global::Windows.Foundation.Point", "global::Windows.Foundation.Point", "object", "null")]
     [DataRow("global::Windows.Foundation.Rect", "global::Windows.Foundation.Rect", "object", "null")]
     [DataRow("global::Windows.Foundation.Size", "global::Windows.Foundation.Size", "object", "null")]
+    [DataRow("global::System.TimeSpan", "global::System.TimeSpan", "object", "null")]
+    [DataRow("global::System.DateTimeOffset", "global::System.DateTimeOffset", "object", "null")]
 
     // Well known WinRT enum types
     [DataRow("global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility", "object", "null")]

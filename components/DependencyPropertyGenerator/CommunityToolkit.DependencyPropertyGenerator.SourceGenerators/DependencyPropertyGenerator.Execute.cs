@@ -320,7 +320,7 @@ partial class DependencyPropertyGenerator
 
             // In all other cases, we'll automatically use the default value of the type in question.
             // First we need to special case non nullable values, as for those we need 'default'.
-            if (propertySymbol.Type is { IsValueType: true } and not INamedTypeSymbol { IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T })
+            if (!propertySymbol.Type.IsDefaultValueNull())
             {
                 string fullyQualifiedTypeName = propertySymbol.Type.GetFullyQualifiedName();
 
@@ -329,7 +329,7 @@ partial class DependencyPropertyGenerator
                 // for 'Nullable<T>' values), then we can just use 'null' and bypass creating the property
                 // metadata. The WinRT runtime will automatically instantiate a default value for us.
                 if (propertySymbol.Type.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)) ||
-                    propertySymbol.Type.IsContainedInNamespace("Windows.Foundation.Numerics"))
+                    propertySymbol.Type.IsContainedInNamespace("System.Numerics"))
                 {
                     return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
                 }
@@ -337,6 +337,12 @@ partial class DependencyPropertyGenerator
                 // Special case a few more well known value types that are mapped for WinRT
                 if (propertySymbol.Type.Name is "Point" or "Rect" or "Size" &&
                     propertySymbol.Type.IsContainedInNamespace("Windows.Foundation"))
+                {
+                    return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
+                }
+
+                // Special case two more system types
+                if (propertySymbol.Type is INamedTypeSymbol { MetadataName: "TimeSpan" or "DateTimeOffset", ContainingNamespace.MetadataName: "System" })
                 {
                     return new DependencyPropertyDefaultValue.Default(fullyQualifiedTypeName, IsProjectedType: true);
                 }
