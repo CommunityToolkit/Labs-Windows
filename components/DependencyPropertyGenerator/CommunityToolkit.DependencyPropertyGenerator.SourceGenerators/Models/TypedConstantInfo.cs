@@ -139,6 +139,20 @@ internal abstract partial record TypedConstantInfo
     }
 
     /// <summary>
+    /// A <see cref="TypedConstantInfo"/> type representing a known enum value.
+    /// </summary>
+    /// <param name="TypeName">The enum type name.</param>
+    /// <param name="FieldName">The enum field name.</param>
+    public sealed record KnownEnum(string TypeName, string FieldName) : TypedConstantInfo
+    {
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"{TypeName}.{FieldName}";
+        }
+    }
+
+    /// <summary>
     /// A <see cref="TypedConstantInfo"/> type representing an enum value.
     /// </summary>
     /// <param name="TypeName">The enum type name.</param>

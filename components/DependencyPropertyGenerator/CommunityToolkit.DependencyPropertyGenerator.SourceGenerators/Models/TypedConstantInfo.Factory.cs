@@ -6,6 +6,7 @@ using System;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using Microsoft.CodeAnalysis;
 
 namespace CommunityToolkit.GeneratedDependencyProperty.Models;
@@ -53,8 +54,12 @@ partial record TypedConstantInfo
                 ushort ush => new Primitive.Of<ushort>(ush),
                 _ => throw new ArgumentException("Invalid primitive type")
             },
-            (TypedConstantKind.Type, ITypeSymbol type) => new Type(type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
-            (TypedConstantKind.Enum, object value) => new Enum(arg.Type!.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), value),
+            (TypedConstantKind.Type, ITypeSymbol type)
+                => new Type(type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+            (TypedConstantKind.Enum, object value) when arg.Type!.TryGetEnumFieldName(value, out string? fieldName)
+                => new KnownEnum(arg.Type!.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), fieldName),
+            (TypedConstantKind.Enum, object value)
+                => new Enum(arg.Type!.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), value),
             _ => throw new ArgumentException("Invalid typed constant type"),
         };
     }
@@ -87,7 +92,10 @@ partial record TypedConstantInfo
         {
             ({ SpecialType: SpecialType.System_String }, string text) => new Primitive.String(text),
             ({ SpecialType: SpecialType.System_Boolean}, bool flag) => new Primitive.Boolean(flag),
-            (INamedTypeSymbol { TypeKind: TypeKind.Enum }, object value) => new Enum(operationType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), value),
+            (INamedTypeSymbol { TypeKind: TypeKind.Enum }, object value) when (operationType.TryGetEnumFieldName(value, out string? fieldName))
+                => new KnownEnum(operationType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), fieldName),
+            (INamedTypeSymbol { TypeKind: TypeKind.Enum }, object value)
+                => new Enum(operationType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), value),
             (_, byte b) => new Primitive.Of<byte>(b),
             (_, char c) => new Primitive.Of<char>(c),
             (_, double d) => new Primitive.Of<double>(d),

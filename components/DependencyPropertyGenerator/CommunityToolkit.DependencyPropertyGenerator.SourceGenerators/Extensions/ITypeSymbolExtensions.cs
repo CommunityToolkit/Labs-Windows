@@ -34,7 +34,7 @@ internal static class ITypeSymbolExtensions
     {
         if (symbol.TypeKind is not TypeKind.Enum)
         {
-            value = default;
+            value = null;
 
             return false;
         }
@@ -50,7 +50,43 @@ internal static class ITypeSymbolExtensions
             }
         }
 
-        value = default;
+        value = null;
+
+        return false;
+    }
+
+    /// <summary>
+    /// Tries to get the name of the enum field matching a given value.
+    /// </summary>
+    /// <param name="symbol">The input <see cref="ITypeSymbol"/> instance to check.</param>
+    /// <param name="value">The value for to try to get the field for.</param>
+    /// <param name="fieldName">The name of the field with the specified value, if found.</param>
+    /// <returns>Whether <paramref name="fieldName"/> was successfully retrieved.</returns>
+    public static bool TryGetEnumFieldName(this ITypeSymbol symbol, object value, [NotNullWhen(true)] out string? fieldName)
+    {
+        if (symbol.TypeKind is not TypeKind.Enum)
+        {
+            fieldName = null;
+
+            return false;
+        }
+
+        // The default value of the enum is the value of its first constant field
+        foreach (ISymbol memberSymbol in symbol.GetMembers())
+        {
+            if (memberSymbol is not IFieldSymbol { IsConst: true, ConstantValue: object fieldValue } fieldSymbol)
+            {
+                continue;
+            }
+
+            if (fieldValue == value)
+            {
+                fieldName = fieldSymbol.Name;
+
+                return true;
+            }
+        }
+        fieldName = null;
 
         return false;
     }
