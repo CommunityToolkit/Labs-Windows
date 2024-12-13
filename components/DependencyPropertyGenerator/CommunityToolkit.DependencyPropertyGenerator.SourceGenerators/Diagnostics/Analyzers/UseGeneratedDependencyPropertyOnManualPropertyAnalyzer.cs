@@ -429,10 +429,22 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                     return;
                                 }
                             }
-                            else if (!TypedConstantInfo.TryCreate(conversionOperation.Operand, out fieldFlags.DefaultValue))
+                            else if (TypedConstantInfo.TryCreate(conversionOperation.Operand, out fieldFlags.DefaultValue))
                             {
-                                // If that is not the case, check if it's some constant value we can forward. In this case, we did not
-                                // retrieve it. As a last resort, check if this is explicitly a 'default(T)' expression.
+                                // We have found a valid constant. As an optimization, we check whether the constant was the value
+                                // of some projected built-in WinRT enum type (ie. not any user-defined enum type). If that is the
+                                // case, the XAML infrastructure can default that values automatically, meaning we can skip the
+                                // overhead of instantiating a 'PropertyMetadata' instance in code, and marshalling default value.
+                                if (conversionOperation.Operand.Type is { TypeKind: TypeKind.Enum } operandType &&
+                                    operandType.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)))
+                                {
+                                    fieldFlags.DefaultValue = null;
+                                }
+                            }
+                            else
+                            {
+                                // If we don't have a constant, check if it's some constant value we can forward. In this case, we
+                                // did not retrieve it. As a last resort, check if this is explicitly a 'default(T)' expression.
                                 if (conversionOperation.Operand is not IDefaultValueOperation { Type: { } defaultValueExpressionType })
                                 {
                                     return;

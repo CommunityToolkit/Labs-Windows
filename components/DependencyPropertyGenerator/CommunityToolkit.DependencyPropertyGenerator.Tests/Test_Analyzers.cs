@@ -1380,12 +1380,65 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    [DataRow("global::System.TimeSpan", "global::System.TimeSpan", "global::System.TimeSpan.FromSeconds(1)")]
+    [DataRow("global::System.TimeSpan?", "global::System.TimeSpan?", "global::System.TimeSpan.FromSeconds(1)")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_ExplicitDefaultValue_DoesNotWarn(
+        string dependencyPropertyType,
+        string propertyType,
+        string defaultValueExpression)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{dependencyPropertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{defaultValueExpression}}));
+
+                public {{propertyType}} Name
+                {
+                    get => ({{propertyType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public struct MyStruct { public string X { get; set; } }
+            public enum MyEnum { A, B, C }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     [DataRow("string", "string")]
     [DataRow("string", "string?")]
     [DataRow("object", "object")]
     [DataRow("object", "object?")]
     [DataRow("int", "int")]
     [DataRow("int?", "int?")]
+    [DataRow("global::System.TimeSpan", "global::System.TimeSpan", "null")]
+    [DataRow("global::System.TimeSpan?", "global::System.TimeSpan?", "default(global::System.TimeSpan?)")]
+    [DataRow("global::System.DateTimeOffset", "global::System.DateTimeOffset", "null")]
+    [DataRow("global::System.DateTimeOffset?", "global::System.DateTimeOffset?", "default(global::System.DateTimeOffset?)")]
+    [DataRow("global::System.Guid?", "global::System.Guid?", "default(global::System.Guid?)")]
+    [DataRow("global::System.Collections.Generic.KeyValuePair<int, float>?", "global::System.Collections.Generic.KeyValuePair<int, float>?", "default(global::System.Collections.Generic.KeyValuePair<int, float>?)")]
+    [DataRow("global::System.Collections.Generic.KeyValuePair<int, float>?", "global::System.Collections.Generic.KeyValuePair<int, float>?", "null")]
+    [DataRow("global::MyApp.MyStruct", "global::MyApp.MyStruct", "default(global::MyApp.MyStruct)")]
+    [DataRow("global::MyApp.MyStruct?", "global::MyApp.MyStruct?", "null")]
+    [DataRow("global::MyApp.MyStruct?", "global::MyApp.MyStruct?", "default(global::MyApp.MyStruct?)")]
+    [DataRow("global::MyApp.MyEnum", "global::MyApp.MyEnum", "default(global::MyApp.MyEnum)")]
+    [DataRow("global::MyApp.MyEnum?", "global::MyApp.MyEnum?", "null")]
+    [DataRow("global::MyApp.MyEnum?", "global::MyApp.MyEnum?", "default(global::MyApp.MyEnum?)")]
+    [DataRow("global::MyApp.MyClass", "global::MyApp.MyClass", "null")]
+    [DataRow("global::MyApp.MyClass", "global::MyApp.MyClass", "default(global::MyApp.MyClass)")]
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_Warns(
         string dependencyPropertyType,
         string propertyType)
@@ -1412,6 +1465,10 @@ public class Test_Analyzers
                     set => SetValue(NameProperty, value);
                 }
             }
+
+            public struct MyStruct { public string X { get; set; } }
+            public enum MyEnum { A, B, C }
+            public class MyClass { }
             """;
 
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
@@ -1434,7 +1491,33 @@ public class Test_Analyzers
     [DataRow("int?", "int?", "42")]
     [DataRow("int?", "int?", "default(int?)")]
     [DataRow("int?", "int?", "null")]
-    [DataRow("System.TimeSpan", "System.TimeSpan", "default(System.TimeSpan)")]
+    [DataRow("global::System.Numerics.Matrix3x2", "global::System.Numerics.Matrix3x2", "default(global::System.Numerics.Matrix3x2)")]
+    [DataRow("global::System.Numerics.Matrix4x4", "global::System.Numerics.Matrix4x4", "default(global::System.Numerics.Matrix4x4)")]
+    [DataRow("global::System.Numerics.Plane", "global::System.Numerics.Plane", "default(global::System.Numerics.Plane)")]
+    [DataRow("global::System.Numerics.Quaternion", "global::System.Numerics.Quaternion", "default(global::System.Numerics.Quaternion)")]
+    [DataRow("global::System.Numerics.Vector2", "global::System.Numerics.Vector2", "default(global::System.Numerics.Vector2)")]
+    [DataRow("global::System.Numerics.Vector3", "global::System.Numerics.Vector3", "default(global::System.Numerics.Vector3)")]
+    [DataRow("global::System.Numerics.Vector4", "global::System.Numerics.Vector4", "default(global::System.Numerics.Vector4)")]
+    [DataRow("global::Windows.Foundation.Point", "global::Windows.Foundation.Point", "default(global::Windows.Foundation.Point)")]
+    [DataRow("global::Windows.Foundation.Rect", "global::Windows.Foundation.Rect", "default(global::Windows.Foundation.Rect)")]
+    [DataRow("global::Windows.Foundation.Size", "global::Windows.Foundation.Size", "default(global::Windows.Foundation.Size)")]
+    [DataRow("global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility", "default(global::Windows.UI.Xaml.Visibility)")]
+    [DataRow("global::System.TimeSpan", "global::System.TimeSpan", "default(System.TimeSpan)")]
+    [DataRow("global::System.DateTimeOffset", "global::System.DateTimeOffset", "default(global::System.DateTimeOffset)")]
+    [DataRow("global::System.DateTimeOffset?", "global::System.DateTimeOffset?", "null")]
+    [DataRow("global::System.DateTimeOffset?", "global::System.DateTimeOffset?", "default(global::System.DateTimeOffset?)")]
+    [DataRow("global::System.TimeSpan?", "global::System.TimeSpan?", "default(global::System.TimeSpan?)")]
+    [DataRow("global::System.Guid?", "global::System.Guid?", "default(global::System.Guid?)")]
+    [DataRow("global::System.Collections.Generic.KeyValuePair<int, float>?", "global::System.Collections.Generic.KeyValuePair<int, float>?", "default(global::System.Collections.Generic.KeyValuePair<int, float>?)")]
+    [DataRow("global::System.Collections.Generic.KeyValuePair<int, float>?", "global::System.Collections.Generic.KeyValuePair<int, float>?", "null")]
+    [DataRow("global::MyApp.MyStruct", "global::MyApp.MyStruct", "default(global::MyApp.MyStruct)")]
+    [DataRow("global::MyApp.MyStruct?", "global::MyApp.MyStruct?", "null")]
+    [DataRow("global::MyApp.MyStruct?", "global::MyApp.MyStruct?", "default(global::MyApp.MyStruct?)")]
+    [DataRow("global::MyApp.MyEnum", "global::MyApp.MyEnum", "default(global::MyApp.MyEnum)")]
+    [DataRow("global::MyApp.MyEnum?", "global::MyApp.MyEnum?", "null")]
+    [DataRow("global::MyApp.MyEnum?", "global::MyApp.MyEnum?", "default(global::MyApp.MyEnum?)")]
+    [DataRow("global::MyApp.MyClass", "global::MyApp.MyClass", "null")]
+    [DataRow("global::MyApp.MyClass", "global::MyApp.MyClass", "default(global::MyApp.MyClass)")]
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_ExplicitDefaultValue_Warns(
         string dependencyPropertyType,
         string propertyType,
@@ -1462,6 +1545,10 @@ public class Test_Analyzers
                     set => SetValue(NameProperty, value);
                 }
             }
+
+            public struct MyStruct { public string X { get; set; } }
+            public enum MyEnum { A, B, C }
+            public class MyClass { }
             """;
 
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);

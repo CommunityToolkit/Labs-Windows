@@ -4,14 +4,15 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.WinUI;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis;
+using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using CommunityToolkit.WinUI;
 
 namespace CommunityToolkit.GeneratedDependencyProperty.Tests.Helpers;
 
@@ -49,6 +50,7 @@ internal sealed class CSharpAnalyzerTest<TAnalyzer> : CSharpAnalyzerTest<TAnalyz
         CSharpAnalyzerTest<TAnalyzer> test = new(languageVersion) { TestCode = source };
 
         test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net80;
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(Point).Assembly.Location));
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location));
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location));
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location));
