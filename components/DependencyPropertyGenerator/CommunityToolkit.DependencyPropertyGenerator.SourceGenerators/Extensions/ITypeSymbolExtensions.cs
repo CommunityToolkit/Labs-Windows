@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.GeneratedDependencyProperty.Helpers;
 using Microsoft.CodeAnalysis;
 
@@ -21,6 +22,37 @@ internal static class ITypeSymbolExtensions
     public static bool IsDefaultValueNull(this ITypeSymbol symbol)
     {
         return symbol is { IsValueType: false } or INamedTypeSymbol { IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
+    }
+
+    /// <summary>
+    /// Tries to get the default value of a given enum type.
+    /// </summary>
+    /// <param name="symbol">The input <see cref="ITypeSymbol"/> instance to check.</param>
+    /// <param name="value">The resulting default value for <paramref name="symbol"/>, if it was an enum type.</param>
+    /// <returns>Whether <paramref name="value"/> was retrieved successfully.</returns>
+    public static bool TryGetDefaultValueForEnumType(this ITypeSymbol symbol, [NotNullWhen(true)] out object? value)
+    {
+        if (symbol.TypeKind is not TypeKind.Enum)
+        {
+            value = default;
+
+            return false;
+        }
+
+        // The default value of the enum is the value of its first constant field
+        foreach (ISymbol memberSymbol in symbol.GetMembers())
+        {
+            if (memberSymbol is IFieldSymbol { IsConst: true, ConstantValue: object defaultValue })
+            {
+                value = defaultValue;
+
+                return true;
+            }
+        }
+
+        value = default;
+
+        return false;
     }
 
     /// <summary>

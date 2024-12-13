@@ -1382,6 +1382,7 @@ public class Test_Analyzers
     [TestMethod]
     [DataRow("global::System.TimeSpan", "global::System.TimeSpan", "global::System.TimeSpan.FromSeconds(1)")]
     [DataRow("global::System.TimeSpan?", "global::System.TimeSpan?", "global::System.TimeSpan.FromSeconds(1)")]
+    [DataRow("global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility.Collapsed")]
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_ExplicitDefaultValue_DoesNotWarn(
         string dependencyPropertyType,
         string propertyType,
@@ -1502,6 +1503,7 @@ public class Test_Analyzers
     [DataRow("global::Windows.Foundation.Rect", "global::Windows.Foundation.Rect", "default(global::Windows.Foundation.Rect)")]
     [DataRow("global::Windows.Foundation.Size", "global::Windows.Foundation.Size", "default(global::Windows.Foundation.Size)")]
     [DataRow("global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility", "default(global::Windows.UI.Xaml.Visibility)")]
+    [DataRow("global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility.Visible")]
     [DataRow("global::System.TimeSpan", "global::System.TimeSpan", "default(System.TimeSpan)")]
     [DataRow("global::System.DateTimeOffset", "global::System.DateTimeOffset", "default(global::System.DateTimeOffset)")]
     [DataRow("global::System.DateTimeOffset?", "global::System.DateTimeOffset?", "null")]

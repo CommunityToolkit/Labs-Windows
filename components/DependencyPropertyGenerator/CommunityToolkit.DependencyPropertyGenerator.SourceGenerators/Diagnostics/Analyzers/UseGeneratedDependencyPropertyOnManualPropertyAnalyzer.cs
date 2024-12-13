@@ -438,7 +438,13 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 if (conversionOperation.Operand.Type is { TypeKind: TypeKind.Enum } operandType &&
                                     operandType.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)))
                                 {
-                                    fieldFlags.DefaultValue = null;
+                                    // Before actually enabling the optimization, validate that the default value is actually
+                                    // the same as the default value of the enum (ie. the value of its first declared field).
+                                    if (operandType.TryGetDefaultValueForEnumType(out object? defaultValue) &&
+                                        conversionOperation.Operand.ConstantValue.Value == defaultValue)
+                                    {
+                                        fieldFlags.DefaultValue = null;
+                                    }
                                 }
                             }
                             else
