@@ -87,6 +87,7 @@ partial record TypedConstantInfo
         {
             ({ SpecialType: SpecialType.System_String }, string text) => new Primitive.String(text),
             ({ SpecialType: SpecialType.System_Boolean}, bool flag) => new Primitive.Boolean(flag),
+            (INamedTypeSymbol { TypeKind: TypeKind.Enum }, object value) => new Enum(operationType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), value),
             (_, byte b) => new Primitive.Of<byte>(b),
             (_, char c) => new Primitive.Of<char>(c),
             (_, double d) => new Primitive.Of<double>(d),
@@ -99,7 +100,6 @@ partial record TypedConstantInfo
             (_, ulong ul) => new Primitive.Of<ulong>(ul),
             (_, ushort ush) => new Primitive.Of<ushort>(ush),
             (_, ITypeSymbol type) => new Type(type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
-            (INamedTypeSymbol { TypeKind: TypeKind.Enum}, object value) => new Enum(operationType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), value),
             _ => throw new ArgumentException("Invalid typed constant type"),
         };
 
