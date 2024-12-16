@@ -276,27 +276,40 @@ public partial class Test_DependencyPropertyGenerator
                 [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
                 [global::System.Diagnostics.DebuggerNonUserCode]
                 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-                file static class PropertyChangedCallbacks
+                file sealed class PropertyChangedCallbacks
                 {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
                     /// <summary>
                     /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.NumberProperty"/>.
                     /// </summary>
                     /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
                     public static PropertyChangedCallback Number()
                     {
-                        static void Invoke(object d, DependencyPropertyChangedEventArgs e)
-                        {
-                            global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
-
-                            OnNumberPropertyChanged(__this, e);
-                        }
-
-                        return new(Invoke);
+                        return new(Instance.OnNumberPropertyChanged);
                     }
 
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnNumberPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnNumberPropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
                     /// <inheritdoc cref="global::MyNamespace.MyControl.OnNumberPropertyChanged"/>
                     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnNumberPropertyChanged")]
-                    private static extern void OnNumberPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                    public static extern void OnNumberPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
                 }
             }
             """;
@@ -791,27 +804,40 @@ public partial class Test_DependencyPropertyGenerator
                 [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
                 [global::System.Diagnostics.DebuggerNonUserCode]
                 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-                file static class PropertyChangedCallbacks
+                file sealed class PropertyChangedCallbacks
                 {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
                     /// <summary>
                     /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.NumberProperty"/>.
                     /// </summary>
                     /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
                     public static PropertyChangedCallback Number()
                     {
-                        static void Invoke(object d, DependencyPropertyChangedEventArgs e)
-                        {
-                            global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
-
-                            OnNumberPropertyChanged(__this, e);
-                        }
-
-                        return new(Invoke);
+                        return new(Instance.OnNumberPropertyChanged);
                     }
 
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnNumberPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnNumberPropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
                     /// <inheritdoc cref="global::MyNamespace.MyControl.OnNumberPropertyChanged"/>
                     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnNumberPropertyChanged")]
-                    private static extern void OnNumberPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                    public static extern void OnNumberPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
                 }
             }
             """;
@@ -1064,27 +1090,40 @@ public partial class Test_DependencyPropertyGenerator
                 [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
                 [global::System.Diagnostics.DebuggerNonUserCode]
                 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-                file static class PropertyChangedCallbacks
+                file sealed class PropertyChangedCallbacks
                 {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
                     /// <summary>
                     /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.NumberProperty"/>.
                     /// </summary>
                     /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
                     public static PropertyChangedCallback Number()
                     {
-                        static void Invoke(object d, DependencyPropertyChangedEventArgs e)
-                        {
-                            global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
-
-                            OnNumberPropertyChanged(__this, e);
-                        }
-
-                        return new(Invoke);
+                        return new(Instance.OnNumberPropertyChanged);
                     }
 
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnNumberPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnNumberPropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
                     /// <inheritdoc cref="global::MyNamespace.MyControl.OnNumberPropertyChanged"/>
                     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnNumberPropertyChanged")]
-                    private static extern void OnNumberPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                    public static extern void OnNumberPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
                 }
             }
             """;
@@ -1221,27 +1260,40 @@ public partial class Test_DependencyPropertyGenerator
                 [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
                 [global::System.Diagnostics.DebuggerNonUserCode]
                 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-                file static class PropertyChangedCallbacks
+                file sealed class PropertyChangedCallbacks
                 {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
                     /// <summary>
                     /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.NumberProperty"/>.
                     /// </summary>
                     /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
                     public static PropertyChangedCallback Number()
                     {
-                        static void Invoke(object d, DependencyPropertyChangedEventArgs e)
-                        {
-                            global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
-
-                            OnPropertyChanged(__this, e);
-                        }
-
-                        return new(Invoke);
+                        return new(Instance.OnPropertyChanged);
                     }
 
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
                     /// <inheritdoc cref="global::MyNamespace.MyControl.OnPropertyChanged"/>
                     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnPropertyChanged")]
-                    private static extern void OnPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                    public static extern void OnPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
                 }
             }
             """;
@@ -1382,32 +1434,45 @@ public partial class Test_DependencyPropertyGenerator
                 [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
                 [global::System.Diagnostics.DebuggerNonUserCode]
                 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-                file static class PropertyChangedCallbacks
+                file sealed class PropertyChangedCallbacks
                 {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
                     /// <summary>
                     /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.NumberProperty"/>.
                     /// </summary>
                     /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
                     public static PropertyChangedCallback Number()
                     {
-                        static void Invoke(object d, DependencyPropertyChangedEventArgs e)
-                        {
-                            global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
-
-                            OnNumberPropertyChanged(__this, e);
-                            OnPropertyChanged(__this, e);
-                        }
-
-                        return new(Invoke);
+                        return new(Instance.OnNumberPropertyChanged);
                     }
 
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnNumberPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnNumberPropertyChanged(__this, e);
+                        PropertyChangedUnsafeAccessors.OnNumberPropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
                     /// <inheritdoc cref="global::MyNamespace.MyControl.OnNumberPropertyChanged"/>
                     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnNumberPropertyChanged")]
-                    private static extern void OnNumberPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                    public static extern void OnNumberPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
 
                     /// <inheritdoc cref="global::MyNamespace.MyControl.OnPropertyChanged"/>
                     [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnPropertyChanged")]
-                    private static extern void OnPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                    public static extern void OnPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
                 }
             }
             """;
@@ -2323,6 +2388,1089 @@ public partial class Test_DependencyPropertyGenerator
                     /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
                     partial void OnPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+                }
+            }
+            """;
+
+        CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, ("MyNamespace.MyControl.g.cs", result), languageVersion: LanguageVersion.Preview);
+    }
+
+    [TestMethod]
+    public void MultipleProperties_WithNoCaching_WithJustOnePropertyCallback()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            using CommunityToolkit.WinUI;
+
+            namespace MyNamespace;
+
+            public partial class MyControl : DependencyObject
+            {
+                [GeneratedDependencyProperty]
+                public partial string? FirstName { get; set; }
+
+                [GeneratedDependencyProperty]
+                public partial string? LastName { get; set; }
+
+                partial void OnFirstNamePropertyChanged(DependencyPropertyChangedEventArgs e)
+                {
+                }
+            }
+            """;
+
+        const string result = """
+            // <auto-generated/>
+            #pragma warning disable
+            #nullable enable
+
+            namespace MyNamespace
+            {
+                /// <inheritdoc cref="MyControl"/>
+                partial class MyControl
+                {
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="FirstName"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty FirstNameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "FirstName",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: null,
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.FirstName()));
+
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="LastName"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty LastNameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "LastName",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: null);
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? FirstName
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(FirstNameProperty);
+
+                            OnFirstNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnFirstNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnFirstNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnFirstNameSet(ref __boxedValue);
+
+                            SetValue(FirstNameProperty, __boxedValue);
+
+                            OnFirstNameChanged(value);
+                        }
+                    }
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? LastName
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(LastNameProperty);
+
+                            OnLastNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnLastNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnLastNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnLastNameSet(ref __boxedValue);
+
+                            SetValue(LastNameProperty, __boxedValue);
+
+                            OnLastNameChanged(value);
+                        }
+                    }
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="FirstName"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="FirstName"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="FirstName"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="FirstName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="FirstName"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="FirstName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="LastName"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="LastName"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="LastName"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="LastName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="LastName"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="LastName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when any dependency property has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+                }
+            }
+
+            namespace CommunityToolkit.WinUI.DependencyPropertyGenerator
+            {
+                using global::System.Runtime.CompilerServices;
+                using global::Windows.UI.Xaml;
+
+                /// <summary>
+                /// Contains shared property changed callbacks for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedCallbacks
+                {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
+                    /// <summary>
+                    /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.FirstNameProperty"/>.
+                    /// </summary>
+                    /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
+                    public static PropertyChangedCallback FirstName()
+                    {
+                        return new(Instance.OnFirstNamePropertyChanged);
+                    }
+
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnFirstNamePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
+                    /// <inheritdoc cref="global::MyNamespace.MyControl.OnFirstNamePropertyChanged"/>
+                    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnFirstNamePropertyChanged")]
+                    public static extern void OnFirstNamePropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                }
+            }
+            """;
+
+        CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, ("MyNamespace.MyControl.g.cs", result), languageVersion: LanguageVersion.Preview);
+    }
+
+    [TestMethod]
+    public void MultipleProperties_WithNoCaching_WithSharedPropertyCallback()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            using CommunityToolkit.WinUI;
+
+            namespace MyNamespace;
+
+            public partial class MyControl : DependencyObject
+            {
+                [GeneratedDependencyProperty]
+                public partial string? FirstName { get; set; }
+
+                [GeneratedDependencyProperty]
+                public partial string? LastName { get; set; }
+
+                partial void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+                {
+                }
+            }
+            """;
+
+        const string result = """
+            // <auto-generated/>
+            #pragma warning disable
+            #nullable enable
+
+            namespace MyNamespace
+            {
+                /// <inheritdoc cref="MyControl"/>
+                partial class MyControl
+                {
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="FirstName"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty FirstNameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "FirstName",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: null,
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.FirstName()));
+
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="LastName"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty LastNameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "LastName",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: null,
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.LastName()));
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? FirstName
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(FirstNameProperty);
+
+                            OnFirstNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnFirstNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnFirstNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnFirstNameSet(ref __boxedValue);
+
+                            SetValue(FirstNameProperty, __boxedValue);
+
+                            OnFirstNameChanged(value);
+                        }
+                    }
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? LastName
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(LastNameProperty);
+
+                            OnLastNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnLastNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnLastNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnLastNameSet(ref __boxedValue);
+
+                            SetValue(LastNameProperty, __boxedValue);
+
+                            OnLastNameChanged(value);
+                        }
+                    }
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="FirstName"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="FirstName"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="FirstName"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="FirstName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="FirstName"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="FirstName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="LastName"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="LastName"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="LastName"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="LastName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="LastName"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="LastName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when any dependency property has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+                }
+            }
+
+            namespace CommunityToolkit.WinUI.DependencyPropertyGenerator
+            {
+                using global::System.Runtime.CompilerServices;
+                using global::Windows.UI.Xaml;
+
+                /// <summary>
+                /// Contains shared property changed callbacks for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedCallbacks
+                {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
+                    /// <summary>Shared <see cref="PropertyChangedCallback"/> instance, for all properties only using the shared callback.
+                    private static readonly PropertyChangedCallback SharedPropertyChangedCallback = new(Instance.OnPropertyChanged);
+
+                    /// <summary>
+                    /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.FirstNameProperty"/>.
+                    /// </summary>
+                    /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
+                    public static PropertyChangedCallback FirstName()
+                    {
+                        return SharedPropertyChangedCallback;
+                    }
+
+                    /// <summary>
+                    /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.LastNameProperty"/>.
+                    /// </summary>
+                    /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
+                    public static PropertyChangedCallback LastName()
+                    {
+                        return SharedPropertyChangedCallback;
+                    }
+
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
+                    /// <inheritdoc cref="global::MyNamespace.MyControl.OnPropertyChanged"/>
+                    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnPropertyChanged")]
+                    public static extern void OnPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                }
+            }
+            """;
+
+        CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, ("MyNamespace.MyControl.g.cs", result), languageVersion: LanguageVersion.Preview);
+    }
+
+    [TestMethod]
+    public void MultipleProperties_WithNoCaching_WithMixedPropertyCallbacks()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            using CommunityToolkit.WinUI;
+
+            namespace MyNamespace;
+
+            public partial class MyControl : DependencyObject
+            {
+                [GeneratedDependencyProperty]
+                public partial string? FirstName { get; set; }
+
+                [GeneratedDependencyProperty]
+                public partial string? LastName { get; set; }
+
+                partial void OnFirstNamePropertyChanged(DependencyPropertyChangedEventArgs e)
+                {
+                }
+
+                partial void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+                {
+                }
+            }
+            """;
+
+        const string result = """
+            // <auto-generated/>
+            #pragma warning disable
+            #nullable enable
+
+            namespace MyNamespace
+            {
+                /// <inheritdoc cref="MyControl"/>
+                partial class MyControl
+                {
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="FirstName"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty FirstNameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "FirstName",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: null,
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.FirstName()));
+
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="LastName"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty LastNameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "LastName",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: null,
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.LastName()));
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? FirstName
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(FirstNameProperty);
+
+                            OnFirstNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnFirstNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnFirstNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnFirstNameSet(ref __boxedValue);
+
+                            SetValue(FirstNameProperty, __boxedValue);
+
+                            OnFirstNameChanged(value);
+                        }
+                    }
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? LastName
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(LastNameProperty);
+
+                            OnLastNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnLastNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnLastNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnLastNameSet(ref __boxedValue);
+
+                            SetValue(LastNameProperty, __boxedValue);
+
+                            OnLastNameChanged(value);
+                        }
+                    }
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="FirstName"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="FirstName"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="FirstName"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="FirstName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="FirstName"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="FirstName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="LastName"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="LastName"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="LastName"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="LastName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="LastName"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="LastName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when any dependency property has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+                }
+            }
+
+            namespace CommunityToolkit.WinUI.DependencyPropertyGenerator
+            {
+                using global::System.Runtime.CompilerServices;
+                using global::Windows.UI.Xaml;
+
+                /// <summary>
+                /// Contains shared property changed callbacks for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedCallbacks
+                {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
+                    /// <summary>
+                    /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.FirstNameProperty"/>.
+                    /// </summary>
+                    /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
+                    public static PropertyChangedCallback FirstName()
+                    {
+                        return new(Instance.OnFirstNamePropertyChanged);
+                    }
+
+                    /// <summary>
+                    /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.LastNameProperty"/>.
+                    /// </summary>
+                    /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
+                    public static PropertyChangedCallback LastName()
+                    {
+                        return new(Instance.OnPropertyChanged);
+                    }
+
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnFirstNamePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
+                        PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
+                    }
+
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
+                    /// <inheritdoc cref="global::MyNamespace.MyControl.OnFirstNamePropertyChanged"/>
+                    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnFirstNamePropertyChanged")]
+                    public static extern void OnFirstNamePropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+
+                    /// <inheritdoc cref="global::MyNamespace.MyControl.OnPropertyChanged"/>
+                    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnPropertyChanged")]
+                    public static extern void OnPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+                }
+            }
+            """;
+
+        CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, ("MyNamespace.MyControl.g.cs", result), languageVersion: LanguageVersion.Preview);
+    }
+
+    [TestMethod]
+    public void MultipleProperties_WithNoCaching_WithMixedPropertyCallbacks2()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            using CommunityToolkit.WinUI;
+
+            namespace MyNamespace;
+
+            public partial class MyControl : DependencyObject
+            {
+                [GeneratedDependencyProperty]
+                public partial string? FirstName { get; set; }
+
+                [GeneratedDependencyProperty]
+                public partial string? LastName { get; set; }
+
+                partial void OnFirstNamePropertyChanged(DependencyPropertyChangedEventArgs e)
+                {
+                }
+
+                partial void OnLastNamePropertyChanged(DependencyPropertyChangedEventArgs e)
+                {
+                }
+
+                partial void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+                {
+                }
+            }
+            """;
+
+        const string result = """
+            // <auto-generated/>
+            #pragma warning disable
+            #nullable enable
+
+            namespace MyNamespace
+            {
+                /// <inheritdoc cref="MyControl"/>
+                partial class MyControl
+                {
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="FirstName"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty FirstNameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "FirstName",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: null,
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.FirstName()));
+
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="LastName"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty LastNameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "LastName",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata(
+                            defaultValue: null,
+                            propertyChangedCallback: global::CommunityToolkit.WinUI.DependencyPropertyGenerator.PropertyChangedCallbacks.LastName()));
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? FirstName
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(FirstNameProperty);
+
+                            OnFirstNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnFirstNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnFirstNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnFirstNameSet(ref __boxedValue);
+
+                            SetValue(FirstNameProperty, __boxedValue);
+
+                            OnFirstNameChanged(value);
+                        }
+                    }
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? LastName
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(LastNameProperty);
+
+                            OnLastNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnLastNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnLastNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnLastNameSet(ref __boxedValue);
+
+                            SetValue(LastNameProperty, __boxedValue);
+
+                            OnLastNameChanged(value);
+                        }
+                    }
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="FirstNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="FirstNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="FirstName"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="FirstName"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="FirstName"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="FirstName"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="FirstName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="FirstName"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="FirstName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnFirstNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="LastNameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="LastNameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="LastName"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="LastName"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="LastName"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="LastName"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="LastName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="LastName"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="LastName"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnLastNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when any dependency property has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+                }
+            }
+
+            namespace CommunityToolkit.WinUI.DependencyPropertyGenerator
+            {
+                using global::System.Runtime.CompilerServices;
+                using global::Windows.UI.Xaml;
+
+                /// <summary>
+                /// Contains shared property changed callbacks for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedCallbacks
+                {
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+
+                    /// <summary>
+                    /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.FirstNameProperty"/>.
+                    /// </summary>
+                    /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
+                    public static PropertyChangedCallback FirstName()
+                    {
+                        return new(Instance.OnFirstNamePropertyChanged);
+                    }
+
+                    /// <summary>
+                    /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="global::MyNamespace.MyControl.LastNameProperty"/>.
+                    /// </summary>
+                    /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
+                    public static PropertyChangedCallback LastName()
+                    {
+                        return new(Instance.OnLastNamePropertyChanged);
+                    }
+
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnFirstNamePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
+                        PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
+                    }
+
+                    /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
+                    private void OnLastNamePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                    {
+                        global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
+
+                        PropertyChangedUnsafeAccessors.OnLastNamePropertyChanged(__this, e);
+                        PropertyChangedUnsafeAccessors.OnLastNamePropertyChanged(__this, e);
+                    }
+                }
+
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="MyControl"/>.
+                /// </summary>
+                [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                [global::System.Diagnostics.DebuggerNonUserCode]
+                [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                file sealed class PropertyChangedUnsafeAccessors
+                {
+                    /// <inheritdoc cref="global::MyNamespace.MyControl.OnFirstNamePropertyChanged"/>
+                    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnFirstNamePropertyChanged")]
+                    public static extern void OnFirstNamePropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+
+                    /// <inheritdoc cref="global::MyNamespace.MyControl.OnLastNamePropertyChanged"/>
+                    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnLastNamePropertyChanged")]
+                    public static extern void OnLastNamePropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
+
+                    /// <inheritdoc cref="global::MyNamespace.MyControl.OnPropertyChanged"/>
+                    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnPropertyChanged")]
+                    public static extern void OnPropertyChanged(global::MyNamespace.MyControl _, DependencyPropertyChangedEventArgs e);
                 }
             }
             """;

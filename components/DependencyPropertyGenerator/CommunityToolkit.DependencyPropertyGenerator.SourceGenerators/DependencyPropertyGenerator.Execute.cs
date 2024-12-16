@@ -812,6 +812,9 @@ partial class DependencyPropertyGenerator
         /// <param name="writer">The <see cref="IndentedTextWriter"/> instance to write into.</param>
         public static void WriteAdditionalTypes(EquatableArray<DependencyPropertyInfo> propertyInfos, IndentedTextWriter writer)
         {
+            string fullyQualifiedTypeName = propertyInfos[0].Hierarchy.GetFullyQualifiedTypeName();
+
+            // Define the 'PropertyChangedCallbacks' type
             writer.WriteLine("using global::System.Runtime.CompilerServices;");
             writer.WriteLine($"using global::{WellKnownTypeNames.XamlNamespace(propertyInfos[0].UseWindowsUIXaml)};");
             writer.WriteLine();
@@ -821,15 +824,39 @@ partial class DependencyPropertyGenerator
                 /// </summary>
                 """, isMultiline: true);
             writer.WriteGeneratedAttributes(GeneratorName);
-            writer.WriteLine("file static class PropertyChangedCallbacks");
+            writer.WriteLine("file sealed class PropertyChangedCallbacks");
 
             using (writer.WriteBlock())
             {
-                string fullyQualifiedTypeName = propertyInfos[0].Hierarchy.GetFullyQualifiedTypeName();
+                // Shared dummy instance field (to make delegate invocations faster)
+                writer.WriteLine("""
+                    /// <summary>Shared <see cref="PropertyChangedCallbacks"/> instance, used to speedup delegate invocations (avoids the shuffle thunks).
+                    private static readonly PropertyChangedCallbacks Instance = new();
+                    """, isMultiline: true);
+
+                int numberOfSharedPropertyCallbacks = propertyInfos.Count(static property => !property.IsPropertyChangedCallbackImplemented && property.IsSharedPropertyChangedCallbackImplemented);
+                bool shouldCacheSharedPropertyChangedCallback = numberOfSharedPropertyCallbacks > 1;
+                bool shouldGenerateSharedPropertyCallback = numberOfSharedPropertyCallbacks > 0;
+
+                // If the shared callback should be cached, do that here
+                if (shouldCacheSharedPropertyChangedCallback)
+                {
+                    writer.WriteLine();
+                    writer.WriteLine("""
+                        /// <summary>Shared <see cref="PropertyChangedCallback"/> instance, for all properties only using the shared callback.
+                        private static readonly PropertyChangedCallback SharedPropertyChangedCallback = new(Instance.OnPropertyChanged);
+                        """, isMultiline: true);
+                }
 
                 // Write the public accessors to use in property initializers
-                writer.WriteLineSeparatedMembers(propertyInfos.AsSpan(), (propertyInfo, writer) =>
+                foreach (DependencyPropertyInfo propertyInfo in propertyInfos)
                 {
+                    if (!propertyInfo.IsPropertyChangedCallbackImplemented && !propertyInfo.IsSharedPropertyChangedCallbackImplemented)
+                    {
+                        continue;
+                    }
+
+                    writer.WriteLine();
                     writer.WriteLine($$"""
                         /// <summary>
                         /// Gets a <see cref="PropertyChangedCallback"/> value for <see cref="{{fullyQualifiedTypeName}}.{{propertyInfo.PropertyName}}Property"/>.
@@ -837,56 +864,106 @@ partial class DependencyPropertyGenerator
                         /// <returns>The <see cref="PropertyChangedCallback"/> value with the right callbacks.</returns>
                         public static PropertyChangedCallback {{propertyInfo.PropertyName}}()
                         {
-                            static void Invoke(object d, DependencyPropertyChangedEventArgs e)
-                            {
-                                {{fullyQualifiedTypeName}} __this = ({{fullyQualifiedTypeName}})d;
-
                         """, isMultiline: true);
                     writer.IncreaseIndent();
-                    writer.IncreaseIndent();
 
-                    // Per-property callback, if present
+                    // There are 3 possible scenarios to handle:
+                    //   1) The property uses a dedicated property changed callback. In this case we always need a dedicated stub.
+                    //   2) The property uses the shared callback only, and there's more than one property like this. Reuse the instance.
+                    //   3) This is the only property using the shared callback only. In that case, create a new delegate over it.
                     if (propertyInfo.IsPropertyChangedCallbackImplemented)
                     {
-                        writer.WriteLine($"On{propertyInfo.PropertyName}PropertyChanged(__this, e);");
+                        writer.WriteLine($"return new(Instance.On{propertyInfo.PropertyName}PropertyChanged);");
+                    }
+                    else if (shouldCacheSharedPropertyChangedCallback)
+                    {
+                        writer.WriteLine("return SharedPropertyChangedCallback;");
+                    }
+                    else
+                    {
+                        writer.WriteLine("return new(Instance.OnPropertyChanged);");
                     }
 
-                    // Shared callback, if present
+                    writer.DecreaseIndent();
+                    writer.WriteLine("}");
+                }
+
+                // Write the private combined 
+                foreach (DependencyPropertyInfo propertyInfo in propertyInfos)
+                {
+                    if (!propertyInfo.IsPropertyChangedCallbackImplemented)
+                    {
+                        continue;
+                    }
+
+                    writer.WriteLine();
+                    writer.WriteLine($$"""
+                        /// <inheritdoc cref="cref="{{fullyQualifiedTypeName}}.OnPropertyChanged""/>
+                        private void On{{propertyInfo.PropertyName}}PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                        {
+                            {{fullyQualifiedTypeName}} __this = ({{fullyQualifiedTypeName}})d;
+
+                            PropertyChangedUnsafeAccessors.On{{propertyInfo.PropertyName}}PropertyChanged(__this, e);
+                        """, isMultiline: true);                    
+
+                    // Shared callback, if needed
                     if (propertyInfo.IsSharedPropertyChangedCallbackImplemented)
                     {
-                        writer.WriteLine("OnPropertyChanged(__this, e);");
+                        writer.IncreaseIndent();
+                        writer.WriteLine($"PropertyChangedUnsafeAccessors.On{propertyInfo.PropertyName}PropertyChanged(__this, e);");
+                        writer.DecreaseIndent();
                     }
 
-                    // Close the method and return the 'Invoke' method as a delegate (just one allocation here)
-                    writer.DecreaseIndent();
-                    writer.DecreaseIndent();
-                    writer.WriteLine("""
-                            }
+                    writer.WriteLine("}");
+                }
 
-                            return new(Invoke);
+                // If we need to generate the shared callback, let's also generate its target method
+                if (shouldGenerateSharedPropertyCallback)
+                {
+                    writer.WriteLine();
+                    writer.WriteLine($$"""
+                        /// <inheritdoc cref="cref="{{fullyQualifiedTypeName}}.OnPropertyChanged""/>
+                        private void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                        {
+                            {{fullyQualifiedTypeName}} __this = ({{fullyQualifiedTypeName}})d;
+
+                            PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);
                         }
                         """, isMultiline: true);
-                });
+                }
+            }
 
+            // Define the 'PropertyChangedAccessors' type
+            writer.WriteLine();
+            writer.WriteLine($"""
+                /// <summary>
+                /// Contains all unsafe accessors for <see cref="{propertyInfos[0].Hierarchy.Hierarchy[0].QualifiedName}"/>.
+                /// </summary>
+                """, isMultiline: true);
+            writer.WriteGeneratedAttributes(GeneratorName);
+            writer.WriteLine("file sealed class PropertyChangedUnsafeAccessors");
+
+            using (writer.WriteBlock())
+            {
                 // Write the accessors for all WinRT-based callbacks (not the shared one)
                 foreach (DependencyPropertyInfo propertyInfo in propertyInfos.Where(static property => property.IsPropertyChangedCallbackImplemented))
                 {
-                    writer.WriteLine();
+                    writer.WriteLine(skipIfPresent: true);
                     writer.WriteLine($"""
                         /// <inheritdoc cref="{fullyQualifiedTypeName}.On{propertyInfo.PropertyName}PropertyChanged"/>
                         [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "On{propertyInfo.PropertyName}PropertyChanged")]
-                        private static extern void On{propertyInfo.PropertyName}PropertyChanged({fullyQualifiedTypeName} _, DependencyPropertyChangedEventArgs e);
+                        public static extern void On{propertyInfo.PropertyName}PropertyChanged({fullyQualifiedTypeName} _, DependencyPropertyChangedEventArgs e);
                         """, isMultiline: true);
                 }
 
                 // Also emit one for the shared callback, if it's ever used
                 if (propertyInfos.Any(static property => property.IsSharedPropertyChangedCallbackImplemented))
                 {
-                    writer.WriteLine();
+                    writer.WriteLine(skipIfPresent: true);
                     writer.WriteLine($"""
                         /// <inheritdoc cref="{fullyQualifiedTypeName}.OnPropertyChanged"/>
                         [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "OnPropertyChanged")]
-                        private static extern void OnPropertyChanged({fullyQualifiedTypeName} _, DependencyPropertyChangedEventArgs e);
+                        public static extern void OnPropertyChanged({fullyQualifiedTypeName} _, DependencyPropertyChangedEventArgs e);
                         """, isMultiline: true);
                 }
             }

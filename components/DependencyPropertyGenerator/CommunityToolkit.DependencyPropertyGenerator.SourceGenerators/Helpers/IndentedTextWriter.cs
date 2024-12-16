@@ -227,7 +227,7 @@ internal sealed class IndentedTextWriter : IDisposable
     /// <param name="skipIfPresent">Indicates whether to skip adding the line if there already is one.</param>
     public void WriteLine(bool skipIfPresent = false)
     {
-        if (skipIfPresent && this.builder.WrittenSpan is [.., '\n', '\n'])
+        if (skipIfPresent && this.builder.WrittenSpan is [.., '\n' or '{', '\n'])
         {
             return;
         }
