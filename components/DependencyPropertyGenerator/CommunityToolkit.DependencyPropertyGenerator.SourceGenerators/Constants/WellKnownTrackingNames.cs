@@ -15,11 +15,6 @@ internal static class WellKnownTrackingNames
     public const string Execute = nameof(Execute);
 
     /// <summary>
-    /// The filtered transform with just output diagnostics.
-    /// </summary>
-    public const string Diagnostics = nameof(Diagnostics);
-
-    /// <summary>
     /// The filtered transform with just output sources.
     /// </summary>
     public const string Output = nameof(Output);

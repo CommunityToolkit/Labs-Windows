@@ -45,9 +45,7 @@ public class Test_DependencyPropertyGenerator_Incrementality
             source,
             updatedSource,
             executeReason: IncrementalStepRunReason.Modified,
-            diagnosticsReason: null,
             outputReason: IncrementalStepRunReason.Modified,
-            diagnosticsSourceReason: null,
             sourceReason: IncrementalStepRunReason.Modified);
     }
 
@@ -87,9 +85,7 @@ public class Test_DependencyPropertyGenerator_Incrementality
             source,
             updatedSource,
             executeReason: IncrementalStepRunReason.Unchanged,
-            diagnosticsReason: null,
             outputReason: IncrementalStepRunReason.Cached,
-            diagnosticsSourceReason: null,
             sourceReason: IncrementalStepRunReason.Cached);
     }
 
@@ -130,9 +126,7 @@ public class Test_DependencyPropertyGenerator_Incrementality
             source,
             updatedSource,
             executeReason: IncrementalStepRunReason.Unchanged,
-            diagnosticsReason: null,
             outputReason: IncrementalStepRunReason.Cached,
-            diagnosticsSourceReason: null,
             sourceReason: IncrementalStepRunReason.Cached);
     }
 }
