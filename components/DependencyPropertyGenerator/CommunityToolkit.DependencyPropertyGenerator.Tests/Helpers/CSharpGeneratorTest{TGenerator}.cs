@@ -55,7 +55,7 @@ internal static class CSharpGeneratorTest<TGenerator>
     /// <param name="source">The input source to process.</param>
     /// <param name="result">The expected source to be generated.</param>
     /// <param name="languageVersion">The language version to use to run the test.</param>
-    public static void VerifySources(string source, (string Filename, string Source) result, LanguageVersion languageVersion = LanguageVersion.CSharp12)
+    public static void VerifySources(string source, (string Filename, string Source) result, LanguageVersion languageVersion = LanguageVersion.CSharp13)
     {
         RunGenerator(source, out Compilation compilation, out ImmutableArray<Diagnostic> diagnostics, languageVersion);
 
@@ -89,7 +89,7 @@ internal static class CSharpGeneratorTest<TGenerator>
         IncrementalStepRunReason outputReason,
         IncrementalStepRunReason? diagnosticsSourceReason,
         IncrementalStepRunReason sourceReason,
-        LanguageVersion languageVersion = LanguageVersion.CSharp12)
+        LanguageVersion languageVersion = LanguageVersion.CSharp13)
     {
         Compilation compilation = CreateCompilation(source, languageVersion);
 
@@ -173,7 +173,7 @@ internal static class CSharpGeneratorTest<TGenerator>
     /// <param name="source">The input source to process.</param>
     /// <param name="languageVersion">The language version to use to run the test.</param>
     /// <returns>The resulting <see cref="Compilation"/> object.</returns>
-    private static CSharpCompilation CreateCompilation(string source, LanguageVersion languageVersion = LanguageVersion.CSharp12)
+    private static CSharpCompilation CreateCompilation(string source, LanguageVersion languageVersion = LanguageVersion.CSharp13)
     {
         // Get all assembly references for the .NET TFM and ComputeSharp
         IEnumerable<MetadataReference> metadataReferences =
@@ -209,7 +209,7 @@ internal static class CSharpGeneratorTest<TGenerator>
         string source,
         out Compilation compilation,
         out ImmutableArray<Diagnostic> diagnostics,
-        LanguageVersion languageVersion = LanguageVersion.CSharp12)
+        LanguageVersion languageVersion = LanguageVersion.CSharp13)
     {
         Compilation originalCompilation = CreateCompilation(source, languageVersion);
 
