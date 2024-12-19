@@ -14,7 +14,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.AppServices.Helpers;
 
-#pragma warning disable CA2213, CA1063
+#pragma warning disable CA2213, CA1063, CsWinRT1028
 
 namespace CommunityToolkit.AppServices;
 
@@ -462,7 +462,7 @@ public abstract class AppServiceComponent : IDisposable
                 try
                 {
                     // Try to get the registered endpoint with the command name, and invoke it
-                    if (_endpoints.TryGetValue(commandStr, out Func<AppServiceParameters, Task<object?>> endpoint))
+                    if (_endpoints.TryGetValue(commandStr, out Func<AppServiceParameters, Task<object?>>? endpoint) && endpoint is {})
                     {
                         response = await endpoint(new AppServiceParameters(this, sender, parameters));
                     }
