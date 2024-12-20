@@ -92,7 +92,7 @@ partial record TypedConstantInfo
         {
             ({ SpecialType: SpecialType.System_String }, string text) => new Primitive.String(text),
             ({ SpecialType: SpecialType.System_Boolean}, bool flag) => new Primitive.Boolean(flag),
-            (INamedTypeSymbol { TypeKind: TypeKind.Enum }, object value) when (operationType.TryGetEnumFieldName(value, out string? fieldName))
+            (INamedTypeSymbol { TypeKind: TypeKind.Enum }, object value) when operationType.TryGetEnumFieldName(value, out string? fieldName)
                 => new KnownEnum(operationType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), fieldName),
             (INamedTypeSymbol { TypeKind: TypeKind.Enum }, object value)
                 => new Enum(operationType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), value),
