@@ -89,17 +89,17 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// </summary>
     /// <param name="document">The original document being fixed.</param>
     /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current compilation.</param>
-    /// <param name="observablePropertyAttributeList">The resulting attribute list, if successfully retrieved.</param>
-    /// <returns>Whether <paramref name="observablePropertyAttributeList"/> could be retrieved successfully.</returns>
-    private static bool TryGetGeneratedObservablePropertyAttributeList(
+    /// <param name="generatedDependencyPropertyAttributeList">The resulting attribute list, if successfully retrieved.</param>
+    /// <returns>Whether <paramref name="generatedDependencyPropertyAttributeList"/> could be retrieved successfully.</returns>
+    private static bool TryGetGeneratedDependencyPropertyAttributeList(
         Document document,
         SemanticModel semanticModel,
-        [NotNullWhen(true)] out AttributeListSyntax? observablePropertyAttributeList)
+        [NotNullWhen(true)] out AttributeListSyntax? generatedDependencyPropertyAttributeList)
     {
         // Make sure we can resolve the '[GeneratedDependencyProperty]' attribute
         if (semanticModel.Compilation.GetTypeByMetadataName(WellKnownTypeNames.GeneratedDependencyPropertyAttribute) is not INamedTypeSymbol attributeSymbol)
         {
-            observablePropertyAttributeList = null;
+            generatedDependencyPropertyAttributeList = null;
 
             return false;
         }
@@ -109,7 +109,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         // Create the attribute syntax for the new '[GeneratedDependencyProperty]' attribute here too
         SyntaxNode attributeTypeSyntax = syntaxGenerator.TypeExpression(attributeSymbol).WithAdditionalAnnotations(Simplifier.AddImportsAnnotation);
 
-        observablePropertyAttributeList = (AttributeListSyntax)syntaxGenerator.Attribute(attributeTypeSyntax);
+        generatedDependencyPropertyAttributeList = (AttributeListSyntax)syntaxGenerator.Attribute(attributeTypeSyntax);
 
         return true;
     }
@@ -135,7 +135,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         await Task.CompletedTask;
 
         // If we can't generate the new attribute list, bail (this should never happen)
-        if (!TryGetGeneratedObservablePropertyAttributeList(document, semanticModel, out AttributeListSyntax? observablePropertyAttributeList))
+        if (!TryGetGeneratedDependencyPropertyAttributeList(document, semanticModel, out AttributeListSyntax? generatedDependencyPropertyAttributeList))
         {
             return document;
         }
@@ -146,7 +146,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         ConvertToPartialProperty(
             propertyDeclaration,
             fieldDeclaration,
-            observablePropertyAttributeList,
+            generatedDependencyPropertyAttributeList,
             syntaxEditor,
             defaultValueExpression);
 
@@ -159,14 +159,14 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// </summary>
     /// <param name="propertyDeclaration">The <see cref="PropertyDeclarationSyntax"/> for the property being updated.</param>
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
-    /// <param name="observablePropertyAttributeList">The <see cref="AttributeListSyntax"/> with the attribute to add.</param>
+    /// <param name="generatedDependencyPropertyAttributeList">The <see cref="AttributeListSyntax"/> with the attribute to add.</param>
     /// <param name="syntaxEditor">The <see cref="SyntaxEditor"/> instance to use.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
     /// <returns>An updated document with the applied code fix, and <paramref name="propertyDeclaration"/> being replaced with a partial property.</returns>
     private static void ConvertToPartialProperty(
         PropertyDeclarationSyntax propertyDeclaration,
         FieldDeclarationSyntax fieldDeclaration,
-        AttributeListSyntax observablePropertyAttributeList,
+        AttributeListSyntax generatedDependencyPropertyAttributeList,
         SyntaxEditor syntaxEditor,
         string? defaultValueExpression)
     {
@@ -175,9 +175,9 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         // It's important to reuse it, as it has the "add usings" annotation.
         if (defaultValueExpression is not null)
         {
-            observablePropertyAttributeList =
+            generatedDependencyPropertyAttributeList =
                 AttributeList(SingletonSeparatedList(
-                    observablePropertyAttributeList.Attributes[0]
+                    generatedDependencyPropertyAttributeList.Attributes[0]
                     .AddArgumentListArguments(
                         AttributeArgument(ParseExpression(defaultValueExpression))
                         .WithNameEquals(NameEquals(IdentifierName("DefaultValue"))))));
@@ -194,18 +194,18 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 newNode: firstAttributeListSyntax.WithoutTrivia());
 
             // If the property has at least an attribute list, move the trivia from it to the new attribute
-            observablePropertyAttributeList = observablePropertyAttributeList.WithTriviaFrom(firstAttributeListSyntax);
+            generatedDependencyPropertyAttributeList = generatedDependencyPropertyAttributeList.WithTriviaFrom(firstAttributeListSyntax);
 
             // Insert the new attribute
-            attributeLists = attributeLists.Insert(0, observablePropertyAttributeList);
+            attributeLists = attributeLists.Insert(0, generatedDependencyPropertyAttributeList);
         }
         else
         {
             // Otherwise (there are no attribute lists), transfer the trivia to the new (only) attribute list
-            observablePropertyAttributeList = observablePropertyAttributeList.WithTriviaFrom(propertyDeclaration);
+            generatedDependencyPropertyAttributeList = generatedDependencyPropertyAttributeList.WithTriviaFrom(propertyDeclaration);
 
             // Save the new attribute list
-            attributeLists = attributeLists.Add(observablePropertyAttributeList);
+            attributeLists = attributeLists.Add(generatedDependencyPropertyAttributeList);
         }
 
         // Get a new property that is partial and with semicolon token accessors
@@ -268,7 +268,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             }
 
             // If we can't generate the new attribute list, bail (this should never happen)
-            if (!TryGetGeneratedObservablePropertyAttributeList(document, semanticModel, out AttributeListSyntax? observablePropertyAttributeList))
+            if (!TryGetGeneratedDependencyPropertyAttributeList(document, semanticModel, out AttributeListSyntax? generatedDependencyPropertyAttributeList))
             {
                 return document;
             }
@@ -297,7 +297,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 ConvertToPartialProperty(
                     propertyDeclaration,
                     fieldDeclaration,
-                    observablePropertyAttributeList,
+                    generatedDependencyPropertyAttributeList,
                     syntaxEditor,
                     defaultValue);
             }
