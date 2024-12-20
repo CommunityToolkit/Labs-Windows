@@ -115,6 +115,71 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     }
 
     /// <summary>
+    /// Updates an <see cref="AttributeListSyntax"/> for the <c>[GeneratedDependencyProperty]</c> attribute with the right default value.
+    /// </summary>
+    /// <param name="document">The original document being fixed.</param>
+    /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current compilation.</param>
+    /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
+    /// <returns>The updated attribute syntax.</returns>
+    private static AttributeListSyntax UpdateGeneratedDependencyPropertyAttributeList(
+        Document document,
+        SemanticModel semanticModel,
+        AttributeListSyntax generatedDependencyPropertyAttributeList,
+        string? defaultValueExpression)
+    {
+        // If we do have a default value expression, set it in the attribute.
+        // We extract the generated attribute so we can add the new argument.
+        // It's important to reuse it, as it has the "add usings" annotation.
+        if (defaultValueExpression is not null)
+        {
+            ExpressionSyntax parsedExpression = ParseExpression(defaultValueExpression);
+
+            // Special case values which are simple enum member accesses, like 'global::Windows.UI.Xaml.Visibility.Collapsed'
+            if (parsedExpression is MemberAccessExpressionSyntax { Expression: { } expressionSyntax, Name: IdentifierNameSyntax { Identifier.Text: { } memberName } })
+            {
+                string fullyQualifiedTypeName = expressionSyntax.ToFullString();
+
+                // Ensure we strip the global prefix, if present (it should always be present)
+                if (fullyQualifiedTypeName.StartsWith("global::"))
+                {
+                    fullyQualifiedTypeName = fullyQualifiedTypeName["global::".Length..];
+                }
+
+                // Try to resolve the attribute type, if present. This API takes a fully qualified metadata name, not
+                // a fully qualified type name. However, for virtually all cases for enum types, the two should match.
+                // That is, they will be the same if the type is not nested, and not generic, which is what we expect.
+                if (semanticModel.Compilation.GetTypeByMetadataName(fullyQualifiedTypeName) is INamedTypeSymbol enumTypeSymbol)
+                {
+                    SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
+
+                    // Create the identifier syntax for the enum type, with the right annotations
+                    SyntaxNode enumTypeSyntax = syntaxGenerator.TypeExpression(enumTypeSymbol).WithAdditionalAnnotations(Simplifier.AddImportsAnnotation);
+
+                    // Create the member access expression for the target enum type
+                    SyntaxNode enumMemberAccessExpressionSyntax = syntaxGenerator.MemberAccessExpression(enumTypeSyntax, memberName);
+
+                    // Create the attribute argument to insert
+                    SyntaxNode attributeArgumentSyntax = syntaxGenerator.AttributeArgument("DefaultValue", enumMemberAccessExpressionSyntax);
+
+                    // Actually add the argument to the existing attribute syntax
+                    return (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(generatedDependencyPropertyAttributeList, [attributeArgumentSyntax]);
+                }
+            }
+
+            // Otherwise, just add the new default value normally
+            return
+                AttributeList(SingletonSeparatedList(
+                    generatedDependencyPropertyAttributeList.Attributes[0]
+                    .AddArgumentListArguments(
+                        AttributeArgument(ParseExpression(defaultValueExpression))
+                        .WithNameEquals(NameEquals(IdentifierName("DefaultValue"))))));
+        }
+
+        // If we have no value expression, we can just reuse the attribute with no changes
+        return generatedDependencyPropertyAttributeList;
+    }
+
+    /// <summary>
     /// Applies the code fix to a target identifier and returns an updated document.
     /// </summary>
     /// <param name="document">The original document being fixed.</param>
@@ -144,6 +209,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         SyntaxEditor syntaxEditor = new(root, document.Project.Solution.Workspace.Services);
 
         ConvertToPartialProperty(
+            document,
+            semanticModel,
             propertyDeclaration,
             fieldDeclaration,
             generatedDependencyPropertyAttributeList,
@@ -157,6 +224,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <summary>
     /// Applies the code fix to a target identifier and returns an updated document.
     /// </summary>
+    /// <param name="document">The original document being fixed.</param>
+    /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current compilation.</param>
     /// <param name="propertyDeclaration">The <see cref="PropertyDeclarationSyntax"/> for the property being updated.</param>
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
     /// <param name="generatedDependencyPropertyAttributeList">The <see cref="AttributeListSyntax"/> with the attribute to add.</param>
@@ -164,24 +233,20 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
     /// <returns>An updated document with the applied code fix, and <paramref name="propertyDeclaration"/> being replaced with a partial property.</returns>
     private static void ConvertToPartialProperty(
+        Document document,
+        SemanticModel semanticModel,
         PropertyDeclarationSyntax propertyDeclaration,
         FieldDeclarationSyntax fieldDeclaration,
         AttributeListSyntax generatedDependencyPropertyAttributeList,
         SyntaxEditor syntaxEditor,
         string? defaultValueExpression)
     {
-        // If we do have a default value expression, set it in the attribute.
-        // We extract the generated attribute so we can add the new argument.
-        // It's important to reuse it, as it has the "add usings" annotation.
-        if (defaultValueExpression is not null)
-        {
-            generatedDependencyPropertyAttributeList =
-                AttributeList(SingletonSeparatedList(
-                    generatedDependencyPropertyAttributeList.Attributes[0]
-                    .AddArgumentListArguments(
-                        AttributeArgument(ParseExpression(defaultValueExpression))
-                        .WithNameEquals(NameEquals(IdentifierName("DefaultValue"))))));
-        }
+        // Update the attribute to insert with the default value, if present
+        generatedDependencyPropertyAttributeList = UpdateGeneratedDependencyPropertyAttributeList(
+            document,
+            semanticModel,
+            generatedDependencyPropertyAttributeList,
+            defaultValueExpression);
 
         // Start setting up the updated attribute lists
         SyntaxList<AttributeListSyntax> attributeLists = propertyDeclaration.AttributeLists;
@@ -295,6 +360,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
 
                 ConvertToPartialProperty(
+                    document,
+                    semanticModel,
                     propertyDeclaration,
                     fieldDeclaration,
                     generatedDependencyPropertyAttributeList,

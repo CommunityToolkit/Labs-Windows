@@ -290,7 +290,9 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     [DataRow("int", "int", "42")]
     [DataRow("int?", "int?", "0")]
     [DataRow("int?", "int?", "42")]
-    [DataRow("global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility.Collapsed")]
+    [DataRow("Visibility", "Visibility", "Visibility.Collapsed")]
+    [DataRow("global::MyApp.MyEnum", "global::MyApp.MyEnum", "(global::MyApp.MyEnum)5")]
+    [DataRow("global::MyApp.MyEnum", "global::MyApp.MyEnum", "(global::MyApp.MyEnum)(-5)")]
     public async Task SimpleProperty_WithExplicitValue_NotDefault(
         string dependencyPropertyType,
         string propertyType,
@@ -318,6 +320,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                     set => SetValue(NameProperty, value);
                 }
             }
+
+            public enum MyEnum { A }
             """;
 
         string @fixed = $$"""
@@ -333,6 +337,69 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             {
                 [GeneratedDependencyProperty(DefaultValue = {{defaultValueExpression}})]
                 public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+
+            public enum MyEnum { A }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed,
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestState = { AdditionalReferences =
+            {
+                MetadataReference.CreateFromFile(typeof(Point).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
+            }}
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    public async Task SimpleProperty_WithExplicitValue_NotDefault_AddsNamespace()
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(Windows.UI.Xaml.Automation.AnnotationType),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata(Windows.UI.Xaml.Automation.AnnotationType.TrackChanges));
+
+                public Windows.UI.Xaml.Automation.AnnotationType [|Name|]
+                {
+                    get => (Windows.UI.Xaml.Automation.AnnotationType)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Automation;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = AnnotationType.TrackChanges)]
+                public partial Windows.UI.Xaml.Automation.AnnotationType {|CS9248:Name|} { get; set; }
             }
             """;
 

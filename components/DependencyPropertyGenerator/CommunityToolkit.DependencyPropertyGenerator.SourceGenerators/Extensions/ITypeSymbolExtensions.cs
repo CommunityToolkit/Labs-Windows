@@ -79,7 +79,7 @@ internal static class ITypeSymbolExtensions
                 continue;
             }
 
-            if (fieldValue == value)
+            if (fieldValue.Equals(value))
             {
                 fieldName = fieldSymbol.Name;
 
