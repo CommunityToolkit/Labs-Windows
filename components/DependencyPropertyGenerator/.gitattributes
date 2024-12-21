@@ -1,0 +1,10 @@
+# All file types:
+#   - Treat as text
+#   - Normalize to LF line endings
+* text=auto eol=lf
+
+# Explicit settings for well known types
+*.cs           text      eol=lf
+*.csproj       text      eol=lf
+*.projitems    text      eol=lf
+*.shprroj      text      eol=lf
