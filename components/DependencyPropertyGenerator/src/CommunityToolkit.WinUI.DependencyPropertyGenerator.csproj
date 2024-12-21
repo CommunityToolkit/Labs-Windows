@@ -36,8 +36,10 @@
 
     <!-- Include the custom .targets file to check the source generator -->
     <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\net8.0-windows10.0.17763.0" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\net9.0-windows10.0.17763.0" Pack="true" />
     <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\uap10.0" Pack="true" />
     <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\net8.0-windows10.0.17763.0" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\net9.0-windows10.0.17763.0" Pack="true" />
     <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\uap10.0" Pack="true" />
 
     <!-- Pack the source generators to the right package folder -->
