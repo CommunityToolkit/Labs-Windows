@@ -15,7 +15,8 @@
     <Nullable>disable</Nullable>
     <HasWinUI>false</HasWinUI>
 
-    <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.17763.0;</UwpTargetFrameworks>
+    <!-- We also include 'net9.0-windows10.0.17763.0' explicitly for UWP as a workaround for https://github.com/CommunityToolkit/Tooling-Windows-Submodule/issues/238 -->
+    <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.17763.0;net9.0-windows10.0.17763.0;</UwpTargetFrameworks>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
