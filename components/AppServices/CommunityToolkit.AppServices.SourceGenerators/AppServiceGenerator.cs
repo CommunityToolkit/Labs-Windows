@@ -24,13 +24,12 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
     {
         // Get all app service class implementations, and only enable this branch if the target is not a UWP app (the component)
         IncrementalValuesProvider<(HierarchyInfo Hierarchy, AppServiceInfo Info)> appServiceComponentInfo =
-            context.SyntaxProvider
-            .CreateSyntaxProvider(
+            context.CreateSyntaxProviderWithOptions(
                 static (node, _) => node is ClassDeclarationSyntax classDeclaration && classDeclaration.HasOrPotentiallyHasBaseTypes(),
                 static (context, token) =>
                 {
                     // Only retrieve host info if the target is not a UWP application
-                    if (Helpers.IsUwpTarget(context.SemanticModel.Compilation))
+                    if (Helpers.IsUwpTarget(context.SemanticModel.Compilation, context.GlobalOptions))
                     {
                         return default;
                     }
@@ -80,14 +79,13 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
 
         // Gather all interfaces, and only enable this branch if the target is a UWP app (the host)
         IncrementalValuesProvider<(HierarchyInfo Hierarchy, AppServiceInfo Info)> appServiceHostInfo =
-            context.SyntaxProvider
-            .ForAttributeWithMetadataName(
+            context.ForAttributeWithMetadataNameAndOptions(
                 "CommunityToolkit.AppServices.AppServiceAttribute",
                 static (node, _) => node is InterfaceDeclarationSyntax,
                 static (context, token) =>
                 {
                     // Only retrieve host info if the target is a UWP application
-                    if (!Helpers.IsUwpTarget(context.SemanticModel.Compilation))
+                    if (!Helpers.IsUwpTarget(context.SemanticModel.Compilation, context.GlobalOptions))
                     {
                         return default;
                     }

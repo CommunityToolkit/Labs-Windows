@@ -2,6 +2,7 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
   <PropertyGroup>
     <ToolkitComponentName>RivePlayer</ToolkitComponentName>
+    <UwpTargetFrameworks>uap10.0.17763;</UwpTargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

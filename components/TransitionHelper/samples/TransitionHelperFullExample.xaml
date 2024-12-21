@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
-      xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:local="using:TransitionHelperExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -52,22 +51,22 @@
                         Content="&#xEA62;"
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Click">
+                        <i:EventTriggerBehavior EventName="Click">
                             <labs:StartTransitionAction Source="{Binding ElementName=FirstControl}"
                                                         Target="{Binding ElementName=SecondControl}"
                                                         Transition="{StaticResource MyTransitionHelper}" />
-                        </ic:EventTriggerBehavior>
+                        </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
                 <Button x:Name="MinToMaxButton"
                         Content="&#xE741;"
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Click">
+                        <i:EventTriggerBehavior EventName="Click">
                             <labs:StartTransitionAction Source="{Binding ElementName=FirstControl}"
                                                         Target="{Binding ElementName=ThirdControl}"
                                                         Transition="{StaticResource MyTransitionHelper}" />
-                        </ic:EventTriggerBehavior>
+                        </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
             </StackPanel>
@@ -100,31 +99,31 @@
                     <Button Content="&#xE845;"
                             Style="{StaticResource NavigationBackButtonNormalStyle}">
                         <i:Interaction.Behaviors>
-                            <ic:EventTriggerBehavior EventName="Click">
+                            <i:EventTriggerBehavior EventName="Click">
                                 <labs:ReverseTransitionAction Transition="{StaticResource MyTransitionHelper}" />
-                            </ic:EventTriggerBehavior>
+                            </i:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </Button>
                     <Button x:Name="MidToMinButton"
                             Content="&#xE72B;"
                             Style="{StaticResource NavigationBackButtonNormalStyle}">
                         <i:Interaction.Behaviors>
-                            <ic:EventTriggerBehavior EventName="Click">
+                            <i:EventTriggerBehavior EventName="Click">
                                 <labs:StartTransitionAction Source="{Binding ElementName=SecondControl}"
                                                             Target="{Binding ElementName=FirstControl}"
                                                             Transition="{StaticResource MyTransitionHelper}" />
-                            </ic:EventTriggerBehavior>
+                            </i:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </Button>
                     <Button x:Name="MidToMaxButton"
                             Content="&#xE74B;"
                             Style="{StaticResource NavigationBackButtonNormalStyle}">
                         <i:Interaction.Behaviors>
-                            <ic:EventTriggerBehavior EventName="Click">
+                            <i:EventTriggerBehavior EventName="Click">
                                 <labs:StartTransitionAction Source="{Binding ElementName=SecondControl}"
                                                             Target="{Binding ElementName=ThirdControl}"
                                                             Transition="{StaticResource MyTransitionHelper}" />
-                            </ic:EventTriggerBehavior>
+                            </i:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </Button>
                 </StackPanel>
@@ -204,31 +203,31 @@
                 <Button Content="&#xE845;"
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Click">
+                        <i:EventTriggerBehavior EventName="Click">
                             <labs:ReverseTransitionAction Transition="{StaticResource MyTransitionHelper}" />
-                        </ic:EventTriggerBehavior>
+                        </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
                 <Button x:Name="MaxToMinButton"
                         Content="&#xE742;"
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Click">
+                        <i:EventTriggerBehavior EventName="Click">
                             <labs:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
                                                         Target="{Binding ElementName=FirstControl}"
                                                         Transition="{StaticResource MyTransitionHelper}" />
-                        </ic:EventTriggerBehavior>
+                        </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
                 <Button x:Name="MaxToMidButton"
                         Content="&#xE74A;"
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Click">
+                        <i:EventTriggerBehavior EventName="Click">
                             <labs:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
                                                         Target="{Binding ElementName=SecondControl}"
                                                         Transition="{StaticResource MyTransitionHelper}" />
-                        </ic:EventTriggerBehavior>
+                        </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
             </StackPanel>
