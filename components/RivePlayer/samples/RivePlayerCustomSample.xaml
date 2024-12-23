@@ -51,7 +51,7 @@
                 <i:Interaction.Behaviors>
                     <i:EventTriggerBehavior EventName="Click">
                         <i:CallMethodAction MethodName="Fire"
-                                             TargetObject="{x:Bind FailureTrigger}" />
+                                            TargetObject="{x:Bind FailureTrigger}" />
                     </i:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Button>
@@ -59,7 +59,7 @@
                 <i:Interaction.Behaviors>
                     <i:EventTriggerBehavior EventName="Click">
                         <i:CallMethodAction MethodName="Fire"
-                                             TargetObject="{x:Bind SuccessTrigger}" />
+                                            TargetObject="{x:Bind SuccessTrigger}" />
                     </i:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Button>
