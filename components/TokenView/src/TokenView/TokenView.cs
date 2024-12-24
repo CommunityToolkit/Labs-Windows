@@ -31,7 +31,7 @@ public partial class TokenView : ListViewBase
     /// Creates a new instance of the <see cref="TokenView"/> class.
     /// </summary>
 #if NET8_0_OR_GREATER
-    [RequiresUnreferencedCode("This method accesses the 'Remove' method of the assigned items source collection in a trim-unsafe way.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The 'ItemsSource' change handler accesses the 'Remove' method of the collection in a trim-unsafe (we should revisit this later).")]
 #endif
     public TokenView()
     {
