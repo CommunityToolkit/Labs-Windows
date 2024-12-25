@@ -3,14 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using CommunityToolkit.WinUI;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Windows.Foundation;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using CSharpCodeFixTest = CommunityToolkit.GeneratedDependencyProperty.Tests.Helpers.CSharpCodeFixTest<
     CommunityToolkit.GeneratedDependencyProperty.UseGeneratedDependencyPropertyOnManualPropertyAnalyzer,
     CommunityToolkit.GeneratedDependencyProperty.UseGeneratedDependencyPropertyOnManualPropertyCodeFixer>;
@@ -110,15 +104,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestState = { AdditionalReferences =
-            {
-                MetadataReference.CreateFromFile(typeof(Point).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
-            }}
+            FixedCode = @fixed
         };
 
         await test.RunAsync();
@@ -178,15 +164,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestState = { AdditionalReferences =
-            {
-                MetadataReference.CreateFromFile(typeof(Point).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
-            }}
+            FixedCode = @fixed
         };
 
         await test.RunAsync();
@@ -270,15 +248,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestState = { AdditionalReferences =
-            {
-                MetadataReference.CreateFromFile(typeof(Point).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
-            }}
+            FixedCode = @fixed
         };
 
         await test.RunAsync();
@@ -345,15 +315,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestState = { AdditionalReferences =
-            {
-                MetadataReference.CreateFromFile(typeof(Point).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
-            }}
+            FixedCode = @fixed
         };
 
         await test.RunAsync();
@@ -406,15 +368,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed,
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestState = { AdditionalReferences =
-            {
-                MetadataReference.CreateFromFile(typeof(Point).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location)
-            }}
+            FixedCode = @fixed
         };
 
         await test.RunAsync();
