@@ -38,12 +38,8 @@
   <ItemGroup Label="Package">
 
     <!-- Include the custom .targets file to check the source generator -->
-    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\net8.0-windows10.0.17763.0" Pack="true" />
-    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\net9.0-windows10.0.17763.0" Pack="true" />
-    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\uap10.0" Pack="true" />
-    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\net8.0-windows10.0.17763.0" Pack="true" />
-    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\net9.0-windows10.0.17763.0" Pack="true" />
-    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\uap10.0" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build" Pack="true" />
 
     <!-- Pack the source generators to the right package folder -->
     <None Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
