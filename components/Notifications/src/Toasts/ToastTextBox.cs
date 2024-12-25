@@ -4,53 +4,52 @@
 
 using System;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// A text box control on the Toast that a user can type text into.
+/// </summary>
+public sealed class ToastTextBox : IToastInput
 {
     /// <summary>
-    /// A text box control on the Toast that a user can type text into.
+    /// Initializes a new instance of the <see cref="ToastTextBox"/> class.
+    /// A new Toast TextBox input control with the required elements.
     /// </summary>
-    public sealed class ToastTextBox : IToastInput
+    /// <param name="id">Developer-provided ID that the developer uses later to retrieve input when the Toast is interacted with.</param>
+    public ToastTextBox(string id)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ToastTextBox"/> class.
-        /// A new Toast TextBox input control with the required elements.
-        /// </summary>
-        /// <param name="id">Developer-provided ID that the developer uses later to retrieve input when the Toast is interacted with.</param>
-        public ToastTextBox(string id)
+        Id = id ?? throw new ArgumentNullException(nameof(id));
+    }
+
+    /// <summary>
+    /// Gets the required ID property so that developers can retrieve user input once the app is activated.
+    /// </summary>
+    public string Id { get; private set; }
+
+    /// <summary>
+    /// Gets or sets title text to display above the text box.
+    /// </summary>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets placeholder text to be displayed on the text box when the user hasn't typed any text yet.
+    /// </summary>
+    public string PlaceholderContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the initial text to place in the text box. Leave this null for a blank text box.
+    /// </summary>
+    public string DefaultInput { get; set; }
+
+    internal Element_ToastInput ConvertToElement()
+    {
+        return new Element_ToastInput()
         {
-            Id = id ?? throw new ArgumentNullException(nameof(id));
-        }
-
-        /// <summary>
-        /// Gets the required ID property so that developers can retrieve user input once the app is activated.
-        /// </summary>
-        public string Id { get; private set; }
-
-        /// <summary>
-        /// Gets or sets title text to display above the text box.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets placeholder text to be displayed on the text box when the user hasn't typed any text yet.
-        /// </summary>
-        public string PlaceholderContent { get; set; }
-
-        /// <summary>
-        /// Gets or sets the initial text to place in the text box. Leave this null for a blank text box.
-        /// </summary>
-        public string DefaultInput { get; set; }
-
-        internal Element_ToastInput ConvertToElement()
-        {
-            return new Element_ToastInput()
-            {
-                Id = Id,
-                Type = ToastInputType.Text,
-                DefaultInput = DefaultInput,
-                PlaceholderContent = PlaceholderContent,
-                Title = Title
-            };
-        }
+            Id = Id,
+            Type = ToastInputType.Text,
+            DefaultInput = DefaultInput,
+            PlaceholderContent = PlaceholderContent,
+            Title = Title
+        };
     }
 }

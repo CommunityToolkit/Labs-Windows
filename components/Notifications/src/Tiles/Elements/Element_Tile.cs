@@ -4,16 +4,15 @@
 
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal sealed class Element_Tile : BaseElement, IHaveXmlName, IHaveXmlChildren
 {
-    internal sealed class Element_Tile : BaseElement, IHaveXmlName, IHaveXmlChildren
-    {
-        public Element_TileVisual Visual { get; set; }
+    public Element_TileVisual Visual { get; set; }
 
-        /// <inheritdoc/>
-        string IHaveXmlName.Name => "tile";
+    /// <inheritdoc/>
+    string IHaveXmlName.Name => "tile";
 
-        /// <inheritdoc/>
-        IEnumerable<object> IHaveXmlChildren.Children => new[] { Visual };
-    }
+    /// <inheritdoc/>
+    IEnumerable<object> IHaveXmlChildren.Children => new[] { Visual };
 }

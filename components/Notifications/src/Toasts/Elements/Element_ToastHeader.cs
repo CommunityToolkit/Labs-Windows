@@ -5,57 +5,56 @@
 using System;
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal sealed class Element_ToastHeader : IElement_ToastActivatable, IHaveXmlName, IHaveXmlNamedProperties
 {
-    internal sealed class Element_ToastHeader : IElement_ToastActivatable, IHaveXmlName, IHaveXmlNamedProperties
+    public string Id { get; set; }
+
+    public string Title { get; set; }
+
+    public string Arguments { get; set; }
+
+    public Element_ToastActivationType ActivationType { get; set; } = Element_ToastActivationType.Foreground;
+
+    public string ProtocolActivationTargetApplicationPfn { get; set; }
+
+    public ToastAfterActivationBehavior AfterActivationBehavior
     {
-        public string Id { get; set; }
-
-        public string Title { get; set; }
-
-        public string Arguments { get; set; }
-
-        public Element_ToastActivationType ActivationType { get; set; } = Element_ToastActivationType.Foreground;
-
-        public string ProtocolActivationTargetApplicationPfn { get; set; }
-
-        public ToastAfterActivationBehavior AfterActivationBehavior
+        get
         {
-            get
-            {
-                return ToastAfterActivationBehavior.Default;
-            }
-
-            set
-            {
-                if (value != ToastAfterActivationBehavior.Default)
-                {
-                    throw new InvalidOperationException("AfterActivationBehavior on ToastHeader only supports the Default value.");
-                }
-            }
+            return ToastAfterActivationBehavior.Default;
         }
 
-        /// <inheritdoc/>
-        string IHaveXmlName.Name => "header";
-
-        /// <inheritdoc/>
-        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        set
         {
-            yield return new("id", Id);
-            yield return new("title", Title);
-            yield return new("arguments", Arguments);
-
-            if (ActivationType != Element_ToastActivationType.Foreground)
+            if (value != ToastAfterActivationBehavior.Default)
             {
-                yield return new("activationType", ActivationType.ToPascalCaseString());
+                throw new InvalidOperationException("AfterActivationBehavior on ToastHeader only supports the Default value.");
             }
+        }
+    }
 
-            yield return new("protocolActivationTargetApplicationPfn", ProtocolActivationTargetApplicationPfn);
+    /// <inheritdoc/>
+    string IHaveXmlName.Name => "header";
 
-            if (AfterActivationBehavior != ToastAfterActivationBehavior.Default)
-            {
-                yield return new("afterActivationBehavior", AfterActivationBehavior.ToPascalCaseString());
-            }
+    /// <inheritdoc/>
+    IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+    {
+        yield return new("id", Id);
+        yield return new("title", Title);
+        yield return new("arguments", Arguments);
+
+        if (ActivationType != Element_ToastActivationType.Foreground)
+        {
+            yield return new("activationType", ActivationType.ToPascalCaseString());
+        }
+
+        yield return new("protocolActivationTargetApplicationPfn", ProtocolActivationTargetApplicationPfn);
+
+        if (AfterActivationBehavior != ToastAfterActivationBehavior.Default)
+        {
+            yield return new("afterActivationBehavior", AfterActivationBehavior.ToPascalCaseString());
         }
     }
 }

@@ -5,59 +5,58 @@
 using System;
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// A selection box control, which lets users pick from a dropdown list of options.
+/// </summary>
+public sealed class ToastSelectionBox : IToastInput
 {
     /// <summary>
-    /// A selection box control, which lets users pick from a dropdown list of options.
+    /// Initializes a new instance of the <see cref="ToastSelectionBox"/> class.
+    /// A Toast SelectionBox input control with the required elements.
     /// </summary>
-    public sealed class ToastSelectionBox : IToastInput
+    /// <param name="id">Developer-provided ID that the developer uses later to retrieve input when the Toast is interacted with.</param>
+    public ToastSelectionBox(string id)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ToastSelectionBox"/> class.
-        /// A Toast SelectionBox input control with the required elements.
-        /// </summary>
-        /// <param name="id">Developer-provided ID that the developer uses later to retrieve input when the Toast is interacted with.</param>
-        public ToastSelectionBox(string id)
+        Id = id ?? throw new ArgumentNullException(nameof(id));
+    }
+
+    /// <summary>
+    /// Gets the required ID property used so that developers can retrieve user input once the app is activated.
+    /// </summary>
+    public string Id { get; private set; }
+
+    /// <summary>
+    /// Gets or sets title text to display above the SelectionBox.
+    /// </summary>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this, the default selection will be empty (user sees nothing).
+    /// </summary>
+    public string DefaultSelectionBoxItemId { get; set; }
+
+    /// <summary>
+    /// Gets the selection items that the user can pick from in this SelectionBox. Only 5 items can be added.
+    /// </summary>
+    public IList<ToastSelectionBoxItem> Items { get; private set; } = new LimitedList<ToastSelectionBoxItem>(5);
+
+    internal Element_ToastInput ConvertToElement()
+    {
+        var input = new Element_ToastInput()
         {
-            Id = id ?? throw new ArgumentNullException(nameof(id));
+            Type = ToastInputType.Selection,
+            Id = Id,
+            DefaultInput = DefaultSelectionBoxItemId,
+            Title = Title
+        };
+
+        foreach (var item in Items)
+        {
+            input.Children.Add(item.ConvertToElement());
         }
 
-        /// <summary>
-        /// Gets the required ID property used so that developers can retrieve user input once the app is activated.
-        /// </summary>
-        public string Id { get; private set; }
-
-        /// <summary>
-        /// Gets or sets title text to display above the SelectionBox.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this, the default selection will be empty (user sees nothing).
-        /// </summary>
-        public string DefaultSelectionBoxItemId { get; set; }
-
-        /// <summary>
-        /// Gets the selection items that the user can pick from in this SelectionBox. Only 5 items can be added.
-        /// </summary>
-        public IList<ToastSelectionBoxItem> Items { get; private set; } = new LimitedList<ToastSelectionBoxItem>(5);
-
-        internal Element_ToastInput ConvertToElement()
-        {
-            var input = new Element_ToastInput()
-            {
-                Type = ToastInputType.Selection,
-                Id = Id,
-                DefaultInput = DefaultSelectionBoxItemId,
-                Title = Title
-            };
-
-            foreach (var item in Items)
-            {
-                input.Children.Add(item.ConvertToElement());
-            }
-
-            return input;
-        }
+        return input;
     }
 }
