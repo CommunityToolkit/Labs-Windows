@@ -5,35 +5,34 @@
 using System;
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal sealed class Element_ToastVisual : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
 {
-    internal sealed class Element_ToastVisual : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
+    internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
+
+    public bool? AddImageQuery { get; set; }
+
+    public Uri BaseUri { get; set; }
+
+    public string Language { get; set; }
+
+    public int? Version { get; set; }
+
+    public IList<Element_ToastBinding> Bindings { get; private set; } = new List<Element_ToastBinding>();
+
+    /// <inheritdoc/>
+    string IHaveXmlName.Name => "visual";
+
+    /// <inheritdoc/>
+    IEnumerable<object> IHaveXmlChildren.Children => Bindings;
+
+    /// <inheritdoc/>
+    IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
     {
-        internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
-
-        public bool? AddImageQuery { get; set; }
-
-        public Uri BaseUri { get; set; }
-
-        public string Language { get; set; }
-
-        public int? Version { get; set; }
-
-        public IList<Element_ToastBinding> Bindings { get; private set; } = new List<Element_ToastBinding>();
-
-        /// <inheritdoc/>
-        string IHaveXmlName.Name => "visual";
-
-        /// <inheritdoc/>
-        IEnumerable<object> IHaveXmlChildren.Children => Bindings;
-
-        /// <inheritdoc/>
-        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
-        {
-            yield return new("addImageQuery", AddImageQuery);
-            yield return new("baseUri", BaseUri);
-            yield return new("lang", Language);
-            yield return new("version", Version);
-        }
+        yield return new("addImageQuery", AddImageQuery);
+        yield return new("baseUri", BaseUri);
+        yield return new("lang", Language);
+        yield return new("version", Version);
     }
 }

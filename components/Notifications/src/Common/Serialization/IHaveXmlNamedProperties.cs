@@ -6,18 +6,17 @@ using System.Collections.Generic;
 
 #nullable enable
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// An interface for a notification XML element with named properties.
+/// </summary>
+internal interface IHaveXmlNamedProperties
 {
     /// <summary>
-    /// An interface for a notification XML element with named properties.
+    /// Enumerates the available named properties for the element.
     /// </summary>
-    internal interface IHaveXmlNamedProperties
-    {
-        /// <summary>
-        /// Enumerates the available named properties for the element.
-        /// </summary>
-        /// <returns>A sequence of named properties for the element.</returns>
-        /// <remarks>The returned values must be valid XML values when <see cref="object.ToString"/> is called on them.</remarks>
-        IEnumerable<KeyValuePair<string, object?>> EnumerateNamedProperties();
-    }
+    /// <returns>A sequence of named properties for the element.</returns>
+    /// <remarks>The returned values must be valid XML values when <see cref="object.ToString"/> is called on them.</remarks>
+    IEnumerable<KeyValuePair<string, object?>> EnumerateNamedProperties();
 }

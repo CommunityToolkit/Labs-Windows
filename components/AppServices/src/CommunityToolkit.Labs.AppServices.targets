@@ -1,5 +1,10 @@
 <Project>
 
+  <!-- Allow the source generators to detect whether an app on modern .NET is UWP or not -->
+  <ItemGroup>
+    <CompilerVisibleProperty Include="UseUwpTools" />
+  </ItemGroup>
+
   <!-- Get the analyzer from the CommunityToolkit.AppServices NuGet package -->
   <Target Name="CommunityToolkitAppServicesGatherAnalyzers">
     <ItemGroup>

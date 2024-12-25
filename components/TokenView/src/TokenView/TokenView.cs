@@ -2,6 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if NET8_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 namespace CommunityToolkit.Labs.WinUI;
 
 /// <summary>
@@ -26,6 +30,9 @@ public partial class TokenView : ListViewBase
     /// <summary>
     /// Creates a new instance of the <see cref="TokenView"/> class.
     /// </summary>
+#if NET8_0_OR_GREATER
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The 'ItemsSource' change handler accesses the 'Remove' method of the collection in a trim-unsafe (we should revisit this later).")]
+#endif
     public TokenView()
     {
         this.DefaultStyleKey = typeof(TokenView);
