@@ -16,4 +16,8 @@
     <ProjectReference Include="..\CommunityToolkit.AppServices.SourceGenerators\CommunityToolkit.AppServices.SourceGenerators.csproj" />
     <ProjectReference Include="..\src\CommunityToolkit.AppServices.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\sergiopedri\git\Labs-Windows\tooling\GlobalUsings.cs" />
+  </ItemGroup>
 </Project>

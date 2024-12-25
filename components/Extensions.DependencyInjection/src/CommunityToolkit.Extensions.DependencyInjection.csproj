@@ -30,4 +30,9 @@
     <!-- Pack the source generator to the right package folder -->
     <None Include="..\CommunityToolkit.Extensions.DependencyInjection.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
   </ItemGroup>
+
+  <!-- Remove imported global usings -->
+  <ItemGroup>
+    <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />
+  </ItemGroup>
 </Project>

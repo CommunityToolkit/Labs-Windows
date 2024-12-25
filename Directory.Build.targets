@@ -26,6 +26,7 @@
     <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory).editorconfig" />
     <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)settings.xamlstyler" />
     <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)*.md" />
+    <SlnGenSolutionItem Include="$(MSBuildThisFileDirectory)tooling\GlobalUsings*.cs" />
   </ItemGroup>
 
 </Project>
