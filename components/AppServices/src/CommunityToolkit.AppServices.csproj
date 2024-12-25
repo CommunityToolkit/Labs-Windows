@@ -30,15 +30,15 @@
   </PropertyGroup>
 
   <!-- Add the Desktop Extension SDK when on UWP-->
-  <ItemGroup Condition="'$(IsUwp)' == 'true'">
+  <ItemGroup Condition="'$(IsUwp)' == 'true' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'windows'">
     <SDKReference Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
 
   <!-- Add the contracts package reference to access WinRT APIs from .NET Standard -->
-  <ItemGroup Condition="'$(IsUwp)' != 'true'">
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.22621.2" />
+  <ItemGroup Condition="'$(IsNetstandard)' == 'true'">
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
   </ItemGroup>
 
   <!-- Source generator project reference for packing -->
@@ -50,12 +50,10 @@
   <ItemGroup Label="Package">
 
     <!-- Include the custom .targets file to check the source generator -->
-    <None Include="CommunityToolkit.AppServices.targets" PackagePath="buildTransitive\netstandard2.0" Pack="true" />
-    <None Include="CommunityToolkit.AppServices.targets" PackagePath="buildTransitive\uap10.0" Pack="true" />
-    <None Include="CommunityToolkit.AppServices.targets" PackagePath="build\netstandard2.0" Pack="true" />
-    <None Include="CommunityToolkit.AppServices.targets" PackagePath="build\uap10.0" Pack="true" />
+    <None Include="CommunityToolkit.Labs.AppServices.targets" PackagePath="buildTransitive" Pack="true" />
+    <None Include="CommunityToolkit.Labs.AppServices.targets" PackagePath="build" Pack="true" />
 
     <!-- Pack the source generator to the right package folder -->
-    <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
+    <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Platform)\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
   </ItemGroup>
 </Project>

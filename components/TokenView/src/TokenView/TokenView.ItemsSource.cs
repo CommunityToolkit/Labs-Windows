@@ -2,6 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if NET8_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 namespace CommunityToolkit.Labs.WinUI;
 
 public partial class TokenView : ListViewBase
@@ -15,6 +19,9 @@ public partial class TokenView : ListViewBase
         base.OnItemsChanged(e);
     }
 
+#if NET8_0_OR_GREATER
+    [RequiresUnreferencedCode("This method accesses the 'Remove' method of the assigned items source collection in a trim-unsafe way.")]
+#endif
     private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
     {
         // Use reflection to store a 'Remove' method of any possible collection in ItemsSource

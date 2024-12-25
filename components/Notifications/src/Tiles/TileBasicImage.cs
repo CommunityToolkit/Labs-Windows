@@ -4,39 +4,38 @@
 
 using CommunityToolkit.Notifications.Adaptive.Elements;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// An image used on various special templates for the Tile.
+/// </summary>
+public sealed class TileBasicImage : IBaseImage
 {
+    private string _source;
+
     /// <summary>
-    /// An image used on various special templates for the Tile.
+    /// Gets or sets the URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.
     /// </summary>
-    public sealed class TileBasicImage : IBaseImage
+    public string Source
     {
-        private string _source;
+        get { return _source; }
+        set { BaseImageHelper.SetSource(ref _source, value); }
+    }
 
-        /// <summary>
-        /// Gets or sets the URI of the image. Can be from your application package, application data, or the internet. Internet images must be less than 200 KB in size.
-        /// </summary>
-        public string Source
-        {
-            get { return _source; }
-            set { BaseImageHelper.SetSource(ref _source, value); }
-        }
+    /// <summary>
+    /// Gets or sets a description of the image, for users of assistive technologies.
+    /// </summary>
+    public string AlternateText { get; set; }
 
-        /// <summary>
-        /// Gets or sets a description of the image, for users of assistive technologies.
-        /// </summary>
-        public string AlternateText { get; set; }
+    /// <summary>
+    /// Gets or sets a value whether Windows should append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language.
+    /// </summary>
+    public bool? AddImageQuery { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value whether Windows should append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language.
-        /// </summary>
-        public bool? AddImageQuery { get; set; }
+    internal Element_AdaptiveImage ConvertToElement()
+    {
+        Element_AdaptiveImage image = BaseImageHelper.CreateBaseElement(this);
 
-        internal Element_AdaptiveImage ConvertToElement()
-        {
-            Element_AdaptiveImage image = BaseImageHelper.CreateBaseElement(this);
-
-            return image;
-        }
+        return image;
     }
 }

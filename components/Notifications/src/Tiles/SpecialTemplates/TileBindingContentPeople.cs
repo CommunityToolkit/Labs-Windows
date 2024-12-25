@@ -4,32 +4,31 @@
 
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// New in 1511: Supported on Medium, Wide, and Large (Desktop and Mobile).
+/// Previously for RTM: Phone-only. Supported on Medium and Wide.
+/// </summary>
+public sealed class TileBindingContentPeople : ITileBindingContent
 {
     /// <summary>
-    /// New in 1511: Supported on Medium, Wide, and Large (Desktop and Mobile).
-    /// Previously for RTM: Phone-only. Supported on Medium and Wide.
+    /// Gets images that will roll around as circles.
     /// </summary>
-    public sealed class TileBindingContentPeople : ITileBindingContent
+    public IList<TileBasicImage> Images { get; private set; } = new List<TileBasicImage>();
+
+    internal TileTemplateNameV3 GetTemplateName(TileSize size)
     {
-        /// <summary>
-        /// Gets images that will roll around as circles.
-        /// </summary>
-        public IList<TileBasicImage> Images { get; private set; } = new List<TileBasicImage>();
+        return TileSizeToAdaptiveTemplateConverter.Convert(size);
+    }
 
-        internal TileTemplateNameV3 GetTemplateName(TileSize size)
+    internal void PopulateElement(Element_TileBinding binding, TileSize size)
+    {
+        binding.Presentation = TilePresentation.People;
+
+        foreach (var img in Images)
         {
-            return TileSizeToAdaptiveTemplateConverter.Convert(size);
-        }
-
-        internal void PopulateElement(Element_TileBinding binding, TileSize size)
-        {
-            binding.Presentation = TilePresentation.People;
-
-            foreach (var img in Images)
-            {
-                binding.Children.Add(img.ConvertToElement());
-            }
+            binding.Children.Add(img.ConvertToElement());
         }
     }
 }

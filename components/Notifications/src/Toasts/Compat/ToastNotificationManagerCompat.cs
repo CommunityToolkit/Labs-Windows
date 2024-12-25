@@ -15,42 +15,41 @@ using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.UI.Notifications;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// Provides access to sending and managing toast notifications. Works for all types of apps, even Win32 non-MSIX/sparse apps.
+/// </summary>
+public static class ToastNotificationManagerCompat
 {
     /// <summary>
-    /// Provides access to sending and managing toast notifications. Works for all types of apps, even Win32 non-MSIX/sparse apps.
+    /// Creates a toast notifier.
     /// </summary>
-    public static class ToastNotificationManagerCompat
+    /// <returns><see cref="ToastNotifierCompat"/>An instance of the toast notifier.</returns>
+    public static ToastNotifierCompat CreateToastNotifier()
     {
-        /// <summary>
-        /// Creates a toast notifier.
-        /// </summary>
-        /// <returns><see cref="ToastNotifierCompat"/>An instance of the toast notifier.</returns>
-        public static ToastNotifierCompat CreateToastNotifier()
-        {
-            return new ToastNotifierCompat(ToastNotificationManager.CreateToastNotifier());
-        }
+        return new ToastNotifierCompat(ToastNotificationManager.CreateToastNotifier());
+    }
 
-        /// <summary>
-        /// Gets the <see cref="ToastNotificationHistoryCompat"/> object.
-        /// </summary>
-        public static ToastNotificationHistoryCompat History
+    /// <summary>
+    /// Gets the <see cref="ToastNotificationHistoryCompat"/> object.
+    /// </summary>
+    public static ToastNotificationHistoryCompat History
+    {
+        get
         {
-            get
-            {
-                return new ToastNotificationHistoryCompat(null);
-            }
+            return new ToastNotificationHistoryCompat(null);
         }
+    }
 
-        /// <summary>
-        /// Gets a value indicating whether http images can be used within toasts. This is true if running with package identity (UWP, MSIX, or sparse package).
-        /// </summary>
-        public static bool CanUseHttpImages
+    /// <summary>
+    /// Gets a value indicating whether http images can be used within toasts. This is true if running with package identity (UWP, MSIX, or sparse package).
+    /// </summary>
+    public static bool CanUseHttpImages
+    {
+        get
         {
-            get
-            {
-                return true;
-            }
+            return true;
         }
     }
 }

@@ -4,29 +4,28 @@
 
 using System;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal static class TileSizeToAdaptiveTemplateConverter
 {
-    internal static class TileSizeToAdaptiveTemplateConverter
+    public static TileTemplateNameV3 Convert(TileSize size)
     {
-        public static TileTemplateNameV3 Convert(TileSize size)
+        switch (size)
         {
-            switch (size)
-            {
-                case TileSize.Small:
-                    return TileTemplateNameV3.TileSmall;
+            case TileSize.Small:
+                return TileTemplateNameV3.TileSmall;
 
-                case TileSize.Medium:
-                    return TileTemplateNameV3.TileMedium;
+            case TileSize.Medium:
+                return TileTemplateNameV3.TileMedium;
 
-                case TileSize.Wide:
-                    return TileTemplateNameV3.TileWide;
+            case TileSize.Wide:
+                return TileTemplateNameV3.TileWide;
 
-                case TileSize.Large:
-                    return TileTemplateNameV3.TileLarge;
+            case TileSize.Large:
+                return TileTemplateNameV3.TileLarge;
 
-                default:
-                    throw new NotImplementedException();
-            }
+            default:
+                throw new NotImplementedException();
         }
     }
 }
