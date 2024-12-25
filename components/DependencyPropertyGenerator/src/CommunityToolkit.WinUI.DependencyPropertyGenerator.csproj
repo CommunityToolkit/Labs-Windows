@@ -43,9 +43,12 @@
   <!-- Pack the source generator and the .targets file -->
   <ItemGroup Label="Package">
 
-    <!-- Include the custom .targets file to check the source generator -->
-    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive" Pack="true" />
-    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build" Pack="true" />
+    <!--
+      Include the custom .targets file to check the source generator. We need to ensure its name always matches the package name,
+      which will be different for UWP and other targets, because that is required by NuGet to enable the auto-importing feature.
+    -->
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\$(PackageId).targets" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\$(PackageId).targets" Pack="true" />
 
     <!-- Pack the source generators to the right package folder -->
     <None Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
