@@ -15,12 +15,13 @@
       not a UWP library per se. So to support the 17763 SDK, we can just disable the UWP build tools.
     -->
     <UseUwpTools>false</UseUwpTools>
+    <EnableXamlCompilerMismatchedTfmUnoWorkaround>false</EnableXamlCompilerMismatchedTfmUnoWorkaround>
 
     <!--
-      We also include 'net9.0-windows10.0.19041.0' explicitly for UWP as a workaround for https://github.com/CommunityToolkit/Tooling-Windows-Submodule/issues/238.
-      We target 19041 and not 17763 to avoid an issue with NuGet resolving no assemblies due to the empty TFM lib folders for Uno platform (which should be removed).
+      We also include 'net9.0-windows10.0.17763.0' explicitly for UWP as a workaround for https://github.com/CommunityToolkit/Tooling-Windows-Submodule/issues/238.
+      We target 17763 and not 17763 to avoid an issue with NuGet resolving no assemblies due to the empty TFM lib folders for Uno platform (which should be removed).
     -->
-    <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0;</UwpTargetFrameworks>
+    <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.17763.0;net9.0-windows10.0.17763.0;</UwpTargetFrameworks>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
