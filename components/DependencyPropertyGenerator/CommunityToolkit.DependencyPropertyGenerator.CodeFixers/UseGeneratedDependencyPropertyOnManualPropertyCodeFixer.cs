@@ -298,6 +298,39 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
 
         syntaxEditor.ReplaceNode(propertyDeclaration, updatedPropertyDeclaration);
 
+        // Special handling for the leading trivia of members following the field declaration we are about to remove.
+        // There is an edge case that can happen when a type declaration is as follows:
+        //
+        // class ContainingType
+        // {
+        //     public static readonly DependencyProperty NameProperty = ...;
+        //
+        //     public void SomeOtherMember() { }
+        //
+        //     public string? Name { ... }
+        // }
+        //
+        // In this case, just removing the target field for the dependency property being rewritten (that is, 'NameProperty')
+        // will cause an extra blank line to be left after the edits, right above the member immediately following the field.
+        // To work around this, we look for such a member and check its trivia, and then manually remove a leading blank line.
+        if (fieldDeclaration.Parent is TypeDeclarationSyntax fieldParentTypeDeclaration)
+        {
+            int fieldDeclarationIndex = fieldParentTypeDeclaration.Members.IndexOf(fieldDeclaration);
+
+            // Check whether there is a member immediatley following the field
+            if (fieldDeclarationIndex >= 0 && fieldDeclarationIndex < fieldParentTypeDeclaration.Members.Count - 1)
+            {
+                MemberDeclarationSyntax nextMember = fieldParentTypeDeclaration.Members[fieldDeclarationIndex + 1];
+                SyntaxTriviaList leadingTrivia = nextMember.GetLeadingTrivia();
+
+                // Check whether this member has a first leading trivia that's just a blank line: we want to remove this one
+                if (leadingTrivia.Count > 0 && leadingTrivia[0].IsKind(SyntaxKind.EndOfLineTrivia))
+                {
+                    syntaxEditor.ReplaceNode(nextMember, (nextMember, _) => nextMember.WithLeadingTrivia(leadingTrivia.RemoveAt(0)));
+                }
+            }
+        }
+
         // Also remove the field declaration (it'll be generated now)
         syntaxEditor.RemoveNode(fieldDeclaration);
 
