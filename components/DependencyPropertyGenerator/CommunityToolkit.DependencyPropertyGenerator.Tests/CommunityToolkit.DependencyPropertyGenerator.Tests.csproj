@@ -40,4 +40,7 @@
       Link="EmbeddedResources\GeneratedDependencyPropertyAttribute.cs"
       LogicalName="GeneratedDependencyPropertyAttribute.g.cs" />
   </ItemGroup>
+
+  <!-- Import the .targets from the package, just as a sanity check to verify they're not invalid -->
+  <Import Project="..\src\CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" />
 </Project>

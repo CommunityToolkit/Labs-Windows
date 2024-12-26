@@ -50,8 +50,8 @@
   <!-- Check the Roslyn version and warn if it's not high enough (we don't need to remove the analyzers, as they're leveraging multi-targeting) -->
   <Target Name="CommunityToolkitGeneratedDependencyPropertyWarnForRoslynVersionNotHighEnough"
           Condition="'$(CSharpCoreTargetsPath)' != ''"
-          AfterTargets="ResolvePackageDependenciesForBuild;ResolveNuGetPackageAssets"
-          DependsOnTargets="CommunityToolkitGeneratedDependencyPropertyGatherAnalyzers">
+          DependsOnTargets="ResolveAssemblyReferences"
+          BeforeTargets="CoreCompile">
 
     <!--
       Use the CSharpCoreTargetsPath property to find the version of the compiler we are using. This is the same mechanism
