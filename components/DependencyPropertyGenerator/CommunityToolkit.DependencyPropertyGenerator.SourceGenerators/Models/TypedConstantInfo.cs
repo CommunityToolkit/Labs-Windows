@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Frozen;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using CommunityToolkit.GeneratedDependencyProperty.Helpers;
@@ -95,32 +98,145 @@ internal abstract partial record TypedConstantInfo
         public sealed record Of<T>(T Value) : TypedConstantInfo
             where T : unmanaged, IEquatable<T>
         {
+            /// <summary>
+            /// The cached map of constant fields for the type.
+            /// </summary>
+            private static readonly FrozenDictionary<T, string> ConstantFields = GetConstantFields();
+
             /// <inheritdoc/>
             public override string ToString()
             {
-                LiteralExpressionSyntax expressionSyntax = LiteralExpression(SyntaxKind.NumericLiteralExpression, Value switch
+                static ExpressionSyntax GetExpression(T value)
                 {
-                    byte b => Literal(b),
-                    char c => Literal(c),
+                    // Try to match named constants first
+                    if (TryGetConstantExpression(value, out ExpressionSyntax? expression))
+                    {
+                        return expression;
+                    }
 
-                    // For doubles, we need to manually format it and always add the trailing "D" suffix.
-                    // This ensures that the correct type is produced if the expression was assigned to
-                    // an object (eg. the literal was used in an attribute object parameter/property).
-                    double d => Literal(d.ToString("R", CultureInfo.InvariantCulture) + "D", d),
+                    // Special logic for doubles
+                    if (value is double d)
+                    {
+                        // Handle 'double.NaN' explicitly, as 'ToString()' won't work on it at all
+                        if (double.IsNaN(d))
+                        {
+                            return MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                PredefinedType(Token(SyntaxKind.DoubleKeyword)), IdentifierName("NaN"));
+                        }
 
-                    // For floats, Roslyn will automatically add the "F" suffix, so no extra work is needed
-                    float f => Literal(f),
-                    int i => Literal(i),
-                    long l => Literal(l),
-                    sbyte sb => Literal(sb),
-                    short sh => Literal(sh),
-                    uint ui => Literal(ui),
-                    ulong ul => Literal(ul),
-                    ushort ush => Literal(ush),
-                    _ => throw new ArgumentException("Invalid primitive type")
-                });
+                        // Handle 0, to avoid matching against positive/negative zeros
+                        if (d == 0)
+                        {
+                            return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal("0.0", 0.0));
+                        }
 
-                return expressionSyntax.NormalizeWhitespace(eol: "\n").ToFullString();
+                        string rawLiteral = d.ToString("R", CultureInfo.InvariantCulture);
+
+                        // For doubles, we need to manually format it and always add the trailing "D" suffix.
+                        // This ensures that the correct type is produced if the expression was assigned to
+                        // an object (eg. the literal was used in an attribute object parameter/property).
+                        string literal = rawLiteral.Contains(".") ? rawLiteral : $"{rawLiteral}D";
+
+                        return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(literal, d));
+                    }
+
+                    // Same special handling for floats as well
+                    if (value is float f)
+                    {
+                        // Handle 'float.NaN' as above
+                        if (float.IsNaN(f))
+                        {
+                            return MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                PredefinedType(Token(SyntaxKind.FloatKeyword)), IdentifierName("NaN"));
+                        }
+
+                        // Handle 0, same as above too
+                        if (f == 0)
+                        {
+                            return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal("0.0F", 0.0f));
+                        }
+
+                        // For floats, Roslyn will automatically add the "F" suffix, so no extra work is needed
+                        return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(f));
+                    }
+
+                    // Handle all other supported types as well
+                    return LiteralExpression(SyntaxKind.NumericLiteralExpression, value switch
+                    {
+                        byte b => Literal(b),
+                        char c => Literal(c),
+                        int i => Literal(i),
+                        long l => Literal(l),
+                        sbyte sb => Literal(sb),
+                        short sh => Literal(sh),
+                        uint ui => Literal(ui),
+                        ulong ul => Literal(ul),
+                        ushort ush => Literal(ush),
+                        _ => throw new ArgumentException("Invalid primitive type")
+                    });
+                }
+
+                return GetExpression(Value).NormalizeWhitespace(eol: "\n").ToFullString();
+            }
+
+            /// <summary>
+            /// Tries to get a constant expression for a given value.
+            /// </summary>
+            /// <param name="value">The value to try to get an expression for.</param>
+            /// <param name="expression">The resulting expression, if successfully retrieved.</param>
+            /// <returns>The expression for <paramref name="value"/>, if available.</returns>
+            /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not of a supported type.</exception>
+            private static bool TryGetConstantExpression(T value, [NotNullWhen(true)] out ExpressionSyntax? expression)
+            {
+                if (ConstantFields.TryGetValue(value, out string? name))
+                {
+                    SyntaxKind syntaxKind = value switch
+                    {
+                        byte => SyntaxKind.ByteKeyword,
+                        char => SyntaxKind.CharKeyword,
+                        double => SyntaxKind.DoubleKeyword,
+                        float => SyntaxKind.FloatKeyword,
+                        int => SyntaxKind.IntKeyword,
+                        long => SyntaxKind.LongKeyword,
+                        sbyte => SyntaxKind.SByteKeyword,
+                        short => SyntaxKind.ShortKeyword,
+                        uint => SyntaxKind.UIntKeyword,
+                        ulong => SyntaxKind.ULongKeyword,
+                        ushort => SyntaxKind.UShortKeyword,
+                        _ => throw new ArgumentException("Invalid primitive type")
+                    };
+
+                    expression = MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression,
+                        PredefinedType(Token(syntaxKind)), IdentifierName(name));
+
+                    return true;
+                }
+
+                expression = null;
+
+                return false;
+            }
+
+            /// <summary>
+            /// Gets a mapping of all well known constant fields for the current type.
+            /// </summary>
+            /// <returns>The mapping of all well known constant fields for the current type.</returns>
+            private static FrozenDictionary<T, string> GetConstantFields()
+            {
+                return typeof(T)
+                    .GetFields()
+                    .Where(static info => info.IsLiteral)
+                    .Where(static info => info.FieldType == typeof(T))
+                    .Select(static info => (Value: (T)info.GetRawConstantValue(), info.Name))
+                    .Where(static info => !EqualityComparer<T>.Default.Equals(info.Value, default))
+                    .ToFrozenDictionary(
+                        keySelector: static info => info.Value,
+                        elementSelector: static info => info.Name);
+
+
             }
         }
     }
