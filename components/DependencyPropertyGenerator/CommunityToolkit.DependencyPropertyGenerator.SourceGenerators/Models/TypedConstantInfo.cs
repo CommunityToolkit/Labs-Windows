@@ -136,7 +136,7 @@ internal abstract partial record TypedConstantInfo
                         // For doubles, we need to manually format it and always add the trailing "D" suffix.
                         // This ensures that the correct type is produced if the expression was assigned to
                         // an object (eg. the literal was used in an attribute object parameter/property).
-                        string literal = rawLiteral.Contains(".") ? rawLiteral : $"{rawLiteral}D";
+                        string literal = rawLiteral.Contains(".") ? rawLiteral : $"{rawLiteral}.0";
 
                         return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(literal, d));
                     }
@@ -158,8 +158,13 @@ internal abstract partial record TypedConstantInfo
                             return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal("0.0F", 0.0f));
                         }
 
-                        // For floats, Roslyn will automatically add the "F" suffix, so no extra work is needed
-                        return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(f));
+                        string rawLiteral = f.ToString("R", CultureInfo.InvariantCulture);
+
+                        // For floats, Roslyn will automatically add the "F" suffix, so no extra work is needed.
+                        // However, we still format it manually to ensure we consistently add ".0" as suffix.
+                        string literal = rawLiteral.Contains(".") ? $"{rawLiteral}F" : $"{rawLiteral}.0F";
+
+                        return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(literal, f));
                     }
 
                     // Handle all other supported types as well

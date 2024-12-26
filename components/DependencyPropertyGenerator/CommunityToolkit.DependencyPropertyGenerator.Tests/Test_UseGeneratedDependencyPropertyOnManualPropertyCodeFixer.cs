@@ -324,7 +324,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     [TestMethod]
     public async Task SimpleProperty_WithExplicitValue_NotDefault_AddsNamespace()
     {
-        string original = $$"""
+        const string original = """
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -348,7 +348,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             }
             """;
 
-        string @fixed = $$"""
+        const string @fixed = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Automation;
@@ -377,7 +377,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     [TestMethod]
     public async Task MultipleProperties_HandlesSpacingCorrectly()
     {
-        string original = $$"""
+        const string original = """
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -413,7 +413,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             }
             """;
 
-        string @fixed = $$"""
+        const string @fixed = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
@@ -444,7 +444,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     [TestMethod]
     public async Task MultipleProperties_WithInterspersedMembers_HandlesSpacingCorrectly()
     {
-        string original = $$"""
+        const string original = """
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
 
@@ -484,7 +484,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             """;
 
         // There is an extra leading blank line here for now, likely a 'SyntaxEditor' bug
-        string @fixed = $$"""
+        const string @fixed = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
@@ -504,6 +504,135 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
                 [GeneratedDependencyProperty]
                 public partial string? {|CS9248:Name2|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    [DataRow("float", "0.0F", "1.0F", "0.123F")]
+    [DataRow("double", "0.0", "4.0", "0.123")]
+    public async Task MultipleProperties_HandlesWellKnownLiterals(string propertyType, string zeroExpression, string literalExpression, string decimalLiteralExpression)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty P1Property = DependencyProperty.Register(
+                    name: "P1",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{zeroExpression}}));
+
+                public static readonly DependencyProperty P2Property = DependencyProperty.Register(
+                    name: "P2",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{propertyType}}.MinValue));
+
+                public static readonly DependencyProperty P3Property = DependencyProperty.Register(
+                    name: "P3",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{propertyType}}.NaN));
+
+                public static readonly DependencyProperty P4Property = DependencyProperty.Register(
+                    name: "P4",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{propertyType}}.Pi));
+
+                public static readonly DependencyProperty P5Property = DependencyProperty.Register(
+                    name: "P5",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{literalExpression}}));
+
+                public static readonly DependencyProperty P6Property = DependencyProperty.Register(
+                    name: "P6",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata({{decimalLiteralExpression}}));
+
+                public {{propertyType}} [|P1|]
+                {
+                    get => ({{propertyType}})GetValue(P1Property);
+                    set => SetValue(P1Property, value);
+                }
+
+                public {{propertyType}} [|P2|]
+                {
+                    get => ({{propertyType}})GetValue(P2Property);
+                    set => SetValue(P2Property, value);
+                }
+
+                public {{propertyType}} [|P3|]
+                {
+                    get => ({{propertyType}})GetValue(P3Property);
+                    set => SetValue(P3Property, value);
+                }
+
+                public {{propertyType}} [|P4|]
+                {
+                    get => ({{propertyType}})GetValue(P4Property);
+                    set => SetValue(P4Property, value);
+                }
+
+                public {{propertyType}} [|P5|]
+                {
+                    get => ({{propertyType}})GetValue(P5Property);
+                    set => SetValue(P5Property, value);
+                }
+
+                public {{propertyType}} [|P6|]
+                {
+                    get => ({{propertyType}})GetValue(P6Property);
+                    set => SetValue(P6Property, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public partial {{propertyType}} {|CS9248:P1|} { get; set; }
+
+                [GeneratedDependencyProperty(DefaultValue = {{propertyType}}.MinValue)]
+                public partial {{propertyType}} {|CS9248:P2|} { get; set; }
+
+                [GeneratedDependencyProperty(DefaultValue = {{propertyType}}.NaN)]
+                public partial {{propertyType}} {|CS9248:P3|} { get; set; }
+
+                [GeneratedDependencyProperty(DefaultValue = {{propertyType}}.Pi)]
+                public partial {{propertyType}} {|CS9248:P4|} { get; set; }
+
+                [GeneratedDependencyProperty(DefaultValue = {{literalExpression}})]
+                public partial {{propertyType}} {|CS9248:P5|} { get; set; }
+
+                [GeneratedDependencyProperty(DefaultValue = {{decimalLiteralExpression}})]
+                public partial {{propertyType}} {|CS9248:P6|} { get; set; }
             }
             """;
 
