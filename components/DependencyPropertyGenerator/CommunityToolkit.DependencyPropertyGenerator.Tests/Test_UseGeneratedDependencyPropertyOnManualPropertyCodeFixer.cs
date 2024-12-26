@@ -483,7 +483,6 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             }
             """;
 
-        // There is an extra leading blank line here for now, likely a 'SyntaxEditor' bug
         const string @fixed = """
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
@@ -495,7 +494,6 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
             public partial class MyControl : Control
             {
-
                 /// <summary>This is another member</summary>
                 public int Blah => 42;
 
