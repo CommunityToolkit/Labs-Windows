@@ -241,62 +241,69 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         SyntaxEditor syntaxEditor,
         string? defaultValueExpression)
     {
-        // Update the attribute to insert with the default value, if present
-        generatedDependencyPropertyAttributeList = UpdateGeneratedDependencyPropertyAttributeList(
-            document,
-            semanticModel,
-            generatedDependencyPropertyAttributeList,
-            defaultValueExpression);
-
-        // Start setting up the updated attribute lists
-        SyntaxList<AttributeListSyntax> attributeLists = propertyDeclaration.AttributeLists;
-
-        if (attributeLists is [AttributeListSyntax firstAttributeListSyntax, ..])
+        // Replace the property with the partial property using the attribute. Note that it's important to use the
+        // lambda 'ReplaceNode' overload here, rather than creating a modifier property declaration syntax node and
+        // replacing the original one. Doing that would cause the following 'ReplaceNode' call to adjust the leading
+        // trivia of trailing members after the fields being removed to not work incorrectly, and fail to be resolved.
+        syntaxEditor.ReplaceNode(propertyDeclaration, (node, _) =>
         {
-            // Remove the trivia from the original first attribute
-            attributeLists = attributeLists.Replace(
-                nodeInList: firstAttributeListSyntax,
-                newNode: firstAttributeListSyntax.WithoutTrivia());
+            PropertyDeclarationSyntax propertyDeclaration = (PropertyDeclarationSyntax)node;
 
-            // If the property has at least an attribute list, move the trivia from it to the new attribute
-            generatedDependencyPropertyAttributeList = generatedDependencyPropertyAttributeList.WithTriviaFrom(firstAttributeListSyntax);
+            // Update the attribute to insert with the default value, if present
+            generatedDependencyPropertyAttributeList = UpdateGeneratedDependencyPropertyAttributeList(
+                document,
+                semanticModel,
+                generatedDependencyPropertyAttributeList,
+                defaultValueExpression);
 
-            // Insert the new attribute
-            attributeLists = attributeLists.Insert(0, generatedDependencyPropertyAttributeList);
-        }
-        else
-        {
-            // Otherwise (there are no attribute lists), transfer the trivia to the new (only) attribute list
-            generatedDependencyPropertyAttributeList = generatedDependencyPropertyAttributeList.WithTriviaFrom(propertyDeclaration);
+            // Start setting up the updated attribute lists
+            SyntaxList<AttributeListSyntax> attributeLists = propertyDeclaration.AttributeLists;
 
-            // Save the new attribute list
-            attributeLists = attributeLists.Add(generatedDependencyPropertyAttributeList);
-        }
+            if (attributeLists is [AttributeListSyntax firstAttributeListSyntax, ..])
+            {
+                // Remove the trivia from the original first attribute
+                attributeLists = attributeLists.Replace(
+                    nodeInList: firstAttributeListSyntax,
+                    newNode: firstAttributeListSyntax.WithoutTrivia());
 
-        // Get a new property that is partial and with semicolon token accessors
-        PropertyDeclarationSyntax updatedPropertyDeclaration =
-            propertyDeclaration
-            .AddModifiers(Token(SyntaxKind.PartialKeyword))
-            .WithoutLeadingTrivia()
-            .WithAttributeLists(attributeLists)
-            .WithAdditionalAnnotations(Formatter.Annotation)
-            .WithAccessorList(AccessorList(List(
-            [
-                // Keep the accessors (so we can easily keep all trivia, modifiers, attributes, etc.) but make them semicolon only
-                propertyDeclaration.AccessorList!.Accessors[0]
-                .WithBody(null)
-                .WithExpressionBody(null)
-                .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
-                .WithAdditionalAnnotations(Formatter.Annotation),
-                propertyDeclaration.AccessorList!.Accessors[1]
-                .WithBody(null)
-                .WithExpressionBody(null)
-                .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
-                .WithTrailingTrivia(propertyDeclaration.AccessorList.Accessors[1].GetTrailingTrivia())
+                // If the property has at least an attribute list, move the trivia from it to the new attribute
+                generatedDependencyPropertyAttributeList = generatedDependencyPropertyAttributeList.WithTriviaFrom(firstAttributeListSyntax);
+
+                // Insert the new attribute
+                attributeLists = attributeLists.Insert(0, generatedDependencyPropertyAttributeList);
+            }
+            else
+            {
+                // Otherwise (there are no attribute lists), transfer the trivia to the new (only) attribute list
+                generatedDependencyPropertyAttributeList = generatedDependencyPropertyAttributeList.WithTriviaFrom(propertyDeclaration);
+
+                // Save the new attribute list
+                attributeLists = attributeLists.Add(generatedDependencyPropertyAttributeList);
+            }
+
+            // Get a new property that is partial and with semicolon token accessors
+            return
+                propertyDeclaration
+                .AddModifiers(Token(SyntaxKind.PartialKeyword))
+                .WithoutLeadingTrivia()
+                .WithAttributeLists(attributeLists)
                 .WithAdditionalAnnotations(Formatter.Annotation)
-            ])).WithTrailingTrivia(propertyDeclaration.AccessorList.GetTrailingTrivia()));
-
-        syntaxEditor.ReplaceNode(propertyDeclaration, updatedPropertyDeclaration);
+                .WithAccessorList(AccessorList(List(
+                [
+                    // Keep the accessors (so we can easily keep all trivia, modifiers, attributes, etc.) but make them semicolon only
+                    propertyDeclaration.AccessorList!.Accessors[0]
+                    .WithBody(null)
+                    .WithExpressionBody(null)
+                    .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
+                    .WithAdditionalAnnotations(Formatter.Annotation),
+                    propertyDeclaration.AccessorList!.Accessors[1]
+                    .WithBody(null)
+                    .WithExpressionBody(null)
+                    .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
+                    .WithTrailingTrivia(propertyDeclaration.AccessorList.Accessors[1].GetTrailingTrivia())
+                    .WithAdditionalAnnotations(Formatter.Annotation)
+                ])).WithTrailingTrivia(propertyDeclaration.AccessorList.GetTrailingTrivia()));
+        });
 
         // Special handling for the leading trivia of members following the field declaration we are about to remove.
         // There is an edge case that can happen when a type declaration is as follows:
