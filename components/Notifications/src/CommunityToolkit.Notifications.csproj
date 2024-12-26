@@ -17,10 +17,10 @@
     <HasWinUI>false</HasWinUI>
 
     <!--
-      We also include 'net9.0-windows10.0.18362.0' explicitly for UWP as a workaround for https://github.com/CommunityToolkit/Tooling-Windows-Submodule/issues/238.
-      We target 18362 and not 17763 to avoid an issue with NuGet resolving no assemblies due to the empty TFM lib folders for Uno platform (which should be removed).
+      We also include 'net9.0-windows10.0.19041.0' explicitly for UWP as a workaround for https://github.com/CommunityToolkit/Tooling-Windows-Submodule/issues/238.
+      We target 19041 and not 17763 to avoid an issue with NuGet resolving no assemblies due to the empty TFM lib folders for Uno platform (which should be removed).
     -->
-    <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.18362.0;net9.0-windows10.0.18362.0;</UwpTargetFrameworks>
+    <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0;</UwpTargetFrameworks>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
