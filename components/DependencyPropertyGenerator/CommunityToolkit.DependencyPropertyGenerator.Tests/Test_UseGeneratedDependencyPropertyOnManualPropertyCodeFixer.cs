@@ -373,4 +373,146 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
         await test.RunAsync();
     }
+
+    [TestMethod]
+    public async Task MultipleProperties_HandlesSpacingCorrectly()
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty Name1Property = DependencyProperty.Register(
+                    name: "Name1",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public static readonly DependencyProperty Name2Property = DependencyProperty.Register(
+                    name: "Name2",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public string? [|Name1|]
+                {
+                    get => (string?)GetValue(Name1Property);
+                    set => SetValue(Name1Property, value);
+                }
+
+                public string? [|Name2|]
+                {
+                    get => (string?)GetValue(Name2Property);
+                    set => SetValue(Name2Property, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name1|} { get; set; }
+
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name2|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    public async Task MultipleProperties_WithInterspersedMembers_HandlesSpacingCorrectly()
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty Name1Property = DependencyProperty.Register(
+                    name: "Name1",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public static readonly DependencyProperty Name2Property = DependencyProperty.Register(
+                    name: "Name2",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                /// <summary>This is another member</summary>
+                public int Blah => 42;
+
+                public string? [|Name1|]
+                {
+                    get => (string?)GetValue(Name1Property);
+                    set => SetValue(Name1Property, value);
+                }
+
+                public string? [|Name2|]
+                {
+                    get => (string?)GetValue(Name2Property);
+                    set => SetValue(Name2Property, value);
+                }
+            }
+            """;
+
+        // There is an extra leading blank line here for now, likely a 'SyntaxEditor' bug
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+
+                /// <summary>This is another member</summary>
+                public int Blah => 42;
+
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name1|} { get; set; }
+
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name2|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
 }
