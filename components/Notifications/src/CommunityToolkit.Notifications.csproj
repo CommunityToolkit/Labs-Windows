@@ -17,10 +17,7 @@
     <HasWinUI>false</HasWinUI>
     <EnableXamlCompilerMismatchedTfmUnoWorkaround>false</EnableXamlCompilerMismatchedTfmUnoWorkaround>
 
-    <!--
-      We also include 'net9.0-windows10.0.17763.0' explicitly for UWP as a workaround for https://github.com/CommunityToolkit/Tooling-Windows-Submodule/issues/238.
-      We target 17763 and not 17763 to avoid an issue with NuGet resolving no assemblies due to the empty TFM lib folders for Uno platform (which should be removed).
-    -->
+    <!-- This library doesn't need XAML support, so we can just target 17763 -->
     <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.17763.0;net9.0-windows10.0.17763.0;</UwpTargetFrameworks>
   </PropertyGroup>
 
