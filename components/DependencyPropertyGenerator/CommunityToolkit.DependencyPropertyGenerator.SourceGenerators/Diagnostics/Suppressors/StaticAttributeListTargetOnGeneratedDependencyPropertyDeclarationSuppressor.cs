@@ -46,7 +46,7 @@ public sealed class StaticAttributeListTargetOnGeneratedDependencyPropertyDeclar
             SyntaxNode? syntaxNode = diagnostic.Location.SourceTree?.GetRoot(context.CancellationToken).FindNode(diagnostic.Location.SourceSpan);
 
             // Check that the target is effectively [static:] over a property declaration, which is the only case we are interested in
-            if (syntaxNode is AttributeTargetSpecifierSyntax { Parent: PropertyDeclarationSyntax propertyDeclaration, Identifier: SyntaxToken(SyntaxKind.StaticKeyword) })
+            if (syntaxNode is AttributeTargetSpecifierSyntax { Parent.Parent: PropertyDeclarationSyntax propertyDeclaration, Identifier: SyntaxToken(SyntaxKind.StaticKeyword) })
             {
                 SemanticModel semanticModel = context.GetSemanticModel(syntaxNode.SyntaxTree);
 
