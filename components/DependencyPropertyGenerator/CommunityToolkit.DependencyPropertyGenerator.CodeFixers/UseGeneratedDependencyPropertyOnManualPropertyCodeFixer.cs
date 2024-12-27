@@ -346,31 +346,55 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             // In this case, just removing the target field for the dependency property being rewritten (that is, 'NameProperty')
             // will cause an extra blank line to be left after the edits, right above the member immediately following the field.
             // To work around this, we look for such a member and check its trivia, and then manually remove a leading blank line.
-            if (fieldDeclaration.Parent is TypeDeclarationSyntax fieldParentTypeDeclaration)
+            if (fieldDeclaration.Parent is not TypeDeclarationSyntax fieldParentTypeDeclaration)
             {
-                int fieldDeclarationIndex = fieldParentTypeDeclaration.Members.IndexOf(fieldDeclaration);
-
-                // Check whether there is a member immediatley following the field
-                if (fieldDeclarationIndex >= 0 && fieldDeclarationIndex < fieldParentTypeDeclaration.Members.Count - 1)
-                {
-                    MemberDeclarationSyntax nextMember = fieldParentTypeDeclaration.Members[fieldDeclarationIndex + 1];
-
-                    // It's especially important to skip members that have been rmeoved. This would otherwise fail when computing
-                    // the final document. We only care about fixing trivia for members that will still be present after all edits.
-                    if (fieldDeclarations.Contains(nextMember))
-                    {
-                        continue;
-                    }
-
-                    SyntaxTriviaList leadingTrivia = nextMember.GetLeadingTrivia();
-
-                    // Check whether this member has a first leading trivia that's just a blank line: we want to remove this one
-                    if (leadingTrivia.Count > 0 && leadingTrivia[0].IsKind(SyntaxKind.EndOfLineTrivia))
-                    {
-                        syntaxEditor.ReplaceNode(nextMember, (nextMember, _) => nextMember.WithLeadingTrivia(leadingTrivia.RemoveAt(0)));
-                    }
-                }
+                continue;
             }
+
+            int fieldDeclarationIndex = fieldParentTypeDeclaration.Members.IndexOf(fieldDeclaration);
+
+            // Check whether there is a member immediatley following the field
+            if (fieldDeclarationIndex == -1 || fieldDeclarationIndex >= fieldParentTypeDeclaration.Members.Count - 1)
+            {
+                continue;
+            }
+
+            MemberDeclarationSyntax nextMember = fieldParentTypeDeclaration.Members[fieldDeclarationIndex + 1];
+
+            // It's especially important to skip members that have been rmeoved. This would otherwise fail when computing
+            // the final document. We only care about fixing trivia for members that will still be present after all edits.
+            if (fieldDeclarations.Contains(nextMember))
+            {
+                continue;
+            }
+
+            SyntaxTriviaList leadingTrivia = nextMember.GetLeadingTrivia();
+
+            // Check whether this member has a first leading trivia that's just a blank line: we want to remove this one
+            if (leadingTrivia.Count == 0 || !leadingTrivia[0].IsKind(SyntaxKind.EndOfLineTrivia))
+            {
+                continue;
+            }
+
+            bool hasAnyPersistentPrecedingMemberDeclarations = false;
+
+            // Last check: we only want to actually remove the end of line if there are no other members before the current
+            // one, that have persistend in the containing type after all edits. If that is not the case, that is, if there
+            // are other members before the current one, we want to keep that end of line. Otherwise, we'd end up with the
+            // current member being incorrectly declared right after the previous one, without a separating blank line.
+            for (int i = 0; i < fieldDeclarationIndex + 1; i++)
+            {
+                hasAnyPersistentPrecedingMemberDeclarations |= !fieldDeclarations.Contains(fieldParentTypeDeclaration.Members[i]);
+            }
+
+            // If there's any other persistent members, stop here
+            if (hasAnyPersistentPrecedingMemberDeclarations)
+            {
+                continue;
+            }
+
+            // Finally, we can actually remove this end of line trivia, as we're sure it's not actually intended
+            syntaxEditor.ReplaceNode(nextMember, (nextMember, _) => nextMember.WithLeadingTrivia(leadingTrivia.RemoveAt(0)));
         }
     }
 

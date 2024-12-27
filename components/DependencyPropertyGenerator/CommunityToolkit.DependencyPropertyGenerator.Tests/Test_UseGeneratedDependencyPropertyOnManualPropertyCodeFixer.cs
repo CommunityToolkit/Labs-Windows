@@ -598,6 +598,165 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     }
 
     [TestMethod]
+    public async Task MultipleProperties_WithLeadingPersistentMembers_HandlesSpacingCorrectly()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty Name1Property = DependencyProperty.Register(
+                    name: "Name1",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public static readonly DependencyProperty Name2Property = DependencyProperty.Register(
+                    name: "Name2",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public string? Name1
+                {
+                    get => (string?)GetValue(Name1Property) ?? string.Empty;
+                    set => SetValue(Name1Property, value);
+                }
+
+                public string? [|Name2|]
+                {
+                    get => (string?)GetValue(Name2Property);
+                    set => SetValue(Name2Property, value);
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty Name1Property = DependencyProperty.Register(
+                    name: "Name1",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public string? Name1
+                {
+                    get => (string?)GetValue(Name1Property) ?? string.Empty;
+                    set => SetValue(Name1Property, value);
+                }
+
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name2|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    public async Task MultipleProperties_WithLeadingPersistentMembers_WithXmlDocs_HandlesSpacingCorrectly()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                /// <summary>Blah</summary>
+                public static readonly DependencyProperty Name1Property = DependencyProperty.Register(
+                    name: "Name1",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                /// <summary>Blah</summary>
+                public static readonly DependencyProperty Name2Property = DependencyProperty.Register(
+                    name: "Name2",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                /// <summary>Blah</summary>
+                public string? Name1
+                {
+                    get => (string?)GetValue(Name1Property) ?? string.Empty;
+                    set => SetValue(Name1Property, value);
+                }
+
+                /// <summary>Blah</summary>
+                public string? [|Name2|]
+                {
+                    get => (string?)GetValue(Name2Property);
+                    set => SetValue(Name2Property, value);
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                /// <summary>Blah</summary>
+                public static readonly DependencyProperty Name1Property = DependencyProperty.Register(
+                    name: "Name1",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                /// <summary>Blah</summary>
+                public string? Name1
+                {
+                    get => (string?)GetValue(Name1Property) ?? string.Empty;
+                    set => SetValue(Name1Property, value);
+                }
+
+                /// <summary>Blah</summary>
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name2|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
     [DataRow("float", "0.0F", "1.0F", "0.123F")]
     [DataRow("double", "0.0", "4.0", "0.123")]
     public async Task MultipleProperties_HandlesWellKnownLiterals(string propertyType, string zeroExpression, string literalExpression, string decimalLiteralExpression)
