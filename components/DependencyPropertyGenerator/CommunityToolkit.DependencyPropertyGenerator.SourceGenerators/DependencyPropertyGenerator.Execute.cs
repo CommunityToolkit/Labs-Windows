@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -394,6 +395,73 @@ partial class DependencyPropertyGenerator
         }
 
         /// <summary>
+        /// Gathers all forwarded attributes for the generated property.
+        /// </summary>
+        ///<param name="node">The input <see cref="PropertyDeclarationSyntax"/> node.</param>
+        /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current run.</param>
+        /// <param name="forwardedAttributes">The collection of forwarded attributes to add new ones to.</param>
+        /// <param name="diagnostics">The current collection of gathered diagnostics.</param>
+        /// <param name="token">The cancellation token for the current operation.</param>
+        public static void GetForwardedAttributes(
+            PropertyDeclarationSyntax node,
+            SemanticModel semanticModel,
+            CancellationToken token,
+            out ImmutableArray<AttributeInfo> staticFieldAttributes)
+        {
+            using ImmutableArrayBuilder<AttributeInfo> builder = new();
+
+            // Gather explicit forwarded attributes info
+            foreach (AttributeListSyntax attributeList in node.AttributeLists)
+            {
+                // Only look for the 'static' attribute target, which can be used to target the generated 'DependencyProperty' static field.
+                // Roslyn will normally emit a 'CS0657' warning (invalid target), but that is automatically suppressed by a dedicated diagnostic
+                // suppressor that recognizes uses of this target specifically to support '[GeneratedDependencyProperty]'. We can't use 'field'
+                // as trigger, as that's used for the actual 'field' keyword, when local caching is enabled.
+                if (attributeList.Target?.Identifier is not SyntaxToken(SyntaxKind.StaticKeyword))
+                {
+                    continue;
+                }
+
+                token.ThrowIfCancellationRequested();
+
+                foreach (AttributeSyntax attribute in attributeList.Attributes)
+                {
+                    // Roslyn ignores attributes in an attribute list with an invalid target, so we can't get the 'AttributeData' as usual.
+                    // To reconstruct all necessary attribute info to generate the serialized model, we use the following steps:
+                    //   - We try to get the attribute symbol from the semantic model, for the current attribute syntax. In case this is not
+                    //     available (in theory it shouldn't, but it can be), we try to get it from the candidate symbols list for the node.
+                    //     If there are no candidates or more than one, we just issue a diagnostic and stop processing the current attribute.
+                    //     The returned symbols might be method symbols (constructor attribute) so in that case we can get the declaring type.
+                    //   - We then go over each attribute argument expression and get the operation for it. This will still be available even
+                    //     though the rest of the attribute is not validated nor bound at all. From the operation we can still retrieve all
+                    //     constant values to build the 'AttributeInfo' model. After all, attributes only support constant values, 'typeof(T)'
+                    //     expressions, or arrays of either these two types, or of other arrays with the same rules, recursively.
+                    //   - From the syntax, we can also determine the identifier names for named attribute arguments, if any.
+                    //
+                    // There is no need to validate anything here: the attribute will be forwarded as is, and then Roslyn will validate on the
+                    // generated property. Users will get the same validation they'd have had directly over the field. The only drawback is the
+                    // lack of IntelliSense when constructing attributes over the field, but this is the best we can do from this end anyway.
+                    if (!semanticModel.GetSymbolInfo(attribute, token).TryGetAttributeTypeSymbol(out INamedTypeSymbol? attributeTypeSymbol))
+                    {
+                        continue;
+                    }
+
+                    IEnumerable<AttributeArgumentSyntax> attributeArguments = attribute.ArgumentList?.Arguments ?? [];
+
+                    // Try to extract the forwarded attribute
+                    if (!AttributeInfo.TryCreate(attributeTypeSymbol, semanticModel, attributeArguments, token, out AttributeInfo? attributeInfo))
+                    {
+                        continue;
+                    }
+
+                    builder.Add(attributeInfo);
+                }
+            }
+
+            staticFieldAttributes = builder.ToImmutable();
+        }
+
+        /// <summary>
         /// Writes all implementations of partial dependency property declarations.
         /// </summary>
         /// <param name="propertyInfos">The input set of declared dependency properties.</param>
@@ -514,6 +582,13 @@ partial class DependencyPropertyGenerator
                     /// </summary>
                     """, isMultiline: true);
                 writer.WriteGeneratedAttributes(GeneratorName, includeNonUserCodeAttributes: false);
+
+                // Write any forwarded attributes
+                foreach (AttributeInfo attributeInfo in propertyInfo.StaticFieldAttributes)
+                {
+                    writer.WriteLine(attributeInfo.ToString());
+                }
+
                 writer.Write($$"""
                     public static readonly global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}} {{propertyInfo.PropertyName}}Property = global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}}.Register(
                         name: "{{propertyInfo.PropertyName}}",

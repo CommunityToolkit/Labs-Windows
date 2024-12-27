@@ -25,6 +25,7 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Models;
 /// <param name="IsSharedPropertyChangedCallbackImplemented">Indicates whether the WinRT-based shared property changed callback is implemented.</param>
 /// <param name="IsNet8OrGreater">Indicates whether the current target is .NET 8 or greater.</param>
 /// <param name="UseWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
+/// <param name="StaticFieldAttributes">The attributes to emit on the generated static field, if any.</param>
 internal sealed record DependencyPropertyInfo(
     HierarchyInfo Hierarchy,
     string PropertyName,
@@ -40,4 +41,5 @@ internal sealed record DependencyPropertyInfo(
     bool IsPropertyChangedCallbackImplemented,
     bool IsSharedPropertyChangedCallbackImplemented,
     bool IsNet8OrGreater,
-    bool UseWindowsUIXaml);
+    bool UseWindowsUIXaml,
+    EquatableArray<AttributeInfo> StaticFieldAttributes);

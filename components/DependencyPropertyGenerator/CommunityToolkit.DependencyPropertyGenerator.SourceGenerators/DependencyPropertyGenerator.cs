@@ -121,6 +121,15 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
 
                     token.ThrowIfCancellationRequested();
 
+                    // Get any forwarded attributes
+                    Execute.GetForwardedAttributes(
+                        (PropertyDeclarationSyntax)context.TargetNode,
+                        context.SemanticModel,
+                        token,
+                        out ImmutableArray<AttributeInfo> staticFieldAttributes);
+
+                    token.ThrowIfCancellationRequested();
+
                     // Finally, get the hierarchy too
                     HierarchyInfo hierarchyInfo = HierarchyInfo.From(propertySymbol.ContainingType);
 
@@ -141,7 +150,8 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         IsPropertyChangedCallbackImplemented: isPropertyChangedCallbackImplemented,
                         IsSharedPropertyChangedCallbackImplemented: isSharedPropertyChangedCallbackImplemented,
                         IsNet8OrGreater: isNet8OrGreater,
-                        UseWindowsUIXaml: useWindowsUIXaml);
+                        UseWindowsUIXaml: useWindowsUIXaml,
+                        StaticFieldAttributes: staticFieldAttributes);
                 })
             .WithTrackingName(WellKnownTrackingNames.Execute)
             .Where(static item => item is not null)!;
