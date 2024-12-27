@@ -4158,6 +4158,7 @@ public partial class Test_DependencyPropertyGenerator
         string attributeForwarding)
     {
         string source = $$"""
+            using System;
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
 

@@ -1418,6 +1418,40 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_WithInvalidAttribute_DoesNotWarn()
+    {
+        const string source = $$"""
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [property: Test]
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public string? Name
+                {
+                    get => (string?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public class TestAttribute : Attribute;
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     [DataRow("string", "string")]
     [DataRow("string", "string?")]
     [DataRow("object", "object")]
@@ -1469,6 +1503,42 @@ public class Test_Analyzers
             public struct MyStruct { public string X { get; set; } }
             public enum MyEnum { A, B, C }
             public class MyClass { }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("[Test]")]
+    [DataRow("[field: Test]")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_WithAttributeOnField_Warns(string attributeDeclaration)
+    {
+        string source = $$"""
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                {{attributeDeclaration}}
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public string? {|WCTDP0017:Name|}
+                {
+                    get => (string?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public class TestAttribute : Attribute;
             """;
 
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);

@@ -11,6 +11,7 @@ using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using CommunityToolkit.GeneratedDependencyProperty.Helpers;
 using CommunityToolkit.GeneratedDependencyProperty.Models;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
@@ -479,14 +480,20 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     }
 
                     // Find the parent field for the operation (we're guaranteed to only fine one)
-                    if (context.Operation.Syntax.FirstAncestor<FieldDeclarationSyntax>()?.GetLocation() is not Location fieldLocation)
+                    if (context.Operation.Syntax.FirstAncestor<FieldDeclarationSyntax>() is not { } fieldDeclaration)
+                    {
+                        return;
+                    }
+
+                    // Ensure that the field only has attributes we can forward, or not attributes at all
+                    if (fieldDeclaration.AttributeLists.Any(static list => list.Target is { Identifier: not SyntaxToken(SyntaxKind.FieldKeyword) }))
                     {
                         return;
                     }
 
                     fieldFlags.PropertyName = propertyName;
                     fieldFlags.PropertyType = propertyTypeSymbol;
-                    fieldFlags.FieldLocation = fieldLocation;
+                    fieldFlags.FieldLocation = fieldDeclaration.GetLocation();
                 }, OperationKind.FieldInitializer);
 
                 // Finally, we can consume this information when we finish processing the symbol
