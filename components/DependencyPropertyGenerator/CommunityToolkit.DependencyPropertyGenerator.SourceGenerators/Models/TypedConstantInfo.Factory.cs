@@ -149,7 +149,7 @@ partial record TypedConstantInfo
             return true;
         }
 
-        if (operation is IArrayCreationOperation)
+        if (operation is (IArrayCreationOperation or ICollectionExpressionOperation) and { Type: null or IArrayTypeSymbol })
         {
             string? elementTypeName = ((IArrayTypeSymbol?)operation.Type)?.ElementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 

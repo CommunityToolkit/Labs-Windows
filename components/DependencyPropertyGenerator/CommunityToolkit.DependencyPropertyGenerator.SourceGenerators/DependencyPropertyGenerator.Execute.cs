@@ -586,7 +586,7 @@ partial class DependencyPropertyGenerator
                 // Write any forwarded attributes
                 foreach (AttributeInfo attributeInfo in propertyInfo.StaticFieldAttributes)
                 {
-                    writer.WriteLine(attributeInfo.ToString());
+                    writer.WriteLine($"[{attributeInfo}]");
                 }
 
                 writer.Write($$"""
