@@ -442,6 +442,89 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     }
 
     [TestMethod]
+    public async Task MultipleProperties_WithXmlDocs_HandlesSpacingCorrectly()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public abstract partial class MyObject<TElement, TValue> : DependencyObject
+            {
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                public static readonly DependencyProperty TargetObjectProperty = DependencyProperty.Register(
+                    nameof(TargetObject),
+                    typeof(TElement?),
+                    typeof(MyObject<TElement, TValue>),
+                    null);
+
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+                    nameof(Value),
+                    typeof(TValue?),
+                    typeof(MyObject<TElement, TValue>),
+                    null);
+
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                public TValue? [|Value|]
+                {
+                    get => (TValue?)GetValue(ValueProperty);
+                    set => SetValue(ValueProperty, value);
+                }
+
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                public TElement? [|TargetObject|]
+                {
+                    get => (TElement?)GetValue(TargetObjectProperty);
+                    set => SetValue(TargetObjectProperty, value);
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public abstract partial class MyObject<TElement, TValue> : DependencyObject
+            {
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                [GeneratedDependencyProperty]
+                public partial TValue? {|CS9248:Value|} { get; set; }
+
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                [GeneratedDependencyProperty]
+                public partial TElement? {|CS9248:TargetObject|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
     public async Task MultipleProperties_WithInterspersedMembers_HandlesSpacingCorrectly()
     {
         const string original = """
