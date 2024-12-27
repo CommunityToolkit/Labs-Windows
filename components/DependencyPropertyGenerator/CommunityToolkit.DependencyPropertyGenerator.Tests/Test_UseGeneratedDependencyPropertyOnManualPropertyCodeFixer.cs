@@ -375,6 +375,77 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     }
 
     [TestMethod]
+    [DataRow("[A]", "[static: A]")]
+    [DataRow("""[Test(42, "Hello")]""", """[static: Test(42, "Hello")]""")]
+    [DataRow("""[field: Test(42, "Hello")]""", """[static: Test(42, "Hello")]""")]
+    [DataRow("""[A, Test(42, "Hello")]""", """[static: A, Test(42, "Hello")]""")]
+    [DataRow("""
+        [A]
+            [Test(42, "Hello")]
+        """, """
+        [static: A]
+            [static: Test(42, "Hello")]
+        """)]
+    public async Task SimpleProperty_WithForwardedAttributes(
+        string attributeDefinition,
+        string attributeForwarding)
+    {
+        string original = $$"""
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            namespace MyApp;
+
+            public class MyControl : Control
+            {
+                {{attributeDefinition}}
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: nameof(Name),
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public string? [|Name|]
+                {
+                    get => (string?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public class AAttribute : Attribute;
+            public class TestAttribute(int X, string Y) : Attribute;
+            """;
+
+        string @fixed = $$"""            
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                {{attributeForwarding}}
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+
+            public class AAttribute : Attribute;
+            public class TestAttribute(int X, string Y) : Attribute;
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
     public async Task MultipleProperties_HandlesSpacingCorrectly()
     {
         const string original = """

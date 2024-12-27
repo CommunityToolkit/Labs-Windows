@@ -285,6 +285,12 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 attributeLists = attributeLists.Add(generatedDependencyPropertyAttributeList);
             }
 
+            // Append any attributes we want to forward (any attributes on the field, they've already been validated)
+            foreach (AttributeListSyntax fieldAttributeList in fieldDeclaration.AttributeLists)
+            {
+                attributeLists = attributeLists.Add(fieldAttributeList.WithTarget(AttributeTargetSpecifier(Token(SyntaxKind.StaticKeyword))));
+            }
+
             // Get a new property that is partial and with semicolon token accessors
             return
                 propertyDeclaration
