@@ -5,6 +5,7 @@
 using System.Threading.Tasks;
 using CommunityToolkit.GeneratedDependencyProperty.Tests.Helpers;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CommunityToolkit.GeneratedDependencyProperty.Tests;
@@ -1624,5 +1625,196 @@ public class Test_Analyzers
             """;
 
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_NoDependencyPropertyAttribute_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public class MyControl : Control
+            {
+                public string? Name { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_NoForwardedAttribute_DoesNotWarn()
+    {
+        const string source = """            
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public string? Name { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_ValidForwardedAttribute_DoesNotWarn()
+    {
+        const string source = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [static: Test]
+                public string? Name { get; set; }
+            }
+
+            public class TestAttribute : Attribute;
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_TypoInAttributeName_NotTargetingStatic_DoesNotWarn()
+    {
+        const string source = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            public class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [Testt]
+                public string? Name { get; set; }
+            }
+
+            public class TestAttribute : Attribute;
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13,
+        [
+            // /0/Test0.cs(9,6): error CS0246: The type or namespace name 'Testt' could not be found (are you missing a using directive or an assembly reference?)
+            DiagnosticResult.CompilerError("CS0246").WithSpan(9, 6, 9, 11).WithArguments("Testt"),
+
+            // /0/Test0.cs(9,6): error CS0246: The type or namespace name 'TesttAttribute' could not be found (are you missing a using directive or an assembly reference?)
+            DiagnosticResult.CompilerError("CS0246").WithSpan(9, 6, 9, 11).WithArguments("TesttAttribute")
+        ]);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_MissingUsingDirective_Warns()
+    {
+        const string source = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp
+            {
+                public class MyControl : Control
+                {
+                    [GeneratedDependencyProperty]
+                    [static: {|WCTDP0018:Test|}]
+                    public string? Name { get; set; }
+                }
+            }
+
+            namespace MyAttributes
+            {
+                public class TestAttribute : Attribute;
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_TypoInAttributeName_Warns()
+    {
+        const string source = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            public class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [static: {|WCTDP0018:Testt|}]
+                public string? Name { get; set; }
+            }
+
+            public class TestAttribute : Attribute;
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    // See https://github.com/CommunityToolkit/dotnet/issues/683
+    [TestMethod]
+    public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_InvalidExpressionOnFieldAttribute_Warns()
+    {
+        const string source = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            public class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [static: {|WCTDP0019:Test(TestAttribute.M)|}]
+                public string? Name { get; set; }
+            }
+
+            public class TestAttribute : Attribute
+            {
+                public static string M => "";
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_InvalidExpressionOnFieldAttribute_WithExistingParameter_Warns()
+    {
+        const string source = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            public class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [static: {|WCTDP0019:Test(TestAttribute.M)|}]
+                public string? Name { get; set; }
+            }
+
+            public class TestAttribute(string P) : Attribute
+            {
+                public static string M => "";
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
 }

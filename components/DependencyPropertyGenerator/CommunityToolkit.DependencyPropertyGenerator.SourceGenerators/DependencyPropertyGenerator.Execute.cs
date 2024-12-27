@@ -414,7 +414,7 @@ partial class DependencyPropertyGenerator
             foreach (AttributeListSyntax attributeList in node.AttributeLists)
             {
                 // Only look for the 'static' attribute target, which can be used to target the generated 'DependencyProperty' static field.
-                // Roslyn will normally emit a 'CS0657' warning (invalid target), but that is automatically suppressed by a dedicated diagnostic
+                // Roslyn will normally emit a 'CS0658' warning (invalid target), but that is automatically suppressed by a dedicated diagnostic
                 // suppressor that recognizes uses of this target specifically to support '[GeneratedDependencyProperty]'. We can't use 'field'
                 // as trigger, as that's used for the actual 'field' keyword, when local caching is enabled.
                 if (attributeList.Target?.Identifier is not SyntaxToken(SyntaxKind.StaticKeyword))

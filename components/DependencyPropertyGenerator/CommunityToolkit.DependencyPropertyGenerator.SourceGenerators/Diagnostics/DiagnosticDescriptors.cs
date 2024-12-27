@@ -236,4 +236,30 @@ internal static class DiagnosticDescriptors
         isEnabledByDefault: true,
         description: "Manual properties should be converted to partial properties using [GeneratedDependencyProperty] when possible, which is recommended (doing so makes the code less verbose and results in more optimized code).",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The property '{0}' annotated with [GeneratedDependencyProperty] is using attribute '{1}' which was not recognized as a valid type (are you missing a using directive?)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidDependencyPropertyTargetedAttributeType = new(
+        id: "WCTDP0018",
+        title: "Invalid dependency property targeted attribute type",
+        messageFormat: "The property '{0}' annotated with [GeneratedDependencyProperty] is using attribute '{1}' which was not recognized as a valid type (are you missing a using directive?)",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "All attributes targeting the generated dependency property for a property annotated with [GeneratedDependencyProperty] must correctly be resolved to valid types.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The property '{0}' annotated with [GeneratedDependencyProperty] is using attribute '{1}' with an invalid expression (are you passing any incorrect parameters to the attribute constructor?)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidDependencyPropertyTargetedAttributeTypeArgumentExpression = new(
+        id: "WCTDP0019",
+        title: "Invalid dependency property targeted attribute expression",
+        messageFormat: "The property '{0}' annotated with [GeneratedDependencyProperty] is using attribute '{1}' with an invalid expression (are you passing any incorrect parameters to the attribute constructor?)",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "All attributes targeting the generated dependency property for a property annotated with [GeneratedDependencyProperty] must have arguments using supported expressions.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }
