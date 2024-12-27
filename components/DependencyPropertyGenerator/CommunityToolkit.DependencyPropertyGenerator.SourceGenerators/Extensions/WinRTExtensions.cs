@@ -30,7 +30,13 @@ internal static class WinRTExtensions
         // projected enum type or struct type (ie. some projected value type in general, except
         // for 'Nullable<T>' values), then we can just use 'null' and bypass creating the property
         // metadata. The WinRT runtime will automatically instantiate a default value for us.
-        if (symbol.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)) ||
+        if (symbol.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)))
+        {
+            return true;
+        }
+
+        // Special case for projected numeric types
+        if (symbol.Name is "Matrix3x2" or "Matrix4x4" or "Plane" or "Quaternion" or "Vector2" or "Vector3" or "Vector4" &&
             symbol.IsContainedInNamespace("System.Numerics"))
         {
             return true;
@@ -51,17 +57,17 @@ internal static class WinRTExtensions
 
         // Lastly, special case the well known primitive types
         if (symbol.SpecialType is
-                SpecialType.System_Int32 or
-                SpecialType.System_Byte or
-                SpecialType.System_SByte or
-                SpecialType.System_Int16 or
-                SpecialType.System_UInt16 or
-                SpecialType.System_UInt32 or
-                SpecialType.System_Int64 or
-                SpecialType.System_UInt64 or
-                SpecialType.System_Char or
-                SpecialType.System_Single or
-                SpecialType.System_Double)
+            SpecialType.System_Int32 or
+            SpecialType.System_Byte or
+            SpecialType.System_SByte or
+            SpecialType.System_Int16 or
+            SpecialType.System_UInt16 or
+            SpecialType.System_UInt32 or
+            SpecialType.System_Int64 or
+            SpecialType.System_UInt64 or
+            SpecialType.System_Char or
+            SpecialType.System_Single or
+            SpecialType.System_Double)
         {
             return true;
         }
