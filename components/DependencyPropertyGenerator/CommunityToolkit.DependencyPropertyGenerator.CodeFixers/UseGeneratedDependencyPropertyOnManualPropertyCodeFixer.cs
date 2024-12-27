@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.GeneratedDependencyProperty.Constants;
+using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
@@ -371,7 +372,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             SyntaxTriviaList leadingTrivia = nextMember.GetLeadingTrivia();
 
             // Check whether this member has a first leading trivia that's just a blank line: we want to remove this one
-            if (leadingTrivia.Count == 0 || !leadingTrivia[0].IsKind(SyntaxKind.EndOfLineTrivia))
+            if (leadingTrivia is not [SyntaxTrivia(SyntaxKind.EndOfLineTrivia), ..])
             {
                 continue;
             }
