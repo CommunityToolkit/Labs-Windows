@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Diagnostics.CodeAnalysis;
@@ -217,6 +218,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             syntaxEditor,
             defaultValueExpression);
 
+        RemoveLeftoverLeadingEndOfLines([fieldDeclaration], syntaxEditor);
+
         // Create the new document with the single change
         return document.WithSyntaxRoot(syntaxEditor.GetChangedRoot());
     }
@@ -305,39 +308,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 ])).WithTrailingTrivia(propertyDeclaration.AccessorList.GetTrailingTrivia()));
         });
 
-        // Special handling for the leading trivia of members following the field declaration we are about to remove.
-        // There is an edge case that can happen when a type declaration is as follows:
-        //
-        // class ContainingType
-        // {
-        //     public static readonly DependencyProperty NameProperty = ...;
-        //
-        //     public void SomeOtherMember() { }
-        //
-        //     public string? Name { ... }
-        // }
-        //
-        // In this case, just removing the target field for the dependency property being rewritten (that is, 'NameProperty')
-        // will cause an extra blank line to be left after the edits, right above the member immediately following the field.
-        // To work around this, we look for such a member and check its trivia, and then manually remove a leading blank line.
-        if (fieldDeclaration.Parent is TypeDeclarationSyntax fieldParentTypeDeclaration)
-        {
-            int fieldDeclarationIndex = fieldParentTypeDeclaration.Members.IndexOf(fieldDeclaration);
-
-            // Check whether there is a member immediatley following the field
-            if (fieldDeclarationIndex >= 0 && fieldDeclarationIndex < fieldParentTypeDeclaration.Members.Count - 1)
-            {
-                MemberDeclarationSyntax nextMember = fieldParentTypeDeclaration.Members[fieldDeclarationIndex + 1];
-                SyntaxTriviaList leadingTrivia = nextMember.GetLeadingTrivia();
-
-                // Check whether this member has a first leading trivia that's just a blank line: we want to remove this one
-                if (leadingTrivia.Count > 0 && leadingTrivia[0].IsKind(SyntaxKind.EndOfLineTrivia))
-                {
-                    syntaxEditor.ReplaceNode(nextMember, (nextMember, _) => nextMember.WithLeadingTrivia(leadingTrivia.RemoveAt(0)));
-                }
-            }
-        }
-
         // Also remove the field declaration (it'll be generated now)
         syntaxEditor.RemoveNode(fieldDeclaration);
 
@@ -349,6 +319,58 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         if (!typeDeclaration.Modifiers.Any(SyntaxKind.PartialKeyword))
         {
             syntaxEditor.ReplaceNode(typeDeclaration, static (node, generator) => generator.WithModifiers(node, generator.GetModifiers(node).WithPartial(true)));
+        }
+    }
+
+    /// <summary>
+    /// Removes any leftover leading end of lines on remaining members following any removed fields.
+    /// </summary>
+    /// <param name="fieldDeclarations">The collection of all fields that have been removed.</param>
+    /// <param name="syntaxEditor">The <see cref="SyntaxEditor"/> instance to use.</param>
+    private static void RemoveLeftoverLeadingEndOfLines(IReadOnlyCollection<FieldDeclarationSyntax> fieldDeclarations, SyntaxEditor syntaxEditor)
+    {
+        foreach (FieldDeclarationSyntax fieldDeclaration in fieldDeclarations)
+        {
+            // Special handling for the leading trivia of members following the field declaration we are about to remove.
+            // There is an edge case that can happen when a type declaration is as follows:
+            //
+            // class ContainingType
+            // {
+            //     public static readonly DependencyProperty NameProperty = ...;
+            //
+            //     public void SomeOtherMember() { }
+            //
+            //     public string? Name { ... }
+            // }
+            //
+            // In this case, just removing the target field for the dependency property being rewritten (that is, 'NameProperty')
+            // will cause an extra blank line to be left after the edits, right above the member immediately following the field.
+            // To work around this, we look for such a member and check its trivia, and then manually remove a leading blank line.
+            if (fieldDeclaration.Parent is TypeDeclarationSyntax fieldParentTypeDeclaration)
+            {
+                int fieldDeclarationIndex = fieldParentTypeDeclaration.Members.IndexOf(fieldDeclaration);
+
+                // Check whether there is a member immediatley following the field
+                if (fieldDeclarationIndex >= 0 && fieldDeclarationIndex < fieldParentTypeDeclaration.Members.Count - 1)
+                {
+                    MemberDeclarationSyntax nextMember = fieldParentTypeDeclaration.Members[fieldDeclarationIndex + 1];
+
+                    // It's especially important to skip members that have been rmeoved. This would otherwise fail when computing
+                    // the final document. We only care about fixing trivia for members that will still be present after all edits.
+                    if (fieldDeclarations.Contains(nextMember))
+                    {
+                        continue;
+                    }
+
+                    SyntaxTriviaList leadingTrivia = nextMember.GetLeadingTrivia();
+
+                    // Check whether this member has a first leading trivia that's just a blank line: we want to remove this one
+                    if (leadingTrivia.Count > 0 && leadingTrivia[0].IsKind(SyntaxKind.EndOfLineTrivia))
+                    {
+                        syntaxEditor.ReplaceNode(nextMember, (nextMember, _) => nextMember.WithLeadingTrivia(leadingTrivia.RemoveAt(0)));
+                    }
+                }
+            }
         }
     }
 
@@ -381,6 +403,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             // Create an editor to perform all mutations (across all edits in the file)
             SyntaxEditor syntaxEditor = new(root, fixAllContext.Solution.Services);
 
+            // Create the set to track all fields being removed, to adjust whitespaces
+            HashSet<FieldDeclarationSyntax> fieldDeclarations = [];
+
+            // Step 1: rewrite all properties and remove the fields
             foreach (Diagnostic diagnostic in diagnostics)
             {
                 // Get the current property declaration for the diagnostic
@@ -407,7 +433,12 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                     generatedDependencyPropertyAttributeList,
                     syntaxEditor,
                     defaultValue);
+
+                fieldDeclarations.Add(fieldDeclaration);
             }
+
+            // Step 2: remove any leftover leading end of lines on members following fields that have been removed
+            RemoveLeftoverLeadingEndOfLines(fieldDeclarations, syntaxEditor);
 
             return document.WithSyntaxRoot(syntaxEditor.GetChangedRoot());
         }
