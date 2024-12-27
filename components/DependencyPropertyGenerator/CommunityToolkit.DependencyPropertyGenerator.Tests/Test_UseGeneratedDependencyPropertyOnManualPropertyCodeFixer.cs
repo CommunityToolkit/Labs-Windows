@@ -955,4 +955,95 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
         await test.RunAsync();
     }
+
+    [TestMethod]
+    public async Task MultipleProperties_WithXmlDocs_WithForwardedAttributes_TrimsAttributTrivia()
+    {
+        const string original = """
+            using System;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                /// <summary>
+                /// Identifies the <seealso cref="Expression"/> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty ExpressionProperty = DependencyProperty.Register(
+                    nameof(Expression),
+                    typeof(string),
+                    typeof(MyObject),
+                    null);
+
+                /// <summary>
+                /// Identifies the <seealso cref="Input" /> dependency property.
+                /// </summary>
+                [Test(42, "Test")]
+                public static readonly DependencyProperty InputProperty = DependencyProperty.Register(
+                    nameof(Input),
+                    typeof(object),
+                    typeof(MyObject),
+                    null);
+
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                public string? [|Expression|]
+                {
+                    get => (string?)GetValue(ExpressionProperty);
+                    set => SetValue(ExpressionProperty, value);
+                }
+
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                public object? [|Input|]
+                {
+                    get => (object?)GetValue(InputProperty);
+                    set => SetValue(InputProperty, value);
+                }
+            }
+
+            public class TestAttribute(int X, string Y) : Attribute;
+            """;
+
+        const string @fixed = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Expression|} { get; set; }
+
+                /// <summary>
+                /// Blah.
+                /// </summary>
+                [GeneratedDependencyProperty]
+                [static: Test(42, "Test")]
+                public partial object? {|CS9248:Input|} { get; set; }
+            }
+
+            public class TestAttribute(int X, string Y) : Attribute;
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
 }
