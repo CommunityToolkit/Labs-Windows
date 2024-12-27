@@ -15,8 +15,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithLocalCache()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -141,8 +141,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithLocalCache_WithCallback()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -321,8 +321,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithLocalCache_WithDefaultValue()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -447,8 +447,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithNoCaching()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -563,8 +563,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithNoCaching_UnsetValue()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -679,8 +679,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithNoCaching_WithCallback()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -849,8 +849,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithNoCaching_WithDefaultValue()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -965,8 +965,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithNoCaching_WithDefaultValue_WithCallback()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -1135,8 +1135,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithNoCaching_WithSharedCallback()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -1305,8 +1305,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithNoCaching_WithBothCallbacks()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -1484,8 +1484,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_String_WithLocalCache()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -1610,8 +1610,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_String_WithNoCaching()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -1726,8 +1726,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_String_WithNoCaching_Required()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -1842,8 +1842,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_String_WithNoCaching_New()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -1963,8 +1963,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_String_WithNoCaching_Virtual()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -2081,8 +2081,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_String_WithNoCaching_Override(string modifiers)
     {
         string source = $$"""
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -2199,11 +2199,127 @@ public partial class Test_DependencyPropertyGenerator
     }
 
     [TestMethod]
+    public void SingleProperty_String_WithNoCaching_CustomAccessibility()
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            namespace MyNamespace;
+
+            public partial class MyControl : DependencyObject
+            {
+                [GeneratedDependencyProperty]
+                internal partial string Name { protected get; private set; }
+            }
+            """;
+
+        string result = $$"""
+            // <auto-generated/>
+            #pragma warning disable
+            #nullable enable
+
+            namespace MyNamespace
+            {
+                /// <inheritdoc cref="MyControl"/>
+                partial class MyControl
+                {
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="Name"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty NameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "Name",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: null);
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    internal partial string Name
+                    {
+                        protected get
+                        {
+                            object? __boxedValue = GetValue(NameProperty);
+
+                            OnNameGet(ref __boxedValue);
+
+                            string __unboxedValue = (string)__boxedValue;
+
+                            OnNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        private set
+                        {
+                            OnNameSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnNameSet(ref __boxedValue);
+
+                            SetValue(NameProperty, __boxedValue);
+
+                            OnNameChanged(value);
+                        }
+                    }
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="Name"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="NameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="NameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameGet(ref object propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="Name"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="NameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="NameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameGet(ref string propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Name"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="NameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="NameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameSet(ref object propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Name"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="Name"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="Name"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameSet(ref string propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="Name"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="Name"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameChanged(string newValue);
+
+                    /// <summary>Executes the logic for when <see cref="Name"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="Name"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when any dependency property has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+                }
+            }
+            """;
+
+        CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, ("MyNamespace.MyControl.g.cs", result), languageVersion: LanguageVersion.Preview);
+    }
+
+    [TestMethod]
     public void MultipleProperties_WithNoCaching_CorrectSpacing()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -2399,8 +2515,8 @@ public partial class Test_DependencyPropertyGenerator
     public void MultipleProperties_WithNoCaching_WithJustOnePropertyCallback()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -2650,8 +2766,8 @@ public partial class Test_DependencyPropertyGenerator
     public void MultipleProperties_WithNoCaching_WithSharedPropertyCallback()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -2915,8 +3031,8 @@ public partial class Test_DependencyPropertyGenerator
     public void MultipleProperties_WithNoCaching_WithMixedPropertyCallbacks()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -3194,8 +3310,8 @@ public partial class Test_DependencyPropertyGenerator
     public void MultipleProperties_WithNoCaching_WithMixedPropertyCallbacks2()
     {
         const string source = """
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -3485,8 +3601,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_Int32_WithNoCaching_WithDefaultValueCallback(string returnType)
     {
         string source = $$"""
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -3608,8 +3724,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_NullableOfInt32_WithNoCaching_WithDefaultValueCallback(string returnType)
     {
         string source = $$"""
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             namespace MyNamespace;
 
@@ -3731,8 +3847,8 @@ public partial class Test_DependencyPropertyGenerator
     public void SingleProperty_String_WithNoCaching_WithDefaultValueCallback(string returnType)
     {
         string source = $$"""
-            using Windows.UI.Xaml;
             using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
 
             #nullable enable
 
@@ -3912,10 +4028,10 @@ public partial class Test_DependencyPropertyGenerator
         string source = $$"""
             using System;
             using System.Collections.Generic;
+            using CommunityToolkit.WinUI;
             using Windows.Foundation;
             using Windows.Foundation.Numerics;
             using Windows.UI.Xaml;
-            using CommunityToolkit.WinUI;
 
             #nullable enable
 

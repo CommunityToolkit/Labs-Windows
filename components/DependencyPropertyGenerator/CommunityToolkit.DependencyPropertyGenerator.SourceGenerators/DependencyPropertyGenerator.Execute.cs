@@ -554,8 +554,8 @@ partial class DependencyPropertyGenerator
                     if (propertyInfo.IsLocalCachingEnabled)
                     {
                         writer.WriteLine($$"""
-                            get => field;
-                            set
+                            {{GetExpressionWithTrailingSpace(propertyInfo.GetterAccessibility)}}get => field;
+                            {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
                             {
                                 On{{propertyInfo.PropertyName}}Set(ref value);
 
@@ -602,7 +602,7 @@ partial class DependencyPropertyGenerator
                         // would introduce a lot of overhead. If callers really do want to have a callback being invoked, they can implement
                         // the one wired up to the property metadata directly. We can still invoke the ones only using the new value, though.
                         writer.WriteLine($$"""
-                            get
+                            {{GetExpressionWithTrailingSpace(propertyInfo.GetterAccessibility)}}get
                             {
                                 object? __boxedValue = GetValue({{propertyInfo.PropertyName}}Property);
 
@@ -610,7 +610,7 @@ partial class DependencyPropertyGenerator
 
                                 return __boxedValue;
                             }
-                            set
+                            {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
                             {
                                 On{{propertyInfo.PropertyName}}Set(ref value);
 
@@ -624,7 +624,7 @@ partial class DependencyPropertyGenerator
                     {
                         // Same as above but with the extra typed hook for both accessors
                         writer.WriteLine($$"""
-                            get
+                            {{GetExpressionWithTrailingSpace(propertyInfo.GetterAccessibility)}}get
                             {
                                 object? __boxedValue = GetValue({{propertyInfo.PropertyName}}Property);
 
@@ -636,7 +636,7 @@ partial class DependencyPropertyGenerator
 
                                 return __unboxedValue;
                             }
-                            set
+                            {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
                             {
                                 On{{propertyInfo.PropertyName}}Set(ref value);
 
