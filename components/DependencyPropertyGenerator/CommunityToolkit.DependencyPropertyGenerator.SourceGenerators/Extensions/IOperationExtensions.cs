@@ -36,13 +36,14 @@ internal static class IOperationExtensions
             return true;
         }
 
-        // Manually match for known primitive types
+        // Manually match for known primitive types (this should be kept in sync with 'IsWellKnownWinRTProjectedValueType')
         return (operation.Type.SpecialType, operation.ConstantValue.Value) switch
         {
             (SpecialType.System_Byte, default(byte)) or
-            (SpecialType.System_Char, default(char)) or
+            (SpecialType.System_SByte, default(sbyte)) or
             (SpecialType.System_Int16, default(short)) or
             (SpecialType.System_UInt16, default(ushort)) or
+            (SpecialType.System_Char, default(char)) or
             (SpecialType.System_Int32, default(int)) or
             (SpecialType.System_UInt32, default(uint)) or
             (SpecialType.System_Int64, default(long)) or
