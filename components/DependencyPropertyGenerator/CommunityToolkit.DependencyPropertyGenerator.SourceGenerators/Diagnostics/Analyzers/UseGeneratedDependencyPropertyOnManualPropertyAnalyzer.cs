@@ -531,7 +531,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         // We are intentionally not handling combinations of nullable value types here.
                         if (!SymbolEqualityComparer.Default.Equals(fieldFlags.PropertyType, pair.Key.Type))
                         {
-                            return;
+                            continue;
                         }
 
                         // Finally, check whether the field was valid (if so, we will have a valid location)
