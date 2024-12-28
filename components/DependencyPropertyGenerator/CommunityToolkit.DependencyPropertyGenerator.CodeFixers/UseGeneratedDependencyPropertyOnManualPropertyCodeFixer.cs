@@ -319,14 +319,17 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         // Also remove the field declaration (it'll be generated now)
         syntaxEditor.RemoveNode(fieldDeclaration);
 
-        // Find the parent type for the property
-        TypeDeclarationSyntax typeDeclaration = propertyDeclaration.FirstAncestorOrSelf<TypeDeclarationSyntax>()!;
-
-        // Make sure it's partial (we create the updated node in the function to preserve the updated property declaration).
-        // If we created it separately and replaced it, the whole tree would also be replaced, and we'd lose the new property.
-        if (!typeDeclaration.Modifiers.Any(SyntaxKind.PartialKeyword))
+        // Find the parent type for the property (we need to do this for all ancestor types, as the type might be bested)
+        for (TypeDeclarationSyntax? typeDeclaration = propertyDeclaration.FirstAncestor<TypeDeclarationSyntax>();
+             typeDeclaration is not null;
+             typeDeclaration = typeDeclaration.FirstAncestor<TypeDeclarationSyntax>())
         {
-            syntaxEditor.ReplaceNode(typeDeclaration, static (node, generator) => generator.WithModifiers(node, generator.GetModifiers(node).WithPartial(true)));
+            // Make sure it's partial (we create the updated node in the function to preserve the updated property declaration).
+            // If we created it separately and replaced it, the whole tree would also be replaced, and we'd lose the new property.
+            if (!typeDeclaration.Modifiers.Any(SyntaxKind.PartialKeyword))
+            {
+                syntaxEditor.ReplaceNode(typeDeclaration, static (node, generator) => generator.WithModifiers(node, generator.GetModifiers(node).WithPartial(true)));
+            }
         }
     }
 
