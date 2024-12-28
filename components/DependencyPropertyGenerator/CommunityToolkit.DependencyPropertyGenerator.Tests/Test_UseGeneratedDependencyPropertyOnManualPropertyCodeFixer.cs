@@ -1310,4 +1310,116 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
         await test.RunAsync();
     }
+
+    [TestMethod]
+    public async Task SimpleProperty_ExplicitNullCallbackArgument_IsHandledCorrectly1()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public class MyNestedObject : DependencyObject
+                {
+                    public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                        name: "Name",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyNestedObject),
+                        typeMetadata: new PropertyMetadata(null, null));
+
+                    public string? [|Name|]
+                    {
+                        get => (string?)GetValue(NameProperty);
+                        set => SetValue(NameProperty, value);
+                    }
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                public partial class MyNestedObject : DependencyObject
+                {
+                    [GeneratedDependencyProperty]
+                    public partial string? {|CS9248:Name|} { get; set; }
+                }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    public async Task SimpleProperty_ExplicitNullCallbackArgument_IsHandledCorrectly2()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public class MyNestedObject : DependencyObject
+                {
+                    public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                        name: "Name",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyNestedObject),
+                        typeMetadata: new PropertyMetadata("", null));
+
+                    public string? [|Name|]
+                    {
+                        get => (string?)GetValue(NameProperty);
+                        set => SetValue(NameProperty, value);
+                    }
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                public partial class MyNestedObject : DependencyObject
+                {
+                    [GeneratedDependencyProperty(DefaultValue = "")]
+                    public partial string? {|CS9248:Name|} { get; set; }
+                }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
 }

@@ -409,13 +409,19 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     else
                     {
                         // Next, check if the argument is 'new PropertyMetadata(...)' with the default value for the property type
-                        if (propertyMetadataArgument.Value is not IObjectCreationOperation { Arguments: [{ } defaultValueArgument] } objectCreationOperation)
+                        if (propertyMetadataArgument.Value is not IObjectCreationOperation { Arguments: [{ } defaultValueArgument, ..] } objectCreationOperation)
                         {
                             return;
                         }
 
                         // Make sure the object being created is actually 'PropertyMetadata'
                         if (!SymbolEqualityComparer.Default.Equals(objectCreationOperation.Type, propertyMetadataSymbol))
+                        {
+                            return;
+                        }
+
+                        // If we have a second argument, a 'null' literal is the only supported value for it
+                        if (objectCreationOperation.Arguments is not ([_] or [_, { Value.ConstantValue: { HasValue: true, Value: null } }]))
                         {
                             return;
                         }
