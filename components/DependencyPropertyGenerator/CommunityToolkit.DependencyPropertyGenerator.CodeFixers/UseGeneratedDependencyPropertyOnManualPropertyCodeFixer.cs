@@ -182,7 +182,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     }
 
     /// <summary>
-    /// Applies the code fix to a target identifier and returns an updated document.
+    /// Applies the code fix to a target property declaration and returns an updated document.
     /// </summary>
     /// <param name="document">The original document being fixed.</param>
     /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current compilation.</param>

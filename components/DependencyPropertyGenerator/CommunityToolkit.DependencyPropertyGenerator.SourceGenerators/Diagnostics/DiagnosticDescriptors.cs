@@ -17,6 +17,11 @@ internal static class DiagnosticDescriptors
     public const string UseGeneratedDependencyPropertyForManualPropertyId = "WCTDP0017";
 
     /// <summary>
+    /// The diagnostic id for <see cref="IncorrectDependencyPropertyFieldDeclaration"/>.
+    /// </summary>
+    public const string IncorrectDependencyPropertyFieldDeclarationId = "WCTDP0020";
+
+    /// <summary>
     /// <c>"The property '{0}' cannot be used to generate a dependency property, as its declaration is not valid (it must be an instance (non static) partial property, with a getter and a setter that is not init-only)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclaration = new(
@@ -267,7 +272,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The field '{0}' is a dependency property, but it is not declared correctly (all dependency property fields should be declared as 'public static readonly', and not be nullable)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor IncorrectDependencyPropertyFieldDeclaration = new(
-        id: "WCTDP0020",
+        id: IncorrectDependencyPropertyFieldDeclarationId,
         title: "Incorrect dependency property field declaration",
         messageFormat: "The field '{0}' is a dependency property, but it is not declared correctly (all dependency property fields should be declared as 'public static readonly', and not be nullable)",
         category: typeof(DependencyPropertyGenerator).FullName,
