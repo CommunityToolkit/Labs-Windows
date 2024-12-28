@@ -1941,6 +1941,47 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    public async Task UseFieldDeclarationAnalyzer_UnsupportedModifier_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public abstract class MyObject : MyBase
+            {
+                public DependencyProperty Test1Property => DependencyProperty.Register("Test1", typeof(string), typeof(MyObject), null);
+                public virtual DependencyProperty Test2Property => DependencyProperty.Register("Test2", typeof(string), typeof(MyObject), null);
+                public abstract DependencyProperty Test3Property { get; }
+                public override DependencyProperty BaseProperty => DependencyProperty.Register("Base", typeof(string), typeof(MyObject), null);
+            }
+
+            public abstract class MyBase : DependencyObject
+            {
+                public abstract DependencyProperty BaseProperty { get; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseFieldDeclarationAnalyzer_WithNoSetter_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject
+            {
+                public static DependencyProperty TestProperty
+                {
+                    set { }
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     public async Task UseFieldDeclarationAnalyzer_NormalProperty_Warns()
     {
         const string source = """

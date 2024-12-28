@@ -163,7 +163,7 @@ public class Test_UseFieldDeclarationCorrectlyCodeFixer
     [TestMethod]
     public async Task MultipleFields_WithInitializers()
     {
-        string original = $$"""
+        const string original = """
             using Windows.UI.Xaml;
 
             #nullable enable

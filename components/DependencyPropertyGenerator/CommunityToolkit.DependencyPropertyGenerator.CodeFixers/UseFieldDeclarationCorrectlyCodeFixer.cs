@@ -39,7 +39,7 @@ public sealed class UseFieldDeclarationCorrectlyCodeFixer : CodeFixProvider
 
         SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
-        // Get the property declaration and the field declaration from the target diagnostic
+        // Get the the field declaration from the target diagnostic
         if (root!.FindNode(diagnosticSpan).FirstAncestorOrSelf<FieldDeclarationSyntax>() is { } fieldDeclaration)
         {
             // Register the code fix to update the field to be correctly declared
