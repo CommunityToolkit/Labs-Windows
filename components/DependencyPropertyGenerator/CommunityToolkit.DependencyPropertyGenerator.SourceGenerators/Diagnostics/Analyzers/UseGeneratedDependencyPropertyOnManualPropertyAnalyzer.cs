@@ -66,7 +66,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-
         context.RegisterCompilationStartAction(static context =>
         {
             // Get the XAML mode to use

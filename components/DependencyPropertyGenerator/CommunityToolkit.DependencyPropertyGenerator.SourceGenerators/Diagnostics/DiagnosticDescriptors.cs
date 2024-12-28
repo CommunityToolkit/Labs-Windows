@@ -262,4 +262,17 @@ internal static class DiagnosticDescriptors
         isEnabledByDefault: true,
         description: "All attributes targeting the generated dependency property for a property annotated with [GeneratedDependencyProperty] must have arguments using supported expressions.",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The field '{0}' is a dependency property, but it is not declared correctly (all dependency property fields should be declared as 'public static readonly', and not be nullable)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor IncorrectDependencyPropertyFieldDeclaration = new(
+        id: "WCTDP0020",
+        title: "Incorrect dependency property field declaration",
+        messageFormat: "The field '{0}' is a dependency property, but it is not declared correctly (all dependency property fields should be declared as 'public static readonly', and not be nullable)",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "All dependency property fields should be declared as 'public static readonly', and not be nullable.",
+        helpLinkUri: "https://learn.microsoft.com/windows/uwp/xaml-platform/custom-dependency-properties#checklist-for-defining-a-dependency-property");
 }

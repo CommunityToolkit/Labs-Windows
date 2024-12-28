@@ -1817,4 +1817,56 @@ public class Test_Analyzers
 
         await CSharpAnalyzerTest<InvalidPropertyForwardedAttributeDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
+
+    [TestMethod]
+    public async Task UseFieldDeclarationCorrectlyAnalyzer_NotDependencyProperty_DoesNotWarn()
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject
+            {
+                private static string TestProperty = "Blah";
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationCorrectlyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseFieldDeclarationCorrectlyAnalyzer_ValidField_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty TestProperty = DependencyProperty.Register("Test", typeof(string), typeof(MyObject), null);
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationCorrectlyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("private static readonly DependencyProperty")]
+    [DataRow("public readonly DependencyProperty")]
+    [DataRow("public static DependencyProperty")]
+    [DataRow("public static volatile DependencyProperty")]
+    [DataRow("public static readonly DependencyProperty?")]
+    public async Task UseFieldDeclarationCorrectlyAnalyzer_Warns(string fieldDeclaration)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+
+            #nullable enable
+            
+            public class MyObject : DependencyObject
+            {
+                {{fieldDeclaration}} {|WCTDP0020:TestProperty|};
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationCorrectlyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
 }
