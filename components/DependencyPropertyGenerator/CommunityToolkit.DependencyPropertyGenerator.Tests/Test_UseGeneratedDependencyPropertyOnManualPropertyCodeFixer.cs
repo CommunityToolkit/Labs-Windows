@@ -374,6 +374,124 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     }
 
     [TestMethod]
+    public async Task SimpleProperty_WithExplicitValue_NestedEnumType()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(MyContainingType.MyEnum),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata(MyContainingType.MyEnum.B));
+
+                public MyContainingType.MyEnum [|Name|]
+                {
+                    get => (MyContainingType.MyEnum)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public class MyContainingType
+            {
+                public enum MyEnum { A, B }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = MyContainingType.MyEnum.B)]
+                public partial MyContainingType.MyEnum {|CS9248:Name|} { get; set; }
+            }
+
+            public class MyContainingType
+            {
+                public enum MyEnum { A, B }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    public async Task SimpleProperty_WithExplicitValue_NestedEnumType_WithUsingStatic()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            using static MyApp.MyContainingType;
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(MyEnum),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata(MyEnum.B));
+
+                public MyEnum [|Name|]
+                {
+                    get => (MyEnum)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public class MyContainingType
+            {
+                public enum MyEnum { A, B }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            using static MyApp.MyContainingType;
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = MyEnum.B)]
+                public partial MyEnum {|CS9248:Name|} { get; set; }
+            }
+
+            public class MyContainingType
+            {
+                public enum MyEnum { A, B }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
     public async Task SimpleProperty_WithExplicitValue_NotDefault_AddsNamespace()
     {
         const string original = """

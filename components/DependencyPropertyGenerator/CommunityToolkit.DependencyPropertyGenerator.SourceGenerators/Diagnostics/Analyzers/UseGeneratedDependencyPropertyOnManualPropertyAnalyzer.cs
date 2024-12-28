@@ -57,6 +57,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
     /// </summary>
     public const string DefaultValuePropertyName = "DefaultValue";
 
+    /// <summary>
+    /// The property name for the fully qualified metadata name of the default value, if present.
+    /// </summary>
+    public const string DefaultValueTypeFullyQualifiedMetadataNamePropertyName = "DefaultValueTypeFullyQualifiedMetadataName";
+
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [UseGeneratedDependencyPropertyForManualProperty];
 
@@ -449,19 +454,27 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             }
                             else if (TypedConstantInfo.TryCreate(conversionOperation.Operand, out fieldFlags.DefaultValue))
                             {
-                                // We have found a valid constant. As an optimization, we check whether the constant was the value
-                                // of some projected built-in WinRT enum type (ie. not any user-defined enum type). If that is the
-                                // case, the XAML infrastructure can default that values automatically, meaning we can skip the
-                                // overhead of instantiating a 'PropertyMetadata' instance in code, and marshalling default value.
-                                if (conversionOperation.Operand.Type is { TypeKind: TypeKind.Enum } operandType &&
-                                    operandType.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)))
+                                // We have found a valid constant. If it's an enum type, we have a couple special cases to handle.
+                                if (conversionOperation.Operand.Type is { TypeKind: TypeKind.Enum } operandType)
                                 {
-                                    // Before actually enabling the optimization, validate that the default value is actually
-                                    // the same as the default value of the enum (ie. the value of its first declared field).
-                                    if (operandType.TryGetDefaultValueForEnumType(out object? defaultValue) &&
-                                        conversionOperation.Operand.ConstantValue.Value == defaultValue)
+                                    // As an optimization, we check whether the constant was the value
+                                    // of some projected built-in WinRT enum type (ie. not any user-defined enum type). If that is the
+                                    // case, the XAML infrastructure can default that values automatically, meaning we can skip the
+                                    // overhead of instantiating a 'PropertyMetadata' instance in code, and marshalling default value.
+                                    if (operandType.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)))
                                     {
-                                        fieldFlags.DefaultValue = null;
+                                        // Before actually enabling the optimization, validate that the default value is actually
+                                        // the same as the default value of the enum (ie. the value of its first declared field).
+                                        if (operandType.TryGetDefaultValueForEnumType(out object? defaultValue) &&
+                                            conversionOperation.Operand.ConstantValue.Value == defaultValue)
+                                        {
+                                            fieldFlags.DefaultValue = null;
+                                        }
+                                    }
+                                    else if (operandType.ContainingType is not null)
+                                    {
+                                        // If the enum is nested, we need to also
+                                        fieldFlags.DefaultValueTypeFullyQualifiedMetadataName = operandType.GetFullyQualifiedMetadataName();
                                     }
                                 }
                             }
@@ -552,7 +565,9 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 UseGeneratedDependencyPropertyForManualProperty,
                                 pair.Key.Locations.FirstOrDefault(),
                                 [fieldLocation],
-                                ImmutableDictionary.Create<string, string?>().Add(DefaultValuePropertyName, fieldFlags.DefaultValue?.ToString()),
+                                ImmutableDictionary.Create<string, string?>()
+                                    .Add(DefaultValuePropertyName, fieldFlags.DefaultValue?.ToString())
+                                    .Add(DefaultValueTypeFullyQualifiedMetadataNamePropertyName, fieldFlags.DefaultValueTypeFullyQualifiedMetadataName),
                                 pair.Key));
                         }
                     }
@@ -573,6 +588,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         fieldFlags.PropertyName = null;
                         fieldFlags.PropertyType = null;
                         fieldFlags.DefaultValue = null;
+                        fieldFlags.DefaultValueTypeFullyQualifiedMetadataName = null;
                         fieldFlags.FieldLocation = null;
 
                         fieldFlagsStack.Push(fieldFlags);
@@ -646,6 +662,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// The default value to use (not present if it does not need to be set explicitly).
         /// </summary>
         public TypedConstantInfo? DefaultValue;
+
+        /// <summary>
+        /// The fully qualified metadata name of the default value, if needed.
+        /// </summary>
+        public string? DefaultValueTypeFullyQualifiedMetadataName;
 
         /// <summary>
         /// The location of the target field being initialized.

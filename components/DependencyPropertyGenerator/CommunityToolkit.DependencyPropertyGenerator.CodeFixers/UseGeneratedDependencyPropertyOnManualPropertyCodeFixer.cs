@@ -60,6 +60,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
 
         // Retrieve the properties passed by the analyzer
         string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
+        string? defaultValueTypeFullyQualifiedMetadataName = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeFullyQualifiedMetadataNamePropertyName];
 
         SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
@@ -80,7 +81,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                         root,
                         propertyDeclaration,
                         fieldDeclaration,
-                        defaultValue),
+                        defaultValue,
+                        defaultValueTypeFullyQualifiedMetadataName),
                     equivalenceKey: "Use a partial property"),
                 diagnostic);
         }
@@ -122,12 +124,14 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="document">The original document being fixed.</param>
     /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current compilation.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
+    /// <param name="defaultValueTypeFullyQualifiedMetadataName">The fully qualified metadata name of the default value, if present.</param>
     /// <returns>The updated attribute syntax.</returns>
     private static AttributeListSyntax UpdateGeneratedDependencyPropertyAttributeList(
         Document document,
         SemanticModel semanticModel,
         AttributeListSyntax generatedDependencyPropertyAttributeList,
-        string? defaultValueExpression)
+        string? defaultValueExpression,
+        string? defaultValueTypeFullyQualifiedMetadataName)
     {
         // If we do have a default value expression, set it in the attribute.
         // We extract the generated attribute so we can add the new argument.
@@ -139,18 +143,19 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             // Special case values which are simple enum member accesses, like 'global::Windows.UI.Xaml.Visibility.Collapsed'
             if (parsedExpression is MemberAccessExpressionSyntax { Expression: { } expressionSyntax, Name: IdentifierNameSyntax { Identifier.Text: { } memberName } })
             {
-                string fullyQualifiedTypeName = expressionSyntax.ToFullString();
+                string fullyQualifiedMetadataName = defaultValueTypeFullyQualifiedMetadataName ?? expressionSyntax.ToFullString();
 
-                // Ensure we strip the global prefix, if present (it should always be present)
-                if (fullyQualifiedTypeName.StartsWith("global::"))
+                // Ensure we strip the global prefix, if present (it should always be present if we didn't have a metadata name).
+                // Note that using the fully qualified type name is just a fallback, as we should always have the metadata name.
+                if (fullyQualifiedMetadataName.StartsWith("global::"))
                 {
-                    fullyQualifiedTypeName = fullyQualifiedTypeName["global::".Length..];
+                    fullyQualifiedMetadataName = fullyQualifiedMetadataName["global::".Length..];
                 }
 
                 // Try to resolve the attribute type, if present. This API takes a fully qualified metadata name, not
                 // a fully qualified type name. However, for virtually all cases for enum types, the two should match.
                 // That is, they will be the same if the type is not nested, and not generic, which is what we expect.
-                if (semanticModel.Compilation.GetTypeByMetadataName(fullyQualifiedTypeName) is INamedTypeSymbol enumTypeSymbol)
+                if (semanticModel.Compilation.GetTypeByMetadataName(fullyQualifiedMetadataName) is INamedTypeSymbol enumTypeSymbol)
                 {
                     SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
 
@@ -190,6 +195,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="propertyDeclaration">The <see cref="PropertyDeclarationSyntax"/> for the property being updated.</param>
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
+    /// <param name="defaultValueTypeFullyQualifiedMetadataName">The fully qualified metadata name of the default value, if present.</param>
     /// <returns>An updated document with the applied code fix, and <paramref name="propertyDeclaration"/> being replaced with a partial property.</returns>
     private static async Task<Document> ConvertToPartialProperty(
         Document document,
@@ -197,7 +203,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         SyntaxNode root,
         PropertyDeclarationSyntax propertyDeclaration,
         FieldDeclarationSyntax fieldDeclaration,
-        string? defaultValueExpression)
+        string? defaultValueExpression,
+        string? defaultValueTypeFullyQualifiedMetadataName)
     {
         await Task.CompletedTask;
 
@@ -217,7 +224,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             fieldDeclaration,
             generatedDependencyPropertyAttributeList,
             syntaxEditor,
-            defaultValueExpression);
+            defaultValueExpression,
+            defaultValueTypeFullyQualifiedMetadataName);
 
         RemoveLeftoverLeadingEndOfLines([fieldDeclaration], syntaxEditor);
 
@@ -235,6 +243,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="generatedDependencyPropertyAttributeList">The <see cref="AttributeListSyntax"/> with the attribute to add.</param>
     /// <param name="syntaxEditor">The <see cref="SyntaxEditor"/> instance to use.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
+    /// <param name="defaultValueTypeFullyQualifiedMetadataName">The fully qualified metadata name of the default value, if present.</param>
     /// <returns>An updated document with the applied code fix, and <paramref name="propertyDeclaration"/> being replaced with a partial property.</returns>
     private static void ConvertToPartialProperty(
         Document document,
@@ -243,7 +252,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         FieldDeclarationSyntax fieldDeclaration,
         AttributeListSyntax generatedDependencyPropertyAttributeList,
         SyntaxEditor syntaxEditor,
-        string? defaultValueExpression)
+        string? defaultValueExpression,
+        string? defaultValueTypeFullyQualifiedMetadataName)
     {
         // Replace the property with the partial property using the attribute. Note that it's important to use the
         // lambda 'ReplaceNode' overload here, rather than creating a modifier property declaration syntax node and
@@ -258,7 +268,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 document,
                 semanticModel,
                 generatedDependencyPropertyAttributeList,
-                defaultValueExpression);
+                defaultValueExpression,
+                defaultValueTypeFullyQualifiedMetadataName);
 
             // Start setting up the updated attribute lists
             SyntaxList<AttributeListSyntax> attributeLists = propertyDeclaration.AttributeLists;
@@ -459,6 +470,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
 
                 // Retrieve the properties passed by the analyzer
                 string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
+                string? defaultValueTypeFullyQualifiedMetadataName = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeFullyQualifiedMetadataNamePropertyName];
+
 
                 ConvertToPartialProperty(
                     document,
@@ -467,7 +480,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                     fieldDeclaration,
                     generatedDependencyPropertyAttributeList,
                     syntaxEditor,
-                    defaultValue);
+                    defaultValue,
+                    defaultValueTypeFullyQualifiedMetadataName);
 
                 fieldDeclarations.Add(fieldDeclaration);
             }
