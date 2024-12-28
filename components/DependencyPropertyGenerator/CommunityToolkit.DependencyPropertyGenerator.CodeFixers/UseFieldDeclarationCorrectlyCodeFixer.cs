@@ -68,6 +68,9 @@ public sealed class UseFieldDeclarationCorrectlyCodeFixer : CodeFixProvider
         // We use the lambda overload mostly for convenient, so we can easily get a generator to use
         syntaxEditor.ReplaceNode(fieldDeclaration, (node, generator) =>
         {
+            // Keep the original node to get the trivia back from it
+            SyntaxNode originalNode = node;
+
             // Update the field to ensure it's declared as 'public static readonly'
             node = generator.WithAccessibility(node, Accessibility.Public);
             node = generator.WithModifiers(node, DeclarationModifiers.Static | DeclarationModifiers.ReadOnly);
@@ -82,7 +85,7 @@ public sealed class UseFieldDeclarationCorrectlyCodeFixer : CodeFixProvider
                 node = ((FieldDeclarationSyntax)node).WithDeclaration(variableDeclaration.WithType(typeDeclaration));
             }
 
-            return node;
+            return node.WithTriviaFrom(originalNode);
         });
 
         // Create the new document with the single change

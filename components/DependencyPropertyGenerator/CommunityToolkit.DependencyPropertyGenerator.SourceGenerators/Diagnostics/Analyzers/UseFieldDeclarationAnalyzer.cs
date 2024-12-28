@@ -47,6 +47,18 @@ public sealed class UseFieldDeclarationAnalyzer : DiagnosticAnalyzer
             {
                 IPropertySymbol propertySymbol = (IPropertySymbol)context.Symbol;
 
+                // Ignore instance properties (same as in the other analyzer), and interface members
+                if (propertySymbol is { IsStatic: false } or { ContainingType.TypeKind: TypeKind.Interface })
+                {
+                    return;
+                }
+
+                // Also ignore properties that are write-only (there can't really be normal dependency properties)
+                if (propertySymbol.IsWriteOnly)
+                {
+                    return;
+                }
+
                 // We only care about properties which are of type 'DependencyProperty'
                 if (!SymbolEqualityComparer.Default.Equals(propertySymbol.Type, dependencyPropertySymbol))
                 {

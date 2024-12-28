@@ -16,7 +16,6 @@ public class Test_UseFieldDeclarationCorrectlyCodeFixer
 {
     [TestMethod]
     [DataRow("private static readonly DependencyProperty")]
-    [DataRow("public readonly DependencyProperty")]
     [DataRow("public static DependencyProperty")]
     [DataRow("public static volatile DependencyProperty")]
     [DataRow("public static readonly DependencyProperty?")]
@@ -59,7 +58,6 @@ public class Test_UseFieldDeclarationCorrectlyCodeFixer
 
     [TestMethod]
     [DataRow("private static readonly DependencyProperty")]
-    [DataRow("public readonly DependencyProperty")]
     [DataRow("public static DependencyProperty")]
     [DataRow("public static volatile DependencyProperty")]
     [DataRow("public static readonly DependencyProperty?")]
@@ -121,13 +119,12 @@ public class Test_UseFieldDeclarationCorrectlyCodeFixer
             public class MyObject : DependencyObject
             {
                 private static readonly DependencyProperty [|Test1Property|];
-                public readonly DependencyProperty [|Test2Property|];
-                public static DependencyProperty [|Test3Property|];
-                public static readonly DependencyProperty Test4Property;
-                public static volatile DependencyProperty [|Test5Property|];
-                public static readonly DependencyProperty? [|Test6Property|];
+                public static DependencyProperty [|Test2Property|];
+                public static readonly DependencyProperty Test3Property;
+                public static volatile DependencyProperty [|Test4Property|];
+                public static readonly DependencyProperty? [|Test5Property|];
+                public static readonly DependencyProperty Test6Property;
                 public static readonly DependencyProperty Test7Property;
-                public static readonly DependencyProperty Test8Property;
             }
             """;
 
@@ -147,7 +144,6 @@ public class Test_UseFieldDeclarationCorrectlyCodeFixer
                 public static readonly DependencyProperty Test5Property;
                 public static readonly DependencyProperty Test6Property;
                 public static readonly DependencyProperty Test7Property;
-                public static readonly DependencyProperty Test8Property;
             }
             """;
 
@@ -178,7 +174,7 @@ public class Test_UseFieldDeclarationCorrectlyCodeFixer
                     typeof(MyObject),
                     null);
 
-                public readonly DependencyProperty [|Test2Property|] = DependencyProperty.Register(
+                internal static volatile DependencyProperty [|Test2Property|] = DependencyProperty.Register(
                     "Test2",
                     typeof(string),
                     typeof(MyObject),

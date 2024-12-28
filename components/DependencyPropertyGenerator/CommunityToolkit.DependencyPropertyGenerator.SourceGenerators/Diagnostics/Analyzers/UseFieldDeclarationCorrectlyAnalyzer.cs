@@ -42,6 +42,13 @@ public sealed class UseFieldDeclarationCorrectlyAnalyzer : DiagnosticAnalyzer
             {
                 IFieldSymbol fieldSymbol = (IFieldSymbol)context.Symbol;
 
+                // Ignore instance fields, to reduce false positives. There might be edge cases
+                // where property instances are used as state, and that's technically not invalid.
+                if (!fieldSymbol.IsStatic)
+                {
+                    return;
+                }
+
                 // We only care about fields which are of type 'DependencyProperty'
                 if (!SymbolEqualityComparer.Default.Equals(fieldSymbol.Type, dependencyPropertySymbol))
                 {
@@ -51,7 +58,6 @@ public sealed class UseFieldDeclarationCorrectlyAnalyzer : DiagnosticAnalyzer
                 // Fields should always be public, static, readonly, and with nothing else on them
                 if (fieldSymbol is
                     { DeclaredAccessibility: not Accessibility.Public } or
-                    { IsStatic: false } or
                     { IsRequired: true } or
                     { IsReadOnly: false } or
                     { IsVolatile: true } or

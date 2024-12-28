@@ -1850,7 +1850,6 @@ public class Test_Analyzers
 
     [TestMethod]
     [DataRow("private static readonly DependencyProperty")]
-    [DataRow("public readonly DependencyProperty")]
     [DataRow("public static DependencyProperty")]
     [DataRow("public static volatile DependencyProperty")]
     [DataRow("public static readonly DependencyProperty?")]
@@ -1964,7 +1963,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task UseFieldDeclarationAnalyzer_WithNoSetter_DoesNotWarn()
+    public async Task UseFieldDeclarationAnalyzer_WithNoGetter_DoesNotWarn()
     {
         const string source = """
             using Windows.UI.Xaml;
@@ -1991,7 +1990,7 @@ public class Test_Analyzers
             {
                 public static DependencyProperty {|WCTDP0021:Test1Property|} => DependencyProperty.Register("Test1", typeof(string), typeof(MyObject), null);
                 public static DependencyProperty {|WCTDP0021:Test2Property|} { get; } = DependencyProperty.Register("Test2", typeof(string), typeof(MyObject), null);
-                public DependencyProperty {|WCTDP0021:Test3Property|} { get; set; }
+                public static DependencyProperty {|WCTDP0021:Test3Property|} { get; set; }
             }
             """;
 

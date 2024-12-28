@@ -137,17 +137,10 @@ public class Test_UseFieldDeclarationCodeFixer
                     typeof(MyObject),
                     null);
 
-                public DependencyProperty [|Test4Property|] => DependencyProperty.Register(
-                    "Test4",
-                    typeof(string),
-                    typeof(MyObject),
-                    null);
-
-                public static DependencyProperty [|Test5Property|] { get; }
-                public virtual DependencyProperty [|Test6Property|] { get; }
+                public static DependencyProperty [|Test4Property|] { get; }
 
                 [Test]
-                public static DependencyProperty [|Test7Property|] { get; }
+                public static DependencyProperty [|Test5Property|] { get; }
             }
 
             public class TestAttribute : Attribute;
@@ -179,17 +172,10 @@ public class Test_UseFieldDeclarationCodeFixer
                     typeof(MyObject),
                     null);
 
-                public DependencyProperty Test4Property => DependencyProperty.Register(
-                    "Test4",
-                    typeof(string),
-                    typeof(MyObject),
-                    null);
-
-                public static readonly DependencyProperty Test5Property;
-                public virtual DependencyProperty Test6Property { get; }
+                public static readonly DependencyProperty Test4Property;
 
                 [Test]
-                public static DependencyProperty [|Test7Property|] { get; }
+                public static DependencyProperty Test5Property { get; }
             }
 
             public class TestAttribute : Attribute;
@@ -203,14 +189,8 @@ public class Test_UseFieldDeclarationCodeFixer
 
         test.FixedState.ExpectedDiagnostics.AddRange(
         [
-            // /0/Test0.cs(26,31): warning WCTDP0021: The property 'MyApp.MyObject.Test4Property' is a dependency property, which is not the correct declaration type (all dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types)
-            CSharpCodeFixVerifier.Diagnostic().WithSpan(26, 31, 26, 44).WithArguments("MyApp.MyObject.Test4Property"),
-
-            // /0/Test0.cs(33,39): warning WCTDP0021: The property 'MyApp.MyObject.Test6Property' is a dependency property, which is not the correct declaration type (all dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types)
-            CSharpCodeFixVerifier.Diagnostic().WithSpan(33, 39, 33, 52).WithArguments("MyApp.MyObject.Test6Property"),
-
-            // /0/Test0.cs(36,38): warning WCTDP0021: The property 'MyApp.MyObject.Test7Property' is a dependency property, which is not the correct declaration type (all dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types)
-            CSharpCodeFixVerifier.Diagnostic().WithSpan(36, 38, 36, 51).WithArguments("MyApp.MyObject.Test7Property")
+            // /0/Test0.cs(29,38): warning WCTDP0021: The property 'MyApp.MyObject.Test5Property' is a dependency property, which is not the correct declaration type (all dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types)
+            CSharpCodeFixVerifier.Diagnostic().WithSpan(29, 38, 29, 51).WithArguments("MyApp.MyObject.Test5Property")
         ]);
 
         await test.RunAsync();

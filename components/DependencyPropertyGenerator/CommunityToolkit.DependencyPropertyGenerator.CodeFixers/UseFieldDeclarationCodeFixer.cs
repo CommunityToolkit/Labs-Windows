@@ -74,21 +74,11 @@ public sealed class UseFieldDeclarationCodeFixer : CodeFixProvider
             return false;
         }
 
-        bool isStatic = false;
-
         foreach (SyntaxToken modifier in propertyDeclaration.Modifiers)
         {
             // Accessibility modifiers are allowed (the property will however become public)
             if (SyntaxFacts.IsAccessibilityModifier(modifier.Kind()))
             {
-                continue;
-            }
-
-            // Track whether the property is static
-            if (modifier.IsKind(SyntaxKind.StaticKeyword))
-            {
-                isStatic = true;
-
                 continue;
             }
 
@@ -99,12 +89,6 @@ public sealed class UseFieldDeclarationCodeFixer : CodeFixProvider
             }
         }
 
-        // We don't support fixing instance properties automatically, as that might break code
-        if (!isStatic)
-        {
-            return false;
-        }
-
         // Properties with an expression body are supported and will be converted to field initializers
         if (propertyDeclaration.ExpressionBody is not null)
         {
@@ -112,7 +96,7 @@ public sealed class UseFieldDeclarationCodeFixer : CodeFixProvider
         }
 
         // The property must have at least an accessor
-        if (propertyDeclaration.AccessorList is not { Accessors: { Count: > 0 } } accessorList)
+        if (propertyDeclaration.AccessorList is not { Accessors.Count: > 0 } accessorList)
         {
             return false;
         }
