@@ -13,9 +13,10 @@
     <EnableGeneratedDependencyPropertyEmbeddedMode Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == ''">false</EnableGeneratedDependencyPropertyEmbeddedMode>
   </PropertyGroup>
 
-  <!-- Allow the source generators to detect the selected XAML mode -->
+  <!-- Mark all the MSBuild properties that the generators/analyzers might need -->
   <ItemGroup>
     <CompilerVisibleProperty Include="DependencyPropertyGeneratorUseWindowsUIXaml" />
+    <CompilerVisibleProperty Include="CsWinRTComponent" />
   </ItemGroup>
 
   <!-- Define the build constants depending on the current configuration -->

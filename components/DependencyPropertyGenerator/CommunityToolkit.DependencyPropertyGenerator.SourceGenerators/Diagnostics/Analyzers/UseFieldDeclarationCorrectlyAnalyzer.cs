@@ -27,7 +27,6 @@ public sealed class UseFieldDeclarationCorrectlyAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-
         context.RegisterCompilationStartAction(static context =>
         {
             // Get the XAML mode to use
@@ -43,7 +42,7 @@ public sealed class UseFieldDeclarationCorrectlyAnalyzer : DiagnosticAnalyzer
             {
                 IFieldSymbol fieldSymbol = (IFieldSymbol)context.Symbol;
 
-                // We only care about fields with are of type 'DependencyProperty'
+                // We only care about fields which are of type 'DependencyProperty'
                 if (!SymbolEqualityComparer.Default.Equals(fieldSymbol.Type, dependencyPropertySymbol))
                 {
                     return;

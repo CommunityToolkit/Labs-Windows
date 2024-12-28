@@ -22,6 +22,11 @@ internal static class DiagnosticDescriptors
     public const string IncorrectDependencyPropertyFieldDeclarationId = "WCTDP0020";
 
     /// <summary>
+    /// The diagnostic id for <see cref="DependencyPropertyFieldDeclaration"/>.
+    /// </summary>
+    public const string DependencyPropertyFieldDeclarationId = "WCTDP0021";
+
+    /// <summary>
     /// <c>"The property '{0}' cannot be used to generate a dependency property, as its declaration is not valid (it must be an instance (non static) partial property, with a getter and a setter that is not init-only)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclaration = new(
@@ -279,5 +284,18 @@ internal static class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
         description: "All dependency property fields should be declared as 'public static readonly', and not be nullable.",
+        helpLinkUri: "https://learn.microsoft.com/windows/uwp/xaml-platform/custom-dependency-properties#checklist-for-defining-a-dependency-property");
+
+    /// <summary>
+    /// <c>"The property '{0}' is a dependency property, which is not the correct declaration type (all dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor DependencyPropertyFieldDeclaration = new(
+        id: DependencyPropertyFieldDeclarationId,
+        title: "Dependency property declared as a property",
+        messageFormat: "The property '{0}' is a dependency property, which is not the correct declaration type (all dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types)",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "All dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types.",
         helpLinkUri: "https://learn.microsoft.com/windows/uwp/xaml-platform/custom-dependency-properties#checklist-for-defining-a-dependency-property");
 }

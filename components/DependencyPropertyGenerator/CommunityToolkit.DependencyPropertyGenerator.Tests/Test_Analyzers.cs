@@ -1821,7 +1821,7 @@ public class Test_Analyzers
     [TestMethod]
     public async Task UseFieldDeclarationCorrectlyAnalyzer_NotDependencyProperty_DoesNotWarn()
     {
-        string source = $$"""
+        const string source = """
             using Windows.UI.Xaml;
 
             public class MyObject : DependencyObject
@@ -1868,5 +1868,92 @@ public class Test_Analyzers
             """;
 
         await CSharpAnalyzerTest<UseFieldDeclarationCorrectlyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseFieldDeclarationAnalyzer_NotDependencyProperty_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject
+            {
+                public static string TestProperty => "Blah";
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseFieldDeclarationAnalyzer_ExplicitInterfaceImplementation_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject, IMyObject
+            {
+                static DependencyProperty IMyObject.TestProperty => DependencyProperty.Register("Test", typeof(string), typeof(MyObject), null);
+            }
+
+            public interface IMyObject
+            {
+                static abstract DependencyProperty TestProperty { get; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseFieldDeclarationAnalyzer_ImplicitInterfaceImplementation_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject, IMyObject
+            {
+                public static DependencyProperty TestProperty => DependencyProperty.Register("Test", typeof(string), typeof(MyObject), null);
+            }
+
+            public interface IMyObject
+            {
+                static abstract DependencyProperty TestProperty { get; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseFieldDeclarationAnalyzer_WinRTComponent_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject
+            {
+                public static DependencyProperty TestProperty => DependencyProperty.Register("Test", typeof(string), typeof(MyObject), null);
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13, editorconfig: [("CsWinRTComponent", true)]);
+    }
+
+    [TestMethod]
+    public async Task UseFieldDeclarationAnalyzer_NormalProperty_Warns()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject
+            {
+                public static DependencyProperty {|WCTDP0021:Test1Property|} => DependencyProperty.Register("Test1", typeof(string), typeof(MyObject), null);
+                public static DependencyProperty {|WCTDP0021:Test2Property|} { get; } = DependencyProperty.Register("Test2", typeof(string), typeof(MyObject), null);
+                public DependencyProperty {|WCTDP0021:Test3Property|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseFieldDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
 }

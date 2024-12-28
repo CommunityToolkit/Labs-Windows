@@ -13,4 +13,9 @@ internal static class WellKnownPropertyNames
     /// The MSBuild property to control the XAML mode.
     /// </summary>
     public const string DependencyPropertyGeneratorUseWindowsUIXaml = nameof(DependencyPropertyGeneratorUseWindowsUIXaml);
+
+    /// <summary>
+    /// The MSBuild property to control whether the project is a WinRT component.
+    /// </summary>
+    public const string CsWinRTComponent = nameof(CsWinRTComponent);
 }

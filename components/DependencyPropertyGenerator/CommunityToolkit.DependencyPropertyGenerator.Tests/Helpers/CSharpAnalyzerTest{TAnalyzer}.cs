@@ -2,6 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI;
@@ -9,6 +12,7 @@ using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
@@ -56,6 +60,36 @@ internal sealed class CSharpAnalyzerTest<TAnalyzer> : CSharpAnalyzerTest<TAnalyz
         test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location));
 
         test.ExpectedDiagnostics.AddRange(expected);
+
+        return test.RunAsync(CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="AnalyzerVerifier{TAnalyzer, TTest, TVerifier}.VerifyAnalyzerAsync"/>
+    /// <param name="languageVersion">The language version to use to run the test.</param>
+    public static Task VerifyAnalyzerAsync(string source, LanguageVersion languageVersion, (string PropertyName, object PropertyValue)[] editorconfig)
+    {
+        CSharpAnalyzerTest<TAnalyzer> test = new(languageVersion) { TestCode = source };
+
+        test.TestState.ReferenceAssemblies = ReferenceAssemblies.Net.Net80;
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(Point).Assembly.Location));
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location));
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location));
+        test.TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location));
+
+        // Add any editorconfig properties, if present
+        if (editorconfig.Length > 0)
+        {
+            test.SolutionTransforms.Add((solution, projectId) =>
+                solution.AddAnalyzerConfigDocument(
+                    DocumentId.CreateNewId(projectId),
+                    "DependencyPropertyGenerator.editorconfig",
+                    SourceText.From($"""
+                        is_global = true
+                        {string.Join(Environment.NewLine, editorconfig.Select(static p => $"build_property.{p.PropertyName} = {p.PropertyValue}"))}
+                        """,
+                        Encoding.UTF8),
+                filePath: "/DependencyPropertyGenerator.editorconfig"));
+        }
 
         return test.RunAsync(CancellationToken.None);
     }
