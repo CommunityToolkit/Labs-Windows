@@ -466,6 +466,12 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                     }
                                 }
                             }
+                            else if (conversionOperation.Operand is IFieldReferenceOperation { Field: { ContainingType.SpecialType: SpecialType.System_String, Name: "Empty" } })
+                            {
+                                // Special handling of the 'string.Empty' field. This is not a constant value, but we can still treat it as a constant, by just
+                                // pretending this were the empty string literal instead. This way we can still support the property and convert to an attribute.
+                                fieldFlags.DefaultValue = TypedConstantInfo.Primitive.String.Empty;
+                            }
                             else
                             {
                                 // If we don't have a constant, check if it's some constant value we can forward. In this case, we

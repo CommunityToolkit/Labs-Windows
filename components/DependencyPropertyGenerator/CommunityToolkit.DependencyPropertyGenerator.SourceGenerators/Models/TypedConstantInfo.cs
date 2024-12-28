@@ -70,6 +70,11 @@ internal abstract partial record TypedConstantInfo
         /// <param name="Value">The input <see cref="string"/> value.</param>
         public sealed record String(string Value) : TypedConstantInfo
         {
+            /// <summary>
+            /// The shared <see cref="String"/> instance for empty strings.
+            /// </summary>
+            public static String Empty { get; } = new("");
+
             /// <inheritdoc/>
             public override string ToString()
             {

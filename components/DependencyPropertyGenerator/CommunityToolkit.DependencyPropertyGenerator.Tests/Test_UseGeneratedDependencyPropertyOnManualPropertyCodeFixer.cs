@@ -322,6 +322,58 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     }
 
     [TestMethod]
+    public async Task SimpleProperty_WithExplicitValue_EmptyString()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: new PropertyMetadata(string.Empty));
+
+                public string [|Name|]
+                {
+                    get => (string)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = "")]
+                public partial string {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
     public async Task SimpleProperty_WithExplicitValue_NotDefault_AddsNamespace()
     {
         const string original = """
