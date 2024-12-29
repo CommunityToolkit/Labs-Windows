@@ -60,7 +60,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
 
         // Retrieve the properties passed by the analyzer
         string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
-        string? defaultValueTypeFullyQualifiedMetadataName = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeFullyQualifiedMetadataNamePropertyName];
+        string? defaultValueTypeReferenceId = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeReferenceIdPropertyName];
 
         SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
@@ -82,7 +82,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                         propertyDeclaration,
                         fieldDeclaration,
                         defaultValue,
-                        defaultValueTypeFullyQualifiedMetadataName),
+                        defaultValueTypeReferenceId),
                     equivalenceKey: "Use a partial property"),
                 diagnostic);
         }
@@ -131,7 +131,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         SemanticModel semanticModel,
         AttributeListSyntax generatedDependencyPropertyAttributeList,
         string? defaultValueExpression,
-        string? defaultValueTypeFullyQualifiedMetadataName)
+        string? defaultValueTypeReferenceId)
     {
         // If we do have a default value expression, set it in the attribute.
         // We extract the generated attribute so we can add the new argument.
@@ -140,13 +140,34 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         {
             ExpressionSyntax parsedExpression = ParseExpression(defaultValueExpression);
 
-            // Special case values which are simple enum member accesses, like 'global::Windows.UI.Xaml.Visibility.Collapsed'
-            if (parsedExpression is MemberAccessExpressionSyntax { Expression: { } expressionSyntax, Name: IdentifierNameSyntax { Identifier.Text: { } memberName } })
+            // Special case values which are simple enum member accesses, like 'global::Windows.UI.Xaml.Visibility.Collapsed'.
+            // We have two cases to handle, which require different logic to ensure the correct tree is always generated:
+            //   - For nested enum types, we'll have a reference id. In this case, we manually insert annotations.
+            //   - For normal enum member accesses, we resolve the type and then construct the tree from that expression.
+            if (defaultValueTypeReferenceId is not null)
             {
-                string fullyQualifiedMetadataName = defaultValueTypeFullyQualifiedMetadataName ?? expressionSyntax.ToFullString();
+                // Here we're relying on the special 'SymbolId' annotation, which is used internally by Roslyn to track
+                // necessary imports for type expressions. We need to rely on this implementation detail here because
+                // there is no public API to correctly produce a tree for an enum member access on a nested type.
+                // This internal detail is one that many generators take a dependency on already, so it's safe-ish.
+                parsedExpression = parsedExpression.WithAdditionalAnnotations(
+                    Simplifier.Annotation,
+                    Simplifier.AddImportsAnnotation,
+                    new SyntaxAnnotation("SymbolId", defaultValueTypeReferenceId));
 
-                // Ensure we strip the global prefix, if present (it should always be present if we didn't have a metadata name).
-                // Note that using the fully qualified type name is just a fallback, as we should always have the metadata name.
+                SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
+
+                // Create the attribute argument to insert
+                SyntaxNode attributeArgumentSyntax = syntaxGenerator.AttributeArgument("DefaultValue", parsedExpression);
+
+                // Actually add the argument to the existing attribute syntax
+                return (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(generatedDependencyPropertyAttributeList, [attributeArgumentSyntax]);
+            }
+            else if (parsedExpression is MemberAccessExpressionSyntax { Expression: { } expressionSyntax, Name: IdentifierNameSyntax { Identifier.Text: { } memberName } })
+            {
+                string fullyQualifiedMetadataName = expressionSyntax.ToFullString();
+
+                // Ensure we strip the global prefix, if present (it should always be present if we didn't have a metadata name)
                 if (fullyQualifiedMetadataName.StartsWith("global::"))
                 {
                     fullyQualifiedMetadataName = fullyQualifiedMetadataName["global::".Length..];
@@ -165,11 +186,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                     // Create the member access expression for the target enum type
                     SyntaxNode enumMemberAccessExpressionSyntax = syntaxGenerator.MemberAccessExpression(enumTypeSyntax, memberName);
 
-                    // Create the attribute argument to insert
-                    SyntaxNode attributeArgumentSyntax = syntaxGenerator.AttributeArgument("DefaultValue", enumMemberAccessExpressionSyntax);
-
-                    // Actually add the argument to the existing attribute syntax
-                    return (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(generatedDependencyPropertyAttributeList, [attributeArgumentSyntax]);
+                    // Create the attribute argument, like in the previous case
+                    return (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(
+                        generatedDependencyPropertyAttributeList,
+                        [syntaxGenerator.AttributeArgument("DefaultValue", enumMemberAccessExpressionSyntax)]);
                 }
             }
 
@@ -204,7 +224,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         PropertyDeclarationSyntax propertyDeclaration,
         FieldDeclarationSyntax fieldDeclaration,
         string? defaultValueExpression,
-        string? defaultValueTypeFullyQualifiedMetadataName)
+        string? defaultValueTypeReferenceId)
     {
         await Task.CompletedTask;
 
@@ -225,7 +245,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             generatedDependencyPropertyAttributeList,
             syntaxEditor,
             defaultValueExpression,
-            defaultValueTypeFullyQualifiedMetadataName);
+            defaultValueTypeReferenceId);
 
         RemoveLeftoverLeadingEndOfLines([fieldDeclaration], syntaxEditor);
 
@@ -253,7 +273,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         AttributeListSyntax generatedDependencyPropertyAttributeList,
         SyntaxEditor syntaxEditor,
         string? defaultValueExpression,
-        string? defaultValueTypeFullyQualifiedMetadataName)
+        string? defaultValueTypeReferenceId)
     {
         // Replace the property with the partial property using the attribute. Note that it's important to use the
         // lambda 'ReplaceNode' overload here, rather than creating a modifier property declaration syntax node and
@@ -269,7 +289,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 semanticModel,
                 generatedDependencyPropertyAttributeList,
                 defaultValueExpression,
-                defaultValueTypeFullyQualifiedMetadataName);
+                defaultValueTypeReferenceId);
 
             // Start setting up the updated attribute lists
             SyntaxList<AttributeListSyntax> attributeLists = propertyDeclaration.AttributeLists;
@@ -470,7 +490,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
 
                 // Retrieve the properties passed by the analyzer
                 string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
-                string? defaultValueTypeFullyQualifiedMetadataName = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeFullyQualifiedMetadataNamePropertyName];
+                string? defaultValueTypeFullyQualifiedMetadataName = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeReferenceIdPropertyName];
 
 
                 ConvertToPartialProperty(
