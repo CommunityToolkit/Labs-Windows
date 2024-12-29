@@ -1,10 +1,10 @@
 <Project>
 
-  <!-- Allow manually specifying the XAML mode for the analyzers -->
+  <!-- Allow manually specifying the XAML mode for the analyzers (the default is UWP XAML for legacy UWP and for when 'UseUwp' is set, WinUI 3 XAML otherwise) -->
   <PropertyGroup>
-    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'uap10.0'))">true</DependencyPropertyGeneratorUseWindowsUIXaml>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(TargetPlatformIdentifier)' == 'UAP'">true</DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' == 'true'">true</DependencyPropertyGeneratorUseWindowsUIXaml>
-    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' != 'true'">false</DependencyPropertyGeneratorUseWindowsUIXaml>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == ''">false</DependencyPropertyGeneratorUseWindowsUIXaml>
   </PropertyGroup>
 
   <!-- Properties for the embedded mode, with defaults -->
