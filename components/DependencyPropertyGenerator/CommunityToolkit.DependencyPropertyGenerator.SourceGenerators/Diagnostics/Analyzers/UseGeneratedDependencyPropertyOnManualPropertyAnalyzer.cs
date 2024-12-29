@@ -60,7 +60,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
     /// <summary>
     /// The property name for the fully qualified metadata name of the default value, if present.
     /// </summary>
-    public const string DefaultValueTypeFullyQualifiedMetadataNamePropertyName = "DefaultValueTypeFullyQualifiedMetadataName";
+    public const string DefaultValueTypeReferenceIdPropertyName = "DefaultValueTypeReferenceId";
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [UseGeneratedDependencyPropertyForManualProperty];
@@ -473,8 +473,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                     }
                                     else if (operandType.ContainingType is not null)
                                     {
-                                        // If the enum is nested, we need to also
-                                        fieldFlags.DefaultValueTypeFullyQualifiedMetadataName = operandType.GetFullyQualifiedMetadataName();
+                                        // If the enum is nested, we need to also track the type symbol specifically, as the fully qualified
+                                        // expression we'd be using otherwise would not be the same as the metadata name, and resolving the
+                                        // enum type symbol from that in the code fixer would fail. This is an edge case, but it can happen.
+                                        fieldFlags.DefaultValueTypeReferenceId = DocumentationCommentId.CreateReferenceId(operandType);
                                     }
                                 }
                             }
@@ -567,7 +569,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 [fieldLocation],
                                 ImmutableDictionary.Create<string, string?>()
                                     .Add(DefaultValuePropertyName, fieldFlags.DefaultValue?.ToString())
-                                    .Add(DefaultValueTypeFullyQualifiedMetadataNamePropertyName, fieldFlags.DefaultValueTypeFullyQualifiedMetadataName),
+                                    .Add(DefaultValueTypeReferenceIdPropertyName, fieldFlags.DefaultValueTypeReferenceId),
                                 pair.Key));
                         }
                     }
@@ -588,7 +590,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         fieldFlags.PropertyName = null;
                         fieldFlags.PropertyType = null;
                         fieldFlags.DefaultValue = null;
-                        fieldFlags.DefaultValueTypeFullyQualifiedMetadataName = null;
+                        fieldFlags.DefaultValueTypeReferenceId = null;
                         fieldFlags.FieldLocation = null;
 
                         fieldFlagsStack.Push(fieldFlags);
@@ -664,9 +666,9 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         public TypedConstantInfo? DefaultValue;
 
         /// <summary>
-        /// The fully qualified metadata name of the default value, if needed.
+        /// The documentation comment reference id for type of the default value, if needed.
         /// </summary>
-        public string? DefaultValueTypeFullyQualifiedMetadataName;
+        public string? DefaultValueTypeReferenceId;
 
         /// <summary>
         /// The location of the target field being initialized.
