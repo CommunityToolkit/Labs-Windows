@@ -73,6 +73,13 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
 
         context.RegisterCompilationStartAction(static context =>
         {
+            // If the language is not at least C#, the generator can't be used, so we shouldn't emit warnings.
+            // If we did so, users wouldn't be able to fix them anyway without bumping the language first.
+            if (!context.Compilation.HasLanguageVersionAtLeastEqualTo(LanguageVersion.CSharp13))
+            {
+                return;
+            }
+
             // Get the XAML mode to use
             bool useWindowsUIXaml = context.Options.AnalyzerConfigOptionsProvider.GlobalOptions.GetMSBuildBooleanPropertyValue(WellKnownPropertyNames.DependencyPropertyGeneratorUseWindowsUIXaml);
 
