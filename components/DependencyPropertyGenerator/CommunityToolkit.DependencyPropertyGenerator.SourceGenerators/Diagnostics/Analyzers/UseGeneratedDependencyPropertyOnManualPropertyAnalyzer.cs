@@ -486,6 +486,14 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                         fieldFlags.DefaultValueTypeReferenceId = DocumentationCommentId.CreateReferenceId(operandType);
                                     }
                                 }
+
+                                // Special case for named constants: in this case we want to carry the whole expression over, rather
+                                // than serializing the constant value itself. This preserves the actual fields being referenced.
+                                // We skip enum fields, as those are not named constants. Those will be handled by the logic above.
+                                if (conversionOperation.Operand is IFieldReferenceOperation { Field: { IsConst: true, ContainingType.TypeKind: not TypeKind.Enum } })
+                                {
+                                    fieldFlags.DefaultValueExpressionLocation = conversionOperation.Operand.Syntax.GetLocation();
+                                }
                             }
                             else if (conversionOperation.Operand is IFieldReferenceOperation { Field: { ContainingType.SpecialType: SpecialType.System_String, Name: "Empty" } })
                             {
@@ -573,7 +581,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             context.ReportDiagnostic(Diagnostic.Create(
                                 UseGeneratedDependencyPropertyForManualProperty,
                                 pair.Key.Locations.FirstOrDefault(),
-                                [fieldLocation],
+                                ((Location?[])[fieldLocation, fieldFlags.DefaultValueExpressionLocation]).OfType<Location>(),
                                 ImmutableDictionary.Create<string, string?>()
                                     .Add(DefaultValuePropertyName, fieldFlags.DefaultValue?.ToString())
                                     .Add(DefaultValueTypeReferenceIdPropertyName, fieldFlags.DefaultValueTypeReferenceId),
@@ -598,6 +606,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         fieldFlags.PropertyType = null;
                         fieldFlags.DefaultValue = null;
                         fieldFlags.DefaultValueTypeReferenceId = null;
+                        fieldFlags.DefaultValueExpressionLocation = null;
                         fieldFlags.FieldLocation = null;
 
                         fieldFlagsStack.Push(fieldFlags);
@@ -676,6 +685,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// The documentation comment reference id for type of the default value, if needed.
         /// </summary>
         public string? DefaultValueTypeReferenceId;
+
+        /// <summary>
+        /// The location for the default value, if available.
+        /// </summary>
+        public Location? DefaultValueExpressionLocation;
 
         /// <summary>
         /// The location of the target field being initialized.

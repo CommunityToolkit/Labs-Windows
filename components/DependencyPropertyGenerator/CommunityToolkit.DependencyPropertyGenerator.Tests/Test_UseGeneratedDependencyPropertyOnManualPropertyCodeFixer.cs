@@ -545,6 +545,96 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     }
 
     [TestMethod]
+    [DataRow("int", "MyContainer1.X")]
+    [DataRow("float", "MyContainer1.Y")]
+    [DataRow("string", "MyContainer1.S")]
+    [DataRow("MyContainer1.MyContainer2.NestedEnum", "MyContainer1.E1")]
+    [DataRow("MyContainer1.MyEnum1", "MyContainer1.E2")]
+    [DataRow("MyEnum3", "MyContainer1.E3")]
+    [DataRow("int", "MyContainer1.MyContainer2.X")]
+    [DataRow("float", "MyContainer1.MyContainer2.Y")]
+    [DataRow("string", "MyContainer1.MyContainer2.S")]
+    [DataRow("MyContainer1.MyContainer2.NestedEnum", "MyContainer1.MyContainer2.E1")]
+    [DataRow("MyContainer1.MyEnum1", "MyContainer1.MyContainer2.E2")]
+    [DataRow("MyEnum3", "MyContainer1.MyContainer2.E3")]
+    public async Task SimpleProperty_WithExplicitValue_NamedConstant(string propertyType, string defaultValue)
+    {
+        const string types = """
+            public class MyContainer1
+            {
+                public const int X = 42;
+                public const float Y = 3.14f;
+                public const string S = "Test";
+                public const MyContainer2.NestedEnum E1 = MyContainer2.NestedEnum.B;
+                public const MyEnum1 E2 = MyEnum1.B;
+                public const MyEnum3 E3 = MyEnum3.B;
+
+                public enum MyEnum1 { A, B };
+
+                public struct MyContainer2
+                {
+                    public const int X = 42;
+                    public const float Y = 3.14f;
+                    public const string S = "Test";
+                    public const NestedEnum E1 = NestedEnum.B;
+                    public const MyEnum1 E2 = MyEnum1.B;
+                    public const MyEnum3 E3 = MyEnum3.B;
+
+                    public enum NestedEnum { A, B };
+                }
+            }
+
+            public enum MyEnum3 { A, B }
+            """;
+
+        string original = $$"""
+            using Windows.UI.Xaml;
+
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: new PropertyMetadata({{defaultValue}}));
+
+                public {{propertyType}} [|Name|]
+                {
+                    get => ({{propertyType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            {{types}}
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                [GeneratedDependencyProperty(DefaultValue = {{defaultValue}})]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+
+            {{types}}
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
     [DataRow("[A]", "[static: A]")]
     [DataRow("""[Test(42, "Hello")]""", """[static: Test(42, "Hello")]""")]
     [DataRow("""[field: Test(42, "Hello")]""", """[static: Test(42, "Hello")]""")]

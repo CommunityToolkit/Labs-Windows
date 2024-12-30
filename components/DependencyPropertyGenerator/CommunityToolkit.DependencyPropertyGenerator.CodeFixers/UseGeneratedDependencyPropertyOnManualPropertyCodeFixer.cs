@@ -46,8 +46,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         Diagnostic diagnostic = context.Diagnostics[0];
         TextSpan diagnosticSpan = context.Span;
 
-        // We can only possibly fix diagnostics with an additional location
-        if (diagnostic.AdditionalLocations is not [{ } fieldLocation])
+        // We always expect the field location to be the first additional location, this must be present
+        if (diagnostic.AdditionalLocations is not [{ } fieldLocation, ..])
         {
             return;
         }
@@ -61,6 +61,9 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         // Retrieve the properties passed by the analyzer
         string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
         string? defaultValueTypeReferenceId = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeReferenceIdPropertyName];
+
+        // Get any additional locations, if available
+        Location? defaultValueExpressionLocation = diagnostic.AdditionalLocations.ElementAtOrDefault(1);
 
         SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
@@ -82,7 +85,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                         propertyDeclaration,
                         fieldDeclaration,
                         defaultValue,
-                        defaultValueTypeReferenceId),
+                        defaultValueTypeReferenceId,
+                        defaultValueExpressionLocation),
                     equivalenceKey: "Use a partial property"),
                 diagnostic);
         }
@@ -123,21 +127,38 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// </summary>
     /// <param name="document">The original document being fixed.</param>
     /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current compilation.</param>
+    /// <param name="root">The original tree root belonging to the current document.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
-    /// <param name="defaultValueTypeFullyQualifiedMetadataName">The fully qualified metadata name of the default value, if present.</param>
+    /// <param name="defaultValueTypeReferenceId">The documentation comment reference id for type of the default value, if present.</param>
+    /// <param name="defaultValueExpressionLocation">The location for the default value, if available.</param>
     /// <returns>The updated attribute syntax.</returns>
     private static AttributeListSyntax UpdateGeneratedDependencyPropertyAttributeList(
         Document document,
         SemanticModel semanticModel,
+        SyntaxNode root,
         AttributeListSyntax generatedDependencyPropertyAttributeList,
         string? defaultValueExpression,
-        string? defaultValueTypeReferenceId)
+        string? defaultValueTypeReferenceId,
+        Location? defaultValueExpressionLocation)
     {
         // If we do have a default value expression, set it in the attribute.
         // We extract the generated attribute so we can add the new argument.
         // It's important to reuse it, as it has the "add usings" annotation.
         if (defaultValueExpression is not null)
         {
+            SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
+
+            // Special case if we have a location for the original expression, and we can resolve the node.
+            // In this case, we want to just carry that over with no changes (this is used for named constants).
+            // See notes below for how this method is constructing the new attribute argument to insert.
+            if (defaultValueExpressionLocation is not null &&
+                root.FindNode(defaultValueExpressionLocation.SourceSpan) is ArgumentSyntax { Expression: { } defaultValueOriginalExpression })
+            {
+                return (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(
+                    generatedDependencyPropertyAttributeList,
+                    [syntaxGenerator.AttributeArgument("DefaultValue", defaultValueOriginalExpression)]);
+            }
+
             ExpressionSyntax parsedExpression = ParseExpression(defaultValueExpression);
 
             // Special case values which are simple enum member accesses, like 'global::Windows.UI.Xaml.Visibility.Collapsed'.
@@ -154,8 +175,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                     Simplifier.Annotation,
                     Simplifier.AddImportsAnnotation,
                     new SyntaxAnnotation("SymbolId", defaultValueTypeReferenceId));
-
-                SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
 
                 // Create the attribute argument to insert
                 SyntaxNode attributeArgumentSyntax = syntaxGenerator.AttributeArgument("DefaultValue", parsedExpression);
@@ -178,8 +197,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 // That is, they will be the same if the type is not nested, and not generic, which is what we expect.
                 if (semanticModel.Compilation.GetTypeByMetadataName(fullyQualifiedMetadataName) is INamedTypeSymbol enumTypeSymbol)
                 {
-                    SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
-
                     // Create the identifier syntax for the enum type, with the right annotations
                     SyntaxNode enumTypeSyntax = syntaxGenerator.TypeExpression(enumTypeSymbol).WithAdditionalAnnotations(Simplifier.AddImportsAnnotation);
 
@@ -215,7 +232,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="propertyDeclaration">The <see cref="PropertyDeclarationSyntax"/> for the property being updated.</param>
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
-    /// <param name="defaultValueTypeFullyQualifiedMetadataName">The fully qualified metadata name of the default value, if present.</param>
+    /// <param name="defaultValueTypeReferenceId">The documentation comment reference id for type of the default value, if present.</param>
+    /// <param name="defaultValueExpressionLocation">The location for the default value, if available.</param>
     /// <returns>An updated document with the applied code fix, and <paramref name="propertyDeclaration"/> being replaced with a partial property.</returns>
     private static async Task<Document> ConvertToPartialProperty(
         Document document,
@@ -224,7 +242,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         PropertyDeclarationSyntax propertyDeclaration,
         FieldDeclarationSyntax fieldDeclaration,
         string? defaultValueExpression,
-        string? defaultValueTypeReferenceId)
+        string? defaultValueTypeReferenceId,
+        Location? defaultValueExpressionLocation)
     {
         await Task.CompletedTask;
 
@@ -240,12 +259,14 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         ConvertToPartialProperty(
             document,
             semanticModel,
+            root,
             propertyDeclaration,
             fieldDeclaration,
             generatedDependencyPropertyAttributeList,
             syntaxEditor,
             defaultValueExpression,
-            defaultValueTypeReferenceId);
+            defaultValueTypeReferenceId,
+            defaultValueExpressionLocation);
 
         RemoveLeftoverLeadingEndOfLines([fieldDeclaration], syntaxEditor);
 
@@ -258,22 +279,26 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// </summary>
     /// <param name="document">The original document being fixed.</param>
     /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current compilation.</param>
+    /// <param name="root">The original tree root belonging to the current document.</param>
     /// <param name="propertyDeclaration">The <see cref="PropertyDeclarationSyntax"/> for the property being updated.</param>
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
     /// <param name="generatedDependencyPropertyAttributeList">The <see cref="AttributeListSyntax"/> with the attribute to add.</param>
     /// <param name="syntaxEditor">The <see cref="SyntaxEditor"/> instance to use.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
-    /// <param name="defaultValueTypeFullyQualifiedMetadataName">The fully qualified metadata name of the default value, if present.</param>
+    /// <param name="defaultValueTypeReferenceId">The documentation comment reference id for type of the default value, if present.</param>
+    /// <param name="defaultValueExpressionLocation">The location for the default value, if available.</param>
     /// <returns>An updated document with the applied code fix, and <paramref name="propertyDeclaration"/> being replaced with a partial property.</returns>
     private static void ConvertToPartialProperty(
         Document document,
         SemanticModel semanticModel,
+        SyntaxNode root,
         PropertyDeclarationSyntax propertyDeclaration,
         FieldDeclarationSyntax fieldDeclaration,
         AttributeListSyntax generatedDependencyPropertyAttributeList,
         SyntaxEditor syntaxEditor,
         string? defaultValueExpression,
-        string? defaultValueTypeReferenceId)
+        string? defaultValueTypeReferenceId,
+        Location? defaultValueExpressionLocation)
     {
         // Replace the property with the partial property using the attribute. Note that it's important to use the
         // lambda 'ReplaceNode' overload here, rather than creating a modifier property declaration syntax node and
@@ -287,9 +312,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             generatedDependencyPropertyAttributeList = UpdateGeneratedDependencyPropertyAttributeList(
                 document,
                 semanticModel,
+                root,
                 generatedDependencyPropertyAttributeList,
                 defaultValueExpression,
-                defaultValueTypeReferenceId);
+                defaultValueTypeReferenceId,
+                defaultValueExpressionLocation);
 
             // Start setting up the updated attribute lists
             SyntaxList<AttributeListSyntax> attributeLists = propertyDeclaration.AttributeLists;
@@ -482,7 +509,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 }
 
                 // Also check that we can find the target field to remove
-                if (diagnostic.AdditionalLocations is not [{ } fieldLocation] ||
+                if (diagnostic.AdditionalLocations is not [{ } fieldLocation, ..] ||
                     root.FindNode(fieldLocation.SourceSpan) is not FieldDeclarationSyntax fieldDeclaration)
                 {
                     continue;
@@ -490,18 +517,22 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
 
                 // Retrieve the properties passed by the analyzer
                 string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
-                string? defaultValueTypeFullyQualifiedMetadataName = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeReferenceIdPropertyName];
+                string? defaultValueTypeReferenceId = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeReferenceIdPropertyName];
 
+                // Get any additional locations, if available
+                Location? defaultValueExpressionLocation = diagnostic.AdditionalLocations.ElementAtOrDefault(1);
 
                 ConvertToPartialProperty(
                     document,
                     semanticModel,
+                    root,
                     propertyDeclaration,
                     fieldDeclaration,
                     generatedDependencyPropertyAttributeList,
                     syntaxEditor,
                     defaultValue,
-                    defaultValueTypeFullyQualifiedMetadataName);
+                    defaultValueTypeReferenceId,
+                    defaultValueExpressionLocation);
 
                 fieldDeclarations.Add(fieldDeclaration);
             }
