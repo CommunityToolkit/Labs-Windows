@@ -5,33 +5,32 @@
 using System;
 using CommunityToolkit.Notifications.Adaptive.Elements;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal static class BaseImageHelper
 {
-    internal static class BaseImageHelper
+    internal static void SetSource(ref string destination, string value)
     {
-        internal static void SetSource(ref string destination, string value)
+        if (value == null)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
-            destination = value;
+            throw new ArgumentNullException(nameof(value));
         }
 
-        internal static Element_AdaptiveImage CreateBaseElement(IBaseImage current)
-        {
-            if (current.Source == null)
-            {
-                throw new NullReferenceException("Source property is required.");
-            }
+        destination = value;
+    }
 
-            return new Element_AdaptiveImage()
-            {
-                Src = current.Source,
-                Alt = current.AlternateText,
-                AddImageQuery = current.AddImageQuery
-            };
+    internal static Element_AdaptiveImage CreateBaseElement(IBaseImage current)
+    {
+        if (current.Source == null)
+        {
+            throw new NullReferenceException("Source property is required.");
         }
+
+        return new Element_AdaptiveImage()
+        {
+            Src = current.Source,
+            Alt = current.AlternateText,
+            AddImageQuery = current.AddImageQuery
+        };
     }
 }

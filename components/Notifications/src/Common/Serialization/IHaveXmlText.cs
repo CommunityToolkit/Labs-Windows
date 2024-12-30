@@ -2,16 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// An interface for a notification XML element with an explicit XML text content.
+/// </summary>
+internal interface IHaveXmlText
 {
     /// <summary>
-    /// An interface for a notification XML element with an explicit XML text content.
+    /// Gets the text content of the current element.
     /// </summary>
-    internal interface IHaveXmlText
-    {
-        /// <summary>
-        /// Gets the text content of the current element.
-        /// </summary>
-        string Text { get; }
-    }
+    string Text { get; }
 }

@@ -2,6 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if NET8_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 using CommunityToolkit.Labs.WinUI.CanvasViewInternal;
 using CommunityToolkit.WinUI.Helpers;
 
@@ -59,6 +62,9 @@ public partial class CanvasView : ItemsControl
         }
     }
 
+#if NET8_0_OR_GREATER
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "These use of 'SetBindingExpressionValue' might be fine (we should revisit this later)")]
+#endif
     private void ContentPresenter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
     {
         // Move the rectangle.
