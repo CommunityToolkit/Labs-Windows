@@ -41,7 +41,7 @@ namespace CommunityToolkit.WinUI;
 public sealed class GeneratedDependencyPropertyAttribute : Attribute
 {
     /// <summary>
-    /// Gets a value indicating the default value to set for the property.
+    /// Gets or sets a value indicating the default value to set for the property.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -79,4 +79,23 @@ public sealed class GeneratedDependencyPropertyAttribute : Attribute
     /// properties might also be set outside of the partial property implementation, meaning caching would be invalid.
     /// </remarks>
     public bool IsLocalCacheEnabled { get; init; } = false;
+
+    /// <summary>
+    /// Gets or sets the type to use to register the property in metadata. The default value will exactly match the property type.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This property allows customizing the property type in metadata, in advanced scenarios. For instance, it can be used to define
+    /// properties of a <see cref="Nullable{T}"/> type (e.g. <see langword="bool?"/>) as just using <see cref="object"/> in metadata.
+    /// This allows working around some issues primarily around classic (reflection-based) binding in XAML.
+    /// </para>
+    /// <para>
+    /// This property should only be set when actually required (e.g. to ensure a specific scenario can work). The default behavior
+    /// (i.e. the property type in metadata matching the declared property type) should work correctly in the vast majority of cases.
+    /// </para>
+    /// </remarks>
+#if NET8_0_OR_GREATER
+    [DisallowNull]
+#endif
+    public Type? PropertyType { get; init; } = null!;
 }

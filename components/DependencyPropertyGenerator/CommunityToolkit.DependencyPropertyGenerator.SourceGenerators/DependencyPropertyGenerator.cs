@@ -89,8 +89,12 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
 
                     token.ThrowIfCancellationRequested();
 
-                    string typeName = propertySymbol.Type.GetFullyQualifiedName();
-                    string typeNameWithNullabilityAnnotations = propertySymbol.Type.GetFullyQualifiedNameWithNullabilityAnnotations();
+                    Execute.GetPropertyTypes(
+                        propertySymbol,
+                        context.Attributes[0],
+                        out string typeName,
+                        out string typeNameWithNullabilityAnnotations,
+                        out string? metadataTypeName);
 
                     token.ThrowIfCancellationRequested();
 
@@ -144,6 +148,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         SetterAccessibility: setterAccessibility,
                         TypeName: typeName,
                         TypeNameWithNullabilityAnnotations: typeNameWithNullabilityAnnotations,
+                        MetadataTypeName: metadataTypeName,
                         DefaultValue: defaultValue,
                         IsReferenceTypeOrUnconstraindTypeParameter: isReferenceTypeOrUnconstraindTypeParameter,
                         IsLocalCachingEnabled: isLocalCachingEnabled,

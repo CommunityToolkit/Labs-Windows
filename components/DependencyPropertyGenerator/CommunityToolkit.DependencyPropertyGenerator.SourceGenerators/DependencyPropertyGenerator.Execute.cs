@@ -237,6 +237,43 @@ partial class DependencyPropertyGenerator
         }
 
         /// <summary>
+        /// Tries to get the accessibility of the property and accessors, if possible.
+        /// </summary>
+        /// <param name="propertySymbol">The input <see cref="IPropertySymbol"/> instance.</param>
+        /// <param name="attributeData">The input <see cref="AttributeData"/> that triggered the annotation.</param>
+        /// <param name="typeName">The type name for the generated property (without nullability annotations).</param>
+        /// <param name="typeNameWithNullabilityAnnotations">The type name for the generated property, including nullability annotations.</param>
+        /// <param name=",etadataTypeName">The type name for the metadata declaration of the property, if explicitly set.</param>
+        public static void GetPropertyTypes(
+            IPropertySymbol propertySymbol,
+            AttributeData attributeData,
+            out string typeName,
+            out string typeNameWithNullabilityAnnotations,
+            out string? metadataTypeName)
+        {
+            // These type names are always present and directly derived from the property type
+            typeName = propertySymbol.Type.GetFullyQualifiedName();
+            typeNameWithNullabilityAnnotations = propertySymbol.Type.GetFullyQualifiedNameWithNullabilityAnnotations();
+
+            // Check if the user has specified an explicit property type to use in metadata
+            if (attributeData.TryGetNamedArgument("PropertyType", out TypedConstant propertyType))
+            {
+                // Also make sure we do have a type. We don't need to perform additional validation here, since
+                // the resulting code will always compile even if the type isn't actually compatible. We can do
+                // that validation just from an analizer, and emit warnings if the requested type is incorrect.
+                if (propertyType is { Kind: TypedConstantKind.Type, IsNull: false, Value: ITypeSymbol typeSymbol })
+                {
+                    metadataTypeName = typeSymbol.GetFullyQualifiedName();
+
+                    return;
+                }
+            }
+
+            // By default, we'll just match the declared property type
+            metadataTypeName = null;
+        }
+
+        /// <summary>
         /// Gets the default value to use to initialize the generated property, if explicitly specified.
         /// </summary>
         /// <param name="attributeData">The input <see cref="AttributeData"/> that triggered the annotation.</param>
@@ -589,10 +626,13 @@ partial class DependencyPropertyGenerator
                     writer.WriteLine($"[{attributeInfo}]");
                 }
 
+                // Use the explicitly requested type name, if present, or the declared property type otherwise
+                string propertyType = propertyInfo.MetadataTypeName ?? propertyInfo.TypeName;
+
                 writer.Write($$"""
                     public static readonly global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}} {{propertyInfo.PropertyName}}Property = global::{{WellKnownTypeNames.DependencyProperty(propertyInfo.UseWindowsUIXaml)}}.Register(
                         name: "{{propertyInfo.PropertyName}}",
-                        propertyType: typeof({{propertyInfo.TypeName}}),
+                        propertyType: typeof({{propertyType}}),
                         ownerType: typeof({{typeQualifiedName}}),
                         typeMetadata: 
                     """, isMultiline: true);
