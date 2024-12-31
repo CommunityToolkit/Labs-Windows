@@ -2068,6 +2068,8 @@ public class Test_Analyzers
     [DataRow("MyObject", "IMyInterface")]
     [DataRow("double", "double?")]
     [DataRow("double?", "IMyInterface")]
+    [DataRow("double", "float")]
+    [DataRow("float", "double")]
     public async Task ExplicitPropertyMetadataTypeAnalyzer_IncompatibleType_Warns(string declaredType, string propertyType)
     {
         string source = $$"""

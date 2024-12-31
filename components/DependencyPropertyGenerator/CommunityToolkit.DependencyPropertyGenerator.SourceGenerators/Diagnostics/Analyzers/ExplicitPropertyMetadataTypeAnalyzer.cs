@@ -76,9 +76,22 @@ public sealed class ExplicitPropertyMetadataTypeAnalyzer : DiagnosticAnalyzer
 
                 // If the explicit type is not compatible (i.e. there's no implicit conversion and the type is not the underlying nullable type), emit an error.
                 // We also emit the same diagnostic if the explicit type is the nullable version of the property type, as that is not a supported scenario.
-                if (typeSymbol.IsNullableValueTypeWithUnderlyingType(propertySymbol.Type) ||
+                bool isPropertyTypeIncompatible =
+                    typeSymbol.IsNullableValueTypeWithUnderlyingType(propertySymbol.Type) ||
                     (!context.Compilation.HasImplicitConversion(propertySymbol.Type, typeSymbol)) &&
-                     !propertySymbol.Type.IsNullableValueTypeWithUnderlyingType(typeSymbol))
+                     !propertySymbol.Type.IsNullableValueTypeWithUnderlyingType(typeSymbol);
+
+                // Special case: we want to also block incompatible assignments that would have an implicit conversion (eg. 'float' -> 'double')
+                if (propertySymbol.Type.IsValueType &&
+                    typeSymbol.IsValueType &&
+                    !propertySymbol.Type.IsNullableValueType() &&
+                    !typeSymbol.IsNullableValueType() &&
+                    !SymbolEqualityComparer.Default.Equals(propertySymbol.Type, typeSymbol))
+                {
+                    isPropertyTypeIncompatible = true;
+                }
+
+                if (isPropertyTypeIncompatible)
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
                         IncompatibleDependencyPropertyExplicitMetadataType,
