@@ -25,6 +25,32 @@ internal static class ITypeSymbolExtensions
     }
 
     /// <summary>
+    /// Checks whether a given type symbol represents some <see cref="Nullable{T}"/> type.
+    /// </summary>
+    /// <param name="symbol">The input <see cref="ITypeSymbol"/> instance to check.</param>
+    /// <returns>Whether <paramref name="symbol"/> represents some <see cref="Nullable{T}"/> type.</returns>
+    public static bool IsNullableValueType(this ITypeSymbol symbol)
+    {
+        return symbol is INamedTypeSymbol { IsValueType: true, IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
+    }
+
+    /// <summary>
+    /// Checks whether a given type symbol represents a <see cref="Nullable{T}"/> type with a specific underlying type.
+    /// </summary>
+    /// <param name="symbol">The input <see cref="ITypeSymbol"/> instance to check.</param>
+    /// <param name="underlyingType">The underlyign type to check.</param>
+    /// <returns>Whether <paramref name="symbol"/> represents a <see cref="Nullable{T}"/> type with a specific underlying type.</returns>
+    public static bool IsNullableValueTypeWithUnderlyingType(this ITypeSymbol symbol, ITypeSymbol underlyingType)
+    {
+        if (!IsNullableValueType(symbol))
+        {
+            return false;
+        }
+
+        return SymbolEqualityComparer.Default.Equals(((INamedTypeSymbol)symbol).TypeArguments[0], underlyingType);  
+    }
+
+    /// <summary>
     /// Tries to get the default value of a given enum type.
     /// </summary>
     /// <param name="symbol">The input <see cref="ITypeSymbol"/> instance to check.</param>

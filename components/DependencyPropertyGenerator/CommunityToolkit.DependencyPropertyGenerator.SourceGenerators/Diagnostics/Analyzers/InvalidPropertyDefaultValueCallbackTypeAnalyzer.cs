@@ -146,16 +146,7 @@ public sealed class InvalidPropertyDefaultValueCallbackTypeAnalyzer : Diagnostic
             return true;
         }
 
-        bool isNullableValueType = propertySymbol.Type is INamedTypeSymbol { IsValueType: true, IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
-
         // Otherwise, try to see if the return is the type argument of a nullable value type
-        if (isNullableValueType &&
-            methodSymbol.ReturnType.TypeKind is TypeKind.Struct &&
-            SymbolEqualityComparer.Default.Equals(((INamedTypeSymbol)propertySymbol.Type).TypeArguments[0], methodSymbol.ReturnType))
-        {
-            return true;
-        }
-
-        return false;
+        return propertySymbol.Type.IsNullableValueTypeWithUnderlyingType(methodSymbol.ReturnType);
     }
 }

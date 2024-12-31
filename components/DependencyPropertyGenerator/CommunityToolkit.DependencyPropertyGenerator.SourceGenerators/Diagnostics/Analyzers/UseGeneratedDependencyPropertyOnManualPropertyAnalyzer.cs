@@ -443,7 +443,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             return;
                         }
 
-                        bool isNullableValueType = propertyTypeSymbol is INamedTypeSymbol { IsValueType: true, IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
+                        bool isNullableValueType = propertyTypeSymbol.IsNullableValueType();
 
                         // Check whether the value is a default constant value. If it is, then the property is valid (no explicit value).
                         // We need to special case nullable value types, as the default value for the underlying type is not the actual default.

@@ -68,7 +68,7 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
                     return;
                 }
 
-                bool isNullableValueType = propertySymbol.Type is INamedTypeSymbol { IsValueType: true, IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
+                bool isNullableValueType = propertySymbol.Type.IsNullableValueType();
                 bool isNullableType = !propertySymbol.Type.IsValueType || isNullableValueType;
 
                 // If the value is 'null', handle all possible cases:
