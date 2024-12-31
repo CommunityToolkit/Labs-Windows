@@ -1996,4 +1996,93 @@ public class Test_Analyzers
 
         await CSharpAnalyzerTest<UseFieldDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
+
+    [TestMethod]
+    public async Task ExplicitPropertyMetadataTypeAnalyzer_NoAttribute_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject
+            {
+                public string? Name { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<ExplicitPropertyMetadataTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string", "object")]
+    [DataRow("MyObject", "DependencyObject")]
+    [DataRow("MyObject", "IMyInterface")]
+    [DataRow("double?", "object")]
+    [DataRow("double?", "double")]
+    public async Task ExplicitPropertyMetadataTypeAnalyzer_ValidExplicitType_Warns(string declaredType, string propertyType)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject, IMyInterface
+            {
+                [GeneratedDependencyProperty(PropertyType = typeof({{propertyType}}))]
+                public {{declaredType}} Name { get; set; }
+            }
+
+            public interface IMyInterface;
+            """;
+
+        await CSharpAnalyzerTest<ExplicitPropertyMetadataTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("object")]
+    [DataRow("string")]
+    [DataRow("MyObject")]
+    [DataRow("DependencyObject")]
+    [DataRow("IMyInterface")]
+    [DataRow("double?")]
+    [DataRow("double")]
+    public async Task ExplicitPropertyMetadataTypeAnalyzer_SameType_Warns(string type)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject, IMyInterface
+            {
+                [{|WCTDP0022:GeneratedDependencyProperty(PropertyType = typeof({{type}}))|}]
+                public {{type}} Name { get; set; }
+            }
+
+            public interface IMyInterface;
+            """;
+
+        await CSharpAnalyzerTest<ExplicitPropertyMetadataTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("object", "string")]
+    [DataRow("DependencyObject", "MyObject")]
+    [DataRow("MyObject", "IMyInterface")]
+    [DataRow("double", "double?")]
+    [DataRow("double?", "IMyInterface")]
+    public async Task ExplicitPropertyMetadataTypeAnalyzer_IncompatibleType_Warns(string declaredType, string propertyType)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            public class MyObject : DependencyObject
+            {
+                [{|WCTDP0023:GeneratedDependencyProperty(PropertyType = typeof({{propertyType}}))|}]
+                public {{declaredType}} Name { get; set; }
+            }
+
+            public interface IMyInterface;
+            """;
+
+        await CSharpAnalyzerTest<ExplicitPropertyMetadataTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
 }

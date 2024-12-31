@@ -298,4 +298,30 @@ internal static class DiagnosticDescriptors
         isEnabledByDefault: true,
         description: "All dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types.",
         helpLinkUri: "https://learn.microsoft.com/windows/uwp/xaml-platform/custom-dependency-properties#checklist-for-defining-a-dependency-property");
+
+    /// <summary>
+    /// <c>"The property '{0}' annotated with [GeneratedDependencyProperty] is specifying '{1}' as its property type in metadata, which is unnecessary (the type is the same as the declared property type)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor UnnecessaryDependencyPropertyExplicitMetadataType = new(
+        id: "WCTDP0022",
+        title: "Unnecessary dependency property explicit metadata type",
+        messageFormat: "The property '{0}' annotated with [GeneratedDependencyProperty] is specifying '{1}' as its property type in metadata, which is unnecessary (the type is the same as the declared property type)",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "Properties annotated with [GeneratedDependencyProperty] and setting 'PropertyType' should only do so when the explicit type would not match the declared property type.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>"The property '{0}' annotated with [GeneratedDependencyProperty] is specifying '{1}' as its property type in metadata, which is not compatible with its declared type '{2}' (the 'PropertyType' option should be used with a compatible type)"</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor IncompatibleDependencyPropertyExplicitMetadataType = new(
+        id: "WCTDP0023",
+        title: "Incompatible dependency property explicit metadata type",
+        messageFormat: "The property '{0}' annotated with [GeneratedDependencyProperty] is specifying '{1}' as its property type in metadata, which is not compatible with its declared type '{2}' (the 'PropertyType' option should be used with a compatible type)",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Properties annotated with [GeneratedDependencyProperty] and setting 'PropertyType' must do so with a type that is compatible with the declared property type.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }
