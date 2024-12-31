@@ -74,24 +74,8 @@ public sealed class ExplicitPropertyMetadataTypeAnalyzer : DiagnosticAnalyzer
                     return;
                 }
 
-                // If the explicit type is not compatible (i.e. there's no implicit conversion and the type is not the underlying nullable type), emit an error.
-                // We also emit the same diagnostic if the explicit type is the nullable version of the property type, as that is not a supported scenario.
-                bool isPropertyTypeIncompatible =
-                    typeSymbol.IsNullableValueTypeWithUnderlyingType(propertySymbol.Type) ||
-                    (!context.Compilation.HasImplicitConversion(propertySymbol.Type, typeSymbol)) &&
-                     !propertySymbol.Type.IsNullableValueTypeWithUnderlyingType(typeSymbol);
-
-                // Special case: we want to also block incompatible assignments that would have an implicit conversion (eg. 'float' -> 'double')
-                if (propertySymbol.Type.IsValueType &&
-                    typeSymbol.IsValueType &&
-                    !propertySymbol.Type.IsNullableValueType() &&
-                    !typeSymbol.IsNullableValueType() &&
-                    !SymbolEqualityComparer.Default.Equals(propertySymbol.Type, typeSymbol))
-                {
-                    isPropertyTypeIncompatible = true;
-                }
-
-                if (isPropertyTypeIncompatible)
+                // Emit a diagnostic if the explicit type is incompatible
+                if (!IsValidPropertyMetadataType(propertySymbol.Type, typeSymbol, context.Compilation))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
                         IncompatibleDependencyPropertyExplicitMetadataType,
@@ -102,5 +86,40 @@ public sealed class ExplicitPropertyMetadataTypeAnalyzer : DiagnosticAnalyzer
                 }
             }, SymbolKind.Property);
         });
+    }
+
+    /// <summary>
+    /// Checks whether a given type is a valid property type for metadata, for a given dependency property.
+    /// </summary>
+    /// <param name="declaredPropertyTypeSymbol">The property type on the property definition.</param>
+    /// <param name="explicitPropertyTypeSymbol">The type to use for the property declaration in metadata.</param>
+    /// <param name="compilation">The <see cref="Compilation"/> instance for the current compilation.</param>
+    /// <returns>Whether the target property type to use in metadata is valid for the property declaration.</returns>
+    internal static bool IsValidPropertyMetadataType(ITypeSymbol declaredPropertyTypeSymbol, ITypeSymbol explicitPropertyTypeSymbol, Compilation compilation)
+    {
+        // If the explicit type is the nullable version of the property type, that is not a supported scenario
+        if (explicitPropertyTypeSymbol.IsNullableValueTypeWithUnderlyingType(declaredPropertyTypeSymbol))
+        {
+            return false;
+        }
+
+        // Common check for whether the explicit type is not compatible (i.e. there's no implicit conversion and the type is not the underlying nullable type)
+        if (!compilation.HasImplicitConversion(declaredPropertyTypeSymbol, explicitPropertyTypeSymbol) &&
+            !declaredPropertyTypeSymbol.IsNullableValueTypeWithUnderlyingType(explicitPropertyTypeSymbol))
+        {
+            return false;
+        }
+
+        // Special case: we want to also block incompatible assignments that would have an implicit conversion (eg. 'float' -> 'double')
+        if (declaredPropertyTypeSymbol.IsValueType &&
+            explicitPropertyTypeSymbol.IsValueType &&
+            !declaredPropertyTypeSymbol.IsNullableValueType() &&
+            !explicitPropertyTypeSymbol.IsNullableValueType() &&
+            !SymbolEqualityComparer.Default.Equals(declaredPropertyTypeSymbol, explicitPropertyTypeSymbol))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
