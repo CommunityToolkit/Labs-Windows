@@ -1284,7 +1284,6 @@ public class Test_Analyzers
     [DataRow("\"OtherName\"", "typeof(string)", "typeof(MyControl)", "null")]
     [DataRow("\"Name\"", "typeof(int)", "typeof(MyControl)", "null")]
     [DataRow("\"Name\"", "typeof(MyControl)", "typeof(MyControl)", "null")]
-    [DataRow("\"Name\"", "typeof(object)", "typeof(MyControl)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(string)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(Control)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(DependencyObject)", "null")]
@@ -1622,6 +1621,40 @@ public class Test_Analyzers
             public struct MyStruct { public string X { get; set; } }
             public enum MyEnum { A, B, C }
             public class MyClass { }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string?", "object")]
+    [DataRow("MyControl", "DependencyObject")]
+    [DataRow("double?", "object")]
+    [DataRow("double?", "double")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_ExplicitMetadataType_Warns(string declaredType, string propertyType)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public {{declaredType}} {|WCTDP0017:Name|}
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
             """;
 
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);

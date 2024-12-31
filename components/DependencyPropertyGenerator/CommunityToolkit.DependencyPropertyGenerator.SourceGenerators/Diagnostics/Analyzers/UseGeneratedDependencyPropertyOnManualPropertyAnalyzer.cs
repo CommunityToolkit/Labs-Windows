@@ -534,6 +534,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
 
                     fieldFlags.PropertyName = propertyName;
                     fieldFlags.PropertyType = propertyTypeSymbol;
+                    fieldFlags.PropertyTypeExpressionLocation = propertyTypeArgument.Syntax.GetLocation();
                     fieldFlags.FieldLocation = fieldDeclaration.GetLocation();
                 }, OperationKind.FieldInitializer);
 
@@ -563,25 +564,44 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
 
                         // We only support rewriting when the property name matches the field being initialized.
                         // Note that the property name here is the literal being passed for the 'name' parameter.
-                        if (fieldFlags.PropertyName != pair.Key.Name)
+                        if (pair.Key.Name != fieldFlags.PropertyName)
                         {
                             continue;
                         }
 
                         // Make sure that the 'propertyType' value matches the actual type of the property.
                         // We are intentionally not handling combinations of nullable value types here.
-                        if (!SymbolEqualityComparer.Default.Equals(fieldFlags.PropertyType, pair.Key.Type))
+                        if (!SymbolEqualityComparer.Default.Equals(pair.Key.Type, fieldFlags.PropertyType) &&
+                            (fieldFlags.PropertyType is null || !ExplicitPropertyMetadataTypeAnalyzer.IsValidPropertyMetadataType(pair.Key.Type, fieldFlags.PropertyType, context.Compilation)))
                         {
                             continue;
+                        }
+
+                        // If the property type is an exact match for the property type in metadata, we can remove the location of that argument.
+                        // This is because in that case there's no need to forward this type explicitly: the type will be the same by default.
+                        if (SymbolEqualityComparer.Default.Equals(pair.Key.Type, fieldFlags.PropertyType))
+                        {
+                            fieldFlags.PropertyTypeExpressionLocation = null;
                         }
 
                         // Finally, check whether the field was valid (if so, we will have a valid location)
                         if (fieldFlags.FieldLocation is Location fieldLocation)
                         {
+                            // Additional locations for the code fixer. The contract is shared between the analyzer and the code fixer:
+                            //   1) The field location (this is always present)
+                            //   2) The location of the 'typeof(...)' expression for the property type, if present
+                            //   3) The location of the default value expression, if it should be directly carried over
+                            Location[] additionalLocations =
+                            [
+                                fieldLocation,
+                                fieldFlags.PropertyTypeExpressionLocation ?? Location.None,
+                                fieldFlags.DefaultValueExpressionLocation ?? Location.None
+                            ];
+
                             context.ReportDiagnostic(Diagnostic.Create(
                                 UseGeneratedDependencyPropertyForManualProperty,
                                 pair.Key.Locations.FirstOrDefault(),
-                                ((Location?[])[fieldLocation, fieldFlags.DefaultValueExpressionLocation]).OfType<Location>(),
+                                additionalLocations,
                                 ImmutableDictionary.Create<string, string?>()
                                     .Add(DefaultValuePropertyName, fieldFlags.DefaultValue?.ToString())
                                     .Add(DefaultValueTypeReferenceIdPropertyName, fieldFlags.DefaultValueTypeReferenceId),
@@ -604,6 +624,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     {
                         fieldFlags.PropertyName = null;
                         fieldFlags.PropertyType = null;
+                        fieldFlags.PropertyTypeExpressionLocation = null;
                         fieldFlags.DefaultValue = null;
                         fieldFlags.DefaultValueTypeReferenceId = null;
                         fieldFlags.DefaultValueExpressionLocation = null;
@@ -675,6 +696,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// The type of the property (as in, of values that can be assigned to it).
         /// </summary>
         public ITypeSymbol? PropertyType;
+
+        /// <summary>
+        /// The location for the expression defining the property type.
+        /// </summary>
+        public Location? PropertyTypeExpressionLocation;
 
         /// <summary>
         /// The default value to use (not present if it does not need to be set explicitly).

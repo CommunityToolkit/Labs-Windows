@@ -1307,9 +1307,216 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         await test.RunAsync();
     }
 
-    // Using 'object' for dependency properties is sometimes needed to work around an 'IReference<T>' issue in some binding scenarios
     [TestMethod]
     public async Task MultipleProperties_WithInterspersedNonFixableProprty_HandlesAllPossibleProperties()
+    {
+        const string original = """
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                /// <summary>
+                /// Identifies the <see cref="DisableAnimation" /> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty DisableAnimationProperty = DependencyProperty.Register(
+                    nameof(DisableAnimation),
+                    typeof(bool),
+                    typeof(MyObject),
+                    new PropertyMetadata(false));
+
+                /// <summary>
+                /// Identifies the <see cref="HorizontalOffset" /> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register(
+                    nameof(HorizontalOffset),
+                    typeof(float),
+                    typeof(MyObject),
+                    null);
+
+                /// <summary>
+                /// Identifies the <see cref="IsHorizontalOffsetRelative" /> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty IsHorizontalOffsetRelativeProperty = DependencyProperty.Register(
+                    nameof(IsHorizontalOffsetRelative),
+                    typeof(bool),
+                    typeof(MyObject),
+                    new PropertyMetadata(false));
+
+                /// <summary>
+                /// Identifies the <see cref="IsVerticalOffsetRelative" /> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty IsVerticalOffsetRelativeProperty = DependencyProperty.Register(
+                    nameof(IsVerticalOffsetRelative),
+                    typeof(bool),
+                    typeof(MyObject),
+                    new PropertyMetadata(false));
+
+                /// <summary>
+                /// Identifies the <see cref="TargetScrollViewer" /> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty TargetScrollViewerProperty = DependencyProperty.Register(
+                    nameof(TargetScrollViewer),
+                    typeof(ScrollViewer),
+                    typeof(MyObject),
+                    null);
+
+                /// <summary>
+                /// Identifies the <see cref="VerticalOffset" /> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register(
+                    nameof(VerticalOffset),
+                    typeof(float),
+                    typeof(MyObject),
+                    null);
+
+                /// <summary>
+                /// Gets or sets a value indicating whether the animation is disabled. The default value is <see langword="false" />.
+                /// </summary>
+                public bool [|DisableAnimation|]
+                {
+                    get => (bool)GetValue(DisableAnimationProperty);
+                    set => SetValue(DisableAnimationProperty, value);
+                }
+
+                /// <summary>
+                /// Gets or sets the distance should be scrolled horizontally.
+                /// </summary>
+                public double HorizontalOffset
+                {
+                    get => (double)(float)GetValue(HorizontalOffsetProperty);
+                    set => SetValue(HorizontalOffsetProperty, value);
+                }
+
+                /// <summary>
+                /// Gets or sets a value indicating whether the horizontal offset is relative to the current offset. The default value is <see langword="false" />.
+                /// </summary>
+                public bool [|IsHorizontalOffsetRelative|]
+                {
+                    get => (bool)GetValue(IsHorizontalOffsetRelativeProperty);
+                    set => SetValue(IsHorizontalOffsetRelativeProperty, value);
+                }
+
+                /// <summary>
+                /// Gets or sets a value indicating whether the vertical offset is relative to the current offset. The default value is <see langword="false" />.
+                /// </summary>
+                public bool [|IsVerticalOffsetRelative|]
+                {
+                    get => (bool)GetValue(IsVerticalOffsetRelativeProperty);
+                    set => SetValue(IsVerticalOffsetRelativeProperty, value);
+                }
+
+                /// <summary>
+                /// Gets or sets the target <see cref="ScrollViewer" />.
+                /// </summary>
+                public ScrollViewer? [|TargetScrollViewer|]
+                {
+                    get => (ScrollViewer?)GetValue(TargetScrollViewerProperty);
+                    set => SetValue(TargetScrollViewerProperty, value);
+                }
+
+                /// <summary>
+                /// Gets or sets the distance should be scrolled vertically.
+                /// </summary>
+                public double VerticalOffset
+                {
+                    get => (double)(float)GetValue(VerticalOffsetProperty);
+                    set => SetValue(VerticalOffsetProperty, value);
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                /// <summary>
+                /// Identifies the <see cref="HorizontalOffset" /> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register(
+                    nameof(HorizontalOffset),
+                    typeof(float),
+                    typeof(MyObject),
+                    null);
+
+                /// <summary>
+                /// Identifies the <see cref="VerticalOffset" /> dependency property.
+                /// </summary>
+                public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register(
+                    nameof(VerticalOffset),
+                    typeof(float),
+                    typeof(MyObject),
+                    null);
+
+                /// <summary>
+                /// Gets or sets a value indicating whether the animation is disabled. The default value is <see langword="false" />.
+                /// </summary>
+                [GeneratedDependencyProperty]
+                public partial bool {|CS9248:DisableAnimation|} { get; set; }
+
+                /// <summary>
+                /// Gets or sets the distance should be scrolled horizontally.
+                /// </summary>
+                public double HorizontalOffset
+                {
+                    get => (double)(float)GetValue(HorizontalOffsetProperty);
+                    set => SetValue(HorizontalOffsetProperty, value);
+                }
+
+                /// <summary>
+                /// Gets or sets a value indicating whether the horizontal offset is relative to the current offset. The default value is <see langword="false" />.
+                /// </summary>
+                [GeneratedDependencyProperty]
+                public partial bool {|CS9248:IsHorizontalOffsetRelative|} { get; set; }
+ 
+                /// <summary>
+                /// Gets or sets a value indicating whether the vertical offset is relative to the current offset. The default value is <see langword="false" />.
+                /// </summary>
+                [GeneratedDependencyProperty]
+                public partial bool {|CS9248:IsVerticalOffsetRelative|} { get; set; }
+            
+                /// <summary>
+                /// Gets or sets the target <see cref="ScrollViewer" />.
+                /// </summary>
+                [GeneratedDependencyProperty]
+                public partial ScrollViewer? {|CS9248:TargetScrollViewer|} { get; set; }
+
+                /// <summary>
+                /// Gets or sets the distance should be scrolled vertically.
+                /// </summary>
+                public double VerticalOffset
+                {
+                    get => (double)(float)GetValue(VerticalOffsetProperty);
+                    set => SetValue(VerticalOffsetProperty, value);
+                }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    // Using 'object' for dependency properties is sometimes needed to work around an 'IReference<T>' issue in some binding scenarios
+    [TestMethod]
+    public async Task MultipleProperties_WithWorkaroundPropertiesForReflectionBindings_HandlesAllPossibleProperties()
     {
         const string original = """
             using System;
@@ -1388,7 +1595,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                 /// <summary>
                 /// Gets or sets the distance should be scrolled horizontally.
                 /// </summary>
-                public double? HorizontalOffset
+                public double? [|HorizontalOffset|]
                 {
                     get => (double?)GetValue(HorizontalOffsetProperty);
                     set => SetValue(HorizontalOffsetProperty, value);
@@ -1424,7 +1631,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                 /// <summary>
                 /// Gets or sets the distance should be scrolled vertically.
                 /// </summary>
-                public double? VerticalOffset
+                public double? [|VerticalOffset|]
                 {
                     get => (double?)GetValue(VerticalOffsetProperty);
                     set => SetValue(VerticalOffsetProperty, value);
@@ -1445,24 +1652,6 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             public partial class MyObject : DependencyObject
             {
                 /// <summary>
-                /// Identifies the <see cref="HorizontalOffset" /> dependency property.
-                /// </summary>
-                public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register(
-                    nameof(HorizontalOffset),
-                    typeof(object),
-                    typeof(MyObject),
-                    null);
-
-                /// <summary>
-                /// Identifies the <see cref="VerticalOffset" /> dependency property.
-                /// </summary>
-                public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register(
-                    nameof(VerticalOffset),
-                    typeof(object),
-                    typeof(MyObject),
-                    null);
-
-                /// <summary>
                 /// Gets or sets a value indicating whether the animation is disabled. The default value is <see langword="false" />.
                 /// </summary>
                 [GeneratedDependencyProperty]
@@ -1471,11 +1660,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                 /// <summary>
                 /// Gets or sets the distance should be scrolled horizontally.
                 /// </summary>
-                public double? HorizontalOffset
-                {
-                    get => (double?)GetValue(HorizontalOffsetProperty);
-                    set => SetValue(HorizontalOffsetProperty, value);
-                }
+                [GeneratedDependencyProperty(PropertyType = typeof(object))]
+                public partial double? {|CS9248:HorizontalOffset|} { get; set; }
 
                 /// <summary>
                 /// Gets or sets a value indicating whether the horizontal offset is relative to the current offset. The default value is <see langword="false" />.
@@ -1498,11 +1684,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                 /// <summary>
                 /// Gets or sets the distance should be scrolled vertically.
                 /// </summary>
-                public double? VerticalOffset
-                {
-                    get => (double?)GetValue(VerticalOffsetProperty);
-                    set => SetValue(VerticalOffsetProperty, value);
-                }
+                [GeneratedDependencyProperty(PropertyType = typeof(object))]
+                public partial double? {|CS9248:VerticalOffset|} { get; set; }
             }
             """;
 
@@ -1671,6 +1854,116 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                     [GeneratedDependencyProperty(DefaultValue = "")]
                     public partial string? {|CS9248:Name|} { get; set; }
                 }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    [DataRow("string?", "object")]
+    [DataRow("MyObject", "DependencyObject")]
+    [DataRow("double?", "object")]
+    [DataRow("double?", "double")]
+    public async Task SimpleProperty_ExplicitMetadataType_IsHandledCorrectly(string declaredType, string propertyType)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: null);
+
+                public {{declaredType}} [|Name|]
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                [GeneratedDependencyProperty(PropertyType = typeof({{propertyType}}))]
+                public partial {{declaredType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    [DataRow("string?", "object", "\"\"")]
+    [DataRow("double?", "object", "1.0")]
+    [DataRow("double?", "double", "1.0")]
+    public async Task SimpleProperty_ExplicitMetadataType_WithDefaultValue_IsHandledCorrectly(
+        string declaredType,
+        string propertyType,
+        string defaultValue)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: new PropertyMetadata({{defaultValue}}, null));
+
+                public {{declaredType}} [|Name|]
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                [GeneratedDependencyProperty(PropertyType = typeof({{propertyType}}), DefaultValue = {{defaultValue}})]
+                public partial {{declaredType}} {|CS9248:Name|} { get; set; }
             }
             """;
 

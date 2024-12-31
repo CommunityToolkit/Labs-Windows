@@ -46,12 +46,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         Diagnostic diagnostic = context.Diagnostics[0];
         TextSpan diagnosticSpan = context.Span;
 
-        // We always expect the field location to be the first additional location, this must be present
-        if (diagnostic.AdditionalLocations is not [{ } fieldLocation, ..])
-        {
-            return;
-        }
-
         // This code fixer needs the semantic model, so check that first
         if (!context.Document.SupportsSemanticModel)
         {
@@ -62,8 +56,12 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
         string? defaultValueTypeReferenceId = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeReferenceIdPropertyName];
 
-        // Get any additional locations, if available
-        Location? defaultValueExpressionLocation = diagnostic.AdditionalLocations.ElementAtOrDefault(1);
+        // Get all additional locations we expect from the analyzer
+        GetAdditionalLocations(
+            diagnostic,
+            out Location fieldLocation,
+            out Location propertyTypeExpressionLocation,
+            out Location defaultValueExpressionLocation);
 
         SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
@@ -84,6 +82,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                         root,
                         propertyDeclaration,
                         fieldDeclaration,
+                        propertyTypeExpressionLocation,
                         defaultValue,
                         defaultValueTypeReferenceId,
                         defaultValueExpressionLocation),
@@ -128,6 +127,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="document">The original document being fixed.</param>
     /// <param name="semanticModel">The <see cref="SemanticModel"/> instance for the current compilation.</param>
     /// <param name="root">The original tree root belonging to the current document.</param>
+    /// <param name="propertyTypeExpressionLocation">The location of the property type expression to use in metadata, if available.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
     /// <param name="defaultValueTypeReferenceId">The documentation comment reference id for type of the default value, if present.</param>
     /// <param name="defaultValueExpressionLocation">The location for the default value, if available.</param>
@@ -137,89 +137,114 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         SemanticModel semanticModel,
         SyntaxNode root,
         AttributeListSyntax generatedDependencyPropertyAttributeList,
+        Location propertyTypeExpressionLocation,
         string? defaultValueExpression,
         string? defaultValueTypeReferenceId,
-        Location? defaultValueExpressionLocation)
+        Location defaultValueExpressionLocation)
     {
-        // If we do have a default value expression, set it in the attribute.
-        // We extract the generated attribute so we can add the new argument.
-        // It's important to reuse it, as it has the "add usings" annotation.
-        if (defaultValueExpression is not null)
+        void HandlePropertyType(ref AttributeListSyntax generatedDependencyPropertyAttributeList)
         {
-            SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
-
-            // Special case if we have a location for the original expression, and we can resolve the node.
-            // In this case, we want to just carry that over with no changes (this is used for named constants).
-            // See notes below for how this method is constructing the new attribute argument to insert.
-            if (defaultValueExpressionLocation is not null &&
-                root.FindNode(defaultValueExpressionLocation.SourceSpan) is ArgumentSyntax { Expression: { } defaultValueOriginalExpression })
+            // If the property needs an explicit type in metadata, just carry it over from the original field declaration initializer
+            if (root.FindNode(propertyTypeExpressionLocation.SourceSpan) is ArgumentSyntax { Expression: { } propertyTypeOriginalExpression })
             {
-                return (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(
+                SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
+
+                generatedDependencyPropertyAttributeList = (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(
                     generatedDependencyPropertyAttributeList,
-                    [syntaxGenerator.AttributeArgument("DefaultValue", defaultValueOriginalExpression)]);
+                    [syntaxGenerator.AttributeArgument("PropertyType", propertyTypeOriginalExpression)]);
             }
-
-            ExpressionSyntax parsedExpression = ParseExpression(defaultValueExpression);
-
-            // Special case values which are simple enum member accesses, like 'global::Windows.UI.Xaml.Visibility.Collapsed'.
-            // We have two cases to handle, which require different logic to ensure the correct tree is always generated:
-            //   - For nested enum types, we'll have a reference id. In this case, we manually insert annotations.
-            //   - For normal enum member accesses, we resolve the type and then construct the tree from that expression.
-            if (defaultValueTypeReferenceId is not null)
-            {
-                // Here we're relying on the special 'SymbolId' annotation, which is used internally by Roslyn to track
-                // necessary imports for type expressions. We need to rely on this implementation detail here because
-                // there is no public API to correctly produce a tree for an enum member access on a nested type.
-                // This internal detail is one that many generators take a dependency on already, so it's safe-ish.
-                parsedExpression = parsedExpression.WithAdditionalAnnotations(
-                    Simplifier.Annotation,
-                    Simplifier.AddImportsAnnotation,
-                    new SyntaxAnnotation("SymbolId", defaultValueTypeReferenceId));
-
-                // Create the attribute argument to insert
-                SyntaxNode attributeArgumentSyntax = syntaxGenerator.AttributeArgument("DefaultValue", parsedExpression);
-
-                // Actually add the argument to the existing attribute syntax
-                return (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(generatedDependencyPropertyAttributeList, [attributeArgumentSyntax]);
-            }
-            else if (parsedExpression is MemberAccessExpressionSyntax { Expression: { } expressionSyntax, Name: IdentifierNameSyntax { Identifier.Text: { } memberName } })
-            {
-                string fullyQualifiedMetadataName = expressionSyntax.ToFullString();
-
-                // Ensure we strip the global prefix, if present (it should always be present if we didn't have a metadata name)
-                if (fullyQualifiedMetadataName.StartsWith("global::"))
-                {
-                    fullyQualifiedMetadataName = fullyQualifiedMetadataName["global::".Length..];
-                }
-
-                // Try to resolve the attribute type, if present. This API takes a fully qualified metadata name, not
-                // a fully qualified type name. However, for virtually all cases for enum types, the two should match.
-                // That is, they will be the same if the type is not nested, and not generic, which is what we expect.
-                if (semanticModel.Compilation.GetTypeByMetadataName(fullyQualifiedMetadataName) is INamedTypeSymbol enumTypeSymbol)
-                {
-                    // Create the identifier syntax for the enum type, with the right annotations
-                    SyntaxNode enumTypeSyntax = syntaxGenerator.TypeExpression(enumTypeSymbol).WithAdditionalAnnotations(Simplifier.AddImportsAnnotation);
-
-                    // Create the member access expression for the target enum type
-                    SyntaxNode enumMemberAccessExpressionSyntax = syntaxGenerator.MemberAccessExpression(enumTypeSyntax, memberName);
-
-                    // Create the attribute argument, like in the previous case
-                    return (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(
-                        generatedDependencyPropertyAttributeList,
-                        [syntaxGenerator.AttributeArgument("DefaultValue", enumMemberAccessExpressionSyntax)]);
-                }
-            }
-
-            // Otherwise, just add the new default value normally
-            return
-                AttributeList(SingletonSeparatedList(
-                    generatedDependencyPropertyAttributeList.Attributes[0]
-                    .AddArgumentListArguments(
-                        AttributeArgument(ParseExpression(defaultValueExpression))
-                        .WithNameEquals(NameEquals(IdentifierName("DefaultValue"))))));
         }
 
-        // If we have no value expression, we can just reuse the attribute with no changes
+        void HandleDefaultValue(ref AttributeListSyntax generatedDependencyPropertyAttributeList)
+        {
+            // If we do have a default value expression, set it in the attribute.
+            // We extract the generated attribute so we can add the new argument.
+            // It's important to reuse it, as it has the "add usings" annotation.
+            if (defaultValueExpression is not null)
+            {
+                SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
+
+                // Special case if we have a location for the original expression, and we can resolve the node.
+                // In this case, we want to just carry that over with no changes (this is used for named constants).
+                // See notes below for how this method is constructing the new attribute argument to insert.
+                if (root.FindNode(defaultValueExpressionLocation.SourceSpan) is ArgumentSyntax { Expression: { } defaultValueOriginalExpression })
+                {
+                    generatedDependencyPropertyAttributeList = (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(
+                        generatedDependencyPropertyAttributeList,
+                        [syntaxGenerator.AttributeArgument("DefaultValue", defaultValueOriginalExpression)]);
+
+                    return;
+                }
+
+                ExpressionSyntax parsedExpression = ParseExpression(defaultValueExpression);
+
+                // Special case values which are simple enum member accesses, like 'global::Windows.UI.Xaml.Visibility.Collapsed'.
+                // We have two cases to handle, which require different logic to ensure the correct tree is always generated.
+                // For nested enum types, we'll have a reference id. In this case, we manually insert annotations.
+                if (defaultValueTypeReferenceId is not null)
+                {
+                    // Here we're relying on the special 'SymbolId' annotation, which is used internally by Roslyn to track
+                    // necessary imports for type expressions. We need to rely on this implementation detail here because
+                    // there is no public API to correctly produce a tree for an enum member access on a nested type.
+                    // This internal detail is one that many generators take a dependency on already, so it's safe-ish.
+                    parsedExpression = parsedExpression.WithAdditionalAnnotations(
+                        Simplifier.Annotation,
+                        Simplifier.AddImportsAnnotation,
+                        new SyntaxAnnotation("SymbolId", defaultValueTypeReferenceId));
+
+                    // Create the attribute argument to insert
+                    SyntaxNode attributeArgumentSyntax = syntaxGenerator.AttributeArgument("DefaultValue", parsedExpression);
+
+                    // Actually add the argument to the existing attribute syntax
+                    generatedDependencyPropertyAttributeList = (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(generatedDependencyPropertyAttributeList, [attributeArgumentSyntax]);
+
+                    return;
+                }
+
+                // For normal enum member accesses, we resolve the type and then construct the tree from that expression.
+                if (parsedExpression is MemberAccessExpressionSyntax { Expression: { } expressionSyntax, Name: IdentifierNameSyntax { Identifier.Text: { } memberName } })
+                {
+                    string fullyQualifiedMetadataName = expressionSyntax.ToFullString();
+
+                    // Ensure we strip the global prefix, if present (it should always be present if we didn't have a metadata name)
+                    if (fullyQualifiedMetadataName.StartsWith("global::"))
+                    {
+                        fullyQualifiedMetadataName = fullyQualifiedMetadataName["global::".Length..];
+                    }
+
+                    // Try to resolve the attribute type, if present. This API takes a fully qualified metadata name, not
+                    // a fully qualified type name. However, for virtually all cases for enum types, the two should match.
+                    // That is, they will be the same if the type is not nested, and not generic, which is what we expect.
+                    if (semanticModel.Compilation.GetTypeByMetadataName(fullyQualifiedMetadataName) is INamedTypeSymbol enumTypeSymbol)
+                    {
+                        // Create the identifier syntax for the enum type, with the right annotations
+                        SyntaxNode enumTypeSyntax = syntaxGenerator.TypeExpression(enumTypeSymbol).WithAdditionalAnnotations(Simplifier.AddImportsAnnotation);
+
+                        // Create the member access expression for the target enum type
+                        SyntaxNode enumMemberAccessExpressionSyntax = syntaxGenerator.MemberAccessExpression(enumTypeSyntax, memberName);
+
+                        // Create the attribute argument, like in the previous case
+                        generatedDependencyPropertyAttributeList = (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(
+                            generatedDependencyPropertyAttributeList,
+                            [syntaxGenerator.AttributeArgument("DefaultValue", enumMemberAccessExpressionSyntax)]);
+
+                        return;
+                    }
+                }
+
+                // Otherwise, just add the new default value normally
+                generatedDependencyPropertyAttributeList =
+                    AttributeList(SingletonSeparatedList(
+                        generatedDependencyPropertyAttributeList.Attributes[0]
+                        .AddArgumentListArguments(
+                            AttributeArgument(ParseExpression(defaultValueExpression))
+                            .WithNameEquals(NameEquals(IdentifierName("DefaultValue"))))));
+            }
+        }
+
+        HandlePropertyType(ref generatedDependencyPropertyAttributeList);
+        HandleDefaultValue(ref generatedDependencyPropertyAttributeList);
+
         return generatedDependencyPropertyAttributeList;
     }
 
@@ -231,6 +256,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="root">The original tree root belonging to the current document.</param>
     /// <param name="propertyDeclaration">The <see cref="PropertyDeclarationSyntax"/> for the property being updated.</param>
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
+    /// <param name="propertyTypeExpressionLocation">The location of the property type expression to use in metadata, if available.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
     /// <param name="defaultValueTypeReferenceId">The documentation comment reference id for type of the default value, if present.</param>
     /// <param name="defaultValueExpressionLocation">The location for the default value, if available.</param>
@@ -241,9 +267,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         SyntaxNode root,
         PropertyDeclarationSyntax propertyDeclaration,
         FieldDeclarationSyntax fieldDeclaration,
+        Location propertyTypeExpressionLocation,
         string? defaultValueExpression,
         string? defaultValueTypeReferenceId,
-        Location? defaultValueExpressionLocation)
+        Location defaultValueExpressionLocation)
     {
         await Task.CompletedTask;
 
@@ -264,6 +291,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             fieldDeclaration,
             generatedDependencyPropertyAttributeList,
             syntaxEditor,
+            propertyTypeExpressionLocation,
             defaultValueExpression,
             defaultValueTypeReferenceId,
             defaultValueExpressionLocation);
@@ -284,6 +312,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="fieldDeclaration">The <see cref="FieldDeclarationSyntax"/> for the declared property to remove.</param>
     /// <param name="generatedDependencyPropertyAttributeList">The <see cref="AttributeListSyntax"/> with the attribute to add.</param>
     /// <param name="syntaxEditor">The <see cref="SyntaxEditor"/> instance to use.</param>
+    /// <param name="propertyTypeExpressionLocation">The location of the property type expression to use in metadata, if available.</param>
     /// <param name="defaultValueExpression">The expression for the default value of the property, if present</param>
     /// <param name="defaultValueTypeReferenceId">The documentation comment reference id for type of the default value, if present.</param>
     /// <param name="defaultValueExpressionLocation">The location for the default value, if available.</param>
@@ -296,9 +325,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         FieldDeclarationSyntax fieldDeclaration,
         AttributeListSyntax generatedDependencyPropertyAttributeList,
         SyntaxEditor syntaxEditor,
+        Location propertyTypeExpressionLocation,
         string? defaultValueExpression,
         string? defaultValueTypeReferenceId,
-        Location? defaultValueExpressionLocation)
+        Location defaultValueExpressionLocation)
     {
         // Replace the property with the partial property using the attribute. Note that it's important to use the
         // lambda 'ReplaceNode' overload here, rather than creating a modifier property declaration syntax node and
@@ -314,6 +344,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 semanticModel,
                 root,
                 generatedDependencyPropertyAttributeList,
+                propertyTypeExpressionLocation,
                 defaultValueExpression,
                 defaultValueTypeReferenceId,
                 defaultValueExpressionLocation);
@@ -468,6 +499,25 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     }
 
     /// <summary>
+    /// Gets the additional locations provided by the analyzer.
+    /// </summary>
+    /// <param name="diagnostic">The <see cref="Diagnostic"/> instance currently being processed.</param>
+    /// <param name="fieldLocation">The location of the field to remove.</param>
+    /// <param name="propertyTypeExpressionLocation">The location of the property type expression to use in metadata.</param>
+    /// <param name="defaultValueExpressionLocation">The location for the default value.</param>
+    private static void GetAdditionalLocations(
+        Diagnostic diagnostic,
+        out Location fieldLocation,
+        out Location propertyTypeExpressionLocation,
+        out Location defaultValueExpressionLocation)
+    {
+        // We always expect 3 additional locations, as per contract with the analyzer
+        fieldLocation = diagnostic.AdditionalLocations[0];
+        propertyTypeExpressionLocation = diagnostic.AdditionalLocations[1];
+        defaultValueExpressionLocation = diagnostic.AdditionalLocations[2];
+    }
+
+    /// <summary>
     /// A custom <see cref="FixAllProvider"/> with the logic from <see cref="UsePartialPropertyForSemiAutoPropertyCodeFixer"/>.
     /// </summary>
     private sealed class FixAllProvider : DocumentBasedFixAllProvider
@@ -508,9 +558,15 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                     continue;
                 }
 
+                // Get all additional locations we expect from the analyzer
+                GetAdditionalLocations(
+                    diagnostic,
+                    out Location fieldLocation,
+                    out Location propertyTypeExpressionLocation,
+                    out Location defaultValueExpressionLocation);
+
                 // Also check that we can find the target field to remove
-                if (diagnostic.AdditionalLocations is not [{ } fieldLocation, ..] ||
-                    root.FindNode(fieldLocation.SourceSpan) is not FieldDeclarationSyntax fieldDeclaration)
+                if (root.FindNode(fieldLocation.SourceSpan) is not FieldDeclarationSyntax fieldDeclaration)
                 {
                     continue;
                 }
@@ -518,9 +574,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 // Retrieve the properties passed by the analyzer
                 string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
                 string? defaultValueTypeReferenceId = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeReferenceIdPropertyName];
-
-                // Get any additional locations, if available
-                Location? defaultValueExpressionLocation = diagnostic.AdditionalLocations.ElementAtOrDefault(1);
 
                 ConvertToPartialProperty(
                     document,
@@ -530,6 +583,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                     fieldDeclaration,
                     generatedDependencyPropertyAttributeList,
                     syntaxEditor,
+                    propertyTypeExpressionLocation,
                     defaultValue,
                     defaultValueTypeReferenceId,
                     defaultValueExpressionLocation);
