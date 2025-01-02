@@ -536,14 +536,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             // Ensure the current kind is present and that we can extract an additional location
             if (!additionalLocationKind.HasFlag(currentLocationKind))
             {
-                // Special case for the unit test runner. If we have 3 diagnostics (see details on the contract in the analyzer),
-                // it means we're running in the test runner, which does not remove 'None' diagnostics. In this case, we need to
-                // increment the current index, or otherwise we'll read incorrect locations after this one.
-                if (diagnostic.AdditionalLocations.Count == 3)
-                {
-                    currentLocationIndex++;
-                }
-
                 fieldLocation = null;
 
                 return false;
@@ -551,16 +543,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
 
             // Parse the additional location
             fieldLocation = diagnostic.AdditionalLocations[currentLocationIndex++];
-
-            // Special case: if the location is 'None', we should ignore it. This is because while the location is
-            // available when running tests, it will be removed when running in the IDE, because the serialization
-            // logic that Roslyn uses will filter out all 'None' locations. This step is needed to match that logic.
-            if (fieldLocation == Location.None)
-            {
-                fieldLocation = null;
-
-                return false;
-            }
 
             return true;
         }

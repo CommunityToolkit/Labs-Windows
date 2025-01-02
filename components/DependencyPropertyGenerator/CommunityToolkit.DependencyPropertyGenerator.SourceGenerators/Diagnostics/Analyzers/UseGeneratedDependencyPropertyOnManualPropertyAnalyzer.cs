@@ -597,24 +597,25 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             //   1) The field location (this is always present)
                             //   2) The location of the 'typeof(...)' expression for the property type, if present
                             //   3) The location of the default value expression, if it should be directly carried over
-                            Location[] additionalLocations =
+                            Location?[] additionalLocations =
                             [
                                 fieldLocation,
-                                fieldFlags.PropertyTypeExpressionLocation ?? Location.None,
-                                fieldFlags.DefaultValueExpressionLocation ?? Location.None
+                                fieldFlags.PropertyTypeExpressionLocation,
+                                fieldFlags.DefaultValueExpressionLocation
                             ];
 
                             // Track the available locations, so we can extract them back. We cannot rely on the length
-                            // of the supplied array, because Roslyn will remove all 'None' locations from the array.
+                            // of the supplied array, because Roslyn will remove all 'None' locations from the array. To
+                            // match this behavior in tests too, we'll just filter out all 'null' elements below as well.
                             AdditionalLocationKind additionalLocationKind =
                                 AdditionalLocationKind.FieldLocation |
-                                (additionalLocations[1] != Location.None ? AdditionalLocationKind.PropertyTypeExpressionLocation : 0) |
-                                (additionalLocations[2] != Location.None ? AdditionalLocationKind.DefaultValueExpressionLocation : 0);
+                                (additionalLocations[1] is not null ? AdditionalLocationKind.PropertyTypeExpressionLocation : 0) |
+                                (additionalLocations[2] is not null ? AdditionalLocationKind.DefaultValueExpressionLocation : 0);
 
                             context.ReportDiagnostic(Diagnostic.Create(
                                 UseGeneratedDependencyPropertyForManualProperty,
                                 pair.Key.Locations.FirstOrDefault(),
-                                additionalLocations,
+                                additionalLocations.OfType<Location>(),
                                 ImmutableDictionary.Create<string, string?>()
                                     .Add(DefaultValuePropertyName, fieldFlags.DefaultValue?.ToString())
                                     .Add(DefaultValueTypeReferenceIdPropertyName, fieldFlags.DefaultValueTypeReferenceId)
