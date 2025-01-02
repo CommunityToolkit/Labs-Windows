@@ -52,16 +52,19 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             return;
         }
 
+        // Get all additional locations we expect from the analyzer
+        if (!TryGetAdditionalLocations(
+            diagnostic,
+            out Location? fieldLocation,
+            out Location? propertyTypeExpressionLocation,
+            out Location? defaultValueExpressionLocation))
+        {
+            return;
+        }
+
         // Retrieve the properties passed by the analyzer
         string? defaultValue = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValuePropertyName];
         string? defaultValueTypeReferenceId = diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.DefaultValueTypeReferenceIdPropertyName];
-
-        // Get all additional locations we expect from the analyzer
-        GetAdditionalLocations(
-            diagnostic,
-            out Location fieldLocation,
-            out Location propertyTypeExpressionLocation,
-            out Location defaultValueExpressionLocation);
 
         SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
@@ -505,16 +508,29 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
     /// <param name="fieldLocation">The location of the field to remove.</param>
     /// <param name="propertyTypeExpressionLocation">The location of the property type expression to use in metadata.</param>
     /// <param name="defaultValueExpressionLocation">The location for the default value.</param>
-    private static void GetAdditionalLocations(
+    /// <returns>Whether the additional locations were retrieved correctly.</returns>
+    private static bool TryGetAdditionalLocations(
         Diagnostic diagnostic,
-        out Location fieldLocation,
-        out Location propertyTypeExpressionLocation,
-        out Location defaultValueExpressionLocation)
+        [NotNullWhen(true)] out Location? fieldLocation,
+        [NotNullWhen(true)] out Location? propertyTypeExpressionLocation,
+        [NotNullWhen(true)] out Location? defaultValueExpressionLocation)
     {
-        // We always expect 3 additional locations, as per contract with the analyzer
-        fieldLocation = diagnostic.AdditionalLocations[0];
-        propertyTypeExpressionLocation = diagnostic.AdditionalLocations[1];
-        defaultValueExpressionLocation = diagnostic.AdditionalLocations[2];
+        // We always expect 3 additional locations, as per contract with the analyzer.
+        // Do a sanity check just in case, as we've seen sporadic issues with this.
+        if (diagnostic.AdditionalLocations is not [{ } location1, { } location2, { } location3])
+        {
+            fieldLocation = null;
+            propertyTypeExpressionLocation = null;
+            defaultValueExpressionLocation = null;
+
+            return false;
+        }
+
+        fieldLocation = location1;
+        propertyTypeExpressionLocation = location2;
+        defaultValueExpressionLocation = location3;
+
+        return true;
     }
 
     /// <summary>
@@ -559,11 +575,14 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
                 }
 
                 // Get all additional locations we expect from the analyzer
-                GetAdditionalLocations(
+                if (!TryGetAdditionalLocations(
                     diagnostic,
-                    out Location fieldLocation,
-                    out Location propertyTypeExpressionLocation,
-                    out Location defaultValueExpressionLocation);
+                    out Location? fieldLocation,
+                    out Location? propertyTypeExpressionLocation,
+                    out Location? defaultValueExpressionLocation))
+                {
+                    continue;
+                }
 
                 // Also check that we can find the target field to remove
                 if (root.FindNode(fieldLocation.SourceSpan) is not FieldDeclarationSyntax fieldDeclaration)
