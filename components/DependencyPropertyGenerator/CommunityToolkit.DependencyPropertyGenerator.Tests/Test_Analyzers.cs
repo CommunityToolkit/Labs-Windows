@@ -742,6 +742,29 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithMaybeNull_DoesNotWarn()
+    {
+        const string source = """
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [MaybeNull]
+                public partial string {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNonNullableDeclarationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_Warns()
     {
         const string source = """
