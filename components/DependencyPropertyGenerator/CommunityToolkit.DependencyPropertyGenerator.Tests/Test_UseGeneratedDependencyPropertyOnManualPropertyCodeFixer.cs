@@ -835,13 +835,13 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                 /// <summary>
                 /// Blah.
                 /// </summary>
-                [GeneratedDependencyProperty]
+                [GeneratedDependencyProperty(DefaultValue = null)]
                 public partial TValue? {|CS9248:Value|} { get; set; }
 
                 /// <summary>
                 /// Blah.
                 /// </summary>
-                [GeneratedDependencyProperty]
+                [GeneratedDependencyProperty(DefaultValue = null)]
                 public partial TElement? {|CS9248:TargetObject|} { get; set; }
             }
             """;
@@ -1964,6 +1964,257 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
             {
                 [GeneratedDependencyProperty(PropertyType = typeof({{propertyType}}), DefaultValue = {{defaultValue}})]
                 public partial {{declaredType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    public async Task MultipleProperties_WithinGenericType_HandlesAllPossibleProperties()
+    {
+        const string original = """
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                public static readonly DependencyProperty P1Property = DependencyProperty.Register(
+                    nameof(P1),
+                    typeof(T1),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    new PropertyMetadata(default(T1)));
+
+                public static readonly DependencyProperty P2Property = DependencyProperty.Register(
+                    nameof(P2),
+                    typeof(T1),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    null);
+
+                public static readonly DependencyProperty P3Property = DependencyProperty.Register(
+                    nameof(P3),
+                    typeof(T2),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    new PropertyMetadata(default(T2)));
+
+                public static readonly DependencyProperty P4Property = DependencyProperty.Register(
+                    nameof(P4),
+                    typeof(T2),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    null);
+
+                public static readonly DependencyProperty P5Property = DependencyProperty.Register(
+                    nameof(P5),
+                    typeof(T3),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    new PropertyMetadata(default(T3)));
+
+                public static readonly DependencyProperty P6Property = DependencyProperty.Register(
+                    nameof(P6),
+                    typeof(T3),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    null);
+
+                public static readonly DependencyProperty P7Property = DependencyProperty.Register(
+                    nameof(P7),
+                    typeof(T4),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    new PropertyMetadata(default(T4)));
+
+                public static readonly DependencyProperty P8Property = DependencyProperty.Register(
+                    nameof(P8),
+                    typeof(T4),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    null);
+
+                public static readonly DependencyProperty P9Property = DependencyProperty.Register(
+                    nameof(P9),
+                    typeof(T4?),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    new PropertyMetadata(default(T4?)));
+
+                public static readonly DependencyProperty P10Property = DependencyProperty.Register(
+                    nameof(P10),
+                    typeof(T4?),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    null);
+
+                public static readonly DependencyProperty P11Property = DependencyProperty.Register(
+                    nameof(P11),
+                    typeof(T5),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    new PropertyMetadata(default(T5)));
+
+                public static readonly DependencyProperty P12Property = DependencyProperty.Register(
+                    nameof(P12),
+                    typeof(T5),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    null);
+
+                // Constrained to 'class', with default value matching 'null' (redundant)
+                public T1? [|P1|]
+                {
+                    get => (T1?)GetValue(P1Property);
+                    set => SetValue(P1Property, value);
+                }
+
+                // Constrained to 'class', no default value
+                public T1? [|P2|]
+                {
+                    get => (T1?)GetValue(P2Property);
+                    set => SetValue(P2Property, value);
+                }
+
+                // Unconstrained, with explicit default value
+                public T2? [|P3|]
+                {
+                    get => (T2?)GetValue(P3Property);
+                    set => SetValue(P3Property, value);
+                }
+
+                // Unconstrained, with no metadata
+                public T2? [|P4|]
+                {
+                    get => (T2?)GetValue(P4Property);
+                    set => SetValue(P4Property, value);
+                }
+
+                // Unconstrained, with explicit default value
+                public T3? [|P5|]
+                {
+                    get => (T3?)GetValue(P5Property);
+                    set => SetValue(P5Property, value);
+                }
+
+                // Unconstrained, with no metadata
+                public T3? [|P6|]
+                {
+                    get => (T3?)GetValue(P6Property);
+                    set => SetValue(P6Property, value);
+                }
+
+                // Constrained to value type, with explicit default value
+                public T4 [|P7|]
+                {
+                    get => (T4)GetValue(P7Property);
+                    set => SetValue(P7Property, value);
+                }
+
+                // Constrained to value type, with no metadata
+                public T4 [|P8|]
+                {
+                    get => (T4)GetValue(P8Property);
+                    set => SetValue(P8Property, value);
+                }
+
+                // Constrained to value type, nullable, with explicit default value
+                public T4? [|P9|]
+                {
+                    get => (T4?)GetValue(P9Property);
+                    set => SetValue(P9Property, value);
+                }
+
+                // Constrained to value type, nullable, with no metadata
+                public T4? [|P10|]
+                {
+                    get => (T4?)GetValue(P10Property);
+                    set => SetValue(P10Property, value);
+                }
+
+                // Constrained to just interface, with explicit default value
+                public T5? [|P11|]
+                {
+                    get => (T5?)GetValue(P11Property);
+                    set => SetValue(P11Property, value);
+                }
+
+                // Constrained to just interface, with no metadata
+                public T5? [|P12|]
+                {
+                    get => (T5?)GetValue(P12Property);
+                    set => SetValue(P12Property, value);
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            #nullable enable
+            
+            namespace MyApp;
+            
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                // Constrained to 'class', with default value matching 'null' (redundant)
+                [GeneratedDependencyProperty]
+                public partial T1? {|CS9248:P1|} { get; set; }
+            
+                // Constrained to 'class', no default value
+                [GeneratedDependencyProperty]
+                public partial T1? {|CS9248:P2|} { get; set; }
+            
+                // Unconstrained, with explicit default value
+                [GeneratedDependencyProperty]
+                public partial T2? {|CS9248:P3|} { get; set; }
+            
+                // Unconstrained, with no metadata
+                [GeneratedDependencyProperty(DefaultValue = null)]
+                public partial T2? {|CS9248:P4|} { get; set; }
+            
+                // Unconstrained, with explicit default value
+                [GeneratedDependencyProperty]
+                public partial T3? {|CS9248:P5|} { get; set; }
+            
+                // Unconstrained, with no metadata
+                [GeneratedDependencyProperty(DefaultValue = null)]
+                public partial T3? {|CS9248:P6|} { get; set; }
+            
+                // Constrained to value type, with explicit default value
+                [GeneratedDependencyProperty]
+                public partial T4 {|CS9248:P7|} { get; set; }
+            
+                // Constrained to value type, with no metadata
+                [GeneratedDependencyProperty(DefaultValue = null)]
+                public partial T4 {|CS9248:P8|} { get; set; }
+            
+                // Constrained to value type, nullable, with explicit default value
+                [GeneratedDependencyProperty]
+                public partial T4? {|CS9248:P9|} { get; set; }
+            
+                // Constrained to value type, nullable, with no metadata
+                [GeneratedDependencyProperty]
+                public partial T4? {|CS9248:P10|} { get; set; }
+            
+                // Constrained to just interface, with explicit default value
+                [GeneratedDependencyProperty]
+                public partial T5? {|CS9248:P11|} { get; set; }
+            
+                // Constrained to just interface, with no metadata
+                [GeneratedDependencyProperty(DefaultValue = null)]
+                public partial T5? {|CS9248:P12|} { get; set; }
             }
             """;
 
