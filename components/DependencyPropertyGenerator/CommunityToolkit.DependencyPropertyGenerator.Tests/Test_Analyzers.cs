@@ -615,7 +615,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NoAttribute_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NoAttribute_DoesNotWarn()
     {
         const string source = """
             using Windows.UI.Xaml.Controls;
@@ -637,7 +637,7 @@ public class Test_Analyzers
     [DataRow("int")]
     [DataRow("int?")]
     [DataRow("string?")]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NullableOrNotApplicableType_DoesNotWarn(string propertyType)
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableOrNotApplicableType_DoesNotWarn(string propertyType)
     {
         string source = $$"""
             using CommunityToolkit.WinUI;
@@ -658,7 +658,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithMaybeNullAttribute_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_WithMaybeNullAttribute_DoesNotWarn()
     {
         const string source = """
             using System.Diagnostics.CodeAnalysis;
@@ -681,7 +681,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_Required_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_Required_DoesNotWarn()
     {
         const string source = """
             using CommunityToolkit.WinUI;
@@ -702,7 +702,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_NullableDisabled_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_NullableDisabled_DoesNotWarn()
     {
         const string source = """
             using CommunityToolkit.WinUI;
@@ -721,7 +721,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithNonNullDefaultValue_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_WithNonNullDefaultValue_DoesNotWarn()
     {
         const string source = """
             using CommunityToolkit.WinUI;
@@ -742,7 +742,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithNonNullDefaultValueCallback_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_WithNonNullDefaultValueCallback_DoesNotWarn()
     {
         const string source = """
             using CommunityToolkit.WinUI;
@@ -765,7 +765,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithNonNullDefaultValueCallback_WithAttribute_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_WithNonNullDefaultValueCallback_WithAttribute_DoesNotWarn()
     {
         const string source = """
             using System.Diagnostics.CodeAnalysis;
@@ -790,7 +790,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithMaybeNull_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_WithMaybeNull_DoesNotWarn()
     {
         const string source = """
             using System.Diagnostics.CodeAnalysis;
@@ -813,7 +813,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_Warns()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_Warns()
     {
         const string source = """
             using CommunityToolkit.WinUI;
@@ -834,7 +834,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithNullDefaultValue_Warns()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_WithNullDefaultValue_Warns()
     {
         const string source = """
             using CommunityToolkit.WinUI;
@@ -855,7 +855,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithNullDefaultValueCallback_Warns()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_WithNullDefaultValueCallback_Warns()
     {
         const string source = """
             using CommunityToolkit.WinUI;
@@ -878,7 +878,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNonNullableDeclarationAnalyzer_NotNullableType_WithNullDefaultValueCallback_WithAttribute_Warns()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_WithNullDefaultValueCallback_WithAttribute_Warns()
     {
         const string source = """
             using System.Diagnostics.CodeAnalysis;
@@ -896,6 +896,424 @@ public class Test_Analyzers
 
                 [return: MaybeNull]
                 private static string GetDefaultName() => "Bob";
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientSetter_Object_DoesNotWarn()
+    {
+        const string source = """
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [AllowNull]
+                public partial string {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameSet|}([NotNull] ref object? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientGetter_Object_DoesNotWarn()
+    {
+        const string source = """
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [AllowNull]
+                public partial string {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameGet|}([NotNull] ref object? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientSetter_DoesNotWarn()
+    {
+        const string source = """
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [AllowNull]
+                public partial string {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameSet|}([NotNull] ref string? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientGetter_DoesNotWarn()
+    {
+        const string source = """
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [AllowNull]
+                public partial string {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameGet|}([NotNull] ref string? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientGetter_WithNoAttribute_Warns()
+    {
+        const string source = """
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0024:GeneratedDependencyProperty|}]
+                [AllowNull]
+                public partial string {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameGet|}(ref string? propertyValue)
+                {
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_Warns()
+    {
+        const string source = """
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0024:GeneratedDependencyProperty|}]
+                [AllowNull]
+                public partial string {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_WithoutNotNull_DoesNotWarn()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_WithNullResilientGetter_DoesNotWarn()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [NotNull]
+                public partial string? {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameGet|}([NotNull] ref string? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_WithDisallowNull_Required_DoesNotWarn()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [NotNull]
+                [DisallowNull]
+                public required partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_WithNullResilientSetter_Required_DoesNotWarn()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty]
+                [NotNull]
+                public required partial string? {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameSet|}([NotNull] ref string? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_WithDisallowNull_NonNullDefaultValue_DoesNotWarn()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = "")]
+                [NotNull]
+                [DisallowNull]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_WithNullResilientSetter_NonNullDefaultValue_DoesNotWarn()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [GeneratedDependencyProperty(DefaultValue = "")]
+                [NotNull]
+                public partial string? {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameSet|}([NotNull] ref string? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_Warns()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [NotNull]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_NoAttributeOnGetter_Warns()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [NotNull]
+                public partial string? {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameSet|}(ref string? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_WithDisallowNull_NotRequired_Warns()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [NotNull]
+                [DisallowNull]
+                public partial string? {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_WithNullResilientSetter_NotRequired_Warns()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [NotNull]
+                public partial string? {|CS9248:Name|} { get; set; }
+
+                partial void {|CS0759:OnNameSet|}([NotNull] ref string? propertyValue)
+                {
+                    propertyValue ??= "Bob";
+                }
             }
             """;
 

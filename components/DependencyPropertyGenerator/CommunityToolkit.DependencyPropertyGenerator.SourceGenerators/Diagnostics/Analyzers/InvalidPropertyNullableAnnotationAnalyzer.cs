@@ -22,7 +22,7 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
     [
         NonNullablePropertyDeclarationIsNotEnforced,
-        NotNullResilientAccessorsForNullablePropertyDeclaration,
+        NotNullResilientAccessorsForNotNullablePropertyDeclaration,
         NotNullResilientAccessorsForNullablePropertyDeclaration
     ];
 
@@ -99,7 +99,7 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                             !IsAccessorMethodMarkedAsNotNull(propertySymbol, SyntaxKind.SetAccessorDeclaration, notNullAttributeSymbols))
                         {
                             context.ReportDiagnostic(Diagnostic.Create(
-                                NotNullResilientAccessorsForNullablePropertyDeclaration,
+                                NotNullResilientAccessorsForNotNullablePropertyDeclaration,
                                 attributeData.GetLocation(),
                                 propertySymbol));
                         }
