@@ -2226,4 +2226,154 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
         await test.RunAsync();
     }
+
+    [TestMethod]
+    [DataRow("string?", "string", "")]
+    [DataRow("int", "int", "")]
+    [DataRow("int?", "int?", "")]
+    [DataRow("T1?", "T1", "")]
+    [DataRow("T2", "T2", "(DefaultValue = null)")]
+    [DataRow("T2?", "T2", "(DefaultValue = null)")]
+    [DataRow("T4", "T4", "(DefaultValue = null)")]
+    [DataRow("T4?", "T4?", "")]
+    [DataRow("T5", "T5", "(DefaultValue = null)")]
+    [DataRow("T5?", "T5", "(DefaultValue = null)")]
+    public async Task SimpleProperty_WithinGenericType_WithNullMetadata(
+        string declaredType,
+        string propertyType,
+        string attributeArguments)
+    {
+        string original = $$"""
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    nameof(Name),
+                    typeof({{propertyType}}),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    null);
+
+                public {{declaredType}} [|Name|]
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            #nullable enable
+            
+            namespace MyApp;
+            
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                [GeneratedDependencyProperty{{attributeArguments}}]
+                public partial {{declaredType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    [DataRow("string?", "string", "")]
+    [DataRow("int", "int", "(DefaultValue = null)")]
+    [DataRow("int?", "int?", "")]
+    [DataRow("T1?", "T1", "")]
+    [DataRow("T2", "T2", "(DefaultValue = null)")]
+    [DataRow("T2?", "T2", "(DefaultValue = null)")]
+    [DataRow("T4", "T4", "(DefaultValue = null)")]
+    [DataRow("T4?", "T4?", "")]
+    [DataRow("T5", "T5", "(DefaultValue = null)")]
+    [DataRow("T5?", "T5", "(DefaultValue = null)")]
+    public async Task SimpleProperty_WithinGenericType_WithExplicitNullDefaultValue(
+        string declaredType,
+        string propertyType,
+        string attributeArguments)
+    {
+        string original = $$"""
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    nameof(Name),
+                    typeof({{propertyType}}),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    new PropertyMetadata(null));
+
+                public {{declaredType}} [|Name|]
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            #nullable enable
+            
+            namespace MyApp;
+            
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                [GeneratedDependencyProperty{{attributeArguments}}]
+                public partial {{declaredType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
 }

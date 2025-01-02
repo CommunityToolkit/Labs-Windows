@@ -460,9 +460,12 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             {
                                 // This is only allowed for reference or nullable types. This 'null' is redundant, but support it nonetheless.
                                 // It's not that uncommon for especially legacy codebases to have this kind of pattern in dependency properties.
+                                // If the type is not actually nullable, make it explicit. This still allows rewriting the property to use the
+                                // attribute, but it will cause the other analyzer to emit a diagnostic. This guarantees that even in this case,
+                                // the original semantics are preserved (and developers can fix the code), rather than the fixer altering things.
                                 if (!propertyTypeSymbol.IsReferenceType && !isNullableValueType)
                                 {
-                                    return;
+                                    fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
                                 }
                             }
                             else if (TypedConstantInfo.TryCreate(conversionOperation.Operand, out fieldFlags.DefaultValue))
