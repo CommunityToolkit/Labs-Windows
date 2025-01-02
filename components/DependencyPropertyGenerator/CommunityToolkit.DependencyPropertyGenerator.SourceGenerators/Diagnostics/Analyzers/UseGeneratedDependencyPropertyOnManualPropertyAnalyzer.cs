@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
@@ -61,6 +62,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
     /// The property name for the fully qualified metadata name of the default value, if present.
     /// </summary>
     public const string DefaultValueTypeReferenceIdPropertyName = "DefaultValueTypeReferenceId";
+
+    /// <summary>
+    /// The property name for the serialized <see cref="AdditionalLocationKind"/> value.
+    /// </summary>
+    public const string AdditionalLocationKindPropertyName = "AdditionalLocationKind";
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [UseGeneratedDependencyPropertyForManualProperty];
@@ -598,13 +604,21 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 fieldFlags.DefaultValueExpressionLocation ?? Location.None
                             ];
 
+                            // Track the available locations, so we can extract them back. We cannot rely on the length
+                            // of the supplied array, because Roslyn will remove all 'None' locations from the array.
+                            AdditionalLocationKind additionalLocationKind =
+                                AdditionalLocationKind.FieldLocation |
+                                (additionalLocations[1] != Location.None ? AdditionalLocationKind.PropertyTypeExpressionLocation : 0) |
+                                (additionalLocations[2] != Location.None ? AdditionalLocationKind.DefaultValueExpressionLocation : 0);
+
                             context.ReportDiagnostic(Diagnostic.Create(
                                 UseGeneratedDependencyPropertyForManualProperty,
                                 pair.Key.Locations.FirstOrDefault(),
                                 additionalLocations,
                                 ImmutableDictionary.Create<string, string?>()
                                     .Add(DefaultValuePropertyName, fieldFlags.DefaultValue?.ToString())
-                                    .Add(DefaultValueTypeReferenceIdPropertyName, fieldFlags.DefaultValueTypeReferenceId),
+                                    .Add(DefaultValueTypeReferenceIdPropertyName, fieldFlags.DefaultValueTypeReferenceId)
+                                    .Add(AdditionalLocationKindPropertyName, additionalLocationKind.ToString()),
                                 pair.Key));
                         }
                     }
@@ -722,4 +736,26 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// </summary>
         public Location? FieldLocation;
     }
+}
+
+/// <summary>
+/// An enum indicating the type of additional locations that are produced by the analyzer.
+/// </summary>
+[Flags]
+public enum AdditionalLocationKind
+{
+    /// <summary>
+    /// The location of the field to remove, always present.
+    /// </summary>
+    FieldLocation = 1 << 0,
+
+    /// <summary>
+    /// The location of the property type expression, if present.
+    /// </summary>
+    PropertyTypeExpressionLocation = 1 << 1,
+
+    /// <summary>
+    /// The location of the default value expression, if present.
+    /// </summary>
+    DefaultValueExpressionLocation = 1 << 2
 }

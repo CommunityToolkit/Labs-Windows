@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
@@ -464,7 +465,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
 
             MemberDeclarationSyntax nextMember = fieldParentTypeDeclaration.Members[fieldDeclarationIndex + 1];
 
-            // It's especially important to skip members that have been rmeoved. This would otherwise fail when computing
+            // It's especially important to skip members that have been removed. This would otherwise fail when computing
             // the final document. We only care about fixing trivia for members that will still be present after all edits.
             if (fieldDeclarations.Contains(nextMember))
             {
@@ -515,9 +516,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
         [NotNullWhen(true)] out Location? propertyTypeExpressionLocation,
         [NotNullWhen(true)] out Location? defaultValueExpressionLocation)
     {
-        // We always expect 3 additional locations, as per contract with the analyzer.
-        // Do a sanity check just in case, as we've seen sporadic issues with this.
-        if (diagnostic.AdditionalLocations is not [{ } location1, { } location2, { } location3])
+        // Ensure we have the additional location kind, and parse it
+        if (!Enum.TryParse(
+            diagnostic.Properties[UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.AdditionalLocationKindPropertyName],
+            out AdditionalLocationKind additionalLocationKind))
         {
             fieldLocation = null;
             propertyTypeExpressionLocation = null;
@@ -526,9 +528,60 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             return false;
         }
 
-        fieldLocation = location1;
-        propertyTypeExpressionLocation = location2;
-        defaultValueExpressionLocation = location3;
+        int currentLocationIndex = 0;
+
+        // Helper to extract an additional location with a specified kind
+        bool TryExtractAdditionalLocation(AdditionalLocationKind currentLocationKind, [NotNullWhen(true)] out Location? fieldLocation)
+        {
+            // Ensure the current kind is present and that we can extract an additional location
+            if (!additionalLocationKind.HasFlag(currentLocationKind))
+            {
+                // Special case for the unit test runner. If we have 3 diagnostics (see details on the contract in the analyzer),
+                // it means we're running in the test runner, which does not remove 'None' diagnostics. In this case, we need to
+                // increment the current index, or otherwise we'll read incorrect locations after this one.
+                if (diagnostic.AdditionalLocations.Count == 3)
+                {
+                    currentLocationIndex++;
+                }
+
+                fieldLocation = null;
+
+                return false;
+            }
+
+            // Parse the additional location
+            fieldLocation = diagnostic.AdditionalLocations[currentLocationIndex++];
+
+            // Special case: if the location is 'None', we should ignore it. This is because while the location is
+            // available when running tests, it will be removed when running in the IDE, because the serialization
+            // logic that Roslyn uses will filter out all 'None' locations. This step is needed to match that logic.
+            if (fieldLocation == Location.None)
+            {
+                fieldLocation = null;
+
+                return false;
+            }
+
+            return true;
+        }
+
+        // We always expect to have the field location
+        if (!TryExtractAdditionalLocation(AdditionalLocationKind.FieldLocation, out fieldLocation))
+        {
+            fieldLocation = null;
+            propertyTypeExpressionLocation = null;
+            defaultValueExpressionLocation = null;
+
+            return false;
+        }
+
+        // Try to extract all optional additional locations
+        _ = TryExtractAdditionalLocation(AdditionalLocationKind.PropertyTypeExpressionLocation, out propertyTypeExpressionLocation);
+        _ = TryExtractAdditionalLocation(AdditionalLocationKind.DefaultValueExpressionLocation, out defaultValueExpressionLocation);
+
+        // None of the additional locations should ever be 'null'
+        propertyTypeExpressionLocation ??= Location.None;
+        defaultValueExpressionLocation ??= Location.None;
 
         return true;
     }
