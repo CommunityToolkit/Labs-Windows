@@ -21,6 +21,13 @@ internal static class ITypeSymbolExtensions
     /// <returns>Whether the default value of <paramref name="symbol"/> is <see langword="null"/>.</returns>
     public static bool IsDefaultValueNull(this ITypeSymbol symbol)
     {
+        // Special case unconstrained type parameters: their default value is not explicitly 'null' for all cases.
+        // If we do have a type parameter, check that it does have some reference type constraint on it.
+        if (symbol is ITypeParameterSymbol typeParameter)
+        {
+            return typeParameter.HasReferenceTypeConstraint;
+        }
+
         return symbol is { IsValueType: false } or INamedTypeSymbol { IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };
     }
 

@@ -550,7 +550,7 @@ partial class DependencyPropertyGenerator
                         => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue})",
 
                     // Codegen for legacy UWP
-                    { IsNet8OrGreater: false } => propertyInfo switch
+                    { IsAdditionalTypesGenerationSupported: false } => propertyInfo switch
                     {
                         { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
                             => $"""
@@ -586,7 +586,13 @@ partial class DependencyPropertyGenerator
                             => $$"""
                             new global::{{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}}(
                                 defaultValue: {{defaultValue}},
-                                propertyChangedCallback: static (d, e) => { (({{typeQualifiedName}})d).On{{propertyInfo.PropertyName}}PropertyChanged(e); (({{typeQualifiedName}})d).OnPropertyChanged(e); })
+                                propertyChangedCallback: static (d, e) =>
+                                {
+                                    {{typeQualifiedName}} __this = ({{typeQualifiedName}})d;
+
+                                    __this.On{{propertyInfo.PropertyName}}PropertyChanged(e);
+                                    __this.OnPropertyChanged(e);
+                                })
                             """,
                         _ => throw new ArgumentException($"Invalid default value '{propertyInfo.DefaultValue}'."),
                     },
@@ -902,8 +908,13 @@ partial class DependencyPropertyGenerator
         /// <returns>Whether additional types are required.</returns>
         public static bool RequiresAdditionalTypes(EquatableArray<DependencyPropertyInfo> propertyInfos)
         {
-            // If the target is not .NET 8, we never need additional types (as '[UnsafeAccessor]' is not available)
-            if (!propertyInfos[0].IsNet8OrGreater)
+            // Check whether generating additional types is supported. This is a performance optimization for some
+            // scenarios. We can only do this in some cases though. For instance, this is only supported on .NET 8
+            // and above, as we need some additional types from the BCL (as '[UnsafeAccessor]'). Furthermore, if the
+            // containing type is generic, we cannot generate these additional types either, as it's not really viable
+            // to handle forwarding all type parameters to all generated accessors. In this case, we'll just use inline
+            // lambda expressions. This results in marginally worse codegen, but it's better than not supporting this.
+            if (!propertyInfos[0].IsAdditionalTypesGenerationSupported)
             {
                 return false;
             }

@@ -20,6 +20,12 @@ internal static class WinRTExtensions
     /// <returns>Whether <paramref name="symbol"/> is a well known WinRT projected value type..</returns>
     public static bool IsWellKnownWinRTProjectedValueType(this ITypeSymbol symbol, bool useWindowsUIXaml)
     {
+        // Early check: we don't care about type parameters, only about named types
+        if (symbol is not INamedTypeSymbol)
+        {
+            return false;
+        }
+
         // This method only cares about non nullable value types
         if (symbol.IsDefaultValueNull())
         {
@@ -50,7 +56,7 @@ internal static class WinRTExtensions
         }
 
         // Special case two more system types
-        if (symbol is INamedTypeSymbol { MetadataName: "TimeSpan" or "DateTimeOffset", ContainingNamespace.MetadataName: "System" })
+        if (symbol is { MetadataName: "TimeSpan" or "DateTimeOffset", ContainingNamespace.MetadataName: "System" })
         {
             return true;
         }

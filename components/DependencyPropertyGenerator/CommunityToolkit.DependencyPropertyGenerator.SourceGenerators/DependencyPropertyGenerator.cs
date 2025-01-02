@@ -101,6 +101,8 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     bool isPropertyChangedCallbackImplemented = Execute.IsPropertyChangedCallbackImplemented(propertySymbol, useWindowsUIXaml);
                     bool isSharedPropertyChangedCallbackImplemented = Execute.IsSharedPropertyChangedCallbackImplemented(propertySymbol, useWindowsUIXaml);
                     bool isNet8OrGreater = !context.SemanticModel.Compilation.IsWindowsRuntimeApplication();
+                    bool isContainedWithinGenericType = propertySymbol.ContainingType.IsGenericType;
+                    bool isAdditionalTypesGenerationSupported = isNet8OrGreater && !isContainedWithinGenericType;
 
                     token.ThrowIfCancellationRequested();
 
@@ -154,7 +156,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         IsLocalCachingEnabled: isLocalCachingEnabled,
                         IsPropertyChangedCallbackImplemented: isPropertyChangedCallbackImplemented,
                         IsSharedPropertyChangedCallbackImplemented: isSharedPropertyChangedCallbackImplemented,
-                        IsNet8OrGreater: isNet8OrGreater,
+                        IsAdditionalTypesGenerationSupported: isAdditionalTypesGenerationSupported,
                         UseWindowsUIXaml: useWindowsUIXaml,
                         StaticFieldAttributes: staticFieldAttributes);
                 })

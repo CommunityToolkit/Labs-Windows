@@ -24,7 +24,7 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Models;
 /// <param name="IsLocalCachingEnabled">Indicates whether local caching should be used for the property value.</param>
 /// <param name="IsPropertyChangedCallbackImplemented">Indicates whether the WinRT-based property changed callback is implemented.</param>
 /// <param name="IsSharedPropertyChangedCallbackImplemented">Indicates whether the WinRT-based shared property changed callback is implemented.</param>
-/// <param name="IsNet8OrGreater">Indicates whether the current target is .NET 8 or greater.</param>
+/// <param name="IsAdditionalTypesGenerationSupported">Indicates whether additional types can be generated.</param>
 /// <param name="UseWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
 /// <param name="StaticFieldAttributes">The attributes to emit on the generated static field, if any.</param>
 internal sealed record DependencyPropertyInfo(
@@ -42,6 +42,6 @@ internal sealed record DependencyPropertyInfo(
     bool IsLocalCachingEnabled,
     bool IsPropertyChangedCallbackImplemented,
     bool IsSharedPropertyChangedCallbackImplemented,
-    bool IsNet8OrGreater,
+    bool IsAdditionalTypesGenerationSupported,
     bool UseWindowsUIXaml,
     EquatableArray<AttributeInfo> StaticFieldAttributes);
