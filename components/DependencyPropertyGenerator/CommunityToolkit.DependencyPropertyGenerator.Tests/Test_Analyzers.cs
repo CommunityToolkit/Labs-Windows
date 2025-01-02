@@ -1218,6 +1218,78 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_InsideGeneric_NullableType_NotRequired_WithNotNull_NullResilientGetter_DoesNotWarn()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public abstract partial class Animation<TValue, TKeyFrame> : DependencyObject
+                where TKeyFrame : unmanaged
+            {
+                [GeneratedDependencyProperty]
+                [NotNull]
+                public partial KeyFrameCollection<TValue, TKeyFrame>? {|CS9248:KeyFrames|} { get; set; }
+
+                partial void {|CS0759:OnKeyFramesGet|}([NotNull] ref KeyFrameCollection<TValue, TKeyFrame>? propertyValue)
+                {
+                    propertyValue = new();
+                }
+
+                partial void {|CS0759:OnKeyFramesPropertyChanged|}(DependencyPropertyChangedEventArgs e)
+                {
+                }
+            }
+
+            public sealed partial class KeyFrameCollection<TValue, TKeyFrame> : DependencyObjectCollection
+                where TKeyFrame : unmanaged;
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_InsideGeneric_NotNullableType_NotRequired_WithAllowNull_NullResilientGetter_DoesNotWarn()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public abstract partial class Animation<TValue, TKeyFrame> : DependencyObject
+                where TKeyFrame : unmanaged
+            {
+                [GeneratedDependencyProperty]
+                [AllowNull]
+                public partial KeyFrameCollection<TValue, TKeyFrame> {|CS9248:KeyFrames|} { get; set; }
+
+                partial void {|CS0759:OnKeyFramesGet|}([NotNull] ref KeyFrameCollection<TValue, TKeyFrame>? propertyValue)
+                {
+                    propertyValue = new();
+                }
+
+                partial void {|CS0759:OnKeyFramesPropertyChanged|}(DependencyPropertyChangedEventArgs e)
+                {
+                }
+            }
+
+            public sealed partial class KeyFrameCollection<TValue, TKeyFrame> : DependencyObjectCollection
+                where TKeyFrame : unmanaged;
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_Warns()
     {
         const string source = """            
@@ -1315,6 +1387,103 @@ public class Test_Analyzers
                     propertyValue ??= "Bob";
                 }
             }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_InsideGeneric_NullableType_NotRequired_WithNotNull_Warns()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public abstract partial class Animation<TValue, TKeyFrame> : DependencyObject
+                where TKeyFrame : unmanaged
+            {
+                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [NotNull]
+                public partial KeyFrameCollection<TValue, TKeyFrame>? {|CS9248:KeyFrames|} { get; set; }
+
+                partial void {|CS0759:OnKeyFramesGet|}(ref KeyFrameCollection<TValue, TKeyFrame>? propertyValue)
+                {
+                }
+
+                partial void {|CS0759:OnKeyFramesPropertyChanged|}(DependencyPropertyChangedEventArgs e)
+                {
+                }
+            }
+
+            public sealed partial class KeyFrameCollection<TValue, TKeyFrame> : DependencyObjectCollection
+                where TKeyFrame : unmanaged;
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_InsideGeneric_NotNullableType_NotRequired_WithAllowNull_Warns()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public abstract partial class Animation<TValue, TKeyFrame> : DependencyObject
+                where TKeyFrame : unmanaged
+            {
+                [{|WCTDP0009:{|WCTDP0024:GeneratedDependencyProperty|}|}]
+                [AllowNull]
+                public partial KeyFrameCollection<TValue, TKeyFrame> {|CS9248:KeyFrames|} { get; set; }
+
+                partial void {|CS0759:OnKeyFramesGet|}(ref KeyFrameCollection<TValue, TKeyFrame>? propertyValue)
+                {
+                }
+
+                partial void {|CS0759:OnKeyFramesPropertyChanged|}(DependencyPropertyChangedEventArgs e)
+                {
+                }
+            }
+
+            public sealed partial class KeyFrameCollection<TValue, TKeyFrame> : DependencyObjectCollection
+                where TKeyFrame : unmanaged;
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_InsideGeneric_NotNullableType_rEQUIRED_WithAllowNull_Warns()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public abstract partial class Animation<TValue, TKeyFrame> : DependencyObject
+                where TKeyFrame : unmanaged
+            {
+                [{|WCTDP0024:GeneratedDependencyProperty|}]
+                [AllowNull]
+                public required partial KeyFrameCollection<TValue, TKeyFrame> {|CS9248:KeyFrames|} { get; set; }
+            }
+
+            public sealed partial class KeyFrameCollection<TValue, TKeyFrame> : DependencyObjectCollection
+                where TKeyFrame : unmanaged;
             """;
 
         await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
