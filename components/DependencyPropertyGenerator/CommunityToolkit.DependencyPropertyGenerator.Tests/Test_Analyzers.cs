@@ -903,7 +903,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientSetter_Object_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientSetter_Object_Warns()
     {
         const string source = """
             using System.Diagnostics.CodeAnalysis;
@@ -916,7 +916,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [GeneratedDependencyProperty]
+                [{|WCTDP0009:GeneratedDependencyProperty|}]
                 [AllowNull]
                 public partial string {|CS9248:Name|} { get; set; }
 
@@ -959,7 +959,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientSetter_DoesNotWarn()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_NotNullableType_AllowNull_WithNullResilientSetter_Warns()
     {
         const string source = """
             using System.Diagnostics.CodeAnalysis;
@@ -972,7 +972,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [GeneratedDependencyProperty]
+                [{|WCTDP0009:GeneratedDependencyProperty|}]
                 [AllowNull]
                 public partial string {|CS9248:Name|} { get; set; }
 
@@ -1028,7 +1028,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0024:GeneratedDependencyProperty|}]
+                [{|WCTDP0009:{|WCTDP0024:GeneratedDependencyProperty|}|}]
                 [AllowNull]
                 public partial string {|CS9248:Name|} { get; set; }
 
@@ -1055,7 +1055,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0024:GeneratedDependencyProperty|}]
+                [{|WCTDP0009:{|WCTDP0024:GeneratedDependencyProperty|}|}]
                 [AllowNull]
                 public partial string {|CS9248:Name|} { get; set; }
             }

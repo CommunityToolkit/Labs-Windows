@@ -91,30 +91,31 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                         return;
                     }
 
+                    // If the getter is null-resilient, then we never need to emit a warning here
+                    if (IsAccessorMethodMarkedAsNotNull(propertySymbol, SyntaxKind.GetAccessorDeclaration, notNullAttributeSymbols))
+                    {
+                        return;
+                    }
+
                     // If setting 'null' values is allowed, then the initial state (and the default value) don't matter anymore.
                     // In order to be correct, we must have '[NotNull]' on any implemented getter or setter methods (same as above).
-                    if (propertySymbol.HasAttributeWithAnyType(allowNullAttributeSymbols))
+                    if (propertySymbol.HasAttributeWithAnyType(allowNullAttributeSymbols) &&
+                        !IsAccessorMethodMarkedAsNotNull(propertySymbol, SyntaxKind.SetAccessorDeclaration, notNullAttributeSymbols))
                     {
-                        if (!IsAccessorMethodMarkedAsNotNull(propertySymbol, SyntaxKind.GetAccessorDeclaration, notNullAttributeSymbols) &&
-                            !IsAccessorMethodMarkedAsNotNull(propertySymbol, SyntaxKind.SetAccessorDeclaration, notNullAttributeSymbols))
-                        {
-                            context.ReportDiagnostic(Diagnostic.Create(
-                                NotNullResilientAccessorsForNotNullablePropertyDeclaration,
-                                attributeData.GetLocation(),
-                                propertySymbol));
-                        }
+                        context.ReportDiagnostic(Diagnostic.Create(
+                            NotNullResilientAccessorsForNotNullablePropertyDeclaration,
+                            attributeData.GetLocation(),
+                            propertySymbol));
                     }
-                    else
+
+                    // In either case, we need to check that either the property is required, or that the default value is not 'null'.
+                    // This is because when the nullability of the setter is correct, then the default value takes precedence.
+                    if (!propertySymbol.IsRequired && !IsDefaultValueNotNull(propertySymbol, attributeData, maybeNullAttributeSymbols, notNullAttributeSymbols))
                     {
-                        // Otherwise, we need to check that either the property is required, or that the default value is not 'null'.
-                        // This is because when the nullability of the setter is correct, then the default value takes precedence.
-                        if (!propertySymbol.IsRequired && !IsDefaultValueNotNull(propertySymbol, attributeData, maybeNullAttributeSymbols, notNullAttributeSymbols))
-                        {
-                            context.ReportDiagnostic(Diagnostic.Create(
-                                NonNullablePropertyDeclarationIsNotEnforced,
-                                attributeData.GetLocation(),
-                                propertySymbol));
-                        }
+                        context.ReportDiagnostic(Diagnostic.Create(
+                            NonNullablePropertyDeclarationIsNotEnforced,
+                            attributeData.GetLocation(),
+                            propertySymbol));
                     }
                 }
             }, SymbolKind.Property);
