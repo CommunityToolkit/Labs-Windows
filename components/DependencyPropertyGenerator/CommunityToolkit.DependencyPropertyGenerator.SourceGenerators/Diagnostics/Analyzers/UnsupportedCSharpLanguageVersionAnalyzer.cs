@@ -44,11 +44,7 @@ public sealed class UnsupportedCSharpLanguageVersionAnalyzer : DiagnosticAnalyze
 
             context.RegisterSymbolAction(context =>
             {
-                // Ensure that we have some target property to analyze (also skip implementation parts)
-                if (context.Symbol is not IPropertySymbol { PartialDefinitionPart: null } propertySymbol)
-                {
-                    return;
-                }
+                IPropertySymbol propertySymbol = (IPropertySymbol)context.Symbol;
 
                 // If the property is not using '[GeneratedDependencyProperty]', there's nothing to do
                 if (!propertySymbol.TryGetAttributeWithAnyType(generatedDependencyPropertyAttributeSymbols, out AttributeData? attributeData))

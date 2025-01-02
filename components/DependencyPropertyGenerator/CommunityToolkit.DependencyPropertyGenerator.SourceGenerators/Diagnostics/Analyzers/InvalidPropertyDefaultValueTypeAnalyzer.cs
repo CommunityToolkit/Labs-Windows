@@ -28,7 +28,7 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.EnableConcurrentExecution();
 
         context.RegisterCompilationStartAction(static context =>
@@ -39,7 +39,7 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
             context.RegisterOperationAction(context =>
             {
                 // We only care about attributes on properties
-                if (context.ContainingSymbol is not IPropertySymbol propertySymbol)
+                if (context.ContainingSymbol is not IPropertySymbol { PartialDefinitionPart: null } propertySymbol)
                 {
                     return;
                 }

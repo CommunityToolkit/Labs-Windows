@@ -29,7 +29,7 @@ public sealed class InvalidPropertyDefaultValueCallbackTypeAnalyzer : Diagnostic
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.EnableConcurrentExecution();
 
         context.RegisterCompilationStartAction(static context =>
@@ -39,7 +39,11 @@ public sealed class InvalidPropertyDefaultValueCallbackTypeAnalyzer : Diagnostic
 
             context.RegisterSymbolAction(context =>
             {
-                IPropertySymbol propertySymbol = (IPropertySymbol)context.Symbol;
+                // Ensure that we have some target property to analyze (also skip implementation parts)
+                if (context.Symbol is not IPropertySymbol { PartialDefinitionPart: null } propertySymbol)
+                {
+                    return;
+                }
 
                 // If the property is not using '[GeneratedDependencyProperty]', there's nothing to do
                 if (!propertySymbol.TryGetAttributeWithAnyType(generatedDependencyPropertyAttributeSymbols, out AttributeData? attributeData))

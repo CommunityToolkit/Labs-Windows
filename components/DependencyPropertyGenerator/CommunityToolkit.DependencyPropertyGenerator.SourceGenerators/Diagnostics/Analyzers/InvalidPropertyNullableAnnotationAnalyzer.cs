@@ -29,7 +29,7 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.EnableConcurrentExecution();
 
         context.RegisterCompilationStartAction(static context =>
@@ -46,7 +46,7 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
             context.RegisterSymbolAction(context =>
             {
                 // Validate that we have a property that is of some type that could potentially become 'null'
-                if (context.Symbol is not IPropertySymbol { Type.IsValueType: false, NullableAnnotation: not NullableAnnotation.None } propertySymbol)
+                if (context.Symbol is not IPropertySymbol { PartialDefinitionPart: null, Type.IsValueType: false, NullableAnnotation: not NullableAnnotation.None } propertySymbol)
                 {
                     return;
                 }

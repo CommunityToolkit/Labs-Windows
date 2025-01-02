@@ -23,7 +23,7 @@ public sealed class PropertyDeclarationWithPropertyNameSuffixAnalyzer : Diagnost
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.EnableConcurrentExecution();
 
         context.RegisterCompilationStartAction(static context =>
@@ -33,7 +33,11 @@ public sealed class PropertyDeclarationWithPropertyNameSuffixAnalyzer : Diagnost
 
             context.RegisterSymbolAction(context =>
             {
-                IPropertySymbol propertySymbol = (IPropertySymbol)context.Symbol;
+                // Ensure that we have some target property to analyze (also skip implementation parts)
+                if (context.Symbol is not IPropertySymbol { PartialDefinitionPart: null } propertySymbol)
+                {
+                    return;
+                }
 
                 // We only want to lookup the attribute if the property name actually ends with the 'Property' suffix
                 if (!propertySymbol.Name.EndsWith("Property"))
