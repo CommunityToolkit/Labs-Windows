@@ -324,4 +324,30 @@ internal static class DiagnosticDescriptors
         isEnabledByDefault: true,
         description: "Properties annotated with [GeneratedDependencyProperty] and setting 'PropertyType' must do so with a type that is compatible with the declared property type.",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>The property '{0}' is not annotated as nullable and is using [AllowNull], but neither of its accessors are null-resilient (at least one generated 'On___Get' or 'On___Set' method must be implemented with [NotNull] on the 'propertyValue' parameter, to ensure assigning null values does not break the nullable annotations on the property)</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor NotNullResilientAccessorsForNotNullablePropertyDeclaration = new(
+        id: "WCTDP0024",
+        title: "Non-nullable dependency property using [AllowNull] incorrectly",
+        messageFormat: "The property '{0}' is not annotated as nullable and is using [AllowNull], but neither of its accessors are null-resilient (at least one generated 'On___Get' or 'On___Set' method must be implemented with [NotNull] on the 'propertyValue' parameter, to ensure assigning null values does not break the nullable annotations on the property)",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "Non-nullable properties annotated with [GeneratedDependencyProperty] using [AllowNull] should have at least one generated 'On___Get' or 'On___Set' method implemented as null-resilient (by adding [NotNull] on the 'propertyValue' parameter) to ensure assigning null values does not break the nullable annotations on the property.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>The property '{0}' is annotated as nullable and is using [NotNull], but it's not guaranteeing that returned values will not be null (it must either make its 'get' accessor null-resilient, by implementing at least one generated 'On___Get' method with [NotNull] on the 'propertyValue' parameter, or it must either add [DisallowNull] or implement at least one generated 'On___Set' method with [NotNull], and also either mark the property as required, or ensure that its default value is not null)</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor NotNullResilientAccessorsForNullablePropertyDeclaration = new(
+        id: "WCTDP0025",
+        title: "Nullable dependency property using [NotNull] incorrectly",
+        messageFormat: "The property '{0}' is annotated as nullable and is using [NotNull], but it's not guaranteeing that returned values will not be null (it must either make its 'get' accessor null-resilient, by implementing at least one generated 'On___Get' method with [NotNull] on the 'propertyValue' parameter, or it must either add [DisallowNull] or implement at least one generated 'On___Set' method with [NotNull], and also either mark the property as required, or ensure that its default value is not null)",
+        category: typeof(DependencyPropertyGenerator).FullName,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "Nullable properties annotated with [GeneratedDependencyProperty] using [NotNull] should make their 'get' accessors null-resilient, by implementing at least one generated 'On___Get' method with [NotNull] on the 'propertyValue' parameter, or they must either add [DisallowNull] or implement at least one generated 'On___Set' method with [NotNull], and also either be marked as required properties, or ensure that the default value is not null.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }

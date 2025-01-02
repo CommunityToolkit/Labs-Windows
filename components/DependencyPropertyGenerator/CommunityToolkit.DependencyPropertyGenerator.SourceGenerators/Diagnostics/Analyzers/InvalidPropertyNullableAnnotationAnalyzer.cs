@@ -19,7 +19,12 @@ namespace CommunityToolkit.GeneratedDependencyProperty;
 public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyzer
 {
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [NonNullablePropertyDeclarationIsNotEnforced];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
+    [
+        NonNullablePropertyDeclarationIsNotEnforced,
+        NotNullResilientAccessorsForNullablePropertyDeclaration,
+        NotNullResilientAccessorsForNullablePropertyDeclaration
+    ];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -65,13 +70,14 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                     // If we have '[NotNull]', it means the property getter must always ensure that a non-null value is returned.
                     // This can be achieved in two different ways:
                     //   1) By implementing one of the 'On___Get' methods, and adding '[NotNull]' on the parameter.
-                    //   2) By having '[DisallowNull]' on the property, and either marking the property as required, or providing a non-null default value.
+                    //   2) By having '[DisallowNull]' on the property or implementing one of the 'On___Set' methods with '[NotNull]'
+                    //      on the parameter, and either marking the property as required, or providing a non-null default value.
                     if (!IsAccessorMethodMarkedAsNotNull(propertySymbol, SyntaxKind.GetAccessorDeclaration, notNullAttributeSymbols) &&
-                        !(propertySymbol.HasAttributeWithAnyType(disallowNullAttributeSymbols) &&
-                         (propertySymbol.IsRequired || IsDefaultValueNotNull(propertySymbol, attributeData, maybeNullAttributeSymbols, notNullAttributeSymbols))))
+                        !((propertySymbol.HasAttributeWithAnyType(disallowNullAttributeSymbols) || IsAccessorMethodMarkedAsNotNull(propertySymbol, SyntaxKind.SetAccessorDeclaration, notNullAttributeSymbols)) &&
+                          (propertySymbol.IsRequired || IsDefaultValueNotNull(propertySymbol, attributeData, maybeNullAttributeSymbols, notNullAttributeSymbols))))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(
-                            NonNullablePropertyDeclarationIsNotEnforced,
+                            NotNullResilientAccessorsForNullablePropertyDeclaration,
                             attributeData.GetLocation(),
                             propertySymbol));
                     }
@@ -93,7 +99,7 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                             !IsAccessorMethodMarkedAsNotNull(propertySymbol, SyntaxKind.SetAccessorDeclaration, notNullAttributeSymbols))
                         {
                             context.ReportDiagnostic(Diagnostic.Create(
-                                NonNullablePropertyDeclarationIsNotEnforced,
+                                NotNullResilientAccessorsForNullablePropertyDeclaration,
                                 attributeData.GetLocation(),
                                 propertySymbol));
                         }
