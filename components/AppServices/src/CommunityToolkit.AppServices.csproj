@@ -53,7 +53,7 @@
     <None Include="CommunityToolkit.Labs.AppServices.targets" PackagePath="build" Pack="true" />
 
     <!-- Pack the source generator to the right package folder -->
-    <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Platform)\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
+    <None Include="..\CommunityToolkit.AppServices.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.AppServices.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
   </ItemGroup>
 
   <!-- Remove imported global usings -->
