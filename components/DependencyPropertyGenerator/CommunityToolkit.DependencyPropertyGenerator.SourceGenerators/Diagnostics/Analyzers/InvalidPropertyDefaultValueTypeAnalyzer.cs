@@ -68,9 +68,6 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
                     return;
                 }
 
-                bool isNullableValueType = propertySymbol.Type.IsNullableValueType();
-                bool isNullableType = !propertySymbol.Type.IsValueType || isNullableValueType;
-
                 // If the value is 'null', handle all possible cases:
                 //   - Special placeholder for 'UnsetValue'
                 //   - Explicit 'null' value
@@ -94,7 +91,7 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
                     }
 
                     // Warn if the value is not nullable
-                    if (!isNullableType)
+                    if (!propertySymbol.Type.IsDefaultValueNull())
                     {
                         context.ReportDiagnostic(Diagnostic.Create(
                             InvalidPropertyDefaultValueNull,
@@ -106,7 +103,7 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
                 else
                 {
                     // Get the target type with a special case for 'Nullable<T>'
-                    ITypeSymbol propertyTypeSymbol = isNullableValueType
+                    ITypeSymbol propertyTypeSymbol = propertySymbol.Type.IsNullableValueType()
                         ? ((INamedTypeSymbol)propertySymbol.Type).TypeArguments[0]
                         : propertySymbol.Type;
 

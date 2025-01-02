@@ -1432,6 +1432,35 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    [DataRow("T1")]
+    [DataRow("T1?")]
+    [DataRow("T4?")]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_TypeParameter_ExplicitNull_DoesNotWarn(string propertyType)
+    {
+        string source = $$"""
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                [GeneratedDependencyProperty(DefaultValue = null)]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     public async Task InvalidPropertyDefaultValueTypeAnalyzer_NullValue_NonNullable_Warns()
     {
         const string source = """
@@ -1446,6 +1475,39 @@ public class Test_Analyzers
             {
                 [{|WCTDP0010:GeneratedDependencyProperty(DefaultValue = null)|}]
                 public partial int {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("T2")]
+    [DataRow("T2?")]
+    [DataRow("T3")]
+    [DataRow("T3?")]
+    [DataRow("T4")]
+    [DataRow("T5")]
+    [DataRow("T5?")]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_TypeParameter_ExplicitNull_Warns(string propertyType)
+    {
+        string source = $$"""
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                [{|WCTDP0010:GeneratedDependencyProperty(DefaultValue = null)|}]
+                public partial {{propertyType}} {|CS9248:Name|} { get; set; }
             }
             """;
 

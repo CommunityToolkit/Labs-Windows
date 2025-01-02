@@ -144,12 +144,12 @@ internal static class DiagnosticDescriptors
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 
     /// <summary>
-    /// <c>The property '{0}' is declared with type '{1}', but 'DefaultValue' is set to 'null', which is not compatible (consider fixing the default value, or implementing the 'Get(ref object)' partial method to handle the type mismatch)</c>.
+    /// <c>The property '{0}' is declared with type '{1}', but 'DefaultValue' is set to 'null', which is not compatible (consider changing the default value, implementing the 'Get(ref object)' partial method to handle the type mismatch, or suppressing the diagnostic if this is the intended behavior)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDefaultValueNull = new(
         id: "WCTDP0010",
         title: "Invalid 'null' default value for [GeneratedDependencyProperty] use",
-        messageFormat: "The property '{0}' is declared with type '{1}', but 'DefaultValue' is set to 'null', which is not compatible (consider fixing the default value, or implementing the 'Get(ref object)' partial method to handle the type mismatch)",
+        messageFormat: "The property '{0}' is declared with type '{1}', but 'DefaultValue' is set to 'null', which is not compatible (consider changing the default value, implementing the 'Get(ref object)' partial method to handle the type mismatch, or suppressing the diagnostic if this is the intended behavior)",
         category: typeof(DependencyPropertyGenerator).FullName,
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
