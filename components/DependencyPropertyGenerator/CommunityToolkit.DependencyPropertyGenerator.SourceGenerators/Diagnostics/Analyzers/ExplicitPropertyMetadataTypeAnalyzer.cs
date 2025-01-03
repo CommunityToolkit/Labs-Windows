@@ -67,7 +67,7 @@ public sealed class ExplicitPropertyMetadataTypeAnalyzer : DiagnosticAnalyzer
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
                         UnnecessaryDependencyPropertyExplicitMetadataType,
-                        attributeData.GetLocation(),
+                        attributeData.GetNamedArgumentOrAttributeLocation("PropertyType"),
                         propertySymbol,
                         propertySymbol.Type));
 
@@ -79,7 +79,7 @@ public sealed class ExplicitPropertyMetadataTypeAnalyzer : DiagnosticAnalyzer
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
                         IncompatibleDependencyPropertyExplicitMetadataType,
-                        attributeData.GetLocation(),
+                        attributeData.GetNamedArgumentOrAttributeLocation("PropertyType"),
                         propertySymbol,
                         typeSymbol,
                         propertySymbol.Type));

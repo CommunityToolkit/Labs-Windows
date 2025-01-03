@@ -825,8 +825,8 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0009:GeneratedDependencyProperty|}]
-                public partial string {|CS9248:Name|} { get; set; }
+                [GeneratedDependencyProperty]
+                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
             }
             """;
 
@@ -846,8 +846,8 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0009:GeneratedDependencyProperty(DefaultValue = null)|}]
-                public partial string {|CS9248:Name|} { get; set; }
+                [GeneratedDependencyProperty(DefaultValue = null)]
+                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
             }
             """;
 
@@ -867,8 +867,8 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0009:GeneratedDependencyProperty(DefaultValueCallback = nameof(GetDefaultName))|}]
-                public partial string {|CS9248:Name|} { get; set; }
+                [GeneratedDependencyProperty(DefaultValueCallback = nameof(GetDefaultName))]
+                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
 
                 private static string? GetDefaultName() => "Bob";
             }
@@ -891,8 +891,8 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0009:GeneratedDependencyProperty(DefaultValueCallback = nameof(GetDefaultName))|}]
-                public partial string {|CS9248:Name|} { get; set; }
+                [GeneratedDependencyProperty(DefaultValueCallback = nameof(GetDefaultName))]
+                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
 
                 [return: MaybeNull]
                 private static string GetDefaultName() => "Bob";
@@ -916,9 +916,9 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0009:GeneratedDependencyProperty|}]
+                [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial string {|CS9248:Name|} { get; set; }
+                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
 
                 partial void {|CS0759:OnNameSet|}([NotNull] ref object? propertyValue)
                 {
@@ -972,9 +972,9 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0009:GeneratedDependencyProperty|}]
+                [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial string {|CS9248:Name|} { get; set; }
+                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
 
                 partial void {|CS0759:OnNameSet|}([NotNull] ref string? propertyValue)
                 {
@@ -1028,9 +1028,9 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0009:{|WCTDP0024:GeneratedDependencyProperty|}|}]
+                [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial string {|CS9248:Name|} { get; set; }
+                public partial string {|WCTDP0009:{|WCTDP0024:{|CS9248:Name|}|}|} { get; set; }
 
                 partial void {|CS0759:OnNameGet|}(ref string? propertyValue)
                 {
@@ -1055,9 +1055,9 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0009:{|WCTDP0024:GeneratedDependencyProperty|}|}]
+                [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial string {|CS9248:Name|} { get; set; }
+                public partial string {|WCTDP0009:{|WCTDP0024:{|CS9248:Name|}|}|} { get; set; }
             }
             """;
 
@@ -1303,9 +1303,9 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [GeneratedDependencyProperty]
                 [NotNull]
-                public partial string? {|CS9248:Name|} { get; set; }
+                public partial string? {|WCTDP0025:{|CS9248:Name|}|} { get; set; }
             }
             """;
 
@@ -1326,9 +1326,9 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [GeneratedDependencyProperty]
                 [NotNull]
-                public partial string? {|CS9248:Name|} { get; set; }
+                public partial string? {|WCTDP0025:{|CS9248:Name|}|} { get; set; }
 
                 partial void {|CS0759:OnNameSet|}(ref string? propertyValue)
                 {
@@ -1354,10 +1354,10 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [GeneratedDependencyProperty]
                 [NotNull]
                 [DisallowNull]
-                public partial string? {|CS9248:Name|} { get; set; }
+                public partial string? {|WCTDP0025:{|CS9248:Name|}|} { get; set; }
             }
             """;
 
@@ -1378,9 +1378,9 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [GeneratedDependencyProperty]
                 [NotNull]
-                public partial string? {|CS9248:Name|} { get; set; }
+                public partial string? {|WCTDP0025:{|CS9248:Name|}|} { get; set; }
 
                 partial void {|CS0759:OnNameSet|}([NotNull] ref string? propertyValue)
                 {
@@ -1407,9 +1407,9 @@ public class Test_Analyzers
             public abstract partial class Animation<TValue, TKeyFrame> : DependencyObject
                 where TKeyFrame : unmanaged
             {
-                [{|WCTDP0025:GeneratedDependencyProperty|}]
+                [GeneratedDependencyProperty]
                 [NotNull]
-                public partial KeyFrameCollection<TValue, TKeyFrame>? {|CS9248:KeyFrames|} { get; set; }
+                public partial KeyFrameCollection<TValue, TKeyFrame>? {|WCTDP0025:{|CS9248:KeyFrames|}|} { get; set; }
 
                 partial void {|CS0759:OnKeyFramesGet|}(ref KeyFrameCollection<TValue, TKeyFrame>? propertyValue)
                 {
@@ -1442,9 +1442,9 @@ public class Test_Analyzers
             public abstract partial class Animation<TValue, TKeyFrame> : DependencyObject
                 where TKeyFrame : unmanaged
             {
-                [{|WCTDP0009:{|WCTDP0024:GeneratedDependencyProperty|}|}]
+                [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial KeyFrameCollection<TValue, TKeyFrame> {|CS9248:KeyFrames|} { get; set; }
+                public partial KeyFrameCollection<TValue, TKeyFrame> {|WCTDP0009:{|WCTDP0024:{|CS9248:KeyFrames|}|}|} { get; set; }
 
                 partial void {|CS0759:OnKeyFramesGet|}(ref KeyFrameCollection<TValue, TKeyFrame>? propertyValue)
                 {
@@ -1477,9 +1477,9 @@ public class Test_Analyzers
             public abstract partial class Animation<TValue, TKeyFrame> : DependencyObject
                 where TKeyFrame : unmanaged
             {
-                [{|WCTDP0024:GeneratedDependencyProperty|}]
+                [GeneratedDependencyProperty]
                 [AllowNull]
-                public required partial KeyFrameCollection<TValue, TKeyFrame> {|CS9248:KeyFrames|} { get; set; }
+                public required partial KeyFrameCollection<TValue, TKeyFrame> {|WCTDP0024:{|CS9248:KeyFrames|}|} { get; set; }
             }
 
             public sealed partial class KeyFrameCollection<TValue, TKeyFrame> : DependencyObjectCollection
@@ -1642,7 +1642,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0010:GeneratedDependencyProperty(DefaultValue = null)|}]
+                [GeneratedDependencyProperty({|WCTDP0010:DefaultValue = null|})]
                 public partial int {|CS9248:Name|} { get; set; }
             }
             """;
@@ -1675,7 +1675,7 @@ public class Test_Analyzers
                 where T4 : unmanaged
                 where T5 : IDisposable
             {
-                [{|WCTDP0010:GeneratedDependencyProperty(DefaultValue = null)|}]
+                [GeneratedDependencyProperty({|WCTDP0010:DefaultValue = null|})]
                 public partial {{propertyType}} {|CS9248:Name|} { get; set; }
             }
             """;
@@ -1700,7 +1700,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0011:GeneratedDependencyProperty(DefaultValue = {{defaultValueType}})|}]
+                [GeneratedDependencyProperty({|WCTDP0011:DefaultValue = {{defaultValueType}}|})]
                 public partial {{propertyType}} {|CS9248:Name|} { get; set; }
             }
             """;
@@ -1862,7 +1862,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0014:GeneratedDependencyProperty(DefaultValueCallback = "MissingMethod")|}]
+                [GeneratedDependencyProperty({|WCTDP0014:DefaultValueCallback = "MissingMethod"|})]
                 public partial string? {|CS9248:Name|} { get; set; }
             }
             """;
@@ -1883,7 +1883,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control, IGetDefaultValue
             {
-                [{|WCTDP0014:GeneratedDependencyProperty(DefaultValueCallback = "GetDefaultValue")|}]
+                [GeneratedDependencyProperty({|WCTDP0014:DefaultValueCallback = "GetDefaultValue"|})]
                 public partial string? {|CS9248:Name|} { get; set; }
 
                 static string? IGetDefaultValue.GetDefaultValue() => "Bob";
@@ -1915,7 +1915,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0015:GeneratedDependencyProperty(DefaultValueCallback = "GetDefaultName")|}]
+                [GeneratedDependencyProperty({|WCTDP0015:DefaultValueCallback = "GetDefaultName"|})]
                 public partial string? {|CS9248:Name|} { get; set; }
 
                 {{methodSignature}} => default!;
@@ -2853,7 +2853,7 @@ public class Test_Analyzers
 
             public class MyObject : DependencyObject, IMyInterface
             {
-                [{|WCTDP0022:GeneratedDependencyProperty(PropertyType = typeof({{type}}))|}]
+                [GeneratedDependencyProperty({|WCTDP0022:PropertyType = typeof({{type}})|})]
                 public {{type}} Name { get; set; }
             }
 
@@ -2879,7 +2879,7 @@ public class Test_Analyzers
 
             public class MyObject : DependencyObject
             {
-                [{|WCTDP0023:GeneratedDependencyProperty(PropertyType = typeof({{propertyType}}))|}]
+                [GeneratedDependencyProperty({|WCTDP0023:PropertyType = typeof({{propertyType}})|})]
                 public {{declaredType}} Name { get; set; }
             }
 

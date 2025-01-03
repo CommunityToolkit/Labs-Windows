@@ -95,7 +95,7 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
                     {
                         context.ReportDiagnostic(Diagnostic.Create(
                             InvalidPropertyDefaultValueNull,
-                            attributeData.GetLocation(),
+                            attributeData.GetNamedArgumentOrAttributeLocation("DefaultValue"),
                             propertySymbol,
                             propertySymbol.Type));
                     }
@@ -112,7 +112,7 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
                     {
                         context.ReportDiagnostic(Diagnostic.Create(
                             InvalidPropertyDefaultValueType,
-                            attributeData.GetLocation(),
+                            attributeData.GetNamedArgumentOrAttributeLocation("DefaultValue"),
                             propertySymbol,
                             propertySymbol.Type,
                             defaultValue.Value,

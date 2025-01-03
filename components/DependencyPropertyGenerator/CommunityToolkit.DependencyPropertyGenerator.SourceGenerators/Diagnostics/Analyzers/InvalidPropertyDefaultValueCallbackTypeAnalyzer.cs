@@ -77,7 +77,7 @@ public sealed class InvalidPropertyDefaultValueCallbackTypeAnalyzer : Diagnostic
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
                         InvalidPropertyDeclarationDefaultValueCallbackNoMethodFound,
-                        attributeData.GetLocation(),
+                        attributeData.GetNamedArgumentOrAttributeLocation("DefaultValueCallback"),
                         propertySymbol,
                         defaultValueCallback));
                 }
@@ -86,7 +86,7 @@ public sealed class InvalidPropertyDefaultValueCallbackTypeAnalyzer : Diagnostic
                     // Emit a diagnostic if the candidate method is not valid
                     context.ReportDiagnostic(Diagnostic.Create(
                         InvalidPropertyDeclarationDefaultValueCallbackInvalidMethod,
-                        attributeData.GetLocation(),
+                        attributeData.GetNamedArgumentOrAttributeLocation("DefaultValueCallback"),
                         propertySymbol,
                         defaultValueCallback));
                 }

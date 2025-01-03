@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Immutable;
+using System.Linq;
 using CommunityToolkit.GeneratedDependencyProperty.Constants;
 using CommunityToolkit.GeneratedDependencyProperty.Extensions;
 using Microsoft.CodeAnalysis;
@@ -78,7 +79,7 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                     {
                         context.ReportDiagnostic(Diagnostic.Create(
                             NotNullResilientAccessorsForNullablePropertyDeclaration,
-                            attributeData.GetLocation(),
+                            propertySymbol.Locations.FirstOrDefault(),
                             propertySymbol));
                     }
                 }
@@ -104,7 +105,7 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                     {
                         context.ReportDiagnostic(Diagnostic.Create(
                             NotNullResilientAccessorsForNotNullablePropertyDeclaration,
-                            attributeData.GetLocation(),
+                            propertySymbol.Locations.FirstOrDefault(),
                             propertySymbol));
                     }
 
@@ -114,7 +115,7 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                     {
                         context.ReportDiagnostic(Diagnostic.Create(
                             NonNullablePropertyDeclarationIsNotEnforced,
-                            attributeData.GetLocation(),
+                            propertySymbol.Locations.FirstOrDefault(),
                             propertySymbol));
                     }
                 }
