@@ -4,7 +4,9 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CommunityToolkit.GeneratedDependencyProperty.Extensions;
 
@@ -22,6 +24,36 @@ internal static class AttributeDataExtensions
     {
         if (attributeData.ApplicationSyntaxReference is { } syntaxReference)
         {
+            return syntaxReference.SyntaxTree.GetLocation(syntaxReference.Span);
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Tries to get the location of a named argument in an input <see cref="AttributeData"/> instance.
+    /// </summary>
+    /// <param name="attributeData">The input <see cref="AttributeData"/> instance to get the location for.</param>
+    /// <param name="name">The name of the argument to look for.</param>
+    /// <param name="token">The cancellation token for the operation.</param>
+    /// <returns>The resulting location for <paramref name="attributeData"/>, if a syntax reference is available.</returns>
+    public static Location? GetNamedArgumentOrAttributeLocation(this AttributeData attributeData, string name, CancellationToken token = default)
+    {
+        if (attributeData.ApplicationSyntaxReference is { } syntaxReference)
+        {
+            // If we can recover the syntax node, look for the target named argument
+            if (syntaxReference.GetSyntax(token) is AttributeSyntax { ArgumentList: { } argumentList })
+            {
+                foreach (AttributeArgumentSyntax argument in argumentList.Arguments)
+                {
+                    if (argument.NameEquals?.Name.Identifier.Text == name)
+                    {
+                        return argument.GetLocation();
+                    }
+                }
+            }
+
+            // Otherwise, fallback to the location of the whole attribute
             return syntaxReference.SyntaxTree.GetLocation(syntaxReference.Span);
         }
 
