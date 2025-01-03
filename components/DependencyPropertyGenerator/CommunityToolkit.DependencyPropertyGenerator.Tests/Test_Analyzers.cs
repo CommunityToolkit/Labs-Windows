@@ -1290,6 +1290,60 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_TypeParameter_NotNullableType_DoesNotWarn()
+    {
+        const string source = """            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+            {
+                [GeneratedDependencyProperty]
+                public partial T4 {|CS9248:Value|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("T1?")]
+    [DataRow("T2?")]
+    [DataRow("T3?")]
+    [DataRow("T4?")]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_TypeParameter_NullableType_DoesNotWarn(string declaredType)
+    {
+        string source = $$"""            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+            {
+                [GeneratedDependencyProperty]
+                public partial {{declaredType}} {|CS9248:Value|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     public async Task InvalidPropertyNullableAnnotationAnalyzer_NullableType_Warns()
     {
         const string source = """            
@@ -1463,7 +1517,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task InvalidPropertyNullableAnnotationAnalyzer_InsideGeneric_NotNullableType_rEQUIRED_WithAllowNull_Warns()
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_InsideGeneric_NotNullableType_Required_WithAllowNull_Warns()
     {
         const string source = """            
             using System.Diagnostics.CodeAnalysis;
@@ -1484,6 +1538,34 @@ public class Test_Analyzers
 
             public sealed partial class KeyFrameCollection<TValue, TKeyFrame> : DependencyObjectCollection
                 where TKeyFrame : unmanaged;
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("T1")]
+    [DataRow("T2")]
+    [DataRow("T3")]
+    public async Task InvalidPropertyNullableAnnotationAnalyzer_TypeParameter_NotNullableType_Warns(string declaredType)
+    {
+        string source = $$"""            
+            using System.Diagnostics.CodeAnalysis;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+            {
+                [GeneratedDependencyProperty]
+                public partial {{declaredType}} {|WCTDP0009:{|CS9248:Value|}|} { get; set; }
+            }
             """;
 
         await CSharpAnalyzerTest<InvalidPropertyNullableAnnotationAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
