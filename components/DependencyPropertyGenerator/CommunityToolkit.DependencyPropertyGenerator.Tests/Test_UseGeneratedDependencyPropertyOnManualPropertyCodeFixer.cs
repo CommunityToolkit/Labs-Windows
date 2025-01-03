@@ -2376,4 +2376,57 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
         await test.RunAsync();
     }
+
+    // Hit this false negative in the Microsoft Store
+    [TestMethod]
+    public async Task SingleProperty_WithinGenericType_WithExplicitDefaultValue_TypeParameterToObject()
+    {
+        const string original = """
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public abstract class KeyFrame<TValue, TKeyFrame> : DependencyObject
+                where TKeyFrame : unmanaged
+            {
+                public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+                    nameof(Value),
+                    typeof(object),
+                    typeof(KeyFrame<TValue, TKeyFrame>),
+                    new PropertyMetadata(default(TValue?)));
+
+                public TValue? [|Value|]
+                {
+                    get => (TValue?)GetValue(ValueProperty);
+                    set => SetValue(ValueProperty, value);
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            
+            #nullable enable
+            
+            namespace MyApp;
+            
+            public abstract partial class KeyFrame<TValue, TKeyFrame> : DependencyObject
+                where TKeyFrame : unmanaged
+            {
+                [GeneratedDependencyProperty(PropertyType = typeof(object))]
+                public partial TValue? {|CS9248:Value|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
 }

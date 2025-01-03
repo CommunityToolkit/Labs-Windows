@@ -519,12 +519,9 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                     return;
                                 }
 
-                                // Also make sure the type matches the property type (it's not technically guaranteed).
-                                // If this succeeds, we can safely convert the property, the generated code will be fine.
-                                if (!SymbolEqualityComparer.Default.Equals(defaultValueExpressionType, propertyTypeSymbol))
-                                {
-                                    return;
-                                }
+                                // Store the expression type for later, so we can validate it. We cannot validate it from here, as we
+                                // only see the declared property type for metadata. This isn't guaranteed to match the property type.
+                                fieldFlags.DefaultValueExpressionType = defaultValueExpressionType;
                             }
                         }
                     }
@@ -593,6 +590,15 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             fieldFlags.PropertyTypeExpressionLocation = null;
                         }
 
+                        // Also make sure the default value type matches the property type (it's not technically guaranteed).
+                        // If this succeeds, we can safely convert the property, the generated code will be fine. If this
+                        // does not match, the generated code will be different, and we want to avoid changing semantics.
+                        if (fieldFlags.DefaultValueExpressionType is not null &&
+                            !SymbolEqualityComparer.Default.Equals(fieldFlags.DefaultValueExpressionType, pair.Key.Type))
+                        {
+                            continue;
+                        }
+
                         // Finally, check whether the field was valid (if so, we will have a valid location)
                         if (fieldFlags.FieldLocation is Location fieldLocation)
                         {
@@ -646,6 +652,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         fieldFlags.DefaultValue = null;
                         fieldFlags.DefaultValueTypeReferenceId = null;
                         fieldFlags.DefaultValueExpressionLocation = null;
+                        fieldFlags.DefaultValueExpressionType = null;
                         fieldFlags.FieldLocation = null;
 
                         fieldFlagsStack.Push(fieldFlags);
@@ -734,6 +741,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// The location for the default value, if available.
         /// </summary>
         public Location? DefaultValueExpressionLocation;
+
+        /// <summary>
+        /// The type of the <see langword="default"/> expression used for the default value, if validation is required.
+        /// </summary>
+        public ITypeSymbol? DefaultValueExpressionType;
 
         /// <summary>
         /// The location of the target field being initialized.
