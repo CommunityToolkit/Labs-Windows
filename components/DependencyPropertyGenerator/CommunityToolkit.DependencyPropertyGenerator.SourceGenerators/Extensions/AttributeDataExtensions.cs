@@ -22,12 +22,12 @@ internal static class AttributeDataExtensions
     /// <returns>The resulting location for <paramref name="attributeData"/>, if a syntax reference is available.</returns>
     public static Location? GetLocation(this AttributeData attributeData)
     {
-        if (attributeData.ApplicationSyntaxReference is { } syntaxReference)
+        if (attributeData.ApplicationSyntaxReference is not { } syntaxReference)
         {
-            return syntaxReference.SyntaxTree.GetLocation(syntaxReference.Span);
+            return null;
         }
 
-        return null;
+        return syntaxReference.SyntaxTree.GetLocation(syntaxReference.Span);
     }
 
     /// <summary>
@@ -39,25 +39,25 @@ internal static class AttributeDataExtensions
     /// <returns>The resulting location for <paramref name="attributeData"/>, if a syntax reference is available.</returns>
     public static Location? GetNamedArgumentOrAttributeLocation(this AttributeData attributeData, string name, CancellationToken token = default)
     {
-        if (attributeData.ApplicationSyntaxReference is { } syntaxReference)
+        if (attributeData.ApplicationSyntaxReference is not { } syntaxReference)
         {
-            // If we can recover the syntax node, look for the target named argument
-            if (syntaxReference.GetSyntax(token) is AttributeSyntax { ArgumentList: { } argumentList })
-            {
-                foreach (AttributeArgumentSyntax argument in argumentList.Arguments)
-                {
-                    if (argument.NameEquals?.Name.Identifier.Text == name)
-                    {
-                        return argument.GetLocation();
-                    }
-                }
-            }
-
-            // Otherwise, fallback to the location of the whole attribute
-            return syntaxReference.SyntaxTree.GetLocation(syntaxReference.Span);
+            return null;
         }
 
-        return null;
+        // If we can recover the syntax node, look for the target named argument
+        if (syntaxReference.GetSyntax(token) is AttributeSyntax { ArgumentList: { } argumentList })
+        {
+            foreach (AttributeArgumentSyntax argument in argumentList.Arguments)
+            {
+                if (argument.NameEquals?.Name.Identifier.Text == name)
+                {
+                    return argument.GetLocation();
+                }
+            }
+        }
+
+        // Otherwise, fallback to the location of the whole attribute
+        return syntaxReference.SyntaxTree.GetLocation(syntaxReference.Span);
     }
 
     /// <summary>
