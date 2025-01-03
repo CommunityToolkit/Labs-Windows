@@ -473,11 +473,12 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 // We have found a valid constant. If it's an enum type, we have a couple special cases to handle.
                                 if (conversionOperation.Operand.Type is { TypeKind: TypeKind.Enum } operandType)
                                 {
-                                    // As an optimization, we check whether the constant was the value
+                                    // As an optimization, we check whether the constant was the default value (not other enum member)
                                     // of some projected built-in WinRT enum type (ie. not any user-defined enum type). If that is the
                                     // case, the XAML infrastructure can default that values automatically, meaning we can skip the
                                     // overhead of instantiating a 'PropertyMetadata' instance in code, and marshalling default value.
-                                    if (operandType.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)))
+                                    // We also need to exclude scenarios where the property is actually nullable, but we're assigning a value.
+                                    if (operandType.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)) && !isNullableValueType)
                                     {
                                         // Before actually enabling the optimization, validate that the default value is actually
                                         // the same as the default value of the enum (ie. the value of its first declared field).
