@@ -2429,4 +2429,98 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
         await test.RunAsync();
     }
+
+    // Some mixed scenarios with enum types, nullable types, and different property metadata types.
+    // Not all of these are a 1:1 match with the code fixer (some aren't even fully valid) just yet.
+    [TestMethod]
+    [DataRow("int?", "int?", "new PropertyMetadata(default(int))", "(DefaultValue = 0)")]
+    //[DataRow("int?", "object", "new PropertyMetadata(default(int))", "(PropertyType = typeof(object), DefaultValue = 0)")]
+    [DataRow("Visibility", "Visibility", "null", "")]
+    [DataRow("Visibility", "Visibility", "new PropertyMetadata(null)", "(DefaultValue = null)")]
+    [DataRow("Visibility", "Visibility", "new PropertyMetadata(default(Visibility))", "")]
+    //[DataRow("Visibility", "object", "null", "(PropertyType = typeof(object), DefaultValue = null)")]
+    //[DataRow("Visibility", "object", "new PropertyMetadata(null)", "(PropertyType = typeof(object), DefaultValue = null)")]
+    [DataRow("Visibility", "object", "new PropertyMetadata(default(Visibility))", "(PropertyType = typeof(object))")]
+    [DataRow("Visibility?", "Visibility?", "null", "")]
+    [DataRow("Visibility?", "Visibility?", "new PropertyMetadata(null)", "")]
+    //[DataRow("Visibility?", "Visibility?", "new PropertyMetadata(default(Visibility))", "(DefaultValue = Visibility.Visible)")]
+    //[DataRow("Visibility?", "Visibility?", "new PropertyMetadata(Visibility.Visible)", "(DefaultValue = Visibility.Visible)")]
+    [DataRow("Visibility?", "Visibility?", "new PropertyMetadata(Visibility.Collapsed)", "(DefaultValue = Visibility.Collapsed)")]
+    [DataRow("Visibility?", "object", "null", "(PropertyType = typeof(object))")]
+    [DataRow("Visibility?", "object", "new PropertyMetadata(null)", "(PropertyType = typeof(object))")]
+    //[DataRow("Visibility?", "object", "new PropertyMetadata(default(Visibility))", "(PropertyType = typeof(object), DefaultValue = Visibility.Visible)")]
+    //[DataRow("Visibility?", "object", "new PropertyMetadata(Visibility.Visible)", "(PropertyType = typeof(object), DefaultValue = Visibility.Visible)")]
+    [DataRow("Visibility?", "object", "new PropertyMetadata(Visibility.Collapsed)", "(PropertyType = typeof(object), DefaultValue = Visibility.Collapsed)")]
+    [DataRow("MyEnum", "MyEnum", "null", "(DefaultValue = null)")]
+    [DataRow("MyEnum", "MyEnum", "new PropertyMetadata(null)", "(DefaultValue = null)")]
+    [DataRow("MyEnum", "MyEnum", "new PropertyMetadata(default(MyEnum))", "")]
+    //[DataRow("MyEnum", "object", "null", "(PropertyType = typeof(object), DefaultValue = null)")]
+    //[DataRow("MyEnum", "object", "new PropertyMetadata(null)", "(PropertyType = typeof(object), DefaultValue = null)")]
+    [DataRow("MyEnum", "object", "new PropertyMetadata(default(MyEnum))", "(PropertyType = typeof(object))")]
+    [DataRow("MyEnum?", "MyEnum?", "null", "")]
+    [DataRow("MyEnum?", "MyEnum?", "new PropertyMetadata(null)", "")]
+    //[DataRow("MyEnum?", "MyEnum?", "new PropertyMetadata(default(MyEnum))", "(DefaultValue = MyEnum.A)")]
+    [DataRow("MyEnum?", "MyEnum?", "new PropertyMetadata(MyEnum.A)", "(DefaultValue = MyEnum.A)")]
+    [DataRow("MyEnum?", "MyEnum?", "new PropertyMetadata(MyEnum.B)", "(DefaultValue = MyEnum.B)")]
+    [DataRow("MyEnum?", "object", "null", "(PropertyType = typeof(object))")]
+    [DataRow("MyEnum?", "object", "new PropertyMetadata(null)", "(PropertyType = typeof(object))")]
+    //[DataRow("MyEnum?", "object", "new PropertyMetadata(default(MyEnum))", "(PropertyType = typeof(object), DefaultValue = MyEnum.A)")]
+    //[DataRow("MyEnum?", "object", "new PropertyMetadata(MyEnum.A)", "(PropertyType = typeof(object), DefaultValue = MyEnum.A)")]
+    [DataRow("MyEnum?", "object", "new PropertyMetadata(MyEnum.B)", "(PropertyType = typeof(object), DefaultValue = MyEnum.B)")]
+    public async Task SimpleProperty_MixedEnumAndNullable_WithPropertyType_HandlesAllScenariosCorrectly(
+        string declaredType,
+        string propertyType,
+        string propertyMetadataExpression,
+        string attributeArguments)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: {{propertyMetadataExpression}});
+
+                public {{declaredType}} [|Name|]
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public enum MyEnum { A, B }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                [GeneratedDependencyProperty{{attributeArguments}}]
+                public partial {{declaredType}} {|CS9248:Name|} { get; set; }
+            }
+
+            public enum MyEnum { A, B }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed
+        };
+
+        await test.RunAsync();
+    }
 }
