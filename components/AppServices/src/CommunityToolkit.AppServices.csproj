@@ -10,7 +10,8 @@
     <HasWinUI>false</HasWinUI>
     <EnableXamlCompilerMismatchedTfmUnoWorkaround>false</EnableXamlCompilerMismatchedTfmUnoWorkaround>
 
-    <!-- This library doesn't need XAML support, so we can just target 17763 -->
+    <!-- This library doesn't need XAML support, so we can just target 17763 (also disable the UWP build tools) -->
+    <UseUwpTools>false</UseUwpTools>
     <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.17763.0;net9.0-windows10.0.17763.0;</UwpTargetFrameworks>
   </PropertyGroup>
 
