@@ -416,7 +416,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     {
                         // Here we need to special case non nullable value types that are not well known WinRT projected types.
                         // In this case, we cannot rely on XAML calling their default constructor. Rather, we need to preserve
-                        // the explicit 'null' value that users had in their code. The analyzer will then warn on these cases
+                        // the explicit 'null' value that users had in their code. The analyzer will then warn on these cases.
                         if (!propertyTypeSymbol.IsDefaultValueNull() &&
                             !propertyTypeSymbol.IsWellKnownWinRTProjectedValueType(useWindowsUIXaml))
                         {
