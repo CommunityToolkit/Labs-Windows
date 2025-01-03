@@ -80,7 +80,8 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                         context.ReportDiagnostic(Diagnostic.Create(
                             NotNullResilientAccessorsForNullablePropertyDeclaration,
                             propertySymbol.Locations.FirstOrDefault(),
-                            propertySymbol));
+                            propertySymbol,
+                            propertySymbol.Name));
                     }
                 }
                 else
@@ -106,7 +107,8 @@ public sealed class InvalidPropertyNullableAnnotationAnalyzer : DiagnosticAnalyz
                         context.ReportDiagnostic(Diagnostic.Create(
                             NotNullResilientAccessorsForNotNullablePropertyDeclaration,
                             propertySymbol.Locations.FirstOrDefault(),
-                            propertySymbol));
+                            propertySymbol,
+                            propertySymbol.Name));
                     }
 
                     // In either case, we need to check that either the property is required, or that the default value is not 'null'.
