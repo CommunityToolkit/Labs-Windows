@@ -37,3 +37,5 @@ WCTDP0027 | DependencyPropertyGenerator | Warning |
 WCTDP0028 | DependencyPropertyGenerator | Warning |
 WCTDP0029 | DependencyPropertyGenerator | Warning |
 WCTDP0030 | DependencyPropertyGenerator | Warning |
+WCTDP0031 | DependencyPropertyGenerator | Warning |
+WCTDP0032 | DependencyPropertyGenerator | Warning |

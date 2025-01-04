@@ -2246,13 +2246,13 @@ public class Test_Analyzers
                     {|WCTDP0027:nameof(PlayButtonVisible)|},
                     {|WCTDP0030:typeof(bool)|},
                     typeof(PlayerControl),
-                    new PropertyMetadata(Visibility.Visible));
+                    new PropertyMetadata({|WCTDP0032:Visibility.Visible|}));
 
                 public static readonly DependencyProperty VolumeVisibleProperty = DependencyProperty.Register(
                     nameof(VolumeVisible),
                     {|WCTDP0030:typeof(bool)|},
                     typeof(PlayerControl),
-                    new PropertyMetadata(Visibility.Visible));
+                    new PropertyMetadata({|WCTDP0032:Visibility.Visible|}));
 
                 public Visibility PlayButtonVisible
                 {
@@ -2922,6 +2922,96 @@ public class Test_Analyzers
             }
 
             public class MyOtherObject : DependencyObject;
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("string", "null")]
+    [DataRow("string", "\"Bob\"")]
+    [DataRow("object", "null")]
+    [DataRow("object", "\"Bob\"")]
+    [DataRow("object", "42")]
+    [DataRow("int?", "null")]
+    [DataRow("Visibility?", "null")]
+    [DataRow("string", "DependencyProperty.UnsetValue")]
+    [DataRow("object", "DependencyProperty.UnsetValue")]
+    [DataRow("int", "DependencyProperty.UnsetValue")]
+    [DataRow("int?", "DependencyProperty.UnsetValue")]
+    [DataRow("Visibility", "DependencyProperty.UnsetValue")]
+    [DataRow("Visibility?", "DependencyProperty.UnsetValue")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_OrphanedPropertyField_WithExplicitDefaultValue_DoesNotWarn(
+        string propertyType,
+        string defaultValueExpression)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    typeof(MyObject),
+                    typeMetadata: new PropertyMetadata({{defaultValueExpression}}));
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("int")]
+    [DataRow("global::System.TimeSpan")]
+    [DataRow("global::Windows.Foundation.Rect")]
+    [DataRow("Visibility")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_OrphanedPropertyField_NullDefaultValue_Warns(string propertyType)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    typeof(MyObject),
+                    typeMetadata: new PropertyMetadata({|WCTDP0031:null|}));
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("int", "3.0")]
+    [DataRow("int", "3.0F")]
+    [DataRow("int", "3L")]
+    [DataRow("int", "\"Bob\"")]
+    [DataRow("int", "Visibility.Visible")]
+    [DataRow("int", "default(Visibility)")]
+    [DataRow("bool", "Visibility.Visible")]
+    [DataRow("string", "42")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_OrphanedPropertyField_InvalidDefaultValue_Warns(string propertyType, string defaultValue)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    typeof(MyObject),
+                    typeMetadata: new PropertyMetadata({|WCTDP0032:{{defaultValue}}|}));
+            }
             """;
 
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);

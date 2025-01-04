@@ -76,7 +76,9 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         InvalidPropertyNameOnDependencyPropertyField,
         MismatchedPropertyNameOnDependencyPropertyField,
         InvalidOwningTypeOnDependencyPropertyField,
-        InvalidPropertyTypeOnDependencyPropertyField
+        InvalidPropertyTypeOnDependencyPropertyField,
+        InvalidDefaultValueNullOnDependencyPropertyField,
+        InvalidDefaultValueTypeOnDependencyPropertyField
     ];
 
     /// <inheritdoc/>
@@ -459,20 +461,16 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         }
                     }
 
-                    // At this point we've exhausted all possible diagnostics that are also valid on orphaned fields.
-                    // We can now validate that we did manage to retrieve the field flags, and stop if we didn't.
-                    if (fieldFlags is null)
-                    {
-                        return;
-                    }
-
                     // Extract the property type, we can validate it later
                     if (propertyTypeArgument.Value is not ITypeOfOperation { TypeOperand: { } propertyTypeSymbol })
                     {
                         return;
                     }
 
-                    fieldFlags.PropertyType = propertyTypeSymbol;
+                    if (fieldFlags is not null)
+                    {
+                        fieldFlags.PropertyType = propertyTypeSymbol;
+                    }
 
                     // First, check if the metadata is 'null' (simplest case)
                     if (propertyMetadataArgument.Value.ConstantValue is { HasValue: true, Value: null })
@@ -483,7 +481,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         if (!propertyTypeSymbol.IsDefaultValueNull() &&
                             !propertyTypeSymbol.IsWellKnownWinRTProjectedValueType(useWindowsUIXaml))
                         {
-                            fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
+                            if (fieldFlags is not null)
+                            {
+                                fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
+                            }
                         }
                     }
                     else
@@ -506,14 +507,72 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             return;
                         }
 
+                        // Emit diagnostics for invalid default values (equivalent logic to 'InvalidPropertyDefaultValueTypeAnalyzer').
+                        // Note: we don't flag the property if we emit diagnostics here, as we can still apply the code fixer either way.
+                        // If we do that, then the other analyzer will simply start producing an error on the attribute, rather than here.
+                        if (defaultValueArgument.Value is { ConstantValue: { HasValue: true, Value: null } })
+                        {
+                            // Default value diagnostic #1: the value is 'null' but the property type is not nullable
+                            if (!propertyTypeSymbol.IsDefaultValueNull())
+                            {
+                                context.ReportDiagnostic(Diagnostic.Create(
+                                    InvalidDefaultValueNullOnDependencyPropertyField,
+                                    defaultValueArgument.Syntax.GetLocation(),
+                                    fieldSymbol,
+                                    propertyTypeSymbol));
+                            }
+                        }
+                        else
+                        {
+                            bool isDependencyPropertyUnsetValue =
+                                defaultValueArgument.Value is IPropertyReferenceOperation { Property: { IsStatic: true, Name: "UnsetValue" } unsetValuePropertySymbol } &&
+                                SymbolEqualityComparer.Default.Equals(unsetValuePropertySymbol.ContainingType, dependencyPropertySymbol);
+
+                            // We never emit diagnostics when assigning 'UnsetValue': this value is special, so let's just ignore it
+                            if (!isDependencyPropertyUnsetValue)
+                            {
+                                // Get the type of the conversion operation (same as the one below, but we get it here too just to opportunistically emit a diagnostic)
+                                if (defaultValueArgument.Value is IConversionOperation { IsTryCast: false, Type.SpecialType: SpecialType.System_Object, Operand.Type: { } operandTypeSymbol })
+                                {
+                                    // Get the target type with a special case for 'Nullable<T>' (same as in the other analyzer)
+                                    ITypeSymbol unwrappedPropertyTypeSymbol = propertyTypeSymbol.IsNullableValueType()
+                                        ? ((INamedTypeSymbol)propertyTypeSymbol).TypeArguments[0]
+                                        : propertyTypeSymbol;
+
+                                    // Warn if the type of the default value is not compatible
+                                    if (!SymbolEqualityComparer.Default.Equals(unwrappedPropertyTypeSymbol, operandTypeSymbol) &&
+                                        !SymbolEqualityComparer.Default.Equals(propertyTypeSymbol, operandTypeSymbol) &&
+                                        context.Compilation.ClassifyConversion(operandTypeSymbol, propertyTypeSymbol) is not ({ IsBoxing: true } or { IsReference: true }))
+                                    {
+                                        context.ReportDiagnostic(Diagnostic.Create(
+                                            InvalidDefaultValueTypeOnDependencyPropertyField,
+                                            defaultValueArgument.Syntax.GetLocation(),
+                                            fieldSymbol,
+                                            operandTypeSymbol,
+                                            propertyTypeSymbol));
+                                    }
+                                }
+                            }
+                        }
+
                         // The argument should be a conversion operation (boxing)
                         if (defaultValueArgument.Value is not IConversionOperation { IsTryCast: false, Type.SpecialType: SpecialType.System_Object } conversionOperation)
                         {
                             return;
                         }
 
-                        // Store the operation for later, as we need to wait to also get the metadata type to do the full validation
-                        fieldFlags.DefaultValueOperation = conversionOperation.Operand;
+                        if (fieldFlags is not null)
+                        {
+                            // Store the operation for later, as we need to wait to also get the metadata type to do the full validation
+                            fieldFlags.DefaultValueOperation = conversionOperation.Operand;
+                        }
+                    }
+
+                    // At this point we've exhausted all possible diagnostics that are also valid on orphaned fields.
+                    // We can now validate that we did manage to retrieve the field flags, and stop if we didn't.
+                    if (fieldFlags is null)
+                    {
+                        return;
                     }
 
                     // Find the parent field for the operation (we're guaranteed to only fine one)

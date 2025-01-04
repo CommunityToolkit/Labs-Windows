@@ -2331,15 +2331,9 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
     [TestMethod]
     [DataRow("string?", "string", "")]
-    [DataRow("int", "int", "(DefaultValue = null)")]
     [DataRow("int?", "int?", "")]
     [DataRow("T1?", "T1", "")]
-    [DataRow("T2", "T2", "(DefaultValue = null)")]
-    [DataRow("T2?", "T2", "(DefaultValue = null)")]
-    [DataRow("T4", "T4", "(DefaultValue = null)")]
     [DataRow("T4?", "T4?", "")]
-    [DataRow("T5", "T5", "(DefaultValue = null)")]
-    [DataRow("T5?", "T5", "(DefaultValue = null)")]
     public async Task SimpleProperty_WithinGenericType_WithExplicitNullDefaultValue(
         string declaredType,
         string propertyType,
@@ -2365,6 +2359,77 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                     typeof({{propertyType}}),
                     typeof(MyObject<T1, T2, T3, T4, T5>),
                     new PropertyMetadata(null));
+
+                public {{declaredType}} [|Name|]
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        string @fixed = $$"""
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            #nullable enable
+            
+            namespace MyApp;
+            
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                [GeneratedDependencyProperty{{attributeArguments}}]
+                public partial {{declaredType}} {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    [DataRow("T2", "T2", "(DefaultValue = null)")]
+    [DataRow("T2?", "T2", "(DefaultValue = null)")]
+    [DataRow("T4", "T4", "(DefaultValue = null)")]
+    [DataRow("T5", "T5", "(DefaultValue = null)")]
+    [DataRow("T5?", "T5", "(DefaultValue = null)")]
+    public async Task SimpleProperty_WithinGenericType_WithExplicitNullDefaultValue_FixesButAlsoWarnsInOriginalCode(
+        string declaredType,
+        string propertyType,
+        string attributeArguments)
+    {
+        string original = $$"""
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject<T1, T2, T3, T4, T5> : DependencyObject
+                where T1 : class
+                where T3 : T2, new()
+                where T4 : unmanaged
+                where T5 : IDisposable
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    nameof(Name),
+                    typeof({{propertyType}}),
+                    typeof(MyObject<T1, T2, T3, T4, T5>),
+                    new PropertyMetadata({|WCTDP0031:null|}));
 
                 public {{declaredType}} [|Name|]
                 {
@@ -2473,7 +2538,6 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     [DataRow("int?", "object", "new PropertyMetadata(0)", "(PropertyType = typeof(object), DefaultValue = 0)")]
     [DataRow("int?", "object", "new PropertyMetadata(default(int))", "(PropertyType = typeof(object), DefaultValue = 0)")]
     [DataRow("Visibility", "Visibility", "null", "")]
-    [DataRow("Visibility", "Visibility", "new PropertyMetadata(null)", "(DefaultValue = null)")]
     [DataRow("Visibility", "Visibility", "new PropertyMetadata(default(Visibility))", "")]
     [DataRow("Visibility", "Visibility", "new PropertyMetadata(Visibility.Visible)", "")]
     [DataRow("Visibility", "Visibility", "new PropertyMetadata(Visibility.Collapsed)", "(DefaultValue = Visibility.Collapsed)")]
@@ -2494,7 +2558,6 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
     [DataRow("Visibility?", "object", "new PropertyMetadata(Visibility.Visible)", "(PropertyType = typeof(object), DefaultValue = Visibility.Visible)")]
     [DataRow("Visibility?", "object", "new PropertyMetadata(Visibility.Collapsed)", "(PropertyType = typeof(object), DefaultValue = Visibility.Collapsed)")]
     [DataRow("MyEnum", "MyEnum", "null", "(DefaultValue = null)")]
-    [DataRow("MyEnum", "MyEnum", "new PropertyMetadata(null)", "(DefaultValue = null)")]
     [DataRow("MyEnum", "MyEnum", "new PropertyMetadata(default(MyEnum))", "")]
     [DataRow("MyEnum", "MyEnum", "new PropertyMetadata(MyEnum.A)", "")]
     [DataRow("MyEnum", "MyEnum", "new PropertyMetadata(MyEnum.B)", "(DefaultValue = MyEnum.B)")]
@@ -2533,6 +2596,66 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                     propertyType: typeof({{propertyType}}),
                     ownerType: typeof(MyObject),
                     typeMetadata: {{propertyMetadataExpression}});
+
+                public {{declaredType}} [|Name|]
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public enum MyEnum { A, B }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                [GeneratedDependencyProperty{{attributeArguments}}]
+                public partial {{declaredType}} {|CS9248:Name|} { get; set; }
+            }
+
+            public enum MyEnum { A, B }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
+        };
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
+    [DataRow("Visibility", "Visibility", "(DefaultValue = null)")]
+    [DataRow("MyEnum", "MyEnum", "(DefaultValue = null)")]
+    public async Task SimpleProperty_MixedEnumAndNullable_WithPropertyType_WithInvalidDefaultValueNull_HandlesAllScenariosCorrectly(
+        string declaredType,
+        string propertyType,
+        string attributeArguments)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+
+            #nullable enable
+
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: new PropertyMetadata({|WCTDP0031:null|}));
 
                 public {{declaredType}} [|Name|]
                 {
