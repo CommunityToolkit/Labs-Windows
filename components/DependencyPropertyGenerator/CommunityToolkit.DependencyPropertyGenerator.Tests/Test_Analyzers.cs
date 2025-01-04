@@ -2801,6 +2801,92 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_OrphanedPropertyField_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: null);
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_OrphanedPropertyField_NoPropertySuffixOnDependencyPropertyField_Warns()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty {|WCTDP0026:NameField|} = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: null);
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_OrphanedPropertyField_InvalidPropertyNameOnDependencyPropertyField_Warns()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    {|WCTDP0027:name: "Text"|},
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: null);
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_OrphanedPropertyField_InvalidOwningTypeOnDependencyPropertyField_Warns()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(string),
+                    {|WCTDP0029:ownerType: typeof(MyOtherObject)|},
+                    typeMetadata: null);
+            }
+
+            public class MyOtherObject : DependencyObject;
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_NoDependencyPropertyAttribute_DoesNotWarn()
     {
         const string source = """

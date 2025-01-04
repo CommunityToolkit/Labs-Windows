@@ -380,18 +380,19 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         return;
                     }
 
-                    // Check that the field is one of the ones we expect to encounter
-                    if (!fieldMap.TryGetValue(fieldSymbol, out FieldFlags? fieldFlags))
-                    {
-                        return;
-                    }
-
-                    fieldFlags.FieldSymbol = fieldSymbol;
-
                     // Validate that we are calling 'DependencyProperty.Register'
                     if (!SymbolEqualityComparer.Default.Equals(invocationOperation.TargetMethod, dependencyPropertyRegisterSymbol))
                     {
                         return;
+                    }
+
+                    // Check that the field is one of the ones we expect to encounter
+                    if (fieldMap.TryGetValue(fieldSymbol, out FieldFlags? fieldFlags))
+                    {
+                        // Start to set some field flags, if we could retrieve an instance. This comment applies to all equivalent
+                        // statements below. We want to still emit any applicable diagnostics even in case the field is orphaned.
+                        // To do so, we do that validation even if we couldn't retrieve the flags, and simply skip any assignments.
+                        fieldFlags.FieldSymbol = fieldSymbol;
                     }
 
                     // Additional diagnostic #1: the dependency property field name should have the "Property" suffix
@@ -402,7 +403,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             fieldSymbol.Locations.FirstOrDefault(),
                             fieldSymbol));
 
-                        fieldFlags.HasAnyDiagnostics = true;
+                        if (fieldFlags is not null)
+                        {
+                            fieldFlags.HasAnyDiagnostics = true;
+                        }
                     }
 
                     // Next, make sure we have the arguments we expect
@@ -411,13 +415,19 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         return;
                     }
 
-                    fieldFlags.PropertyNameExpressionLocation = nameArgument.Syntax.GetLocation();
-                    fieldFlags.PropertyTypeExpressionLocation = propertyTypeArgument.Syntax.GetLocation();
+                    if (fieldFlags is not null)
+                    {
+                        fieldFlags.PropertyNameExpressionLocation = nameArgument.Syntax.GetLocation();
+                        fieldFlags.PropertyTypeExpressionLocation = propertyTypeArgument.Syntax.GetLocation();
+                    }
 
                     // We cannot validate the property name from here yet, but let's check it's a constant, and save it for later
                     if (nameArgument.Value.ConstantValue is { HasValue: true, Value: string propertyName })
                     {
-                        fieldFlags.PropertyName = propertyName;
+                        if (fieldFlags is not null)
+                        {
+                            fieldFlags.PropertyName = propertyName;
+                        }
 
                         // Additional diagnostic #2: the property name should be the same as the field name, without the "Property" suffix (as per convention)
                         if (fieldSymbol.Name.EndsWith("Property") && propertyName != fieldSymbol.Name[..^"Property".Length])
@@ -428,7 +438,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 fieldSymbol,
                                 propertyName));
 
-                            fieldFlags.HasAnyDiagnostics = true;
+                            if (fieldFlags is not null)
+                            {
+                                fieldFlags.HasAnyDiagnostics = true;
+                            }
                         }
                     }
 
@@ -446,8 +459,18 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 owningTypeSymbol,
                                 typeSymbol));
 
-                            fieldFlags.HasAnyDiagnostics = true;
+                            if (fieldFlags is not null)
+                            {
+                                fieldFlags.HasAnyDiagnostics = true;
+                            }
                         }
+                    }
+
+                    // At this point we've exhausted all possible diagnostics that are also valid on orphaned fields.
+                    // We can now validate that we did manage to retrieve the field flags, and stop if we didn't.
+                    if (fieldFlags is null)
+                    {
+                        return;
                     }
 
                     // Extract the property type, we can validate it later
