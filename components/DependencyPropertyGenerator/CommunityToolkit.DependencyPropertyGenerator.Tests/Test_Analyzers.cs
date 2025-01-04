@@ -2112,7 +2112,7 @@ public class Test_Analyzers
             public partial class MyControl : Control
             {
                 public static readonly DependencyProperty OtherNameProperty = DependencyProperty.Register(
-                    name: "Name",
+                    {|WCTDP0027:name: "Name"|},
                     propertyType: typeof(string),
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
@@ -2129,16 +2129,39 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidFieldDeclaration_WCTDP0026_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty {|WCTDP0026:NameField|} = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public string? Name
+                {
+                    get => (string?)GetValue(NameField);
+                    set => SetValue(NameField, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     [DataRow("null", "typeof(string)", "typeof(MyControl)", "null")]
-    [DataRow("\"NameProperty\"", "typeof(string)", "typeof(MyControl)", "null")]
-    [DataRow("\"OtherName\"", "typeof(string)", "typeof(MyControl)", "null")]
-    [DataRow("\"Name\"", "typeof(int)", "typeof(MyControl)", "null")]
-    [DataRow("\"Name\"", "typeof(MyControl)", "typeof(MyControl)", "null")]
-    [DataRow("\"Name\"", "typeof(string)", "typeof(string)", "null")]
-    [DataRow("\"Name\"", "typeof(string)", "typeof(Control)", "null")]
-    [DataRow("\"Name\"", "typeof(string)", "typeof(DependencyObject)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(MyControl)", "new PropertyMetadata(null, (d, e) => { })")]
-    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_DoesNotWarn(
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_NoAdditionalDiagnostic_DoesNotWarn(
         string name,
         string propertyType,
         string ownerType,
@@ -2156,6 +2179,115 @@ public class Test_Analyzers
             {
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
                     name: {{name}},
+                    propertyType: {{propertyType}},
+                    ownerType: {{ownerType}},
+                    typeMetadata: {{typeMetadata}});
+
+                public string? Name
+                {
+                    get => (string?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("\"Name\"", "typeof(int)", "typeof(MyControl)", "null")]
+    [DataRow("\"Name\"", "typeof(MyControl)", "typeof(MyControl)", "null")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_DoesNotWarn(
+        string name,
+        string propertyType,
+        string ownerType,
+        string typeMetadata)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: {{name}},
+                    {|WCTDP0030:propertyType: {{propertyType}}|},
+                    ownerType: {{ownerType}},
+                    typeMetadata: {{typeMetadata}});
+
+                public string? Name
+                {
+                    get => (string?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("\"Name\"", "typeof(string)", "typeof(string)", "null")]
+    [DataRow("\"Name\"", "typeof(string)", "typeof(Control)", "null")]
+    [DataRow("\"Name\"", "typeof(string)", "typeof(DependencyObject)", "null")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0029_DoesNotWarn(
+        string name,
+        string propertyType,
+        string ownerType,
+        string typeMetadata)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: {{name}},
+                    propertyType: {{propertyType}},
+                    {|WCTDP0029:ownerType: {{ownerType}}|},
+                    typeMetadata: {{typeMetadata}});
+
+                public string? Name
+                {
+                    get => (string?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("\"NameProperty\"", "typeof(string)", "typeof(MyControl)", "null")]
+    [DataRow("\"OtherName\"", "typeof(string)", "typeof(MyControl)", "null")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0027_WCTDP0028_DoesNotWarn(
+        string name,
+        string propertyType,
+        string ownerType,
+        string typeMetadata)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    {|WCTDP0027:{|WCTDP0028:name: {{name}}|}|},
                     propertyType: {{propertyType}},
                     ownerType: {{ownerType}},
                     typeMetadata: {{typeMetadata}});
@@ -2281,12 +2413,8 @@ public class Test_Analyzers
     // Some of these combinations (eg. 'object' property with 'T1?' backing type) are also just flat out invalid and would error out.
     [TestMethod]
     [DataRow("T1?", "T1?", "new PropertyMetadata(default(T1))")]
-    [DataRow("T1", "object", "new PropertyMetadata(default(T1))")]
-    [DataRow("T1?", "object", "new PropertyMetadata(default(T1))")]
     [DataRow("object", "T1?", "new PropertyMetadata(default(T1))")]
     [DataRow("T2?", "T2?", "new PropertyMetadata(default(T2))")]
-    [DataRow("T2", "object", "new PropertyMetadata(default(T2))")]
-    [DataRow("T2?", "object", "new PropertyMetadata(default(T2))")]
     [DataRow("object", "T2?", "new PropertyMetadata(default(T2))")]
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_ExplicitDefaultValue_ConstrainedGeneric_DoesNotWarn(
         string dependencyPropertyType,
@@ -2309,6 +2437,47 @@ public class Test_Analyzers
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
                     name: "Name",
                     propertyType: typeof({{dependencyPropertyType}}),
+                    ownerType: typeof(MyControl<T1, T2>),
+                    typeMetadata: {{propertyMetadataExpression}});
+
+                public {{propertyType}} Name
+                {
+                    get => ({{propertyType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    // Same as above, but this one also produces some WCTDP0030 warnings, so we need to split these cases out
+    [TestMethod]
+    [DataRow("T1", "object", "new PropertyMetadata(default(T1))")]
+    [DataRow("T1?", "object", "new PropertyMetadata(default(T1))")]
+    [DataRow("T2", "object", "new PropertyMetadata(default(T2))")]
+    [DataRow("T2?", "object", "new PropertyMetadata(default(T2))")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_ExplicitDefaultValue_ConstrainedGeneric_WithMismatchedType_DoesNotWarn(
+        string dependencyPropertyType,
+        string propertyType,
+        string propertyMetadataExpression)
+    {
+        string source = $$"""
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyControl<T1, T2> : Control
+                where T1 : struct, Enum
+                where T2 : unmanaged, Enum
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    {|WCTDP0030:propertyType: typeof({{dependencyPropertyType}})|},
                     ownerType: typeof(MyControl<T1, T2>),
                     typeMetadata: {{propertyMetadataExpression}});
 
