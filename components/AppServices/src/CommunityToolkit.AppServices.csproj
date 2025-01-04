@@ -6,7 +6,13 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>CommunityToolkit.AppServices</RootNamespace>
     <PackageId>$(PackageIdPrefix).$(ToolkitComponentName)</PackageId>
+    <HasWindowsUIXaml>false</HasWindowsUIXaml>
     <HasWinUI>false</HasWinUI>
+    <EnableXamlCompilerMismatchedTfmUnoWorkaround>false</EnableXamlCompilerMismatchedTfmUnoWorkaround>
+
+    <!-- This library doesn't need XAML support, so we can just target 17763 (also disable the UWP build tools) -->
+    <UseUwpTools>false</UseUwpTools>
+    <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.17763.0;net9.0-windows10.0.17763.0;</UwpTargetFrameworks>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
@@ -29,7 +35,7 @@
   </PropertyGroup>
 
   <!-- Add the Desktop Extension SDK when on UWP-->
-  <ItemGroup Condition="'$(IsUwp)' == 'true' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'windows'">
+  <ItemGroup Condition="'$(IsUwp)' == 'true' AND '$(MultiTargetPlatformIdentifier)' != 'windows'">
     <SDKReference Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>

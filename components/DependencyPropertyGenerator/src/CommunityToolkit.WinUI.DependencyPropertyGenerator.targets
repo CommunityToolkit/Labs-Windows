@@ -1,0 +1,86 @@
+<Project>
+
+  <!-- Allow manually specifying the XAML mode for the analyzers (the default is UWP XAML for legacy UWP and for when 'UseUwp' is set, WinUI 3 XAML otherwise) -->
+  <PropertyGroup>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(TargetPlatformIdentifier)' == 'UAP'">true</DependencyPropertyGeneratorUseWindowsUIXaml>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' == 'true'">true</DependencyPropertyGeneratorUseWindowsUIXaml>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == ''">false</DependencyPropertyGeneratorUseWindowsUIXaml>
+  </PropertyGroup>
+
+  <!-- Properties for the embedded mode, with defaults -->
+  <PropertyGroup>
+    <EnableGeneratedDependencyPropertyAttributeEmbeddedMode Condition="'$(EnableGeneratedDependencyPropertyAttributeEmbeddedMode)' == ''">false</EnableGeneratedDependencyPropertyAttributeEmbeddedMode>
+    <EnableGeneratedDependencyPropertyEmbeddedMode Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == ''">false</EnableGeneratedDependencyPropertyEmbeddedMode>
+  </PropertyGroup>
+
+  <!-- Mark all the MSBuild properties that the generators/analyzers might need -->
+  <ItemGroup>
+    <CompilerVisibleProperty Include="DependencyPropertyGeneratorUseWindowsUIXaml" />
+    <CompilerVisibleProperty Include="CsWinRTComponent" />
+  </ItemGroup>
+
+  <!-- Define the build constants depending on the current configuration -->
+  <PropertyGroup>
+    <DefineConstants Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == 'true'">$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_USE_WINDOWS_UI_XAML</DefineConstants>
+    <DefineConstants Condition="'$(EnableGeneratedDependencyPropertyAttributeEmbeddedMode)' == 'true'">$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_ATTRIBUTE_EMBEDDED_MODE</DefineConstants>
+    <DefineConstants Condition="'$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true'">$(DefineConstants);GENERATED_DEPENDENCY_PROPERTY_EMBEDDED_MODE</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Emit additional messages for invalid configurations when referencing the runtime library -->
+  <Target Name="CommunityToolkitGeneratedDependencyPropertyCheckForInvalidEmbeddedMode"
+          DependsOnTargets="ResolveAssemblyReferences"
+          BeforeTargets="CoreCompile"
+          Condition="'$(EnableGeneratedDependencyPropertyAttributeEmbeddedMode)' == 'true' OR '$(EnableGeneratedDependencyPropertyEmbeddedMode)' == 'true'">
+    <ItemGroup>
+      <CommunityToolkitGeneratedDependencyPropertyUwpDllReferencePath Include="@(ReferencePath)" Condition="'%(Filename)%(Extension)' == 'CommunityToolkit.Uwp.GeneratedDependencyProperty.dll'" />
+      <CommunityToolkitGeneratedDependencyPropertyWinUIDllReferencePath Include="@(ReferencePath)" Condition="'%(Filename)%(Extension)' == 'CommunityToolkit.WinUI.GeneratedDependencyProperty.dll'" />
+    </ItemGroup>
+    <PropertyGroup>
+      <CommunityToolkitGeneratedDependencyPropertyDllReferenced>false</CommunityToolkitGeneratedDependencyPropertyDllReferenced>
+      <CommunityToolkitGeneratedDependencyPropertyDllReferenced Condition="@(CommunityToolkitGeneratedDependencyPropertyUwpDllReferencePath->Count()) != 0">true</CommunityToolkitGeneratedDependencyPropertyDllReferenced>
+      <CommunityToolkitGeneratedDependencyPropertyDllReferenced Condition="@(CommunityToolkitGeneratedDependencyPropertyWinUIDllReferencePath->Count()) != 0">true</CommunityToolkitGeneratedDependencyPropertyDllReferenced>
+    </PropertyGroup>
+
+    <!-- Emit an error if embedded mode is enabled while the runtime .dll (either the UWP or the WinUI one) is also being referenced -->
+    <Error Condition="'$(CommunityToolkitGeneratedDependencyPropertyDllReferenced)' == 'true'"
+           Code="WCTDPCFG0001"
+           HelpLink="https://aka.ms/toolkit/labs/windows"
+           Text="This project is referencing the '[GeneratedDependencyProperty]' .dll file, but it's also enabling the embedded mode for its public APIs. The embedded mode can only be used when the .dll file is not being referenced. Make sure to use 'PrivateAssets=&quot;all&quot;' and 'ExcludeAssets=&quot;lib&quot;' in the '&lt;PackageReference&gt;' element for the NuGet package." />
+  </Target>
+
+  <!-- Check the Roslyn version and warn if it's not high enough (we don't need to remove the analyzers, as they're leveraging multi-targeting) -->
+  <Target Name="CommunityToolkitGeneratedDependencyPropertyWarnForRoslynVersionNotHighEnough"
+          Condition="'$(CSharpCoreTargetsPath)' != ''"
+          DependsOnTargets="ResolveAssemblyReferences"
+          BeforeTargets="CoreCompile">
+
+    <!--
+      Use the CSharpCoreTargetsPath property to find the version of the compiler we are using. This is the same mechanism
+      MSBuild uses to find the compiler. We could check the assembly version for any compiler assembly (since they all have
+      the same version) but Microsoft.Build.Tasks.CodeAnalysis.dll is where MSBuild loads the compiler tasks from so if
+      someone is getting creative with msbuild tasks/targets this is the "most correct" assembly to check.
+    -->
+    <GetAssemblyIdentity AssemblyFiles="$([System.IO.Path]::Combine(`$([System.IO.Path]::GetDirectoryName($(CSharpCoreTargetsPath)))`,`Microsoft.Build.Tasks.CodeAnalysis.dll`))">
+      <Output TaskParameter="Assemblies" ItemName="CommunityToolkitGeneratedDependencyPropertyCurrentCompilerAssemblyIdentity"/>
+    </GetAssemblyIdentity>
+
+    <PropertyGroup>
+
+      <!-- Transform the resulting item from GetAssemblyIdentity into a property representing its assembly version -->
+      <CommunityToolkitGeneratedDependencyPropertyCurrentCompilerVersion>@(CommunityToolkitGeneratedDependencyPropertyCurrentCompilerAssemblyIdentity->'%(Version)')</CommunityToolkitGeneratedDependencyPropertyCurrentCompilerVersion>
+
+      <!-- The CurrentCompilerVersionIsNotNewEnough property can now be defined based on the Roslyn assembly version -->
+      <CommunityToolkitGeneratedDependencyPropertyCurrentCompilerVersionIsNotNewEnough Condition="$([MSBuild]::VersionLessThan($(CommunityToolkitGeneratedDependencyPropertyCurrentCompilerVersion), 4.12))">true</CommunityToolkitGeneratedDependencyPropertyCurrentCompilerVersionIsNotNewEnough>
+    </PropertyGroup>
+
+    <!-- 
+      If the source generators are disabled, also emit a warning. This would've been produced by MSBuild itself as well, but
+      emitting this manually lets us customize the message to inform developers as to why exactly the generators won't work.
+    -->
+    <Warning Condition ="'$(CommunityToolkitGeneratedDependencyPropertyCurrentCompilerVersionIsNotNewEnough)' == 'true'"
+             Code="WCTDPCFG0002"
+             HelpLink="https://aka.ms/toolkit/labs/windows"
+             Text="The '[GeneratedDependencyProperty]' generators are not available on the current configuration, as they need Roslyn 4.12 in order to work. Make sure to update your IDE (eg. Visual Studio 17.12 or greater) and .NET SDK (.NET 9.0.100 SDK or greater)."/>
+  </Target>
+
+</Project>

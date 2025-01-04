@@ -1,0 +1,58 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
+  
+  <PropertyGroup>
+    <ToolkitComponentName>DependencyPropertyGenerator</ToolkitComponentName>
+    <Description>This package contains DependencyPropertyGenerator.</Description>
+
+    <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
+    <RootNamespace>CommunityToolkit.WinUI.DependencyPropertyGeneratorRns</RootNamespace>
+    <HasWinUI2>false</HasWinUI2>
+    <EnableGlobalUsings>false</EnableGlobalUsings>
+
+    <!--
+      We don't need XAML support, we just need to reference the UWP XAML types. However, this is technically
+      not a UWP library per se. So to support the 17763 SDK, we can just disable the UWP build tools.
+    -->
+    <UseUwpTools>false</UseUwpTools>
+    <EnableXamlCompilerMismatchedTfmUnoWorkaround>false</EnableXamlCompilerMismatchedTfmUnoWorkaround>
+
+    <!-- This library doesn't need XAML support, so we can just target 17763 -->
+    <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.17763.0;net9.0-windows10.0.17763.0;</UwpTargetFrameworks>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's source project -->
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
+
+  <ItemGroup>
+    <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <!-- Only include the polyfills the library needs (to minimize binary size) -->
+  <PropertyGroup>
+    <PolySharpIncludeGeneratedTypes>
+      System.Runtime.CompilerServices.IsExternalInit;
+    </PolySharpIncludeGeneratedTypes>
+  </PropertyGroup>
+
+  <!-- Source generator project references for packing -->
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.CodeFixers\CommunityToolkit.DependencyPropertyGenerator.CodeFixers.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <!-- Pack the source generator and the .targets file -->
+  <ItemGroup Label="Package">
+
+    <!--
+      Include the custom .targets file to check the source generator. We need to ensure its name always matches the package name,
+      which will be different for UWP and other targets, because that is required by NuGet to enable the auto-importing feature.
+    -->
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="buildTransitive\$(PackageId).targets" Pack="true" />
+    <None Include="CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" PackagePath="build\$(PackageId).targets" Pack="true" />
+
+    <!-- Pack the source generators to the right package folder -->
+    <None Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
+    <None Include="..\CommunityToolkit.DependencyPropertyGenerator.CodeFixers\bin\$(Configuration)\netstandard2.0\CommunityToolkit.DependencyPropertyGenerator.CodeFixers.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
+  </ItemGroup>
+</Project>

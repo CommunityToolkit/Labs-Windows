@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+    <UseUwp>true</UseUwp>
+    <UseUwpTools>false</UseUwpTools>
+
+    <!--
+      Temporarily suppress warnings about packages with security vulnerabilities coming from
+      transitive dependencies of the 'Microsoft.CodeAnalysis.CSharp' testing packages. This
+      can be removed once new stable releases of those packages are shipped. We don't want
+      to add a new more recent top-level dependency to guard against binary breaking changes.
+    -->
+    <NoWarn>$(NoWarn);NU1903</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Basic.Reference.Assemblies.Net80" Version="1.7.9" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.6.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing" Version="1.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.CodeFixers\CommunityToolkit.DependencyPropertyGenerator.CodeFixers.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators.csproj" />
+    <ProjectReference Include="..\src\CommunityToolkit.WinUI.DependencyPropertyGenerator.csproj" />
+  </ItemGroup>
+
+  <!-- Embedded resources to validate the post initialization sources -->
+  <ItemGroup>
+    <EmbeddedResource
+      Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\EmbeddedResources\GeneratedDependencyProperty.cs"
+      Link="EmbeddedResources\GeneratedDependencyProperty.cs"
+      LogicalName="GeneratedDependencyProperty.g.cs" />
+    <EmbeddedResource
+      Include="..\CommunityToolkit.DependencyPropertyGenerator.SourceGenerators\EmbeddedResources\GeneratedDependencyPropertyAttribute.cs"
+      Link="EmbeddedResources\GeneratedDependencyPropertyAttribute.cs"
+      LogicalName="GeneratedDependencyPropertyAttribute.g.cs" />
+  </ItemGroup>
+
+  <!-- Import the .targets from the package, just as a sanity check to verify they're not invalid -->
+  <Import Project="..\src\CommunityToolkit.WinUI.DependencyPropertyGenerator.targets" />
+</Project>
