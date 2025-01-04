@@ -69,7 +69,15 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
     public const string AdditionalLocationKindPropertyName = "AdditionalLocationKind";
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [UseGeneratedDependencyPropertyForManualProperty];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
+    [
+        UseGeneratedDependencyPropertyForManualProperty,
+        NoPropertySuffixOnDependencyPropertyField,
+        InvalidPropertyNameOnDependencyPropertyField,
+        MismatchedPropertyNameOnDependencyPropertyField,
+        InvalidOwningTypeOnDependencyPropertyField,
+        InvalidPropertyTypeOnDependencyPropertyField
+    ];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -363,7 +371,10 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                 // Same as above, but targeting field initializers (we can't just inspect field symbols)
                 context.RegisterOperationAction(context =>
                 {
-                    // Only look for field symbols, which we should always get here, and an invocation in the initializer block (the 'DependencyProperty.Register' call)
+                    // Only look for field symbols, which we should always get here, and an invocation in the initializer block (the 'DependencyProperty.Register' call).
+                    // As far as the additional diagnostics are concerned (that is, the ones for failure cases), we don't need this to be 100% accurate. For instance, we
+                    // don't care about initializers assigning to multiple fields, as practically speaking nobody will ever do that. Similarly, we also don't worry about
+                    // spotting fields without an initializers, as nobody would realistically be declaring dependency property fields without an initializer.
                     if (context.Operation is not IFieldInitializerOperation { InitializedFields: [{ } fieldSymbol], Value: IInvocationOperation invocationOperation })
                     {
                         return;
@@ -375,10 +386,23 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         return;
                     }
 
+                    fieldFlags.FieldSymbol = fieldSymbol;
+
                     // Validate that we are calling 'DependencyProperty.Register'
                     if (!SymbolEqualityComparer.Default.Equals(invocationOperation.TargetMethod, dependencyPropertyRegisterSymbol))
                     {
                         return;
+                    }
+
+                    // Additional diagnostic #1: the dependency property field name should have the "Property" suffix
+                    if (!fieldSymbol.Name.EndsWith("Property"))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(
+                            NoPropertySuffixOnDependencyPropertyField,
+                            fieldSymbol.Locations.FirstOrDefault(),
+                            fieldSymbol));
+
+                        fieldFlags.HasAnyDiagnostics = true;
                     }
 
                     // Next, make sure we have the arguments we expect
@@ -387,10 +411,43 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         return;
                     }
 
+                    fieldFlags.PropertyNameExpressionLocation = nameArgument.Syntax.GetLocation();
+                    fieldFlags.PropertyTypeExpressionLocation = propertyTypeArgument.Syntax.GetLocation();
+
                     // We cannot validate the property name from here yet, but let's check it's a constant, and save it for later
-                    if (nameArgument.Value.ConstantValue is not { HasValue: true, Value: string propertyName })
+                    if (nameArgument.Value.ConstantValue is { HasValue: true, Value: string propertyName })
                     {
-                        return;
+                        fieldFlags.PropertyName = propertyName;
+
+                        // Additional diagnostic #2: the property name should be the same as the field name, without the "Property" suffix (as per convention)
+                        if (fieldSymbol.Name.EndsWith("Property") && propertyName != fieldSymbol.Name[..^"Property".Length])
+                        {
+                            context.ReportDiagnostic(Diagnostic.Create(
+                                InvalidPropertyNameOnDependencyPropertyField,
+                                nameArgument.Syntax.GetLocation(),
+                                fieldSymbol,
+                                propertyName));
+
+                            fieldFlags.HasAnyDiagnostics = true;
+                        }
+                    }
+
+                    // Extract the owning type, we can validate it right now. Move this before checking the property type, even though this
+                    // comes after it, so that we can still produce this diagnostic correctly if the property type is missing or invalid.
+                    if (ownerTypeArgument.Value is ITypeOfOperation { TypeOperand: { } owningTypeSymbol })
+                    {
+                        // Additional diagnostic #3: the owning type always has to be exactly the same as the containing type
+                        if (!SymbolEqualityComparer.Default.Equals(owningTypeSymbol, typeSymbol))
+                        {
+                            context.ReportDiagnostic(Diagnostic.Create(
+                                InvalidOwningTypeOnDependencyPropertyField,
+                                ownerTypeArgument.Syntax.GetLocation(),
+                                fieldSymbol,
+                                owningTypeSymbol,
+                                typeSymbol));
+
+                            fieldFlags.HasAnyDiagnostics = true;
+                        }
                     }
 
                     // Extract the property type, we can validate it later
@@ -399,17 +456,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         return;
                     }
 
-                    // Extract the owning type, we can validate it right now
-                    if (ownerTypeArgument.Value is not ITypeOfOperation { TypeOperand: { } owningTypeSymbol })
-                    {
-                        return;
-                    }
-
-                    // The owning type always has to be exactly the same as the containing type
-                    if (!SymbolEqualityComparer.Default.Equals(owningTypeSymbol, typeSymbol))
-                    {
-                        return;
-                    }
+                    fieldFlags.PropertyType = propertyTypeSymbol;
 
                     // First, check if the metadata is 'null' (simplest case)
                     if (propertyMetadataArgument.Value.ConstantValue is { HasValue: true, Value: null })
@@ -465,9 +512,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         return;
                     }
 
-                    fieldFlags.PropertyName = propertyName;
-                    fieldFlags.PropertyType = propertyTypeSymbol;
-                    fieldFlags.PropertyTypeExpressionLocation = propertyTypeArgument.Syntax.GetLocation();
                     fieldFlags.FieldLocation = fieldDeclaration.GetLocation();
                 }, OperationKind.FieldInitializer);
 
@@ -495,11 +539,22 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             continue;
                         }
 
-                        // We only support rewriting when the property name matches the field being initialized.
-                        // Note that the property name here is the literal being passed for the 'name' parameter.
-                        if (pair.Key.Name != fieldFlags.PropertyName)
+                        // Additional diagnostic #4: we only support rewriting when the property name matches the field being
+                        // initialized. Note that the property name here is the literal being passed for the 'name' parameter.
+                        // These two names should always match, and if they don't that's most definitely a bug in the code.
+                        if (fieldFlags.FieldSymbol is not null && pair.Key.Name != fieldFlags.PropertyName)
                         {
-                            continue;
+                            // Ensure we do have a property name before emitting a diagnostic (if it's 'null', that's a user error)
+                            if (fieldFlags.PropertyName is not null)
+                            {
+                                context.ReportDiagnostic(Diagnostic.Create(
+                                    MismatchedPropertyNameOnDependencyPropertyField,
+                                    fieldFlags.PropertyNameExpressionLocation!,
+                                    fieldFlags.PropertyName,
+                                    pair.Key.Name));
+                            }
+
+                            fieldFlags.HasAnyDiagnostics = true;
                         }
 
                         // Execute the deferred default value validation, if necessary. If we have an operation
@@ -599,12 +654,25 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             }
                         }
 
-                        // Make sure that the 'propertyType' value matches the actual type of the property.
-                        // We are intentionally not handling combinations of nullable value types here.
+                        // Additional diagnostic #5: make sure that the 'propertyType' value matches the actual type
+                        // of the property. We are intentionally not handling combinations of nullable value types here.
+                        // The logic in 'IsValidPropertyMetadataType' will already cover all supported combinations.
                         if (!SymbolEqualityComparer.Default.Equals(pair.Key.Type, fieldFlags.PropertyType) &&
                             (fieldFlags.PropertyType is null || !ExplicitPropertyMetadataTypeAnalyzer.IsValidPropertyMetadataType(pair.Key.Type, fieldFlags.PropertyType, context.Compilation)))
                         {
-                            continue;
+                            // Let's be extra cautious, in case the field initializer is entirely missing, we don't want to produce a garbage diagnostic
+                            if (fieldFlags.FieldSymbol is not null && fieldFlags.PropertyType is not null)
+                            {
+                                context.ReportDiagnostic(Diagnostic.Create(
+                                    InvalidPropertyTypeOnDependencyPropertyField,
+                                    fieldFlags.PropertyTypeExpressionLocation ?? fieldFlags.FieldSymbol.Locations.FirstOrDefault(),
+                                    fieldFlags.FieldSymbol,
+                                    fieldFlags.PropertyType,
+                                    pair.Key.Type,
+                                    pair.Key));
+                            }
+
+                            fieldFlags.HasAnyDiagnostics = true;
                         }
 
                         // If the property type is an exact match for the property type in metadata, we can remove the location of that argument.
@@ -619,6 +687,14 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         // does not match, the generated code will be different, and we want to avoid changing semantics.
                         if (fieldFlags.DefaultValueExpressionType is not null &&
                             !SymbolEqualityComparer.Default.Equals(fieldFlags.DefaultValueExpressionType, pair.Key.Type))
+                        {
+                            continue;
+                        }
+
+                        // If any diagnostics were produced, we consider the property as invalid. We use this sytem to be
+                        // able to still execute the rest of the logic, so we can emit all applicable diagnostics at the
+                        // same time. Otherwise we'd only ever produce one at a time, which makes for a frustrating experience.
+                        if (fieldFlags.HasAnyDiagnostics)
                         {
                             continue;
                         }
@@ -670,7 +746,9 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     // Same for the field flags
                     foreach (FieldFlags fieldFlags in fieldMap.Values)
                     {
+                        fieldFlags.FieldSymbol = null;
                         fieldFlags.PropertyName = null;
+                        fieldFlags.PropertyNameExpressionLocation = null;
                         fieldFlags.PropertyType = null;
                         fieldFlags.PropertyTypeExpressionLocation = null;
                         fieldFlags.DefaultValueOperation = null;
@@ -679,6 +757,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         fieldFlags.DefaultValueExpressionLocation = null;
                         fieldFlags.DefaultValueExpressionType = null;
                         fieldFlags.FieldLocation = null;
+                        fieldFlags.HasAnyDiagnostics = false;
 
                         fieldFlagsStack.Push(fieldFlags);
                     }
@@ -738,9 +817,19 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
     private sealed class FieldFlags
     {
         /// <summary>
+        /// The symbol for the field being initialized.
+        /// </summary>
+        public IFieldSymbol? FieldSymbol;
+
+        /// <summary>
         /// The name of the property.
         /// </summary>
         public string? PropertyName;
+
+        /// <summary>
+        /// The location for the expression defining the property name.
+        /// </summary>
+        public Location? PropertyNameExpressionLocation;
 
         /// <summary>
         /// The type of the property (as in, of values that can be assigned to it).
@@ -781,6 +870,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// The location of the target field being initialized.
         /// </summary>
         public Location? FieldLocation;
+
+        /// <summary>
+        /// Indicates whether any diagnostics were produced for the field.
+        /// </summary>
+        public bool HasAnyDiagnostics;
 
         /// <summary>
         /// Checks whether the field has an explicit conversion to a nullable metadata type (where the property isn't).

@@ -355,4 +355,69 @@ internal static class DiagnosticDescriptors
         isEnabledByDefault: true,
         description: "Nullable properties annotated with [GeneratedDependencyProperty] using [NotNull] should make their 'get' accessors null-resilient, by implementing at least one generated getter method (eg. 'OnNameGet', if the property is called 'Name') with [NotNull] on the 'propertyValue' parameter, or they must either add [DisallowNull] or implement at least one generated setter method (eg. 'OnNameSet', if the property is called 'Name') with [NotNull], and also either be marked as required properties, or ensure that the default value is not null.",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>The field '{0}' is registering a dependency property, but its name is not following the recommended naming convention (all dependency property fields should use the 'Property' suffix in their names)</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor NoPropertySuffixOnDependencyPropertyField = new(
+        id: "WCTDP0026",
+        title: "No 'Property' suffix on dependency property field name",
+        messageFormat: "The field '{0}' is registering a dependency property, but its name is not following the recommended naming convention (all dependency property fields should use the 'Property' suffix in their names)",
+        category: DiagnosticCategory,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "All dependency property fields should be named following the recommended naming convention (they should use the 'Property' suffix in their names).",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>The field '{0}' is registering a dependency property, but the property name '{1}' declared in metadata is not following the recommended naming convention (all property names should match the name of their declared fields, minus the 'Property' suffix)</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidPropertyNameOnDependencyPropertyField = new(
+        id: "WCTDP0027",
+        title: "Invalid property name in dependency property field metadata",
+        messageFormat: "The field '{0}' is registering a dependency property, but the property name '{1}' declared in metadata is not following the recommended naming convention (all property names should match the name of their declared fields, minus the 'Property' suffix)",
+        category: DiagnosticCategory,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "All dependency property fields should declare property names in metadata following the recommended naming convention (they should match the name of the declared fields, minus the 'Property' suffix).",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>The field '{0}' is registering a dependency property, but the property name '{1}' declared in metadata does not match the property name '{2}' wrapping the dependency property (all property names should match the name of the wrapping properties of each dependency property field)</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor MismatchedPropertyNameOnDependencyPropertyField = new(
+        id: "WCTDP0028",
+        title: "Mismatched property name in dependency property field metadata",
+        messageFormat: "The field '{0}' is registering a dependency property, but the property name '{1}' declared in metadata does not match the property name '{2}' wrapping the dependency property (all property names should match the name of the wrapping properties of each dependency property field)",
+        category: DiagnosticCategory,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "All dependency property fields should declare property names in metadata following the recommended naming convention (they should exactly match the name of the wrapping properties).",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>The field '{0}' is registering a dependency property, but its owning type '{1}' declared in metadata does not match the containing type '{2}' for the field (the owning type of a dependency property should always match the containing type of the field declaration)</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidOwningTypeOnDependencyPropertyField = new(
+        id: "WCTDP0029",
+        title: "Invalid owning type in dependency property field metadata",
+        messageFormat: "The field '{0}' is registering a dependency property, but its owning type '{1}' declared in metadata does not match the containing type '{2}' for the field (the owning type of a dependency property should always match the containing type of the field declaration)",
+        category: DiagnosticCategory,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "All dependency property fields should declare owning types in metadata matching their containing types.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
+
+    /// <summary>
+    /// <c>The field '{0}' is registering a dependency property, but its property type '{1}' does not match the type '{2}' of the wrapping property '{3}', and there is no valid type conversion between the two (all property types should either match the type of the wrapping properties for each dependency property field, or be of a valid assignable type from the type of each wrapping property)</c>.
+    /// </summary>
+    public static readonly DiagnosticDescriptor InvalidPropertyTypeOnDependencyPropertyField = new(
+        id: "WCTDP0030",
+        title: "Invalid property type in dependency property field metadata",
+        messageFormat: "The field '{0}' is registering a dependency property, but its property type '{1}' does not match the type '{2}' of the wrapping property '{3}', and there is no valid type conversion between the two (all property types should either match the type of the wrapping properties for each dependency property field, or be of a valid assignable type from the type of each wrapping property)",
+        category: DiagnosticCategory,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "All dependency property fields should declare property types in metadata matching the type of their wrapping properties, or with a valid type conversion between the two.",
+        helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }
