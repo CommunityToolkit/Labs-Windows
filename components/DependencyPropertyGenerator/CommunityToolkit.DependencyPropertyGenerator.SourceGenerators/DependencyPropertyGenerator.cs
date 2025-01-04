@@ -94,7 +94,8 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         context.Attributes[0],
                         out string typeName,
                         out string typeNameWithNullabilityAnnotations,
-                        out string? metadataTypeName);
+                        out string? metadataTypeName,
+                        out ITypeSymbol? metadataTypeSymbol);
 
                     token.ThrowIfCancellationRequested();
 
@@ -115,8 +116,9 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     DependencyPropertyDefaultValue defaultValue = Execute.GetDefaultValue(
                         context.Attributes[0],
                         propertySymbol,
+                        metadataTypeSymbol,
                         context.SemanticModel,
-                        useWindowsUIXaml,
+                        useWindowsUIXaml,                        
                         token);
 
                     // The 'UnsetValue' can only be used when local caching is disabled

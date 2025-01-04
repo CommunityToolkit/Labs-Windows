@@ -4400,21 +4400,25 @@ public partial class Test_DependencyPropertyGenerator
     }
 
     [TestMethod]
-    [DataRow("bool", "null", "bool", "object")]
-    [DataRow("bool", "bool", "bool", "object")]
-    [DataRow("bool", "object", "object", "object")]
-    [DataRow("bool?", "null", "bool?", "object?")]
-    [DataRow("bool?", "bool?", "bool?", "object?")]
-    [DataRow("bool?", "object", "object", "object?")]
-    [DataRow("bool?", "bool", "bool", "object?")]
-    [DataRow("string?", "null", "string", "object?")]
-    [DataRow("string?", "string", "string", "object?")]
-    [DataRow("string?", "object", "object", "object?")]
+    [DataRow("bool", "bool", "null", "bool", "object", "null")]
+    [DataRow("bool", "bool", "bool", "bool", "object", "null")]
+    [DataRow("bool", "bool", "object", "object", "object", "new global::Windows.UI.Xaml.PropertyMetadata(default(bool))")]
+    [DataRow("bool?", "bool?", "null", "bool?", "object?", "null")]
+    [DataRow("bool?", "bool?", "bool?", "bool?", "object?", "null")]
+    [DataRow("bool?", "bool?", "object", "object", "object?", "null")]
+    [DataRow("bool?", "bool?", "bool", "bool", "object?", "new global::Windows.UI.Xaml.PropertyMetadata(null)")]
+    [DataRow("string?", "string?", "null", "string", "object?", "null")]
+    [DataRow("string?", "string?", "string", "string", "object?", "null")]
+    [DataRow("string?", "string?", "object", "object", "object?", "null")]
+    [DataRow("Visibility", "global::Windows.UI.Xaml.Visibility", "object", "object", "object", "new global::Windows.UI.Xaml.PropertyMetadata(default(global::Windows.UI.Xaml.Visibility))")]
+    [DataRow("Visibility?", "global::Windows.UI.Xaml.Visibility?", "object", "object", "object?", "null")]
     public void SingleProperty_WithCustomMetadataType_WithNoCaching(
         string declaredType,
+        string generatedDeclaredType,
         string propertyType,
         string generatedPropertyType,
-        string boxedType)
+        string boxedType,
+        string propertyMetadata)
     {
         string source = $$"""
             using CommunityToolkit.WinUI;
@@ -4449,13 +4453,13 @@ public partial class Test_DependencyPropertyGenerator
                         name: "IsSelected",
                         propertyType: typeof({{generatedPropertyType}}),
                         ownerType: typeof(MyControl),
-                        typeMetadata: null);
+                        typeMetadata: {{propertyMetadata}});
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
                     [global::System.Diagnostics.DebuggerNonUserCode]
                     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-                    public partial {{declaredType}} IsSelected
+                    public partial {{generatedDeclaredType}} IsSelected
                     {
                         get
                         {
@@ -4463,7 +4467,7 @@ public partial class Test_DependencyPropertyGenerator
 
                             OnIsSelectedGet(ref __boxedValue);
 
-                            {{declaredType}} __unboxedValue = ({{declaredType}})__boxedValue;
+                            {{generatedDeclaredType}} __unboxedValue = ({{generatedDeclaredType}})__boxedValue;
 
                             OnIsSelectedGet(ref __unboxedValue);
 
@@ -4493,7 +4497,7 @@ public partial class Test_DependencyPropertyGenerator
                     /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="IsSelectedProperty"/>.</param>
                     /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="IsSelectedProperty"/>.</remarks>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
-                    partial void OnIsSelectedGet(ref {{declaredType}} propertyValue);
+                    partial void OnIsSelectedGet(ref {{generatedDeclaredType}} propertyValue);
 
                     /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="IsSelected"/> is invoked</summary>
                     /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="IsSelectedProperty"/>.</param>
@@ -4505,13 +4509,13 @@ public partial class Test_DependencyPropertyGenerator
                     /// <param name="propertyValue">The property value that is being assigned to <see cref="IsSelected"/>.</param>
                     /// <remarks>This method is invoked on the raw value being assigned to <see cref="IsSelected"/>, before <see cref="SetValue"/> is used.</remarks>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
-                    partial void OnIsSelectedSet(ref {{declaredType}} propertyValue);
+                    partial void OnIsSelectedSet(ref {{generatedDeclaredType}} propertyValue);
 
                     /// <summary>Executes the logic for when <see cref="IsSelected"/> has just changed.</summary>
                     /// <param name="value">The new property value that has been set.</param>
                     /// <remarks>This method is invoked right after the value of <see cref="IsSelected"/> is changed.</remarks>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
-                    partial void OnIsSelectedChanged({{declaredType}} newValue);
+                    partial void OnIsSelectedChanged({{generatedDeclaredType}} newValue);
 
                     /// <summary>Executes the logic for when <see cref="IsSelected"/> has just changed.</summary>
                     /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>

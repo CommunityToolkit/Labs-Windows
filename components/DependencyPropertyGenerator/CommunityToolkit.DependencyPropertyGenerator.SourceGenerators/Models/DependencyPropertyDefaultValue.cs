@@ -29,6 +29,24 @@ internal abstract partial record DependencyPropertyDefaultValue
     }
 
     /// <summary>
+    /// A <see cref="DependencyPropertyDefaultValue"/> type representing an explicit <see langword="null"/> value.
+    /// </summary>
+    /// <remarks>This is used in some scenarios with mismatched metadata types.</remarks>
+    public sealed record ExplicitNull : DependencyPropertyDefaultValue
+    {
+        /// <summary>
+        /// The shared <see cref="ExplicitNull"/> instance (the type is stateless).
+        /// </summary>
+        public static ExplicitNull Instance { get; } = new();
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return "null";
+        }
+    }
+
+    /// <summary>
     /// A <see cref="DependencyPropertyDefaultValue"/> type representing default value for a specific type.
     /// </summary>
     /// <param name="TypeName">The input type name.</param>

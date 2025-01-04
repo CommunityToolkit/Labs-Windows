@@ -243,13 +243,15 @@ partial class DependencyPropertyGenerator
         /// <param name="attributeData">The input <see cref="AttributeData"/> that triggered the annotation.</param>
         /// <param name="typeName">The type name for the generated property (without nullability annotations).</param>
         /// <param name="typeNameWithNullabilityAnnotations">The type name for the generated property, including nullability annotations.</param>
-        /// <param name=",etadataTypeName">The type name for the metadata declaration of the property, if explicitly set.</param>
+        /// <param name="metadataTypeName">The type name for the metadata declaration of the property, if explicitly set.</param>
+        /// <param name="metadataTypeSymbol">The type symbol for the metadata declaration of the property, if explicitly set.</param>
         public static void GetPropertyTypes(
             IPropertySymbol propertySymbol,
             AttributeData attributeData,
             out string typeName,
             out string typeNameWithNullabilityAnnotations,
-            out string? metadataTypeName)
+            out string? metadataTypeName,
+            out ITypeSymbol? metadataTypeSymbol)
         {
             // These type names are always present and directly derived from the property type
             typeName = propertySymbol.Type.GetFullyQualifiedName();
@@ -264,6 +266,7 @@ partial class DependencyPropertyGenerator
                 if (propertyType is { Kind: TypedConstantKind.Type, IsNull: false, Value: ITypeSymbol typeSymbol })
                 {
                     metadataTypeName = typeSymbol.GetFullyQualifiedName();
+                    metadataTypeSymbol = typeSymbol;
 
                     return;
                 }
@@ -271,6 +274,7 @@ partial class DependencyPropertyGenerator
 
             // By default, we'll just match the declared property type
             metadataTypeName = null;
+            metadataTypeSymbol = null;
         }
 
         /// <summary>
@@ -278,6 +282,7 @@ partial class DependencyPropertyGenerator
         /// </summary>
         /// <param name="attributeData">The input <see cref="AttributeData"/> that triggered the annotation.</param>
         /// <param name="propertySymbol">The input <see cref="IPropertySymbol"/> instance.</param>
+        /// <param name="metadataTypeSymbol">The type symbol for the metadata declaration of the property, if explicitly set.</param>
         /// <param name="semanticModel">The <see cref="SemanticModel"/> for the current compilation.</param>
         /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
         /// <param name="token">The <see cref="CancellationToken"/> used to cancel the operation, if needed.</param>
@@ -285,8 +290,9 @@ partial class DependencyPropertyGenerator
         public static DependencyPropertyDefaultValue GetDefaultValue(
             AttributeData attributeData,
             IPropertySymbol propertySymbol,
+            ITypeSymbol? metadataTypeSymbol,
             SemanticModel semanticModel,
-            bool useWindowsUIXaml,
+            bool useWindowsUIXaml,            
             CancellationToken token)
         {
             // First, check if we have a callback
@@ -355,10 +361,21 @@ partial class DependencyPropertyGenerator
             // First we need to special case non nullable values, as for those we need 'default'.
             if (!propertySymbol.Type.IsDefaultValueNull())
             {
+                // We need special logic to handle cases where the metadata type is different. For instance,
+                // the XAML initialization won't work if the metadata type on a property is just 'object'.
+                ITypeSymbol effectiveMetadataTypeSymbol = metadataTypeSymbol ?? propertySymbol.Type;
+
                 // For non nullable types, we return 'default(T)', unless we can optimize for projected types
                 return new DependencyPropertyDefaultValue.Default(
                     TypeName: propertySymbol.Type.GetFullyQualifiedName(),
-                    IsProjectedType: propertySymbol.Type.IsWellKnownWinRTProjectedValueType(useWindowsUIXaml));
+                    IsProjectedType: effectiveMetadataTypeSymbol.IsWellKnownWinRTProjectedValueType(useWindowsUIXaml));
+            }
+
+            // If the property type is nullable, but the metadata type is not, and it's a projected WinRT value
+            // type (meaning that XAML would initialize it to a value), we need to explicitly set it to 'null'.
+            if (metadataTypeSymbol?.IsWellKnownWinRTProjectedValueType(useWindowsUIXaml) is true)
+            {
+                return DependencyPropertyDefaultValue.ExplicitNull.Instance;
             }
 
             // For all other ones, we can just use the 'null' placeholder again
