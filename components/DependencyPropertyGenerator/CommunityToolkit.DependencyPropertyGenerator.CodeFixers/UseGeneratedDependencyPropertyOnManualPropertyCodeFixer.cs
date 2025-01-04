@@ -168,6 +168,16 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyCodeFixer : Co
             {
                 SyntaxGenerator syntaxGenerator = SyntaxGenerator.GetGenerator(document);
 
+                // Special case for 'UnsetValue', we need to convert to the 'GeneratedDependencyProperty' type
+                if (defaultValueExpression == $"\"{UseGeneratedDependencyPropertyOnManualPropertyAnalyzer.UnsetValueSpecialIdentifier}\"")
+                {
+                    generatedDependencyPropertyAttributeList = (AttributeListSyntax)syntaxGenerator.AddAttributeArguments(
+                        generatedDependencyPropertyAttributeList,
+                        [syntaxGenerator.AttributeArgument("DefaultValue", ParseExpression("GeneratedDependencyProperty.UnsetValue"))]);
+
+                    return;
+                }
+
                 // Special case if we have a location for the original expression, and we can resolve the node.
                 // In this case, we want to just carry that over with no changes (this is used for named constants).
                 // See notes below for how this method is constructing the new attribute argument to insert.

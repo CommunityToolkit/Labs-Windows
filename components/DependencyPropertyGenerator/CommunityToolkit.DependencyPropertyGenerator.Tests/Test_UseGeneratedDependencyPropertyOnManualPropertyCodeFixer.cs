@@ -2693,4 +2693,66 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
         await test.RunAsync();
     }
+
+    [TestMethod]
+    [DataRow("int", "int", "(DefaultValue = GeneratedDependencyProperty.UnsetValue)")]
+    [DataRow("int?", "int?", "(DefaultValue = GeneratedDependencyProperty.UnsetValue)")]
+    [DataRow("int?", "object", "(PropertyType = typeof(object), DefaultValue = GeneratedDependencyProperty.UnsetValue)")]
+    [DataRow("string", "string", "(DefaultValue = GeneratedDependencyProperty.UnsetValue)")]
+    [DataRow("string", "object", "(PropertyType = typeof(object), DefaultValue = GeneratedDependencyProperty.UnsetValue)")]
+    [DataRow("Visibility", "Visibility", "(DefaultValue = GeneratedDependencyProperty.UnsetValue)")]
+    [DataRow("Visibility?", "Visibility?", "(DefaultValue = GeneratedDependencyProperty.UnsetValue)")]
+    [DataRow("Visibility?", "object", "(PropertyType = typeof(object), DefaultValue = GeneratedDependencyProperty.UnsetValue)")]
+    public async Task SimpleProperty_WithDefaultValue_UnsetValue(
+        string declaredType,
+        string propertyType,
+        string attributeArguments)
+    {
+        string original = $$"""
+            using Windows.UI.Xaml;
+
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{propertyType}}),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: new PropertyMetadata(DependencyProperty.UnsetValue));
+
+                public {{declaredType}} [|Name|]
+                {
+                    get => ({{declaredType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public enum MyEnum { A, B }
+            """;
+
+        string @fixed = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                [GeneratedDependencyProperty{{attributeArguments}}]
+                public partial {{declaredType}} {|CS9248:Name|} { get; set; }
+            }
+
+            public enum MyEnum { A, B }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
+        };
+
+        await test.RunAsync();
+    }
 }

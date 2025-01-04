@@ -68,6 +68,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
     /// </summary>
     public const string AdditionalLocationKindPropertyName = "AdditionalLocationKind";
 
+    /// <summary>
+    /// The special identifier to represent the unset value. This allows marshalling the value as a <see cref="string"/>, for simplicity.
+    /// </summary>
+    public const string UnsetValueSpecialIdentifier = "E5FDFA8B-7E6B-4217-8844-52E5B30084B1";
+
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
     [
@@ -512,6 +517,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             return;
                         }
 
+                        bool isDependencyPropertyUnsetValue = false;
+
                         // Emit diagnostics for invalid default values (equivalent logic to 'InvalidPropertyDefaultValueTypeAnalyzer').
                         // Note: we don't flag the property if we emit diagnostics here, as we can still apply the code fixer either way.
                         // If we do that, then the other analyzer will simply start producing an error on the attribute, rather than here.
@@ -530,48 +537,56 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         }
                         else
                         {
-                            bool isDependencyPropertyUnsetValue =
+                            isDependencyPropertyUnsetValue =
                                 defaultValueArgument.Value is IPropertyReferenceOperation { Property: { IsStatic: true, Name: "UnsetValue" } unsetValuePropertySymbol } &&
                                 SymbolEqualityComparer.Default.Equals(unsetValuePropertySymbol.ContainingType, dependencyPropertySymbol);
 
                             // We never emit diagnostics when assigning 'UnsetValue': this value is special, so let's just ignore it
-                            if (!isDependencyPropertyUnsetValue)
+                            // for the purposes of diagnostics. However, we do need to track the special identifier for the code fixer.
+                            if (isDependencyPropertyUnsetValue)
                             {
-                                // Get the type of the conversion operation (same as the one below, but we get it here too just to opportunistically emit a diagnostic)
-                                if (defaultValueArgument.Value is IConversionOperation { IsTryCast: false, Type.SpecialType: SpecialType.System_Object, Operand.Type: { } operandTypeSymbol })
+                                if (fieldFlags is not null)
                                 {
-                                    // Get the target type with a special case for 'Nullable<T>' (same as in the other analyzer)
-                                    ITypeSymbol unwrappedPropertyTypeSymbol = propertyTypeSymbol.IsNullableValueType()
-                                        ? ((INamedTypeSymbol)propertyTypeSymbol).TypeArguments[0]
-                                        : propertyTypeSymbol;
+                                    fieldFlags.DefaultValue = new TypedConstantInfo.Primitive.String(UnsetValueSpecialIdentifier);
+                                }
+                            }
+                            else if (defaultValueArgument.Value is IConversionOperation { IsTryCast: false, Type.SpecialType: SpecialType.System_Object, Operand.Type: { } operandTypeSymbol })
+                            {
+                                // Get the type of the conversion operation (same as the one below, but we get it here too just to opportunistically emit a diagnostic).
+                                // Additionally, we need to get the target type with a special case for 'Nullable<T>' (same as in the other analyzer).
+                                ITypeSymbol unwrappedPropertyTypeSymbol = propertyTypeSymbol.IsNullableValueType()
+                                    ? ((INamedTypeSymbol)propertyTypeSymbol).TypeArguments[0]
+                                    : propertyTypeSymbol;
 
-                                    // Warn if the type of the default value is not compatible
-                                    if (!SymbolEqualityComparer.Default.Equals(unwrappedPropertyTypeSymbol, operandTypeSymbol) &&
-                                        !SymbolEqualityComparer.Default.Equals(propertyTypeSymbol, operandTypeSymbol) &&
-                                        context.Compilation.ClassifyConversion(operandTypeSymbol, propertyTypeSymbol) is not ({ IsBoxing: true } or { IsReference: true }))
-                                    {
-                                        context.ReportDiagnostic(Diagnostic.Create(
-                                            InvalidDefaultValueTypeOnDependencyPropertyField,
-                                            defaultValueArgument.Syntax.GetLocation(),
-                                            fieldSymbol,
-                                            operandTypeSymbol,
-                                            propertyTypeSymbol,
-                                            propertyNameForMessageFormat));
-                                    }
+                                // Warn if the type of the default value is not compatible
+                                if (!SymbolEqualityComparer.Default.Equals(unwrappedPropertyTypeSymbol, operandTypeSymbol) &&
+                                    !SymbolEqualityComparer.Default.Equals(propertyTypeSymbol, operandTypeSymbol) &&
+                                    context.Compilation.ClassifyConversion(operandTypeSymbol, propertyTypeSymbol) is not ({ IsBoxing: true } or { IsReference: true }))
+                                {
+                                    context.ReportDiagnostic(Diagnostic.Create(
+                                        InvalidDefaultValueTypeOnDependencyPropertyField,
+                                        defaultValueArgument.Syntax.GetLocation(),
+                                        fieldSymbol,
+                                        operandTypeSymbol,
+                                        propertyTypeSymbol,
+                                        propertyNameForMessageFormat));
                                 }
                             }
                         }
 
                         // The argument should be a conversion operation (boxing)
-                        if (defaultValueArgument.Value is not IConversionOperation { IsTryCast: false, Type.SpecialType: SpecialType.System_Object } conversionOperation)
+                        if (defaultValueArgument.Value is IConversionOperation { IsTryCast: false, Type.SpecialType: SpecialType.System_Object } conversionOperation)
                         {
-                            return;
+                            if (fieldFlags is not null)
+                            {
+                                // Store the operation for later, as we need to wait to also get the metadata type to do the full validation
+                                fieldFlags.DefaultValueOperation = conversionOperation.Operand;
+                            }
                         }
-
-                        if (fieldFlags is not null)
+                        else if (!isDependencyPropertyUnsetValue)
                         {
-                            // Store the operation for later, as we need to wait to also get the metadata type to do the full validation
-                            fieldFlags.DefaultValueOperation = conversionOperation.Operand;
+                            // The only other supported case is for 'UnsetValue', so stop here if that's not it
+                            return;
                         }
                     }
 
