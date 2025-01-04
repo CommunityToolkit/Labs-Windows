@@ -502,8 +502,18 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             continue;
                         }
 
-                        // Execute the deferred default value validation, if necessary
-                        if (fieldFlags.DefaultValueOperation is not null)
+                        // Execute the deferred default value validation, if necessary. If we have an operation
+                        // here, it means we had some constructed property metadata. Otherwise, it was 'null'.
+                        if (fieldFlags.DefaultValueOperation is null)
+                        {
+                            // Special case: the whole property metadata is 'null', and the metadata type is nullable, but
+                            // the property type isn't. In this case, we need to ensure the explicit 'null' is preserved.
+                            if (fieldFlags.IsExplicitConversionFromNonNullableToNullableMetdataType(pair.Key.Type))
+                            {
+                                fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
+                            }
+                        }
+                        else
                         {
                             bool isNullableValueType = pair.Key.Type.IsNullableValueType();
 
@@ -523,9 +533,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                     {
                                         fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
                                     }
-                                    else if (!SymbolEqualityComparer.Default.Equals(pair.Key.Type, fieldFlags.PropertyType) &&
-                                             !pair.Key.Type.IsNullableValueType() &&
-                                             fieldFlags.PropertyType!.IsDefaultValueNull())
+                                    else if (fieldFlags.IsExplicitConversionFromNonNullableToNullableMetdataType(pair.Key.Type))
                                     {
                                         // Special case: the property type is not nullable, but the property metadata type is explicitly declared as
                                         // a nullable type, and the default value is set to 'null'. In this case, we need to preserve this value.
@@ -773,6 +781,19 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// The location of the target field being initialized.
         /// </summary>
         public Location? FieldLocation;
+
+        /// <summary>
+        /// Checks whether the field has an explicit conversion to a nullable metadata type (where the property isn't).
+        /// </summary>
+        /// <param name="propertyType">The property type.</param>
+        /// <returns>Whether the field has an explicit conversion to a nullable metadata type</returns>
+        public bool IsExplicitConversionFromNonNullableToNullableMetdataType(ITypeSymbol propertyType)
+        {
+            return
+                !SymbolEqualityComparer.Default.Equals(propertyType, PropertyType) &&
+                !propertyType.IsDefaultValueNull() &&
+                PropertyType!.IsDefaultValueNull();
+        }
     }
 }
 
