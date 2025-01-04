@@ -97,7 +97,8 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
                             InvalidPropertyDefaultValueNull,
                             attributeData.GetNamedArgumentOrAttributeLocation("DefaultValue"),
                             propertySymbol,
-                            propertySymbol.Type));
+                            propertySymbol.Type,
+                            propertySymbol.Name));
                     }
                 }
                 else
@@ -116,7 +117,8 @@ public sealed class InvalidPropertyDefaultValueTypeAnalyzer : DiagnosticAnalyzer
                             propertySymbol,
                             propertySymbol.Type,
                             defaultValue.Value,
-                            defaultValue.Type));
+                            defaultValue.Type,
+                            propertySymbol.Name));
                     }
                 }
             }, OperationKind.Attribute);
