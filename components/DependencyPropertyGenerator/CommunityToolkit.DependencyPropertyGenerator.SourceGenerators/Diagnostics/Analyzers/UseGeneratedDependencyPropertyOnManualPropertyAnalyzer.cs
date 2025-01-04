@@ -269,13 +269,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             return;
                         }
 
-                        // The field must follow the expected naming pattern. We can check this just here in the getter.
-                        // If this is valid, the whole property will be skipped anyway, so no need to do it twice.
-                        if (fieldSymbol.Name != $"{propertySymbol.Name}Property")
-                        {
-                            return;
-                        }
-
                         // We can in the meantime at least verify that we do have the field in the set
                         if (!fieldMap.ContainsKey(fieldSymbol))
                         {
@@ -710,6 +703,13 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         // does not match, the generated code will be different, and we want to avoid changing semantics.
                         if (fieldFlags.DefaultValueExpressionType is not null &&
                             !SymbolEqualityComparer.Default.Equals(fieldFlags.DefaultValueExpressionType, pair.Key.Type))
+                        {
+                            continue;
+                        }
+
+                        // The field must follow the expected naming pattern. This check could be in the getter, but we're delaying
+                        // it to here so that we can still emit all other diagnostics even if this check would otherwise fail.
+                        if (getValueFieldSymbol.Name != $"{pair.Key.Name}Property")
                         {
                             continue;
                         }

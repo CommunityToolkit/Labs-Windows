@@ -2230,6 +2230,47 @@ public class Test_Analyzers
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
 
+    // Regression test for a case found in https://github.com/jenius-apps/ambie
+    [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_WithInvalidPropertyName_DoesNotWarn()
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace AmbientSounds.Controls;
+
+            public sealed partial class PlayerControl : UserControl
+            {
+                public static readonly DependencyProperty PlayVisibleProperty = DependencyProperty.Register(
+                    {|WCTDP0027:nameof(PlayButtonVisible)|},
+                    {|WCTDP0030:typeof(bool)|},
+                    typeof(PlayerControl),
+                    new PropertyMetadata(Visibility.Visible));
+
+                public static readonly DependencyProperty VolumeVisibleProperty = DependencyProperty.Register(
+                    nameof(VolumeVisible),
+                    {|WCTDP0030:typeof(bool)|},
+                    typeof(PlayerControl),
+                    new PropertyMetadata(Visibility.Visible));
+
+                public Visibility PlayButtonVisible
+                {
+                    get => (Visibility)GetValue(PlayVisibleProperty);
+                    set => SetValue(PlayVisibleProperty, value);
+                }
+
+                public Visibility VolumeVisible
+                {
+                    get => (Visibility)GetValue(VolumeVisibleProperty);
+                    set => SetValue(VolumeVisibleProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
     [TestMethod]
     [DataRow("\"Name\"", "typeof(string)", "typeof(string)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(Control)", "null")]
