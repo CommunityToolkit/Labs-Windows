@@ -449,82 +449,8 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             return;
                         }
 
-                        bool isNullableValueType = propertyTypeSymbol.IsNullableValueType();
-
-                        // Check whether the value is a default constant value. If it is, then the property is valid (no explicit value).
-                        // We need to special case nullable value types, as the default value for the underlying type is not the actual default.
-                        if (!conversionOperation.Operand.IsConstantValueDefault() || isNullableValueType)
-                        {
-                            // The value is just 'null' with no type, special case this one and skip the other checks below
-                            if (conversionOperation.Operand is { Type: null, ConstantValue: { HasValue: true, Value: null } })
-                            {
-                                // This is only allowed for reference or nullable types. This 'null' is redundant, but support it nonetheless.
-                                // It's not that uncommon for especially legacy codebases to have this kind of pattern in dependency properties.
-                                // If the type is not actually nullable, make it explicit. This still allows rewriting the property to use the
-                                // attribute, but it will cause the other analyzer to emit a diagnostic. This guarantees that even in this case,
-                                // the original semantics are preserved (and developers can fix the code), rather than the fixer altering things.
-                                if (!propertyTypeSymbol.IsReferenceType && !isNullableValueType)
-                                {
-                                    fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
-                                }
-                            }
-                            else if (TypedConstantInfo.TryCreate(conversionOperation.Operand, out fieldFlags.DefaultValue))
-                            {
-                                // We have found a valid constant. If it's an enum type, we have a couple special cases to handle.
-                                if (conversionOperation.Operand.Type is { TypeKind: TypeKind.Enum } operandType)
-                                {
-                                    // As an optimization, we check whether the constant was the default value (not other enum member)
-                                    // of some projected built-in WinRT enum type (ie. not any user-defined enum type). If that is the
-                                    // case, the XAML infrastructure can default that values automatically, meaning we can skip the
-                                    // overhead of instantiating a 'PropertyMetadata' instance in code, and marshalling default value.
-                                    // We also need to exclude scenarios where the property is actually nullable, but we're assigning a value.
-                                    if (operandType.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)) && !isNullableValueType)
-                                    {
-                                        // Before actually enabling the optimization, validate that the default value is actually
-                                        // the same as the default value of the enum (ie. the value of its first declared field).
-                                        if (operandType.TryGetDefaultValueForEnumType(out object? defaultValue) &&
-                                            conversionOperation.Operand.ConstantValue.Value == defaultValue)
-                                        {
-                                            fieldFlags.DefaultValue = null;
-                                        }
-                                    }
-                                    else if (operandType.ContainingType is not null)
-                                    {
-                                        // If the enum is nested, we need to also track the type symbol specifically, as the fully qualified
-                                        // expression we'd be using otherwise would not be the same as the metadata name, and resolving the
-                                        // enum type symbol from that in the code fixer would fail. This is an edge case, but it can happen.
-                                        fieldFlags.DefaultValueTypeReferenceId = DocumentationCommentId.CreateReferenceId(operandType);
-                                    }
-                                }
-
-                                // Special case for named constants: in this case we want to carry the whole expression over, rather
-                                // than serializing the constant value itself. This preserves the actual fields being referenced.
-                                // We skip enum fields, as those are not named constants. Those will be handled by the logic above.
-                                if (conversionOperation.Operand is IFieldReferenceOperation { Field: { IsConst: true, ContainingType.TypeKind: not TypeKind.Enum } })
-                                {
-                                    fieldFlags.DefaultValueExpressionLocation = conversionOperation.Operand.Syntax.GetLocation();
-                                }
-                            }
-                            else if (conversionOperation.Operand is IFieldReferenceOperation { Field: { ContainingType.SpecialType: SpecialType.System_String, Name: "Empty" } })
-                            {
-                                // Special handling of the 'string.Empty' field. This is not a constant value, but we can still treat it as a constant, by just
-                                // pretending this were the empty string literal instead. This way we can still support the property and convert to an attribute.
-                                fieldFlags.DefaultValue = TypedConstantInfo.Primitive.String.Empty;
-                            }
-                            else
-                            {
-                                // If we don't have a constant, check if it's some constant value we can forward. In this case, we
-                                // did not retrieve it. As a last resort, check if this is explicitly a 'default(T)' expression.
-                                if (conversionOperation.Operand is not IDefaultValueOperation { Type: { } defaultValueExpressionType })
-                                {
-                                    return;
-                                }
-
-                                // Store the expression type for later, so we can validate it. We cannot validate it from here, as we
-                                // only see the declared property type for metadata. This isn't guaranteed to match the property type.
-                                fieldFlags.DefaultValueExpressionType = defaultValueExpressionType;
-                            }
-                        }
+                        // Store the operation for later, as we need to wait to also get the metadata type to do the full validation
+                        fieldFlags.DefaultValueOperation = conversionOperation.Operand;
                     }
 
                     // Find the parent field for the operation (we're guaranteed to only fine one)
@@ -574,6 +500,95 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         if (pair.Key.Name != fieldFlags.PropertyName)
                         {
                             continue;
+                        }
+
+                        // Execute the deferred default value validation, if necessary
+                        if (fieldFlags.DefaultValueOperation is not null)
+                        {
+                            bool isNullableValueType = pair.Key.Type.IsNullableValueType();
+
+                            // Check whether the value is a default constant value. If it is, then the property is valid (no explicit value).
+                            // We need to special case nullable value types, as the default value for the underlying type is not the actual default.
+                            if (!fieldFlags.DefaultValueOperation.IsConstantValueDefault() || isNullableValueType)
+                            {
+                                // The value is just 'null' with no type, special case this one and skip the other checks below
+                                if (fieldFlags.DefaultValueOperation is { Type: null, ConstantValue: { HasValue: true, Value: null } })
+                                {
+                                    // This is only allowed for reference or nullable types. This 'null' is redundant, but support it nonetheless.
+                                    // It's not that uncommon for especially legacy codebases to have this kind of pattern in dependency properties.
+                                    // If the type is not actually nullable, make it explicit. This still allows rewriting the property to use the
+                                    // attribute, but it will cause the other analyzer to emit a diagnostic. This guarantees that even in this case,
+                                    // the original semantics are preserved (and developers can fix the code), rather than the fixer altering things.
+                                    if (!pair.Key.Type.IsReferenceType && !isNullableValueType)
+                                    {
+                                        fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
+                                    }
+                                    else if (!SymbolEqualityComparer.Default.Equals(pair.Key.Type, fieldFlags.PropertyType) &&
+                                             !pair.Key.Type.IsNullableValueType() &&
+                                             fieldFlags.PropertyType!.IsDefaultValueNull())
+                                    {
+                                        // Special case: the property type is not nullable, but the property metadata type is explicitly declared as
+                                        // a nullable type, and the default value is set to 'null'. In this case, we need to preserve this value.
+                                        fieldFlags.DefaultValue = TypedConstantInfo.Null.Instance;
+                                    }
+                                }
+                                else if (TypedConstantInfo.TryCreate(fieldFlags.DefaultValueOperation, out fieldFlags.DefaultValue))
+                                {
+                                    // We have found a valid constant. If it's an enum type, we have a couple special cases to handle.
+                                    if (fieldFlags.DefaultValueOperation.Type is { TypeKind: TypeKind.Enum } operandType)
+                                    {
+                                        // As an optimization, we check whether the constant was the default value (not other enum member)
+                                        // of some projected built-in WinRT enum type (ie. not any user-defined enum type). If that is the
+                                        // case, the XAML infrastructure can default that values automatically, meaning we can skip the
+                                        // overhead of instantiating a 'PropertyMetadata' instance in code, and marshalling default value.
+                                        // We also need to exclude scenarios where the property is actually nullable, but we're assigning a value.
+                                        if (operandType.IsContainedInNamespace(WellKnownTypeNames.XamlNamespace(useWindowsUIXaml)) && !isNullableValueType)
+                                        {
+                                            // Before actually enabling the optimization, validate that the default value is actually
+                                            // the same as the default value of the enum (ie. the value of its first declared field).
+                                            if (operandType.TryGetDefaultValueForEnumType(out object? defaultValue) &&
+                                                fieldFlags.DefaultValueOperation.ConstantValue.Value == defaultValue)
+                                            {
+                                                fieldFlags.DefaultValue = null;
+                                            }
+                                        }
+                                        else if (operandType.ContainingType is not null)
+                                        {
+                                            // If the enum is nested, we need to also track the type symbol specifically, as the fully qualified
+                                            // expression we'd be using otherwise would not be the same as the metadata name, and resolving the
+                                            // enum type symbol from that in the code fixer would fail. This is an edge case, but it can happen.
+                                            fieldFlags.DefaultValueTypeReferenceId = DocumentationCommentId.CreateReferenceId(operandType);
+                                        }
+                                    }
+
+                                    // Special case for named constants: in this case we want to carry the whole expression over, rather
+                                    // than serializing the constant value itself. This preserves the actual fields being referenced.
+                                    // We skip enum fields, as those are not named constants. Those will be handled by the logic above.
+                                    if (fieldFlags.DefaultValueOperation is IFieldReferenceOperation { Field: { IsConst: true, ContainingType.TypeKind: not TypeKind.Enum } })
+                                    {
+                                        fieldFlags.DefaultValueExpressionLocation = fieldFlags.DefaultValueOperation.Syntax.GetLocation();
+                                    }
+                                }
+                                else if (fieldFlags.DefaultValueOperation is IFieldReferenceOperation { Field: { ContainingType.SpecialType: SpecialType.System_String, Name: "Empty" } })
+                                {
+                                    // Special handling of the 'string.Empty' field. This is not a constant value, but we can still treat it as a constant, by just
+                                    // pretending this were the empty string literal instead. This way we can still support the property and convert to an attribute.
+                                    fieldFlags.DefaultValue = TypedConstantInfo.Primitive.String.Empty;
+                                }
+                                else
+                                {
+                                    // If we don't have a constant, check if it's some constant value we can forward. In this case, we
+                                    // did not retrieve it. As a last resort, check if this is explicitly a 'default(T)' expression.
+                                    if (fieldFlags.DefaultValueOperation is not IDefaultValueOperation { Type: { } defaultValueExpressionType })
+                                    {
+                                        continue;
+                                    }
+
+                                    // Store the expression type for later, so we can validate it. We cannot validate it from here, as we
+                                    // only see the declared property type for metadata. This isn't guaranteed to match the property type.
+                                    fieldFlags.DefaultValueExpressionType = defaultValueExpressionType;
+                                }
+                            }
                         }
 
                         // Make sure that the 'propertyType' value matches the actual type of the property.
@@ -650,6 +665,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         fieldFlags.PropertyName = null;
                         fieldFlags.PropertyType = null;
                         fieldFlags.PropertyTypeExpressionLocation = null;
+                        fieldFlags.DefaultValueOperation = null;
                         fieldFlags.DefaultValue = null;
                         fieldFlags.DefaultValueTypeReferenceId = null;
                         fieldFlags.DefaultValueExpressionLocation = null;
@@ -727,6 +743,11 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
         /// The location for the expression defining the property type.
         /// </summary>
         public Location? PropertyTypeExpressionLocation;
+
+        /// <summary>
+        /// The operation for the default value conversion, for deferred validation.
+        /// </summary>
+        public IOperation? DefaultValueOperation;
 
         /// <summary>
         /// The default value to use (not present if it does not need to be set explicitly).
