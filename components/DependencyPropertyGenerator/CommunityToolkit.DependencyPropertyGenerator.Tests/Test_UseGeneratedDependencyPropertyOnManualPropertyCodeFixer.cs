@@ -4,6 +4,7 @@
 
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CSharpCodeFixTest = CommunityToolkit.GeneratedDependencyProperty.Tests.Helpers.CSharpCodeFixTest<
     CommunityToolkit.GeneratedDependencyProperty.UseGeneratedDependencyPropertyOnManualPropertyAnalyzer,
@@ -104,7 +105,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -164,7 +166,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -248,7 +251,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -315,7 +319,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -367,7 +372,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -425,7 +431,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -485,7 +492,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -538,7 +546,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -628,7 +637,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -699,7 +709,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -766,7 +777,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -849,7 +861,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -922,7 +935,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -998,7 +1012,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1081,7 +1096,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1210,7 +1226,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1301,7 +1318,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1508,7 +1526,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1692,7 +1711,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1748,7 +1768,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1804,7 +1825,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1860,7 +1882,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1914,7 +1937,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -1970,7 +1994,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -2221,7 +2246,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -2296,7 +2322,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -2371,7 +2398,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -2424,7 +2452,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
@@ -2535,7 +2564,8 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
         CSharpCodeFixTest test = new(LanguageVersion.Preview)
         {
             TestCode = original,
-            FixedCode = @fixed
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
         };
 
         await test.RunAsync();
