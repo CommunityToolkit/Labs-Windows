@@ -71,7 +71,7 @@ public sealed class GeneratedDependencyPropertyAttribute : Attribute
     public string? DefaultValueCallback { get; init; } = null!;
 
     /// <summary>
-    /// Gets a value indicating whether or not property values should be cached locally, to improve performance.
+    /// Gets or sets a value indicating whether or not property values should be cached locally, to improve performance.
     /// This allows completely skipping boxing (for value types) and all WinRT marshalling when setting properties.
     /// </summary>
     /// <remarks>

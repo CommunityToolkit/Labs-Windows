@@ -47,7 +47,7 @@ namespace CommunityToolkit.WinUI
     internal sealed class GeneratedDependencyPropertyAttribute : global::System.Attribute
     {
         /// <summary>
-        /// Gets a value indicating the default value to set for the property.
+        /// Gets or sets a value indicating the default value to set for the property.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -77,7 +77,7 @@ namespace CommunityToolkit.WinUI
         public string? DefaultValueCallback { get; init; } = null!;
 
         /// <summary>
-        /// Gets a value indicating whether or not property values should be cached locally, to improve performance.
+        /// Gets or sets a value indicating whether or not property values should be cached locally, to improve performance.
         /// This allows completely skipping boxing (for value types) and all WinRT marshalling when setting properties.
         /// </summary>
         /// <remarks>
@@ -85,6 +85,25 @@ namespace CommunityToolkit.WinUI
         /// properties might also be set outside of the partial property implementation, meaning caching would be invalid.
         /// </remarks>
         public bool IsLocalCacheEnabled { get; init; } = false;
+
+        /// <summary>
+        /// Gets or sets the type to use to register the property in metadata. The default value will exactly match the property type.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This property allows customizing the property type in metadata, in advanced scenarios. For instance, it can be used to define
+        /// properties of a <see cref="global::System.Nullable{T}"/> type (e.g. <see langword="bool?"/>) as just using <see cref="object"/> in metadata.
+        /// This allows working around some issues primarily around classic (reflection-based) binding in XAML.
+        /// </para>
+        /// <para>
+        /// This property should only be set when actually required (e.g. to ensure a specific scenario can work). The default behavior
+        /// (i.e. the property type in metadata matching the declared property type) should work correctly in the vast majority of cases.
+        /// </para>
+        /// </remarks>
+#if NET8_0_OR_GREATER
+        [global::System.Diagnostics.CodeAnalysis.DisallowNull]
+#endif
+        public global::System.Type? PropertyType { get; init; } = null!;
     }
 }
 
