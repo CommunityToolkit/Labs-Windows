@@ -60,7 +60,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0001:GeneratedDependencyProperty|}]
+                [{|WCTDPG0001:GeneratedDependencyProperty|}]
                 public string? Name { get; set; }
             }
             """;
@@ -79,7 +79,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0001:GeneratedDependencyProperty|}]
+                [{|WCTDPG0001:GeneratedDependencyProperty|}]
                 public partial string? {|CS9248:Name|} { get; }
             }
             """;
@@ -98,7 +98,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0001:GeneratedDependencyProperty|}]
+                [{|WCTDPG0001:GeneratedDependencyProperty|}]
                 public partial string? {|CS9248:Name|} { set; }
             }
             """;
@@ -117,7 +117,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0001:GeneratedDependencyProperty|}]
+                [{|WCTDPG0001:GeneratedDependencyProperty|}]
                 public partial string? {|CS9248:Name|} { get; init; }
             }
             """;
@@ -136,7 +136,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0001:GeneratedDependencyProperty|}]
+                [{|WCTDPG0001:GeneratedDependencyProperty|}]
                 public static partial string? {|CS9248:Name|} { get; set; }
             }
             """;
@@ -242,7 +242,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0002:GeneratedDependencyProperty|}]
+                [{|WCTDPG0002:GeneratedDependencyProperty|}]
                 public partial string Name { get; set; }
 
                 [GeneratedCode("Some.Other.Generator", "1.0.0")]
@@ -268,7 +268,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0002:GeneratedDependencyProperty|}]
+                [{|WCTDPG0002:GeneratedDependencyProperty|}]
                 public partial string Name { get; set; }
 
                 public partial string Name
@@ -293,7 +293,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0003:GeneratedDependencyProperty|}]
+                [{|WCTDPG0003:GeneratedDependencyProperty|}]
                 public partial ref int {|CS9248:Name|} { get; {|CS8147:set|}; }
             }
             """;
@@ -312,7 +312,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0003:GeneratedDependencyProperty|}]
+                [{|WCTDPG0003:GeneratedDependencyProperty|}]
                 public partial ref readonly int {|CS9248:Name|} { get; {|CS8147:set|}; }
             }
             """;
@@ -332,7 +332,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0004:GeneratedDependencyProperty|}]
+                [{|WCTDPG0004:GeneratedDependencyProperty|}]
                 public partial Span<int> {|CS9248:Name|} { get; set; }
             }
             """;
@@ -351,7 +351,7 @@ public class Test_Analyzers
 
             public unsafe partial class MyControl : Control
             {
-                [{|WCTDP0012:GeneratedDependencyProperty|}]
+                [{|WCTDPG0012:GeneratedDependencyProperty|}]
                 public partial int* {|CS9248:Name|} { get; set; }
             }
             """;
@@ -370,7 +370,7 @@ public class Test_Analyzers
 
             public unsafe partial class MyControl : Control
             {
-                [{|WCTDP0012:GeneratedDependencyProperty|}]
+                [{|WCTDPG0012:GeneratedDependencyProperty|}]
                 public partial delegate* unmanaged[Stdcall]<int, void> {|CS9248:Name|} { get; set; }
             }
             """;
@@ -444,7 +444,7 @@ public class Test_Analyzers
 
             public partial class MyControl
             {
-                [{|WCTDP0005:GeneratedDependencyProperty|}]
+                [{|WCTDPG0005:GeneratedDependencyProperty|}]
                 public partial string? {|CS9248:Name|} { get; set; }
             }
             """;
@@ -504,7 +504,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0006:GeneratedDependencyProperty|}]
+                [{|WCTDPG0006:GeneratedDependencyProperty|}]
                 public string? Name { get; set; }
             }
             """;
@@ -525,7 +525,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0007:GeneratedDependencyProperty(IsLocalCacheEnabled = true)|}]
+                [{|WCTDPG0007:GeneratedDependencyProperty(IsLocalCacheEnabled = true)|}]
                 public string? Name { get; set; }
             }
             """;
@@ -606,7 +606,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0008:GeneratedDependencyProperty|}]
+                [{|WCTDPG0008:GeneratedDependencyProperty|}]
                 public partial {{propertyType}} {|CS9248:Property|} { get; set; }
             }
             """;
@@ -826,7 +826,7 @@ public class Test_Analyzers
             public partial class MyControl : Control
             {
                 [GeneratedDependencyProperty]
-                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
+                public partial string {|WCTDPG0009:{|CS9248:Name|}|} { get; set; }
             }
             """;
 
@@ -847,7 +847,7 @@ public class Test_Analyzers
             public partial class MyControl : Control
             {
                 [GeneratedDependencyProperty(DefaultValue = null)]
-                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
+                public partial string {|WCTDPG0009:{|CS9248:Name|}|} { get; set; }
             }
             """;
 
@@ -868,7 +868,7 @@ public class Test_Analyzers
             public partial class MyControl : Control
             {
                 [GeneratedDependencyProperty(DefaultValueCallback = nameof(GetDefaultName))]
-                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
+                public partial string {|WCTDPG0009:{|CS9248:Name|}|} { get; set; }
 
                 private static string? GetDefaultName() => "Bob";
             }
@@ -892,7 +892,7 @@ public class Test_Analyzers
             public partial class MyControl : Control
             {
                 [GeneratedDependencyProperty(DefaultValueCallback = nameof(GetDefaultName))]
-                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
+                public partial string {|WCTDPG0009:{|CS9248:Name|}|} { get; set; }
 
                 [return: MaybeNull]
                 private static string GetDefaultName() => "Bob";
@@ -918,7 +918,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
+                public partial string {|WCTDPG0009:{|CS9248:Name|}|} { get; set; }
 
                 partial void {|CS0759:OnNameSet|}([NotNull] ref object? propertyValue)
                 {
@@ -974,7 +974,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial string {|WCTDP0009:{|CS9248:Name|}|} { get; set; }
+                public partial string {|WCTDPG0009:{|CS9248:Name|}|} { get; set; }
 
                 partial void {|CS0759:OnNameSet|}([NotNull] ref string? propertyValue)
                 {
@@ -1030,7 +1030,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial string {|WCTDP0009:{|WCTDP0024:{|CS9248:Name|}|}|} { get; set; }
+                public partial string {|WCTDPG0009:{|WCTDPG0024:{|CS9248:Name|}|}|} { get; set; }
 
                 partial void {|CS0759:OnNameGet|}(ref string? propertyValue)
                 {
@@ -1057,7 +1057,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial string {|WCTDP0009:{|WCTDP0024:{|CS9248:Name|}|}|} { get; set; }
+                public partial string {|WCTDPG0009:{|WCTDPG0024:{|CS9248:Name|}|}|} { get; set; }
             }
             """;
 
@@ -1359,7 +1359,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [NotNull]
-                public partial string? {|WCTDP0025:{|CS9248:Name|}|} { get; set; }
+                public partial string? {|WCTDPG0025:{|CS9248:Name|}|} { get; set; }
             }
             """;
 
@@ -1382,7 +1382,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [NotNull]
-                public partial string? {|WCTDP0025:{|CS9248:Name|}|} { get; set; }
+                public partial string? {|WCTDPG0025:{|CS9248:Name|}|} { get; set; }
 
                 partial void {|CS0759:OnNameSet|}(ref string? propertyValue)
                 {
@@ -1411,7 +1411,7 @@ public class Test_Analyzers
                 [GeneratedDependencyProperty]
                 [NotNull]
                 [DisallowNull]
-                public partial string? {|WCTDP0025:{|CS9248:Name|}|} { get; set; }
+                public partial string? {|WCTDPG0025:{|CS9248:Name|}|} { get; set; }
             }
             """;
 
@@ -1434,7 +1434,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [NotNull]
-                public partial string? {|WCTDP0025:{|CS9248:Name|}|} { get; set; }
+                public partial string? {|WCTDPG0025:{|CS9248:Name|}|} { get; set; }
 
                 partial void {|CS0759:OnNameSet|}([NotNull] ref string? propertyValue)
                 {
@@ -1463,7 +1463,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [NotNull]
-                public partial KeyFrameCollection<TValue, TKeyFrame>? {|WCTDP0025:{|CS9248:KeyFrames|}|} { get; set; }
+                public partial KeyFrameCollection<TValue, TKeyFrame>? {|WCTDPG0025:{|CS9248:KeyFrames|}|} { get; set; }
 
                 partial void {|CS0759:OnKeyFramesGet|}(ref KeyFrameCollection<TValue, TKeyFrame>? propertyValue)
                 {
@@ -1498,7 +1498,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [AllowNull]
-                public partial KeyFrameCollection<TValue, TKeyFrame> {|WCTDP0009:{|WCTDP0024:{|CS9248:KeyFrames|}|}|} { get; set; }
+                public partial KeyFrameCollection<TValue, TKeyFrame> {|WCTDPG0009:{|WCTDPG0024:{|CS9248:KeyFrames|}|}|} { get; set; }
 
                 partial void {|CS0759:OnKeyFramesGet|}(ref KeyFrameCollection<TValue, TKeyFrame>? propertyValue)
                 {
@@ -1533,7 +1533,7 @@ public class Test_Analyzers
             {
                 [GeneratedDependencyProperty]
                 [AllowNull]
-                public required partial KeyFrameCollection<TValue, TKeyFrame> {|WCTDP0024:{|CS9248:KeyFrames|}|} { get; set; }
+                public required partial KeyFrameCollection<TValue, TKeyFrame> {|WCTDPG0024:{|CS9248:KeyFrames|}|} { get; set; }
             }
 
             public sealed partial class KeyFrameCollection<TValue, TKeyFrame> : DependencyObjectCollection
@@ -1564,7 +1564,7 @@ public class Test_Analyzers
                 where T4 : unmanaged
             {
                 [GeneratedDependencyProperty]
-                public partial {{declaredType}} {|WCTDP0009:{|CS9248:Value|}|} { get; set; }
+                public partial {{declaredType}} {|WCTDPG0009:{|CS9248:Value|}|} { get; set; }
             }
             """;
 
@@ -1724,7 +1724,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [GeneratedDependencyProperty({|WCTDP0010:DefaultValue = null|})]
+                [GeneratedDependencyProperty({|WCTDPG0010:DefaultValue = null|})]
                 public partial int {|CS9248:Name|} { get; set; }
             }
             """;
@@ -1757,7 +1757,7 @@ public class Test_Analyzers
                 where T4 : unmanaged
                 where T5 : IDisposable
             {
-                [GeneratedDependencyProperty({|WCTDP0010:DefaultValue = null|})]
+                [GeneratedDependencyProperty({|WCTDPG0010:DefaultValue = null|})]
                 public partial {{propertyType}} {|CS9248:Name|} { get; set; }
             }
             """;
@@ -1782,7 +1782,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [GeneratedDependencyProperty({|WCTDP0011:DefaultValue = {{defaultValueType}}|})]
+                [GeneratedDependencyProperty({|WCTDPG0011:DefaultValue = {{defaultValueType}}|})]
                 public partial {{propertyType}} {|CS9248:Name|} { get; set; }
             }
             """;
@@ -1921,7 +1921,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0013:GeneratedDependencyProperty(DefaultValue = "Bob", DefaultValueCallback = nameof(GetDefaultName))|}]
+                [{|WCTDPG0013:GeneratedDependencyProperty(DefaultValue = "Bob", DefaultValueCallback = nameof(GetDefaultName))|}]
                 public partial string? {|CS9248:Name|} { get; set; }
 
                 private static string? GetDefaultName() => "Bob";
@@ -1944,7 +1944,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [GeneratedDependencyProperty({|WCTDP0014:DefaultValueCallback = "MissingMethod"|})]
+                [GeneratedDependencyProperty({|WCTDPG0014:DefaultValueCallback = "MissingMethod"|})]
                 public partial string? {|CS9248:Name|} { get; set; }
             }
             """;
@@ -1965,7 +1965,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control, IGetDefaultValue
             {
-                [GeneratedDependencyProperty({|WCTDP0014:DefaultValueCallback = "GetDefaultValue"|})]
+                [GeneratedDependencyProperty({|WCTDPG0014:DefaultValueCallback = "GetDefaultValue"|})]
                 public partial string? {|CS9248:Name|} { get; set; }
 
                 static string? IGetDefaultValue.GetDefaultValue() => "Bob";
@@ -1997,7 +1997,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [GeneratedDependencyProperty({|WCTDP0015:DefaultValueCallback = "GetDefaultName"|})]
+                [GeneratedDependencyProperty({|WCTDPG0015:DefaultValueCallback = "GetDefaultName"|})]
                 public partial string? {|CS9248:Name|} { get; set; }
 
                 {{methodSignature}} => default!;
@@ -2064,7 +2064,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                [{|WCTDP0016:GeneratedDependencyProperty|}]
+                [{|WCTDPG0016:GeneratedDependencyProperty|}]
                 public partial string? {|CS9248:TestProperty|} { get; set; }
             }
             """;
@@ -2112,7 +2112,7 @@ public class Test_Analyzers
             public partial class MyControl : Control
             {
                 public static readonly DependencyProperty OtherNameProperty = DependencyProperty.Register(
-                    {|WCTDP0027:name: "Name"|},
+                    {|WCTDPG0027:name: "Name"|},
                     propertyType: typeof(string),
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
@@ -2129,7 +2129,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidFieldDeclaration_WCTDP0026_DoesNotWarn()
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidFieldDeclaration_WCTDPG0026_DoesNotWarn()
     {
         const string source = """
             using Windows.UI.Xaml;
@@ -2141,7 +2141,7 @@ public class Test_Analyzers
 
             public partial class MyControl : Control
             {
-                public static readonly DependencyProperty {|WCTDP0026:NameField|} = DependencyProperty.Register(
+                public static readonly DependencyProperty {|WCTDPG0026:NameField|} = DependencyProperty.Register(
                     name: "Name",
                     propertyType: typeof(string),
                     ownerType: typeof(MyControl),
@@ -2204,7 +2204,7 @@ public class Test_Analyzers
     [DataRow("MyControl", "Control")]
     [DataRow("MyControl", "DependencyObject")]
     [DataRow("Control", "DependencyObject")]
-    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_DoesNotWarn(
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDPG0030_DoesNotWarn(
         string dependencyPropertyType,
         string propertyType)
     {
@@ -2219,7 +2219,7 @@ public class Test_Analyzers
             {
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
                     name: "Name",
-                    {|WCTDP0030:propertyType: typeof({{dependencyPropertyType}})|},
+                    {|WCTDPG0030:propertyType: typeof({{dependencyPropertyType}})|},
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
 
@@ -2236,7 +2236,7 @@ public class Test_Analyzers
 
     // Regression test for a case found in the Microsoft Store
     [TestMethod]
-    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_WithObjectInitialization_DoesNotWarn()
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDPG0030_WithObjectInitialization_DoesNotWarn()
     {
        const string source = """
             using Windows.UI.Xaml;
@@ -2248,9 +2248,9 @@ public class Test_Analyzers
             {
                 public static readonly DependencyProperty MarginProperty = DependencyProperty.Register(
                     nameof(Margin),
-                    {|WCTDP0030:typeof(double)|},
+                    {|WCTDPG0030:typeof(double)|},
                     typeof(MyControl),
-                    new PropertyMetadata({|WCTDP0032:new Thickness(0)|}));
+                    new PropertyMetadata({|WCTDPG0032:new Thickness(0)|}));
 
                 private Thickness Margin
                 {
@@ -2264,7 +2264,7 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_WithExplicitDefaultValueNull_DoesNotWarn()
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDPG0030_WithExplicitDefaultValueNull_DoesNotWarn()
     {
         const string source = """
             using Windows.UI.Xaml;
@@ -2276,9 +2276,9 @@ public class Test_Analyzers
             {
                 public static readonly DependencyProperty MarginProperty = DependencyProperty.Register(
                     nameof(Margin),
-                    {|WCTDP0030:typeof(double)|},
+                    {|WCTDPG0030:typeof(double)|},
                     typeof(MyControl),
-                    new PropertyMetadata({|WCTDP0031:null|}));
+                    new PropertyMetadata({|WCTDPG0031:null|}));
 
                 private Thickness Margin
                 {
@@ -2293,7 +2293,7 @@ public class Test_Analyzers
 
     // Regression test for a case found in https://github.com/jenius-apps/ambie
     [TestMethod]
-    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_WithInvalidPropertyName_DoesNotWarn()
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDPG0030_WithInvalidPropertyName_DoesNotWarn()
     {
         string source = $$"""
             using Windows.UI.Xaml;
@@ -2304,16 +2304,16 @@ public class Test_Analyzers
             public sealed partial class PlayerControl : UserControl
             {
                 public static readonly DependencyProperty PlayVisibleProperty = DependencyProperty.Register(
-                    {|WCTDP0027:nameof(PlayButtonVisible)|},
-                    {|WCTDP0030:typeof(bool)|},
+                    {|WCTDPG0027:nameof(PlayButtonVisible)|},
+                    {|WCTDPG0030:typeof(bool)|},
                     typeof(PlayerControl),
-                    new PropertyMetadata({|WCTDP0032:Visibility.Visible|}));
+                    new PropertyMetadata({|WCTDPG0032:Visibility.Visible|}));
 
                 public static readonly DependencyProperty VolumeVisibleProperty = DependencyProperty.Register(
                     nameof(VolumeVisible),
-                    {|WCTDP0030:typeof(bool)|},
+                    {|WCTDPG0030:typeof(bool)|},
                     typeof(PlayerControl),
-                    new PropertyMetadata({|WCTDP0032:Visibility.Visible|}));
+                    new PropertyMetadata({|WCTDPG0032:Visibility.Visible|}));
 
                 public Visibility PlayButtonVisible
                 {
@@ -2336,7 +2336,7 @@ public class Test_Analyzers
     [DataRow("\"Name\"", "typeof(string)", "typeof(string)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(Control)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(DependencyObject)", "null")]
-    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0029_DoesNotWarn(
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDPG0029_DoesNotWarn(
         string name,
         string propertyType,
         string ownerType,
@@ -2355,7 +2355,7 @@ public class Test_Analyzers
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
                     name: {{name}},
                     propertyType: {{propertyType}},
-                    {|WCTDP0029:ownerType: {{ownerType}}|},
+                    {|WCTDPG0029:ownerType: {{ownerType}}|},
                     typeMetadata: {{typeMetadata}});
 
                 public string? Name
@@ -2372,7 +2372,7 @@ public class Test_Analyzers
     [TestMethod]
     [DataRow("\"NameProperty\"", "typeof(string)", "typeof(MyControl)", "null")]
     [DataRow("\"OtherName\"", "typeof(string)", "typeof(MyControl)", "null")]
-    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0027_WCTDP0028_DoesNotWarn(
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDPG0027_WCTDPG0028_DoesNotWarn(
         string name,
         string propertyType,
         string ownerType,
@@ -2389,7 +2389,7 @@ public class Test_Analyzers
             public partial class MyControl : Control
             {
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
-                    {|WCTDP0027:{|WCTDP0028:name: {{name}}|}|},
+                    {|WCTDPG0027:{|WCTDPG0028:name: {{name}}|}|},
                     propertyType: {{propertyType}},
                     ownerType: {{ownerType}},
                     typeMetadata: {{typeMetadata}});
@@ -2553,7 +2553,7 @@ public class Test_Analyzers
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
 
-    // Same as above, but this one also produces some WCTDP0030 warnings, so we need to split these cases out
+    // Same as above, but this one also produces some WCTDPG0030 warnings, so we need to split these cases out
     [TestMethod]
     [DataRow("T1", "object", "new PropertyMetadata(default(T1))")]
     [DataRow("T1?", "object", "new PropertyMetadata(default(T1))")]
@@ -2579,7 +2579,7 @@ public class Test_Analyzers
             {
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
                     name: "Name",
-                    {|WCTDP0030:propertyType: typeof({{dependencyPropertyType}})|},
+                    {|WCTDPG0030:propertyType: typeof({{dependencyPropertyType}})|},
                     ownerType: typeof(MyControl<T1, T2>),
                     typeMetadata: {{propertyMetadataExpression}});
 
@@ -2670,7 +2670,7 @@ public class Test_Analyzers
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
 
-                public {{propertyType}} {|WCTDP0017:Name|}
+                public {{propertyType}} {|WCTDPG0017:Name|}
                 {
                     get => ({{propertyType}})GetValue(NameProperty);
                     set => SetValue(NameProperty, value);
@@ -2708,7 +2708,7 @@ public class Test_Analyzers
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
 
-                public string? {|WCTDP0017:Name|}
+                public string? {|WCTDPG0017:Name|}
                 {
                     get => (string?)GetValue(NameProperty);
                     set => SetValue(NameProperty, value);
@@ -2804,7 +2804,7 @@ public class Test_Analyzers
                     ownerType: typeof(MyControl),
                     typeMetadata: new PropertyMetadata({{defaultValueExpression}}));
 
-                public {{propertyType}} {|WCTDP0017:Name|}
+                public {{propertyType}} {|WCTDPG0017:Name|}
                 {
                     get => ({{propertyType}})GetValue(NameProperty);
                     set => SetValue(NameProperty, value);
@@ -2857,7 +2857,7 @@ public class Test_Analyzers
                     ownerType: typeof(MyControl<T1, T2>),
                     typeMetadata: {{propertyMetadataExpression}});
 
-                public {{propertyType}} {|WCTDP0017:Name|}
+                public {{propertyType}} {|WCTDPG0017:Name|}
                 {
                     get => ({{propertyType}})GetValue(NameProperty);
                     set => SetValue(NameProperty, value);
@@ -2891,7 +2891,7 @@ public class Test_Analyzers
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
 
-                public {{declaredType}} {|WCTDP0017:Name|}
+                public {{declaredType}} {|WCTDPG0017:Name|}
                 {
                     get => ({{declaredType}})GetValue(NameProperty);
                     set => SetValue(NameProperty, value);
@@ -2933,7 +2933,7 @@ public class Test_Analyzers
 
             public class MyObject : DependencyObject
             {
-                public static readonly DependencyProperty {|WCTDP0026:NameField|} = DependencyProperty.Register(
+                public static readonly DependencyProperty {|WCTDPG0026:NameField|} = DependencyProperty.Register(
                     name: "Name",
                     propertyType: typeof(string),
                     ownerType: typeof(MyObject),
@@ -2955,7 +2955,7 @@ public class Test_Analyzers
             public class MyObject : DependencyObject
             {
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
-                    {|WCTDP0027:name: "Text"|},
+                    {|WCTDPG0027:name: "Text"|},
                     propertyType: typeof(string),
                     ownerType: typeof(MyObject),
                     typeMetadata: null);
@@ -2978,7 +2978,7 @@ public class Test_Analyzers
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
                     name: "Name",
                     propertyType: typeof(string),
-                    {|WCTDP0029:ownerType: typeof(MyOtherObject)|},
+                    {|WCTDPG0029:ownerType: typeof(MyOtherObject)|},
                     typeMetadata: null);
             }
 
@@ -3042,7 +3042,7 @@ public class Test_Analyzers
                     name: "Name",
                     propertyType: typeof({{propertyType}}),
                     typeof(MyObject),
-                    typeMetadata: new PropertyMetadata({|WCTDP0031:null|}));
+                    typeMetadata: new PropertyMetadata({|WCTDPG0031:null|}));
             }
             """;
 
@@ -3071,7 +3071,7 @@ public class Test_Analyzers
                     name: "Name",
                     propertyType: typeof({{propertyType}}),
                     typeof(MyObject),
-                    typeMetadata: new PropertyMetadata({|WCTDP0032:{{defaultValue}}|}));
+                    typeMetadata: new PropertyMetadata({|WCTDPG0032:{{defaultValue}}|}));
             }
             """;
 
@@ -3106,7 +3106,7 @@ public class Test_Analyzers
                     ownerType: typeof(MyControl),
                     typeMetadata: null);
 
-                public {{propertyType}} {|WCTDP0017:Name|}
+                public {{propertyType}} {|WCTDPG0017:Name|}
                 {
                     get => ({{propertyType}})GetValue(NameProperty);
                     set => SetValue(NameProperty, value);
@@ -3228,7 +3228,7 @@ public class Test_Analyzers
                 public class MyControl : Control
                 {
                     [GeneratedDependencyProperty]
-                    [static: {|WCTDP0018:Test|}]
+                    [static: {|WCTDPG0018:Test|}]
                     public string? Name { get; set; }
                 }
             }
@@ -3254,7 +3254,7 @@ public class Test_Analyzers
             public class MyControl : Control
             {
                 [GeneratedDependencyProperty]
-                [static: {|WCTDP0018:Testt|}]
+                [static: {|WCTDPG0018:Testt|}]
                 public string? Name { get; set; }
             }
 
@@ -3277,7 +3277,7 @@ public class Test_Analyzers
             public class MyControl : Control
             {
                 [GeneratedDependencyProperty]
-                [static: {|WCTDP0019:Test(TestAttribute.M)|}]
+                [static: {|WCTDPG0019:Test(TestAttribute.M)|}]
                 public string? Name { get; set; }
             }
 
@@ -3302,7 +3302,7 @@ public class Test_Analyzers
             public class MyControl : Control
             {
                 [GeneratedDependencyProperty]
-                [static: {|WCTDP0019:Test(TestAttribute.M)|}]
+                [static: {|WCTDPG0019:Test(TestAttribute.M)|}]
                 public string? Name { get; set; }
             }
 
@@ -3359,7 +3359,7 @@ public class Test_Analyzers
             
             public class MyObject : DependencyObject
             {
-                {{fieldDeclaration}} {|WCTDP0020:TestProperty|};
+                {{fieldDeclaration}} {|WCTDPG0020:TestProperty|};
             }
             """;
 
@@ -3485,9 +3485,9 @@ public class Test_Analyzers
 
             public class MyObject : DependencyObject
             {
-                public static DependencyProperty {|WCTDP0021:Test1Property|} => DependencyProperty.Register("Test1", typeof(string), typeof(MyObject), null);
-                public static DependencyProperty {|WCTDP0021:Test2Property|} { get; } = DependencyProperty.Register("Test2", typeof(string), typeof(MyObject), null);
-                public static DependencyProperty {|WCTDP0021:Test3Property|} { get; set; }
+                public static DependencyProperty {|WCTDPG0021:Test1Property|} => DependencyProperty.Register("Test1", typeof(string), typeof(MyObject), null);
+                public static DependencyProperty {|WCTDPG0021:Test2Property|} { get; } = DependencyProperty.Register("Test2", typeof(string), typeof(MyObject), null);
+                public static DependencyProperty {|WCTDPG0021:Test3Property|} { get; set; }
             }
             """;
 
@@ -3549,7 +3549,7 @@ public class Test_Analyzers
 
             public class MyObject : DependencyObject, IMyInterface
             {
-                [GeneratedDependencyProperty({|WCTDP0022:PropertyType = typeof({{type}})|})]
+                [GeneratedDependencyProperty({|WCTDPG0022:PropertyType = typeof({{type}})|})]
                 public {{type}} Name { get; set; }
             }
 
@@ -3575,7 +3575,7 @@ public class Test_Analyzers
 
             public class MyObject : DependencyObject
             {
-                [GeneratedDependencyProperty({|WCTDP0023:PropertyType = typeof({{propertyType}})|})]
+                [GeneratedDependencyProperty({|WCTDPG0023:PropertyType = typeof({{propertyType}})|})]
                 public {{declaredType}} Name { get; set; }
             }
 

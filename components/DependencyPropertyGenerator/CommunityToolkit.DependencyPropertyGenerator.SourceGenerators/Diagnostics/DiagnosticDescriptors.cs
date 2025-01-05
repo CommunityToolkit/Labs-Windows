@@ -19,23 +19,23 @@ internal static class DiagnosticDescriptors
     /// <summary>
     /// The diagnostic id for <see cref="UseGeneratedDependencyPropertyForManualProperty"/>.
     /// </summary>
-    public const string UseGeneratedDependencyPropertyForManualPropertyId = "WCTDP0017";
+    public const string UseGeneratedDependencyPropertyForManualPropertyId = "WCTDPG0017";
 
     /// <summary>
     /// The diagnostic id for <see cref="IncorrectDependencyPropertyFieldDeclaration"/>.
     /// </summary>
-    public const string IncorrectDependencyPropertyFieldDeclarationId = "WCTDP0020";
+    public const string IncorrectDependencyPropertyFieldDeclarationId = "WCTDPG0020";
 
     /// <summary>
     /// The diagnostic id for <see cref="DependencyPropertyFieldDeclaration"/>.
     /// </summary>
-    public const string DependencyPropertyFieldDeclarationId = "WCTDP0021";
+    public const string DependencyPropertyFieldDeclarationId = "WCTDPG0021";
 
     /// <summary>
     /// <c>"The property '{0}' cannot be used to generate a dependency property, as its declaration is not valid (it must be an instance (non static) partial property, with a getter and a setter that is not init-only)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclaration = new(
-        id: "WCTDP0001",
+        id: "WCTDPG0001",
         title: "Invalid property declaration for [GeneratedDependencyProperty]",
         messageFormat: "The property '{0}' cannot be used to generate a dependency property, as its declaration is not valid (it must be an instance (non static) partial property, with a getter and a setter that is not init-only)",
         category: DiagnosticCategory,
@@ -48,7 +48,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' is not an incomplete partial definition ([ObservableProperty] must be used on a partial property definition with no implementation part)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationIsNotIncompletePartialDefinition = new(
-        id: "WCTDP0002",
+        id: "WCTDPG0002",
         title: "Using [GeneratedDependencyProperty] on an invalid partial property (not incomplete partial definition)",
         messageFormat: """The property '{0}' is not an incomplete partial definition ([ObservableProperty] must be used on a partial property definition with no implementation part)""",
         category: DiagnosticCategory,
@@ -61,7 +61,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' cannot be used to generate a dependency property, as it returns a ref value ([GeneratedDependencyProperty] must be used on properties returning a non byref-like type by value)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationReturnsByRef = new(
-        id: "WCTDP0003",
+        id: "WCTDPG0003",
         title: "Using [GeneratedDependencyProperty] on a property that returns byref",
         messageFormat: """The property '{0}' cannot be used to generate a dependency property, as it returns a ref value ([GeneratedDependencyProperty] must be used on properties returning a non byref-like type by value)""",
         category: DiagnosticCategory,
@@ -74,7 +74,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' cannot be used to generate a dependency property, as it returns a byref-like value ([GeneratedDependencyProperty] must be used on properties returning a non byref-like type by value)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationReturnsRefLikeType = new(
-        id: "WCTDP0004",
+        id: "WCTDPG0004",
         title: "Using [GeneratedDependencyProperty] on a property that returns byref-like",
         messageFormat: """The property '{0}' cannot be used to generate a dependency property, as it returns a byref-like value ([GeneratedDependencyProperty] must be used on properties returning a non byref-like type by value)""",
         category: DiagnosticCategory,
@@ -87,7 +87,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' cannot be used to generate a dependency property, as its containing type doesn't inherit from DependencyObject"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationContainingTypeIsNotDependencyObject = new(
-        id: "WCTDP0005",
+        id: "WCTDPG0005",
         title: "Using [GeneratedDependencyProperty] on a property with invalid containing type",
         messageFormat: "The property '{0}' cannot be used to generate a dependency property, as its containing type doesn't inherit from DependencyObject",
         category: DiagnosticCategory,
@@ -100,7 +100,7 @@ internal static class DiagnosticDescriptors
     /// <c>The property '{0}' cannot be used to generate a dependency property, as the project is not using C# 13 or greater (add <LangVersion>13.0</LangVersion> to your .csproj/.props file)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor PropertyDeclarationRequiresCSharp13 = new(
-        id: "WCTDP0006",
+        id: "WCTDPG0006",
         title: "Using [GeneratedDependencyProperty] requires C# 13",
         messageFormat: "The property '{0}' cannot be used to generate a dependency property, as the project is not using C# 13 or greater (add <LangVersion>13.0</LangVersion> to your .csproj/.props file)",
         category: typeof(UnsupportedCSharpLanguageVersionAnalyzer).FullName,
@@ -113,7 +113,7 @@ internal static class DiagnosticDescriptors
     /// <c>The property '{0}' cannot be used to generate a dependency property, as the project is not using C# 'preview', which is required when using the 'IsLocalCachingEnabled' option (add <LangVersion>preview</LangVersion> to your .csproj/.props file)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor LocalCachingRequiresCSharpPreview = new(
-        id: "WCTDP0007",
+        id: "WCTDPG0007",
         title: "Using [GeneratedDependencyProperty] with 'IsLocalCachingEnabled' requires C# 'preview'",
         messageFormat: """The property '{0}' cannot be used to generate a dependency property, as the project is not using C# 'preview', which is required when using the 'IsLocalCachingEnabled' option (add <LangVersion>preview</LangVersion> to your .csproj/.props file)""",
         category: DiagnosticCategory,
@@ -126,7 +126,7 @@ internal static class DiagnosticDescriptors
     /// <c>The property '{0}' cannot be used to generate an dependency property, as its name or type would cause conflicts with other generated members ([GeneratedDependencyProperty] must not be used on properties named 'Property' of type either 'object' or 'DependencyPropertyChangedEventArgs')</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationWouldCauseConflicts = new(
-        id: "WCTDP0008",
+        id: "WCTDPG0008",
         title: "Conflicting property declaration for [GeneratedDependencyProperty]",
         messageFormat: "The property '{0}' cannot be used to generate an dependency property, as its name or type would cause conflicts with other generated members ([GeneratedDependencyProperty] must not be used on properties named 'Property' of type either 'object' or 'DependencyPropertyChangedEventArgs')",
         category: DiagnosticCategory,
@@ -139,7 +139,7 @@ internal static class DiagnosticDescriptors
     /// <c>The property '{0}' is not annotated as nullable, but it might contain a null value upon exiting the constructor (consider adding the 'required' modifier, setting a non-null default value if possible, or declaring the property as nullable)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor NonNullablePropertyDeclarationIsNotEnforced = new(
-        id: "WCTDP0009",
+        id: "WCTDPG0009",
         title: "Non-nullable dependency property is not guaranteed to not be null",
         messageFormat: "The property '{0}' is not annotated as nullable, but it might contain a null value upon exiting the constructor (consider adding the 'required' modifier, setting a non-null default value if possible, or declaring the property as nullable)",
         category: DiagnosticCategory,
@@ -152,7 +152,7 @@ internal static class DiagnosticDescriptors
     /// <c>The property '{0}' is declared with type '{1}', but 'DefaultValue' is set to 'null', which is not compatible (consider changing the default value, implementing the 'On{2}Get(ref object)' partial method to handle the type mismatch, or suppressing the diagnostic if this is the intended behavior)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDefaultValueNull = new(
-        id: "WCTDP0010",
+        id: "WCTDPG0010",
         title: "Invalid 'null' default value for [GeneratedDependencyProperty] use",
         messageFormat: "The property '{0}' is declared with type '{1}', but 'DefaultValue' is set to 'null', which is not compatible (consider changing the default value, implementing the 'On{2}Get(ref object)' partial method to handle the type mismatch, or suppressing the diagnostic if this is the intended behavior)",
         category: DiagnosticCategory,
@@ -165,7 +165,7 @@ internal static class DiagnosticDescriptors
     /// <c>The property '{0}' is declared with type '{1}', but 'DefaultValue' is set to value '{2}' (type '{3}'), which is not compatible (consider fixing the default value, or implementing the 'On{4}Get(ref object)' partial method to handle the type mismatch)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDefaultValueType = new(
-        id: "WCTDP0011",
+        id: "WCTDPG0011",
         title: "Invalid default value type for [GeneratedDependencyProperty] use",
         messageFormat: "The property '{0}' is declared with type '{1}', but 'DefaultValue' is set to value '{2}' (type '{3}'), which is not compatible (consider fixing the default value, or implementing the 'On{4}Get(ref object)' partial method to handle the type mismatch)",
         category: DiagnosticCategory,
@@ -178,7 +178,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' returns a pointer or function pointer value ([ObservableProperty] must be used on properties of a non pointer-like type)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationReturnsPointerType = new(
-        id: "WCTDP0012",
+        id: "WCTDPG0012",
         title: "Using [GeneratedDependencyProperty] on a property that returns pointer type",
         messageFormat: """The property '{0}' cannot be used to generate a dependency property, as it returns a pointer value ([GeneratedDependencyProperty] must be used on properties returning a non pointer value)""",
         category: DiagnosticCategory,
@@ -191,7 +191,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' is using [GeneratedDependencyProperty] with both 'DefaultValue' and 'DefaultValueCallback' and being set, which is not supported (only one of these properties can be set at a time)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationDefaultValueCallbackMixed = new(
-        id: "WCTDP0013",
+        id: "WCTDPG0013",
         title: "Using [GeneratedDependencyProperty] with both 'DefaultValue' and 'DefaultValueCallback'",
         messageFormat: """The property '{0}' is using [GeneratedDependencyProperty] with both 'DefaultValue' and 'DefaultValueCallback' and being set, which is not supported (only one of these properties can be set at a time)""",
         category: DiagnosticCategory,
@@ -204,7 +204,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' is using [GeneratedDependencyProperty] with 'DefaultValueCallback' set to '{1}', but no accessible method with that name was found (make sure the target method is in the same containing type)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationDefaultValueCallbackNoMethodFound = new(
-        id: "WCTDP0014",
+        id: "WCTDPG0014",
         title: "Using [GeneratedDependencyProperty] with missing 'DefaultValueCallback' method",
         messageFormat: """The property '{0}' is using [GeneratedDependencyProperty] with 'DefaultValueCallback' set to '{1}', but no accessible method with that name was found (make sure the target method is in the same containing type)""",
         category: DiagnosticCategory,
@@ -217,7 +217,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' is using [GeneratedDependencyProperty] with 'DefaultValueCallback' set to '{1}', but the method has an invalid signature (it must be a static method with no parameters, returning a value compatible with the property type: either the same type, or 'object')"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyDeclarationDefaultValueCallbackInvalidMethod = new(
-        id: "WCTDP0015",
+        id: "WCTDPG0015",
         title: "Using [GeneratedDependencyProperty] with invalid 'DefaultValueCallback' method",
         messageFormat: """The property '{0}' is using [GeneratedDependencyProperty] with 'DefaultValueCallback' set to '{1}', but the method has an invalid signature (it must be a static method with no parameters, returning a value compatible with the property type: either the same type, or 'object')""",
         category: DiagnosticCategory,
@@ -230,7 +230,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' is using [GeneratedDependencyProperty] and has a name ending with the 'Property' suffix, which is redundant (the generated dependency property will always add the 'Property' suffix to the name of its associated property)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor PropertyDeclarationWithPropertySuffix = new(
-        id: "WCTDP0016",
+        id: "WCTDPG0016",
         title: "Using [GeneratedDependencyProperty] on a property with the 'Property' suffix",
         messageFormat: """The property '{0}' is using [GeneratedDependencyProperty] and has a name ending with the 'Property' suffix, which is redundant (the generated dependency property will always add the 'Property' suffix to the name of its associated property)""",
         category: DiagnosticCategory,
@@ -256,7 +256,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' annotated with [GeneratedDependencyProperty] is using attribute '{1}' which was not recognized as a valid type (are you missing a using directive?)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidDependencyPropertyTargetedAttributeType = new(
-        id: "WCTDP0018",
+        id: "WCTDPG0018",
         title: "Invalid dependency property targeted attribute type",
         messageFormat: "The property '{0}' annotated with [GeneratedDependencyProperty] is using attribute '{1}' which was not recognized as a valid type (are you missing a using directive?)",
         category: DiagnosticCategory,
@@ -269,7 +269,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' annotated with [GeneratedDependencyProperty] is using attribute '{1}' with an invalid expression (are you passing any incorrect parameters to the attribute constructor?)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidDependencyPropertyTargetedAttributeTypeArgumentExpression = new(
-        id: "WCTDP0019",
+        id: "WCTDPG0019",
         title: "Invalid dependency property targeted attribute expression",
         messageFormat: "The property '{0}' annotated with [GeneratedDependencyProperty] is using attribute '{1}' with an invalid expression (are you passing any incorrect parameters to the attribute constructor?)",
         category: DiagnosticCategory,
@@ -308,7 +308,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' annotated with [GeneratedDependencyProperty] is specifying '{1}' as its property type in metadata, which is unnecessary (the type is the same as the declared property type)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor UnnecessaryDependencyPropertyExplicitMetadataType = new(
-        id: "WCTDP0022",
+        id: "WCTDPG0022",
         title: "Unnecessary dependency property explicit metadata type",
         messageFormat: "The property '{0}' annotated with [GeneratedDependencyProperty] is specifying '{1}' as its property type in metadata, which is unnecessary (the type is the same as the declared property type)",
         category: DiagnosticCategory,
@@ -321,7 +321,7 @@ internal static class DiagnosticDescriptors
     /// <c>"The property '{0}' annotated with [GeneratedDependencyProperty] is specifying '{1}' as its property type in metadata, which is not compatible with its declared type '{2}' (the 'PropertyType' option should be used with a compatible type)"</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor IncompatibleDependencyPropertyExplicitMetadataType = new(
-        id: "WCTDP0023",
+        id: "WCTDPG0023",
         title: "Incompatible dependency property explicit metadata type",
         messageFormat: "The property '{0}' annotated with [GeneratedDependencyProperty] is specifying '{1}' as its property type in metadata, which is not compatible with its declared type '{2}' (the 'PropertyType' option should be used with a compatible type)",
         category: DiagnosticCategory,
@@ -334,7 +334,7 @@ internal static class DiagnosticDescriptors
     /// <c>The property '{0}' is not annotated as nullable and is using [AllowNull], but neither of its accessors are null-resilient (at least one generated 'On{1}Get' or 'On{1}Set' method must be implemented with [NotNull] on the 'propertyValue' parameter, to ensure assigning null values does not break the nullable annotations on the property)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor NotNullResilientAccessorsForNotNullablePropertyDeclaration = new(
-        id: "WCTDP0024",
+        id: "WCTDPG0024",
         title: "Non-nullable dependency property using [AllowNull] incorrectly",
         messageFormat: "The property '{0}' is not annotated as nullable and is using [AllowNull], but neither of its accessors are null-resilient (at least one generated 'On{1}Get' or 'On{1}Set' method must be implemented with [NotNull] on the 'propertyValue' parameter, to ensure assigning null values does not break the nullable annotations on the property)",
         category: DiagnosticCategory,
@@ -347,7 +347,7 @@ internal static class DiagnosticDescriptors
     /// <c>The property '{0}' is annotated as nullable and is using [NotNull], but it's not guaranteeing that returned values will not be null (it must either make its 'get' accessor null-resilient, by implementing at least one generated 'On{1}Get' method with [NotNull] on the 'propertyValue' parameter, or it must either add [DisallowNull] or implement at least one generated 'On{1}Set' method with [NotNull], and also either mark the property as required, or ensure that its default value is not null)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor NotNullResilientAccessorsForNullablePropertyDeclaration = new(
-        id: "WCTDP0025",
+        id: "WCTDPG0025",
         title: "Nullable dependency property using [NotNull] incorrectly",
         messageFormat: "The property '{0}' is annotated as nullable and is using [NotNull], but it's not guaranteeing that returned values will not be null (it must either make its 'get' accessor null-resilient, by implementing at least one generated 'On{1}Get' method with [NotNull] on the 'propertyValue' parameter, or it must either add [DisallowNull] or implement at least one generated 'On{1}Set' method with [NotNull], and also either mark the property as required, or ensure that its default value is not null)",
         category: DiagnosticCategory,
@@ -360,7 +360,7 @@ internal static class DiagnosticDescriptors
     /// <c>The field '{0}' is registering a dependency property, but its name is not following the recommended naming convention (all dependency property fields should use the 'Property' suffix in their names)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor NoPropertySuffixOnDependencyPropertyField = new(
-        id: "WCTDP0026",
+        id: "WCTDPG0026",
         title: "No 'Property' suffix on dependency property field name",
         messageFormat: "The field '{0}' is registering a dependency property, but its name is not following the recommended naming convention (all dependency property fields should use the 'Property' suffix in their names)",
         category: DiagnosticCategory,
@@ -373,7 +373,7 @@ internal static class DiagnosticDescriptors
     /// <c>The field '{0}' is registering a dependency property, but the property name '{1}' declared in metadata is not following the recommended naming convention (all property names should match the name of their declared fields, minus the 'Property' suffix)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyNameOnDependencyPropertyField = new(
-        id: "WCTDP0027",
+        id: "WCTDPG0027",
         title: "Invalid property name in dependency property field metadata",
         messageFormat: "The field '{0}' is registering a dependency property, but the property name '{1}' declared in metadata is not following the recommended naming convention (all property names should match the name of their declared fields, minus the 'Property' suffix)",
         category: DiagnosticCategory,
@@ -386,7 +386,7 @@ internal static class DiagnosticDescriptors
     /// <c>The field '{0}' is registering a dependency property, but the property name '{1}' declared in metadata does not match the property name '{2}' wrapping the dependency property (all property names should match the name of the wrapping properties of each dependency property field)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor MismatchedPropertyNameOnDependencyPropertyField = new(
-        id: "WCTDP0028",
+        id: "WCTDPG0028",
         title: "Mismatched property name in dependency property field metadata",
         messageFormat: "The field '{0}' is registering a dependency property, but the property name '{1}' declared in metadata does not match the property name '{2}' wrapping the dependency property (all property names should match the name of the wrapping properties of each dependency property field)",
         category: DiagnosticCategory,
@@ -399,7 +399,7 @@ internal static class DiagnosticDescriptors
     /// <c>The field '{0}' is registering a dependency property, but its owning type '{1}' declared in metadata does not match the containing type '{2}' for the field (the owning type of a dependency property should always match the containing type of the field declaration)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidOwningTypeOnDependencyPropertyField = new(
-        id: "WCTDP0029",
+        id: "WCTDPG0029",
         title: "Invalid owning type in dependency property field metadata",
         messageFormat: "The field '{0}' is registering a dependency property, but its owning type '{1}' declared in metadata does not match the containing type '{2}' for the field (the owning type of a dependency property should always match the containing type of the field declaration)",
         category: DiagnosticCategory,
@@ -412,7 +412,7 @@ internal static class DiagnosticDescriptors
     /// <c>The field '{0}' is registering a dependency property, but its property type '{1}' does not match the type '{2}' of the wrapping property '{3}', and there is no valid type conversion between the two (all property types should either match the type of the wrapping properties for each dependency property field, or be of a valid assignable type from the type of each wrapping property)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidPropertyTypeOnDependencyPropertyField = new(
-        id: "WCTDP0030",
+        id: "WCTDPG0030",
         title: "Invalid property type in dependency property field metadata",
         messageFormat: "The field '{0}' is registering a dependency property, but its property type '{1}' does not match the type '{2}' of the wrapping property '{3}', and there is no valid type conversion between the two (all property types should either match the type of the wrapping properties for each dependency property field, or be of a valid assignable type from the type of each wrapping property)",
         category: DiagnosticCategory,
@@ -425,7 +425,7 @@ internal static class DiagnosticDescriptors
     /// <c>The field '{0}' is registering a dependency property, but its default value is set to 'null', which is not compatible with the property type '{1}' declared in metadata (consider changing the default value, implementing the 'On{2}Get(ref object)' partial method to handle the type mismatch, or suppressing the diagnostic if this is the intended behavior)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidDefaultValueNullOnDependencyPropertyField = new(
-        id: "WCTDP0031",
+        id: "WCTDPG0031",
         title: "Invalid 'null' default value in dependency property field metadata",
         messageFormat: "The field '{0}' is registering a dependency property, but its default value is set to 'null', which is not compatible with the property type '{1}' declared in metadata (consider changing the default value, implementing the 'On{2}Get(ref object)' partial method to handle the type mismatch, or suppressing the diagnostic if this is the intended behavior)",
         category: DiagnosticCategory,
@@ -438,7 +438,7 @@ internal static class DiagnosticDescriptors
     /// <c>The field '{0}' is registering a dependency property, but its default value has type '{1}', which is not compatible with the property type '{2}' declared in metadata (consider fixing the default value, or implementing the 'On{3}Get(ref object)' partial method to handle the type mismatch)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidDefaultValueTypeOnDependencyPropertyField = new(
-        id: "WCTDP0032",
+        id: "WCTDPG0032",
         title: "Invalid default value type in dependency property field metadata",
         messageFormat: "The field '{0}' is registering a dependency property, but its default value has type '{1}', which is not compatible with the property type '{2}' declared in metadata (consider fixing the default value, or implementing the 'On{3}Get(ref object)' partial method to handle the type mismatch)",
         category: DiagnosticCategory,

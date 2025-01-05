@@ -2429,7 +2429,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                     nameof(Name),
                     typeof({{propertyType}}),
                     typeof(MyObject<T1, T2, T3, T4, T5>),
-                    new PropertyMetadata({|WCTDP0031:null|}));
+                    new PropertyMetadata({|WCTDPG0031:null|}));
 
                 public {{declaredType}} [|Name|]
                 {
@@ -2655,7 +2655,7 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
                     name: "Name",
                     propertyType: typeof({{propertyType}}),
                     ownerType: typeof(MyObject),
-                    typeMetadata: new PropertyMetadata({|WCTDP0031:null|}));
+                    typeMetadata: new PropertyMetadata({|WCTDPG0031:null|}));
 
                 public {{declaredType}} [|Name|]
                 {

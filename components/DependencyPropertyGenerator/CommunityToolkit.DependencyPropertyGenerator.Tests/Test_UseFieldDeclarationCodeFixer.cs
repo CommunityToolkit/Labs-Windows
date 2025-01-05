@@ -189,7 +189,7 @@ public class Test_UseFieldDeclarationCodeFixer
 
         test.FixedState.ExpectedDiagnostics.AddRange(
         [
-            // /0/Test0.cs(29,38): warning WCTDP0021: The property 'MyApp.MyObject.Test5Property' is a dependency property, which is not the correct declaration type (all dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types)
+            // /0/Test0.cs(29,38): warning WCTDPG0021: The property 'MyApp.MyObject.Test5Property' is a dependency property, which is not the correct declaration type (all dependency properties should be declared as fields, unless implementing interface members or in authored WinRT component types)
             CSharpCodeFixVerifier.Diagnostic().WithSpan(29, 38, 29, 51).WithArguments("MyApp.MyObject.Test5Property")
         ]);
 
