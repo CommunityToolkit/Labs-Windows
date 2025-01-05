@@ -647,6 +647,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                 context.ReportDiagnostic(Diagnostic.Create(
                                     MismatchedPropertyNameOnDependencyPropertyField,
                                     fieldFlags.PropertyNameExpressionLocation!,
+                                    fieldFlags.FieldSymbol,
                                     fieldFlags.PropertyName,
                                     pair.Key.Name));
                             }
