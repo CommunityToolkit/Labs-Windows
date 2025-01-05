@@ -2195,33 +2195,37 @@ public class Test_Analyzers
     }
 
     [TestMethod]
-    [DataRow("\"Name\"", "typeof(int)", "typeof(MyControl)", "null")]
-    [DataRow("\"Name\"", "typeof(MyControl)", "typeof(MyControl)", "null")]
+    [DataRow("int", "float")]
+    [DataRow("float", "double")]
+    [DataRow("int", "object")]
+    [DataRow("int?", "object")]
+    [DataRow("string", "object")]
+    [DataRow("MyControl", "IDisposable")]
+    [DataRow("MyControl", "Control")]
+    [DataRow("MyControl", "DependencyObject")]
+    [DataRow("Control", "DependencyObject")]
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_DoesNotWarn(
-        string name,
-        string propertyType,
-        string ownerType,
-        string typeMetadata)
+        string dependencyPropertyType,
+        string propertyType)
     {
         string source = $$"""
+            using System;
             using Windows.UI.Xaml;
             using Windows.UI.Xaml.Controls;
-
-            #nullable enable
             
             namespace MyApp;
 
             public partial class MyControl : Control
             {
                 public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
-                    name: {{name}},
-                    {|WCTDP0030:propertyType: {{propertyType}}|},
-                    ownerType: {{ownerType}},
-                    typeMetadata: {{typeMetadata}});
+                    name: "Name",
+                    {|WCTDP0030:propertyType: typeof({{dependencyPropertyType}})|},
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
 
-                public string? Name
+                public {{propertyType}} Name
                 {
-                    get => (string?)GetValue(NameProperty);
+                    get => ({{propertyType}})GetValue(NameProperty);
                     set => SetValue(NameProperty, value);
                 }
             }
@@ -3011,6 +3015,52 @@ public class Test_Analyzers
                     propertyType: typeof({{propertyType}}),
                     typeof(MyObject),
                     typeMetadata: new PropertyMetadata({|WCTDP0032:{{defaultValue}}|}));
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    // This is an explicit test to ensure upcasts are correctly detected and allowed
+    [TestMethod]
+    [DataRow("IDisposable", "MyClass")]
+    [DataRow("object", "string")]
+    [DataRow("object", "int")]
+    [DataRow("object", "int?")]
+    [DataRow("Control", "MyControl")]
+    [DataRow("DependencyObject", "MyControl")]
+    [DataRow("DependencyObject", "Control")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_WithUpcast_Warns(
+        string dependencyPropertyType,
+        string propertyType)
+    {
+        string source = $$"""
+            using System;
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof({{dependencyPropertyType}}),
+                    ownerType: typeof(MyControl),
+                    typeMetadata: null);
+
+                public {{propertyType}} {|WCTDP0017:Name|}
+                {
+                    get => ({{propertyType}})GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+
+            public class MyClass : IDisposable
+            {
+                public void Dispose()
+                {
+                }
             }
             """;
 
