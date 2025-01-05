@@ -736,18 +736,18 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                     // pretending this were the empty string literal instead. This way we can still support the property and convert to an attribute.
                                     fieldFlags.DefaultValue = TypedConstantInfo.Primitive.String.Empty;
                                 }
+                                else if (fieldFlags.DefaultValueOperation is IDefaultValueOperation { Type: { } defaultValueExpressionType })
+                                {
+                                    // We don't have a constant. As a last resort, check if this is explicitly a 'default(T)' expression.
+                                    // If so, store the expression type for later, so we can validate it. We cannot validate it here, as
+                                    // we still want to execute the rest of the checks below to potentially emit more diagnostics first.
+                                    fieldFlags.DefaultValueExpressionType = defaultValueExpressionType;
+                                }
                                 else
                                 {
-                                    // If we don't have a constant, check if it's some constant value we can forward. In this case, we
-                                    // did not retrieve it. As a last resort, check if this is explicitly a 'default(T)' expression.
-                                    if (fieldFlags.DefaultValueOperation is not IDefaultValueOperation { Type: { } defaultValueExpressionType })
-                                    {
-                                        continue;
-                                    }
-
-                                    // Store the expression type for later, so we can validate it. We cannot validate it from here, as we
-                                    // only see the declared property type for metadata. This isn't guaranteed to match the property type.
-                                    fieldFlags.DefaultValueExpressionType = defaultValueExpressionType;
+                                    // At this point we know the property cannot possibly be converted, so mark it as invalid. We do this
+                                    // rather than returning immediately, to still allow more diagnostics to be produced in the steps below.
+                                    fieldFlags.HasAnyDiagnostics = true;
                                 }
                             }
                         }

@@ -2234,6 +2234,63 @@ public class Test_Analyzers
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
 
+    // Regression test for a case found in the Microsoft Store
+    [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_WithObjectInitialization_DoesNotWarn()
+    {
+       const string source = """
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty MarginProperty = DependencyProperty.Register(
+                    nameof(Margin),
+                    {|WCTDP0030:typeof(double)|},
+                    typeof(MyControl),
+                    new PropertyMetadata({|WCTDP0032:new Thickness(0)|}));
+
+                private Thickness Margin
+                {
+                    get => (Thickness)GetValue(MarginProperty);
+                    set => SetValue(MarginProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_WithExplicitDefaultValueNull_DoesNotWarn()
+    {
+        const string source = """
+            using Windows.UI.Xaml;
+            using Windows.UI.Xaml.Controls;
+            
+            namespace MyApp;
+
+            public partial class MyControl : Control
+            {
+                public static readonly DependencyProperty MarginProperty = DependencyProperty.Register(
+                    nameof(Margin),
+                    {|WCTDP0030:typeof(double)|},
+                    typeof(MyControl),
+                    new PropertyMetadata({|WCTDP0031:null|}));
+
+                private Thickness Margin
+                {
+                    get => (Thickness)GetValue(MarginProperty);
+                    set => SetValue(MarginProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
     // Regression test for a case found in https://github.com/jenius-apps/ambie
     [TestMethod]
     public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDP0030_WithInvalidPropertyName_DoesNotWarn()
