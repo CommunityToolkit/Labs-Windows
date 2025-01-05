@@ -23,7 +23,7 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Models;
 /// <param name="NamedArgumentInfo">The <see cref="TypedConstantInfo"/> values for all named arguments for the attribute.</param>
 internal sealed record AttributeInfo(
     string TypeName,
-    EquatableArray<TypedConstantInfo> ConstructorArgumentInfo,
+    EquatableArray<(string? Name, TypedConstantInfo Value)> ConstructorArgumentInfo,
     EquatableArray<(string Name, TypedConstantInfo Value)> NamedArgumentInfo)
 {
     /// <summary>
@@ -44,7 +44,7 @@ internal sealed record AttributeInfo(
     {
         string typeName = typeSymbol.GetFullyQualifiedName();
 
-        using ImmutableArrayBuilder<TypedConstantInfo> constructorArguments = new();
+        using ImmutableArrayBuilder<(string?, TypedConstantInfo)> constructorArguments = new();
         using ImmutableArrayBuilder<(string, TypedConstantInfo)> namedArguments = new();
 
         foreach (AttributeArgumentSyntax argument in arguments)
@@ -65,13 +65,18 @@ internal sealed record AttributeInfo(
 
             // Try to get the identifier name if the current expression is a named argument expression. If it
             // isn't, then the expression is a normal attribute constructor argument, so no extra work is needed.
-            if (argument.NameEquals is { Name.Identifier.ValueText: string argumentName })
+            if (argument.NameEquals is { Name.Identifier.ValueText: string nameEqualsName })
             {
-                namedArguments.Add((argumentName, argumentInfo));
+                namedArguments.Add((nameEqualsName, argumentInfo));
+            }
+            else if (argument.NameColon is { Name.Identifier.ValueText: string nameColonName })
+            {
+                // This special case also handles named constructor parameters (i.e. '[Test(value: 42)]', not '[Test(Value = 42)]')
+                constructorArguments.Add((nameColonName, argumentInfo));
             }
             else
             {
-                constructorArguments.Add(argumentInfo);
+                constructorArguments.Add((null, argumentInfo));
             }
         }
 
@@ -86,10 +91,24 @@ internal sealed record AttributeInfo(
     /// <inheritdoc/>
     public override string ToString()
     {
+        // Helper to format constructor parameters
+        static AttributeArgumentSyntax CreateConstructorArgument(string? name, TypedConstantInfo value)
+        {
+            AttributeArgumentSyntax argument = AttributeArgument(ParseExpression(value.ToString()));
+
+            // The name color expression is not guaranteed to be present (in fact, it's more common for it to be missing)
+            if (name is not null)
+            {
+                argument = argument.WithNameColon(NameColon(IdentifierName(name)));
+            }
+
+            return argument;
+        }
+
         // Gather the constructor arguments
         IEnumerable<AttributeArgumentSyntax> arguments =
             ConstructorArgumentInfo
-            .Select(static arg => AttributeArgument(ParseExpression(arg.ToString())));
+            .Select(static arg => CreateConstructorArgument(arg.Name, arg.Value));
 
         // Gather the named arguments
         IEnumerable<AttributeArgumentSyntax> namedArguments =

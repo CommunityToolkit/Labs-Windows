@@ -4149,10 +4149,15 @@ public partial class Test_DependencyPropertyGenerator
     [TestMethod]
     [DataRow("A", "global::MyNamespace.AAttribute()")]
     [DataRow("B(42, 10)", "global::MyNamespace.BAttribute(42, 10)")]
+    [DataRow("B(X: 42, Y: 10)", "global::MyNamespace.BAttribute(X: 42, Y: 10)")]
+    [DataRow("B(Y: 42, X: 10)", "global::MyNamespace.BAttribute(Y: 42, X: 10)")]
+    [DataRow("B(42, Y: 10)", "global::MyNamespace.BAttribute(42, Y: 10)")]
     [DataRow("""C(10, X = "Test", Y = 42)""", """global::MyNamespace.CAttribute(10, X = "Test", Y = 42)""")]
+    [DataRow("""C(Z: 10, X = "Test", Y = 42)""", """global::MyNamespace.CAttribute(Z: 10, X = "Test", Y = 42)""")]
     [DataRow("D(Foo.B, typeof(string), new[] { 1, 2, 3 })", "global::MyNamespace.DAttribute(global::MyNamespace.Foo.B, typeof(string), new int[] { 1, 2, 3 })")]
     [DataRow("D(Foo.B, typeof(string), new int[] { 1, 2, 3 })", "global::MyNamespace.DAttribute(global::MyNamespace.Foo.B, typeof(string), new int[] { 1, 2, 3 })")]
     [DataRow("D(Foo.B, typeof(string), [1, 2, 3])", "global::MyNamespace.DAttribute(global::MyNamespace.Foo.B, typeof(string), new int[] { 1, 2, 3 })")]
+    [DataRow("""E(42, Y: 10, Z: "Bob", W = 100)""", """global::MyNamespace.EAttribute(42, Y: 10, Z: "Bob", W = 100)""")]
     public void SingleProperty_String_WithNoCaching_WithForwardedAttribute(
         string attributeDefinition,
         string attributeForwarding)
@@ -4179,6 +4184,10 @@ public partial class Test_DependencyPropertyGenerator
                 public int Y { get; set; }
             }
             public class DAttribute(Foo X, Type Y, int[] Z) : Attribute;
+            public class EAttribute(int X, int Y, string Z) : Attribute
+            {
+                public int W { get; set; }
+            }
             public enum Foo { A, B }
             """;
 
