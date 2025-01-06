@@ -2755,4 +2755,54 @@ public class Test_UseGeneratedDependencyPropertyOnManualPropertyCodeFixer
 
         await test.RunAsync();
     }
+
+    // Regression test for a case found in the Microsoft Store
+    [TestMethod]
+    public async Task SimpleProperty_WithTargetTypedPropertyMetadataNew()
+    {
+        const string original = """
+            using Windows.Foundation;
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty VisibleAreaProperty = DependencyProperty.Register(
+                    nameof(VisibleArea),
+                    typeof(Rect),
+                    typeof(MyObject),
+                    new(default(Rect)));
+
+                public Rect {|WCTDPG0017:VisibleArea|}
+                {
+                    get => (Rect)GetValue(VisibleAreaProperty);
+                    private set => SetValue(VisibleAreaProperty, value);
+                }
+            }
+            """;
+
+        const string @fixed = """
+            using CommunityToolkit.WinUI;
+            using Windows.Foundation;
+            using Windows.UI.Xaml;
+
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                [GeneratedDependencyProperty]
+                public partial Rect {|CS9248:VisibleArea|} { get; private set; }
+            }
+            """;
+
+        CSharpCodeFixTest test = new(LanguageVersion.Preview)
+        {
+            TestCode = original,
+            FixedCode = @fixed,
+            MarkupOptions = MarkupOptions.UseFirstDescriptor
+        };
+
+        await test.RunAsync();
+    }
 }

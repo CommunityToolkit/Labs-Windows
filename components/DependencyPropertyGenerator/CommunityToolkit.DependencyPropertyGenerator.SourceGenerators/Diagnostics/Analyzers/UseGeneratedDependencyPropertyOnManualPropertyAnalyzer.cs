@@ -512,7 +512,16 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         // Next, check if the argument is 'new PropertyMetadata(...)' with the default value for the property type
                         if (propertyMetadataArgument.Value is not IObjectCreationOperation { Arguments: [{ } defaultValueArgument, ..] } objectCreationOperation)
                         {
-                            return;
+                            // Before failing, check whether the argument is 'new (...)`. In this case, the target type is 'PropertyMetadata' anyway,
+                            // which we also validate right after this check as well anyway. With 'new()', we expect a conversion operation instead.
+                            if (propertyMetadataArgument.Value is not IConversionOperation { IsImplicit: true } objectCreationConversionOperation ||
+                                objectCreationConversionOperation.Operand is not IObjectCreationOperation { Arguments: [_, ..] } conversionObjectCreationOperation)
+                            {
+                                return;
+                            }
+
+                            defaultValueArgument = conversionObjectCreationOperation.Arguments[0];
+                            objectCreationOperation = conversionObjectCreationOperation;
                         }
 
                         // Make sure the object being created is actually 'PropertyMetadata'

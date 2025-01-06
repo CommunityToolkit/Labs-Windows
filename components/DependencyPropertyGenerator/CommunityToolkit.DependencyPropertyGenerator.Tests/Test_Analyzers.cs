@@ -3338,6 +3338,35 @@ public class Test_Analyzers
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
 
+    // Regression test for a case found in the Microsoft Store
+    [TestMethod]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_WithTargetTypedPropertyMetadataNew_Warns()
+    {
+        const string source = """
+            using Windows.Foundation;
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty VisibleAreaProperty = DependencyProperty.Register(
+                    nameof(VisibleArea),
+                    typeof(Rect),
+                    typeof(MyObject),
+                    new(default(Rect)));
+
+                public Rect {|WCTDPG0017:VisibleArea|}
+                {
+                    get => (Rect)GetValue(VisibleAreaProperty);
+                    private set => SetValue(VisibleAreaProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
     [TestMethod]
     [DataRow("where T : struct")]
     [DataRow("where T : unmanaged")]
