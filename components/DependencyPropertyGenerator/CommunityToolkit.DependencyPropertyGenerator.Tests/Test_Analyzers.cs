@@ -1318,6 +1318,7 @@ public class Test_Analyzers
     [DataRow("T1?")]
     [DataRow("T2?")]
     [DataRow("T3?")]
+    [DataRow("T4")]
     [DataRow("T4?")]
     public async Task InvalidPropertyNullableAnnotationAnalyzer_TypeParameter_NullableType_DoesNotWarn(string declaredType)
     {
@@ -1547,6 +1548,8 @@ public class Test_Analyzers
     [DataRow("T1")]
     [DataRow("T2")]
     [DataRow("T3")]
+    [DataRow("T5")]
+    [DataRow("T6")]
     public async Task InvalidPropertyNullableAnnotationAnalyzer_TypeParameter_NotNullableType_Warns(string declaredType)
     {
         string source = $$"""            
@@ -1558,10 +1561,12 @@ public class Test_Analyzers
 
             namespace MyApp;
 
-            public partial class MyObject<T1, T2, T3, T4> : DependencyObject
+            public partial class MyObject<T1, T2, T3, T4, T5, T6> : DependencyObject
                 where T1 : class
                 where T3 : T2, new()
                 where T4 : unmanaged
+                where T5 : DependencyObject
+                where T6 : T5
             {
                 [GeneratedDependencyProperty]
                 public partial {{declaredType}} {|WCTDPG0009:{|CS9248:Value|}|} { get; set; }
