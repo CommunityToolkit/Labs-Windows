@@ -3227,6 +3227,64 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    [DataRow("private static readonly")]
+    [DataRow("public static")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidFieldDeclaration_DoesNotWarn(string fieldDeclaration)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                {{fieldDeclaration}} DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(string),
+                    ownerType: typeof(MyObject),
+                    typeMetadata: null);
+
+                public string? Name
+                {
+                    get => (string?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("private static readonly")]
+    [DataRow("public static")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidFieldDeclaration_EmitsAdditionalDiagnosticsToo_DoesNotWarn(string fieldDeclaration)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                {{fieldDeclaration}} DependencyProperty NameProperty = DependencyProperty.Register(
+                    {|WCTDPG0027:{|WCTDPG0028:name: "Name2"|}|},
+                    {|WCTDPG0030:propertyType: typeof(int?)|},
+                    ownerType: typeof(MyObject),
+                    typeMetadata: null);
+
+                public string? Name
+                {
+                    get => (string?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     public async Task InvalidPropertyForwardedAttributeDeclarationAnalyzer_NoDependencyPropertyAttribute_DoesNotWarn()
     {
         const string source = """

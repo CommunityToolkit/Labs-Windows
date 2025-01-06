@@ -191,16 +191,16 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                     }
                     else if (memberSymbol is IFieldSymbol
                             {
-                                DeclaredAccessibility: Accessibility.Public,
                                 IsStatic: true,
-                                IsReadOnly: true,
                                 IsFixedSizeBuffer: false,
                                 IsRequired: false,
                                 Type.IsReferenceType: true,
                                 IsVolatile: false
                             } fieldSymbol)
                     {
-                        // We only care about fields that are 'DependencyProperty'
+                        // We only care about fields that are 'DependencyProperty'. Note that we should also be checking the declared
+                        // accessibility here and the fact the field is readonly, but we delay that in the initialization callback.
+                        // This is done so that we can still emit more diagnostics when analyzing the symbol completes below.
                         if (!SymbolEqualityComparer.Default.Equals(dependencyPropertySymbol, fieldSymbol.Type))
                         {
                             continue;
@@ -393,6 +393,16 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         // statements below. We want to still emit any applicable diagnostics even in case the field is orphaned.
                         // To do so, we do that validation even if we couldn't retrieve the flags, and simply skip any assignments.
                         fieldFlags.FieldSymbol = fieldSymbol;
+                    }
+
+                    // Do the accessibility and readonly check here, to still enable diagnostics at the end in more scenarios.
+                    // If the field is invalid, just mark it as such, but continue executing the rest of the analysis here.
+                    if (fieldSymbol is { DeclaredAccessibility: not Accessibility.Public } or { IsReadOnly: false })
+                    {
+                        if (fieldFlags is not null)
+                        {
+                            fieldFlags.HasAnyDiagnostics = true;
+                        }
                     }
 
                     // Additional diagnostic #1: the dependency property field name should have the "Property" suffix
