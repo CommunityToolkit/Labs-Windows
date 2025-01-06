@@ -6,6 +6,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:OpacityMaskViewExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:media="using:Microsoft.UI.Xaml.Media"
       mc:Ignorable="d">
 
     <StackPanel Spacing="12">
@@ -36,6 +37,28 @@
             <Border Width="96"
                     Height="96"
                     BorderBrush="Red"
+                    BorderThickness="1"
+                    CornerRadius="12">
+                <Image Source="ms-appx:///Assets/Owl3.jpg" />
+            </Border>
+        </controls:OpacityMaskView>
+        <controls:OpacityMaskView>
+            <controls:OpacityMaskView.OpacityMask>
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <media:RadialGradientBrush>
+                            <GradientStop Offset="0.2" Color="Transparent" />
+                            <GradientStop Offset="0.8" Color="White" />
+                            <GradientStop Offset="0.8" Color="Transparent" />
+                            <GradientStop Offset="0.9" Color="Transparent" />
+                            <GradientStop Offset="0.9" Color="White" />
+                        </media:RadialGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </controls:OpacityMaskView.OpacityMask>
+            <Border Width="96"
+                    Height="96"
+                    BorderBrush="Green"
                     BorderThickness="1"
                     CornerRadius="12">
                 <Image Source="ms-appx:///Assets/Owl3.jpg" />
