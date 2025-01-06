@@ -2332,6 +2332,108 @@ public class Test_Analyzers
         await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
     }
 
+    // Regression test for a case found in the Microsoft Store
+    [TestMethod]
+    [DataRow("default(float)")]
+    [DataRow("1.0F")]
+    [DataRow("(float)1.0")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDPG0030_WithMismatchedNullableUnderlyingType_DoesNotWarn(string defaultValue)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty Value1Property = DependencyProperty.Register(
+                    nameof(Value1),
+                    typeof(int?),
+                    typeof(MyObject),
+                    new PropertyMetadata({|WCTDPG0032:{{defaultValue}}|}));
+
+                public static readonly DependencyProperty Value2Property = DependencyProperty.Register(
+                    nameof(Value2),
+                    {|WCTDPG0030:typeof(int?)|},
+                    typeof(MyObject),
+                    new PropertyMetadata({|WCTDPG0032:{{defaultValue}}|}));
+
+                public static readonly DependencyProperty Value3Property = DependencyProperty.Register(
+                    "Value3",
+                    typeof(int?),
+                    typeof(MyObject),
+                    new PropertyMetadata({|WCTDPG0032:{{defaultValue}}|}));
+
+                public int? {|WCTDPG0017:Value1|}
+                {
+                    get => (int?)GetValue(Value1Property);
+                    set => SetValue(Value1Property, value);
+                }
+
+                public float Value2
+                {
+                    get => (float)GetValue(Value2Property);
+                    set => SetValue(Value2Property, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    // Same as above, but with property changed callbacks too
+    [TestMethod]
+    [DataRow("default(float)")]
+    [DataRow("1.0F")]
+    [DataRow("(float)1.0")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_InvalidRegisterArguments_WCTDPG0030_WithMismatchedNullableUnderlyingType_WithCallbacks_DoesNotWarn(string defaultValue)
+    {
+        string source = $$"""
+            using Windows.UI.Xaml;
+            
+            namespace MyApp;
+
+            public partial class MyObject : DependencyObject
+            {
+                public static readonly DependencyProperty Value1Property = DependencyProperty.Register(
+                    nameof(Value1),
+                    typeof(int?),
+                    typeof(MyObject),
+                    new PropertyMetadata({|WCTDPG0032:{{defaultValue}}|}, ItemSourcePropertyChanged));
+
+                public static readonly DependencyProperty Value2Property = DependencyProperty.Register(
+                    nameof(Value2),
+                    {|WCTDPG0030:typeof(int?)|},
+                    typeof(MyObject),
+                    new PropertyMetadata({|WCTDPG0032:{{defaultValue}}|}, ItemSourcePropertyChanged));
+
+                public static readonly DependencyProperty Value3Property = DependencyProperty.Register(
+                    "Value3",
+                    typeof(int?),
+                    typeof(MyObject),
+                    new PropertyMetadata({|WCTDPG0032:{{defaultValue}}|}, ItemSourcePropertyChanged));
+
+                public int? Value1
+                {
+                    get => (int?)GetValue(Value1Property);
+                    set => SetValue(Value1Property, value);
+                }
+
+                public float Value2
+                {
+                    get => (float)GetValue(Value2Property);
+                    set => SetValue(Value2Property, value);
+                }
+
+                private static void ItemSourcePropertyChanged(object sender, DependencyPropertyChangedEventArgs args)
+                {
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
     [TestMethod]
     [DataRow("\"Name\"", "typeof(string)", "typeof(string)", "null")]
     [DataRow("\"Name\"", "typeof(string)", "typeof(Control)", "null")]

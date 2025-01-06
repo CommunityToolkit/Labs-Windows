@@ -511,10 +511,15 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                             return;
                         }
 
-                        // If we have a second argument, a 'null' literal is the only supported value for it
+                        // If we have a second argument, a 'null' literal is the only supported value for it. If that's not the case,
+                        // we mark the propertry as not valid, but don't stop here. The reason is that even if we do have a callback,
+                        // meaning we cannot enable the code fixer, we still want to analyze the default value argument.
                         if (objectCreationOperation.Arguments is not ([_] or [_, { Value.ConstantValue: { HasValue: true, Value: null } }]))
                         {
-                            return;
+                            if (fieldFlags is not null)
+                            {
+                                fieldFlags.HasAnyDiagnostics = true;
+                            }
                         }
 
                         bool isDependencyPropertyUnsetValue = false;
