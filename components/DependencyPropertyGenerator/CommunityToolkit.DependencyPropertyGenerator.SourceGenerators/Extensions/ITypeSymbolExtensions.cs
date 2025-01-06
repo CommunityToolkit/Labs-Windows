@@ -25,7 +25,7 @@ internal static class ITypeSymbolExtensions
         // If we do have a type parameter, check that it does have some reference type constraint on it.
         if (symbol is ITypeParameterSymbol typeParameter)
         {
-            return typeParameter.HasReferenceTypeConstraint;
+            return typeParameter.IsReferenceTypeOrIndirectlyConstrainedToReferenceType();
         }
 
         return symbol is { IsValueType: false } or INamedTypeSymbol { IsGenericType: true, ConstructedFrom.SpecialType: SpecialType.System_Nullable_T };

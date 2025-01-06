@@ -1766,6 +1766,68 @@ public class Test_Analyzers
     }
 
     [TestMethod]
+    [DataRow("where T : class", "null")]
+    [DataRow("where T : class", "default(T)")]
+    [DataRow("where T : TOther where TOther : class", "null")]
+    [DataRow("where T : class where TOther : class", "default(TOther)")]
+    [DataRow("where T : Delegate", "null")]
+    [DataRow("where T : Enum", "null")]
+    [DataRow("where T : DependencyObject", "null")]
+    [DataRow("where T : DependencyObject", "default(T)")]
+    [DataRow("where T : TOther where TOther : Delegate", "null")]
+    [DataRow("where T : TOther where TOther : Enum", "null")]
+    [DataRow("where T : TOther where TOther : DependencyObject", "null")]
+    [DataRow("where T : DependencyObject where TOther : class", "default(TOther)")]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_TypeParameter_ConstrainedExplicitNull_DoesNotWarn(
+        string typeConstraints,
+        string defaultValue)
+    {
+        string source = $$"""
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyObject<T, TOther> : DependencyObject {{typeConstraints}}
+            {
+                [GeneratedDependencyProperty(DefaultValue = {{defaultValue}})]
+                public partial T {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("where T : struct")]
+    [DataRow("where T : unmanaged")]
+    [DataRow("where T : struct, Enum")]
+    [DataRow("where T : unmanaged, Enum")]
+    public async Task InvalidPropertyDefaultValueTypeAnalyzer_TypeParameter_ConstrainedExplicitNull_Warns(string typeConstraints)
+    {
+        string source = $$"""
+            using System;
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyObject<T, TOther> : DependencyObject {{typeConstraints}}
+            {
+                [GeneratedDependencyProperty({|WCTDPG0010:DefaultValue = null|})]
+                public partial T {|CS9248:Name|} { get; set; }
+            }
+            """;
+
+        await CSharpAnalyzerTest<InvalidPropertyDefaultValueTypeAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
     [DataRow("string", "42")]
     [DataRow("string", "3.14")]
     [DataRow("int", "\"test\"")]
@@ -3219,6 +3281,85 @@ public class Test_Analyzers
             {
                 public void Dispose()
                 {
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    // Regression test for a case found in the Microsoft Store
+    [TestMethod]
+    [DataRow("where T : class", "null")]
+    [DataRow("where T : class", "default(T)")]
+    [DataRow("where T : TOther where TOther : class", "null")]
+    [DataRow("where T : class where TOther : class", "default(TOther)")]
+    [DataRow("where T : Delegate", "null")]
+    [DataRow("where T : Enum", "null")]
+    [DataRow("where T : DependencyObject", "null")]
+    [DataRow("where T : DependencyObject", "default(T)")]
+    [DataRow("where T : TOther where TOther : Delegate", "null")]
+    [DataRow("where T : TOther where TOther : Enum", "null")]
+    [DataRow("where T : TOther where TOther : DependencyObject", "null")]
+    [DataRow("where T : DependencyObject where TOther : class", "default(TOther)")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_WithNullConstrainedGeneric_Warns(
+        string typeConstraints,
+        string defaultValue)
+    {
+        string source = $$"""
+            using System;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyObject<T, TOther> : DependencyObject {{typeConstraints}}
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(T),
+                    ownerType: typeof(MyObject<T, TOther>),
+                    typeMetadata: new PropertyMetadata({{defaultValue}}));
+
+                public T {|WCTDPG0017:Name|}
+                {
+                    get => (T?)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
+                }
+            }
+            """;
+
+        await CSharpAnalyzerTest<UseGeneratedDependencyPropertyOnManualPropertyAnalyzer>.VerifyAnalyzerAsync(source, LanguageVersion.CSharp13);
+    }
+
+    [TestMethod]
+    [DataRow("where T : struct")]
+    [DataRow("where T : unmanaged")]
+    [DataRow("where T : struct, Enum")]
+    [DataRow("where T : unmanaged, Enum")]
+    public async Task UseGeneratedDependencyPropertyOnManualPropertyAnalyzer_ValidProperty_WithNullConstrainedGeneric_WCTDPG0031_DoesNotWarn(string typeConstraints)
+    {
+        string source = $$"""
+            using System;
+            using Windows.UI.Xaml;
+
+            #nullable enable
+            
+            namespace MyApp;
+
+            public partial class MyObject<T, TOther> : DependencyObject {{typeConstraints}}
+            {
+                public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+                    name: "Name",
+                    propertyType: typeof(T),
+                    ownerType: typeof(MyObject<T, TOther>),
+                    typeMetadata: new PropertyMetadata({|WCTDPG0031:null|}));
+
+                public T {|WCTDPG0017:Name|}
+                {
+                    get => (T)GetValue(NameProperty);
+                    set => SetValue(NameProperty, value);
                 }
             }
             """;
