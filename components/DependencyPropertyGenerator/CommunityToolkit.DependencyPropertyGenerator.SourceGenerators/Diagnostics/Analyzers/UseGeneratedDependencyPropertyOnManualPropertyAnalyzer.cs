@@ -431,9 +431,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         fieldFlags.PropertyTypeExpressionLocation = propertyTypeArgument.Syntax.GetLocation();
                     }
 
-                    // Best effort name to use to interpolate any diagnostics below to emit if the default value is not valid
-                    string propertyNameForMessageFormat = "___";
-
                     // We cannot validate the property name from here yet, but let's check it's a constant, and save it for later
                     if (nameArgument.Value.ConstantValue is { HasValue: true, Value: string propertyName })
                     {
@@ -441,8 +438,6 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                         {
                             fieldFlags.PropertyName = propertyName;
                         }
-
-                        propertyNameForMessageFormat = propertyName;
 
                         // Additional diagnostic #2: the property name should be the same as the field name, without the "Property" suffix (as per convention)
                         if (fieldSymbol.Name.EndsWith("Property") && propertyName != fieldSymbol.Name[..^"Property".Length])
@@ -555,8 +550,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                     InvalidDefaultValueNullOnDependencyPropertyField,
                                     defaultValueArgument.Syntax.GetLocation(),
                                     fieldSymbol,
-                                    propertyTypeSymbol,
-                                    propertyNameForMessageFormat));
+                                    propertyTypeSymbol));
                             }
                         }
                         else
@@ -592,8 +586,7 @@ public sealed class UseGeneratedDependencyPropertyOnManualPropertyAnalyzer : Dia
                                         defaultValueArgument.Syntax.GetLocation(),
                                         fieldSymbol,
                                         operandTypeSymbol,
-                                        propertyTypeSymbol,
-                                        propertyNameForMessageFormat));
+                                        propertyTypeSymbol));
                                 }
                             }
                         }

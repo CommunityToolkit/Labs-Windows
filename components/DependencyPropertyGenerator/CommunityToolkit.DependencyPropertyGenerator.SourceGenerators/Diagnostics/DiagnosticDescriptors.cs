@@ -422,28 +422,28 @@ internal static class DiagnosticDescriptors
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 
     /// <summary>
-    /// <c>The field '{0}' is registering a dependency property, but its default value is set to 'null', which is not compatible with the property type '{1}' declared in metadata (consider changing the default value, implementing the 'On{2}Get(ref object)' partial method to handle the type mismatch, or suppressing the diagnostic if this is the intended behavior)</c>.
+    /// <c>The field '{0}' is registering a dependency property, but its default value is set to 'null', which is not compatible with the property type '{1}' declared in metadata (consider changing the default value, setting the property value to a non 'null' value upon object construction, and/or suppressing the diagnostic if this is the intended behavior)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidDefaultValueNullOnDependencyPropertyField = new(
         id: "WCTDPG0031",
         title: "Invalid 'null' default value in dependency property field metadata",
-        messageFormat: "The field '{0}' is registering a dependency property, but its default value is set to 'null', which is not compatible with the property type '{1}' declared in metadata (consider changing the default value, implementing the 'On{2}Get(ref object)' partial method to handle the type mismatch, or suppressing the diagnostic if this is the intended behavior)",
+        messageFormat: "The field '{0}' is registering a dependency property, but its default value is set to 'null', which is not compatible with the property type '{1}' declared in metadata (consider changing the default value, setting the property value to a non 'null' value upon object construction, and/or suppressing the diagnostic if this is the intended behavior)",
         category: DiagnosticCategory,
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
-        description: "All dependency property fields setting an explicit default value in metadata should do so with an expression of a type comparible with the property type. Alternatively, the generated getter method (eg. 'OnNameGet', if the property is called 'Name') should be implemented to handle the type mismatch.",
+        description: "All dependency property fields setting an explicit default value in metadata should do so with an expression of a type comparible with the property type. Alternatively, the property value should be set to a non 'null' value upon object construction.",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 
     /// <summary>
-    /// <c>The field '{0}' is registering a dependency property, but its default value has type '{1}', which is not compatible with the property type '{2}' declared in metadata (consider fixing the default value, or implementing the 'On{3}Get(ref object)' partial method to handle the type mismatch)</c>.
+    /// <c>The field '{0}' is registering a dependency property, but its default value has type '{1}', which is not compatible with the property type '{2}' declared in metadata (consider fixing the default value, or suppressing the diagnostic if this is the intended behavior)</c>.
     /// </summary>
     public static readonly DiagnosticDescriptor InvalidDefaultValueTypeOnDependencyPropertyField = new(
         id: "WCTDPG0032",
         title: "Invalid default value type in dependency property field metadata",
-        messageFormat: "The field '{0}' is registering a dependency property, but its default value has type '{1}', which is not compatible with the property type '{2}' declared in metadata (consider fixing the default value, or implementing the 'On{3}Get(ref object)' partial method to handle the type mismatch)",
+        messageFormat: "The field '{0}' is registering a dependency property, but its default value has type '{1}', which is not compatible with the property type '{2}' declared in metadata (consider fixing the default value, or suppressing the diagnostic if this is the intended behavior)",
         category: DiagnosticCategory,
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
-        description: "All dependency property fields setting an explicit default value in metadata should do so with an expression of a type comparible with the property type. Alternatively, the generated getter method (eg. 'OnNameGet', if the property is called 'Name') should be implemented to handle the type mismatch.",
+        description: "All dependency property fields setting an explicit default value in metadata should do so with an expression of a type comparible with the property type.",
         helpLinkUri: "https://aka.ms/toolkit/labs/windows");
 }
