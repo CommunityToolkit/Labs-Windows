@@ -145,7 +145,7 @@ public abstract class AppServiceHost
     }
 
     /// <summary>
-    /// Handles the app service host shutdown when <see cref="SystemNavigationManagerPreview.GetForCurrentView().CloseRequested"/> is raised.
+    /// Handles the app service host shutdown when <see cref="SystemNavigationManagerPreview.CloseRequested"/> is raised.
     /// </summary>
     /// <param name="args">The args for the close request.</param>
     /// <remarks>
