@@ -1053,7 +1053,7 @@ partial class DependencyPropertyGenerator
                     if (propertyInfo.IsSharedPropertyChangedCallbackImplemented)
                     {
                         writer.IncreaseIndent();
-                        writer.WriteLine($"PropertyChangedUnsafeAccessors.On{propertyInfo.PropertyName}PropertyChanged(__this, e);");
+                        writer.WriteLine("PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);");
                         writer.DecreaseIndent();
                     }
 
