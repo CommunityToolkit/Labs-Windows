@@ -17,7 +17,7 @@ public sealed class GeneratedDependencyProperty
 {
     /// <summary><inheritdoc cref="DependencyProperty.UnsetValue"/></summary>
     /// <remarks>
-    /// This constant is only meant to be used in assignments to <see cref="DefaultValue"/> (because <see cref="DependencyProperty.UnsetValue"/>
+    /// This constant is only meant to be used in assignments to <see cref="GeneratedDependencyPropertyAttribute.DefaultValue"/> (because <see cref="DependencyProperty.UnsetValue"/>
     /// cannot be used in that context, as it is not a constant, but rather a static field). Using this constant in other scenarios is undefined behavior.
     /// </remarks>
     public const object UnsetValue = null!;

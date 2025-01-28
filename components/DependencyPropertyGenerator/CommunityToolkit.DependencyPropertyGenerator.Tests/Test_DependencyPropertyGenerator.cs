@@ -1454,7 +1454,7 @@ public partial class Test_DependencyPropertyGenerator
                         global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
 
                         PropertyChangedUnsafeAccessors.OnNumberPropertyChanged(__this, e);
-                        PropertyChangedUnsafeAccessors.OnNumberPropertyChanged(__this, e);
+                        PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);
                     }
                 }
 
@@ -3272,7 +3272,7 @@ public partial class Test_DependencyPropertyGenerator
                         global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
 
                         PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
-                        PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
+                        PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);
                     }
 
                     /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
@@ -3555,7 +3555,7 @@ public partial class Test_DependencyPropertyGenerator
                         global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
 
                         PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
-                        PropertyChangedUnsafeAccessors.OnFirstNamePropertyChanged(__this, e);
+                        PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);
                     }
 
                     /// <inheritdoc cref="cref="global::MyNamespace.MyControl.OnPropertyChanged""/>
@@ -3564,7 +3564,7 @@ public partial class Test_DependencyPropertyGenerator
                         global::MyNamespace.MyControl __this = (global::MyNamespace.MyControl)d;
 
                         PropertyChangedUnsafeAccessors.OnLastNamePropertyChanged(__this, e);
-                        PropertyChangedUnsafeAccessors.OnLastNamePropertyChanged(__this, e);
+                        PropertyChangedUnsafeAccessors.OnPropertyChanged(__this, e);
                     }
                 }
 
