@@ -34,7 +34,7 @@ partial class AppServiceGenerator : IIncrementalGenerator
             {
                 if (bool.TryParse(propertyValue, out bool useUwpTools))
                 {
-                    return true;
+                    return useUwpTools;
                 }
             }
 
