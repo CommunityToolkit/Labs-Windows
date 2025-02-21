@@ -95,9 +95,7 @@ public partial class DataTable : Panel
                 // For now, we'll just use the header content as a guideline to see if things work.
 
                 // Avoid negative values when columns don't fit `availableSize`. Otherwise the `Size` constructor will throw.
-                double width = availableSize.Width - fixedWidth - autoSized;
-                width = Math.Max(width, 0);
-                column.Measure(new Size(width, availableSize.Height));
+                column.Measure(new Size(Math.Max(availableSize.Width - fixedWidth - autoSized, 0), availableSize.Height));
 
                 // Keep track of already 'allotted' space, use either the maximum child size (if we know it) or the header content
                 autoSized += Math.Max(column.DesiredSize.Width, column.MaxChildDesiredWidth);
