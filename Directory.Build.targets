@@ -5,8 +5,9 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Microsoft.Sbom.Targets" Version="3.0.1" PrivateAssets="all" />
     <PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.12.1" PrivateAssets="all" Pack="false" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>
