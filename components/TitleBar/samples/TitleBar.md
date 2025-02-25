@@ -14,9 +14,9 @@ icon: assets/icon.png
 ---
 
 > [!NOTE]
-> WindowsAppSDK 1.6-experimental introduced a TitleBar control based on the work here in the Toolkit. The new TitleBar control released in 1.6-experimental1 is not yet available in non-experimental builds of 1.6 to allow more time to evaluate and respond to community feedback.
+> If you're using the Windows App SDK with WinUI, you can leverage the TitleBar control that shipped in the 1.7 release over this one
 > 
-> If you're using WindowsAppSDK and plan to use 1.7 when it becomes available, follow the release updates here: https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/preview-channel#new-titlebar-control
+> (On Feb 2025 its in 1.7 Preview 1 version:  https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/preview-channel#new-titlebar-control)
 
 The `TitleBar` provides an easy way to display a modern titlebar experience. The control handles all the required APIs to extend content into the titlebar area and set custom drag regions. The control is set up in a way that it handles the correct design guidelines while being flexible in what content to show.
 
