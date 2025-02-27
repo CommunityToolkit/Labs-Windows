@@ -14,7 +14,7 @@ internal class ThematicBreakRenderer : UWPObjectRenderer<ThematicBreakBlock>
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-        var thematicBreak = new MyThematicBreak(obj);
+        var thematicBreak = new MyThematicBreak(obj, renderer.Config.Themes);
 
         renderer.WriteBlock(thematicBreak);
     }
