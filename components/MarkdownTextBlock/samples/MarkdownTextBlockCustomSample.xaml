@@ -41,6 +41,11 @@
         <controls:MarkdownTextBlock x:Name="MarkdownTextBlock2"
                                     Grid.Row="3"
                                     Config="{x:Bind MarkdownConfig, Mode=OneTime}"
-                                    Text="{x:Bind Text, Mode=OneTime}" />
+                                    Text="{x:Bind Text, Mode=OneTime}"
+                                    UseAutoLinks="True"
+                                    UseEmphasisExtras="True"
+                                    UseListExtras="True"
+                                    UsePipeTables="True"
+                                    UseTaskLists="True" />
     </Grid>
 </Page>
