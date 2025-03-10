@@ -1,0 +1,18 @@
+Security Policy
+Supported Versions
+The following versions of Cloudlab are currently supported with security updates:
+
+Version	Supported
+5.1.x	✅
+5.0.x	❌
+4.0.x	✅
+< 4.0	❌
+Reporting a Vulnerability
+To report a vulnerability, please follow these steps:
+
+Go to our vulnerability reporting page.
+Provide detailed information about the vulnerability.
+You can expect an update within 48 hours of reporting.
+If the vulnerability is accepted, we will work on a fix and keep you updated.
+If the vulnerability is declined, we will provide a detailed explanation.
+Thank you for helping us keep Cloudlab secure.
