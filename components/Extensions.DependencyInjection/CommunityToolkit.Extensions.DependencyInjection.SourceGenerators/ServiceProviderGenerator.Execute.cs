@@ -222,7 +222,7 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                     .AddModifiers(Token(SyntaxKind.StaticKeyword))
                     .AddParameterListParameters(
                         Parameter(Identifier("services"))
-                        .WithType(IdentifierName("global::System.IserviceProvider")))
+                        .WithType(IdentifierName("global::System.IServiceProvider")))
                     .AddBodyStatements(
                         ReturnStatement(
                             ObjectCreationExpression(IdentifierName(serviceInfo.ImplementationFullyQualifiedTypeName))
