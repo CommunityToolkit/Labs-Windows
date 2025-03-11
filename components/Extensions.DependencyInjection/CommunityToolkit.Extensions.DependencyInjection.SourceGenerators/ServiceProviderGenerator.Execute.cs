@@ -199,9 +199,9 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                 // Prepare the method name, either AddSingleton or AddTransient
                 string registrationMethod = $"Add{serviceInfo.RegistrationKind}";
 
-                // Special case when the service is a singleton and no dependent services are present, just use eager instantiation instead:
+                // Special case when the service is a singleton and no dependent services are present, we can use the parameterless constructor
                 //
-                // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(<PARAMETER_NAME>, typeof(<ROOT_SERVICE_TYPE>), new <IMPLEMENTATION_TYPE>());
+                // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(<PARAMETER_NAME>, typeof(<ROOT_SERVICE_TYPE>), static _ => new <IMPLEMENTATION_TYPE>());
                 if (serviceInfo.RegistrationKind == ServiceRegistrationKind.Singleton && constructorArguments.Count == 0)
                 {
                     registrationStatements.Add(
@@ -246,7 +246,7 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                 {
                     // Register the main implementation type:
                     //
-                    // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.<REGISTRATION_METHOD>(<PARAMETER_NAME>, typeof(<DEPENDENT_SERVICE_TYPE>), static services => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredServices<ROOT_SERVICE_TYPE>(services));
+                    // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.<REGISTRATION_METHOD>(<PARAMETER_NAME>, typeof(<DEPENDENT_SERVICE_TYPE>), new global::System.Action<global::Microsoft.Extensions.DependencyInjection.IServiceCollection, object>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredServices<ROOT_SERVICE_TYPE>));
                     registrationStatements.Add(
                         ExpressionStatement(
                             InvocationExpression(
@@ -258,16 +258,17 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                                 Argument(IdentifierName(info.Method.ServiceCollectionParameterName)),
                                 Argument(TypeOfExpression(IdentifierName(dependentServiceType))),
                                 Argument(
-                                    SimpleLambdaExpression(Parameter(Identifier("services")))
-                                    .AddModifiers(Token(SyntaxKind.StaticKeyword))
-                                    .WithExpressionBody(
-                                        InvocationExpression(
-                                            MemberAccessExpression(
-                                                SyntaxKind.SimpleMemberAccessExpression,
-                                                IdentifierName("global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions"),
-                                                GenericName(Identifier("GetRequiredService"))
-                                                .AddTypeArgumentListArguments(IdentifierName(rootServiceTypeName))))
-                                        .AddArgumentListArguments(Argument(IdentifierName("services"))))))));
+                                    ObjectCreationExpression(
+                                        GenericName("global::System.Action")
+                                        .AddTypeArgumentListArguments(
+                                            IdentifierName("global::Microsoft.Extensions.DependencyInjection.IServiceCollection"),
+                                            PredefinedType(Token(SyntaxKind.ObjectKeyword))))
+                                    .AddArgumentListArguments(Argument(
+                                        MemberAccessExpression(
+                                            SyntaxKind.SimpleMemberAccessExpression,
+                                            IdentifierName("global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions"),
+                                            GenericName(Identifier("GetRequiredService"))
+                                            .AddTypeArgumentListArguments(IdentifierName(rootServiceTypeName)))))))));
                 }
             }
 
