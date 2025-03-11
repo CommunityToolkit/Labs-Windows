@@ -254,7 +254,7 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                 {
                     // Register the main implementation type:
                     //
-                    // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.<REGISTRATION_METHOD>(<PARAMETER_NAME>, typeof(<DEPENDENT_SERVICE_TYPE>), new global::System.Action<global::Microsoft.Extensions.DependencyInjection.IServiceCollection, object>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredServices<ROOT_SERVICE_TYPE>));
+                    // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.<REGISTRATION_METHOD>(<PARAMETER_NAME>, typeof(<DEPENDENT_SERVICE_TYPE>), new global::System.Func<global::System.IServiceProvider, object>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredServices<ROOT_SERVICE_TYPE>));
                     registrationStatements.Add(
                         ExpressionStatement(
                             InvocationExpression(
@@ -267,9 +267,9 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                                 Argument(TypeOfExpression(IdentifierName(dependentServiceType))),
                                 Argument(
                                     ObjectCreationExpression(
-                                        GenericName("global::System.Action")
+                                        GenericName("global::System.Func")
                                         .AddTypeArgumentListArguments(
-                                            IdentifierName("global::Microsoft.Extensions.DependencyInjection.IServiceCollection"),
+                                            IdentifierName("global::System.IServiceProvider"),
                                             PredefinedType(Token(SyntaxKind.ObjectKeyword))))
                                     .AddArgumentListArguments(Argument(
                                         MemberAccessExpression(
