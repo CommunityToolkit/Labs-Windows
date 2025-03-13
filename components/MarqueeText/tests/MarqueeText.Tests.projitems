@@ -6,7 +6,7 @@
     <SharedGUID>C5CF2EF7-F605-4D62-95DB-B8C05C8799E0</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>MarqueeTextExperiment.Tests</Import_RootNamespace>
+    <Import_RootNamespace>MarqueeText.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleMarqueeTextTestClass.cs" />

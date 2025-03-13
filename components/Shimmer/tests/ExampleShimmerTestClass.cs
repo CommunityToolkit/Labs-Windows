@@ -6,7 +6,7 @@ using CommunityToolkit.Labs.WinUI;
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
 
-namespace ShimmerExperiment.Tests;
+namespace Shimmer.Tests;
 
 [TestClass]
 public partial class ExampleShimmerTestClass : VisualUITestBase
