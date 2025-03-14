@@ -143,6 +143,7 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                     // Create the model fully describing the current service registration
                     serviceInfo.Add(new RegisteredServiceInfo(
                         RegistrationKind: registrationKind,
+                        ImplementationTypeName: implementationType.Name,
                         ImplementationFullyQualifiedTypeName: implementationTypeName,
                         ServiceFullyQualifiedTypeNames: serviceTypeNames,
                         RequiredServiceFullyQualifiedTypeNames: constructorArgumentTypes));
@@ -166,7 +167,10 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
         /// <returns>A <see cref="CompilationUnitSyntax"/> instance with the gathered info.</returns>
         public static CompilationUnitSyntax GetSyntax(ServiceCollectionInfo info)
         {
+            using ImmutableArrayBuilder<LocalFunctionStatementSyntax> localFunctions = ImmutableArrayBuilder<LocalFunctionStatementSyntax>.Rent();
             using ImmutableArrayBuilder<StatementSyntax> registrationStatements = ImmutableArrayBuilder<StatementSyntax>.Rent();
+
+            int index = -1;
 
             foreach (RegisteredServiceInfo serviceInfo in info.Services)
             {
@@ -175,6 +179,9 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                 {
                     continue;
                 }
+
+                // Increment the index we use to disambiguate the generated local function names (starting from 0)
+                index++;
 
                 using ImmutableArrayBuilder<ArgumentSyntax> constructorArguments = ImmutableArrayBuilder<ArgumentSyntax>.Rent();
 
@@ -199,54 +206,55 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                 // Prepare the method name, either AddSingleton or AddTransient
                 string registrationMethod = $"Add{serviceInfo.RegistrationKind}";
 
-                // Special case when the service is a singleton and no dependent services are present, just use eager instantiation instead:
+                // Prepare the name of the factory local function
+                string factoryMethod = $"Get{serviceInfo.ImplementationTypeName}_{index}";
+
+                // Prepare the local function for the registration (to improve lambda caching):
                 //
-                // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(<PARAMETER_NAME>, typeof(<ROOT_SERVICE_TYPE>), new <IMPLEMENTATION_TYPE>());
-                if (serviceInfo.RegistrationKind == ServiceRegistrationKind.Singleton && constructorArguments.Count == 0)
-                {
-                    registrationStatements.Add(
-                        ExpressionStatement(
-                            InvocationExpression(
-                                MemberAccessExpression(
-                                    SyntaxKind.SimpleMemberAccessExpression,
-                                    IdentifierName("global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"),
-                                    IdentifierName("AddSingleton")))
-                            .AddArgumentListArguments(
-                                Argument(IdentifierName(info.Method.ServiceCollectionParameterName)),
-                                Argument(TypeOfExpression(IdentifierName(rootServiceTypeName))),
-                                Argument(
-                                    ObjectCreationExpression(IdentifierName(serviceInfo.ImplementationFullyQualifiedTypeName))
-                                    .WithArgumentList(ArgumentList())))));
-                }
-                else
-                {
-                    // Register the main implementation type when at least a dependent service is needed:
-                    //
-                    // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.<REGISTRATION_METHOD>(<PARAMETER_NAME>, typeof(<ROOT_SERVICE_TYPE>), static services => new <IMPLEMENTATION_TYPE>(<CONSTRUCTOR_ARGUMENTS>));
-                    registrationStatements.Add(
-                        ExpressionStatement(
-                            InvocationExpression(
-                                MemberAccessExpression(
-                                    SyntaxKind.SimpleMemberAccessExpression,
-                                    IdentifierName("global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"),
-                                    IdentifierName(registrationMethod)))
-                            .AddArgumentListArguments(
-                                Argument(IdentifierName(info.Method.ServiceCollectionParameterName)),
-                                Argument(TypeOfExpression(IdentifierName(rootServiceTypeName))),
-                                Argument(
-                                    SimpleLambdaExpression(Parameter(Identifier("services")))
-                                    .AddModifiers(Token(SyntaxKind.StaticKeyword))
-                                    .WithExpressionBody(
-                                        ObjectCreationExpression(IdentifierName(serviceInfo.ImplementationFullyQualifiedTypeName))
-                                        .AddArgumentListArguments(constructorArguments.ToArray()))))));
-                }
+                // static object <FACTORY_METHOD>(global::System.IServiceProvider services)
+                // {
+                //     return new <IMPLEMENTATION_TYPE>(<CONSTRUCTOR_ARGUMENTS>);
+                // }
+                localFunctions.Add(
+                    LocalFunctionStatement(
+                        PredefinedType(Token(SyntaxKind.ObjectKeyword)),
+                        Identifier(factoryMethod))
+                    .AddModifiers(Token(SyntaxKind.StaticKeyword))
+                    .AddParameterListParameters(
+                        Parameter(Identifier("services"))
+                        .WithType(IdentifierName("global::System.IServiceProvider")))
+                    .AddBodyStatements(
+                        ReturnStatement(
+                            ObjectCreationExpression(IdentifierName(serviceInfo.ImplementationFullyQualifiedTypeName))
+                            .AddArgumentListArguments(constructorArguments.ToArray()))));
+
+                // Register the main implementation type:
+                //
+                // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.<REGISTRATION_METHOD>(<PARAMETER_NAME>, typeof(<ROOT_SERVICE_TYPE>), new global::Func<global::System.IServiceProvider, object>(<FACTORY_METHOD>));
+                registrationStatements.Add(
+                    ExpressionStatement(
+                        InvocationExpression(
+                            MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression,
+                                IdentifierName("global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"),
+                                IdentifierName(registrationMethod)))
+                        .AddArgumentListArguments(
+                            Argument(IdentifierName(info.Method.ServiceCollectionParameterName)),
+                            Argument(TypeOfExpression(IdentifierName(rootServiceTypeName))),
+                            Argument(
+                                ObjectCreationExpression(
+                                    GenericName(Identifier("global::System.Func"))
+                                    .AddTypeArgumentListArguments(
+                                        IdentifierName("global::System.IServiceProvider"),
+                                        PredefinedType(Token(SyntaxKind.ObjectKeyword))))
+                                .AddArgumentListArguments(Argument(IdentifierName(factoryMethod)))))));
 
                 // Register all secondary services, if any
                 foreach (string dependentServiceType in dependentServiceTypeNames)
                 {
                     // Register the main implementation type:
                     //
-                    // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.<REGISTRATION_METHOD>(<PARAMETER_NAME>, typeof(<DEPENDENT_SERVICE_TYPE>), static services => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredServices<ROOT_SERVICE_TYPE>(services));
+                    // global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.<REGISTRATION_METHOD>(<PARAMETER_NAME>, typeof(<DEPENDENT_SERVICE_TYPE>), new global::System.Func<global::System.IServiceProvider, object>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredServices<ROOT_SERVICE_TYPE>));
                     registrationStatements.Add(
                         ExpressionStatement(
                             InvocationExpression(
@@ -258,16 +266,17 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                                 Argument(IdentifierName(info.Method.ServiceCollectionParameterName)),
                                 Argument(TypeOfExpression(IdentifierName(dependentServiceType))),
                                 Argument(
-                                    SimpleLambdaExpression(Parameter(Identifier("services")))
-                                    .AddModifiers(Token(SyntaxKind.StaticKeyword))
-                                    .WithExpressionBody(
-                                        InvocationExpression(
-                                            MemberAccessExpression(
-                                                SyntaxKind.SimpleMemberAccessExpression,
-                                                IdentifierName("global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions"),
-                                                GenericName(Identifier("GetRequiredService"))
-                                                .AddTypeArgumentListArguments(IdentifierName(rootServiceTypeName))))
-                                        .AddArgumentListArguments(Argument(IdentifierName("services"))))))));
+                                    ObjectCreationExpression(
+                                        GenericName("global::System.Func")
+                                        .AddTypeArgumentListArguments(
+                                            IdentifierName("global::System.IServiceProvider"),
+                                            PredefinedType(Token(SyntaxKind.ObjectKeyword))))
+                                    .AddArgumentListArguments(Argument(
+                                        MemberAccessExpression(
+                                            SyntaxKind.SimpleMemberAccessExpression,
+                                            IdentifierName("global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions"),
+                                            GenericName(Identifier("GetRequiredService"))
+                                            .AddTypeArgumentListArguments(IdentifierName(rootServiceTypeName)))))))));
                 }
             }
 
@@ -294,6 +303,7 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
             // [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
             // <MODIFIERS> <RETURN_TYPE> <METHOD_NAME>(global::Microsoft.Extensions.DependencyInjection.IServiceCollection <PARAMETER_NAME>)
             // {
+            //     <LOCAL_FUNCTIONS>
             //     <REGISTRATION_STATEMENTS>
             // }
             MethodDeclarationSyntax configureServicesMethodDeclaration =
@@ -302,6 +312,7 @@ partial class ServiceProviderGenerator : IIncrementalGenerator
                 .AddParameterListParameters(
                     Parameter(Identifier(info.Method.ServiceCollectionParameterName))
                     .WithType(IdentifierName("global::Microsoft.Extensions.DependencyInjection.IServiceCollection")))
+                .AddBodyStatements(localFunctions.ToArray())
                 .AddBodyStatements(registrationStatements.ToArray())
                 .AddAttributeLists(
                     AttributeList(SingletonSeparatedList(

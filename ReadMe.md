@@ -21,6 +21,22 @@ If you find an experiment useful, please up-vote 👍 its corresponding issue an
 
 Otherwise, you can clone the repo, open the `components` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
 
+**List of current experiments**
+- [AppServices](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/AppServices)
+- [CanvasLayout](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/CanvasLayout/samples/CanvasLayout.md)
+- [CanvasView](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/CanvasView/samples/CanvasView.md)
+- [DataTable](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/DataTable/samples/DataTable.md)
+- [Extensions.DependencyInjection](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Extensions.DependencyInjection)
+- [MarkdownTextBlock](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarkdownTextBlock/samples/MarkdownTextBlock.md)
+- [MarqueeText](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarqueeText/samples/MarqueeText.md)
+- [Notifications](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Notifications)
+- [Ribbon](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Ribbon/samples/Ribbon.md)
+- [RivePlayer](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/RivePlayer/samples/RivePlayer.md)
+- [Shimmer](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Shimmer/samples/Shimmer.md)
+- [TitleBar](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/TitleBar/samples/TitleBar.md)
+- [TokenView](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/TokenView/samples/TokenView.md)
+- [TransitionHelper](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/TransitionHelper/samples/TransitionHelper.md)
+
 ## Clone the repository
 
 The [tooling](https://github.com/CommunityToolkit/Tooling-Windows-Submodule) is in a submodule, so you'll need to use `--recurse-submodules` when cloning or pulling for the first time:

@@ -4,17 +4,16 @@
 
 using CommunityToolkit.Notifications.Adaptive.Elements;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal class BaseTextHelper
 {
-    internal class BaseTextHelper
+    internal static Element_AdaptiveText CreateBaseElement(IBaseText current)
     {
-        internal static Element_AdaptiveText CreateBaseElement(IBaseText current)
+        return new Element_AdaptiveText()
         {
-            return new Element_AdaptiveText()
-            {
-                Text = current.Text,
-                Lang = current.Language
-            };
-        }
+            Text = current.Text,
+            Lang = current.Language
+        };
     }
 }

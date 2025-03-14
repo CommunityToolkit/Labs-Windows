@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- We're intentionally not always matching the namespace with folder path, to better organize the code -->
+    <NoWarn>$(NoWarn);IDE0130</NoWarn>
+  </PropertyGroup>
+
+  <!-- Allow the code fixers to access internal APIs (such a diagnostic IDs) -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="CommunityToolkit.DependencyPropertyGenerator.CodeFixers"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" PrivateAssets="all" />
+    <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+
+  <!-- Include the embedded resources for the post initialization source outputs -->
+  <ItemGroup>
+    <Compile Remove="EmbeddedResources\*.cs" />
+    <EmbeddedResource Include="EmbeddedResources\GeneratedDependencyProperty.cs" LogicalName="GeneratedDependencyProperty.g.cs" />
+    <EmbeddedResource Include="EmbeddedResources\GeneratedDependencyPropertyAttribute.cs" LogicalName="GeneratedDependencyPropertyAttribute.g.cs" />
+  </ItemGroup>
+</Project>

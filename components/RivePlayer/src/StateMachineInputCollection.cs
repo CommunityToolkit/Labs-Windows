@@ -11,7 +11,7 @@ namespace CommunityToolkit.Labs.WinUI.Rive;
 ///
 ///   <rive:RivePlayer Source="...">
 ///       <!--  Adds this input to the StateMachineInputCollection.  -->
-///       <rive:BoolInput Target=... />
+///       <rive:BoolInput Target="..." />
 ///   </rive:RivePlayer>
 ///
 /// </summary>

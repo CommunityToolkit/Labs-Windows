@@ -4,36 +4,35 @@
 
 using System;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// Specify audio to be played when the Toast notification is received.
+/// </summary>
+public sealed class ToastAudio
 {
     /// <summary>
-    /// Specify audio to be played when the Toast notification is received.
+    /// Gets or sets the media file to play in place of the default sound.
     /// </summary>
-    public sealed class ToastAudio
+    public Uri Src { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether sound should repeat as long as the Toast is shown; false to play only once (default).
+    /// </summary>
+    public bool Loop { get; set; } = Element_ToastAudio.DEFAULT_LOOP;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether sound is muted; false to allow the Toast notification sound to play (default).
+    /// </summary>
+    public bool Silent { get; set; } = Element_ToastAudio.DEFAULT_SILENT;
+
+    internal Element_ToastAudio ConvertToElement()
     {
-        /// <summary>
-        /// Gets or sets the media file to play in place of the default sound.
-        /// </summary>
-        public Uri Src { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether sound should repeat as long as the Toast is shown; false to play only once (default).
-        /// </summary>
-        public bool Loop { get; set; } = Element_ToastAudio.DEFAULT_LOOP;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether sound is muted; false to allow the Toast notification sound to play (default).
-        /// </summary>
-        public bool Silent { get; set; } = Element_ToastAudio.DEFAULT_SILENT;
-
-        internal Element_ToastAudio ConvertToElement()
+        return new Element_ToastAudio()
         {
-            return new Element_ToastAudio()
-            {
-                Src = Src,
-                Loop = Loop,
-                Silent = Silent
-            };
-        }
+            Src = Src,
+            Loop = Loop,
+            Silent = Silent
+        };
     }
 }

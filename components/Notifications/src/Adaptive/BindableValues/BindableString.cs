@@ -2,67 +2,66 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// A binding value for strings.
+/// </summary>
+public sealed class BindableString
 {
+    internal string RawValue { get; private set; }
+
     /// <summary>
-    /// A binding value for strings.
+    /// Gets or sets the name that maps to your binding data value.
     /// </summary>
-    public sealed class BindableString
+    public string BindingName { get; set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BindableString"/> class.
+    /// A new binding for a string value, with the required binding name. Do NOT include surrounding {} brackets.
+    /// </summary>
+    /// <param name="bindingName">The name that maps to your data binding value.</param>
+    public BindableString(string bindingName)
     {
-        internal string RawValue { get; private set; }
+        BindingName = bindingName;
+    }
 
-        /// <summary>
-        /// Gets or sets the name that maps to your binding data value.
-        /// </summary>
-        public string BindingName { get; set; }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BindableString"/> class.
+    /// Private constructor used by the implicit converter to assign the raw value.
+    /// </summary>
+    private BindableString()
+    {
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BindableString"/> class.
-        /// A new binding for a string value, with the required binding name. Do NOT include surrounding {} brackets.
-        /// </summary>
-        /// <param name="bindingName">The name that maps to your data binding value.</param>
-        public BindableString(string bindingName)
+    internal string ToXmlString()
+    {
+        if (BindingName != null)
         {
-            BindingName = bindingName;
+            return "{" + BindingName + "}";
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BindableString"/> class.
-        /// Private constructor used by the implicit converter to assign the raw value.
-        /// </summary>
-        private BindableString()
-        {
-        }
+        return RawValue;
+    }
 
-        internal string ToXmlString()
+    /// <summary>
+    /// Creates a <see cref="BindableString"/> that has a raw value assigned.
+    /// </summary>
+    /// <param name="d">The raw value</param>
+    public static implicit operator BindableString(string d)
+    {
+        return new BindableString()
         {
-            if (BindingName != null)
-            {
-                return "{" + BindingName + "}";
-            }
+            RawValue = d
+        };
+    }
 
-            return RawValue;
-        }
-
-        /// <summary>
-        /// Creates a <see cref="BindableString"/> that has a raw value assigned.
-        /// </summary>
-        /// <param name="d">The raw value</param>
-        public static implicit operator BindableString(string d)
-        {
-            return new BindableString()
-            {
-                RawValue = d
-            };
-        }
-
-        /// <summary>
-        /// Returns the raw value of the <see cref="BindableString"/>.
-        /// </summary>
-        /// <param name="b">The <see cref="BindableString"/> to obtain the raw value from.</param>
-        public static implicit operator string(BindableString b)
-        {
-            return b.RawValue;
-        }
+    /// <summary>
+    /// Returns the raw value of the <see cref="BindableString"/>.
+    /// </summary>
+    /// <param name="b">The <see cref="BindableString"/> to obtain the raw value from.</param>
+    public static implicit operator string(BindableString b)
+    {
+        return b.RawValue;
     }
 }

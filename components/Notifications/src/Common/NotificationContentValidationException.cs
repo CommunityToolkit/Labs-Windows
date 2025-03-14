@@ -4,16 +4,15 @@
 
 using System;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// Exception returned when invalid notification content is provided.
+/// </summary>
+internal sealed class NotificationContentValidationException : Exception
 {
-    /// <summary>
-    /// Exception returned when invalid notification content is provided.
-    /// </summary>
-    internal sealed class NotificationContentValidationException : Exception
+    public NotificationContentValidationException(string message)
+        : base(message)
     {
-        public NotificationContentValidationException(string message)
-            : base(message)
-        {
-        }
     }
 }

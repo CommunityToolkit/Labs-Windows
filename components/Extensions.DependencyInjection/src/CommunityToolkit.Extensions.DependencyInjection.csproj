@@ -6,13 +6,14 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>CommunityToolkit.Extensions.DependencyInjection</RootNamespace>
     <PackageId>$(PackageIdPrefix).$(ToolkitComponentName)</PackageId>
+    <EnableXamlCompilerMismatchedTfmUnoWorkaround>false</EnableXamlCompilerMismatchedTfmUnoWorkaround>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.1" />
   </ItemGroup>
 
   <!-- Source generator project reference for packing -->
@@ -24,13 +25,13 @@
   <ItemGroup Label="Package">
 
     <!-- Include the custom .targets file to check the source generator -->
-    <None Include="CommunityToolkit.Extensions.DependencyInjection.targets" PackagePath="buildTransitive\netstandard2.0" Pack="true" />
-    <None Include="CommunityToolkit.Extensions.DependencyInjection.targets" PackagePath="build\netstandard2.0" Pack="true" />
+    <None Include="CommunityToolkit.Extensions.DependencyInjection.targets" PackagePath="buildTransitive" Pack="true" />
+    <None Include="CommunityToolkit.Extensions.DependencyInjection.targets" PackagePath="build" Pack="true" />
 
     <!-- Pack the source generator to the right package folder -->
     <None Include="..\CommunityToolkit.Extensions.DependencyInjection.SourceGenerators\bin\$(Configuration)\netstandard2.0\CommunityToolkit.Extensions.DependencyInjection.SourceGenerators.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
   </ItemGroup>
-  
+
   <!-- Remove imported global usings -->
   <ItemGroup>
     <Compile Remove="$(ToolingDirectory)\GlobalUsings.cs" />

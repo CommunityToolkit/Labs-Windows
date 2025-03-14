@@ -33,12 +33,6 @@ public class WinUIRenderer : RendererBase
         FlowDocument = document;
         // set style
         _stack.Push(FlowDocument);
-        LoadOverridenRenderers();
-    }
-
-    private void LoadOverridenRenderers()
-    {
-        LoadRenderers();
     }
 
     public override object Render(MarkdownObject markdownObject)
@@ -52,7 +46,6 @@ public class WinUIRenderer : RendererBase
         _stack.Clear();
         FlowDocument.RichTextBlock.Blocks.Clear();
         _stack.Push(FlowDocument);
-        LoadOverridenRenderers();
     }
 
     public void WriteLeafInline(LeafBlock leafBlock)
@@ -144,33 +137,5 @@ public class WinUIRenderer : RendererBase
     private static void AddInline(IAddChild parent, IAddChild inline)
     {
         parent.AddChild(inline);
-    }
-
-    protected virtual void LoadRenderers()
-    {
-        // Default block renderers
-        ObjectRenderers.Add(new CodeBlockRenderer());
-        ObjectRenderers.Add(new ListRenderer());
-        ObjectRenderers.Add(new HeadingRenderer());
-        ObjectRenderers.Add(new ParagraphRenderer());
-        ObjectRenderers.Add(new QuoteBlockRenderer());
-        ObjectRenderers.Add(new ThematicBreakRenderer());
-        ObjectRenderers.Add(new HtmlBlockRenderer());
-
-        // Default inline renderers
-        ObjectRenderers.Add(new AutoLinkInlineRenderer());
-        ObjectRenderers.Add(new CodeInlineRenderer());
-        ObjectRenderers.Add(new DelimiterInlineRenderer());
-        ObjectRenderers.Add(new EmphasisInlineRenderer());
-        ObjectRenderers.Add(new HtmlEntityInlineRenderer());
-        ObjectRenderers.Add(new LineBreakInlineRenderer());
-        ObjectRenderers.Add(new LinkInlineRenderer());
-        ObjectRenderers.Add(new LiteralInlineRenderer());
-        ObjectRenderers.Add(new ContainerInlineRenderer());
-
-        // Extension renderers
-        ObjectRenderers.Add(new TableRenderer());
-        ObjectRenderers.Add(new TaskListRenderer());
-        ObjectRenderers.Add(new HtmlInlineRenderer());
     }
 }

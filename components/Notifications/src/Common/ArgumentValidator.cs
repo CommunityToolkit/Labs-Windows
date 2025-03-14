@@ -4,27 +4,26 @@
 
 using System;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal static class ArgumentValidator
 {
-    internal static class ArgumentValidator
+    public static void SetProperty<T>(ref T property, T value, string propertyName, ArgumentValidatorOptions options)
     {
-        public static void SetProperty<T>(ref T property, T value, string propertyName, ArgumentValidatorOptions options)
+        if (options.HasFlag(ArgumentValidatorOptions.NotNull))
         {
-            if (options.HasFlag(ArgumentValidatorOptions.NotNull))
+            if (value == null)
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(propertyName);
-                }
+                throw new ArgumentNullException(propertyName);
             }
-
-            property = value;
         }
-    }
 
-    [Flags]
-    internal enum ArgumentValidatorOptions
-    {
-        NotNull
+        property = value;
     }
+}
+
+[Flags]
+internal enum ArgumentValidatorOptions
+{
+    NotNull
 }

@@ -4,31 +4,30 @@
 
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// Animates through a slide show of photos. Supported on all sizes.
+/// </summary>
+public sealed class TileBindingContentPhotos : ITileBindingContent
 {
     /// <summary>
-    /// Animates through a slide show of photos. Supported on all sizes.
+    /// Gets the collection of slide show images. Up to 12 images can be provided (Mobile will only display up to 9), which will be used for the slide show. Adding more than 12 will throw an exception.
     /// </summary>
-    public sealed class TileBindingContentPhotos : ITileBindingContent
+    public IList<TileBasicImage> Images { get; private set; } = new LimitedList<TileBasicImage>(12);
+
+    internal TileTemplateNameV3 GetTemplateName(TileSize size)
     {
-        /// <summary>
-        /// Gets the collection of slide show images. Up to 12 images can be provided (Mobile will only display up to 9), which will be used for the slide show. Adding more than 12 will throw an exception.
-        /// </summary>
-        public IList<TileBasicImage> Images { get; private set; } = new LimitedList<TileBasicImage>(12);
+        return TileSizeToAdaptiveTemplateConverter.Convert(size);
+    }
 
-        internal TileTemplateNameV3 GetTemplateName(TileSize size)
+    internal void PopulateElement(Element_TileBinding binding, TileSize size)
+    {
+        binding.Presentation = TilePresentation.Photos;
+
+        foreach (var img in Images)
         {
-            return TileSizeToAdaptiveTemplateConverter.Convert(size);
-        }
-
-        internal void PopulateElement(Element_TileBinding binding, TileSize size)
-        {
-            binding.Presentation = TilePresentation.Photos;
-
-            foreach (var img in Images)
-            {
-                binding.Children.Add(img.ConvertToElement());
-            }
+            binding.Children.Add(img.ConvertToElement());
         }
     }
 }
