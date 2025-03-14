@@ -4,28 +4,27 @@
 
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications.Adaptive.Elements
+namespace CommunityToolkit.Notifications.Adaptive.Elements;
+
+internal sealed class Element_AdaptiveProgressBar : IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties
 {
-    internal sealed class Element_AdaptiveProgressBar : IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties
+    public string Value { get; set; }
+
+    public string Title { get; set; }
+
+    public string ValueStringOverride { get; set; }
+
+    public string Status { get; set; }
+
+    /// <inheritdoc/>
+    string IHaveXmlName.Name => "progress";
+
+    /// <inheritdoc/>
+    IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
     {
-        public string Value { get; set; }
-
-        public string Title { get; set; }
-
-        public string ValueStringOverride { get; set; }
-
-        public string Status { get; set; }
-
-        /// <inheritdoc/>
-        string IHaveXmlName.Name => "progress";
-
-        /// <inheritdoc/>
-        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
-        {
-            yield return new("value", Value);
-            yield return new("title", Title);
-            yield return new("valueStringOverride", ValueStringOverride);
-            yield return new("status", Status);
-        }
+        yield return new("value", Value);
+        yield return new("title", Title);
+        yield return new("valueStringOverride", ValueStringOverride);
+        yield return new("status", Status);
     }
 }

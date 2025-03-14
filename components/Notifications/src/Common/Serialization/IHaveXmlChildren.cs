@@ -6,16 +6,15 @@ using System.Collections.Generic;
 
 #nullable enable
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// An interface for a notification XML element with additional children.
+/// </summary>
+internal interface IHaveXmlChildren
 {
     /// <summary>
-    /// An interface for a notification XML element with additional children.
+    /// Gets the children of the current element.
     /// </summary>
-    internal interface IHaveXmlChildren
-    {
-        /// <summary>
-        /// Gets the children of the current element.
-        /// </summary>
-        IEnumerable<object> Children { get; }
-    }
+    IEnumerable<object> Children { get; }
 }

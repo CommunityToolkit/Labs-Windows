@@ -4,70 +4,69 @@
 
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal sealed class Element_ToastImage : IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties
 {
-    internal sealed class Element_ToastImage : IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties
+    internal const ToastImagePlacement DEFAULT_PLACEMENT = ToastImagePlacement.Inline;
+    internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
+    internal const ToastImageCrop DEFAULT_CROP = ToastImageCrop.None;
+
+    public string Src { get; set; }
+
+    public string Alt { get; set; }
+
+    public bool AddImageQuery { get; set; } = DEFAULT_ADD_IMAGE_QUERY;
+
+    public ToastImagePlacement Placement { get; set; } = DEFAULT_PLACEMENT;
+
+    public ToastImageCrop Crop { get; set; } = DEFAULT_CROP;
+
+    /// <inheritdoc/>
+    string IHaveXmlName.Name => "image";
+
+    /// <inheritdoc/>
+    IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
     {
-        internal const ToastImagePlacement DEFAULT_PLACEMENT = ToastImagePlacement.Inline;
-        internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
-        internal const ToastImageCrop DEFAULT_CROP = ToastImageCrop.None;
+        yield return new("src", Src);
+        yield return new("alt", Alt);
 
-        public string Src { get; set; }
-
-        public string Alt { get; set; }
-
-        public bool AddImageQuery { get; set; } = DEFAULT_ADD_IMAGE_QUERY;
-
-        public ToastImagePlacement Placement { get; set; } = DEFAULT_PLACEMENT;
-
-        public ToastImageCrop Crop { get; set; } = DEFAULT_CROP;
-
-        /// <inheritdoc/>
-        string IHaveXmlName.Name => "image";
-
-        /// <inheritdoc/>
-        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        if (AddImageQuery != DEFAULT_ADD_IMAGE_QUERY)
         {
-            yield return new("src", Src);
-            yield return new("alt", Alt);
+            yield return new("addImageQuery", AddImageQuery);
+        }
 
-            if (AddImageQuery != DEFAULT_ADD_IMAGE_QUERY)
-            {
-                yield return new("addImageQuery", AddImageQuery);
-            }
+        if (Placement != DEFAULT_PLACEMENT)
+        {
+            yield return new("placement", Placement.ToPascalCaseString());
+        }
 
-            if (Placement != DEFAULT_PLACEMENT)
-            {
-                yield return new("placement", Placement.ToPascalCaseString());
-            }
-
-            if (Crop != DEFAULT_CROP)
-            {
-                yield return new("crop", Crop.ToPascalCaseString());
-            }
+        if (Crop != DEFAULT_CROP)
+        {
+            yield return new("crop", Crop.ToPascalCaseString());
         }
     }
+}
+
+/// <summary>
+/// Specify the desired cropping of the image.
+/// </summary>
+public enum ToastImageCrop
+{
+    /// <summary>
+    /// Default value. Image is not cropped.
+    /// </summary>
+    None,
 
     /// <summary>
-    /// Specify the desired cropping of the image.
+    /// Image is cropped to a circle shape.
     /// </summary>
-    public enum ToastImageCrop
-    {
-        /// <summary>
-        /// Default value. Image is not cropped.
-        /// </summary>
-        None,
+    Circle
+}
 
-        /// <summary>
-        /// Image is cropped to a circle shape.
-        /// </summary>
-        Circle
-    }
-
-    internal enum ToastImagePlacement
-    {
-        Inline,
-        AppLogoOverride,
-        Hero
-    }
+internal enum ToastImagePlacement
+{
+    Inline,
+    AppLogoOverride,
+    Hero
 }

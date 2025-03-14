@@ -2,14 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal interface IElement_ToastActivatable
 {
-    internal interface IElement_ToastActivatable
-    {
-        Element_ToastActivationType ActivationType { get; set; }
+    Element_ToastActivationType ActivationType { get; set; }
 
-        string ProtocolActivationTargetApplicationPfn { get; set; }
+    string ProtocolActivationTargetApplicationPfn { get; set; }
 
-        ToastAfterActivationBehavior AfterActivationBehavior { get; set; }
-    }
+    ToastAfterActivationBehavior AfterActivationBehavior { get; set; }
 }

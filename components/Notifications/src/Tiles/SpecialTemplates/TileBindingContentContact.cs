@@ -2,42 +2,41 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// Phone-only. Supported on Small, Medium, and Wide.
+/// </summary>
+public sealed class TileBindingContentContact : ITileBindingContent
 {
     /// <summary>
-    /// Phone-only. Supported on Small, Medium, and Wide.
+    /// Gets or sets the image to display.
     /// </summary>
-    public sealed class TileBindingContentContact : ITileBindingContent
+    public TileBasicImage Image { get; set; }
+
+    /// <summary>
+    /// Gets or sets a line of text that is displayed. Not displayed on Small Tile.
+    /// </summary>
+    public TileBasicText Text { get; set; }
+
+    internal TileTemplateNameV3 GetTemplateName(TileSize size)
     {
-        /// <summary>
-        /// Gets or sets the image to display.
-        /// </summary>
-        public TileBasicImage Image { get; set; }
+        return TileSizeToAdaptiveTemplateConverter.Convert(size);
+    }
 
-        /// <summary>
-        /// Gets or sets a line of text that is displayed. Not displayed on Small Tile.
-        /// </summary>
-        public TileBasicText Text { get; set; }
+    internal void PopulateElement(Element_TileBinding binding, TileSize size)
+    {
+        binding.Presentation = TilePresentation.Contact;
 
-        internal TileTemplateNameV3 GetTemplateName(TileSize size)
+        // Small size doesn't display the text, so no reason to include it in the payload
+        if (Text != null && size != TileSize.Small)
         {
-            return TileSizeToAdaptiveTemplateConverter.Convert(size);
+            binding.Children.Add(Text.ConvertToElement());
         }
 
-        internal void PopulateElement(Element_TileBinding binding, TileSize size)
+        if (Image != null)
         {
-            binding.Presentation = TilePresentation.Contact;
-
-            // Small size doesn't display the text, so no reason to include it in the payload
-            if (Text != null && size != TileSize.Small)
-            {
-                binding.Children.Add(Text.ConvertToElement());
-            }
-
-            if (Image != null)
-            {
-                binding.Children.Add(Image.ConvertToElement());
-            }
+            binding.Children.Add(Image.ConvertToElement());
         }
     }
 }
