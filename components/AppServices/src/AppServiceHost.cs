@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.AppServices.Helpers;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
@@ -15,7 +16,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
-using CommunityToolkit.AppServices.Helpers;
+using Windows.UI.Core.Preview;
 
 #pragma warning disable CA1068
 
@@ -75,7 +76,7 @@ public abstract class AppServiceHost
     private static bool CanUseAppServiceFunctionality { get; } = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop" && ApiInformation.IsApiContractPresent("Windows.ApplicationModel.FullTrustAppContract", 1, 0);
 
     /// <summary>
-    /// Handles the app service activation when <see cref="Windows.UI.Xaml.Application.OnBackgroundActivated(BackgroundActivatedEventArgs)"/> is invoked.
+    /// Handles the app service activation when <see cref="OnBackgroundActivated(BackgroundActivatedEventArgs)"/> is invoked.
     /// </summary>
     /// <param name="args">The args for the background activation.</param>
     /// <returns>Whether this activation was an app service connection that could be handled by this host.</returns>
@@ -144,6 +145,58 @@ public abstract class AppServiceHost
     }
 
     /// <summary>
+    /// Handles the app service host shutdown when <see cref="SystemNavigationManagerPreview.CloseRequested"/> is raised.
+    /// </summary>
+    /// <param name="args">The args for the close request.</param>
+    /// <remarks>
+    /// <para>
+    /// This method should be used as follows (from <c>App.xaml.cs</c>):
+    /// <code language="cs">
+    /// private void OnCloseRequested(object? sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+    /// {
+    ///     // Any other work, possibly marking the request as handled
+    /// 
+    ///     DesktopExtension.OnCloseRequested(e);
+    /// }
+    /// </code>
+    /// </para>
+    /// <para>
+    /// The app might be holding a deferral for the app service connection to the extension process, which is currently only completed when the
+    /// connection is closed. This means that when the application is closed, that deferral will actually try to keep the connection alive, until
+    /// the OS will eventually force terminate it. This will cause following launches of the app to be delayed until the previous process is
+    /// completely gone, meaning that closing the app and immediately reopening it will cause it to remain stuck at the splash screen for a few
+    /// seconds. Note that during this time, no app code is actually executed, it's just that the OS is waiting to terminate the existing connection
+    /// and fully close the previous instance before allowing a new one to be started. To avoid this issue, this method takes care of fully closing
+    /// any existing connection (by canceling its associated deferral), when the app is about to exit. This avoids the OS timeout for the connection.
+    /// </para>
+    /// </remarks>
+    public void OnCloseRequested(SystemNavigationCloseRequestedPreviewEventArgs args)
+    {
+        // Do nothing if the close request has been handled
+        if (args.Handled)
+        {
+            return;
+        }
+
+        // Remove the registered connection handlers
+        if (_appServiceConnection is { } appServiceConnection)
+        {
+            appServiceConnection.ServiceClosed -= AppServiceConnection_ServiceClosed;
+            appServiceConnection.RequestReceived -= AppServiceConnection_RequestReceived;
+
+            _appServiceConnection = null;
+        }
+
+        // Cancel the deferral, if present
+        if (_appServiceDeferral is { } appServiceDeferral)
+        {
+            appServiceDeferral.Complete();
+
+            _appServiceDeferral = null;
+        }
+    }
+
+    /// <summary>
     /// Creates a new <see cref="AppServiceRequest"/> for a given operation.
     /// </summary>
     /// <param name="requestName">The name of the request to prepare.</param>
@@ -204,9 +257,9 @@ public abstract class AppServiceHost
         if (args.Request.Message.TryGetValue(ProgressKey, out object? progressKey) &&
             args.Request.Message.TryGetValue(ProgressValue, out object? progressValue) &&
             progressKey is Guid id &&
-            _progressTrackers.TryGetValue(id, out IProgress<object> progress))
+            _progressTrackers.TryGetValue(id, out IProgress<object>? progress))
         {
-            progress.Report(progressValue);
+            progress?.Report(progressValue);
         }
     }
 

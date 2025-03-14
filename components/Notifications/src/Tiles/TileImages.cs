@@ -2,47 +2,46 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// Specify the desired cropping of the image.
+/// </summary>
+public enum TileBackgroundImageCrop
 {
     /// <summary>
-    /// Specify the desired cropping of the image.
+    /// Cropping style automatically determined by renderer.
     /// </summary>
-    public enum TileBackgroundImageCrop
-    {
-        /// <summary>
-        /// Cropping style automatically determined by renderer.
-        /// </summary>
-        Default,
-
-        /// <summary>
-        /// Default value. Image is not cropped.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Image is cropped to a circle shape.
-        /// </summary>
-        Circle
-    }
+    Default,
 
     /// <summary>
-    /// Specify the desired cropping of the image.
+    /// Default value. Image is not cropped.
     /// </summary>
-    public enum TilePeekImageCrop
-    {
-        /// <summary>
-        /// Cropping style automatically determined by renderer.
-        /// </summary>
-        Default,
+    None,
 
-        /// <summary>
-        /// Default value. Image is not cropped.
-        /// </summary>
-        None,
+    /// <summary>
+    /// Image is cropped to a circle shape.
+    /// </summary>
+    Circle
+}
 
-        /// <summary>
-        /// Image is cropped to a circle shape.
-        /// </summary>
-        Circle
-    }
+/// <summary>
+/// Specify the desired cropping of the image.
+/// </summary>
+public enum TilePeekImageCrop
+{
+    /// <summary>
+    /// Cropping style automatically determined by renderer.
+    /// </summary>
+    Default,
+
+    /// <summary>
+    /// Default value. Image is not cropped.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// Image is cropped to a circle shape.
+    /// </summary>
+    Circle
 }

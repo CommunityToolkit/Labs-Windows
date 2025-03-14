@@ -4,39 +4,38 @@
 
 using System.Collections.Generic;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+internal sealed class Element_ToastActions : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
 {
-    internal sealed class Element_ToastActions : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
+    internal const ToastSystemCommand DEFAULT_SYSTEM_COMMAND = ToastSystemCommand.None;
+
+    public ToastSystemCommand SystemCommands { get; set; } = ToastSystemCommand.None;
+
+    public IList<IElement_ToastActionsChild> Children { get; private set; } = new List<IElement_ToastActionsChild>();
+
+    /// <inheritdoc/>
+    string IHaveXmlName.Name => "actions";
+
+    /// <inheritdoc/>
+    IEnumerable<object> IHaveXmlChildren.Children => Children;
+
+    /// <inheritdoc/>
+    IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
     {
-        internal const ToastSystemCommand DEFAULT_SYSTEM_COMMAND = ToastSystemCommand.None;
-
-        public ToastSystemCommand SystemCommands { get; set; } = ToastSystemCommand.None;
-
-        public IList<IElement_ToastActionsChild> Children { get; private set; } = new List<IElement_ToastActionsChild>();
-
-        /// <inheritdoc/>
-        string IHaveXmlName.Name => "actions";
-
-        /// <inheritdoc/>
-        IEnumerable<object> IHaveXmlChildren.Children => Children;
-
-        /// <inheritdoc/>
-        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        if (SystemCommands != DEFAULT_SYSTEM_COMMAND)
         {
-            if (SystemCommands != DEFAULT_SYSTEM_COMMAND)
-            {
-                yield return new("hint-systemCommands", SystemCommands);
-            }
+            yield return new("hint-systemCommands", SystemCommands);
         }
     }
+}
 
-    internal interface IElement_ToastActionsChild
-    {
-    }
+internal interface IElement_ToastActionsChild
+{
+}
 
-    internal enum ToastSystemCommand
-    {
-        None,
-        SnoozeAndDismiss
-    }
+internal enum ToastSystemCommand
+{
+    None,
+    SnoozeAndDismiss
 }

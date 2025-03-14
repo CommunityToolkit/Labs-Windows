@@ -4,38 +4,37 @@
 
 using System;
 
-namespace CommunityToolkit.Notifications.Adaptive
+namespace CommunityToolkit.Notifications.Adaptive;
+
+internal static class AdaptiveHelper
 {
-    internal static class AdaptiveHelper
+    internal static object ConvertToElement(object obj)
     {
-        internal static object ConvertToElement(object obj)
+        if (obj is AdaptiveText)
         {
-            if (obj is AdaptiveText)
-            {
-                return (obj as AdaptiveText).ConvertToElement();
-            }
-
-            if (obj is AdaptiveImage)
-            {
-                return (obj as AdaptiveImage).ConvertToElement();
-            }
-
-            if (obj is AdaptiveGroup)
-            {
-                return (obj as AdaptiveGroup).ConvertToElement();
-            }
-
-            if (obj is AdaptiveSubgroup)
-            {
-                return (obj as AdaptiveSubgroup).ConvertToElement();
-            }
-
-            if (obj is AdaptiveProgressBar)
-            {
-                return (obj as AdaptiveProgressBar).ConvertToElement();
-            }
-
-            throw new NotImplementedException("Unknown object: " + obj.GetType());
+            return (obj as AdaptiveText).ConvertToElement();
         }
+
+        if (obj is AdaptiveImage)
+        {
+            return (obj as AdaptiveImage).ConvertToElement();
+        }
+
+        if (obj is AdaptiveGroup)
+        {
+            return (obj as AdaptiveGroup).ConvertToElement();
+        }
+
+        if (obj is AdaptiveSubgroup)
+        {
+            return (obj as AdaptiveSubgroup).ConvertToElement();
+        }
+
+        if (obj is AdaptiveProgressBar)
+        {
+            return (obj as AdaptiveProgressBar).ConvertToElement();
+        }
+
+        throw new NotImplementedException("Unknown object: " + obj.GetType());
     }
 }

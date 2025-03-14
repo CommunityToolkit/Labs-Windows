@@ -24,13 +24,12 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
     {
         // Get all app service class implementations, and only enable this branch if the target is not a UWP app (the component)
         IncrementalValuesProvider<(HierarchyInfo Hierarchy, AppServiceInfo Info)> appServiceComponentInfo =
-            context.SyntaxProvider
-            .CreateSyntaxProvider(
+            context.CreateSyntaxProviderWithOptions(
                 static (node, _) => node is ClassDeclarationSyntax classDeclaration && classDeclaration.HasOrPotentiallyHasBaseTypes(),
                 static (context, token) =>
                 {
                     // Only retrieve host info if the target is not a UWP application
-                    if (Helpers.IsUwpTarget(context.SemanticModel.Compilation))
+                    if (Helpers.IsUwpTarget(context.SemanticModel.Compilation, context.GlobalOptions))
                     {
                         return default;
                     }
@@ -79,15 +78,14 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
         });
 
         // Gather all interfaces, and only enable this branch if the target is a UWP app (the host)
-        IncrementalValuesProvider<(HierarchyInfo Hierarchy, AppServiceInfo Info)> appServiceHostInfo =
-            context.SyntaxProvider
-            .ForAttributeWithMetadataName(
+        IncrementalValuesProvider<(HierarchyInfo, AppServiceInfo)> appServiceHostInfo =
+            context.ForAttributeWithMetadataNameAndOptions(
                 "CommunityToolkit.AppServices.AppServiceAttribute",
                 static (node, _) => node is InterfaceDeclarationSyntax,
                 static (context, token) =>
                 {
                     // Only retrieve host info if the target is a UWP application
-                    if (!Helpers.IsUwpTarget(context.SemanticModel.Compilation))
+                    if (!Helpers.IsUwpTarget(context.SemanticModel.Compilation, context.GlobalOptions))
                     {
                         return default;
                     }
@@ -107,6 +105,7 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
 
                     token.ThrowIfCancellationRequested();
 
+                    // Gather all methods for the app service type
                     ImmutableArray<MethodInfo> methods = MethodInfo.From(typeSymbol, token);
 
                     token.ThrowIfCancellationRequested();
@@ -115,8 +114,47 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
                 })
             .Where(static item => item.Hierarchy is not null);
 
-        // Produce the host type
-        context.RegisterSourceOutput(appServiceHostInfo, static (context, item) =>
+        // Also gather all explicitly requested host implementation types
+        IncrementalValuesProvider<(HierarchyInfo, AppServiceInfo)> additionalAppServiceHostInfo =
+            context.ForAttributeWithMetadataNameAndOptions(
+                "CommunityToolkit.AppServices.GeneratedAppServiceHostAttribute",
+                static (node, _) => true,
+                static (context, token) =>
+                {
+                    // Only retrieve host info if the target is a UWP application
+                    if (!Helpers.IsUwpTarget(context.SemanticModel.Compilation, context.GlobalOptions))
+                    {
+                        return default;
+                    }
+
+                    // Get the target interface
+                    if (context.Attributes[0].ConstructorArguments is not [{ Kind: TypedConstantKind.Type, Value: INamedTypeSymbol appServiceType }])
+                    {
+                        return default;
+                    }
+
+                    // Check if the current interface is in fact an app service type
+                    if (!appServiceType.TryGetAppServicesNameFromAttribute(out string? appServiceName))
+                    {
+                        return default;
+                    }
+
+                    token.ThrowIfCancellationRequested();
+
+                    HierarchyInfo hierarchy = HierarchyInfo.From(appServiceType, appServiceType.Name.Substring(1));
+
+                    token.ThrowIfCancellationRequested();
+
+                    ImmutableArray<MethodInfo> methods = MethodInfo.From(appServiceType, token);
+
+                    token.ThrowIfCancellationRequested();
+
+                    return (Hierarchy: hierarchy, new AppServiceInfo(methods, appServiceName, appServiceType.GetFullyQualifiedName()));
+                })
+            .Where(static item => item.Hierarchy is not null);
+
+        // Shared helper to emit all discovered types
+        static void GenerateAppServiceHostType(SourceProductionContext context, (HierarchyInfo Hierarchy, AppServiceInfo Info) item)
         {
             ConstructorDeclarationSyntax constructorSyntax = Host.GetConstructorSyntax(item.Hierarchy, item.Info);
             ImmutableArray<MethodDeclarationSyntax> methodDeclarations = Host.GetMethodDeclarationsSyntax(item.Info);
@@ -128,6 +166,10 @@ public sealed partial class AppServiceGenerator : IIncrementalGenerator
                 $"/// <summary>A generated host implementation for the <see cref=\"{item.Info.InterfaceFullyQualifiedName}\"/> interface.</summary>");
 
             context.AddSource($"{item.Hierarchy.FilenameHint}.g.cs", compilationUnit.GetText(Encoding.UTF8));
-        });
+        }
+
+        // Produce the host types
+        context.RegisterSourceOutput(appServiceHostInfo, GenerateAppServiceHostType);
+        context.RegisterSourceOutput(additionalAppServiceHostInfo, GenerateAppServiceHostType);
     }
 }

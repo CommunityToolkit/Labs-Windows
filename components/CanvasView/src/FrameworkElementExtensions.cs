@@ -2,6 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if NET8_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 namespace CommunityToolkit.Labs.WinUI.CanvasViewInternal;
 
 public static partial class FrameworkElementExtensions
@@ -16,6 +20,9 @@ public static partial class FrameworkElementExtensions
     /// <param name="fe">The <see cref="FrameworkElement"/> with the property to update.</param>
     /// <param name="property">The <see cref="DependencyProperty"/> to update the underlying bound value of.</param>
     /// <param name="value">The new value to update the bound property to.</param>
+#if NET8_0_OR_GREATER
+    [RequiresUnreferencedCode("This method accesses properties of binding expressions in a trim-unsafe way.")]
+#endif
     public static void SetBindingExpressionValue(this FrameworkElement fe, DependencyProperty property, object value)
     {
         var subBinding = fe.GetBindingExpression(property);

@@ -6,36 +6,35 @@ using System;
 using System.Collections.Generic;
 using CommunityToolkit.Notifications.Adaptive.Elements;
 
-namespace CommunityToolkit.Notifications
+namespace CommunityToolkit.Notifications;
+
+/// <summary>
+/// Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns. Supported on Tiles since RTM. Supported on Toasts since Anniversary Update.
+/// </summary>
+public sealed class AdaptiveGroup : ITileBindingContentAdaptiveChild, IAdaptiveChild, IToastBindingGenericChild
 {
     /// <summary>
-    /// Groups semantically identify that the content in the group must either be displayed as a whole, or not displayed if it cannot fit. Groups also allow creating multiple columns. Supported on Tiles since RTM. Supported on Toasts since Anniversary Update.
+    /// Gets the only valid children of groups are <see cref="AdaptiveSubgroup"/>.
+    /// Each subgroup is displayed as a separate vertical column. Note that you must
+    /// include at least one subgroup in your group, otherwise an <see cref="InvalidOperationException"/>
+    /// will be thrown when you try to retrieve the XML for the notification.
     /// </summary>
-    public sealed class AdaptiveGroup : ITileBindingContentAdaptiveChild, IAdaptiveChild, IToastBindingGenericChild
+    public IList<AdaptiveSubgroup> Children { get; private set; } = new List<AdaptiveSubgroup>();
+
+    internal Element_AdaptiveGroup ConvertToElement()
     {
-        /// <summary>
-        /// Gets the only valid children of groups are <see cref="AdaptiveSubgroup"/>.
-        /// Each subgroup is displayed as a separate vertical column. Note that you must
-        /// include at least one subgroup in your group, otherwise an <see cref="InvalidOperationException"/>
-        /// will be thrown when you try to retrieve the XML for the notification.
-        /// </summary>
-        public IList<AdaptiveSubgroup> Children { get; private set; } = new List<AdaptiveSubgroup>();
-
-        internal Element_AdaptiveGroup ConvertToElement()
+        if (Children.Count == 0)
         {
-            if (Children.Count == 0)
-            {
-                throw new InvalidOperationException("Groups must have at least one child subgroup. The Children property had zero items in it.");
-            }
-
-            Element_AdaptiveGroup group = new Element_AdaptiveGroup();
-
-            foreach (var subgroup in Children)
-            {
-                group.Children.Add(subgroup.ConvertToElement());
-            }
-
-            return group;
+            throw new InvalidOperationException("Groups must have at least one child subgroup. The Children property had zero items in it.");
         }
+
+        Element_AdaptiveGroup group = new Element_AdaptiveGroup();
+
+        foreach (var subgroup in Children)
+        {
+            group.Children.Add(subgroup.ConvertToElement());
+        }
+
+        return group;
     }
 }

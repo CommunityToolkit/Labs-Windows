@@ -4,7 +4,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
-      xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
       xmlns:local="using:RivePlayerExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:rive="using:CommunityToolkit.Labs.WinUI.Rive"
@@ -50,18 +49,18 @@
                       Content="Hands Up" />
             <Button Content="Failure">
                 <i:Interaction.Behaviors>
-                    <ic:EventTriggerBehavior EventName="Click">
-                        <ic:CallMethodAction MethodName="Fire"
-                                             TargetObject="{x:Bind FailureTrigger}" />
-                    </ic:EventTriggerBehavior>
+                    <i:EventTriggerBehavior EventName="Click">
+                        <i:CallMethodAction MethodName="Fire"
+                                            TargetObject="{x:Bind FailureTrigger}" />
+                    </i:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Button>
             <Button Content="Success">
                 <i:Interaction.Behaviors>
-                    <ic:EventTriggerBehavior EventName="Click">
-                        <ic:CallMethodAction MethodName="Fire"
-                                             TargetObject="{x:Bind SuccessTrigger}" />
-                    </ic:EventTriggerBehavior>
+                    <i:EventTriggerBehavior EventName="Click">
+                        <i:CallMethodAction MethodName="Fire"
+                                            TargetObject="{x:Bind SuccessTrigger}" />
+                    </i:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Button>
         </StackPanel>

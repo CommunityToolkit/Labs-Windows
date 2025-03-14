@@ -96,7 +96,7 @@ internal class MyList : IAddChild
 
     private BulletType ToBulletType(char bullet)
     {
-        /// Gets or sets the type of the bullet (e.g: '1', 'a', 'A', 'i', 'I').
+        // Gets or sets the type of the bullet (e.g: '1', 'a', 'A', 'i', 'I').
         switch (bullet)
         {
             case '1':
