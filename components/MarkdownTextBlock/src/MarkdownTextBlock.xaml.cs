@@ -21,6 +21,43 @@ public partial class MarkdownTextBlock : Control
     private MyFlowDocument _document;
     private WinUIRenderer? _renderer;
 
+    private static readonly DependencyProperty ConfigProperty = DependencyProperty.Register(
+        nameof(Config),
+        typeof(MarkdownConfig),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(null, OnConfigChanged)
+    );
+
+    private static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+        nameof(Text),
+        typeof(string),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(null, OnTextChanged));
+
+    private static readonly DependencyProperty MarkdownDocumentProperty = DependencyProperty.Register(
+        nameof(MarkdownDocument),
+        typeof(MarkdownDocument),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(null));
+
+    public MarkdownConfig Config
+    {
+        get => (MarkdownConfig)GetValue(ConfigProperty);
+        set => SetValue(ConfigProperty, value);
+    }
+
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
+
+    public MarkdownDocument? MarkdownDocument
+    {
+        get => (MarkdownDocument)GetValue(MarkdownDocumentProperty);
+        private set => SetValue(MarkdownDocumentProperty, value);
+    }
+    
     public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
 
     internal void RaiseLinkClickedEvent(Uri uri) => OnLinkClicked?.Invoke(this, new LinkClickedEventArgs(uri));
@@ -89,6 +126,7 @@ public partial class MarkdownTextBlock : Control
             if (!string.IsNullOrEmpty(Text))
             {
                 this.MarkdownDocument = Markdown.Parse(Text, _pipeline);
+                OnMarkdownParsed?.Invoke(this, new MarkdownParsedEventArgs(this.MarkdownDocument));
                 _renderer.Render(this.MarkdownDocument);
             }
         }
