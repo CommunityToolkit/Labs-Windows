@@ -88,8 +88,9 @@ public partial class MarkdownTextBlock : Control
 
             if (!string.IsNullOrEmpty(Text))
             {
-                this.MarkdownDocument = Markdown.Parse(Text, _pipeline);
-                _renderer.Render(this.MarkdownDocument);
+                var parsedMarkdown = Markdown.Parse(Text, _pipeline);
+                this.MarkdownDocument = parsedMarkdown;
+                _renderer.Render(parsedMarkdown);
             }
         }
     }
