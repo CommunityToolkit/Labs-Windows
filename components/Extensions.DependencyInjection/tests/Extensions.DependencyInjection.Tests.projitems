@@ -6,6 +6,6 @@
     <SharedGUID>47BFA618-6EF6-426A-B7CB-D8F2CEA68302</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Extensions.DependencyInjectionExperiment.Tests</Import_RootNamespace>
+    <Import_RootNamespace>Extensions.DependencyInjection.Tests</Import_RootNamespace>
   </PropertyGroup>
 </Project>

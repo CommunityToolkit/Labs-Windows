@@ -13,7 +13,7 @@ using CommunityToolkit.Notifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #nullable disable
-namespace NotificationsExperiment.Tests;
+namespace Notifications.Tests;
 
 [TestClass]
 public class TestAssertHelper
