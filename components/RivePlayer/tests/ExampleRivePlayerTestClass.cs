@@ -6,7 +6,7 @@ using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
 using CommunityToolkit.Labs.WinUI.Rive;
 
-namespace RivePlayer.Tests;
+namespace RivePlayerTests;
 
 // Track https://github.com/CommunityToolkit/Labs-Windows/issues/567
 #if !WINDOWS_WINAPPSDK

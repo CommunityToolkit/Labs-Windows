@@ -6,7 +6,7 @@ using CommunityToolkit.Labs.WinUI;
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
 
-namespace CanvasLayout.Tests;
+namespace CanvasLayoutTests;
 
 [TestClass]
 public partial class ExampleCanvasLayoutTestClass : VisualUITestBase

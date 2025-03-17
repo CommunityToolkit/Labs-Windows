@@ -10,7 +10,7 @@ using CommunityToolkit.Notifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #nullable disable
-namespace Notifications.Tests;
+namespace NotificationsTests;
 
 [TestClass]
 public class TestToastContentBuilder

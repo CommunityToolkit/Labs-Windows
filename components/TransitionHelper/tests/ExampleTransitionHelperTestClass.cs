@@ -6,7 +6,7 @@ using CommunityToolkit.Labs.WinUI;
 using CommunityToolkit.Tests;
 using CommunityToolkit.Tooling.TestGen;
 
-namespace TransitionHelper.Tests;
+namespace TransitionHelperTests;
 
 [TestClass]
 public partial class ExampleTransitionHelperTestClass : VisualUITestBase

@@ -6,7 +6,7 @@ using CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 using CommunityToolkit.Tests;
 using CommunityToolkit.Tooling.TestGen;
 
-namespace MarqueeText.Tests;
+namespace MarqueeTextTests;
 
 [TestClass]
 public partial class ExampleMarqueeTextTestClass : VisualUITestBase
