@@ -6,7 +6,7 @@ using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
 using CommunityToolkit.WinUI.Controls;
 
-namespace TitleBarExperiment.Tests;
+namespace TitleBarTests;
 
 [TestClass]
 public partial class ExampleTitleBarTestClass : VisualUITestBase

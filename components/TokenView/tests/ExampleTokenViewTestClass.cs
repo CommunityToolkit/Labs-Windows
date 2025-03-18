@@ -6,7 +6,7 @@ using CommunityToolkit.Labs.WinUI;
 using CommunityToolkit.Tests;
 using CommunityToolkit.Tooling.TestGen;
 
-namespace TokenViewExperiment.Tests;
+namespace TokenViewTests;
 
 [TestClass]
 public partial class ExampleTokenViewTestClass : VisualUITestBase

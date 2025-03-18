@@ -6,6 +6,6 @@
     <SharedGUID>04511143-C2A3-4893-810D-3C1EA2877430</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>OpacityMaskViewExperiment.Tests</Import_RootNamespace>
+    <Import_RootNamespace>OpacityMaskViewTests</Import_RootNamespace>
   </PropertyGroup>
 </Project>

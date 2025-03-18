@@ -6,7 +6,7 @@ using CommunityToolkit.Tests;
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.WinUI.Controls;
 
-namespace RibbonExperiment.Tests;
+namespace RibbonTests;
 
 [TestClass]
 public partial class RibbonTestClass : VisualUITestBase

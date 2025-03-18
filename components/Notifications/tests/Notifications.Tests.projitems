@@ -6,7 +6,7 @@
     <SharedGUID>695EB17B-60C6-4D00-9D3F-1BC54B6A9500</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>NotificationsExperiment.Tests</Import_RootNamespace>
+    <Import_RootNamespace>NotificationsTests</Import_RootNamespace>
   </PropertyGroup>
     <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)TestAssertHelper.cs" />
