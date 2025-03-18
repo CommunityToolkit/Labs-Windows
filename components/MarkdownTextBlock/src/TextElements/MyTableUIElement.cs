@@ -6,23 +6,44 @@ namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 
 internal partial class MyTableUIElement : Panel
 {
+    // Children[0] = Border
+    // Children[1] = Header Background
+    // Children[2..columnCount] = Vertical lines
+    // Children[columnCount+1..columnCount + rowCount - 1] = Horizontal lines
+    // Children[columnCount + rowCount..] = Content
+
     private readonly int _columnCount;
     private readonly int _rowCount;
     private readonly double _borderThickness;
     private double[]? _columnWidths;
     private double[]? _rowHeights;
 
-    public MyTableUIElement(int columnCount, int rowCount, double borderThickness, Brush borderBrush)
+    public MyTableUIElement(int columnCount, int rowCount, double borderThickness, Brush borderBrush, Brush headingBrush, CornerRadius cornerRadius)
     {
         _columnCount = columnCount;
         _rowCount = rowCount;
         _borderThickness = borderThickness;
-        for (int col = 0; col < columnCount + 1; col++)
+
+        Margin = new Thickness(left: 0, top: 10, right: 0, bottom: 10);
+
+        Children.Add(new Border
+        {
+            Background = headingBrush,
+            CornerRadius = new CornerRadius(topLeft: cornerRadius.TopLeft, topRight: cornerRadius.TopRight, 0, 0)
+        });
+        Children.Add(new Border
+        {
+            BorderThickness = new Thickness(_borderThickness),
+            CornerRadius = cornerRadius,
+            BorderBrush = borderBrush
+        });
+
+        for (int col = 1; col < columnCount; col++)
         {
             Children.Add(new Rectangle { Fill = borderBrush });
         }
 
-        for (int row = 0; row < rowCount + 1; row++)
+        for (int row = 1; row < rowCount; row++)
         {
             Children.Add(new Rectangle { Fill = borderBrush });
         }
@@ -33,7 +54,7 @@ internal partial class MyTableUIElement : Panel
     {
         get
         {
-            for (int i = _columnCount + _rowCount + 2; i < Children.Count; i++)
+            for (int i = _columnCount + _rowCount; i < Children.Count; i++)
             {
                 yield return (FrameworkElement)Children[i];
             }
@@ -45,7 +66,7 @@ internal partial class MyTableUIElement : Panel
     {
         get
         {
-            for (int i = 0; i < _columnCount + 1; i++)
+            for (int i = 2; i < _columnCount + 1; i++)
             {
                 yield return (Rectangle)Children[i];
             }
@@ -57,7 +78,7 @@ internal partial class MyTableUIElement : Panel
     {
         get
         {
-            for (int i = _columnCount + 1; i < _columnCount + _rowCount + 2; i++)
+            for (int i = _columnCount + 1; i < _columnCount + _rowCount; i++)
             {
                 yield return (Rectangle)Children[i];
             }
@@ -167,30 +188,32 @@ internal partial class MyTableUIElement : Panel
             double x = 0;
             foreach (var borderLine in VerticalLines)
             {
+                x += _borderThickness + _columnWidths[colIndex];
                 borderLine.Arrange(new Rect(x, 0, _borderThickness, finalSize.Height));
                 if (colIndex >= _columnWidths.Length)
                 {
                     break;
                 }
 
-                x += _borderThickness + _columnWidths[colIndex];
                 colIndex++;
             }
         }
 
         // Arrange horizontal border elements.
         {
+            Children[0].Arrange(new Rect(0, 0, finalSize.Width, _rowHeights[0] + (_borderThickness * 2)));
+            Children[1].Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));
             int rowIndex = 0;
             double y = 0;
             foreach (var borderLine in HorizontalLines)
             {
+                y += _borderThickness + _rowHeights[rowIndex];
                 borderLine.Arrange(new Rect(0, y, finalSize.Width, _borderThickness));
                 if (rowIndex >= _rowHeights.Length)
                 {
                     break;
                 }
 
-                y += _borderThickness + _rowHeights[rowIndex];
                 rowIndex++;
             }
         }
