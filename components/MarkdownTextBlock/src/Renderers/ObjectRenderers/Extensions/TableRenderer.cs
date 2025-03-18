@@ -14,7 +14,7 @@ public class TableRenderer : UWPObjectRenderer<Table>
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (table == null) throw new ArgumentNullException(nameof(table));
 
-        var myTable = new MyTable(table);
+        var myTable = new MyTable(table, renderer.Config.Themes);
 
         renderer.Push(myTable);
 

@@ -125,9 +125,10 @@ public partial class MarkdownTextBlock : Control
 
             if (!string.IsNullOrEmpty(Text))
             {
-                this.MarkdownDocument = Markdown.Parse(Text, _pipeline);
+                var parsedMarkdown = Markdown.Parse(Text, _pipeline);
                 OnMarkdownParsed?.Invoke(this, new MarkdownParsedEventArgs(this.MarkdownDocument));
-                _renderer.Render(this.MarkdownDocument);
+                this.MarkdownDocument = parsedMarkdown;
+                _renderer.Render(parsedMarkdown);
             }
         }
     }
