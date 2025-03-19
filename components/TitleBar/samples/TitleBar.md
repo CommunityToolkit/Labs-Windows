@@ -14,8 +14,7 @@ icon: assets/icon.png
 ---
 
 > [!NOTE]
-> If you're using the Windows App SDK with WinUI, you can leverage the TitleBar control that [shipped in the 1.7 prerelease](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/preview-channel#new-titlebar-control) over this one.
-> 
+> If you're using the Windows App SDK with WinUI, you can leverage the `TitleBar` control that [shipped in the 1.7 release](https://learn.microsoft.com/windows/apps/windows-app-sdk/stable-channel#new-titlebar-control) over this one.
 
 The `TitleBar` provides an easy way to display a modern titlebar experience. The control handles all the required APIs to extend content into the titlebar area and set custom drag regions. The control is set up in a way that it handles the correct design guidelines while being flexible in what content to show.
 
