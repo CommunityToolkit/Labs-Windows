@@ -6,7 +6,7 @@ using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
 using CommunityToolkit.WinUI.Controls;
 
-namespace DataTableExperiment.Tests;
+namespace DataTableTests;
 
 /// <summary>
 /// Class for testing various aspects of layout in relation to DataTable components.
