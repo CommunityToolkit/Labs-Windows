@@ -109,6 +109,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -132,10 +133,28 @@ jobs:
         with:
           vs-version: '[17.9,)'
 
+      # Get changed components
+      - name: Get changed components
+        run: |
+          git fetch origin main
+          git diff --name-only origin/main...${{ github.sha }} -- components/ > ${{ github.workspace }}/changed-files.txt
+          $otherChanges = git diff --name-only origin/main...${{ github.sha }} | Select-String -NotMatch '^components/'
+          if (-not $otherChanges) {
+            $files = Get-Content "${{ github.workspace }}/changed-files.txt"
+            $names = $files | ForEach-Object { ($_ -replace '^components/', '') -replace '/.*$', '' }
+            $uniqueNames = $names | Sort-Object -Unique
+            $quotedNames = $uniqueNames | ForEach-Object { "'$_'" }
+            $changedComponentsList = $quotedNames -join ','
+            echo "CHANGED_COMPONENTS_LIST=$changedComponentsList" >> $env:GITHUB_ENV
+          }
+          else {
+            echo "CHANGED_COMPONENTS_LIST='all'" >> $env:GITHUB_ENV
+          }
+  
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
         working-directory: ./
-        run: powershell -version 5.1 -command "./tooling/GenerateAllSolution.ps1 -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
+        run: powershell -version 5.1 -command "./tooling/GenerateAllSolution.ps1 -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
 
       # Build solution
       - name: MSBuild (With diagnostics)
@@ -233,6 +252,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
           
       - name: Format Date/Time of Commit for Package Version
         run: |
@@ -257,9 +277,27 @@ jobs:
         with:
           vs-version: '[17.9,)'
           
+      # Get changed components
+      - name: Get changed components
+        run: |
+          git fetch origin main
+          git diff --name-only origin/main...${{ github.sha }} -- components/ > ${{ github.workspace }}/changed-files.txt
+          $otherChanges = git diff --name-only origin/main...${{ github.sha }} | Select-String -NotMatch '^components/'
+          if (-not $otherChanges) {
+            $files = Get-Content "${{ github.workspace }}/changed-files.txt"
+            $names = $files | ForEach-Object { ($_ -replace '^components/', '') -replace '/.*$', '' }
+            $uniqueNames = $names | Sort-Object -Unique
+            $quotedNames = $uniqueNames | ForEach-Object { "'$_'" }
+            $changedComponentsList = $quotedNames -join ','
+            echo "CHANGED_COMPONENTS_LIST=$changedComponentsList" >> $env:GITHUB_ENV
+          }
+          else {
+            echo "CHANGED_COMPONENTS_LIST='all'" >> $env:GITHUB_ENV
+          }
+
       # Build and pack component nupkg
       - name: Build and pack component packages
-        run: ./tooling/Build-Toolkit-Components.ps1 -MultiTargets all -WinUIMajorVersion ${{ matrix.winui }} -DateForVersion ${{ env.VERSION_DATE }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
+        run: ./tooling/Build-Toolkit-Components.ps1 -MultiTargets all -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }} -DateForVersion ${{ env.VERSION_DATE }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
 
       - name: Validate package names
         if: ${{ env.VERSION_PROPERTY != '' }}
