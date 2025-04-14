@@ -46,7 +46,15 @@ public partial class MyControl : DependencyObject
 }
 ```
 
-The source generator would generate *this*:
+The source generator would generate the following partial methods:
+
+- `OnNumberSet`: "Executes the logic for when the `set` accessor `Number` is invoked"
+- `OnNumberChanging`: "Executes the logic for when `Number` is changing."
+- `OnNumberChanged`: "Executes the logic for when `Number` has just changed."
+- `OnNumberPropertyChanged`: "Executes the logic for when `Number` has just changed."
+- `OnPropertyChanged`: "Executes the logic for when any dependency property has just changed."
+
+Alongside the following changes to the `Number` property:
 
 ```cs
 namespace MyNamespace;
@@ -91,48 +99,6 @@ partial class MyControl
             OnNumberChanged(__oldValue, value);
         }
     }
-
-    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Number"/> is invoked</summary>
-    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="NumberProperty"/>.</param>
-    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="NumberProperty"/>.</remarks>
-    partial void OnNumberSet(ref object propertyValue);
-
-    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Number"/> is invoked</summary>
-    /// <param name="propertyValue">The property value that is being assigned to <see cref="Number"/>.</param>
-    /// <remarks>This method is invoked on the raw value being assigned to <see cref="Number"/>, before <see cref="SetValue"/> is used.</remarks>
-    partial void OnNumberSet(ref int propertyValue);
-
-    /// <summary>Executes the logic for when <see cref="Number"/> is changing.</summary>
-    /// <param name="value">The new property value being set.</param>
-    /// <remarks>This method is invoked right before the value of <see cref="Number"/> is changed.</remarks>
-    partial void OnNumberChanging(int newValue);
-
-    /// <summary>Executes the logic for when <see cref="Number"/> is changing.</summary>
-    /// <param name="oldValue">The previous property value that is being replaced.</param>
-    /// <param name="newValue">The new property value being set.</param>
-    /// <remarks>This method is invoked right before the value of <see cref="Number"/> is changed.</remarks>
-    partial void OnNumberChanging(int oldValue, int newValue);
-
-    /// <summary>Executes the logic for when <see cref="Number"/> has just changed.</summary>
-    /// <param name="value">The new property value that has been set.</param>
-    /// <remarks>This method is invoked right after the value of <see cref="Number"/> is changed.</remarks>
-    partial void OnNumberChanged(int newValue);
-
-    /// <summary>Executes the logic for when <see cref="Number"/> has just changed.</summary>
-    /// <param name="oldValue">The previous property value that has been replaced.</param>
-    /// <param name="newValue">The new property value that has been set.</param>
-    /// <remarks>This method is invoked right after the value of <see cref="Number"/> is changed.</remarks>
-    partial void OnNumberChanged(int oldValue, int newValue);
-
-    /// <summary>Executes the logic for when <see cref="Number"/> has just changed.</summary>
-    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
-    /// <remarks>This method is invoked by the <see cref="DependencyProperty"/> infrastructure, after the value of <see cref="Number"/> is changed.</remarks>
-    partial void OnNumberPropertyChanged(DependencyPropertyChangedEventArgs e);
-
-    /// <summary>Executes the logic for when any dependency property has just changed.</summary>
-    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
-    /// <remarks>This method is invoked by the <see cref="DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
-    partial void OnPropertyChanged(DependencyPropertyChangedEventArgs e);
 }
 ```
 
