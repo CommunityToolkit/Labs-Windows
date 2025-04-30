@@ -133,24 +133,11 @@ jobs:
         with:
           vs-version: '[17.9,)'
 
-      # Get changed components
       - name: Get changed components
         run: |
-          git fetch origin main
-          git diff --name-only origin/main...${{ github.sha }} -- components/ > ${{ github.workspace }}/changed-files.txt
-          $otherChanges = git diff --name-only origin/main...${{ github.sha }} | Select-String -NotMatch '^components/'
-          if (-not $otherChanges) {
-            $files = Get-Content "${{ github.workspace }}/changed-files.txt"
-            $names = $files | ForEach-Object { ($_ -replace '^components/', '') -replace '/.*$', '' }
-            $uniqueNames = $names | Sort-Object -Unique
-            $quotedNames = $uniqueNames | ForEach-Object { "'$_'" }
-            $changedComponentsList = $quotedNames -join ','
-            echo "CHANGED_COMPONENTS_LIST=$changedComponentsList" >> $env:GITHUB_ENV
-          }
-          else {
-            echo "CHANGED_COMPONENTS_LIST='all'" >> $env:GITHUB_ENV
-          }
-  
+          $components = ./tooling/Get-Changed-Components.ps1
+          echo "CHANGED_COMPONENTS_LIST=$components" >> $env:GITHUB_ENV
+
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
         working-directory: ./
@@ -280,20 +267,8 @@ jobs:
       # Get changed components
       - name: Get changed components
         run: |
-          git fetch origin main
-          git diff --name-only origin/main...${{ github.sha }} -- components/ > ${{ github.workspace }}/changed-files.txt
-          $otherChanges = git diff --name-only origin/main...${{ github.sha }} | Select-String -NotMatch '^components/'
-          if (-not $otherChanges) {
-            $files = Get-Content "${{ github.workspace }}/changed-files.txt"
-            $names = $files | ForEach-Object { ($_ -replace '^components/', '') -replace '/.*$', '' }
-            $uniqueNames = $names | Sort-Object -Unique
-            $quotedNames = $uniqueNames | ForEach-Object { "'$_'" }
-            $changedComponentsList = $quotedNames -join ','
-            echo "CHANGED_COMPONENTS_LIST=$changedComponentsList" >> $env:GITHUB_ENV
-          }
-          else {
-            echo "CHANGED_COMPONENTS_LIST='all'" >> $env:GITHUB_ENV
-          }
+          $components = ./tooling/Get-Changed-Components.ps1
+          echo "CHANGED_COMPONENTS_LIST=$components" >> $env:GITHUB_ENV
 
       # Build and pack component nupkg
       - name: Build and pack component packages
