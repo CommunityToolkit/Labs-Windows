@@ -266,8 +266,7 @@ jobs:
       # Get changed components
       - name: Get changed components
         run: |
-          $components = ./tooling/Get-Changed-Components.ps1
-          echo "CHANGED_COMPONENTS_LIST=$components" >> $env:GITHUB_ENV
+          echo "CHANGED_COMPONENTS_LIST=$(./tooling/Get-Changed-Components.ps1)" >> $env:GITHUB_ENV
 
       # Build and pack component nupkg
       - name: Build and pack component packages
