@@ -135,8 +135,7 @@ jobs:
 
       - name: Get changed components
         run: |
-          $components = ./tooling/Get-Changed-Components.ps1
-          echo "CHANGED_COMPONENTS_LIST=$components" >> $env:GITHUB_ENV
+          echo "CHANGED_COMPONENTS_LIST=$(./tooling/Get-Changed-Components.ps1)" >> $env:GITHUB_ENV
 
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
