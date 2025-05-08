@@ -48,7 +48,7 @@ git clone --recurse-submodules https://github.com/CommunityToolkit/Labs-Windows.
 ## Build Requirements
 
 - Visual Studio 2022 (UWP & Desktop Workloads for .NET)
-- .NET 8 SDK
+- .NET 9 SDK
 - Windows 10 SDK, version 2004 (10.0.19041.0)
 - Windows 10 21H1 (Build 19043) or greater
 - Run `dotnet tool restore` from the project root to install SlnGen
