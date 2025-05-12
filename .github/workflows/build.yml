@@ -288,7 +288,8 @@ jobs:
       - name: Push packages (main)
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          dotnet nuget update source LabsFeed `
+          dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json `
+            --name LabsFeed `
             --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
           dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
 
