@@ -27,6 +27,13 @@
             </Grid.ColumnDefinitions>
             <controls:MarkdownTextBlock x:Name="MarkdownTextBlock1"
                                         Grid.Column="0"
+                                        UseEmphasisExtras="{x:Bind UseEmphasisExtras, Mode=OneWay}"
+                                        UsePipeTables="{x:Bind UsePipeTables, Mode=OneWay}"
+                                        UseListExtras="{x:Bind UseListExtras, Mode=OneWay}"
+                                        UseTaskLists="{x:Bind UseTaskLists, Mode=OneWay}"
+                                        UseAutoLinks="{x:Bind UseAutoLinks, Mode=OneWay}"
+                                        DisableHtml="{x:Bind DisableHtml, Mode=OneWay}"
+                                        UseSoftlineBreakAsHardlineBreak="{x:Bind UseSoftlineBreakAsHardlineBreak, Mode=OneWay}"
                                         Config="{x:Bind LiveMarkdownConfig, Mode=OneTime}"
                                         Text="{x:Bind MarkdownTextBox.Text, Mode=OneWay}" />
             <TextBox x:Name="MarkdownTextBox"
