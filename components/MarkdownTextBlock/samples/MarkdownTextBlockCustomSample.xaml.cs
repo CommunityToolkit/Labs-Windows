@@ -9,6 +9,13 @@ namespace MarkdownTextBlockExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
+[ToolkitSampleBoolOption("UseEmphasisExtras", false, Title = "UseEmphasisExtras")]
+[ToolkitSampleBoolOption("UsePipeTables", false, Title = "UsePipeTables")]
+[ToolkitSampleBoolOption("UseListExtras", false, Title = "UseListExtras")]
+[ToolkitSampleBoolOption("UseTaskLists", false, Title = "UseTaskLists")]
+[ToolkitSampleBoolOption("UseAutoLinks", false, Title = "UseAutoLinks")]
+[ToolkitSampleBoolOption("DisableHtml", false, Title = "DisableHtml")]
+[ToolkitSampleBoolOption("UseSoftlineBreakAsHardlineBreak", false, Title = "UseSoftlineBreakAsHardlineBreak")]
 [ToolkitSample(id: nameof(MarkdownTextBlockCustomSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(CommunityToolkit.Labs.WinUI.MarkdownTextBlock)} custom control.")]
 public sealed partial class MarkdownTextBlockCustomSample : Page
 {
