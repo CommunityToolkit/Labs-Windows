@@ -62,9 +62,56 @@ public partial class DataColumn : ContentControl
         }
     }
 
+    /// <summary>
+    /// Gets or sets the filter predicate for this column.
+    /// </summary>
+    public Func<object?, bool>? FilterPredicate
+    {
+        get { return (Func<object?, bool>?)GetValue(FilterPredicateProperty); }
+        set { SetValue(FilterPredicateProperty, value); }
+    }
+
+    /// <summary>
+    /// Identifies the FilterPredicate dependency property.
+    /// </summary>
+    public static readonly DependencyProperty FilterPredicateProperty =
+        DependencyProperty.Register(nameof(FilterPredicate), typeof(Func<object?, bool>), typeof(DataColumn), new PropertyMetadata(null, OnFilterPredicateChanged));
+
+    private static void OnFilterPredicateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DataColumn column && column._parent?.TryGetTarget(out DataTable? parent) == true && parent != null)
+        {
+            parent.ApplyFilters();
+        }
+    }
+
     public DataColumn()
     {
         this.DefaultStyleKey = typeof(DataColumn);
+
+        this.DragStarting += DataColumn_DragStarting;
+        this.DragOver += DataColumn_DragOver;
+        this.Drop += DataColumn_Drop;
+    }
+
+    private void DataColumn_DragStarting(object sender, DragStartingEventArgs e)
+    {
+        DragStarted?.Invoke(this, EventArgs.Empty);
+        e.Data.SetData("DataColumn", this);
+        e.Handled = true;
+    }
+
+    private void DataColumn_DragOver(object sender, DragEventArgs e)
+    {
+        DragOver?.Invoke(this, EventArgs.Empty);
+        e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+        e.Handled = true;
+    }
+
+    private void DataColumn_Drop(object sender, DragEventArgs e)
+    {
+        Drop?.Invoke(this, EventArgs.Empty);
+        e.Handled = true;
     }
 
     protected override void OnApplyTemplate()

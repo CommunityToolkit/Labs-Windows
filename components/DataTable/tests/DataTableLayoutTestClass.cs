@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if NET5_0_WINDOWS
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
 using CommunityToolkit.WinUI.Controls;
@@ -66,3 +67,4 @@ public partial class DataTableLayoutTestClass : VisualUITestBase
         Assert.AreEqual(targetWidth!.Value, column.ActualWidth, 1.0, "Column didn't autosize to match");
     }
 }
+#endif
