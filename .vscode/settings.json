@@ -8,5 +8,6 @@
     "csharp.semanticHighlighting.enabled": true,
     "omnisharp.enableMsBuildLoadProjectsOnDemand": true,
     "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
-    "dotnet.defaultSolution": "CommunityToolkit.AllComponents.sln"
+    "dotnet.defaultSolution": "CommunityToolkit.AllComponents.sln",
+    "dotnet.preferCSharpExtension": true
 }

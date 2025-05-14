@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if NET5_0_WINDOWS
 namespace DataTableTests;
 
 /// <summary>
@@ -14,3 +15,4 @@ public sealed partial class DataTableColumnAutoSizeTestPage : Page
         this.InitializeComponent();
     }
 }
+#endif

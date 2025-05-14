@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-windows10.0.19041.0;net6.0</TargetFrameworks>
+    <UseWPF>false</UseWPF>
+    <UseWindowsForms>false</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0-windows10.0.19041.0'">
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows10.0.19041.0'">
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.22621.755" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,44 @@
 
 # 🧪 Windows Community Toolkit Labs (Preview) 🧪
 
+## DataTable Component Enhancements
+
+### Advanced Filtering
+
+The DataTable component now supports advanced filtering options including multi-column filters and custom filter predicates. Each DataColumn has a `FilterPredicate` property that accepts a function to filter rows based on column values.
+
+Example:
+
+```csharp
+column.FilterPredicate = value => (int)value > 10;
+dataTable.ApplyFilters();
+```
+
+### Drag-and-Drop Column Reordering
+
+Users can reorder columns via drag-and-drop. The DataTable raises a `ColumnsReordered` event when columns are reordered programmatically or by user interaction.
+
+### Customizable Row Grouping and Aggregation
+
+Row grouping and aggregation features are planned to allow grouping rows by one or more columns and performing aggregations like sum, average, etc.
+
+### Export Functionality
+
+Export data to CSV, Excel, or PDF formats is supported via the `ExportData(string format)` method.
+
+### Keyboard Navigation and Shortcuts
+
+Keyboard navigation and shortcuts are supported for improved accessibility and user experience.
+
+### Testing
+
+New unit and integration tests have been added to cover edge cases and complex user interactions.
+
+### Contribution
+
+Contributions to improve the DataTable component are welcome. Please follow the coding standards and add tests for new features.
+
+
 ![Windows Community Toolkit Labs header](CommunityToolkitLabs-Header.png)
 
 Welcome to the home of Windows Community Toolkit Labs. A place for all new components to be developed in 'experiments' for the [Windows Community Toolkit](https://aka.ms/windowstoolkitdocs) (built on top of WinUI 2, [WinUI 3](https://aka.ms/winui3), and [Uno Platform](https://platform.uno))! Find out more about Toolkit Labs in our [blog post here](https://devblogs.microsoft.com/ifdef-windows/announcing-the-windows-community-toolkit-labs/). It includes more about our motivations for having this space as well as how to setup the NuGet feed required to easily use experiments found in this repo.
@@ -96,7 +134,7 @@ Open up an issue on the main Toolkit repo using the `Toolkit Labs Transfer` Issu
 
 First ensure you've met the [Build Requirements](#build-requirements) or the build scripts will fail.
 
-Next you can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root. 
+Next you can build the main Sample App solution to see all the experiments currently available in this repository by running the `GenerateAllSolution.bat` script in the repo root.
 
 Then just open the `CommunityToolkit.AllComponents.sln` solution in Visual Studio. You can run one of the project heads such as `CommunityToolkit.App.WinAppSdk` to run the sample app for that platform.
 
