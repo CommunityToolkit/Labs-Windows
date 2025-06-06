@@ -72,9 +72,6 @@ jobs:
 
     env:
       MULTI_TARGET_DIRECTORY: tooling/MultiTarget
-      # faux-ternary expression to select which platforms to build for each platform vs. duplicating step below.
-      TARGET_PLATFORMS: ${{ matrix.platform != 'WinUI3' && 'all-wasdk' || 'all-uwp' }}
-      TEST_PLATFORM: ${{ matrix.platform != 'WinUI3' && 'UWP' || 'WinAppSdk' }}
       VERSION_PROPERTY: ${{ github.ref == 'refs/heads/main' && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -132,19 +129,25 @@ jobs:
         uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[17.9,)'
-
+          
+      # Get changed components
       - name: Get changed components
         run: |
-          echo "CHANGED_COMPONENTS_LIST=$(./tooling/Get-Changed-Components.ps1)" >> $env:GITHUB_ENV
+          $changedComponents = $(./tooling/Get-Changed-Components.ps1)
+          $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets ${{ matrix.multitarget }} -WinUIMajorVersion ${{ matrix.winui }})
+          $hasBuildableComponents = $buildableChangedComponents.Count -gt 0
+          echo "CHANGED_COMPONENTS_LIST=$buildableChangedComponents" >> $env:GITHUB_ENV
+          echo "HAS_BUILDABLE_COMPONENTS=$hasBuildableComponents" >> $env:GITHUB_ENV
 
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
         working-directory: ./
+        if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: powershell -version 5.1 -command "./tooling/GenerateAllSolution.ps1 -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
 
       # Build solution
       - name: MSBuild (With diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: >
           msbuild.exe /restore /nowarn:MSB4011
           /p:Configuration=Release
@@ -154,7 +157,7 @@ jobs:
           CommunityToolkit.AllComponents.sln
 
       - name: MSBuild
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'false' }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'false' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: msbuild.exe CommunityToolkit.AllComponents.sln /restore /nowarn:MSB4011 -p:Configuration=Release
 
       # Run tests
@@ -162,12 +165,13 @@ jobs:
         uses: darenm/setup-vstest@3a16d909a1f3bbc65b52f8270d475d905e7d3e44
 
       - name: Install Testspace Module
+        if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         uses: testspace-com/setup-testspace@v1
         with:
           domain: ${{ github.repository_owner }}
 
       - name: Run component tests against ${{ matrix.multitarget }}
-        if: ${{ matrix.multitarget == 'uwp' || matrix.multitarget == 'wasdk' }}
+        if: ${{ (matrix.multitarget == 'uwp' || matrix.multitarget == 'wasdk') && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         id: test-platform
         run:  vstest.console.exe ./tooling/**/CommunityToolkit.Tests.${{ matrix.multitarget }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ matrix.multitarget }}.trx" /Blame
 
@@ -199,6 +203,7 @@ jobs:
           filters: |
             dump:
               - added: '${{ github.workspace }}/CrashDumps/*.dmp'
+              
       - name: Artifact - WER crash dumps
         uses: actions/upload-artifact@v4
         if: ${{ steps.filter.outputs.dump == 'true' && (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
@@ -266,19 +271,24 @@ jobs:
       # Get changed components
       - name: Get changed components
         run: |
-          echo "CHANGED_COMPONENTS_LIST=$(./tooling/Get-Changed-Components.ps1)" >> $env:GITHUB_ENV
+          $changedComponents = $(./tooling/Get-Changed-Components.ps1)
+          $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets ${{ matrix.multitarget }} -WinUIMajorVersion ${{ matrix.winui }})
+          $hasBuildableComponents = $buildableChangedComponents.Count -gt 0
+          echo "CHANGED_COMPONENTS_LIST=$buildableChangedComponents" >> $env:GITHUB_ENV
+          echo "HAS_BUILDABLE_COMPONENTS=$hasBuildableComponents" >> $env:GITHUB_ENV
 
       # Build and pack component nupkg
       - name: Build and pack component packages
+        if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: ./tooling/Build-Toolkit-Components.ps1 -MultiTargets all -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }} -DateForVersion ${{ env.VERSION_DATE }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
 
       - name: Validate package names
-        if: ${{ env.VERSION_PROPERTY != '' }}
+        if: ${{ env.VERSION_PROPERTY != '' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: powershell -version 5.1 -command "Get-ChildItem -Path '*.nupkg' | ForEach-Object { if (`$_.Name -notmatch '${{ env.VERSION_PROPERTY }}') { throw 'Nupkg name is missing trailing VERSION_PROPERTY' + `$_.Name } }" -ErrorAction Stop
 
       # Push Pull Request Packages to our DevOps Artifacts Feed (see nuget.config)
       - name: Push Pull Request Packages (if not fork)
-        if: ${{ env.IS_PR == 'true' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
+        if: ${{ env.IS_PR == 'true' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: |
           dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-PullRequests/nuget/v3/index.json `
             --name PullRequests `
@@ -286,7 +296,7 @@ jobs:
           dotnet nuget push "*.nupkg" --api-key dummy --source PullRequests --skip-duplicate
           
       - name: Push packages (main)
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: |
           dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json `
             --name LabsFeed `
@@ -296,7 +306,7 @@ jobs:
       # if we're not doing a PR build (or it's a PR from a fork) then we upload our packages so we can sign as a separate job or have available to test.
       - name: Upload Packages as Artifacts
         uses: actions/upload-artifact@v4
-        if: ${{ env.IS_PR == 'false' || github.event.pull_request.head.repo.full_name != github.repository }}
+        if: ${{ (env.IS_PR == 'false' || github.event.pull_request.head.repo.full_name != github.repository) && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         with:
           name: nuget-packages-winui${{ matrix.winui }}
           if-no-files-found: error
