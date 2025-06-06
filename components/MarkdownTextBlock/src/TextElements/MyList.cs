@@ -82,6 +82,7 @@ internal class MyList : IAddChild
         textBlock.SetValue(Grid.ColumnProperty, 0);
         textBlock.VerticalAlignment = VerticalAlignment.Top;
         textBlock.TextAlignment = TextAlignment.Right;
+        AutomationProperties.SetAccessibilityView(textBlock, AccessibilityView.Raw);
         grid.Children.Add(textBlock);
         var flowDoc = new MyFlowDocument();
         flowDoc.AddChild(child);

@@ -120,9 +120,9 @@ public partial class MarkdownTextBlock : Control
                 _renderer.ObjectRenderers.Add(new EmphasisInlineRenderer());
                 if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlEntityInlineRenderer());
                 _renderer.ObjectRenderers.Add(new LineBreakInlineRenderer());
-                _renderer.ObjectRenderers.Add(new LinkInlineRenderer());
+                if (!DisableLinks) _renderer.ObjectRenderers.Add(new LinkInlineRenderer());
                 _renderer.ObjectRenderers.Add(new LiteralInlineRenderer());
-                _renderer.ObjectRenderers.Add(new ContainerInlineRenderer());
+                if (!DisableLinks) _renderer.ObjectRenderers.Add(new ContainerInlineRenderer());
 
                 // Extension renderers
                 if (UsePipeTables) _renderer.ObjectRenderers.Add(new TableRenderer());
