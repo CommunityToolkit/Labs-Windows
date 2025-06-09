@@ -134,7 +134,7 @@ jobs:
         run: |
           $changedComponents = $(./tooling/Get-Changed-Components.ps1)
           $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets ${{ matrix.multitarget }} -WinUIMajorVersion ${{ matrix.winui }})
-          echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "'$_'" }) -join ',')" >> $env:GITHUB_ENV
+          echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "$_" }) -join ',')" >> $env:GITHUB_ENV
           echo "HAS_BUILDABLE_COMPONENTS=$($buildableChangedComponents.Count -gt 0)" >> $env:GITHUB_ENV
 
       # Generate full solution with all projects (sample gallery heads, components, tests)
@@ -270,7 +270,7 @@ jobs:
         run: |
           $changedComponents = $(./tooling/Get-Changed-Components.ps1)
           $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets "all" -WinUIMajorVersion ${{ matrix.winui }})
-          echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "'$_'" }) -join ',')" >> $env:GITHUB_ENV
+          echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "$_" }) -join ',')" >> $env:GITHUB_ENV
           echo "HAS_BUILDABLE_COMPONENTS=$($buildableChangedComponents.Count -gt 0)" >> $env:GITHUB_ENV
 
       # Build and pack component nupkg
