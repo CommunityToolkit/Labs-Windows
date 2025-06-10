@@ -17,6 +17,8 @@ public class WinUIRenderer : RendererBase
     private readonly Stack<IAddChild> _stack = new Stack<IAddChild>();
     private char[] _buffer;
     private MarkdownConfig _config = MarkdownConfig.Default;
+    private readonly Stack<string> _listBullets = new();
+
     public MyFlowDocument FlowDocument { get; private set; }
     public MarkdownConfig Config
     {
@@ -24,6 +26,10 @@ public class WinUIRenderer : RendererBase
         set => _config = value;
     }
     public MarkdownTextBlock MarkdownTextBlock { get; }
+
+    internal bool IsFirstBulletItem { get; set; }
+
+    internal bool IsLastBulletItem { get; set; }
 
     public WinUIRenderer(MyFlowDocument document, MarkdownConfig config, MarkdownTextBlock markdownTextBlock)
     {
@@ -131,6 +137,29 @@ public class WinUIRenderer : RendererBase
                 text.CopyTo(offset, _buffer, 0, length);
                 WriteText(new string(_buffer, 0, length));
             }
+        }
+    }
+
+    public void PushListBullet(string bullet)
+    {
+        _listBullets.Push(bullet);
+    }
+
+    public string PeekListBullet()
+    {
+        return _listBullets.Count > 0 ? _listBullets.Peek() : string.Empty;
+    }
+
+    public int GetListBulletCount()
+    {
+        return _listBullets.Count;
+    }
+
+    public void PopListBullet()
+    {
+        if (_listBullets.Count > 0)
+        {
+            _listBullets.Pop();
         }
     }
 

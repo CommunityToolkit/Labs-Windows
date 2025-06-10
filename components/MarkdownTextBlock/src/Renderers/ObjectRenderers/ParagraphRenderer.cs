@@ -14,7 +14,7 @@ internal class ParagraphRenderer : UWPObjectRenderer<ParagraphBlock>
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-        var paragraph = new MyParagraph(obj);
+        var paragraph = new MyParagraph(obj, renderer);
         // set style
         renderer.Push(paragraph);
         renderer.WriteLeafInline(obj);
