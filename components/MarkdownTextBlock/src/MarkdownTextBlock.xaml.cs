@@ -107,6 +107,7 @@ public partial class MarkdownTextBlock : Control
                 // Default block renderers
                 _renderer.ObjectRenderers.Add(new CodeBlockRenderer());
                 _renderer.ObjectRenderers.Add(new ListRenderer());
+                _renderer.ObjectRenderers.Add(new ListItemRenderer());
                 _renderer.ObjectRenderers.Add(new HeadingRenderer());
                 _renderer.ObjectRenderers.Add(new ParagraphRenderer());
                 _renderer.ObjectRenderers.Add(new QuoteBlockRenderer());
