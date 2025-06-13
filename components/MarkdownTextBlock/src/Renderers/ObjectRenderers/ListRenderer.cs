@@ -29,22 +29,13 @@ internal class ListRenderer : UWPObjectRenderer<ListBlock>
             }
         }
 
-        bool parentIsFirstBulletItem = renderer.IsFirstBulletItem;
-        bool parentIsLastBulletItem = renderer.IsLastBulletItem;
-        renderer.IsFirstBulletItem = true;
-        renderer.IsLastBulletItem = listBlock.Count == 1;
         foreach (var listItem in listBlock)
         {
             renderer.PushListBullet(GetBulletString(isOrdered, bulletType, index));
             renderer.Write(listItem);
             renderer.PopListBullet();
             index++;
-
-            renderer.IsFirstBulletItem = false;
-            renderer.IsLastBulletItem = listBlock.Count == index;
         }
-        renderer.IsFirstBulletItem = parentIsFirstBulletItem;
-        renderer.IsLastBulletItem = parentIsLastBulletItem;
     }
 
     internal static BulletType ToOrderedBulletType(char bullet)

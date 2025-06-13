@@ -27,10 +27,6 @@ public class WinUIRenderer : RendererBase
     }
     public MarkdownTextBlock MarkdownTextBlock { get; }
 
-    internal bool IsFirstBulletItem { get; set; }
-
-    internal bool IsLastBulletItem { get; set; }
-
     public WinUIRenderer(MyFlowDocument document, MarkdownConfig config, MarkdownTextBlock markdownTextBlock)
     {
         _buffer = new char[1024];
