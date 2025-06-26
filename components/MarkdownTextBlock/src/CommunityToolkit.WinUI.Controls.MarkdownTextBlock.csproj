@@ -25,6 +25,7 @@
     <PackageReference Include="Markdig" Version="0.38.0" />
     <PackageReference Include="Roman-Numerals" Version="2.0.1" />
   </ItemGroup>
+
   <ItemGroup Condition="'$(IsUwp)' == 'true'">
     <Using Include="Windows.UI" />
     <Using Include="Windows.UI.Xaml.Documents" />
@@ -33,6 +34,7 @@
     <Using Include="Windows.UI.Xaml.Shapes" />
     <Using Include="Windows.UI.Text" />
   </ItemGroup>
+
   <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
     <Using Include="Microsoft.UI" />
     <Using Include="Microsoft.UI.Xaml.Documents" />
@@ -41,6 +43,7 @@
     <Using Include="Microsoft.UI.Xaml.Shapes" />
     <Using Include="Microsoft.UI.Text" />
   </ItemGroup>
+  
   <ItemGroup>
     <Compile Update="MarkdownTextBlock.xaml.cs">
       <DependentUpon>MarkdownTextBlock.xaml</DependentUpon>
