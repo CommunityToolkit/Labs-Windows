@@ -132,7 +132,7 @@ jobs:
             # Get changed components
       - name: Get changed components
         run: |
-          $changedComponents = $(./tooling/Get-Changed-Components.ps1)
+          $changedComponents = $(./tooling/Get-Changed-Components.ps1 -FromSha ${{ github.event.before }} -ToSha ${{ github.event.after }}))
           $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets ${{ matrix.multitarget }} -WinUIMajorVersion ${{ matrix.winui }})
           echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "$_" }) -join ',')" >> $env:GITHUB_ENV
           echo "HAS_BUILDABLE_COMPONENTS=$($buildableChangedComponents.Count -gt 0)" >> $env:GITHUB_ENV
@@ -268,7 +268,7 @@ jobs:
             # Get changed components
       - name: Get changed components
         run: |
-          $changedComponents = $(./tooling/Get-Changed-Components.ps1)
+          $changedComponents = $(./tooling/Get-Changed-Components.ps1 -FromSha ${{ github.event.before }} -ToSha ${{ github.event.after }})
           $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets "all" -WinUIMajorVersion ${{ matrix.winui }})
           echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "$_" }) -join ',')" >> $env:GITHUB_ENV
           echo "HAS_BUILDABLE_COMPONENTS=$($buildableChangedComponents.Count -gt 0)" >> $env:GITHUB_ENV
