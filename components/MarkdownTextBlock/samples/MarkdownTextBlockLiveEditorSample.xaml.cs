@@ -32,7 +32,21 @@ public sealed partial class MarkdownTextBlockLiveEditorSample : Page
     {
         this.InitializeComponent();
         _config = new MarkdownConfig();
-        MarkdownTextBox.Text = "# Hello World\n\nTry typing some **markdown** here!\n\n- Item 1\n- Item 2\n- [ ] Task item\n\n> This is a blockquote\n\n```csharp\nConsole.WriteLine(\"Hello, World!\");\n```";
+        MarkdownTextBox.Text = """
+            # Hello World
+
+            Try typing some **markdown** here!
+
+            - Item 1
+            - Item 2
+            - [ ] Task item
+
+            > This is a blockquote
+
+            ```csharp
+            Console.WriteLine("Hello, World!");
+            ```
+            """;
         MarkdownTextBlock.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
     }
 
