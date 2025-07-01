@@ -76,31 +76,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Configure Pagefile
-        uses: al-cheb/configure-pagefile-action@v1.4
-        with:
-          minimum-size: 32GB
-          maximum-size: 32GB
-          disk-root: "C:"
-      
-      - name: Enable User-Mode Dumps collecting
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '' }}
-        shell: powershell
-        run: |
-          New-Item '${{ github.workspace }}\CrashDumps' -Type Directory
-          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpFolder' -Type ExpandString -Value '${{ github.workspace }}\CrashDumps'
-          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpCount' -Type DWord -Value '10'
-          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpType' -Type DWord -Value '2'
-
-      - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: .NET Info (if diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
-        run: dotnet --info
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -114,6 +89,33 @@ jobs:
           $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets ${{ matrix.multitarget }} -WinUIMajorVersion ${{ matrix.winui }})
           echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "$_" }) -join ',')" >> $env:GITHUB_ENV
           echo "HAS_BUILDABLE_COMPONENTS=$($buildableChangedComponents.Count -gt 0)" >> $env:GITHUB_ENV
+
+      - name: Configure Pagefile
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        uses: al-cheb/configure-pagefile-action@v1.4
+        with:
+          minimum-size: 32GB
+          maximum-size: 32GB
+          disk-root: "C:"
+      
+      - name: Enable User-Mode Dumps collecting
+        if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        shell: powershell
+        run: |
+          New-Item '${{ github.workspace }}\CrashDumps' -Type Directory
+          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpFolder' -Type ExpandString -Value '${{ github.workspace }}\CrashDumps'
+          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpCount' -Type DWord -Value '10'
+          Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpType' -Type DWord -Value '2'
+
+      - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: .NET Info (if diagnostics)
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
+        run: dotnet --info
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
