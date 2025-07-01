@@ -108,13 +108,13 @@ jobs:
           Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpType' -Type DWord -Value '2'
 
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: .NET Info (if diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: dotnet --info
 
       # Restore Tools from Manifest list in the Repository
