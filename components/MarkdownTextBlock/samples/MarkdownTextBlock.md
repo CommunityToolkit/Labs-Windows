@@ -25,10 +25,12 @@ icon: Assets/MarkdownTextBlock.png
 
 MarkdownTextBlock is a evolution of the existing MarkdownTextBlock in the community toolkit. This new implementation uses the popular [Markdig](https://github.com/xoofx/markdig) library for parsing. This solves some long standing bugs and feature gaps in our existing implementation.
 
-## Templated Controls
+## Feature Showcase
+See all the markdown features and syntax supported by the control:
 
-The Toolkit is built with templated controls. This provides developers a flexible way to restyle components
-easily while still inheriting the general functionality a control provides. The examples below show
-how a component can use a default style and then get overridden by the end developer.
+> [!Sample MarkdownTextBlockExampleSample]
 
-> [!Sample MarkdownTextBlockCustomSample]
+## Interactive Live Editor
+Try typing markdown and see it rendered in real-time:
+
+> [!Sample MarkdownTextBlockLiveEditorSample]
