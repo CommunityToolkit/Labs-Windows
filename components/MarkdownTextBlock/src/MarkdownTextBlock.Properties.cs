@@ -73,6 +73,24 @@ public partial class MarkdownTextBlock
         new PropertyMetadata(false));
 
     /// <summary>
+    /// Identifies the <see cref="DisableHtmlProperty"/> dependency property.
+    /// </summary>
+    private static readonly DependencyProperty DisableHtmlProperty = DependencyProperty.Register(
+        nameof(DisableHtmlProperty),
+        typeof(bool),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(false));
+
+    /// <summary>
+    /// Identifies the <see cref="DisableLinksProperty"/> dependency property.
+    /// </summary>
+    private static readonly DependencyProperty DisableLinksProperty = DependencyProperty.Register(
+        nameof(DisableLinksProperty),
+        typeof(bool),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(false));
+
+    /// <summary>
     /// Identifies the <see cref="UseSoftlineBreakAsHardlineBreak"/> dependency property.
     /// </summary>
     private static readonly DependencyProperty UseSoftlineBreakAsHardlineBreakProperty = DependencyProperty.Register(
@@ -148,6 +166,24 @@ public partial class MarkdownTextBlock
     {
         get => (bool)GetValue(UseAutoLinksProperty);
         set => SetValue(UseAutoLinksProperty, value);
+    }
+
+    /// <summary>
+    /// If true, Disables HTML parsing.
+    /// </summary>
+    public bool DisableHtml
+    {
+        get => (bool)GetValue(DisableHtmlProperty);
+        set => SetValue(DisableHtmlProperty, value);
+    }
+
+    /// <summary>
+    /// If true, Disables link parsing.
+    /// </summary>
+    public bool DisableLinks
+    {
+        get => (bool)GetValue(DisableLinksProperty);
+        set => SetValue(DisableLinksProperty, value);
     }
 
     /// <summary>

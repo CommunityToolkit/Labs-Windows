@@ -6,6 +6,6 @@
     <SharedGUID>22BE50B3-9810-4304-899E-6D7AF9D3147A</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>DependencyPropertyGeneratorExperiment.Tests</Import_RootNamespace>
+    <Import_RootNamespace>DependencyPropertyGeneratorTests</Import_RootNamespace>
   </PropertyGroup>
 </Project>

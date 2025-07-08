@@ -3,26 +3,29 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+using System.Diagnostics;
 
 namespace MarkdownTextBlockExperiment.Samples;
 
 /// <summary>
-/// An example sample page of a custom control inheriting from Panel.
+/// An example sample demonstrating the full capabilities of the MarkdownTextBlock control with comprehensive markdown content.
 /// </summary>
-[ToolkitSample(id: nameof(MarkdownTextBlockCustomSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(CommunityToolkit.Labs.WinUI.MarkdownTextBlock)} custom control.")]
-public sealed partial class MarkdownTextBlockCustomSample : Page
+[ToolkitSampleBoolOption("UseEmphasisExtras", true, Title = "UseEmphasisExtras")]
+[ToolkitSampleBoolOption("UsePipeTables", true, Title = "UsePipeTables")]
+[ToolkitSampleBoolOption("UseListExtras", true, Title = "UseListExtras")]
+[ToolkitSampleBoolOption("UseTaskLists", true, Title = "UseTaskLists")]
+[ToolkitSampleBoolOption("UseAutoLinks", true, Title = "UseAutoLinks")]
+[ToolkitSampleBoolOption("DisableHtml", false, Title = "DisableHtml")]
+[ToolkitSampleBoolOption("UseSoftlineBreakAsHardlineBreak", false, Title = "UseSoftlineBreakAsHardlineBreak")]
+[ToolkitSample(id: nameof(MarkdownTextBlockExampleSample), "Full Example", description: $"A comprehensive example showcasing all the features and capabilities of the {nameof(CommunityToolkit.Labs.WinUI.MarkdownTextBlock)} control with various markdown syntax.")]
+public sealed partial class MarkdownTextBlockExampleSample : Page
 {
     private MarkdownConfig _config;
-    private MarkdownConfig _liveConfig;
     private string _text;
     private const string _markdown = @"
 This control was originally written by [Nero Cui](https://github.com/nerocui) for [JitHub](https://github.com/JitHubApp/JitHubV2). The control is powered by the popular [Markdig](https://github.com/xoofx/markdig) markdown parsing library and *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering.
 
 *Note:* For a full list of markdown syntax, see the [official syntax guide](http://daringfireball.net/projects/markdown/syntax).
-
-&nbsp;
-
-**Try it live!** Type in the *unformatted text box*!
 
 &nbsp;
 
@@ -588,27 +591,18 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
         set => _config = value;
     }
 
-    public MarkdownConfig LiveMarkdownConfig
-    {
-        get => _liveConfig;
-        set => _liveConfig = value;
-    }
-
     public string Text
     {
         get => _text;
         set => _text = value;
     }
 
-    public MarkdownTextBlockCustomSample()
+    public MarkdownTextBlockExampleSample()
     {
         this.InitializeComponent();
         _config = new MarkdownConfig();
-        _liveConfig = new MarkdownConfig();
         _text = _markdown;
-        MarkdownTextBox.Text = "# Hello World\n\n";
-        MarkdownTextBlock1.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
-        MarkdownTextBlock2.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
+        MarkdownTextBlock.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
     }
 
     private void MarkdownTextBlock_OnLinkClicked(object? sender, LinkClickedEventArgs e)

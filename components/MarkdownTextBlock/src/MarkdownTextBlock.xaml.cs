@@ -60,6 +60,7 @@ public partial class MarkdownTextBlock : Control
         if (UseTaskLists) pipelineBuilder = pipelineBuilder.UseTaskLists();
         if (UseAutoLinks) pipelineBuilder = pipelineBuilder.UseAutoLinks();
         if (UseSoftlineBreakAsHardlineBreak) pipelineBuilder = pipelineBuilder.UseSoftlineBreakAsHardlineBreak();
+        if (DisableHtml) pipelineBuilder = pipelineBuilder.DisableHtml();
 
         _pipeline = pipelineBuilder.Build();
 
@@ -88,8 +89,9 @@ public partial class MarkdownTextBlock : Control
 
             if (!string.IsNullOrEmpty(Text))
             {
-                this.MarkdownDocument = Markdown.Parse(Text, _pipeline);
-                _renderer.Render(this.MarkdownDocument);
+                var parsedMarkdown = Markdown.Parse(Text, _pipeline);
+                this.MarkdownDocument = parsedMarkdown;
+                _renderer.Render(parsedMarkdown);
             }
         }
     }
@@ -105,27 +107,28 @@ public partial class MarkdownTextBlock : Control
                 // Default block renderers
                 _renderer.ObjectRenderers.Add(new CodeBlockRenderer());
                 _renderer.ObjectRenderers.Add(new ListRenderer());
+                _renderer.ObjectRenderers.Add(new ListItemRenderer());
                 _renderer.ObjectRenderers.Add(new HeadingRenderer());
                 _renderer.ObjectRenderers.Add(new ParagraphRenderer());
                 _renderer.ObjectRenderers.Add(new QuoteBlockRenderer());
                 _renderer.ObjectRenderers.Add(new ThematicBreakRenderer());
-                _renderer.ObjectRenderers.Add(new HtmlBlockRenderer());
+                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlBlockRenderer());
 
                 // Default inline renderers
                 if (UseAutoLinks) _renderer.ObjectRenderers.Add(new AutoLinkInlineRenderer());
                 _renderer.ObjectRenderers.Add(new CodeInlineRenderer());
                 _renderer.ObjectRenderers.Add(new DelimiterInlineRenderer());
                 _renderer.ObjectRenderers.Add(new EmphasisInlineRenderer());
-                _renderer.ObjectRenderers.Add(new HtmlEntityInlineRenderer());
+                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlEntityInlineRenderer());
                 _renderer.ObjectRenderers.Add(new LineBreakInlineRenderer());
-                _renderer.ObjectRenderers.Add(new LinkInlineRenderer());
+                if (!DisableLinks) _renderer.ObjectRenderers.Add(new LinkInlineRenderer());
                 _renderer.ObjectRenderers.Add(new LiteralInlineRenderer());
-                _renderer.ObjectRenderers.Add(new ContainerInlineRenderer());
+                if (!DisableLinks) _renderer.ObjectRenderers.Add(new ContainerInlineRenderer());
 
                 // Extension renderers
                 if (UsePipeTables) _renderer.ObjectRenderers.Add(new TableRenderer());
                 if (UseTaskLists) _renderer.ObjectRenderers.Add(new TaskListRenderer());
-                _renderer.ObjectRenderers.Add(new HtmlInlineRenderer());
+                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlInlineRenderer());
             }
             _pipeline.Setup(_renderer);
             ApplyText(false);

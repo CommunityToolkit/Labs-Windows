@@ -2,9 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace RibbonTests;
+namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
 
-public sealed partial class RibbonTestPage : Page
+internal enum BulletType
 {
-    public RibbonTestPage() => InitializeComponent();
+    Circle,
+    Number,
+    LowerAlpha,
+    UpperAlpha,
+    LowerRoman,
+    UpperRoman
 }

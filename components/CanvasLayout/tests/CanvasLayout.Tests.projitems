@@ -6,7 +6,7 @@
     <SharedGUID>A09DC4AC-4111-440E-A188-E787CAE8C0B1</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>CanvasLayoutExperiment.Tests</Import_RootNamespace>
+    <Import_RootNamespace>CanvasLayoutTests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleCanvasLayoutTestClass.cs" />
