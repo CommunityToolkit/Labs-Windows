@@ -1,4 +1,4 @@
-name: WeeklyMerge
+name: weekly-merge
 
 on:
   schedule:

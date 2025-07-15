@@ -18,7 +18,7 @@ on:
 
   # Allow this workflow to be triggered by scheduled release workflows
   workflow_run:
-    workflows: [ WeeklyMerge ]
+    workflows: [ weekly-merge ]
     types:
       - completed
 
