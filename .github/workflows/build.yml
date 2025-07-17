@@ -78,7 +78,7 @@ jobs:
 
     env:
       MULTI_TARGET_DIRECTORY: tooling/MultiTarget
-      VERSION_PROPERTY: ${{ github.ref == 'refs/heads/main' && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
+      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -234,7 +234,7 @@ jobs:
         winui: [0, 2, 3]
 
     env:
-      VERSION_PROPERTY: ${{ github.ref == 'refs/heads/main' && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
+      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
@@ -302,7 +302,7 @@ jobs:
           dotnet nuget push "*.nupkg" --api-key dummy --source PullRequests --skip-duplicate
           
       - name: Push packages (main)
-        if: ${{ github.ref == 'refs/heads/main' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        if: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/')) && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: |
           dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json `
             --name LabsFeed `
