@@ -328,7 +328,7 @@ jobs:
 
   sign:
     needs: [package]
-    if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/') }}
+    if: ${{ startsWith(github.ref, 'refs/heads/rel/') }}
     runs-on: windows-latest
     permissions:
       id-token: write # Required for requesting the JWT
