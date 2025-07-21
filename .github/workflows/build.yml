@@ -367,8 +367,8 @@ jobs:
           --file-list "${{ github.workspace }}/SignClientFileList.txt"
           --timestamp-url "http://timestamp.digicert.com"
           --publisher-name ".NET Foundation"
-          --description "Windows Community Toolkit"
-          --description-url "https://github.com/CommunityToolkit/Windows"
+          --description "Windows Community Toolkit Labs"
+          --description-url "https://github.com/CommunityToolkit/Labs-Windows"
           --azure-key-vault-url "${{ secrets.SIGN_KEY_VAULT_URL }}"
           --azure-key-vault-client-id ${{ secrets.SIGN_CLIENT_ID }}
           --azure-key-vault-client-secret "${{ secrets.SIGN_CLIENT_SECRET }}"
