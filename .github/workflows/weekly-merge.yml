@@ -1,0 +1,36 @@
+name: weekly-merge
+
+on:
+  schedule:
+    # Runs every Wednesday at 08:00 UTC (midnight PST / 1:00 AM PDT)
+    - cron: '0 8 * * 3'
+
+  # Allows manual triggering for convenience
+  workflow_dispatch:
+
+jobs:
+  weekly-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Use a token with write permissions to push to the branch
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # Fetch all history for merging
+
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Merge main into rel/weekly
+        run: |
+          git fetch origin
+          git checkout rel/weekly
+          git reset --hard origin/rel/weekly
+          git merge --no-ff origin/main -m "Weekly merge of main into rel/weekly"
+          git push origin rel/weekly
