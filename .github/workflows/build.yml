@@ -16,12 +16,6 @@ on:
   workflow_dispatch:
   merge_group:
 
-  # Allow this workflow to be triggered by scheduled release workflows
-  workflow_run:
-    workflows: [ weekly-merge ]
-    types:
-      - completed
-
 env:
   DOTNET_VERSION: ${{ '9.0.x' }}
   ENABLE_DIAGNOSTICS: true

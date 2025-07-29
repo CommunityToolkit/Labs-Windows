@@ -1,0 +1,51 @@
+name: scheduled-releases
+
+on:
+  schedule:
+    # Runs every Wednesday at 08:00 UTC (midnight PST / 1:00 AM PDT)
+    - cron: '0 8 * * 3'
+
+  # Allows manual triggering for convenience
+  workflow_dispatch:
+
+jobs:
+  weekly-release:
+    runs-on: ubuntu-latest
+
+    env:
+      # Declare to satisfy linter, will be set dynamically during workflow execution
+      PR_NUMBER: ""
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Create weekly release PR
+        shell: pwsh
+        run: |
+          # Create PR from main to rel/weekly, capture created URL
+          $PR_URL = $(gh pr create `
+            --base rel/weekly `
+            --head main `
+            --title "Scheduled weekly release $(Get-Date -Format 'yyyy-MM-dd')" `
+            --body "Automated weekly release PR created by scheduled workflow." `
+            --fill-verbose `
+            --reviewer michael-hawker)
+          
+          # Extract PR number from URL and set as environment variable
+          $PR_NUMBER = $($PR_URL | Select-String -Pattern '\d+$').Matches[0].Value
+          echo "PR_NUMBER=$PR_NUMBER" >> $env:GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge for the PR
+        shell: pwsh
+        run: |
+          gh pr merge ${{ env.PR_NUMBER }} --auto --rebase
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
