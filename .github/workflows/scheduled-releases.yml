@@ -15,6 +15,7 @@ jobs:
     env:
       # Declare to satisfy linter, will be set dynamically during workflow execution
       PR_NUMBER: ""
+      HAS_NEW_COMMITS: ""
 
     steps:
       - name: Checkout repository
@@ -27,7 +28,15 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
 
+      - name: Check for new commits
+        shell: pwsh
+        run: |
+          # Check if there are commits between rel/weekly and main
+          $commitCount = git rev-list --count rel/weekly..main
+          echo "HAS_NEW_COMMITS=$($commitCount -gt 0)" >> $env:GITHUB_ENV
+
       - name: Create weekly release PR
+        if: ${{ env.HAS_NEW_COMMITS == 'true' }}
         shell: pwsh
         run: |
           # Create PR from main to rel/weekly, capture created URL
@@ -45,6 +54,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable auto-merge for the PR
+        if: ${{ env.HAS_NEW_COMMITS == 'true' }}
         shell: pwsh
         run: |
           gh pr merge ${{ env.PR_NUMBER }} --auto --rebase
