@@ -32,7 +32,7 @@ jobs:
         shell: pwsh
         run: |
           # Check if there are commits between rel/weekly and main
-          $commitCount = git rev-list --count rel/weekly..main
+          $commitCount = git rev-list --count origin/rel/weekly..main
           echo "HAS_NEW_COMMITS=$($commitCount -gt 0)" >> $env:GITHUB_ENV
 
       - name: Create weekly release PR
