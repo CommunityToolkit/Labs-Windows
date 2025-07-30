@@ -35,7 +35,6 @@ jobs:
             --base rel/weekly `
             --head main `
             --title "Scheduled weekly release $(Get-Date -Format 'yyyy-MM-dd')" `
-            --body "Automated weekly release PR created by scheduled workflow." `
             --fill-verbose `
             --reviewer michael-hawker)
           
