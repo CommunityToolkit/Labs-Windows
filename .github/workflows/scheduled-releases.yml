@@ -57,6 +57,7 @@ jobs:
         if: ${{ env.HAS_NEW_COMMITS == 'true' }}
         shell: pwsh
         run: |
-          gh pr merge ${{ env.PR_NUMBER }} --auto --rebase
+          # Should result in fast-forward unless branch histories diverge 
+          gh pr merge ${{ env.PR_NUMBER }} --auto --merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
