@@ -9,55 +9,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  weekly-release:
+  merge-weekly:
     runs-on: ubuntu-latest
-
-    env:
-      # Declare to satisfy linter, will be set dynamically during workflow execution
-      PR_NUMBER: ""
-      HAS_NEW_COMMITS: ""
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          # Use a token with write permissions to push to the branch
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # Fetch all history for merging
 
       - name: Configure Git
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Check for new commits
-        shell: pwsh
+      - name: Merge main into rel/weekly
         run: |
-          # Check if there are commits between rel/weekly and main
-          $commitCount = git rev-list --count origin/rel/weekly..main
-          echo "HAS_NEW_COMMITS=$($commitCount -gt 0)" >> $env:GITHUB_ENV
+          git fetch origin
+          git checkout rel/weekly
+          git reset --hard origin/rel/weekly
+          git merge --ff-only origin/main -m "Weekly merge of main into rel/weekly"
+          git push origin rel/weekly
 
-      - name: Create weekly release PR
-        if: ${{ env.HAS_NEW_COMMITS == 'true' }}
-        shell: pwsh
-        run: |
-          # Create PR from main to rel/weekly, capture created URL
-          $PR_URL = $(gh pr create `
-            --base rel/weekly `
-            --head main `
-            --title "Scheduled weekly release $(Get-Date -Format 'yyyy-MM-dd')" `
-            --fill-verbose `
-            --reviewer michael-hawker)
-          
-          # Extract PR number from URL and set as environment variable
-          $PR_NUMBER = $($PR_URL | Select-String -Pattern '\d+$').Matches[0].Value
-          echo "PR_NUMBER=$PR_NUMBER" >> $env:GITHUB_ENV
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Enable auto-merge for the PR
-        if: ${{ env.HAS_NEW_COMMITS == 'true' }}
-        shell: pwsh
-        run: |
-          # Should result in fast-forward unless branch histories diverge 
-          gh pr merge ${{ env.PR_NUMBER }} --auto --merge
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Then trigger the build workflow on the updated rel/weekly branch
+  trigger-build:
+    needs: merge-weekly
+    uses: CommunityToolkit/Labs-Windows/.github/workflows/build.yml@rel/weekly
