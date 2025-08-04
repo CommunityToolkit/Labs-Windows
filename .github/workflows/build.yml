@@ -15,6 +15,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   merge_group:
+  
+  # Allow this workflow to be called as a reusable workflow
+  workflow_call:
 
 env:
   DOTNET_VERSION: ${{ '9.0.x' }}
