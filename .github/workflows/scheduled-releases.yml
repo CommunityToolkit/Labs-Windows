@@ -39,3 +39,4 @@ jobs:
   trigger-build:
     needs: merge-weekly
     uses: CommunityToolkit/Labs-Windows/.github/workflows/build.yml@rel/weekly
+    secrets: inherit
