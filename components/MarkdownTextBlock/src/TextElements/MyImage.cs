@@ -94,6 +94,16 @@ internal class MyImage : IAddChild
                 _image = await _imageProvider.GetImage(_uri.AbsoluteUri);
                 _container.Child = _image;
             }
+            else if (_uri.Scheme == "data")
+            {
+                // Handle data URLs (e.g., data:image/png;base64,...)
+                await LoadDataUrlImageAsync();
+            }
+            else if (_uri.Scheme == "file")
+            {
+                // Handle file URLs (e.g., file:///C:/path/to/image.png)
+                await LoadFileUrlImageAsync();
+            }
             else
             {
                 HttpClient client = new HttpClient();
@@ -154,5 +164,95 @@ internal class MyImage : IAddChild
         catch (Exception) { }
     }
 
-    public void AddChild(IAddChild child) {}
+    private async Task LoadDataUrlImageAsync()
+    {
+        try
+        {
+            var uriString = _uri.AbsoluteUri;
+
+            // Parse data URL format: data:[mediatype][;base64],data
+            if (!uriString.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+                return;
+
+            var commaIndex = uriString.IndexOf(',');
+            if (commaIndex == -1)
+                return;
+
+            var header = uriString.Substring(5, commaIndex - 5); // Skip "data:"
+            var data = uriString.Substring(commaIndex + 1);
+
+            // Check if it's base64 encoded
+            bool isBase64 = header.Contains("base64", StringComparison.OrdinalIgnoreCase);
+
+            byte[] imageBytes;
+            if (isBase64)
+            {
+                imageBytes = Convert.FromBase64String(data);
+            }
+            else
+            {
+                // Handle URL-encoded data (less common)
+                var decodedData = Uri.UnescapeDataString(data);
+                imageBytes = System.Text.Encoding.UTF8.GetBytes(decodedData);
+            }
+
+            // Create BitmapImage from bytes
+            BitmapImage bitmap = new BitmapImage();
+            using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+            {
+                await stream.WriteAsync(imageBytes.AsBuffer());
+                stream.Seek(0);
+                await bitmap.SetSourceAsync(stream);
+            }
+
+            _image.Source = bitmap;
+            _image.Width = bitmap.PixelWidth == 0 ? bitmap.DecodePixelWidth : bitmap.PixelWidth;
+            _image.Height = bitmap.PixelHeight == 0 ? bitmap.DecodePixelHeight : bitmap.PixelHeight;
+
+            _loaded = true;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load data URL image: {ex.Message}");
+        }
+    }
+
+    private async Task LoadFileUrlImageAsync()
+    {
+        try
+        {
+            var filePath = _uri.LocalPath;
+
+            // Check if file exists
+            if (!File.Exists(filePath))
+            {
+                System.Diagnostics.Debug.WriteLine($"File not found: {filePath}");
+                return;
+            }
+
+            // Read file as bytes
+            byte[] imageBytes = await File.ReadAllBytesAsync(filePath);
+
+            // Create BitmapImage from bytes
+            BitmapImage bitmap = new BitmapImage();
+            using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+            {
+                await stream.WriteAsync(imageBytes.AsBuffer());
+                stream.Seek(0);
+                await bitmap.SetSourceAsync(stream);
+            }
+
+            _image.Source = bitmap;
+            _image.Width = bitmap.PixelWidth == 0 ? bitmap.DecodePixelWidth : bitmap.PixelWidth;
+            _image.Height = bitmap.PixelHeight == 0 ? bitmap.DecodePixelHeight : bitmap.PixelHeight;
+
+            _loaded = true;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load file URL image: {ex.Message}");
+        }
+    }
+
+    public void AddChild(IAddChild child) { }
 }
