@@ -1,4 +1,4 @@
-<Page x:Class="TitleBarExperiment.Samples.ShellPage"
+﻿<Page x:Class="TitleBarExperiment.Samples.ShellPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -23,6 +23,10 @@
                            IsPaneButtonVisible="True"
                            PaneButtonClick="appTitleBar_PaneButtonClick"
                            Subtitle="Preview">
+            <controls:TitleBar.Resources>
+                <!--  Example of overriding the MinWidth of the SearchBox so it's extra wide  -->
+                <x:Double x:Key="TitleBarContentMinWidth">600</x:Double>
+            </controls:TitleBar.Resources>
             <controls:TitleBar.Icon>
                 <BitmapIcon ShowAsMonochrome="False"
                             UriSource="ms-appx:///Assets/AppTitleBarIcon.png" />

@@ -7,7 +7,7 @@
 
     <x:Double x:Key="TitleBarCompactHeight">32</x:Double>
     <x:Double x:Key="TitleBarTallHeight">48</x:Double>
-    <x:Double x:Key="TitleBarContentMaxWidth">360</x:Double>
+    <x:Double x:Key="TitleBarContentMinWidth">360</x:Double>
     <Style BasedOn="{StaticResource DefaultTitleBarStyle}"
            TargetType="local:TitleBar" />
 
@@ -178,7 +178,7 @@
 
                         <ContentPresenter x:Name="PART_ContentPresenter"
                                           Grid.Column="5"
-                                          MinWidth="360"
+                                          MinWidth="{ThemeResource TitleBarContentMinWidth}"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Center"
                                           HorizontalContentAlignment="Stretch"
