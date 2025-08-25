@@ -21,12 +21,10 @@ on:
     inputs:
       commit_range_start:
         description: 'The start commit of the range to check for incremental builds.'
-        default: ${{ github.event.before }}
         type: string
         required: false
       commit_range_end:
         description: 'The end commit of the range to check for incremental builds.'
-        default: ${{ github.event.after }}
         type: string
         required: false
 
