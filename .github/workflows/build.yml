@@ -18,6 +18,15 @@ on:
   
   # Allow this workflow to be called as a reusable workflow
   workflow_call:
+    inputs:
+      commit_range_start:
+        description: 'The start commit of the range to check for incremental builds.'
+        type: string
+        required: false
+      commit_range_end:
+        description: 'The end commit of the range to check for incremental builds.'
+        type: string
+        required: false
 
 env:
   DOTNET_VERSION: ${{ '9.0.x' }}
@@ -46,6 +55,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          ref: ${{ inputs.commit_range_end || github.sha }}
+          fetch-depth: 0
+          fetch-tags: true
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -84,11 +96,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          ref: ${{ inputs.commit_range_end || github.sha }}
           fetch-depth: 0
+          fetch-tags: true
           
       - name: Get changed components
         run: |
-          $changedComponents = $(./tooling/Get-Changed-Components.ps1 ${{ github.event.before }} ${{ github.event.after }})
+          $changedComponents = $(./tooling/Get-Changed-Components.ps1 ${{ inputs.commit_range_start || github.event.before }} ${{ inputs.commit_range_end || github.event.after }})
           $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets ${{ matrix.multitarget }} -WinUIMajorVersion ${{ matrix.winui }})
           echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "$_" }) -join ',')" >> $env:GITHUB_ENV
           echo "HAS_BUILDABLE_COMPONENTS=$($buildableChangedComponents.Count -gt 0)" >> $env:GITHUB_ENV
@@ -248,7 +262,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          ref: ${{ inputs.commit_range_end || github.sha }}
           fetch-depth: 0
+          fetch-tags: true
           
       - name: Format Date/Time of Commit for Package Version
         run: |
@@ -275,7 +291,7 @@ jobs:
             # Get changed components
       - name: Get changed components
         run: |
-          $changedComponents = $(./tooling/Get-Changed-Components.ps1 ${{ github.event.before }} ${{ github.event.after }})
+          $changedComponents = $(./tooling/Get-Changed-Components.ps1 ${{ inputs.commit_range_start || github.event.before }} ${{ inputs.commit_range_end || github.event.after }})
           $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets "all" -WinUIMajorVersion ${{ matrix.winui }})
           echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "$_" }) -join ',')" >> $env:GITHUB_ENV
           echo "HAS_BUILDABLE_COMPONENTS=$($buildableChangedComponents.Count -gt 0)" >> $env:GITHUB_ENV
@@ -440,6 +456,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          ref: ${{ inputs.commit_range_end || github.sha }}
+          fetch-depth: 0
+          fetch-tags: true
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
