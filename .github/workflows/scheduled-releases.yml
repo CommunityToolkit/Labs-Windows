@@ -68,4 +68,5 @@ jobs:
     with:
       commit_range_start: ${{ needs.tag-weekly-release.outputs.commit_range_start }}
       commit_range_end: ${{ needs.tag-weekly-release.outputs.commit_range_end }}
+      is_scheduled: true
     secrets: inherit
