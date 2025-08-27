@@ -2,7 +2,6 @@
   <PropertyGroup>
     <ToolkitComponentName>TitleBar</ToolkitComponentName>
     <Description>This package contains TitleBar.</Description>
-    <Version>0.0.2</Version>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
     <RootNamespace>CommunityToolkit.WinUI.Controls.TitleBarRns</RootNamespace>
