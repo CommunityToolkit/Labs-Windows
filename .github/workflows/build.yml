@@ -326,6 +326,15 @@ jobs:
             --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
           dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
 
+      - name: Upload Package List
+        uses: actions/upload-artifact@v4
+        if: ${{ (env.IS_PR == 'false' || github.event.pull_request.head.repo.full_name != github.repository) && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        with:
+          name: nuget-list-${{ matrix.winui }}
+          if-no-files-found: error
+          path: |
+            ${{ github.workspace }}/.github/workflows/SignClientFileList.txt
+
       # if we're not doing a PR build (or it's a PR from a fork) then we upload our packages so we can sign as a separate job or have available to test.
       - name: Upload Packages as Artifacts
         uses: actions/upload-artifact@v4
@@ -402,7 +411,7 @@ jobs:
 
       - name: Upload Signed Packages as Artifacts (for release)
         uses: actions/upload-artifact@v4
-        if: ${{ env.IS_RELEASE == 'true' }}
+        if: ${{ startsWith(github.ref, 'refs/heads/rel/') || inputs.is_scheduled }}
         with:
           name: signed-nuget-packages-${{ matrix.winui }}
           if-no-files-found: error
