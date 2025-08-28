@@ -2,15 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Extensions;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Inlines;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.Renderers;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Extensions;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Inlines;
+using CommunityToolkit.WinUI.Controls.TextElements;
 using Markdig;
 using Markdig.Syntax;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+namespace CommunityToolkit.WinUI.Controls;
 
 [TemplatePart(Name = MarkdownContainerName, Type = typeof(Grid))]
 public partial class MarkdownTextBlock : Control

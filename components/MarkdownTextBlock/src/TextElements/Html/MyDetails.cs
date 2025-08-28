@@ -5,7 +5,7 @@
 using HtmlAgilityPack;
 using Microsoft.UI.Xaml.Controls;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements.Html;
+namespace CommunityToolkit.WinUI.Controls.TextElements.Html;
 
 // block
 internal class MyDetails : IAddChild

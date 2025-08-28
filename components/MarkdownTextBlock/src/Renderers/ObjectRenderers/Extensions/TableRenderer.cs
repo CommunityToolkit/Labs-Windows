@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Markdig.Extensions.Tables;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.TextElements;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Extensions;
+namespace CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Extensions;
 
 public class TableRenderer : UWPObjectRenderer<Table>
 {

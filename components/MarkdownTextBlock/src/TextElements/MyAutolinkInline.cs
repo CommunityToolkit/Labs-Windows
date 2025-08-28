@@ -4,7 +4,7 @@
 
 using Markdig.Syntax.Inlines;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyAutolinkInline : IAddChild
 {

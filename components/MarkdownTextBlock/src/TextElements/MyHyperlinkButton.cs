@@ -5,7 +5,7 @@
 using HtmlAgilityPack;
 using Markdig.Syntax.Inlines;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyHyperlinkButton : IAddChild
 {
