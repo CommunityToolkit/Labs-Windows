@@ -5,10 +5,9 @@
 #if NET8_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
 #endif
-using CommunityToolkit.Labs.WinUI.CanvasViewInternal;
 using CommunityToolkit.WinUI.Helpers;
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
 /// <see cref="CanvasView"/> is an <see cref="ItemsControl"/> which uses a <see cref="Canvas"/> for the layout of its items.
