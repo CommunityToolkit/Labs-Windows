@@ -5,7 +5,7 @@
     <Description>This package contains a CanvasLayout Layout for ItemsRepeater.</Description>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
-    <RootNamespace>CommunityToolkit.Labs.WinUI.Controls.CanvasLayoutRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.WinUI.Controls.CanvasLayoutRns</RootNamespace>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
