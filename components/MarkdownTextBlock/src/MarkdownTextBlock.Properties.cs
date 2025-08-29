@@ -4,7 +4,7 @@
 
 using Markdig.Syntax;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+namespace CommunityToolkit.WinUI.Controls;
 
 public partial class MarkdownTextBlock
 {

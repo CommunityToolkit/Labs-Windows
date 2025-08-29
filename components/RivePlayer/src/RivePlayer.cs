@@ -17,7 +17,7 @@ using DQ = Microsoft.UI.Dispatching.DispatcherQueue;
 using Microsoft.UI.Dispatching;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI.Rive;
+namespace CommunityToolkit.WinUI.Rive;
 
 /// <summary>
 /// This is a high level XAML control for playing a Rive state machine. The state machine's specific

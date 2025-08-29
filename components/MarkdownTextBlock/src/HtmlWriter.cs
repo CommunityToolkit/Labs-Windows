@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using HtmlAgilityPack;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements.Html;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.Renderers;
+using CommunityToolkit.WinUI.Controls.TextElements.Html;
+using CommunityToolkit.WinUI.Controls.TextElements;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+namespace CommunityToolkit.WinUI.Controls;
 
 internal class HtmlWriter
 {

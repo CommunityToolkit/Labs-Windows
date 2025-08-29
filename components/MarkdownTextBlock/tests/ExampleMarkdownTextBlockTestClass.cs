@@ -4,7 +4,7 @@
 
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+using CommunityToolkit.WinUI.Controls;
 
 namespace MarkdownTextBlockTests;
 

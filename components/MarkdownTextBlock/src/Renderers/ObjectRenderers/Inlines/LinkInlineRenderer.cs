@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Markdig.Syntax.Inlines;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.TextElements;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Inlines;
+namespace CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Inlines;
 
 internal class LinkInlineRenderer : UWPObjectRenderer<LinkInline>
 {
@@ -23,7 +23,7 @@ internal class LinkInlineRenderer : UWPObjectRenderer<LinkInline>
 
         if (link.IsImage)
         {
-            var image = new MyImage(link, CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Extensions.GetUri(url, renderer.Config.BaseUrl), renderer.Config);
+            var image = new MyImage(link, Controls.Extensions.GetUri(url, renderer.Config.BaseUrl), renderer.Config);
             renderer.WriteInline(image);
         }
         else

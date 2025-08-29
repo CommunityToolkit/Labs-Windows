@@ -6,7 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI.Controls;
 
 public partial class TokenView : ListViewBase
 {

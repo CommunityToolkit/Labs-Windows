@@ -4,7 +4,7 @@
 
 using Markdig.Syntax;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers;
+namespace CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers;
 
 internal class ListItemRenderer : UWPObjectRenderer<ListItemBlock>
 {

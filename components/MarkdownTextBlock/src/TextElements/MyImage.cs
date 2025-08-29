@@ -7,7 +7,7 @@ using HtmlAgilityPack;
 using System.Globalization;
 using Windows.Storage.Streams;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyImage : IAddChild
 {

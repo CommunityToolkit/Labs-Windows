@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 #if !WINAPPSDK
 using FontWeight = Windows.UI.Text.FontWeight;
 using FontWeights = Windows.UI.Text.FontWeights;
@@ -11,7 +10,7 @@ using FontWeight = Windows.UI.Text.FontWeight;
 using FontWeights = Microsoft.UI.Text.FontWeights;
 #endif
 
-namespace CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns;
+namespace CommunityToolkit.WinUI.Controls;
 
 public sealed class MarkdownThemes : DependencyObject
 {

@@ -6,7 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI.CanvasViewInternal;
+namespace CommunityToolkit.WinUI.Controls;
 
 public static partial class FrameworkElementExtensions
 {

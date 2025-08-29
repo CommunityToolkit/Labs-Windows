@@ -4,7 +4,7 @@
 
 using RiveSharp;
 
-namespace CommunityToolkit.Labs.WinUI.Rive;
+namespace CommunityToolkit.WinUI.Rive;
 
 // XAML properies for RivePlayer.
 [ContentProperty(Name = nameof(StateMachineInputCollection))]

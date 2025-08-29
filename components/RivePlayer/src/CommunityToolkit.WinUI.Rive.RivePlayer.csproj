@@ -1,16 +1,14 @@
 <Project>
   <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
   <PropertyGroup>
-    <ToolkitComponentName>MarqueeText</ToolkitComponentName>
-    <Description>This package contains MarqueeText.</Description>
+    <ToolkitComponentName>RivePlayer</ToolkitComponentName>
+    <Description>This package contains RivePlayer.</Description>
     
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
-    <RootNamespace>CommunityToolkit.Labs.WinUI.MarqueeTextRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.WinUI.RivePlayerRns</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UwpTargetFrameworks>uap10.0.17763;</UwpTargetFrameworks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="MarqueeText.xaml" />
-  </ItemGroup>
 
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
