@@ -96,8 +96,26 @@ jobs:
         shell: pwsh
         run: |
           # Previous weekly tag (2nd newest); fallback to main's HEAD
-          $prevTag = git tag --list 'release/weekly/*' --sort=-creatordate | Select-Object -Skip 1 -First 1
-          $tagSha  = [string]::IsNullOrWhiteSpace($prevTag)
+          $allTags = git tag --list 'release/weekly/*' --sort=-creatordate
+          Write-Host "[diag] Weekly tags (newest first):"
+          $i = 0
+          foreach ($t in $allTags) {
+            $len = if ($null -ne $t) { $t.Length } else { 0 }
+            Write-Host ("  [{0}] '{1}' len={2}" -f $i, $t, $len)
+            $i++
+          }
+          $prevTag = $allTags | Select-Object -Skip 1 -First 1
+          $prevType = if ($null -ne $prevTag) { $prevTag.GetType().FullName } else { '<null>' }
+          $prevLen  = if ($null -ne $prevTag) { $prevTag.Length } else { 0 }
+          Write-Host ("[diag] prevTag: null?={0} type={1} len={2} value=''{3}''" -f ($null -eq $prevTag), $prevType, $prevLen, $prevTag)
+          if ($prevTag -is [string]) {
+            $codes = [int[]][char[]]$prevTag
+            Write-Host ("[diag] prevTag char codes: {0}" -f ($codes -join ','))
+          }
+          $isEmpty = [string]::IsNullOrWhiteSpace($prevTag)
+          Write-Host ("[diag] IsNullOrWhiteSpace(prevTag)={0}" -f $isEmpty)
+          Write-Host ("[diag] Branch chosen -> {0}" -f ($isEmpty ? 'fallback: origin/main' : ("tag: {0}" -f $prevTag)))
+          $tagSha  = $isEmpty
             ? (git rev-parse 'origin/main').Trim()
             : (git rev-list -n 1 $prevTag).Trim()
           "PREV_TAG_COMMIT=$tagSha" >> $env:GITHUB_ENV
@@ -297,8 +315,26 @@ jobs:
         shell: pwsh
         run: |
           # Previous weekly tag (2nd newest); fallback to main's HEAD
-          $prevTag = git tag --list 'release/weekly/*' --sort=-creatordate | Select-Object -Skip 1 -First 1
-          $tagSha  = [string]::IsNullOrWhiteSpace($prevTag)
+          $allTags = git tag --list 'release/weekly/*' --sort=-creatordate
+          Write-Host "[diag] Weekly tags (newest first):"
+          $i = 0
+          foreach ($t in $allTags) {
+            $len = if ($null -ne $t) { $t.Length } else { 0 }
+            Write-Host ("  [{0}] '{1}' len={2}" -f $i, $t, $len)
+            $i++
+          }
+          $prevTag = $allTags | Select-Object -Skip 1 -First 1
+          $prevType = if ($null -ne $prevTag) { $prevTag.GetType().FullName } else { '<null>' }
+          $prevLen  = if ($null -ne $prevTag) { $prevTag.Length } else { 0 }
+          Write-Host ("[diag] prevTag: null?={0} type={1} len={2} value=''{3}''" -f ($null -eq $prevTag), $prevType, $prevLen, $prevTag)
+          if ($prevTag -is [string]) {
+            $codes = [int[]][char[]]$prevTag
+            Write-Host ("[diag] prevTag char codes: {0}" -f ($codes -join ','))
+          }
+          $isEmpty = [string]::IsNullOrWhiteSpace($prevTag)
+          Write-Host ("[diag] IsNullOrWhiteSpace(prevTag)={0}" -f $isEmpty)
+          Write-Host ("[diag] Branch chosen -> {0}" -f ($isEmpty ? 'fallback: origin/main' : ("tag: {0}" -f $prevTag)))
+          $tagSha  = $isEmpty
             ? (git rev-parse 'origin/main').Trim()
             : (git rev-list -n 1 $prevTag).Trim()
           "PREV_TAG_COMMIT=$tagSha" >> $env:GITHUB_ENV
