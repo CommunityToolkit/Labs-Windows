@@ -4,7 +4,7 @@
 
 using Windows.UI.Text;
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
 /// A Control that displays Text in a Marquee style.
