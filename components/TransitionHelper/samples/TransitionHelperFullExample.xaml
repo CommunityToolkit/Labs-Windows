@@ -11,17 +11,17 @@
     <Page.Resources>
         <ui:TransitionHelper x:Key="MyTransitionHelper">
             <ui:TransitionConfig Id="background"
-                                  ScaleMode="Scale" />
+                                 ScaleMode="Scale" />
             <ui:TransitionConfig Id="image"
-                                  ScaleMode="Scale" />
+                                 ScaleMode="Scale" />
             <ui:TransitionConfig Id="name"
-                                  ScaleMode="Custom">
+                                 ScaleMode="Custom">
                 <ui:TransitionConfig.CustomScalingCalculator>
                     <local:CustomTextScalingCalculator />
                 </ui:TransitionConfig.CustomScalingCalculator>
             </ui:TransitionConfig>
             <ui:TransitionConfig EnableClipAnimation="true"
-                                  Id="desc" />
+                                 Id="desc" />
         </ui:TransitionHelper>
 
         <ImageBrush x:Key="ImageBackgroundBrush"
@@ -53,8 +53,8 @@
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
                             <ui:StartTransitionAction Source="{Binding ElementName=FirstControl}"
-                                                       Target="{Binding ElementName=SecondControl}"
-                                                       Transition="{StaticResource MyTransitionHelper}" />
+                                                      Target="{Binding ElementName=SecondControl}"
+                                                      Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
@@ -64,8 +64,8 @@
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
                             <ui:StartTransitionAction Source="{Binding ElementName=FirstControl}"
-                                                       Target="{Binding ElementName=ThirdControl}"
-                                                       Transition="{StaticResource MyTransitionHelper}" />
+                                                      Target="{Binding ElementName=ThirdControl}"
+                                                      Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
@@ -110,8 +110,8 @@
                         <i:Interaction.Behaviors>
                             <i:EventTriggerBehavior EventName="Click">
                                 <ui:StartTransitionAction Source="{Binding ElementName=SecondControl}"
-                                                           Target="{Binding ElementName=FirstControl}"
-                                                           Transition="{StaticResource MyTransitionHelper}" />
+                                                          Target="{Binding ElementName=FirstControl}"
+                                                          Transition="{StaticResource MyTransitionHelper}" />
                             </i:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </Button>
@@ -121,8 +121,8 @@
                         <i:Interaction.Behaviors>
                             <i:EventTriggerBehavior EventName="Click">
                                 <ui:StartTransitionAction Source="{Binding ElementName=SecondControl}"
-                                                           Target="{Binding ElementName=ThirdControl}"
-                                                           Transition="{StaticResource MyTransitionHelper}" />
+                                                          Target="{Binding ElementName=ThirdControl}"
+                                                          Transition="{StaticResource MyTransitionHelper}" />
                             </i:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </Button>
@@ -214,8 +214,8 @@
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
                             <ui:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
-                                                       Target="{Binding ElementName=FirstControl}"
-                                                       Transition="{StaticResource MyTransitionHelper}" />
+                                                      Target="{Binding ElementName=FirstControl}"
+                                                      Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
@@ -225,8 +225,8 @@
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
                             <ui:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
-                                                       Target="{Binding ElementName=SecondControl}"
-                                                       Transition="{StaticResource MyTransitionHelper}" />
+                                                      Target="{Binding ElementName=SecondControl}"
+                                                      Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
