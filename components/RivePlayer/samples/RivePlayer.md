@@ -28,7 +28,7 @@ To add the Rive API to your applications, include the namespace in your XAML:
 ```xml
 <Page 
     ...
-    xmlns:rive="using:CommunityToolkit.Labs.WinUI.Rive"
+    xmlns:rive="using:CommunityToolkit.WinUI.Rive"
 >
 ```
 
