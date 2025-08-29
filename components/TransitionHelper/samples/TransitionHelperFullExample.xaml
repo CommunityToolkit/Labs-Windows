@@ -1,27 +1,27 @@
-<Page x:Class="TransitionHelperExperiment.Samples.TransitionHelperFullExample"
+﻿<Page x:Class="TransitionHelperExperiment.Samples.TransitionHelperFullExample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
-      xmlns:wct="using:CommunityToolkit.WinUI"
       xmlns:local="using:TransitionHelperExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:wct="using:CommunityToolkit.WinUI"
       mc:Ignorable="d">
 
     <Page.Resources>
         <wct:TransitionHelper x:Key="MyTransitionHelper">
             <wct:TransitionConfig Id="background"
-                                   ScaleMode="Scale" />
+                                  ScaleMode="Scale" />
             <wct:TransitionConfig Id="image"
-                                   ScaleMode="Scale" />
+                                  ScaleMode="Scale" />
             <wct:TransitionConfig Id="name"
-                                   ScaleMode="Custom">
+                                  ScaleMode="Custom">
                 <wct:TransitionConfig.CustomScalingCalculator>
                     <local:CustomTextScalingCalculator />
                 </wct:TransitionConfig.CustomScalingCalculator>
             </wct:TransitionConfig>
             <wct:TransitionConfig EnableClipAnimation="true"
-                                   Id="desc" />
+                                  Id="desc" />
         </wct:TransitionHelper>
 
         <ImageBrush x:Key="ImageBackgroundBrush"
@@ -53,8 +53,8 @@
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
                             <wct:StartTransitionAction Source="{Binding ElementName=FirstControl}"
-                                                        Target="{Binding ElementName=SecondControl}"
-                                                        Transition="{StaticResource MyTransitionHelper}" />
+                                                       Target="{Binding ElementName=SecondControl}"
+                                                       Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
@@ -64,8 +64,8 @@
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
                             <wct:StartTransitionAction Source="{Binding ElementName=FirstControl}"
-                                                        Target="{Binding ElementName=ThirdControl}"
-                                                        Transition="{StaticResource MyTransitionHelper}" />
+                                                       Target="{Binding ElementName=ThirdControl}"
+                                                       Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
@@ -110,8 +110,8 @@
                         <i:Interaction.Behaviors>
                             <i:EventTriggerBehavior EventName="Click">
                                 <wct:StartTransitionAction Source="{Binding ElementName=SecondControl}"
-                                                            Target="{Binding ElementName=FirstControl}"
-                                                            Transition="{StaticResource MyTransitionHelper}" />
+                                                           Target="{Binding ElementName=FirstControl}"
+                                                           Transition="{StaticResource MyTransitionHelper}" />
                             </i:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </Button>
@@ -121,8 +121,8 @@
                         <i:Interaction.Behaviors>
                             <i:EventTriggerBehavior EventName="Click">
                                 <wct:StartTransitionAction Source="{Binding ElementName=SecondControl}"
-                                                            Target="{Binding ElementName=ThirdControl}"
-                                                            Transition="{StaticResource MyTransitionHelper}" />
+                                                           Target="{Binding ElementName=ThirdControl}"
+                                                           Transition="{StaticResource MyTransitionHelper}" />
                             </i:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </Button>
@@ -214,8 +214,8 @@
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
                             <wct:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
-                                                        Target="{Binding ElementName=FirstControl}"
-                                                        Transition="{StaticResource MyTransitionHelper}" />
+                                                       Target="{Binding ElementName=FirstControl}"
+                                                       Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
@@ -225,8 +225,8 @@
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
                             <wct:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
-                                                        Target="{Binding ElementName=SecondControl}"
-                                                        Transition="{StaticResource MyTransitionHelper}" />
+                                                       Target="{Binding ElementName=SecondControl}"
+                                                       Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
