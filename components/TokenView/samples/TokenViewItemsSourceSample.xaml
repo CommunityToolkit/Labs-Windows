@@ -3,19 +3,19 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
       xmlns:local="using:TokenViewExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical"
                 Spacing="12">
-        <labs:TokenView x:Name="TokenView"
+        <controls:TokenView x:Name="TokenView"
                         CanRemoveTokens="{x:Bind CanRemoveTokens, Mode=OneWay}"
                         ItemsSource="{x:Bind MyDataSet, Mode=OneWay}"
                         SelectedIndex="1"
                         SelectionMode="Single">
-            <labs:TokenView.ItemTemplate>
+            <controls:TokenView.ItemTemplate>
                 <DataTemplate x:DataType="local:MyDataModel">
                     <Grid>
                         <TextBlock Margin="16,0,16,0"
@@ -23,8 +23,8 @@
                                    Text="{x:Bind Name}" />
                     </Grid>
                 </DataTemplate>
-            </labs:TokenView.ItemTemplate>
-        </labs:TokenView>
+            </controls:TokenView.ItemTemplate>
+        </controls:TokenView>
         <TextBlock Margin="0,0,12,0"
                    VerticalAlignment="Center">
             <Run Text="Selected:" />
