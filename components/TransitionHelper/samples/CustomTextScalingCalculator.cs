@@ -4,7 +4,6 @@
 
 using System.Numerics;
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI;
 
 namespace TransitionHelperExperiment.Samples;
 
