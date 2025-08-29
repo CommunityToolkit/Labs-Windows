@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Shapes;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
 /// A generic shimmer control that can be used to construct a beautiful loading effect.
