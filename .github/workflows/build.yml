@@ -97,9 +97,7 @@ jobs:
         run: |
           # Previous weekly tag (2nd newest); fallback to main's HEAD
           $prevTag = git tag --list 'release/weekly/*' --sort=-creatordate | Select-Object -Skip 1 -First 1
-          $tagSha  = [string]::IsNullOrWhiteSpace($prevTag)
-            ? (git rev-parse 'origin/main').Trim()
-            : (git rev-list -n 1 $prevTag).Trim()
+          $tagSha = [string]::IsNullOrWhiteSpace($prevTag) ? (git rev-parse 'origin/main').Trim() : (git rev-list -n 1 $prevTag).Trim()
           "PREV_TAG_COMMIT=$tagSha" >> $env:GITHUB_ENV
           
       - name: Get changed components
@@ -298,9 +296,7 @@ jobs:
         run: |
           # Previous weekly tag (2nd newest); fallback to main's HEAD
           $prevTag = git tag --list 'release/weekly/*' --sort=-creatordate | Select-Object -Skip 1 -First 1
-          $tagSha  = [string]::IsNullOrWhiteSpace($prevTag)
-            ? (git rev-parse 'origin/main').Trim()
-            : (git rev-list -n 1 $prevTag).Trim()
+          $tagSha = [string]::IsNullOrWhiteSpace($prevTag) ? (git rev-parse 'origin/main').Trim() : (git rev-list -n 1 $prevTag).Trim()
           "PREV_TAG_COMMIT=$tagSha" >> $env:GITHUB_ENV
           
       - name: Get changed components
