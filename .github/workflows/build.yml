@@ -25,7 +25,6 @@ env:
   COREHOST_TRACEFILE: corehosttrace.log
   IS_MAIN: ${{ github.ref == 'refs/heads/main' }}
   IS_PR: ${{ startsWith(github.ref, 'refs/pull/') }}
-  IS_TAG: ${{ startsWith(github.ref, 'refs/tags/') }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -91,7 +90,7 @@ jobs:
           fetch-tags: true
 
       - name: Determine scheduled release commit range
-        if: ${{ env.IS_TAG }}
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         id: range
         shell: pwsh
         run: |
@@ -290,7 +289,7 @@ jobs:
           vs-version: '[17.9,)'
 
       - name: Determine scheduled release commit range
-        if: ${{ env.IS_TAG }}
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         id: range
         shell: pwsh
         run: |
@@ -301,7 +300,7 @@ jobs:
           
       - name: Get changed components
         run: |
-          $changedComponents = $(./tooling/Get-Changed-Components.ps1 ${{ env.PREV_TAG_COMMIT || github.event.before }} ${{ inputs.commit_range_end || github.event.after }})
+          $changedComponents = $(./tooling/Get-Changed-Components.ps1 ${{ env.PREV_TAG_COMMIT || github.event.before }} ${{ github.event.after || github.sha }})
           $buildableChangedComponents = $(./tooling/MultiTarget/Filter-Supported-Components.ps1 -Components $changedComponents -MultiTargets "all" -WinUIMajorVersion ${{ matrix.winui }})
           echo "CHANGED_COMPONENTS_LIST=$(($buildableChangedComponents | ForEach-Object { "$_" }) -join ',')" >> $env:GITHUB_ENV
           echo "HAS_BUILDABLE_COMPONENTS=$($buildableChangedComponents.Count -gt 0)" >> $env:GITHUB_ENV
