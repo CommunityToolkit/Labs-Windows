@@ -5,7 +5,7 @@
     <Description>This package contains a TransitionHelper.</Description>
     
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
-    <RootNamespace>CommunityToolkit.Labs.WinUI.TransitionHelperRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.WinUI.TransitionHelperRns</RootNamespace>
 
     <!-- TODO: Putting here as seems to get flagged on different partials, need to deal with TokenSource being disposible -->
     <!-- See: https://github.com/CommunityToolkit/Labs-Windows/issues/407 -->

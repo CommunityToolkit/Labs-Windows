@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Media.Animation;
 using AnimationDirection = Windows.UI.Composition.AnimationDirection;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI;
 
 /// <summary>
 /// A animation helper that morphs between two controls.

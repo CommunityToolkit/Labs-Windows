@@ -6,7 +6,7 @@ using Microsoft.Xaml.Interactivity;
 
 using CommunityToolkit.WinUI.Animations;
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI;
 
 /// <summary>
 /// An <see cref="IAction"/> implementation that can trigger a target <see cref="TransitionHelper"/> instance.

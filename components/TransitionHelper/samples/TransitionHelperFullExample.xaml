@@ -3,26 +3,26 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
-      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:wct="using:CommunityToolkit.WinUI"
       xmlns:local="using:TransitionHelperExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
     <Page.Resources>
-        <labs:TransitionHelper x:Key="MyTransitionHelper">
-            <labs:TransitionConfig Id="background"
+        <wct:TransitionHelper x:Key="MyTransitionHelper">
+            <wct:TransitionConfig Id="background"
                                    ScaleMode="Scale" />
-            <labs:TransitionConfig Id="image"
+            <wct:TransitionConfig Id="image"
                                    ScaleMode="Scale" />
-            <labs:TransitionConfig Id="name"
+            <wct:TransitionConfig Id="name"
                                    ScaleMode="Custom">
-                <labs:TransitionConfig.CustomScalingCalculator>
+                <wct:TransitionConfig.CustomScalingCalculator>
                     <local:CustomTextScalingCalculator />
-                </labs:TransitionConfig.CustomScalingCalculator>
-            </labs:TransitionConfig>
-            <labs:TransitionConfig EnableClipAnimation="true"
+                </wct:TransitionConfig.CustomScalingCalculator>
+            </wct:TransitionConfig>
+            <wct:TransitionConfig EnableClipAnimation="true"
                                    Id="desc" />
-        </labs:TransitionHelper>
+        </wct:TransitionHelper>
 
         <ImageBrush x:Key="ImageBackgroundBrush"
                     ImageSource="ms-appx:///Assets/Owl2.jpg" />
@@ -36,23 +36,23 @@
                     Spacing="10">
             <Grid Width="50"
                   Height="50">
-                <Border labs:TransitionHelper.Id="background"
+                <Border wct:TransitionHelper.Id="background"
                         Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                         CornerRadius="4" />
                 <Border Width="36"
                         Height="36"
-                        labs:TransitionHelper.Id="image"
+                        wct:TransitionHelper.Id="image"
                         Background="{StaticResource ImageBackgroundBrush}"
                         CornerRadius="18" />
             </Grid>
-            <StackPanel labs:TransitionHelper.Id="guide"
+            <StackPanel wct:TransitionHelper.Id="guide"
                         Spacing="2">
                 <Button x:Name="MinToMidButton"
                         Content="&#xEA62;"
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
-                            <labs:StartTransitionAction Source="{Binding ElementName=FirstControl}"
+                            <wct:StartTransitionAction Source="{Binding ElementName=FirstControl}"
                                                         Target="{Binding ElementName=SecondControl}"
                                                         Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
@@ -63,7 +63,7 @@
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
-                            <labs:StartTransitionAction Source="{Binding ElementName=FirstControl}"
+                            <wct:StartTransitionAction Source="{Binding ElementName=FirstControl}"
                                                         Target="{Binding ElementName=ThirdControl}"
                                                         Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
@@ -76,7 +76,7 @@
               HorizontalAlignment="Center"
               VerticalAlignment="Top"
               Visibility="Collapsed">
-            <Border labs:TransitionHelper.Id="background"
+            <Border wct:TransitionHelper.Id="background"
                     Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                     CornerRadius="8" />
             <StackPanel Padding="20"
@@ -84,23 +84,23 @@
                         Spacing="20">
                 <Border Width="50"
                         Height="50"
-                        labs:TransitionHelper.Id="image"
+                        wct:TransitionHelper.Id="image"
                         Background="{StaticResource ImageBackgroundBrush}"
                         CornerRadius="25" />
                 <StackPanel Width="400"
                             VerticalAlignment="Center"
                             Spacing="5">
-                    <TextBlock labs:TransitionHelper.Id="name">Magic</TextBlock>
-                    <TextBlock labs:TransitionHelper.Id="desc">Magic is a cute 😺.</TextBlock>
+                    <TextBlock wct:TransitionHelper.Id="name">Magic</TextBlock>
+                    <TextBlock wct:TransitionHelper.Id="desc">Magic is a cute 😺.</TextBlock>
                 </StackPanel>
-                <StackPanel labs:TransitionHelper.Id="guide"
+                <StackPanel wct:TransitionHelper.Id="guide"
                             Orientation="Horizontal"
                             Spacing="2">
                     <Button Content="&#xE845;"
                             Style="{StaticResource NavigationBackButtonNormalStyle}">
                         <i:Interaction.Behaviors>
                             <i:EventTriggerBehavior EventName="Click">
-                                <labs:ReverseTransitionAction Transition="{StaticResource MyTransitionHelper}" />
+                                <wct:ReverseTransitionAction Transition="{StaticResource MyTransitionHelper}" />
                             </i:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
                     </Button>
@@ -109,7 +109,7 @@
                             Style="{StaticResource NavigationBackButtonNormalStyle}">
                         <i:Interaction.Behaviors>
                             <i:EventTriggerBehavior EventName="Click">
-                                <labs:StartTransitionAction Source="{Binding ElementName=SecondControl}"
+                                <wct:StartTransitionAction Source="{Binding ElementName=SecondControl}"
                                                             Target="{Binding ElementName=FirstControl}"
                                                             Transition="{StaticResource MyTransitionHelper}" />
                             </i:EventTriggerBehavior>
@@ -120,7 +120,7 @@
                             Style="{StaticResource NavigationBackButtonNormalStyle}">
                         <i:Interaction.Behaviors>
                             <i:EventTriggerBehavior EventName="Click">
-                                <labs:StartTransitionAction Source="{Binding ElementName=SecondControl}"
+                                <wct:StartTransitionAction Source="{Binding ElementName=SecondControl}"
                                                             Target="{Binding ElementName=ThirdControl}"
                                                             Transition="{StaticResource MyTransitionHelper}" />
                             </i:EventTriggerBehavior>
@@ -133,7 +133,7 @@
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
               Visibility="Collapsed">
-            <Border labs:TransitionHelper.Id="background"
+            <Border wct:TransitionHelper.Id="background"
                     Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                     CornerRadius="8" />
             <StackPanel Padding="20"
@@ -141,25 +141,25 @@
                         Spacing="20">
                 <Border Width="80"
                         Height="80"
-                        labs:TransitionHelper.Id="image"
+                        wct:TransitionHelper.Id="image"
                         Background="{StaticResource ImageBackgroundBrush}"
                         CornerRadius="40" />
                 <StackPanel Spacing="5">
                     <TextBlock MaxWidth="200"
                                HorizontalAlignment="Center"
-                               labs:TransitionHelper.Id="name"
+                               wct:TransitionHelper.Id="name"
                                FontSize="24"
                                TextAlignment="Center"
                                TextWrapping="Wrap">
                         Magic is my cat's name
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center"
-                               labs:TransitionHelper.Id="desc">
+                               wct:TransitionHelper.Id="desc">
                         Magic is a cute 😺, but sometimes very naughty.
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Padding="50,100"
-                            labs:TransitionHelper.IsIndependent="True">
+                            wct:TransitionHelper.IsIndependent="True">
                     <Rectangle Width="200"
                                Height="20"
                                Margin="10"
@@ -197,14 +197,14 @@
             <StackPanel Margin="10"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        labs:TransitionHelper.Id="guide"
+                        wct:TransitionHelper.Id="guide"
                         Orientation="Horizontal"
                         Spacing="2">
                 <Button Content="&#xE845;"
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
-                            <labs:ReverseTransitionAction Transition="{StaticResource MyTransitionHelper}" />
+                            <wct:ReverseTransitionAction Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                 </Button>
@@ -213,7 +213,7 @@
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
-                            <labs:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
+                            <wct:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
                                                         Target="{Binding ElementName=FirstControl}"
                                                         Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>
@@ -224,7 +224,7 @@
                         Style="{StaticResource NavigationBackButtonNormalStyle}">
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="Click">
-                            <labs:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
+                            <wct:StartTransitionAction Source="{Binding ElementName=ThirdControl}"
                                                         Target="{Binding ElementName=SecondControl}"
                                                         Transition="{StaticResource MyTransitionHelper}" />
                         </i:EventTriggerBehavior>

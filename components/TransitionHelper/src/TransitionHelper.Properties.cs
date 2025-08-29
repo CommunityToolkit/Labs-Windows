@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI;
 
 /// <summary>
 /// A animation helper that morphs between two controls.
