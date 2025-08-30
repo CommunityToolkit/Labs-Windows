@@ -13,9 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    outputs:
-      commit_range_start: ${{ steps.range.outputs.commit_range_start }}
-      commit_range_end: ${{ steps.range.outputs.commit_range_end }}
 
     steps:
       - name: Checkout repository
@@ -37,36 +34,4 @@ jobs:
           TAG="release/weekly/$(date +%y%m%d)"
           git tag -a "$TAG" -m "Release $TAG"
           git push origin "$TAG"
-          echo "TAG=$TAG" >> $GITHUB_OUTPUT
-
-      - name: Determine commit range
-        id: range
-        run: |
-          # New tag we just created
-          NEW_TAG=${{ steps.create-tag.outputs.TAG }}
-
-          # Find the previous tag (sorted newest‑first)
-          PREV_TAG=$(git tag --list "release/weekly/*" --sort=-creatordate | sed -n '2p')
-
-          # If we’re on the very first tag, fall back to main
-          if [ -z "$PREV_TAG" ]; then
-            PREV_TAG=main
-          fi
-
-          # Resolve the commit hashes
-          START_COMMIT=$(git rev-parse "$PREV_TAG")
-          END_COMMIT=$(git rev-parse "$NEW_TAG")
-
-          # Export them as workflow outputs
-          echo "commit_range_start=$START_COMMIT" >> $GITHUB_OUTPUT
-          echo "commit_range_end=$END_COMMIT" >> $GITHUB_OUTPUT
-
-  # Then trigger the build workflow with the commit range.
-  trigger-build:
-    needs: tag-weekly-release
-    uses: ./.github/workflows/build.yml
-    with:
-      commit_range_start: ${{ needs.tag-weekly-release.outputs.commit_range_start }}
-      commit_range_end: ${{ needs.tag-weekly-release.outputs.commit_range_end }}
-      is_scheduled: true
-    secrets: inherit
+          
