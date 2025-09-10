@@ -20,18 +20,9 @@ namespace MarkdownTextBlockExperiment.Samples;
 [ToolkitSample(id: nameof(MarkdownTextBlockLiveEditorSample), "Live Editor", description: $"An interactive live editor for the {nameof(CommunityToolkit.WinUI.Controls.MarkdownTextBlock)} control. Type markdown and see it rendered in real-time.")]
 public sealed partial class MarkdownTextBlockLiveEditorSample : Page
 {
-    private MarkdownConfig _config;
-
-    public MarkdownConfig MarkdownConfig
-    {
-        get => _config;
-        set => _config = value;
-    }
-
     public MarkdownTextBlockLiveEditorSample()
     {
         this.InitializeComponent();
-        _config = new MarkdownConfig();
         MarkdownTextBox.Text = """
             # Hello World
 
