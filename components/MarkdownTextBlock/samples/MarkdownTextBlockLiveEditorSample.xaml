@@ -26,7 +26,6 @@
             <controls:MarkdownTextBlock x:Name="MarkdownTextBlock"
                                         Grid.Column="0"
                                         Margin="0,0,6,0"
-                                        Config="{x:Bind MarkdownConfig, Mode=OneTime}"
                                         DisableHtml="{x:Bind DisableHtml, Mode=OneWay}"
                                         Text="{x:Bind MarkdownTextBox.Text, Mode=OneWay}"
                                         UseAutoLinks="{x:Bind UseAutoLinks, Mode=OneWay}"

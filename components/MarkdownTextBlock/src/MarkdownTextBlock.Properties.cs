@@ -15,7 +15,7 @@ public partial class MarkdownTextBlock
         nameof(Config),
         typeof(MarkdownConfig),
         typeof(MarkdownTextBlock),
-        new PropertyMetadata(null, OnConfigChanged)
+        new PropertyMetadata(new MarkdownConfig(), OnConfigChanged)
     );
 
     /// <summary>
