@@ -3,10 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
-using Microsoft.UI;
-using Microsoft.UI.Text;
 using System.Diagnostics;
-using Windows.UI;
 
 namespace MarkdownTextBlockExperiment.Samples;
 
@@ -603,107 +600,7 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
     public MarkdownTextBlockExampleSample()
     {
         this.InitializeComponent();
-
-        var themes = new MarkdownThemes
-        {
-            // Headings
-            H1FontSize = 28,
-            H2FontSize = 24,
-            H3FontSize = 20,
-            H4FontSize = 18,
-            H5FontSize = 16,
-            H6FontSize = 14,
-
-            H1FontWeight = FontWeights.Bold,
-            H2FontWeight = FontWeights.SemiBold,
-            H3FontWeight = FontWeights.Medium,
-            H4FontWeight = FontWeights.Normal,
-            H5FontWeight = FontWeights.Normal,
-            H6FontWeight = FontWeights.Normal,
-
-            H1Foreground = new SolidColorBrush(Colors.Crimson),
-            H2Foreground = new SolidColorBrush(Colors.DarkOrange),
-            H3Foreground = new SolidColorBrush(Colors.Goldenrod),
-            H4Foreground = new SolidColorBrush(Colors.ForestGreen),
-            H5Foreground = new SolidColorBrush(Colors.SteelBlue),
-            H6Foreground = new SolidColorBrush(Colors.MediumPurple),
-
-            H1Margin = new Thickness(0, 20, 0, 4),
-            H2Margin = new Thickness(0, 18, 0, 4),
-            H3Margin = new Thickness(0, 16, 0, 4),
-            H4Margin = new Thickness(0, 14, 0, 4),
-            H5Margin = new Thickness(0, 12, 0, 2),
-            H6Margin = new Thickness(0, 10, 0, 2),
-
-            // General container
-            Padding = new Thickness(12),
-            InternalMargin = new Thickness(6),
-            CornerRadius = new CornerRadius(6),
-
-            // Paragraph / lists
-            ParagraphMargin = new Thickness(0, 10, 0, 10),
-            ParagraphLineHeight = 22,
-            ListGutterWidth = 28,
-            ListBulletSpacing = 6,
-            ListMargin = new Thickness(0, 6, 0, 6),
-
-            // Horizontal rule
-            HorizontalRuleBrush = new SolidColorBrush(Colors.Gray),
-            HorizontalRuleThickness = 2,
-            HorizontalRuleMargin = new Thickness(0, 18, 0, 18),
-
-            // Links
-            LinkForeground = new SolidColorBrush(Colors.DodgerBlue),
-
-            // Inline code
-            InlineCodeBackground = new SolidColorBrush(Color.FromArgb(255, 40, 44, 52)),
-            InlineCodeForeground = new SolidColorBrush(Colors.White),
-            InlineCodeBorderBrush = new SolidColorBrush(Color.FromArgb(255, 70, 75, 85)),
-            InlineCodeBorderThickness = new Thickness(1),
-            InlineCodeCornerRadius = new CornerRadius(3),
-            InlineCodePadding = new Thickness(4, 0, 4, 0),
-            InlineCodeFontSize = 13,
-            InlineCodeFontWeight = FontWeights.SemiBold,
-
-            // Code blocks
-            CodeBlockBackground = new SolidColorBrush(Color.FromArgb(255, 30, 34, 40)),
-            CodeBlockForeground = new SolidColorBrush(Colors.Gainsboro),
-            CodeBlockBorderBrush = new SolidColorBrush(Color.FromArgb(255, 60, 65, 75)),
-            CodeBlockBorderThickness = new Thickness(1),
-            CodeBlockPadding = new Thickness(12),
-            CodeBlockMargin = new Thickness(0, 14, 0, 16),
-            CodeBlockFontFamily = new FontFamily("Consolas"),
-            CodeBlockCornerRadius = new CornerRadius(8),
-
-            // Quotes
-            QuoteBackground = new SolidColorBrush(Color.FromArgb(30, 255, 200, 0)),
-            QuoteBorderBrush = new SolidColorBrush(Colors.Orange),
-            QuoteBorderThickness = new Thickness(5, 0, 0, 0),
-            QuoteForeground = new SolidColorBrush(Colors.DarkSlateGray),
-            QuoteMargin = new Thickness(0, 10, 0, 10),
-            QuotePadding = new Thickness(10),
-            QuoteCornerRadius = new CornerRadius(6),
-
-            // Images
-            ImageMaxWidth = 420,
-            ImageMaxHeight = 260,
-            ImageStretch = Stretch.UniformToFill,
-
-            // Tables
-            TableBorderBrush = new SolidColorBrush(Colors.DimGray),
-            TableBorderThickness = 1,
-            TableCellPadding = new Thickness(8, 4, 8, 4),
-            TableMargin = new Thickness(0, 18, 0, 18),
-            TableHeadingBackground = new SolidColorBrush(Color.FromArgb(255, 50, 70, 95)),
-
-            // Other / border defaults
-            BorderBrush = new SolidColorBrush(Colors.DarkGray),
-
-            // (YAML placeholders if ever used)
-            YamlBorderBrush = new SolidColorBrush(Colors.DarkGoldenrod),
-            YamlBorderThickness = new Thickness(1)
-        };
-        _config = new MarkdownConfig { Themes = themes };
+        _config = new MarkdownConfig();
         _text = _markdown;
         MarkdownTextBlock.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
     }
