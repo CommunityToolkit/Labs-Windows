@@ -78,4 +78,54 @@ public sealed class MarkdownThemes : DependencyObject
     public double InlineCodeFontSize { get; set; } = 10;
 
     public FontWeight InlineCodeFontWeight { get; set; } = FontWeights.Normal;
+
+    // Legacy parity properties (new)
+    // Code block styling
+    public Brush CodeBlockBackground { get; set; } = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
+    public Brush CodeBlockBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Thickness CodeBlockBorderThickness { get; set; } = new Thickness(1);
+    public Thickness CodeBlockPadding { get; set; } = new Thickness(8);
+    public Thickness CodeBlockMargin { get; set; } = new Thickness(0, 8, 0, 8);
+    public FontFamily CodeBlockFontFamily { get; set; } = new FontFamily("Consolas");
+    public Brush CodeBlockForeground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public CornerRadius CodeBlockCornerRadius { get; set; } = new CornerRadius(4);
+
+    // Horizontal rule
+    public Brush HorizontalRuleBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public double HorizontalRuleThickness { get; set; } = 1.0;
+    public Thickness HorizontalRuleMargin { get; set; } = new Thickness(0, 12, 0, 12);
+
+    // Link styling
+    public Brush LinkForeground { get; set; } = (Brush)Application.Current.Resources["AccentTextFillColorPrimaryBrush"] ?? new SolidColorBrush(Colors.DodgerBlue);
+
+    // Paragraph / list
+    public Thickness ParagraphMargin { get; set; } = new Thickness(0, 8, 0, 8);
+    public double ParagraphLineHeight { get; set; } = 0; // 0 = default
+    public double ListBulletSpacing { get; set; } = 4; // spaces after bullet
+    public double ListGutterWidth { get; set; } = 30; // indent delta per level
+    public Thickness ListMargin { get; set; } = new Thickness(0, 4, 0, 4);
+
+    // Quote styling
+    public Brush QuoteBackground { get; set; } = new SolidColorBrush(Colors.Transparent);
+    public Brush QuoteBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Thickness QuoteBorderThickness { get; set; } = new Thickness(4, 0, 0, 0);
+    public Brush QuoteForeground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Thickness QuoteMargin { get; set; } = new Thickness(0, 4, 0, 4);
+    public Thickness QuotePadding { get; set; } = new Thickness(4);
+    public CornerRadius QuoteCornerRadius { get; set; } = new CornerRadius(4);
+
+    // Image styling
+    public double ImageMaxWidth { get; set; } = 0; // 0 = no constraint
+    public double ImageMaxHeight { get; set; } = 0;
+    public Stretch ImageStretch { get; set; } = Stretch.Uniform;
+
+    // Table styling
+    public Brush TableBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public double TableBorderThickness { get; set; } = 1;
+    public Thickness TableCellPadding { get; set; } = new Thickness(4);
+    public Thickness TableMargin { get; set; } = new Thickness(0, 10, 0, 10);
+
+    // YAML / not currently used - placeholders for parity
+    public Brush YamlBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Thickness YamlBorderThickness { get; set; } = new Thickness(1);
 }

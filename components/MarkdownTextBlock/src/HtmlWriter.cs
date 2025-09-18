@@ -43,6 +43,7 @@ internal class HtmlWriter
                     else
                     {
                         var myHyperlink = new MyHyperlink(node, renderer.Config.BaseUrl);
+                        myHyperlink.TextElement.Foreground = renderer.Config.Themes.LinkForeground;
                         myHyperlink.ClickEvent += (sender, e) =>
                         {
                             renderer.MarkdownTextBlock.RaiseLinkClickedEvent(sender.NavigateUri);

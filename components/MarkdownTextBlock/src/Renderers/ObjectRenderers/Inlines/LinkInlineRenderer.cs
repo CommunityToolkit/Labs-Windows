@@ -35,11 +35,14 @@ internal class LinkInlineRenderer : UWPObjectRenderer<LinkInline>
                 {
                     renderer.MarkdownTextBlock.RaiseLinkClickedEvent(((HyperlinkButton)sender).NavigateUri);
                 };
+                // Apply link foreground to nested RichTextBlock content
+                // (Handled in MyHyperlinkButton initialization via MarkdownConfig.Default for now)
                 renderer.Push(myHyperlinkButton);
             }
             else
             {
                 var hyperlink = new MyHyperlink(link, renderer.Config.BaseUrl);
+                hyperlink.TextElement.Foreground = renderer.Config.Themes.LinkForeground;
                 hyperlink.ClickEvent += (sender, e) =>
                 {
                     renderer.MarkdownTextBlock.RaiseLinkClickedEvent(sender.NavigateUri);
