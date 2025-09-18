@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
+using Microsoft.UI;
 using System.Diagnostics;
 
 namespace MarkdownTextBlockExperiment.Samples;
@@ -600,7 +601,12 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
     public MarkdownTextBlockExampleSample()
     {
         this.InitializeComponent();
-        _config = new MarkdownConfig();
+
+        var themes = new MarkdownThemes
+        {
+
+        };
+        _config = new MarkdownConfig { Themes = themes };
         _text = _markdown;
         MarkdownTextBlock.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
     }

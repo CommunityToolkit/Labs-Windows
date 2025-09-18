@@ -34,9 +34,14 @@ public sealed class MarkdownThemes : DependencyObject
 
     public double H6FontSize { get; set; } = 12;
 
-    public Brush HeadingForeground { get; set; } = Extensions.GetAccentColorBrush();
+    public Brush H1Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H2Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H3Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H4Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H5Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H6Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
 
-    public FontWeight H1FontWeight { get; set; } = FontWeights.Bold;
+    public FontWeight H1FontWeight { get; set; } = FontWeights.SemiBold;
 
     public FontWeight H2FontWeight { get; set; } = FontWeights.Normal;
 
@@ -48,10 +53,10 @@ public sealed class MarkdownThemes : DependencyObject
 
     public FontWeight H6FontWeight { get; set; } = FontWeights.Normal;
 
-    public Thickness H1Margin { get; set; } = new(left: 0, top: 14, right: 0, bottom: 0);
-    public Thickness H2Margin { get; set; } = new(left: 0, top: 14, right: 0, bottom: 0);
-    public Thickness H3Margin { get; set; } = new(left: 0, top: 14, right: 0, bottom: 0);
-    public Thickness H4Margin { get; set; } = new(left: 0, top: 14, right: 0, bottom: 0);
+    public Thickness H1Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
+    public Thickness H2Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
+    public Thickness H3Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
+    public Thickness H4Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
     public Thickness H5Margin { get; set; } = new(left: 0, top: 8, right: 0, bottom: 0);
     public Thickness H6Margin { get; set; } = new(left: 0, top: 8, right: 0, bottom: 0);
 
