@@ -26,9 +26,10 @@ internal class MyThematicBreak : IAddChild
         Line line = new Line
         {
             Stretch = Stretch.Fill,
-            Stroke = themes.BorderBrush,
+            Stroke = themes.HorizontalRuleBrush ?? themes.BorderBrush,
             X2 = 1,
-            Margin = new Thickness(0, 12, 0, 12)
+            StrokeThickness = themes.HorizontalRuleThickness,
+            Margin = themes.HorizontalRuleMargin
         };
         inlineUIContainer.Child = line;
         _paragraph.Inlines.Add(inlineUIContainer);

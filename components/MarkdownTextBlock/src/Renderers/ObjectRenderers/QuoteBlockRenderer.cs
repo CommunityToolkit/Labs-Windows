@@ -14,7 +14,7 @@ internal class QuoteBlockRenderer : UWPObjectRenderer<QuoteBlock>
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-        var quote = new MyQuote(obj);
+    var quote = new MyQuote(obj, renderer.Config.Themes);
 
         renderer.Push(quote);
         renderer.WriteChildren(obj);
