@@ -6,20 +6,20 @@ using CommunityToolkit.WinUI.Controls;
 using CommunityToolkit.Tests;
 using CommunityToolkit.Tooling.TestGen;
 
-namespace MarqueeTextTests;
+namespace MarqueeTests;
 
 [TestClass]
-public partial class ExampleMarqueeTextTestClass : VisualUITestBase
+public partial class ExampleMarqueeTestClass : VisualUITestBase
 {
     // If you don't need access to UI objects directly or async code, use this pattern.
     [TestMethod]
     public void SimpleSynchronousExampleTest()
     {
-        var assembly = typeof(MarqueeText).Assembly;
-        var type = assembly.GetType(typeof(MarqueeText).FullName ?? string.Empty);
+        var assembly = typeof(Marquee).Assembly;
+        var type = assembly.GetType(typeof(Marquee).FullName ?? string.Empty);
 
         Assert.IsNotNull(type, "Could not find MarqueeText type.");
-        Assert.AreEqual(typeof(MarqueeText), type, "Type of MarqueeText does not match expected type.");
+        Assert.AreEqual(typeof(Marquee), type, "Type of MarqueeText does not match expected type.");
     }
 
     // If you don't need access to UI objects directly, use this pattern.
@@ -46,7 +46,7 @@ public partial class ExampleMarqueeTextTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public void SimpleUIAttributeExampleTest()
     {
-        var component = new MarqueeText();
+        var component = new Marquee();
         Assert.IsNotNull(component);
     }
 
@@ -54,10 +54,10 @@ public partial class ExampleMarqueeTextTestClass : VisualUITestBase
     // This lets us actually test a control as it would behave within an actual application.
     // The page will already be loaded by the time your test is called.
     [UIThreadTestMethod]
-    public void SimpleUIExamplePageTest(ExampleMarqueeTextTestPage page)
+    public void SimpleUIExamplePageTest(ExampleMarqueeTestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<MarqueeText>();
+        var component = page.FindDescendant<Marquee>();
 
         Assert.IsNotNull(component);
 
@@ -68,12 +68,12 @@ public partial class ExampleMarqueeTextTestClass : VisualUITestBase
 
     // You can still do async work with a UIThreadTestMethod as well.
     [UIThreadTestMethod]
-    public async Task SimpleAsyncUIExamplePageTest(ExampleMarqueeTextTestPage page)
+    public async Task SimpleAsyncUIExamplePageTest(ExampleMarqueeTestPage page)
     {
         // This helper can be used to wait for a rendering pass to complete.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<MarqueeText>();
+        var component = page.FindDescendant<Marquee>();
 
         Assert.IsNotNull(component);
     }
@@ -88,7 +88,7 @@ public partial class ExampleMarqueeTextTestClass : VisualUITestBase
     {
         await EnqueueAsync(() =>
         {
-            var component = new MarqueeText();
+            var component = new Marquee();
             Assert.IsNotNull(component);
         });
     }
@@ -100,7 +100,7 @@ public partial class ExampleMarqueeTextTestClass : VisualUITestBase
     {
         await EnqueueAsync(async () =>
         {
-            var component = new MarqueeText();
+            var component = new Marquee();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -118,7 +118,7 @@ public partial class ExampleMarqueeTextTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new MarqueeText();
+        var component = new Marquee();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 

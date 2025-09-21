@@ -4,8 +4,9 @@
 
 using CommunityToolkit.WinUI.Controls;
 
-namespace MarqueeTextExperiment.Samples;
-[ToolkitSample(id: nameof(MarqueeTextSample), "MarqueeText", description: "A control for scrolling text in a marquee fashion.")]
+namespace MarqueeExperiment.Samples;
+
+[ToolkitSample(id: nameof(MarqueeSample), "Marquee", description: "A control for scrolling content in a marquee fashion.")]
 [ToolkitSampleNumericOption("MQSpeed", initial: 96, min: 48, max: 196, step: 1, Title = "Speed")]
 [ToolkitSampleMultiChoiceOption("MQDirection", "Left", "Right", "Up", "Down", Title = "Marquee Direction")]
 //[ToolkitSampleMultiChoiceOption("MarqueeRepeat", "Repeat", "Forever", "1x", "2x")]
@@ -14,9 +15,9 @@ namespace MarqueeTextExperiment.Samples;
 #else
 [ToolkitSampleMultiChoiceOption("MQBehavior", "Ticker", "Looping", Title = "Marquee Behavior")]
 #endif
-public sealed partial class MarqueeTextSample : Page
+public sealed partial class MarqueeSample : Page
 {
-    public MarqueeTextSample()
+    public MarqueeSample()
     {
         this.InitializeComponent();
     }

@@ -7,7 +7,7 @@ namespace CommunityToolkit.WinUI.Controls;
 /// <summary>
 /// A Control that displays Text in a Marquee style.
 /// </summary>
-public partial class MarqueeText
+public partial class Marquee
 {
     /// <summary>
     /// Event raised when the Marquee begins scrolling.
@@ -24,9 +24,9 @@ public partial class MarqueeText
     /// </summary>
     public event EventHandler? MarqueeCompleted;
 
-    private void MarqueeText_Unloaded(object sender, RoutedEventArgs e)
+    private void Marquee_Unloaded(object sender, RoutedEventArgs e)
     {
-        this.Unloaded -= MarqueeText_Unloaded;
+        this.Unloaded -= Marquee_Unloaded;
 
         if (_marqueeContainer is not null)
         {
