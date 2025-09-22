@@ -6,10 +6,10 @@ keywords: Marquee, Control
 dev_langs:
   - csharp
 category: Controls
-subcategory: StatusAndInfo
+subcategory: Layout
 experimental: true
 discussion-id: 231 
-issue-id: 0
+issue-id: 426
 icon: Assets/Marquee.png
 ---
 
