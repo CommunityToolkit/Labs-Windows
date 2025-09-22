@@ -18,10 +18,6 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = TickerVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = LoopingVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = BouncingVisualStateName)]
-#if HAS_UNO
-// See: https://github.com/CommunityToolkit/Labs-Windows/pull/275#issuecomment-1331113635
-#pragma warning disable CA1001
-#endif
 public partial class Marquee : ContentControl
 {
     private const string MarqueeContainerPartName = "MarqueeContainer";
@@ -317,7 +313,3 @@ public partial class Marquee : ContentControl
         return marqueeStoryboard;
     }
 }
-
-#if HAS_UNO
-#pragma warning restore CA1001
-#endif
