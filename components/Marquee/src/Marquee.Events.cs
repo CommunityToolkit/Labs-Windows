@@ -76,6 +76,18 @@ public partial class Marquee
         StartMarquee();
     }
 
+    private void Segment_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (_segment1 is null)
+        {
+            return;
+        }
+
+        // If the segment size changes, we need to update the storyboard,
+        // and seek to the correct position to maintain a smooth animation.
+        UpdateAnimation(true);
+    }
+
     private void StoryBoard_Completed(object? sender, object e)
     {
         StopMarquee(true);

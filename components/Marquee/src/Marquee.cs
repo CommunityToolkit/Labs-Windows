@@ -67,6 +67,7 @@ public partial class Marquee : ContentControl
         _marqueeTransform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
         _marqueeContainer.SizeChanged += Container_SizeChanged;
+        _segment1.SizeChanged += Segment_SizeChanged;
 
         // Swapping tabs in TabView caused errors where the control would unload and never reattach events.
         // Hotfix: Track the loaded event. This should be fine because the GC will handle detaching the Loaded
@@ -174,6 +175,7 @@ public partial class Marquee : ContentControl
         double containerSize;
         double segmentSize;
         double value;
+        DependencyProperty dp;
         string targetProperty;
 
         if (IsDirectionHorizontal)
@@ -183,6 +185,7 @@ public partial class Marquee : ContentControl
             containerSize = _marqueeContainer.ActualWidth;
             segmentSize = _segment1.ActualWidth;
             value = _marqueeTransform.X;
+            dp = TranslateTransform.XProperty;
             targetProperty = "(TranslateTransform.X)";
         }
         else
@@ -192,6 +195,7 @@ public partial class Marquee : ContentControl
             containerSize = _marqueeContainer.ActualHeight;
             segmentSize = _segment1.ActualHeight;
             value = _marqueeTransform.Y;
+            dp = TranslateTransform.YProperty;
             targetProperty = "(TranslateTransform.Y)";
         }
 
@@ -261,6 +265,15 @@ public partial class Marquee : ContentControl
             double progress = Math.Abs(start - value) / distance;
             _marqueeStoryboard.Seek(TimeSpan.FromTicks((long)(duration.Ticks * progress)));
         }
+        
+        // NOTE: Can this be optimized to remove or reduce the need for this callback?
+        // Invalidate the segment measures when the transform changes.
+        // This forces virtualized panels to re-measure the segments
+        _marqueeTransform.RegisterPropertyChangedCallback(dp, (sender, dp) =>
+        {
+            _segment1.InvalidateMeasure();
+            _segment2.InvalidateMeasure();
+        });
 
         return true;
     }

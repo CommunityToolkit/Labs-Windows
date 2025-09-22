@@ -3,12 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
+using Windows.UI;
 
 namespace MarqueeExperiment.Samples;
 
 [ToolkitSample(id: nameof(MarqueeSample), "Marquee", description: "A control for scrolling content in a marquee fashion.")]
 [ToolkitSampleNumericOption("MQSpeed", initial: 96, min: 48, max: 196, step: 1, Title = "Speed")]
 [ToolkitSampleMultiChoiceOption("MQDirection", "Left", "Right", "Up", "Down", Title = "Marquee Direction")]
+[ToolkitSampleTextOption("MQText", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")]
 //[ToolkitSampleMultiChoiceOption("MarqueeRepeat", "Repeat", "Forever", "1x", "2x")]
 #if !HAS_UNO
 [ToolkitSampleMultiChoiceOption("MQBehavior", "Ticker", "Looping", "Bouncing", Title = "Marquee Behavior")]
@@ -20,6 +22,11 @@ public sealed partial class MarqueeSample : Page
     public MarqueeSample()
     {
         this.InitializeComponent();
+        
+        for (int i = 0; i < 15; i++)
+        {
+            AddItem_Click(this, null);
+        }
     }
 
     private MarqueeBehavior ConvertStringToMarqueeBehavior(string str) => str switch
@@ -29,8 +36,10 @@ public sealed partial class MarqueeSample : Page
 #if !HAS_UNO
         "Bouncing" => MarqueeBehavior.Bouncing,
 #endif
-        _ => throw new System.NotImplementedException(),
+        _ => throw new NotImplementedException(),
     };
+
+    public MarqueeSampleItems Data = new();
 
     private MarqueeDirection ConvertStringToMarqueeDirection(string str) => str switch
     {
@@ -38,6 +47,27 @@ public sealed partial class MarqueeSample : Page
         "Up" => MarqueeDirection.Up,
         "Right" => MarqueeDirection.Right,
         "Down" => MarqueeDirection.Down,
-        _ => throw new System.NotImplementedException(),
+        _ => throw new NotImplementedException(),
     };
+
+    private void AddItem_Click(object sender, RoutedEventArgs? e)
+    {
+        Data.Items.Add(new MarqueeSampleItem()
+        {
+            Name = $"Item {Data.Items.Count + 1}",
+            Brush = new SolidColorBrush(Color.FromArgb(255, (byte)Random.Shared.Next(256), (byte)Random.Shared.Next(256), (byte)Random.Shared.Next(256))),
+        });
+    }
+}
+
+public class MarqueeSampleItems
+{
+    public ObservableCollection<MarqueeSampleItem> Items { get; } = new();
+}
+
+public record MarqueeSampleItem
+{
+    public required string Name { get; set; }
+    
+    public required Brush Brush { get; set; }
 }

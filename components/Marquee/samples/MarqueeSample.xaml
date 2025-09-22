@@ -4,7 +4,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:CommunityToolkit.WinUI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="MarqueeExperiment.Samples"
+      xmlns:local="using:MarqueeExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
@@ -14,12 +14,25 @@
                           FontSize="18"
                           RepeatBehavior="Forever"
                           Speed="{x:Bind MQSpeed, Mode=OneWay}"
-                          Content="This is a demonstration of using templating to added non-text content to the Marquee control.">
+                          Content="{x:Bind Data}">
             <controls:Marquee.ContentTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <Button Content="{x:Bind}"/>
+                <DataTemplate x:DataType="local:MarqueeSampleItems">
+                    <ItemsRepeater ItemsSource="{x:Bind Items}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Horizontal" Spacing="8"/>
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="local:MarqueeSampleItem">
+                                <Border Width="100" Height="48" Background="{x:Bind Brush}">
+                                    <TextBlock Text="{x:Bind Name}" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
                 </DataTemplate>
             </controls:Marquee.ContentTemplate>
         </controls:Marquee>
+        
+        <Button Content="Add something" Click="AddItem_Click"/>
     </StackPanel>
 </Page>
