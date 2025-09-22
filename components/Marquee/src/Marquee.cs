@@ -73,9 +73,9 @@ public partial class Marquee : ContentControl
         _marqueeContainer.SizeChanged += Container_SizeChanged;
 
         // Swapping tabs in TabView caused errors where the control would unload and never reattach events.
-        // Hotfix: Don't detach events. This should be fine because the GC will handle it.
-        // However, more research is required.
-        //Unloaded += Marquee_Unloaded;
+        // Hotfix: Track the loaded event. This should be fine because the GC will handle detaching the Loaded
+        // event on disposal. However, more research is required
+        Loaded += this.Marquee_Loaded;
 
         VisualStateManager.GoToState(this, GetVisualStateName(Direction), false);
         VisualStateManager.GoToState(this, GetVisualStateName(Behavior), false);

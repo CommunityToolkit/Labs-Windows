@@ -23,9 +23,29 @@ public partial class Marquee
     /// Event raised when the Marquee completes scrolling.
     /// </summary>
     public event EventHandler? MarqueeCompleted;
+    
+    private void Marquee_Loaded(object sender, RoutedEventArgs e)
+    {
+        // While loaded, detach the loaded event and attach the unloaded event
+        this.Loaded -= this.Marquee_Loaded;
+        this.Unloaded += Marquee_Unloaded;
+
+        // Attach other events
+        if (_marqueeContainer is not null)
+        {
+            _marqueeContainer.SizeChanged += Container_SizeChanged;
+        }
+
+        if (_marqueeStoryboard is not null)
+        {
+            _marqueeStoryboard.Completed += StoryBoard_Completed;
+        }
+    }
 
     private void Marquee_Unloaded(object sender, RoutedEventArgs e)
     {
+        // Restore the loaded event and detach the unloaded event 
+        this.Loaded += Marquee_Loaded;
         this.Unloaded -= Marquee_Unloaded;
 
         if (_marqueeContainer is not null)
