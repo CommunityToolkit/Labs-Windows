@@ -43,4 +43,10 @@ The repeat behavior determines how many times the marquee will loop before the a
 
 The default direction is left, meaning the content will move leftwards, but this can be changed to right, up, or down. Direction changed between left and right or up and down are handled continously, meaning that the animation will resume from its current position if changed between these directions.
 
+> [!Sample MarqueeTextSample]
+
+## Non-Text Content
+
+It is possible to use non-text content in the Marquee control. However templating must be used because the control will need to be duplicated for the looping animation.
+
 > [!Sample MarqueeSample]

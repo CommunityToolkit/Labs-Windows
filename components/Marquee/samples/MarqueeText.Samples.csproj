@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
   <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
   <PropertyGroup>
     <ToolkitComponentName>Marquee</ToolkitComponentName>
@@ -6,5 +6,15 @@
 
   <!-- Sets this up as a toolkit component's sample project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
+  <ItemGroup>
+    <Compile Update="MarqueeTextSample.xaml.cs">
+      <DependentUpon>MarqueeTextSample.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="MarqueeSample.xaml.cs">
+      <DependentUpon>MarqueeSample.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
   
 </Project>
