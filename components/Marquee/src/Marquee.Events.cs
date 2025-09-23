@@ -12,12 +12,25 @@ public partial class Marquee
     /// <summary>
     /// Event raised when the Marquee begins scrolling.
     /// </summary>
-    public event EventHandler? MarqueeBegan;
+    /// <remarks>
+    /// Could be started. Could be resumed.
+    /// </remarks>
+    public event EventHandler? MarqueeStarted;
 
     /// <summary>
-    /// Event raised when the Marquee stops scrolling for any reason.
+    /// Event raised when the Marquee is stopped manually or completed.
     /// </summary>
     public event EventHandler? MarqueeStopped;
+
+    /// <summary>
+    /// Event raised when the Marquee is resumed from a pause.
+    /// </summary>
+    public event EventHandler? MarqueeResumed;
+
+    /// <summary>
+    /// Event raised when the Marquee is paused.
+    /// </summary>
+    public event EventHandler? MarqueePaused;
 
     /// <summary>
     /// Event raised when the Marquee completes scrolling.
@@ -72,8 +85,15 @@ public partial class Marquee
             Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
         };
 
+        // Update animation on the fly
+        UpdateMarquee(true);
+
         // The marquee should run when the size changes in case the text gets cutoff
-        StartMarquee();
+        // and auto play is enabled.
+        if (AutoPlay)
+        {
+            StartMarquee();
+        }
     }
 
     private void Segment_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -85,12 +105,12 @@ public partial class Marquee
 
         // If the segment size changes, we need to update the storyboard,
         // and seek to the correct position to maintain a smooth animation.
-        UpdateAnimation(true);
+        UpdateMarquee(true);
     }
 
     private void StoryBoard_Completed(object? sender, object e)
     {
-        StopMarquee(true);
+        StopMarquee();
         MarqueeCompleted?.Invoke(this, EventArgs.Empty);
     }
 }
