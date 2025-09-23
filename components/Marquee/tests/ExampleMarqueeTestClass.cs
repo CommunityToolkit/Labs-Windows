@@ -61,7 +61,7 @@ public partial class ExampleMarqueeTestClass : VisualUITestBase
 
         Assert.IsNotNull(component);
 
-        var componentByName = page.FindDescendant("MarqueeTextControl");
+        var componentByName = page.FindDescendant("MarqueeControl");
 
         Assert.IsNotNull(componentByName);
     }
