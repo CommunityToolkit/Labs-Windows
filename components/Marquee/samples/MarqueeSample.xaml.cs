@@ -10,7 +10,6 @@ namespace MarqueeExperiment.Samples;
 [ToolkitSample(id: nameof(MarqueeSample), "Marquee", description: "A control for scrolling content in a marquee fashion.")]
 [ToolkitSampleNumericOption("MQSpeed", initial: 96, min: 48, max: 196, step: 1, Title = "Speed")]
 [ToolkitSampleMultiChoiceOption("MQDirection", "Left", "Right", "Up", "Down", Title = "Marquee Direction")]
-[ToolkitSampleTextOption("MQText", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")]
 //[ToolkitSampleMultiChoiceOption("MarqueeRepeat", "Repeat", "Forever", "1x", "2x")]
 #if !HAS_UNO
 [ToolkitSampleMultiChoiceOption("MQBehavior", "Ticker", "Looping", "Bouncing", Title = "Marquee Behavior")]
