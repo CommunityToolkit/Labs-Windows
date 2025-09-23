@@ -7,6 +7,10 @@ namespace CommunityToolkit.WinUI.Controls;
 public class LinkClickedEventArgs : EventArgs
 {
     public Uri Uri { get; }
+    /// <summary>
+    /// Set to true in your handler to indicate the link click was handled and default navigation should be suppressed.
+    /// </summary>
+    public bool Handled { get; set; }
 
     public LinkClickedEventArgs(Uri uri)
     {
