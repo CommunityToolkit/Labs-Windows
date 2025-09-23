@@ -3,11 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 #if WINDOWS_WINAPPSDK && !HAS_UNO
-using Windows.Graphics;
 using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Media;
+using System.Runtime.InteropServices;
+using Windows.Graphics;
 
 namespace CommunityToolkit.WinUI.Controls;
 
@@ -99,6 +100,30 @@ public partial class TitleBar : Control
         {
             Window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
             Window.AppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
+        }
+
+        // Set the caption buttons to match the flow direction of the app
+        UpdateCaptionButtonsDirection(rootElement.FlowDirection);
+    }
+
+    private void UpdateCaptionButtonsDirection(FlowDirection direction)
+    {
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this.Window);
+
+        if (hwnd != 0)
+        {
+            var exStyle = NativeMethods.GetWindowLongPtr(hwnd, (int)NativeMethods.WindowLongIndexFlags.GWL_EXSTYLE);
+
+            if (direction == FlowDirection.RightToLeft)
+            {
+                exStyle |= (nint)NativeMethods.WindowStyleExtended.WS_EX_LAYOUTRTL;
+            }
+            else
+            {
+                exStyle &= (nint)NativeMethods.WindowStyleExtended.WS_EX_LAYOUTRTL;
+            }
+
+            NativeMethods.SetWindowLongPtr(hwnd, (int)NativeMethods.WindowLongIndexFlags.GWL_EXSTYLE, exStyle);
         }
     }
 
