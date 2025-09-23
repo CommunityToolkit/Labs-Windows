@@ -14,7 +14,6 @@ namespace CommunityToolkit.WinUI.Controls;
 
 [TemplatePart(Name = nameof(PART_FooterPresenter), Type = typeof(ContentPresenter))]
 [TemplatePart(Name = nameof(PART_ContentPresenter), Type = typeof(ContentPresenter))]
-
 public partial class TitleBar : Control
 {
     WndProcHelper? WndProcHelper;
@@ -55,12 +54,23 @@ public partial class TitleBar : Control
                 };
             }
 
+            // Set the caption buttons to match the flow direction of the titlebar
+            UpdateCaptionButtonsDirection(this.FlowDirection);
+
             PART_ContentPresenter = GetTemplateChild(nameof(PART_ContentPresenter)) as ContentPresenter;
             PART_FooterPresenter = GetTemplateChild(nameof(PART_FooterPresenter)) as ContentPresenter;
 
             // Get caption button occlusion information.
             int CaptionButtonOcclusionWidthRight = Window.AppWindow.TitleBar.RightInset;
             int CaptionButtonOcclusionWidthLeft = Window.AppWindow.TitleBar.LeftInset;
+            
+            // Swap left/right if in RTL mode
+            if (this.FlowDirection == FlowDirection.RightToLeft)
+            {
+                (CaptionButtonOcclusionWidthRight, CaptionButtonOcclusionWidthLeft) = (CaptionButtonOcclusionWidthLeft, CaptionButtonOcclusionWidthRight);
+            }
+
+            // Set padding columns to match caption button occlusion.
             PART_LeftPaddingColumn!.Width = new GridLength(CaptionButtonOcclusionWidthLeft);
             PART_RightPaddingColumn!.Width = new GridLength(CaptionButtonOcclusionWidthRight);
 
@@ -101,9 +111,6 @@ public partial class TitleBar : Control
             Window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
             Window.AppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
         }
-
-        // Set the caption buttons to match the flow direction of the app
-        UpdateCaptionButtonsDirection(rootElement.FlowDirection);
     }
 
     private void UpdateCaptionButtonsDirection(FlowDirection direction)
