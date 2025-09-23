@@ -55,7 +55,10 @@ public partial class TitleBar : Control
             }
 
             // Set the caption buttons to match the flow direction of the titlebar
-            UpdateCaptionButtonsDirection(this.FlowDirection);
+            if (AutoChangeWindowLayoutStyle)
+            {
+                UpdateCaptionButtonsDirection(this.FlowDirection);
+            }
 
             PART_ContentPresenter = GetTemplateChild(nameof(PART_ContentPresenter)) as ContentPresenter;
             PART_FooterPresenter = GetTemplateChild(nameof(PART_FooterPresenter)) as ContentPresenter;
