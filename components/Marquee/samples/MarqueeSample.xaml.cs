@@ -51,10 +51,11 @@ public sealed partial class MarqueeSample : Page
 
     private void AddItem_Click(object sender, RoutedEventArgs? e)
     {
+        var rand = new Random();
         Data.Items.Add(new MarqueeSampleItem()
         {
             Name = $"Item {Data.Items.Count + 1}",
-            Brush = new SolidColorBrush(Color.FromArgb(255, (byte)Random.Shared.Next(256), (byte)Random.Shared.Next(256), (byte)Random.Shared.Next(256))),
+            Brush = new SolidColorBrush(Color.FromArgb(255, (byte)rand.Next(256), (byte)rand.Next(256), (byte)rand.Next(256))),
         });
     }
 }
@@ -66,7 +67,7 @@ public class MarqueeSampleItems
 
 public record MarqueeSampleItem
 {
-    public required string Name { get; set; }
+    public string? Name { get; set; }
     
-    public required Brush Brush { get; set; }
+    public Brush? Brush { get; set; }
 }
