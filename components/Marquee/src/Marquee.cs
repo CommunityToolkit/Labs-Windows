@@ -61,6 +61,14 @@ public partial class Marquee : ContentControl
         DefaultStyleKey = typeof(Marquee);
     }
 
+    /// <summary>
+    /// Unsubscribes from the loaded event when the control is being disposed.
+    /// </summary>
+    ~Marquee()
+    {
+        Loaded -= this.Marquee_Loaded;
+    }
+
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
@@ -72,12 +80,10 @@ public partial class Marquee : ContentControl
         _segment2 = (ContentPresenter)GetTemplateChild(Segment2PartName);
         _marqueeTransform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
-        _marqueeContainer.SizeChanged += Container_SizeChanged;
-        _segment1.SizeChanged += Segment_SizeChanged;
-
         // Swapping tabs in TabView caused errors where the control would unload and never reattach events.
-        // Hotfix: Track the loaded event. This should be fine because the GC will handle detaching the Loaded
-        // event on disposal. However, more research is required
+        // Fix: Track the loaded event. This should be fine because the GC will handle detaching the Loaded
+        // event on disposal. However, more research is required.
+        // As a result, all other events should be attached in the Loaded event handler.
         Loaded += this.Marquee_Loaded;
 
         VisualStateManager.GoToState(this, GetVisualStateName(Direction), false);
@@ -192,7 +198,7 @@ public partial class Marquee : ContentControl
         }
 
         // Do nothing if storyboard is null or already playing and not from start.
-        if (_marqueeStoryboard is null || _isActive && !fromStart)
+        if (_marqueeStoryboard is null || (_isActive && !fromStart))
             return;
 
         bool wasActive = _isActive;
@@ -269,6 +275,12 @@ public partial class Marquee : ContentControl
         if (!HasTemplateParts())
             return false;
 
+        // Unbind events from the old storyboard
+        if (_marqueeStoryboard is not null)
+        {
+            _marqueeStoryboard.Completed -= StoryBoard_Completed;
+        }
+
         // Get the size of the container and segment, based on the orientation.
         // Also track the property to adjust, also based on the orientation.
         double containerSize;
@@ -326,6 +338,7 @@ public partial class Marquee : ContentControl
         // If the distance is zero, don't play an animation
         if (distance is 0)
         {
+            _marqueeStoryboard = null;
             return false;
         }
 
@@ -340,12 +353,6 @@ public partial class Marquee : ContentControl
 
         // Calculate the animation duration by dividing the distance by the speed
         TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
-
-        // Unbind events from the old storyboard
-        if (_marqueeStoryboard is not null)
-        {
-            _marqueeStoryboard.Completed -= StoryBoard_Completed;
-        }
 
         // Create new storyboard and animation
         _marqueeStoryboard = CreateMarqueeStoryboardAnimation(start, end, duration, targetProperty);

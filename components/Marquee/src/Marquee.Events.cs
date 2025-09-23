@@ -12,9 +12,6 @@ public partial class Marquee
     /// <summary>
     /// Event raised when the Marquee begins scrolling.
     /// </summary>
-    /// <remarks>
-    /// Could be started. Could be resumed.
-    /// </remarks>
     public event EventHandler? MarqueeStarted;
 
     /// <summary>
@@ -41,12 +38,17 @@ public partial class Marquee
     {
         // While loaded, detach the loaded event and attach the unloaded event
         this.Loaded -= this.Marquee_Loaded;
-        this.Unloaded += Marquee_Unloaded;
+        this.Unloaded += this.Marquee_Unloaded;
 
         // Attach other events
         if (_marqueeContainer is not null)
         {
             _marqueeContainer.SizeChanged += Container_SizeChanged;
+        }
+
+        if (_segment1 is not null)
+        {
+            _segment1.SizeChanged += Segment_SizeChanged;
         }
 
         if (_marqueeStoryboard is not null)
@@ -66,6 +68,11 @@ public partial class Marquee
             _marqueeContainer.SizeChanged -= Container_SizeChanged;
         }
 
+        if (_segment1 is not null)
+        {
+            _segment1.SizeChanged -= Segment_SizeChanged;
+        }
+
         if (_marqueeStoryboard is not null)
         {
             _marqueeStoryboard.Completed -= StoryBoard_Completed;
@@ -75,9 +82,7 @@ public partial class Marquee
     private void Container_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         if (_marqueeContainer is null)
-        {
             return;
-        }
         
         // Clip the marquee within its bounds
         _marqueeContainer.Clip = new RectangleGeometry
@@ -99,9 +104,7 @@ public partial class Marquee
     private void Segment_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         if (_segment1 is null)
-        {
             return;
-        }
 
         // If the segment size changes, we need to update the storyboard,
         // and seek to the correct position to maintain a smooth animation.
