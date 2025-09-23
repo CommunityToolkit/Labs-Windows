@@ -7,11 +7,19 @@
   <!-- Sets this up as a toolkit component's sample project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.250402" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="MarqueeBehaviorSampl.xaml.cs">
+      <DependentUpon>MarqueeBehaviorSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MarqueeBehaviorSample.xaml.cs">
+      <DependentUpon>MarqueeBehaviorSample.xaml</DependentUpon>
+    </Compile>
     <Compile Update="MarqueeTextSample.xaml.cs">
       <DependentUpon>MarqueeTextSample.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="MarqueeSample.xaml.cs">
       <DependentUpon>MarqueeSample.xaml</DependentUpon>
     </Compile>

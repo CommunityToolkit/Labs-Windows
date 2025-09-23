@@ -50,3 +50,9 @@ The default direction is left, meaning the content will move leftwards, but this
 It is possible to use non-text content in the Marquee control. However templating must be used because the control will need to be duplicated for the looping animation.
 
 > [!Sample MarqueeSample]
+
+# Level Up with Behaviors
+
+Use behaviors to triggers the Marquee on events
+
+> [!Sample MarqueeBehaviorSample]
