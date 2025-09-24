@@ -55,6 +55,15 @@ public partial class Marquee
         {
             _marqueeStoryboard.Completed += StoryBoard_Completed;
         }
+
+        // Setup the animation
+        UpdateMarquee(false);
+
+        // The marquee should run when loaded if auto play is enabled
+        if (AutoPlay)
+        {
+            StartMarquee();
+        }
     }
 
     private void Marquee_Unloaded(object sender, RoutedEventArgs e)

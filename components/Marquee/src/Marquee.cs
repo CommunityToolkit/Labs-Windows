@@ -53,6 +53,12 @@ public partial class Marquee : ContentControl
     private bool _isActive = false;
     private bool _isPaused = false;
 
+    // This is used to track the position when stopped.
+    // If the animation update happens while running, this position
+    // is lost and must be set when the animation stops.
+    private double _stoppedPosition;
+    private DependencyProperty? _animationProperty;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Marquee"/> class.
     /// </summary>
@@ -179,6 +185,12 @@ public partial class Marquee : ContentControl
         _marqueeStoryboard?.Stop();
         _isActive = false;
         _isPaused = false;
+
+        // Set the transform to the stopped position if provided.
+        if (_animationProperty is not null)
+        {
+            _marqueeTransform?.SetValue(_animationProperty, _stoppedPosition);
+        }
 
         if (!wasStopped)
         {
@@ -379,6 +391,11 @@ public partial class Marquee : ContentControl
         {
             _marqueeTransform.SetValue(dp, start);
         }
+
+        // Set stopped position and animation property regardless of the active state.
+        // This will be used when the animation stops.
+        _stoppedPosition = start;
+        _animationProperty = dp;
 
         return true;
     }
