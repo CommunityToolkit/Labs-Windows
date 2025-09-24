@@ -8,16 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Extensions.AccentExtractorTests</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleExtensions.AccentExtractorTestClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleExtensions.AccentExtractorTestPage.xaml.cs">
-      <DependentUpon>ExampleExtensions.AccentExtractorTestPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)ExampleExtensions.AccentExtractorTestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
 </Project>
