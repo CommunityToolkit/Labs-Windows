@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using Windows.UI;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
@@ -22,9 +21,9 @@ public partial class AccentAnalyzer
 
         // Split the points into arbitrary clusters
         // NOTE: Can this be rearranged to converge faster?
-        #if !WINDOWS_UWP
+        #if NET6_0_OR_GREATER
         var offset = Random.Shared.Next(k); // Mathematically true random sampling
-        #elif WINDOWS_UWP
+        #else
         var rand = new Random();
         var offset = rand.Next(k);
         #endif

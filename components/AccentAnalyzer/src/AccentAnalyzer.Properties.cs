@@ -2,15 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Windows.Input;
+using Windows.UI;
+
 #if !WINDOWS_UWP
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 #elif WINDOWS_UWP
 using Windows.System;
-using Windows.UI;
 #endif
-
-using System.Windows.Input;
 
 
 namespace CommunityToolkit.WinUI.Helpers;

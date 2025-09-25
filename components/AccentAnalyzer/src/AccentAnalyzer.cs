@@ -2,18 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Numerics;
+using System.Windows.Input;
+using Windows.UI;
+
 #if !WINDOWS_UWP
-using Microsoft.UI;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
 #elif WINDOWS_UWP
-using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
 
-using System.Numerics;
-using System.Windows.Input;
-using System.Linq;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
@@ -75,10 +73,10 @@ public partial class AccentAnalyzer : DependencyObject
         // Read the stream into a a color array
         int pos = 0;
         Span<Vector3> colors = new Vector3[(int)stream.Length / 4]; // This should be 4096 (64x64), but it's good to be safe.
-        #if !WINDOWS_UWP
+        #if NET7_0_OR_GREATER
         Span<byte> bytes = stackalloc byte[4];
         while (stream.Read(bytes) > 0)
-        #elif WINDOWS_UWP
+        #else
         byte[] bytes = new byte[4];
         while(stream.Read(bytes, 0, 4) > 0)
         #endif
@@ -121,11 +119,11 @@ public partial class AccentAnalyzer : DependencyObject
         var baseColor = accentColors.Last();
 
         // Get base color by prominence
-        #if !WINDOWS_UWP
+        #if NET6_0_OR_GREATER
         var dominant = clusters
             .Select((color, i) => (color, sizes[i]))
             .MaxBy(x => x.Item2).color * 255;
-        #elif WINDOWS_UWP
+        #else
         var dominant = clusters
             .Select((color, i) => (color, sizes[i]))
             .OrderByDescending((x) => x.Item2)
