@@ -4,7 +4,7 @@
 
 using System.Numerics;
 
-namespace CommunityToolkit.WinUI.Extensions;
+namespace CommunityToolkit.WinUI.Helpers;
 
 public partial class AccentAnalyzer
 {
@@ -42,7 +42,7 @@ public partial class AccentAnalyzer
                 counts[i] = 0;
             }
 
-            // Accumlate step in centroid calculation
+            // Accumulate step in centroid calculation
             for(int i = 0; i < clusterIds.Length; i++)
             {
                 int id = clusterIds[i];
@@ -144,6 +144,6 @@ public partial class AccentAnalyzer
         var average = data.Average();
         avg = average;
         var sumOfSquares = data.Select(x => (x - average) * (x - average)).Sum();
-        return (float)Math.Sqrt(sumOfSquares / average);
+        return (float)Math.Sqrt(sumOfSquares / data.Count());
     }
 }
