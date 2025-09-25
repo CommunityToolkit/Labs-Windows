@@ -66,7 +66,8 @@ internal class MyTableCell : IAddChild
             _ => HorizontalAlignment.Left,
         };
 
-        _container.Padding = new Thickness(4);
+    // Use themed table cell padding if available
+    _container.Padding = MarkdownConfig.Default.Themes.TableCellPadding;
         if (_isHeader)
         {
             _flowDocument.RichTextBlock.FontWeight = FontWeights.Bold;
