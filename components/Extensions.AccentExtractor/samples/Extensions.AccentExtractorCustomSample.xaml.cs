@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.WinUI.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Extensions.AccentExtractorExperiment.Samples;
 
@@ -15,5 +15,10 @@ public sealed partial class AccentExtractorCustomSample : Page
     public AccentExtractorCustomSample()
     {
         this.InitializeComponent();
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        AccentedImage.Source = new BitmapImage(new Uri(UrlTextbox.Text));
     }
 }

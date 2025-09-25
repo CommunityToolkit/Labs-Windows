@@ -13,6 +13,15 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+            <TextBox x:Name="UrlTextbox" PlaceholderText="Enter a url"/>
+            <Button Content="Set Image" Click="Button_Click"/>
+        </StackPanel>
 
         <Image x:Name="AccentedImage"
                Source="/Extensions.AccentExtractorExperiment.Samples/Assets/icon.png"
@@ -22,16 +31,17 @@
                Width="200"
                Height="200"
                Margin="20"
+               Grid.Row="1"
                extensions:AccentExtractor.CalculateAccent="True"/>
 
-        <Rectangle Grid.Column="1"
+        <Rectangle Grid.Column="1" Grid.Row="1"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Width="200"
                    Height="200"
                    Margin="20">
             <Rectangle.Fill>
-                <SolidColorBrush Color="{Binding Path=(extensions:AccentExtractor.AccentColor), ElementName=AccentedImage, Mode=OneWay}"/>
+                <SolidColorBrush Color="{x:Bind AccentedImage.(extensions:AccentExtractor.AccentColor), Mode=OneWay}"/>
             </Rectangle.Fill>
         </Rectangle>
     </Grid>

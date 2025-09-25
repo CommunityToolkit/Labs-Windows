@@ -5,8 +5,7 @@
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Buffers;
-using Windows.Graphics.Imaging;
+using System.Numerics;
 using Windows.UI;
 
 namespace CommunityToolkit.WinUI.Extensions;
@@ -76,13 +75,12 @@ public static partial class AccentExtractor
         var pixels = await bitmap.GetPixelsAsync();
         var stream = pixels.AsStream();
 
-        // 
         if (stream.Length == 0)
             return;
 
         // Read the stream into a a color array
         int pos = 0;
-        Span<Color> colors = new Color[(int)stream.Length / 4]; // This should be 4096 (64x64), but it's good to be safe.
+        Span<Vector3> colors = new Vector3[(int)stream.Length / 4]; // This should be 4096 (64x64), but it's good to be safe.
         Span<byte> bytes = stackalloc byte[4];
         while (stream.Read(bytes) > 0)
         {
@@ -91,15 +89,21 @@ public static partial class AccentExtractor
             if (pos >= colors.Length)
                 break;
 
-            colors[pos] = Color.FromArgb(bytes[3], bytes[2], bytes[1], bytes[0]);
+            colors[pos] = new Vector3(bytes[2], bytes[1], bytes[0])/255;
             pos++;
         }
 
-        var rand = Random.Shared.Next(colors.Length - 1);
-        var accent = colors[rand];
+        // Determine most prominent colors and assess colorfulness
+        var clusters = KMeansCluster(colors, 5);
+        var colorfulness = clusters.Select(color => (color, FindColorfulness(color)));
+        var mostColorful = colorfulness.MaxBy(x => x.Item2);
+
+        // Select the accent color and convert to color
+        var accent = mostColorful.color * 255;
+        var color = Color.FromArgb(255, (byte)accent.X, (byte)accent.Y, (byte)accent.Z);
 
         // Set the accent color on the UI thread
-        DispatcherQueue.GetForCurrentThread().TryEnqueue(() => SetAccentColor(sender, accent));
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(() => SetAccentColor(sender, color));
 #endif
     }
 
