@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="AccentAnalyzerExperiment.Samples.AccentAnalyzerSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -23,12 +23,12 @@
 
         <StackPanel VerticalAlignment="Center">
             <Image x:Name="AccentedImage"
-                   Width="200"
-                   Height="200"
+                   MaxWidth="256"
+                   MaxHeight="256"
                    Margin="20"
                    HorizontalAlignment="Center"
                    Source="/Helpers.AccentAnalyzerExperiment.Samples/Assets/icon.png"
-                   Stretch="UniformToFill">
+                   Stretch="Uniform">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="ImageOpened">
                         <interactivity:InvokeCommandAction Command="{x:Bind AccentAnalyzer.AccentUpdateCommand}" />
@@ -40,9 +40,11 @@
         </StackPanel>
 
         <Grid Grid.Column="1"
-              Width="400"
-              Height="400">
+              Height="400"
+              MaxWidth="600"
+              Margin="20">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
@@ -50,7 +52,7 @@
                 <RowDefinition Height="4*" />
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
 
             <!--  Dominant  -->
@@ -67,7 +69,7 @@
 
             <!--  Base  -->
             <Border Grid.Row="4"
-                    Grid.ColumnSpan="3"
+                    Grid.ColumnSpan="4"
                     Margin="4"
                     Padding="2">
                 <Border.Background>
@@ -110,6 +112,21 @@
                 <TextBlock Foreground="Black"
                            Text="Tertiary" />
             </Border>
+
+            <!--  Gradient  -->
+            <Rectangle Grid.RowSpan="3"
+                       Grid.Column="2"
+                       Margin="4">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStopCollection>
+                            <GradientStop Offset="0" Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}" />
+                            <GradientStop Offset="0.74" Color="{x:Bind AccentAnalyzer.SecondaryAccentColor, Mode=OneWay}" />
+                            <GradientStop Offset="1" Color="{x:Bind AccentAnalyzer.TertiaryAccentColor, Mode=OneWay}" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
         </Grid>
     </Grid>
 </Page>

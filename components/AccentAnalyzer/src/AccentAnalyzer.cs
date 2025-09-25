@@ -208,7 +208,8 @@ public partial class AccentAnalyzer : DependencyObject
         colors = colors[..pos];
 
         // Determine most prominent colors and assess colorfulness
-        var clusters = KMeansCluster(colors, 5, out var sizes);
+        int k = 6; // Should this be adjustable?
+        var clusters = KMeansCluster(colors, k, out var sizes);
         var colorfulness = clusters.Select(color => (color, FindColorfulness(color)));
 
         // Select the accent color and convert to color

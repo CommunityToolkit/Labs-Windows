@@ -7,12 +7,4 @@
 
   <!-- Sets this up as a toolkit component's sample project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
-  <ItemGroup>
-    <Compile Update="AccentAnalyzerSample.xaml.cs">
-      <DependentUpon>AccentAnalyzerSample.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="AccentAnalyzerSampleOptionsPane.xaml.cs">
-      <DependentUpon>AccentAnalyzerSampleOptionsPane.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>
