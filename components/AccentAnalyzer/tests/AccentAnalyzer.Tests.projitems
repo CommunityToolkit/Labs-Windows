@@ -6,6 +6,9 @@
     <SharedGUID>FA8C1D4D-4CEF-490E-A369-0CCCFBAA8909</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Extensions.AccentExtractorTests</Import_RootNamespace>
+    <Import_RootNamespace>AccentAnalyzerTests</Import_RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ExampleAccentAnalyzerTestClass.cs" />
+  </ItemGroup>
 </Project>
