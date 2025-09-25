@@ -24,11 +24,15 @@ internal class MyCodeBlock : IAddChild
         _paragraph = new Paragraph();
         var container = new InlineUIContainer();
         var border = new Border();
-        border.Background = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
-        border.Padding = _config.Themes.Padding;
-        border.Margin = _config.Themes.InternalMargin;
-        border.CornerRadius = _config.Themes.CornerRadius;
+    border.Background = _config.Themes.CodeBlockBackground;
+    border.BorderBrush = _config.Themes.CodeBlockBorderBrush;
+    border.BorderThickness = _config.Themes.CodeBlockBorderThickness;
+    border.Padding = _config.Themes.CodeBlockPadding;
+    border.Margin = _config.Themes.CodeBlockMargin;
+    border.CornerRadius = _config.Themes.CodeBlockCornerRadius;
         var richTextBlock = new RichTextBlock();
+    richTextBlock.FontFamily = _config.Themes.CodeBlockFontFamily;
+    richTextBlock.Foreground = _config.Themes.CodeBlockForeground;
 
 #if false
         if (codeBlock is FencedCodeBlock fencedCodeBlock)
