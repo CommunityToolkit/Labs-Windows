@@ -239,7 +239,7 @@ public partial class Marquee : ContentControl
     private void UpdateMarquee(bool onTheFly)
     {
         // Check for crucial template parts
-        if(!HasTemplateParts())
+        if (_marqueeTransform is null)
             return;
 
         // If the update cannot be made on the fly,
@@ -278,14 +278,21 @@ public partial class Marquee : ContentControl
     /// <param name="seekPoint">The seek point to resume the animation (if possible or appropriate.</param>
     /// <exception cref="InvalidOperationException">Thrown when template parts are not supplied.</exception>
     /// <returns>Returns whether or not an animation is neccesary.</returns>
-    [MemberNotNullWhen(true, nameof(_marqueeStoryboard))]
     private bool UpdateAnimation(out TimeSpan seekPoint)
     {
         seekPoint = TimeSpan.Zero;
 
         // Check for crucial template parts
-        if (!HasTemplateParts())
+        if (_marqueeContainer is null ||
+            _marqueeTransform is null ||
+            _segment1 is null ||
+            _segment2 is null)
+        {
+            // Crucial template parts are missing!
+            // This can happen during initialization of certain properties.
+            // Gracefully return when this happens. Proper checks for these template parts happen in OnApplyTemplate.
             return false;
+        }
 
         // Unbind events from the old storyboard
         if (_marqueeStoryboard is not null)
@@ -446,22 +453,5 @@ public partial class Marquee : ContentControl
         Storyboard.SetTargetProperty(animation, targetProperty);
 
         return marqueeStoryboard;
-    }
-
-    [MemberNotNullWhen(true, nameof(_marqueeContainer), nameof(_marqueeTransform), nameof(_segment1), nameof(_segment2))]
-    private bool HasTemplateParts()
-    {
-        if (_marqueeContainer is null ||
-            _marqueeTransform is null ||
-            _segment1 is null ||
-            _segment2 is null)
-        {
-            // Crucial template parts are missing!
-            // This can happen during initialization of certain properties.
-            // Gracefully return when this happens. Proper checks for these template parts happen in OnApplyTemplate.
-            return false;
-        }
-
-        return true;
     }
 }
