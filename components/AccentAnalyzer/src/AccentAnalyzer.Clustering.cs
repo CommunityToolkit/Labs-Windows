@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
+using Windows.UI;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
@@ -21,7 +22,12 @@ public partial class AccentAnalyzer
 
         // Split the points into arbitrary clusters
         // NOTE: Can this be rearranged to converge faster?
+        #if !WINDOWS_UWP
         var offset = Random.Shared.Next(k); // Mathematically true random sampling
+        #elif WINDOWS_UWP
+        var rand = new Random();
+        var offset = rand.Next(k);
+        #endif
         for (int i = 0; i < clusterIds.Length; i++)
             clusterIds[i] = (i + offset) % k;
 
@@ -68,8 +74,14 @@ public partial class AccentAnalyzer
                 pivot--;
                 counts[i] = counts[pivot];
             }
+            
+            #if !WINDOWS_UWP
             counts = counts[..pivot];
             centroids = centroids[..pivot];
+            #elif WINDOWS_UWP
+            Array.Resize(ref counts, pivot);
+            centroids = centroids.Slice(0, pivot);
+            #endif
 
             // Division step in centroid calculation
             for (int i = 0; i < centroids.Length; i++)

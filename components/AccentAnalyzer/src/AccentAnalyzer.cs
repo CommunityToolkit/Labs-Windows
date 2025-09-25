@@ -2,12 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if !WINDOWS_UWP
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
+#elif WINDOWS_UWP
+using Windows.UI;
+using Windows.UI.Xaml.Media.Imaging;
+#endif
+
 using System.Numerics;
 using System.Windows.Input;
-using Windows.UI;
+using System.Linq;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
@@ -69,8 +75,13 @@ public partial class AccentAnalyzer : DependencyObject
         // Read the stream into a a color array
         int pos = 0;
         Span<Vector3> colors = new Vector3[(int)stream.Length / 4]; // This should be 4096 (64x64), but it's good to be safe.
+        #if !WINDOWS_UWP
         Span<byte> bytes = stackalloc byte[4];
         while (stream.Read(bytes) > 0)
+        #elif WINDOWS_UWP
+        byte[] bytes = new byte[4];
+        while(stream.Read(bytes, 0, 4) > 0)
+        #endif
         {
             // Safety check to avoid going out of bounds
             // This should never happen, but it's good to be safe.
@@ -86,7 +97,11 @@ public partial class AccentAnalyzer : DependencyObject
         }
         
         // If we skipped any pixels, trim the span
+        #if !WINDOWS_UWP
         colors = colors[..pos];
+        #elif WINDOWS_UWP
+        colors = colors.Slice(0, pos);
+        #endif
 
         // Determine most prominent colors and assess colorfulness
         int k = 6; // Should this be adjustable?
@@ -106,9 +121,17 @@ public partial class AccentAnalyzer : DependencyObject
         var baseColor = accentColors.Last();
 
         // Get base color by prominence
+        #if !WINDOWS_UWP
         var dominant = clusters
             .Select((color, i) => (color, sizes[i]))
             .MaxBy(x => x.Item2).color * 255;
+        #elif WINDOWS_UWP
+        var dominant = clusters
+            .Select((color, i) => (color, sizes[i]))
+            .OrderByDescending((x) => x.Item2)
+            .First().color * 255;
+        #endif
+
         var dominantColor = Color.FromArgb(255, (byte)dominant.X, (byte)dominant.Y, (byte)dominant.Z);
 
         // Evaluate colorfulness

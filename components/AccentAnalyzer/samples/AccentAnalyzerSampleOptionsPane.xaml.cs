@@ -2,7 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if !WINDOWS_UWP
 using Microsoft.UI.Xaml.Media.Imaging;
+#elif WINDOWS_UWP
+using Windows.UI.Xaml.Media.Imaging;
+#endif
 
 namespace AccentAnalyzerExperiment.Samples;
 
