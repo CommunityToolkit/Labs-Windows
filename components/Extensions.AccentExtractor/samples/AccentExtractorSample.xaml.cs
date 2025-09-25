@@ -9,16 +9,11 @@ namespace Extensions.AccentExtractorExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-[ToolkitSample(id: nameof(AccentExtractorCustomSample), "Custom control", description: $"A sample for showing how ")]
-public sealed partial class AccentExtractorCustomSample : Page
+[ToolkitSample(id: nameof(AccentExtractorSample), "Accent Extractor Extensions", description: $"A sample for showing how the accent extractor can be used.")]
+public sealed partial class AccentExtractorSample : Page
 {
-    public AccentExtractorCustomSample()
+    public AccentExtractorSample()
     {
         this.InitializeComponent();
-    }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        AccentedImage.Source = new BitmapImage(new Uri(UrlTextbox.Text));
     }
 }

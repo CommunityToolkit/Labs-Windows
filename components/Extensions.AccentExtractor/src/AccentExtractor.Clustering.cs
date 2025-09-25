@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace CommunityToolkit.WinUI.Extensions;
 
-public static partial class AccentExtractor
+public partial class AccentExtractor
 {
     private static Vector3[] KMeansCluster(Span<Vector3> points, int k)
     {
