@@ -9,36 +9,19 @@ namespace CommunityToolkit.WinUI.Controls;
 /// <summary>
 /// A Control that displays Text in a Marquee style.
 /// </summary>
-public partial class MarqueeText
+public partial class Marquee
 {
-    private static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register(nameof(Text), typeof(string), typeof(MarqueeText), new PropertyMetadata(null, PropertyChanged));
-
     private static readonly DependencyProperty SpeedProperty =
-        DependencyProperty.Register(nameof(Speed), typeof(double), typeof(MarqueeText), new PropertyMetadata(32d, PropertyChanged));
+        DependencyProperty.Register(nameof(Speed), typeof(double), typeof(Marquee), new PropertyMetadata(32d, PropertyChanged));
 
     private static readonly DependencyProperty RepeatBehaviorProperty =
-        DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(MarqueeText), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
+        DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(Marquee), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
 
     private static readonly DependencyProperty BehaviorProperty =
-        DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(MarqueeText), new PropertyMetadata(0, BehaviorPropertyChanged));
+        DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(Marquee), new PropertyMetadata(0, BehaviorPropertyChanged));
 
     private static readonly DependencyProperty DirectionProperty =
-        DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
-
-    #if !HAS_UNO
-    private static readonly DependencyProperty TextDecorationsProperty =
-        DependencyProperty.Register(nameof(TextDecorations), typeof(TextDecorations), typeof(MarqueeText), new PropertyMetadata(TextDecorations.None));
-    #endif
-
-    /// <summary>
-    /// Gets or sets the text being displayed in Marquee.
-    /// </summary>
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
+        DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(Marquee), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
 
     /// <summary>
     /// Gets or sets the speed the text moves in the Marquee.
@@ -93,25 +76,9 @@ public partial class MarqueeText
 
     private bool IsDirectionInverse => Direction is MarqueeDirection.Up or MarqueeDirection.Right;
 
-    // Waiting on https://github.com/unoplatform/uno/issues/12929
-    #if !HAS_UNO
-    /// <summary>
-    /// Gets or sets a value that indicates what decorations are applied to the text.
-    /// </summary>
-#if WINUI3
-    public Windows.UI.Text.TextDecorations TextDecorations
-#elif WINUI2
-    public Windows.UI.Text.TextDecorations TextDecorations
-#endif
-    {
-        get => (TextDecorations)GetValue(TextDecorationsProperty);
-        set => SetValue(TextDecorationsProperty, value);
-    }
-    #endif
-
     private static void BehaviorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not MarqueeText control)
+        if (d is not Marquee control)
         {
             return;
         }
@@ -130,7 +97,7 @@ public partial class MarqueeText
 
     private static void DirectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not MarqueeText control)
+        if (d is not Marquee control)
         {
             return;
         }
@@ -156,7 +123,7 @@ public partial class MarqueeText
 
     private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not MarqueeText control)
+        if (d is not Marquee control)
         {
             return;
         }

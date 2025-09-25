@@ -8,9 +8,8 @@ namespace CommunityToolkit.WinUI.Controls;
 /// A Control that displays Text in a Marquee style.
 /// </summary>
 [TemplatePart(Name = MarqueeContainerPartName, Type = typeof(Panel))]
-[TemplatePart(Name = Segment1PartName, Type = typeof(FrameworkTemplate))]
-[TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
-[TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
+[TemplatePart(Name = Segment1PartName, Type = typeof(ContentPresenter))]
+[TemplatePart(Name = Segment2PartName, Type = typeof(ContentPresenter))]
 [TemplatePart(Name = MarqueeTransformPartName, Type = typeof(TranslateTransform))]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = LeftwardsVisualStateName)]
 [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = RightwardsVisualStateName)]
@@ -19,13 +18,7 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = TickerVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = LoopingVisualStateName)]
 [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = BouncingVisualStateName)]
-[ContentProperty(Name = nameof(Text))]
-
-#if HAS_UNO
-// See: https://github.com/CommunityToolkit/Labs-Windows/pull/275#issuecomment-1331113635
-#pragma warning disable CA1001
-#endif
-public partial class MarqueeText : Control
+public partial class Marquee : ContentControl
 {
     private const string MarqueeContainerPartName = "MarqueeContainer";
     private const string Segment1PartName = "Segment1";
@@ -47,19 +40,19 @@ public partial class MarqueeText : Control
     private const string BouncingVisualStateName = "Bouncing";
 
     private Panel? _marqueeContainer;
-    private FrameworkElement? _segment1;
-    private FrameworkElement? _segment2;
+    private ContentPresenter? _segment1;
+    private ContentPresenter? _segment2;
     private TranslateTransform? _marqueeTransform;
     private Storyboard? _marqueeStoryboard;
 
     private bool _isActive;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MarqueeText"/> class.
+    /// Initializes a new instance of the <see cref="Marquee"/> class.
     /// </summary>
-    public MarqueeText()
+    public Marquee()
     {
-        DefaultStyleKey = typeof(MarqueeText);
+        DefaultStyleKey = typeof(Marquee);
     }
 
     /// <inheritdoc/>
@@ -69,16 +62,17 @@ public partial class MarqueeText : Control
 
         // Explicit casting throws early when parts are missing from the template
         _marqueeContainer = (Panel)GetTemplateChild(MarqueeContainerPartName);
-        _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
-        _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
+        _segment1 = (ContentPresenter)GetTemplateChild(Segment1PartName);
+        _segment2 = (ContentPresenter)GetTemplateChild(Segment2PartName);
         _marqueeTransform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
         _marqueeContainer.SizeChanged += Container_SizeChanged;
+        _segment1.SizeChanged += Segment_SizeChanged;
 
         // Swapping tabs in TabView caused errors where the control would unload and never reattach events.
-        // Hotfix: Don't detach events. This should be fine because the GC will handle it.
-        // However, more research is required.
-        //Unloaded += MarqueeText_Unloaded;
+        // Hotfix: Track the loaded event. This should be fine because the GC will handle detaching the Loaded
+        // event on disposal. However, more research is required
+        Loaded += this.Marquee_Loaded;
 
         VisualStateManager.GoToState(this, GetVisualStateName(Direction), false);
         VisualStateManager.GoToState(this, GetVisualStateName(Behavior), false);
@@ -181,6 +175,7 @@ public partial class MarqueeText : Control
         double containerSize;
         double segmentSize;
         double value;
+        DependencyProperty dp;
         string targetProperty;
 
         if (IsDirectionHorizontal)
@@ -190,6 +185,7 @@ public partial class MarqueeText : Control
             containerSize = _marqueeContainer.ActualWidth;
             segmentSize = _segment1.ActualWidth;
             value = _marqueeTransform.X;
+            dp = TranslateTransform.XProperty;
             targetProperty = "(TranslateTransform.X)";
         }
         else
@@ -199,6 +195,7 @@ public partial class MarqueeText : Control
             containerSize = _marqueeContainer.ActualHeight;
             segmentSize = _segment1.ActualHeight;
             value = _marqueeTransform.Y;
+            dp = TranslateTransform.YProperty;
             targetProperty = "(TranslateTransform.Y)";
         }
 
@@ -268,6 +265,15 @@ public partial class MarqueeText : Control
             double progress = Math.Abs(start - value) / distance;
             _marqueeStoryboard.Seek(TimeSpan.FromTicks((long)(duration.Ticks * progress)));
         }
+        
+        // NOTE: Can this be optimized to remove or reduce the need for this callback?
+        // Invalidate the segment measures when the transform changes.
+        // This forces virtualized panels to re-measure the segments
+        _marqueeTransform.RegisterPropertyChangedCallback(dp, (sender, dp) =>
+        {
+            _segment1.InvalidateMeasure();
+            _segment2.InvalidateMeasure();
+        });
 
         return true;
     }
@@ -320,7 +326,3 @@ public partial class MarqueeText : Control
         return marqueeStoryboard;
     }
 }
-
-#if HAS_UNO
-#pragma warning restore CA1001
-#endif

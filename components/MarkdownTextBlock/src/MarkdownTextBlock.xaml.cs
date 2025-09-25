@@ -23,7 +23,16 @@ public partial class MarkdownTextBlock : Control
 
     public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
 
-    internal void RaiseLinkClickedEvent(Uri uri) => OnLinkClicked?.Invoke(this, new LinkClickedEventArgs(uri));
+    internal bool RaiseLinkClickedEvent(Uri uri)
+    {
+        if (OnLinkClicked == null)
+        {
+            return false;
+        }
+        var args = new LinkClickedEventArgs(uri);
+        OnLinkClicked?.Invoke(this, args);
+        return args.Handled;
+    }
 
     private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

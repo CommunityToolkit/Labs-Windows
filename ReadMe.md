@@ -28,7 +28,7 @@ Otherwise, you can clone the repo, open the `components` directory, navigate wit
 - [DataTable](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/DataTable/samples/DataTable.md)
 - [Extensions.DependencyInjection](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Extensions.DependencyInjection)
 - [MarkdownTextBlock](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarkdownTextBlock/samples/MarkdownTextBlock.md)
-- [MarqueeText](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarqueeText/samples/MarqueeText.md)
+- [Marquee](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Marquee/samples/Marquee.md)
 - [Notifications](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Notifications)
 - [Ribbon](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Ribbon/samples/Ribbon.md)
 - [RivePlayer](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/RivePlayer/samples/RivePlayer.md)
