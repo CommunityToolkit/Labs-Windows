@@ -4,15 +4,15 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Extensions.AccentExtractorExperiment.Samples;
+namespace AccentAnalyzerExperiment.Samples;
 
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-[ToolkitSample(id: nameof(AccentExtractorSample), "Accent Extractor Extensions", description: $"A sample for showing how the accent extractor can be used.")]
-public sealed partial class AccentExtractorSample : Page
+[ToolkitSample(id: nameof(AccentAnalyzerSample), "AccentAnalyzer helper", description: $"A sample for showing how the accent analyzer can be used.")]
+public sealed partial class AccentAnalyzerSample : Page
 {
-    public AccentExtractorSample()
+    public AccentAnalyzerSample()
     {
         this.InitializeComponent();
     }

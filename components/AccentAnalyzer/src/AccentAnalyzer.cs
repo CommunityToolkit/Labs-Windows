@@ -12,21 +12,14 @@ using Windows.UI;
 namespace CommunityToolkit.WinUI.Extensions;
 
 /// <summary>
-/// 
+/// A resource that can be used to extract color palettes out of any UIElement.
 /// </summary>
 public partial class AccentAnalyzer : DependencyObject
 {
-    private partial class Command : ICommand
+    private partial class Command(Action action) : ICommand
     {
-        private Action _action;
-
         /// <inheritdoc/>
         public event EventHandler? CanExecuteChanged;
-
-        public Command(Action action)
-        {
-            _action = action;
-        }
 
         /// <inheritdoc/>
         public bool CanExecute(object? parameter) => true;
@@ -34,7 +27,7 @@ public partial class AccentAnalyzer : DependencyObject
         /// <inheritdoc/>
         public void Execute(object? parameter)
         {
-            _action();
+            action();
         }
     }
 

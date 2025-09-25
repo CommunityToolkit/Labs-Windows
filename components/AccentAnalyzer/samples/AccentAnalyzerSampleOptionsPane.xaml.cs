@@ -4,18 +4,18 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace Extensions.AccentExtractorExperiment.Samples;
+namespace AccentAnalyzerExperiment.Samples;
 
-[ToolkitSampleOptionsPane(nameof(AccentExtractorSample))]
-public partial class AccentExtractorSampleOptionsPane : UserControl
+[ToolkitSampleOptionsPane(nameof(AccentAnalyzerSample))]
+public partial class AccentAnalyzerSampleOptionsPane : UserControl
 {
-    private AccentExtractorSample.XamlNamedPropertyRelay _sample;
+    private AccentAnalyzerSample.XamlNamedPropertyRelay _sample;
     
-    public AccentExtractorSampleOptionsPane(AccentExtractorSample sample)
+    public AccentAnalyzerSampleOptionsPane(AccentAnalyzerSample sample)
     {
         this.InitializeComponent();
 
-        _sample = new AccentExtractorSample.XamlNamedPropertyRelay(sample);
+        _sample = new AccentAnalyzerSample.XamlNamedPropertyRelay(sample);
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)

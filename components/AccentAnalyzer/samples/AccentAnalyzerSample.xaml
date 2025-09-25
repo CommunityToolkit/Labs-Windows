@@ -1,10 +1,10 @@
 <!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<Page x:Class="Extensions.AccentExtractorExperiment.Samples.AccentExtractorSample"
+<Page x:Class="AccentAnalyzerExperiment.Samples.AccentAnalyzerSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:extensions="using:CommunityToolkit.WinUI.Extensions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Extensions.AccentExtractorExperiment.Samples"
+      xmlns:local="using:AccentAnalyzerExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
@@ -20,12 +20,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel>
+        <StackPanel VerticalAlignment="Center">
             <Image x:Name="AccentedImage"
-                   Source="/Extensions.AccentExtractorExperiment.Samples/Assets/icon.png"
+                   Source="/Helpers.AccentAnalyzerExperiment.Samples/Assets/icon.png"
                    Stretch="UniformToFill"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
                    Width="200"
                    Height="200"
                    Margin="20">
@@ -35,7 +34,8 @@
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Image>
-            <TextBlock Text="{x:Bind AccentAnalyzer.Colorfulness, Mode=OneWay}"/>
+            <TextBlock Text="{x:Bind AccentAnalyzer.Colorfulness, Mode=OneWay}"
+                       HorizontalAlignment="Center"/>
         </StackPanel>
 
         <Grid Grid.Column="1" Height="400" Width="400">

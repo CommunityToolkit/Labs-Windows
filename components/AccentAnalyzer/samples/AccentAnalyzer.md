@@ -1,12 +1,12 @@
 ---
-title: Extensions.AccentExtractor
-author: githubaccount
+title: AccentAnalyzer
+author: Avid29
 description: TODO: Your experiment's description here
-keywords: Extensions.AccentExtractor, Control, Layout
+keywords: Accents, Color, Helpers
 dev_langs:
   - csharp
-category: Controls
-subcategory: Layout
+category: Helpers
+subcategory: Miscellaneous
 discussion-id: 0
 issue-id: 0
 icon: assets/icon.png
@@ -20,7 +20,7 @@ icon: assets/icon.png
 
 <!-- Be sure to update the discussion/issue numbers above with your Labs discussion/issue id numbers in order for UI links to them from the sample app to work. -->
 
-# Extensions.AccentExtractor
+# AccentAnalyzer
 
 TODO: Fill in information about this experiment and how to get started here...
 
@@ -29,4 +29,4 @@ TODO: Fill in information about this experiment and how to get started here...
 You can inherit from an existing component as well, like `Panel`, this example shows a control without a
 XAML Style that will be more light-weight to consume by an app developer:
 
-> [!Sample AccentExtractorSample]
+> [!Sample AccentAnalyzerSample]
