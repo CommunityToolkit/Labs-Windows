@@ -41,6 +41,7 @@ internal class MyHyperlink : IAddChild
         _hyperlink = new Hyperlink()
         {
             NavigateUri = Extensions.GetUri(url, baseUrl),
+            Foreground = MarkdownConfig.Default.Themes.LinkForeground
         };
     }
 
@@ -52,6 +53,7 @@ internal class MyHyperlink : IAddChild
         _hyperlink = new Hyperlink()
         {
             NavigateUri = Extensions.GetUri(url, baseUrl),
+            Foreground = MarkdownConfig.Default.Themes.LinkForeground
         };
     }
 
