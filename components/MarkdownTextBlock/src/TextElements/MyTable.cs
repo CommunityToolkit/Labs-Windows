@@ -29,10 +29,11 @@ internal class MyTable : IAddChild
         (
             column,
             table.Count,
-            borderThickness: 1,
-            themes.BorderBrush,
+            borderThickness: themes.TableBorderThickness,
+            themes.TableBorderBrush ?? themes.BorderBrush,
             themes.TableHeadingBackground,
-            themes.CornerRadius
+            themes.CornerRadius,
+            themes.TableMargin
         );
 
         var inlineUIContainer = new InlineUIContainer();
