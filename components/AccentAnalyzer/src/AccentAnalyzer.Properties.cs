@@ -4,8 +4,6 @@
 
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.Numerics;
 using System.Windows.Input;
 using Windows.UI;
 
