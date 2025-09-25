@@ -26,10 +26,15 @@ internal class MyParagraph : IAddChild
 
         // Lists are plain Paragraph_s, one per item.
         // This is so that you can select across list items.
-        Thickness margin = new Thickness(0, 8, 0, 8); // renderer.Config.Themes.BlockMargin;
+        var themes = renderer.Config.Themes;
+        Thickness margin = themes.ParagraphMargin;
         int bulletCount = renderer.GetListBulletCount();
-        margin.Left += 30 * bulletCount;
+        margin.Left += themes.ListGutterWidth * bulletCount;
         _paragraph.Margin = margin;
+        if (themes.ParagraphLineHeight > 0)
+        {
+            _paragraph.LineHeight = themes.ParagraphLineHeight;
+        }
 
         if (bulletCount != 0)
         {
@@ -37,7 +42,7 @@ internal class MyParagraph : IAddChild
             Run bulletRun = new Run { Text = bullet + "\t" };
 
             _paragraph.Inlines.Add(bulletRun);
-            _paragraph.TextIndent = -30;
+            _paragraph.TextIndent = -themes.ListGutterWidth;
         }
     }
 

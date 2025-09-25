@@ -4,12 +4,12 @@
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
                     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
-    <Style TargetType="controls:MarqueeText">
+    <Style TargetType="controls:Marquee">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:MarqueeText">
+                <ControlTemplate TargetType="controls:Marquee">
                     <Grid Padding="{TemplateBinding Padding}"
                           HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
@@ -74,26 +74,28 @@
                                 <StackPanel.RenderTransform>
                                     <TranslateTransform x:Name="MarqueeTransform" />
                                 </StackPanel.RenderTransform>
-                                <TextBlock x:Name="Segment1"
-                                           win:FontStretch="{TemplateBinding FontStretch}"
-                                           win:TextDecorations="{TemplateBinding TextDecorations}"
-                                           CharacterSpacing="{TemplateBinding CharacterSpacing}"
-                                           FontFamily="{TemplateBinding FontFamily}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           FontStyle="{TemplateBinding FontStyle}"
-                                           FontWeight="{TemplateBinding FontWeight}"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}" />
-                                <TextBlock x:Name="Segment2"
-                                           win:FontStretch="{TemplateBinding FontStretch}"
-                                           win:TextDecorations="{TemplateBinding TextDecorations}"
-                                           CharacterSpacing="{TemplateBinding CharacterSpacing}"
-                                           FontFamily="{TemplateBinding FontFamily}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           FontStyle="{TemplateBinding FontStyle}"
-                                           FontWeight="{TemplateBinding FontWeight}"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}" />
+                                <ContentPresenter x:Name="Segment1"
+                                                  win:FontStretch="{TemplateBinding FontStretch}"
+                                                  CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                  FontFamily="{TemplateBinding FontFamily}"
+                                                  FontSize="{TemplateBinding FontSize}"
+                                                  FontStyle="{TemplateBinding FontStyle}"
+                                                  FontWeight="{TemplateBinding FontWeight}"
+                                                  Foreground="{TemplateBinding Foreground}" />
+                                <ContentPresenter x:Name="Segment2"
+                                                  win:FontStretch="{TemplateBinding FontStretch}"
+                                                  CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                  FontFamily="{TemplateBinding FontFamily}"
+                                                  FontSize="{TemplateBinding FontSize}"
+                                                  FontStyle="{TemplateBinding FontStyle}"
+                                                  FontWeight="{TemplateBinding FontWeight}"
+                                                  Foreground="{TemplateBinding Foreground}" />
                             </StackPanel>
                         </Grid>
                     </Grid>

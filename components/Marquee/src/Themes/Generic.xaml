@@ -3,7 +3,7 @@
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.MarqueeText/MarqueeText.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.Marquee/Marquee.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
