@@ -11,7 +11,7 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <extensions:AccentExtractor x:Name="AccentAnalyzer" Source="{x:Bind AccentedImage}"/>
+        <extensions:AccentAnalyzer x:Name="AccentAnalyzer" Source="{x:Bind AccentedImage}"/>
     </Page.Resources>
     
     <Grid>
@@ -20,40 +20,78 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image x:Name="AccentedImage"
-               Source="/Extensions.AccentExtractorExperiment.Samples/Assets/icon.png"
-               Stretch="UniformToFill"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Width="200"
-               Height="200"
-               Margin="20">
-            <interactivity:Interaction.Behaviors>
-                <interactivity:EventTriggerBehavior EventName="ImageOpened">
-                    <interactivity:InvokeCommandAction Command="{x:Bind AccentAnalyzer.AccentUpdateCommand}"/>
-                </interactivity:EventTriggerBehavior>
-            </interactivity:Interaction.Behaviors>
-        </Image>
-
-        <StackPanel Orientation="Vertical" Grid.Column="1"
-                    Width="200" HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Spacing="8" Margin="20">
-            <Rectangle Height="240">
-                <Rectangle.Fill>
-                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}"/>
-                </Rectangle.Fill>
-            </Rectangle>
-            <Rectangle Height="120">
-                <Rectangle.Fill>
-                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.SecondaryAccentColor, Mode=OneWay}"/>
-                </Rectangle.Fill>
-            </Rectangle>
-            <Rectangle Height="60">
-                <Rectangle.Fill>
-                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.TertiaryAccentColor, Mode=OneWay}"/>
-                </Rectangle.Fill>
-            </Rectangle>
+        <StackPanel>
+            <Image x:Name="AccentedImage"
+                   Source="/Extensions.AccentExtractorExperiment.Samples/Assets/icon.png"
+                   Stretch="UniformToFill"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Width="200"
+                   Height="200"
+                   Margin="20">
+                <interactivity:Interaction.Behaviors>
+                    <interactivity:EventTriggerBehavior EventName="ImageOpened">
+                        <interactivity:InvokeCommandAction Command="{x:Bind AccentAnalyzer.AccentUpdateCommand}"/>
+                    </interactivity:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Image>
+            <TextBlock Text="{x:Bind AccentAnalyzer.Colorfulness, Mode=OneWay}"/>
         </StackPanel>
+
+        <Grid Grid.Column="1" Height="400" Width="400">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Dominant-->
+            <Border Grid.Column="0" Grid.RowSpan="3"
+                       Margin="4" Padding="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.DominantColor, Mode=OneWay}"/>
+                </Border.Background>
+                <TextBlock Text="Dominant" Foreground="Black"/>
+            </Border>
+
+            <!--Base-->
+            <Border Grid.ColumnSpan="3" Grid.Row="4"
+                       Margin="4" Padding="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.BaseColor, Mode=OneWay}"/>
+                </Border.Background>
+                <TextBlock Text="Base" Foreground="Black"/>
+            </Border>
+            
+            <!--Primary-->
+            <Border Grid.Column="1" Grid.Row="0"
+                       Margin="4" Padding="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}"/>
+                </Border.Background>
+                <TextBlock Text="Primary" Foreground="Black"/>
+            </Border>
+            <!--Secondary-->
+            <Border Grid.Column="1" Grid.Row="1"
+                       Margin="4" Padding="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.SecondaryAccentColor, Mode=OneWay}"/>
+                </Border.Background>
+                <TextBlock Text="Secondary" Foreground="Black"/>
+            </Border>
+            <!--Tertiary-->
+            <Border Grid.Column="1" Grid.Row="2"
+                       Margin="4" Padding="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.TertiaryAccentColor, Mode=OneWay}"/>
+                </Border.Background>
+                <TextBlock Text="Tertiary" Foreground="Black"/>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

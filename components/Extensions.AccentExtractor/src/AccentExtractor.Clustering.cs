@@ -6,9 +6,9 @@ using System.Numerics;
 
 namespace CommunityToolkit.WinUI.Extensions;
 
-public partial class AccentExtractor
+public partial class AccentAnalyzer
 {
-    private static Vector3[] KMeansCluster(Span<Vector3> points, int k)
+    private static Vector3[] KMeansCluster(Span<Vector3> points, int k, out int[] counts)
     {
         // Track the assigned cluster of each point
         int[] clusterIds = new int[points.Length];
@@ -17,7 +17,7 @@ public partial class AccentExtractor
         // TODO: stackalloc is great here, but pooling should be thresholded
         // just in case
         Span<Vector3> centroids = stackalloc Vector3[k];
-        Span<int> counts = stackalloc int[k];
+        counts = new int[k];
 
         // Split the points into arbitrary clusters
         // NOTE: Can this be rearranged to converge faster?
@@ -119,5 +119,31 @@ public partial class AccentExtractor
         var rg = color.X - color.Y;
         var yb = ((color.X + color.Y) / 2) - color.Z;
         return 0.3f * new Vector2(rg, yb).Length();
+    }
+
+    private static float FindColorfulness(Vector3[] colors)
+    {
+        // Isolate rg and yb
+        var rg = colors.Select(x => Math.Abs(x.X - x.Y));
+        var yb = colors.Select(x => Math.Abs(0.5f * (x.X + x.Y) - x.Z));
+
+        // Evaluate rg and yb mean and std
+        var rg_std = FindStandardDeviation(rg, out var rg_mean);
+        var yb_std = FindStandardDeviation(yb, out var yb_mean);
+
+        // Combine means and standard deviations
+        var std = new Vector2(rg_mean, yb_mean).Length();
+        var mean = new Vector2(rg_std, yb_std).Length();
+
+        // Return colorfulness
+        return std + (0.3f * mean);
+    }
+
+    private static float FindStandardDeviation(IEnumerable<float> data, out float avg)
+    {
+        var average = data.Average();
+        avg = average;
+        var sumOfSquares = data.Select(x => (x - average) * (x - average)).Sum();
+        return (float)Math.Sqrt(sumOfSquares / average);
     }
 }
