@@ -5,10 +5,7 @@
 using System.Windows.Input;
 using Windows.UI;
 
-#if !WINDOWS_UWP
-using Microsoft.UI;
-using Microsoft.UI.Dispatching;
-#elif WINDOWS_UWP
+#if !WINAPPSDK
 using Windows.System;
 #endif
 
@@ -141,6 +138,12 @@ public partial class AccentAnalyzer
         get => _source;
         set => SetSource(value);
     }
+
+    private void SetSource(UIElement? source)
+    {
+        _source = source;
+        _ = UpdateAccentAsync();
+    }
     
     private void UpdateAccentProperties(Color primary, Color secondary, Color tertiary, Color baseColor, Color dominantColor, float colorfulness)
     {
@@ -153,13 +156,5 @@ public partial class AccentAnalyzer
             BaseColor = baseColor;
             Colorfulness = colorfulness;
         });
-    }
-
-    private void SetSource(UIElement? source)
-    {
-        _source = source;
-
-        // If true, calculate the accent color immediately.
-        _ = UpdateAccentAsync();
     }
 }

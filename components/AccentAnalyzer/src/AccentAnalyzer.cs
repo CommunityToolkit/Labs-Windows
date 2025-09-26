@@ -2,15 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if !WINAPPSDK
+global using Windows.UI.Xaml.Media.Imaging;
+#else
+global using Microsoft.UI;
+global using Microsoft.UI.Dispatching;
+global using Microsoft.UI.Xaml.Media.Imaging;
+using System;
+
+#endif
+
 using System.Numerics;
 using System.Windows.Input;
 using Windows.UI;
-
-#if !WINDOWS_UWP
-using Microsoft.UI.Xaml.Media.Imaging;
-#elif WINDOWS_UWP
-using Windows.UI.Xaml.Media.Imaging;
-#endif
 
 
 namespace CommunityToolkit.WinUI.Helpers;
@@ -41,6 +45,24 @@ public partial class AccentAnalyzer : DependencyObject
         }
     }
 
+    private readonly struct AccentColorInfo
+    {
+        public AccentColorInfo(Vector3 rgb, float prominence)
+        {
+            Colorfulness = FindColorfulness(rgb);
+
+            rgb *= byte.MaxValue;
+            Color = Color.FromArgb(byte.MaxValue, (byte)rgb.X, (byte)rgb.Y, (byte)rgb.Z);
+            Prominence = prominence;
+        }
+
+        public Color Color { get; }
+
+        public float Colorfulness { get; }
+
+        public float Prominence { get; }
+    }
+
     /// <summary>
     /// Initialize an instance of the <see cref="AccentAnalyzer"/> class.
     /// </summary>
@@ -59,78 +81,36 @@ public partial class AccentAnalyzer : DependencyObject
 
     private async Task UpdateAccentAsync()
     {
-        // Rerender the UIElement to a 64x64 bitmap
-        RenderTargetBitmap bitmap = new RenderTargetBitmap();
-        await bitmap.RenderAsync(Source, 64, 64);
+        const int sampleCount = 4096;
+        const int k = 8;
 
-        // Create a stream from the bitmap
-        var pixels = await bitmap.GetPixelsAsync();
-        var stream = pixels.AsStream();
+        // Retreive pixel samples from source
+        var samples = await SampleSourcePixelColorsAsync(sampleCount);
 
-        if (stream.Length == 0)
+        // Failed to retreive pixel data. Cancel
+        if (samples.Length == 0)
             return;
 
-        // Read the stream into a a color array
-        int pos = 0;
-        Span<Vector3> colors = new Vector3[(int)stream.Length / 4]; // This should be 4096 (64x64), but it's good to be safe.
-        #if NET7_0_OR_GREATER
-        Span<byte> bytes = stackalloc byte[4];
-        while (stream.Read(bytes) > 0)
-        #else
-        byte[] bytes = new byte[4];
-        while(stream.Read(bytes, 0, 4) > 0)
-        #endif
-        {
-            // Safety check to avoid going out of bounds
-            // This should never happen, but it's good to be safe.
-            if (pos >= colors.Length)
-                break;
+        // Cluster samples in RGB floating-point color space
+        // With Euclidean Squared distance function
+        // The accumulate accent color infos
+        var clusters = KMeansCluster(samples, k, out var sizes);
+        var colorData = clusters
+            .Select((color, i) => new AccentColorInfo(color, (float)sizes[i] / samples.Length));
 
-            // Skip fully transparent pixels
-            if (bytes[3] == 0)
-                continue;
+        // Select accent colors
+        Color primary, secondary, tertiary, baseColor;
+        (primary, secondary, tertiary, baseColor) = SelectAccents(colorData);
 
-            colors[pos] = new Vector3(bytes[2], bytes[1], bytes[0]) / 255;
-            pos++;
-        }
-        
-        // If we skipped any pixels, trim the span
-        #if !WINDOWS_UWP
-        colors = colors[..pos];
-        #elif WINDOWS_UWP
-        colors = colors.Slice(0, pos);
-        #endif
-
-        // Determine most prominent colors and assess colorfulness
-        int k = 6; // Should this be adjustable?
-        var clusters = KMeansCluster(colors, k, out var sizes);
-        var colorfulness = clusters.Select(color => (color, FindColorfulness(color)));
-
-        // Select the accent color and convert to color
-        var accentColors = colorfulness
-            .OrderByDescending(x => x.Item2)
-            .Select(x => x.color * 255)
-            .Select(x => Color.FromArgb(255, (byte)x.X, (byte)x.Y, (byte)x.Z));
-
-        // Get primary/secondary/tertiary accents
-        var primary = accentColors.First();
-        var secondary = accentColors.ElementAtOrDefault(1);
-        var tertiary = accentColors.ElementAtOrDefault(2);
-        var baseColor = accentColors.Last();
-
-        // Get base color by prominence
+        // Get dominant color by prominence
         #if NET6_0_OR_GREATER
-        var dominant = clusters
-            .Select((color, i) => (color, sizes[i]))
-            .MaxBy(x => x.Item2).color * 255;
+        var dominantColor = colorData
+            .MaxBy(x => x.Prominence).Color;
         #else
-        var dominant = clusters
-            .Select((color, i) => (color, sizes[i]))
-            .OrderByDescending((x) => x.Item2)
-            .First().color * 255;
+        var dominantColor = colorData
+            .OrderByDescending((x) => x.Prominence)
+            .First().Color;
         #endif
-
-        var dominantColor = Color.FromArgb(255, (byte)dominant.X, (byte)dominant.Y, (byte)dominant.Z);
 
         // Evaluate colorfulness
         // TODO: Should this be weighted by cluster sizes?
@@ -138,5 +118,88 @@ public partial class AccentAnalyzer : DependencyObject
 
         // Set the various properties from the UI thread
         UpdateAccentProperties(primary, secondary, tertiary, baseColor, dominantColor, overallColorfulness);
+    }
+
+    private (Color primary, Color secondary, Color tertiary, Color baseColor) SelectAccents(IEnumerable<AccentColorInfo> colorData)
+    {
+        // Select accent colors
+        var accentColors = colorData
+            .OrderByDescending(x => x.Colorfulness)
+            .Take(3)
+            .Select(x => x.Color);
+
+        // Get primary/secondary/tertiary accents
+        var primary = accentColors.First();
+        var secondary = accentColors.ElementAtOrDefault(1);
+        var tertiary = accentColors.ElementAtOrDefault(2);
+
+        // Get base color
+        var baseColor = accentColors.Last();
+
+        // Return palette
+        return (primary, secondary, tertiary, baseColor);
+    }
+
+    private async Task<Vector3[]> SampleSourcePixelColorsAsync(int sampleCount)
+    {
+        // Ensure the source is populated
+        if (Source is null)
+            return [];
+
+        // Grab actual size
+        // If actualSize is 0, replace with 1:1 aspect ratio
+        var actualSize = Source.ActualSize;
+        actualSize = actualSize != Vector2.Zero ? actualSize : Vector2.One;
+        
+        // Calculate size of scaled rerender using the actual size
+        // scaled down to the sample count, maintaining aspect ration
+        var actualArea = actualSize.X * actualSize.Y;
+        var scale = MathF.Sqrt(sampleCount / actualArea);
+        var scaledSize = actualSize * scale;
+        
+        // Rerender the UIElement to a bitmap of about sampleCount pixels
+        var bitmap = new RenderTargetBitmap();
+        await bitmap.RenderAsync(Source, (int)scaledSize.X, (int)scaledSize.Y);
+
+        // Create a stream from the bitmap
+        var pixels = await bitmap.GetPixelsAsync();
+        var pixelByteStream = pixels.AsStream();
+
+        // Something went wrong
+        if (pixelByteStream.Length == 0)
+            return [];
+
+        // Read the stream into a a color array
+        const int bytesPerPixel = 4;
+        Vector3[] samples = new Vector3[(int)pixelByteStream.Length / bytesPerPixel];
+
+        // Iterate through the stream reading a pixel (4 bytes) at a time
+        // and storing them as a Vector3. Opacity info is dropped.
+        int colorIndex = 0;
+#if NET7_0_OR_GREATER
+        Span<byte> pixelBytes = stackalloc byte[bytesPerPixel];
+        while (pixelByteStream.Read(pixelBytes) == bytesPerPixel)
+#else
+        byte[] pixelBytes = new byte[bytesPerPixel];
+        while(pixelByteStream.Read(pixelBytes, 0, bytesPerPixel) == bytesPerPixel)
+#endif
+        {
+            // Skip fully transparent pixels
+            if (pixelBytes[3] == 0)
+                continue;
+
+            // Take the red, green, and blue channels to make a floating-point space color.
+            samples[colorIndex] = new Vector3(pixelBytes[2], pixelBytes[1], pixelBytes[0]) / byte.MaxValue;
+            colorIndex++;
+        }
+        
+        // If we skipped any pixels, trim the span
+#if !WINDOWS_UWP
+        samples = samples[..colorIndex];
+#else
+        Array.Resize(ref samples, colorIndex);
+#endif
+
+        return samples;
     }
 }
