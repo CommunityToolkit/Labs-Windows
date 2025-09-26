@@ -45,24 +45,6 @@ public partial class AccentAnalyzer : DependencyObject
         }
     }
 
-    private readonly struct AccentColorInfo
-    {
-        public AccentColorInfo(Vector3 rgb, float prominence)
-        {
-            Colorfulness = FindColorfulness(rgb);
-
-            rgb *= byte.MaxValue;
-            Color = Color.FromArgb(byte.MaxValue, (byte)rgb.X, (byte)rgb.Y, (byte)rgb.Z);
-            Prominence = prominence;
-        }
-
-        public Color Color { get; }
-
-        public float Colorfulness { get; }
-
-        public float Prominence { get; }
-    }
-
     /// <summary>
     /// Initialize an instance of the <see cref="AccentAnalyzer"/> class.
     /// </summary>
@@ -98,25 +80,33 @@ public partial class AccentAnalyzer : DependencyObject
         var colorData = clusters
             .Select((color, i) => new AccentColorInfo(color, (float)sizes[i] / samples.Length));
 
+        // Update accent colors property
+        // Not a dependency property, so don't update form 
+#if !WINDOWS_UWP
+        AccentColors = [..colorData];
+#else
+        AccentColors = colorData.ToList();
+#endif
+
         // Select accent colors
         Color primary, secondary, tertiary, baseColor;
         (primary, secondary, tertiary, baseColor) = SelectAccents(colorData);
 
         // Get dominant color by prominence
-        #if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
         var dominantColor = colorData
             .MaxBy(x => x.Prominence).Color;
-        #else
+#else
         var dominantColor = colorData
             .OrderByDescending((x) => x.Prominence)
             .First().Color;
-        #endif
+#endif
 
         // Evaluate colorfulness
         // TODO: Should this be weighted by cluster sizes?
         var overallColorfulness = FindColorfulness(clusters);
-
-        // Set the various properties from the UI thread
+        
+        // Update using the color data
         UpdateAccentProperties(primary, secondary, tertiary, baseColor, dominantColor, overallColorfulness);
     }
 
@@ -192,7 +182,7 @@ public partial class AccentAnalyzer : DependencyObject
             samples[colorIndex] = new Vector3(pixelBytes[2], pixelBytes[1], pixelBytes[0]) / byte.MaxValue;
             colorIndex++;
         }
-        
+
         // If we skipped any pixels, trim the span
 #if !WINDOWS_UWP
         samples = samples[..colorIndex];

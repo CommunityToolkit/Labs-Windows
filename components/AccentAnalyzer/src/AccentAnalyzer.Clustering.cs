@@ -147,14 +147,14 @@ public partial class AccentAnalyzer
         return nearestIndex;
     }
 
-    private static float FindColorfulness(Vector3 color)
+    internal static float FindColorfulness(Vector3 color)
     {
         var rg = color.X - color.Y;
         var yb = ((color.X + color.Y) / 2) - color.Z;
         return 0.3f * new Vector2(rg, yb).Length();
     }
 
-    private static float FindColorfulness(Vector3[] colors)
+    internal static float FindColorfulness(Vector3[] colors)
     {
         // Isolate rg and yb
         var rg = colors.Select(x => Math.Abs(x.X - x.Y));

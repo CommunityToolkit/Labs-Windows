@@ -53,6 +53,11 @@ public partial class AccentAnalyzer
         DependencyProperty.Register(nameof(Colorfulness), typeof(float), typeof(AccentAnalyzer), new PropertyMetadata(0f));
 
     /// <summary>
+    /// An event fired when the accent properties are updated.
+    /// </summary>
+    public event EventHandler? AccentsUpdated;
+
+    /// <summary>
     /// Gets the primary accent color as extracted from the <see cref="Source"/>.
     /// </summary>
     /// <remarks>
@@ -126,6 +131,11 @@ public partial class AccentAnalyzer
     }
 
     /// <summary>
+    /// Gets the set of <see cref="AccentColorInfo"/> extracted on last update.
+    /// </summary>
+    public IReadOnlyList<AccentColorInfo>? AccentColors { get; private set; }
+
+    /// <summary>
     /// Gets a command that executes an accent update.
     /// </summary>
     public ICommand AccentUpdateCommand { get; }
@@ -155,6 +165,8 @@ public partial class AccentAnalyzer
             DominantColor = dominantColor;
             BaseColor = baseColor;
             Colorfulness = colorfulness;
+
+            AccentsUpdated?.Invoke(this, EventArgs.Empty);
         });
     }
 }
