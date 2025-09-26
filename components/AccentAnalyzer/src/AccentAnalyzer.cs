@@ -115,13 +115,14 @@ public partial class AccentAnalyzer : DependencyObject
         // Select accent colors
         var accentColors = colorData
             .OrderByDescending(x => x.Colorfulness)
-            .Take(3)
             .Select(x => x.Color);
 
         // Get primary/secondary/tertiary accents
         var primary = accentColors.First();
         var secondary = accentColors.ElementAtOrDefault(1);
+        secondary = secondary != default ? secondary : primary;
         var tertiary = accentColors.ElementAtOrDefault(2);
+        tertiary = tertiary != default ? tertiary : secondary;
 
         // Get base color
         var baseColor = accentColors.Last();
@@ -138,18 +139,18 @@ public partial class AccentAnalyzer : DependencyObject
 
         // Grab actual size
         // If actualSize is 0, replace with 1:1 aspect ratio
-        var actualSize = Source.ActualSize;
-        actualSize = actualSize != Vector2.Zero ? actualSize : Vector2.One;
+        var sourceSize = Source.ActualSize;
+        sourceSize = sourceSize != Vector2.Zero ? sourceSize : Vector2.One;
         
         // Calculate size of scaled rerender using the actual size
         // scaled down to the sample count, maintaining aspect ration
-        var actualArea = actualSize.X * actualSize.Y;
-        var scale = MathF.Sqrt(sampleCount / actualArea);
-        var scaledSize = actualSize * scale;
+        var sourceArea = sourceSize.X * sourceSize.Y;
+        var sampleScale = MathF.Sqrt(sampleCount / sourceArea);
+        var sampleSize = sourceSize * sampleScale;
         
         // Rerender the UIElement to a bitmap of about sampleCount pixels
         var bitmap = new RenderTargetBitmap();
-        await bitmap.RenderAsync(Source, (int)scaledSize.X, (int)scaledSize.Y);
+        await bitmap.RenderAsync(Source, (int)sampleSize.X, (int)sampleSize.Y);
 
         // Create a stream from the bitmap
         var pixels = await bitmap.GetPixelsAsync();
@@ -161,7 +162,7 @@ public partial class AccentAnalyzer : DependencyObject
 
         // Read the stream into a a color array
         const int bytesPerPixel = 4;
-        Vector3[] samples = new Vector3[(int)pixelByteStream.Length / bytesPerPixel];
+        var samples = new Vector3[(int)pixelByteStream.Length / bytesPerPixel];
 
         // Iterate through the stream reading a pixel (4 bytes) at a time
         // and storing them as a Vector3. Opacity info is dropped.
