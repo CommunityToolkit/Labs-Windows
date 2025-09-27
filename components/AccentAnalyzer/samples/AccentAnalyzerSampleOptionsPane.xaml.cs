@@ -20,10 +20,25 @@ public partial class AccentAnalyzerSampleOptionsPane : UserControl
         this.InitializeComponent();
 
         _sample = new AccentAnalyzerSample.XamlNamedPropertyRelay(sample);
+
+        string[] images = ["Bloom.jpg", "Headphones.jpg", "Paint.jpg"];
+        StockImages = images.Select(x => $"ms-appx:///Assets/StockImages/{x}").ToList();
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-        _sample.AccentedImage.Source = new BitmapImage(new Uri(UrlTextbox.Text));
+        SetImage(new Uri(UrlTextbox.Text));
+    }
+
+    public IList<string> StockImages { get; }
+
+    private void GridView_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        SetImage(new Uri((string)e.ClickedItem));
+    }
+
+    private void SetImage(Uri uri)
+    {
+        _sample.AccentedImage.Source = new BitmapImage(uri);
     }
 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AccentAnalyzerExperiment.Samples.AccentAnalyzerSampleOptionsPane"
+<UserControl x:Class="AccentAnalyzerExperiment.Samples.AccentAnalyzerSampleOptionsPane"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,11 +6,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal">
-        <TextBox x:Name="UrlTextbox"
-                 MaxWidth="300"
-                 PlaceholderText="Enter a url" />
-        <Button Click="Button_Click"
-                Content="Set Image" />
+    <StackPanel MaxWidth="400">
+        <StackPanel Orientation="Horizontal">
+            <TextBox x:Name="UrlTextbox"
+                     PlaceholderText="Enter a url" />
+            <Button Click="Button_Click"
+                    Content="Set Image" />
+        </StackPanel>
+
+        <GridView ItemsSource="{x:Bind StockImages, Mode=OneWay}" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="GridView_ItemClick"
+                  >
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <Image Stretch="UniformToFill" MaxWidth="128">
+                        <Image.Source>
+                            <BitmapImage UriSource="{x:Bind}"/>
+                        </Image.Source>
+                    </Image>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
     </StackPanel>
 </UserControl>

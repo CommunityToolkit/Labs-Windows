@@ -1,10 +1,26 @@
-<Project>
+﻿<Project>
   <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
-  
+
   <PropertyGroup>
     <ToolkitComponentName>Helpers.AccentAnalyzer</ToolkitComponentName>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's sample project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
+  <ItemGroup>
+    <None Remove="Assets\StockImages\Bloom.jpg" />
+    <None Remove="Assets\StockImages\Headphones.jpg" />
+    <None Remove="Assets\StockImages\Paint.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\StockImages\Bloom.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\StockImages\Headphones.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\StockImages\Paint.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
