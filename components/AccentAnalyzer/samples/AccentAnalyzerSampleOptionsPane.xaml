@@ -1,4 +1,4 @@
-<UserControl x:Class="AccentAnalyzerExperiment.Samples.AccentAnalyzerSampleOptionsPane"
+﻿<UserControl x:Class="AccentAnalyzerExperiment.Samples.AccentAnalyzerSampleOptionsPane"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,13 +14,16 @@
                     Content="Set Image" />
         </StackPanel>
 
-        <GridView ItemsSource="{x:Bind StockImages, Mode=OneWay}" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="GridView_ItemClick"
-                  >
+        <GridView IsItemClickEnabled="True"
+                  ItemClick="GridView_ItemClick"
+                  ItemsSource="{x:Bind StockImages, Mode=OneWay}"
+                  SelectionMode="Single">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="x:String">
-                    <Image Stretch="UniformToFill" MaxWidth="128">
+                    <Image MaxWidth="128"
+                           Stretch="UniformToFill">
                         <Image.Source>
-                            <BitmapImage UriSource="{x:Bind}"/>
+                            <BitmapImage UriSource="{x:Bind}" />
                         </Image.Source>
                     </Image>
                 </DataTemplate>
