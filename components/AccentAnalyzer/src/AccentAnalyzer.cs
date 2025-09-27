@@ -4,18 +4,15 @@
 
 #if !WINAPPSDK
 global using Windows.UI.Xaml.Media.Imaging;
+global using Windows.System;
 #else
 global using Microsoft.UI;
 global using Microsoft.UI.Dispatching;
 global using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-
 #endif
 
 using System.Numerics;
 using System.Windows.Input;
-using Windows.UI;
-
 
 namespace CommunityToolkit.WinUI.Helpers;
 
@@ -79,38 +76,41 @@ public partial class AccentAnalyzer : DependencyObject
         var clusters = KMeansCluster(samples, k, out var sizes);
         var colorData = clusters
             .Select((color, i) => new AccentColorInfo(color, (float)sizes[i] / samples.Length));
+        
+        // Evaluate colorfulness
+        // TODO: Should this be weighted by cluster sizes?
+        var overallColorfulness = FindColorfulness(clusters);
+
+        // Select accent colors
+        SelectAccentColors(colorData, overallColorfulness);
 
         // Update accent colors property
-        // Not a dependency property, so don't update form 
+        // Not a dependency property, so no need to update from the UI Thread
 #if !WINDOWS_UWP
         AccentColors = [..colorData];
 #else
         AccentColors = colorData.ToList();
 #endif
 
-        // Select accent colors
-        Color primary, secondary, tertiary, baseColor;
-        (primary, secondary, tertiary, baseColor) = SelectAccents(colorData);
-
-        // Get dominant color by prominence
-#if NET6_0_OR_GREATER
-        var dominantColor = colorData
-            .MaxBy(x => x.Prominence).Color;
-#else
-        var dominantColor = colorData
-            .OrderByDescending((x) => x.Prominence)
-            .First().Color;
-#endif
-
-        // Evaluate colorfulness
-        // TODO: Should this be weighted by cluster sizes?
-        var overallColorfulness = FindColorfulness(clusters);
-        
-        // Update using the color data
-        UpdateAccentProperties(primary, secondary, tertiary, baseColor, dominantColor, overallColorfulness);
+        // Update the colorfulness and invoke accents updated event,
+        // both from the UI thread
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+        {
+            Colorfulness = overallColorfulness;
+            AccentsUpdated?.Invoke(this, EventArgs.Empty);
+        });
     }
 
-    private (Color primary, Color secondary, Color tertiary, Color baseColor) SelectAccents(IEnumerable<AccentColorInfo> colorData)
+    /// <summary>
+    /// This method takes the processed color information and selects the accent colors from it.
+    /// </summary>
+    /// <remarks>
+    /// There is no guarentee that this method will be called from the UI Thread.
+    /// Dependency properties should be updated using a dispatcher.
+    /// </remarks>
+    /// <param name="colorData">The analyzed accent color info from the image.</param>
+    /// <param name="imageColorfulness">The overall colorfulness of the image.</param>
+    protected virtual void SelectAccentColors(IEnumerable<AccentColorInfo> colorData, float imageColorfulness)
     {
         // Select accent colors
         var accentColors = colorData
@@ -127,8 +127,25 @@ public partial class AccentAnalyzer : DependencyObject
         // Get base color
         var baseColor = accentColors.Last();
 
-        // Return palette
-        return (primary, secondary, tertiary, baseColor);
+        // Get dominant color by prominence
+#if NET6_0_OR_GREATER
+        var dominantColor = colorData
+            .MaxBy(x => x.Prominence).Color;
+#else
+        var dominantColor = colorData
+            .OrderByDescending((x) => x.Prominence)
+            .First().Color;
+#endif
+
+        // Batch update the dependency properties in the UI Thread
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+        {
+            PrimaryAccentColor = primary;
+            SecondaryAccentColor = secondary;
+            TertiaryAccentColor = tertiary;
+            BaseColor = baseColor;
+            DominantColor = dominantColor;
+        });
     }
 
     private async Task<Vector3[]> SampleSourcePixelColorsAsync(int sampleCount)

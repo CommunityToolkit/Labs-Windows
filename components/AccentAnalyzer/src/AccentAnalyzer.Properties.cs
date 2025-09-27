@@ -5,11 +5,6 @@
 using System.Windows.Input;
 using Windows.UI;
 
-#if !WINAPPSDK
-using Windows.System;
-#endif
-
-
 namespace CommunityToolkit.WinUI.Helpers;
 
 public partial class AccentAnalyzer
@@ -66,7 +61,7 @@ public partial class AccentAnalyzer
     public Color PrimaryAccentColor
     {
         get => (Color)GetValue(PrimaryAccentColorProperty);
-        private set => SetValue(PrimaryAccentColorProperty, value);
+        protected set => SetValue(PrimaryAccentColorProperty, value);
     }
 
     /// <summary>
@@ -78,7 +73,7 @@ public partial class AccentAnalyzer
     public Color SecondaryAccentColor
     {
         get => (Color)GetValue(SecondaryAccentColorProperty);
-        private set => SetValue(SecondaryAccentColorProperty, value);
+        protected set => SetValue(SecondaryAccentColorProperty, value);
     }
 
     /// <summary>
@@ -90,7 +85,7 @@ public partial class AccentAnalyzer
     public Color TertiaryAccentColor
     {
         get => (Color)GetValue(TertiaryAccentColorProperty);
-        private set => SetValue(TertiaryAccentColorProperty, value);
+        protected set => SetValue(TertiaryAccentColorProperty, value);
     }
     
     /// <summary>
@@ -102,7 +97,7 @@ public partial class AccentAnalyzer
     public Color BaseColor
     {
         get => (Color)GetValue(BaseColorProperty);
-        private set => SetValue(BaseColorProperty, value);
+        protected set => SetValue(BaseColorProperty, value);
     }
     
     /// <summary>
@@ -114,7 +109,7 @@ public partial class AccentAnalyzer
     public Color DominantColor
     {
         get => (Color)GetValue(DominantColorProperty);
-        private set => SetValue(DominantColorProperty, value);
+        protected set => SetValue(DominantColorProperty, value);
     }
     
     /// <summary>
@@ -153,20 +148,5 @@ public partial class AccentAnalyzer
     {
         _source = source;
         _ = UpdateAccentAsync();
-    }
-    
-    private void UpdateAccentProperties(Color primary, Color secondary, Color tertiary, Color baseColor, Color dominantColor, float colorfulness)
-    {
-        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
-        {
-            PrimaryAccentColor = primary;
-            SecondaryAccentColor = secondary;
-            TertiaryAccentColor = tertiary;
-            DominantColor = dominantColor;
-            BaseColor = baseColor;
-            Colorfulness = colorfulness;
-
-            AccentsUpdated?.Invoke(this, EventArgs.Empty);
-        });
     }
 }
