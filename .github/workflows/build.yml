@@ -9,7 +9,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-    tags: [ 'release/weekly/*' ]
+    tags: [ 'release/weekly/**' ]
   pull_request:
     branches: [ main ]
 
