@@ -29,6 +29,13 @@ public readonly struct AccentColorInfo
     /// <summary>
     /// Gets the colorfulness index of the accent color.
     /// </summary>
+    /// <remarks>
+    /// The exact definition of colorfulness is defined by David Hasler and Sabine Susstrunk's paper on measuring colorfulness
+    /// <seealso href="https://infoscience.epfl.ch/server/api/core/bitstreams/77f5adab-e825-4995-92db-c9ff4cd8bf5a/content"/>.
+    ///
+    /// Colors of high saturation and value will have a high colorfulness (around 1),
+    /// while colors that are mostly gray or white will have a low colorfulness (around 0).
+    /// </remarks>
     public float Colorfulness { get; }
 
     /// <summary>

@@ -9,7 +9,11 @@ namespace CommunityToolkit.WinUI.Helpers;
 
 public partial class AccentAnalyzer
 {
-    private UIElement? _source;
+    /// <summary>
+    /// Gets the <see cref="DependencyProperty"/> for the <see cref="Source"/> property.
+    /// </summary>
+    public static readonly DependencyProperty SourceProperty =
+        DependencyProperty.Register(nameof(Source), typeof(UIElement), typeof(AccentAnalyzer), new PropertyMetadata(null, OnSourceChanged));
 
     /// <summary>
     /// Gets the <see cref="DependencyProperty"/> for the <see cref="PrimaryAccentColor"/> property.
@@ -51,6 +55,15 @@ public partial class AccentAnalyzer
     /// An event fired when the accent properties are updated.
     /// </summary>
     public event EventHandler? AccentsUpdated;
+
+    /// <summary>
+    /// Gets or sets the <see cref="UIElement"/> source for accent color analysis.
+    /// </summary>
+    public UIElement? Source
+    {
+        get => (UIElement)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
+    }
 
     /// <summary>
     /// Gets the primary accent color as extracted from the <see cref="Source"/>.
@@ -111,13 +124,16 @@ public partial class AccentAnalyzer
         get => (Color)GetValue(DominantColorProperty);
         protected set => SetValue(DominantColorProperty, value);
     }
-    
+
     /// <summary>
     /// Gets the "colorfulness" of the <see cref="Source"/>.
     /// </summary>
     /// <remarks>
     /// Colorfulness is defined by David Hasler and Sabine Susstrunk's paper on measuring colorfulness
-    /// <seealso href="https://infoscience.epfl.ch/server/api/core/bitstreams/77f5adab-e825-4995-92db-c9ff4cd8bf5a/content"/>
+    /// <seealso href="https://infoscience.epfl.ch/server/api/core/bitstreams/77f5adab-e825-4995-92db-c9ff4cd8bf5a/content"/>.
+    ///
+    /// An image with colors of high saturation and value will have a high colorfulness (around 1),
+    /// meanwhile images that are mostly gray or white will have a low colorfulness (around 0).
     /// </remarks>
     public float Colorfulness
     {
@@ -135,18 +151,11 @@ public partial class AccentAnalyzer
     /// </summary>
     public ICommand AccentUpdateCommand { get; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="UIElement"/>
-    /// </summary>
-    public UIElement? Source
+    private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        get => _source;
-        set => SetSource(value);
-    }
+        if (d is not AccentAnalyzer analyzer)
+            return;
 
-    private void SetSource(UIElement? source)
-    {
-        _source = source;
-        _ = UpdateAccentAsync();
+        _ = analyzer.UpdateAccentAsync();
     }
 }

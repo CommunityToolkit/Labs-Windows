@@ -164,8 +164,9 @@ public partial class AccentAnalyzer : DependencyObject
         var sourceArea = sourceSize.X * sourceSize.Y;
         var sampleScale = MathF.Sqrt(sampleCount / sourceArea);
         var sampleSize = sourceSize * sampleScale;
-        
+
         // Rerender the UIElement to a bitmap of about sampleCount pixels
+        // Note: RenderTargetBitmap is not supported with Uno Platform.
         var bitmap = new RenderTargetBitmap();
         await bitmap.RenderAsync(Source, (int)sampleSize.X, (int)sampleSize.Y);
 
