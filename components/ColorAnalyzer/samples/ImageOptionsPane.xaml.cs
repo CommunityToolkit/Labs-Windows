@@ -8,14 +8,14 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
 
-namespace AccentAnalyzerExperiment.Samples;
+namespace ColorAnalyzerExperiment.Samples;
 
 [ToolkitSampleOptionsPane(nameof(AccentAnalyzerSample))]
-public partial class AccentAnalyzerSampleOptionsPane : UserControl
+public partial class ImageOptionsPane : UserControl
 {
     private AccentAnalyzerSample.XamlNamedPropertyRelay _sample;
     
-    public AccentAnalyzerSampleOptionsPane(AccentAnalyzerSample sample)
+    public ImageOptionsPane(AccentAnalyzerSample sample)
     {
         this.InitializeComponent();
 
