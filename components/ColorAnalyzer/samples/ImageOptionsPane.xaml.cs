@@ -21,7 +21,7 @@ public partial class ImageOptionsPane : UserControl
 
         _sample = new AccentAnalyzerSample.XamlNamedPropertyRelay(sample);
 
-        string[] images = ["Bloom.jpg", "Headphones.jpg", "Paint.jpg"];
+        string[] images = ["Flowers.jpg", "Headphones.jpg", "Paint.jpg"];
         StockImages = images.Select(x => $"ms-appx:///Assets/StockImages/{x}").ToList();
     }
 
