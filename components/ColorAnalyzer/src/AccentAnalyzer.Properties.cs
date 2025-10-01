@@ -146,11 +146,6 @@ public partial class AccentAnalyzer
     /// </summary>
     public IReadOnlyList<AccentColorInfo>? AccentColors { get; private set; }
 
-    /// <summary>
-    /// Gets a command that executes an accent update.
-    /// </summary>
-    public ICommand AccentUpdateCommand { get; }
-
     private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not AccentAnalyzer analyzer)

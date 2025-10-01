@@ -21,33 +21,11 @@ namespace CommunityToolkit.WinUI.Helpers;
 /// </summary>
 public partial class AccentAnalyzer : DependencyObject
 {
-    private partial class Command(Action action) : ICommand
-    {
-        // This is ridiculous, but the event must be here since it's part of the ICommand interface,
-        // however without supression it causes an error that prevents the CI from building.
-        #pragma warning disable CS0067
-
-        /// <inheritdoc/>
-        public event EventHandler? CanExecuteChanged;
-
-        #pragma warning restore CS0067
-
-        /// <inheritdoc/>
-        public bool CanExecute(object? parameter) => true;
-        
-        /// <inheritdoc/>
-        public void Execute(object? parameter)
-        {
-            action();
-        }
-    }
-
     /// <summary>
     /// Initialize an instance of the <see cref="AccentAnalyzer"/> class.
     /// </summary>
     public AccentAnalyzer()
     {
-        AccentUpdateCommand = new Command(UpdateAccent);
     }
 
     /// <summary>
