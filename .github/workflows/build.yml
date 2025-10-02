@@ -13,6 +13,12 @@ on:
   pull_request:
     branches: [ main ]
 
+  # Triggers on release publication (including automated weekly releases)
+  # Note: Tag events don't trigger from GitHub Actions, but release events do
+  # This allows scheduled-releases.yml to trigger builds via gh release create
+  release:
+    types: [published]
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   merge_group:
@@ -80,6 +86,22 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Filter release events to only process weekly releases
+      # Note: Release events don't support pattern filtering, so we filter manually
+      # This allows both manual releases and automated weekly releases to trigger builds
+      - name: Filter release events
+        if: github.event_name == 'release'
+        id: filter-release
+        run: |
+          $tagName = "${{ github.event.release.tag_name }}"
+          if ($tagName -match "^release/weekly/") {
+            Write-Host "Matched weekly release tag: $tagName"
+            exit 0
+          } else {
+            Write-Host "Tag does not match weekly pattern: $tagName - skipping build"
+            exit 1
+          }
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v4
