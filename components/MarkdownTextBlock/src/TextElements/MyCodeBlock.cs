@@ -75,20 +75,23 @@ internal class MyCodeBlock : IAddChild
         {
 #endif
 
-        foreach (var line in codeBlock.Lines.Lines)
+        if (codeBlock.Lines.Lines != null)
         {
-            var paragraph = new Paragraph();
-            var lineString = line.ToString();
-            if (!String.IsNullOrWhiteSpace(lineString))
+            foreach (var line in codeBlock.Lines.Lines)
             {
-                paragraph.Inlines.Add(new Run() { Text = lineString });
+                var paragraph = new Paragraph();
+                var lineString = line.ToString();
+                if (!String.IsNullOrWhiteSpace(lineString))
+                {
+                    paragraph.Inlines.Add(new Run() { Text = lineString });
+                }
+                richTextBlock.Blocks.Add(paragraph);
             }
-            richTextBlock.Blocks.Add(paragraph);
+
+            border.Child = richTextBlock;
+            container.Child = border;
+            _paragraph.Inlines.Add(container);
         }
-        
-        border.Child = richTextBlock;
-        container.Child = border;
-        _paragraph.Inlines.Add(container);
     }
 
     public void AddChild(IAddChild child) {}
