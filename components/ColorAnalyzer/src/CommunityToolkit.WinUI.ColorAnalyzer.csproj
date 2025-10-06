@@ -1,0 +1,13 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
+  
+  <PropertyGroup>
+    <ToolkitComponentName>ColorAnalyzer</ToolkitComponentName>
+    <Description>This package contains the ColorAnalyzer.</Description>
+
+    <RootNamespace>CommunityToolkit.WinUI.ColorAnalyzerRns</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Sets this up as a toolkit component's source project -->
+  <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
+</Project>
