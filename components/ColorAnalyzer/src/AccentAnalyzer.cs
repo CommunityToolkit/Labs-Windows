@@ -19,6 +19,7 @@ namespace CommunityToolkit.WinUI.Helpers;
 /// <summary>
 /// A resource that can be used to extract color palettes out of any UIElement.
 /// </summary>
+[ContentProperty(Name = nameof(Palettes))]
 public partial class AccentAnalyzer : DependencyObject
 {
     /// <summary>
@@ -26,6 +27,7 @@ public partial class AccentAnalyzer : DependencyObject
     /// </summary>
     public AccentAnalyzer()
     {
+        Palettes = [];
     }
 
     /// <summary>
@@ -38,6 +40,11 @@ public partial class AccentAnalyzer : DependencyObject
 
     private async Task UpdateAccentAsync()
     {
+        // No palettes to update.
+        // Skip a lot of unnecessary computation
+        if (Palettes.Count is 0)
+            return;
+
         const int sampleCount = 4096;
         const int k = 8;
 
@@ -59,8 +66,14 @@ public partial class AccentAnalyzer : DependencyObject
         // TODO: Should this be weighted by cluster sizes?
         var overallColorfulness = FindColorfulness(clusters);
 
-        // Select accent colors
-        SelectAccentColors(colorData, overallColorfulness);
+        // Update palettes on the UI thread
+        foreach (var palette in Palettes)
+        {
+            DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+            {
+                palette.SelectColors(colorData, overallColorfulness);
+            });
+        }
 
         // Update accent colors property
         // Not a dependency property, so no need to update from the UI Thread
@@ -75,54 +88,7 @@ public partial class AccentAnalyzer : DependencyObject
         DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
         {
             Colorfulness = overallColorfulness;
-            AccentsUpdated?.Invoke(this, EventArgs.Empty);
-        });
-    }
-
-    /// <summary>
-    /// This method takes the processed color information and selects the accent colors from it.
-    /// </summary>
-    /// <remarks>
-    /// There is no guarentee that this method will be called from the UI Thread.
-    /// Dependency properties should be updated using a dispatcher.
-    /// </remarks>
-    /// <param name="colorData">The analyzed accent color info from the image.</param>
-    /// <param name="imageColorfulness">The overall colorfulness of the image.</param>
-    protected virtual void SelectAccentColors(IEnumerable<AccentColorInfo> colorData, float imageColorfulness)
-    {
-        // Select accent colors
-        var accentColors = colorData
-            .OrderByDescending(x => x.Colorfulness)
-            .Select(x => x.Color);
-
-        // Get primary/secondary/tertiary accents
-        var primary = accentColors.First();
-        var secondary = accentColors.ElementAtOrDefault(1);
-        secondary = secondary != default ? secondary : primary;
-        var tertiary = accentColors.ElementAtOrDefault(2);
-        tertiary = tertiary != default ? tertiary : secondary;
-
-        // Get base color
-        var baseColor = accentColors.Last();
-
-        // Get dominant color by prominence
-#if NET6_0_OR_GREATER
-        var dominantColor = colorData
-            .MaxBy(x => x.Prominence).Color;
-#else
-        var dominantColor = colorData
-            .OrderByDescending((x) => x.Prominence)
-            .First().Color;
-#endif
-
-        // Batch update the dependency properties in the UI Thread
-        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
-        {
-            PrimaryAccentColor = primary;
-            SecondaryAccentColor = secondary;
-            TertiaryAccentColor = tertiary;
-            BaseColor = baseColor;
-            DominantColor = dominantColor;
+            PalettesUpdated?.Invoke(this, EventArgs.Empty);
         });
     }
 

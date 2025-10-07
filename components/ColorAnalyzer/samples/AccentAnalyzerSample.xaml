@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="ColorAnalyzerExperiment.Samples.AccentAnalyzerSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,7 +12,11 @@
 
     <Page.Resources>
         <helpers:AccentAnalyzer x:Name="AccentAnalyzer"
-                                Source="{x:Bind AccentedImage}" />
+                                Source="{x:Bind AccentedImage}">
+            <helpers:AccentPalette x:Name="AccentPalette" />
+            <helpers:ProminencePalette x:Name="ProminencePalette" />
+            <helpers:BasePalette x:Name="BasePalette" />
+        </helpers:AccentAnalyzer>
     </Page.Resources>
 
     <Grid>
@@ -60,7 +64,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.DominantColor, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind ProminencePalette.Primary, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Dominant" />
@@ -72,7 +76,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.BaseColor, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind BasePalette.Base, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Base" />
@@ -84,7 +88,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind AccentPalette.Primary, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Primary" />
@@ -95,7 +99,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.SecondaryAccentColor, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind AccentPalette.Secondary, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Secondary" />
@@ -106,7 +110,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind AccentAnalyzer.TertiaryAccentColor, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind AccentPalette.Tertiary, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Tertiary" />
@@ -119,9 +123,9 @@
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStopCollection>
-                            <GradientStop Offset="0" Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}" />
-                            <GradientStop Offset="0.74" Color="{x:Bind AccentAnalyzer.SecondaryAccentColor, Mode=OneWay}" />
-                            <GradientStop Offset="1" Color="{x:Bind AccentAnalyzer.TertiaryAccentColor, Mode=OneWay}" />
+                            <GradientStop Offset="0" Color="{x:Bind AccentPalette.Primary, Mode=OneWay}" />
+                            <GradientStop Offset="0.74" Color="{x:Bind AccentPalette.Secondary, Mode=OneWay}" />
+                            <GradientStop Offset="1" Color="{x:Bind AccentPalette.Tertiary, Mode=OneWay}" />
                         </GradientStopCollection>
                     </LinearGradientBrush>
                 </Rectangle.Fill>
