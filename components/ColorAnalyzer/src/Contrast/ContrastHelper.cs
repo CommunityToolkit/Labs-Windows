@@ -9,73 +9,95 @@ namespace CommunityToolkit.WinUI.Helpers;
 /// <summary>
 /// A class that provides attached properties for contrast analysis and adjustment.
 /// </summary>
-public partial class ContrastAnalyzer
+public partial class ContrastHelper
 {
-    /// <summary>
-    /// An attached property that defines the color to compare against.
-    /// </summary>
-    public static readonly DependencyProperty OpponentProperty =
-        DependencyProperty.RegisterAttached(
-            "Opponent",
-            typeof(Color),
-            typeof(ContrastAnalyzer),
-            new PropertyMetadata(Colors.Transparent, OnOpponentChanged));
-
-    /// <summary>
-    /// An attached property that defines the minimum acceptable contrast ratio against the opponent color.
-    /// </summary>
-    /// <remarks>
-    /// Range: 1 to 21 (inclusive). Default is 21 (maximum contrast).
-    /// </remarks>
-    public static readonly DependencyProperty MinRatioProperty =
-        DependencyProperty.RegisterAttached(
-            "MinRatio",
-            typeof(double),
-            typeof(ContrastAnalyzer),
-            new PropertyMetadata(21d));
-
-    /// <summary>
-    /// Get the opponent color to compare against.
-    /// </summary>
-    /// <returns>The opponent color.</returns>
-    public static Color GetOpponent(DependencyObject obj) => (Color)obj.GetValue(OpponentProperty);
-
-    /// <summary>
-    /// Set the opponent color to compare against.
-    /// </summary>
-    public static void SetOpponent(DependencyObject obj, Color value) => obj.SetValue(OpponentProperty, value);
-
-    /// <summary>
-    /// Get the minimum acceptable contrast ratio against the opponent color.
-    /// </summary>
-    public static double GetMinRatio(DependencyObject obj) => (double)obj.GetValue(MinRatioProperty);
-
-    /// <summary>
-    /// Set the minimum acceptable contrast ratio against the opponent color.
-    /// </summary>
-    public static void SetMinRatio(DependencyObject obj, double value) => obj.SetValue(MinRatioProperty, value);
+    private static bool _selfUpdate = false;
 
     private static void OnOpponentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        var brush = FindBrush(d, out var dp);
+        // Subscribe to brush updates 
+        if (GetCallback(d) is 0)
+        {
+            SubscribeToUpdates(d);
+        }
 
-        // Could not find a brush to modify.
+        ApplyContrastCheck(d);
+    }
+
+    private static void OnMinRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        ApplyContrastCheck(d);
+    }
+
+    private static void ApplyContrastCheck(DependencyObject d)
+    {
+        // Grab brush to update
+        var brush = FindBrush(d, out _);
         if (brush is null)
             return;
 
-        Color @base = brush.Color;
-        Color opponent = (Color)e.NewValue;
+        // Find WCAG contrast ratio
+        Color @base = GetOriginal(d);
+        Color opponent = GetOpponent(d);
+        var ratio = CalculateWCAGContrastRatio(@base, opponent);
 
-        // If the colors already meet the minimum ratio, no adjustment is needed
-        if (CalculateWCAGContrastRatio(@base, opponent) >= GetMinRatio(d))
+        // Use original color if the contrast is in the acceptable range
+        if (ratio >= GetMinRatio(d))
+        {
+            AssignColor(d, @base);
             return;
+        }
 
-        // In the meantime, adjust by percieved luminance regardless
+        // Current contrast is too small.
+        // Select either black or white backed on the opponent luminance
         var luminance = CalculatePerceivedLuminance(opponent);
         var contrastingColor = luminance < 0.5f ? Colors.White : Colors.Black;
-
-        // Assign color
         AssignColor(d, contrastingColor);
+    }
+
+    private static void SubscribeToUpdates(DependencyObject d)
+    {
+        var brush = FindBrush(d, out var dp);
+        if (brush is null)
+            return;
+
+        // Apply initial update
+        SetOriginal(d, brush.Color);
+
+        if (d is not SolidColorBrush)
+        {
+            // Subscribe to updates from the source Foreground and Brush
+            d.RegisterPropertyChangedCallback(dp, (sender, prop) =>
+            {
+                OnOriginalChangedFromSource(d, sender, prop);
+            });
+        }
+
+        var callback = brush.RegisterPropertyChangedCallback(SolidColorBrush.ColorProperty, (sender, prop) =>
+        {
+            OnOriginalChangedFromSource(d, sender, prop);
+        });
+
+        SetCallback(d, callback);
+    }
+
+    private static void OnOriginalChangedFromSource(DependencyObject obj, DependencyObject sender, DependencyProperty prop)
+    {
+        // The contrast helper is updating the color.
+        // Ignore the assignment.
+        if (_selfUpdate)
+            return;
+
+        // Get brush
+        var brush = FindBrush(sender, out _);
+        if (brush is null)
+            return;
+
+        // Update original color
+        SetOriginal(obj, brush.Color);
+
+        // Apply contrast correction
+        ApplyContrastCheck(obj);
     }
 
     private static SolidColorBrush? FindBrush(DependencyObject d, out DependencyProperty? dp)
@@ -93,6 +115,9 @@ public partial class ContrastAnalyzer
 
     private static void AssignColor(DependencyObject d, Color color)
     {
+        // Block the original color from updating
+        _selfUpdate = true;
+
         switch (d)
         {
             case SolidColorBrush b:
@@ -105,6 +130,8 @@ public partial class ContrastAnalyzer
                 c.Foreground = new SolidColorBrush(color);
                 break;
         }
+
+        _selfUpdate = false;
     }
 
     private static double CalculateWCAGContrastRatio(Color color1, Color color2)
