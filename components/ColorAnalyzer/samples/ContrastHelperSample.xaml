@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="ColorAnalyzerExperiment.Samples.ContrastHelperSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,43 +12,43 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Border Grid.ColumnSpan="2">
             <Border.Background>
-                <SolidColorBrush Color="{x:Bind BackgroundPicker.Color, Mode=OneWay}"/>
+                <SolidColorBrush Color="{x:Bind BackgroundPicker.Color, Mode=OneWay}" />
             </Border.Background>
             <StackPanel Spacing="2">
-                <TextBlock Text="Always legible text"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
                            FontSize="24"
-                           helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"/>
-                <TextBlock Text="Legible text (MinRatio: 5)"
-                           FontSize="24"
+                           Text="Always legible text" />
+                <TextBlock helpers:ContrastHelper.MinRatio="5"
                            helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
-                           helpers:ContrastHelper.MinRatio="5">
+                           FontSize="24"
+                           Text="Legible text (MinRatio: 5)">
                     <TextBlock.Foreground>
-                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}"/>
+                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}" />
                     </TextBlock.Foreground>
                 </TextBlock>
-                <TextBlock Text="Legible text (MinRatio: 3)"
+                <TextBlock helpers:ContrastHelper.MinRatio="3"
+                           helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
                            FontSize="16"
-                           helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
-                           helpers:ContrastHelper.MinRatio="3">
+                           Text="Legible text (MinRatio: 3)">
                     <TextBlock.Foreground>
-                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}"/>
+                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}" />
                     </TextBlock.Foreground>
                 </TextBlock>
-                <TextBlock Text="Potentially illegible text"
-                           FontSize="16">
+                <TextBlock FontSize="16"
+                           Text="Potentially illegible text">
                     <TextBlock.Foreground>
-                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}"/>
+                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}" />
                     </TextBlock.Foreground>
                 </TextBlock>
             </StackPanel>
@@ -56,20 +56,20 @@
 
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center">
-            <TextBlock Text="Foreground"/>
+            <TextBlock Text="Foreground" />
             <ColorPicker x:Name="ForegroundPicker"
-                         Color="Black"
+                         IsColorChannelTextInputVisible="False"
                          IsHexInputVisible="False"
-                         IsColorChannelTextInputVisible="False"/>
+                         Color="Black" />
         </StackPanel>
 
-        <StackPanel Grid.Column="1"
-                    Grid.Row="1"
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
                     HorizontalAlignment="Center">
-            <TextBlock Text="Backround"/>
+            <TextBlock Text="Backround" />
             <ColorPicker x:Name="BackgroundPicker"
-                         IsHexInputVisible="False"
-                         IsColorChannelTextInputVisible="False"/>
+                         IsColorChannelTextInputVisible="False"
+                         IsHexInputVisible="False" />
         </StackPanel>
     </Grid>
 </Page>
