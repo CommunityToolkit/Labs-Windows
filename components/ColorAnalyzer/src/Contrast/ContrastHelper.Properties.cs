@@ -8,9 +8,16 @@ namespace CommunityToolkit.WinUI.Helpers;
 
 public partial class ContrastHelper
 {
+    // TODO: Handle gradient brushes?
     /// <summary>
     /// An attached property that defines the color to compare against.
     /// </summary>
+    /// <remarks>
+    /// This property can be attached to any <see cref="TextBlock"/> or <see cref="Control"/>
+    /// to update their <see cref="TextBlock.Foreground"/> or <see cref="Control.Foreground"/>.
+    /// If the original Foreground is not a <see cref="SolidColorBrush"/>, it will always apply contrast.
+    /// It can also be attached to any <see cref="SolidColorBrush"/> to update the <see cref="SolidColorBrush.Color"/>.
+    /// </remarks>
     public static readonly DependencyProperty OpponentProperty =
         DependencyProperty.RegisterAttached(
             "Opponent",
@@ -41,7 +48,15 @@ public partial class ContrastHelper
             typeof(ContrastHelper),
             new PropertyMetadata(Colors.Transparent));
 
-    // Tracks the callback on the original brush being updated.
+    // Tracks the SolidColorBrush we're monitoring for changes
+    private static readonly DependencyProperty CallbackObjectProperty =
+        DependencyProperty.RegisterAttached(
+            "CallbackObject",
+            typeof(DependencyObject),
+            typeof(ContrastHelper),
+            new PropertyMetadata(null));
+
+    // Tracks the callback token from the SolidColorBrush we are monitoring
     private static readonly DependencyProperty CallbackProperty =
         DependencyProperty.RegisterAttached(
             "Callback",
@@ -76,6 +91,10 @@ public partial class ContrastHelper
     public static Color GetOriginal(DependencyObject obj) => (Color)obj.GetValue(OriginalColorProperty);
 
     private static void SetOriginal(DependencyObject obj, Color color) => obj.SetValue(OriginalColorProperty, color);
+
+    private static DependencyObject GetCallbackObject(DependencyObject obj) => (DependencyObject)obj.GetValue(CallbackObjectProperty);
+
+    private static void SetCallbackObject(DependencyObject obj, DependencyObject dp) => obj.SetValue(CallbackObjectProperty, dp);
 
     private static long GetCallback(DependencyObject obj) => (long)obj.GetValue(CallbackProperty);
 
