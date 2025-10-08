@@ -82,7 +82,7 @@ jobs:
 
     env:
       MULTI_TARGET_DIRECTORY: tooling/MultiTarget
-      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
+      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/') || startsWith(github.ref, 'refs/tags/release/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -266,7 +266,7 @@ jobs:
         winui: [0, 2, 3]
 
     env:
-      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
+      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/') || startsWith(github.ref, 'refs/tags/release/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
