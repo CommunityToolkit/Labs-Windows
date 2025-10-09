@@ -44,16 +44,23 @@ public partial class ContrastHelper
         if (brush is null)
             return;
 
-        // Find WCAG contrast ratio
+        // Retrieve colors to compare
         Color @base = GetOriginal(d);
         Color opponent = GetOpponent(d);
-        var ratio = CalculateWCAGContrastRatio(@base, opponent);
 
-        // Use original color if the contrast is in the acceptable range
-        if (ratio >= GetMinRatio(d))
+        // Transparent is a sentinel value to say contrast ensurance should applied
+        // regardless of contrast ratio
+        if (@base != Colors.Transparent)
         {
-            AssignColor(d, @base);
-            return;
+            // Calculate the WCAG contrast ratio
+            var ratio = CalculateWCAGContrastRatio(@base, opponent);
+
+            // Use original color if the contrast is in the acceptable range
+            if (ratio >= GetMinRatio(d))
+            {
+                AssignColor(d, @base);
+                return;
+            }
         }
 
         // Current contrast is too small.
