@@ -15,28 +15,6 @@ public partial class ContrastHelper
     // It has no threading issues since all updates are on the UI thread
     private static bool _selfUpdate = false;
 
-    private static void OnOpponentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        // Subscribe to brush updates if not already
-        if (GetCallbackObject(d) is null)
-        {
-            SubscribeToUpdates(d);
-        }
-
-        // Update the actual color to ensure contrast
-        ApplyContrastCheck(d);
-    }
-
-    private static void OnMinRatioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        // No opponent has been set, nothing to do
-        if (GetCallback(d) is 0)
-            return;
-        
-        // Update the actual color to ensure contrast
-        ApplyContrastCheck(d);
-    }
-
     private static void ApplyContrastCheck(DependencyObject d)
     {
         // Grab brush to update
@@ -45,7 +23,7 @@ public partial class ContrastHelper
             return;
 
         // Retrieve colors to compare
-        Color @base = GetOriginal(d);
+        Color @base = GetOriginalColor(d);
         Color opponent = GetOpponent(d);
 
         // Transparent is a sentinel value to say contrast ensurance should applied
@@ -54,11 +32,12 @@ public partial class ContrastHelper
         {
             // Calculate the WCAG contrast ratio
             var ratio = CalculateWCAGContrastRatio(@base, opponent);
+            SetOriginalContrastRatio(d, ratio);
 
             // Use original color if the contrast is in the acceptable range
             if (ratio >= GetMinRatio(d))
             {
-                AssignColor(d, @base);
+                UpdateContrastedProperties(d, @base);
                 return;
             }
         }
@@ -67,90 +46,7 @@ public partial class ContrastHelper
         // Select either black or white backed on the opponent luminance
         var luminance = CalculatePerceivedLuminance(opponent);
         var contrastingColor = luminance < 0.5f ? Colors.White : Colors.Black;
-        AssignColor(d, contrastingColor);
-    }
-
-    private static void SubscribeToUpdates(DependencyObject d)
-    {
-        // Get the original color from the brush and the property to monitor.
-        // Use Transparent as a sentinel value if the brush is not a SolidColorBrush
-        var solidColorBrush = FindBrush(d, out var dp);
-        var color = solidColorBrush?.Color ?? Colors.Transparent;
-
-        // Record the original color
-        SetOriginal(d, color);
-
-        // Rhetortical Question: Why don't we return if the solidColorBrush is null?
-        // Just because the brush is not a SolidColorBrush doesn't mean we can't monitor the
-        // Foreground property. We just can't monitor the brush's Color property
-
-        // If the original is not a SolidColorBrush, we need to monitor the Foreground property
-        if (d is not SolidColorBrush)
-        {
-            // Subscribe to updates from the source Foreground
-            _ = d.RegisterPropertyChangedCallback(dp, (sender, prop) =>
-            {
-                OnOriginalChangedFromSource(d, sender, prop);
-            });
-        }
-
-        // Subscribe to updates from the source SolidColorBrush
-        // If solidColorBrush is null, this is a no-op
-        SubscribeToBrushUpdates(d, solidColorBrush);
-    }
-
-    private static void SubscribeToBrushUpdates(DependencyObject d, SolidColorBrush? brush)
-    {
-        // No brush, nothing to do
-        if (brush is null)
-            return;
-
-        // Unsubscribe from previous brush if any
-        var oldBrush = GetCallbackObject(d);
-        var oldCallback = GetCallback(d);
-        oldBrush?.UnregisterPropertyChangedCallback(SolidColorBrush.ColorProperty, oldCallback);
-
-        // Subscribe to updates from the source SolidColorBrush
-        var callback = brush.RegisterPropertyChangedCallback(SolidColorBrush.ColorProperty, (sender, prop) =>
-        {
-            OnOriginalChangedFromSource(d, sender, prop);
-        });
-
-        // Track the callback so we don't double subscribe and can unsubscribe if needed
-        SetCallbackObject(d, brush);
-        SetCallback(d, callback);
-    }
-
-    private static void OnOriginalChangedFromSource(DependencyObject obj, DependencyObject sender, DependencyProperty prop)
-    {
-        // The contrast helper is updating the color
-        // Ignore the assignment.
-        if (_selfUpdate)
-            return;
-
-        // Get the original color from the brush.
-        // We use the sender, not the obj, because the sender is the object that changed.
-        // Use Transparent as a sentinel value if the brush is not a SolidColorBrush
-        var brush = FindBrush(sender, out _);
-        var color = brush?.Color ?? Colors.Transparent;
-
-        // Update original color
-        SetOriginal(obj, color);
-
-        // The sender is the Foreground property, not the brush itself.
-        // This means the brush changed and our callback on the brush is dead.
-        // We need to subscribe to the new brush if it's a SolidColorBrush.
-        if (sender is not SolidColorBrush)
-        {
-            // Subscribe to the new brush
-            // Notice we're finding the brush on the object, not the sender this time.
-            // We may not find a SolidColorBrush, and that's ok.
-            var solidColorBrush = FindBrush(obj, out _);
-            SubscribeToBrushUpdates(obj, solidColorBrush);
-        }
-
-        // Apply contrast correction
-        ApplyContrastCheck(obj);
+        UpdateContrastedProperties(d, contrastingColor);
     }
 
     /// <summary>
@@ -176,7 +72,7 @@ public partial class ContrastHelper
         return brush;
     }
 
-    private static void AssignColor(DependencyObject d, Color color)
+    private static void UpdateContrastedProperties(DependencyObject d, Color color)
     {
         // Block the original color from updating
         _selfUpdate = true;
@@ -193,6 +89,10 @@ public partial class ContrastHelper
                 c.Foreground = new SolidColorBrush(color);
                 break;
         }
+
+        // Calculate the actual ratio, between the opponent and the actual color
+        var actualRatio = CalculateWCAGContrastRatio(color, GetOpponent(d));
+        SetContrastRatio(d, actualRatio);
 
         // Unlock the original color updates
         _selfUpdate = false;
@@ -220,14 +120,20 @@ public partial class ContrastHelper
         // Color theory is a massive iceberg. Here's a peek at the tippy top:
 
         // There's two (main) standards for calculating luminance from RGB values.
-        // ITU Rec. 709: Y = 0.2126 R + 0.7152 G + 0.0722 B
-        // ITU Rec. 601: Y = 0.299 R + 0.587 G + 0.114 B
+
+        // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
+        // | Standard      | Formula                              | Ref. Section       | Ref. Link                                                                       |
+        // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
+        // | ITU Rec. 709  | Y = 0.2126 R + 0.7152 G + 0.0722 B   | Page 4/Item 3.2    | https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf  |
+        // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
+        // | ITU Rec. 601  | Y = 0.299 R + 0.587 G + 0.114 B      | Page 2/Item 2.5.1  | https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.601-7-201103-I!!PDF-E.pdf  |
+        // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
 
         // They're based on the standard ability of the human eye to perceive brightness,
         // from different colors, as well as the average monitor's ability to produce them.
         // Both standards produce similar results, but Rec. 709 is more accurate for modern displays.
 
-        // NOTE: If we for whatrever reason we ever need to optimize this code,
+        // NOTE: If we for whatever reason we ever need to optimize this code,
         // we can make approximations using integer math instead of floating point math.
         // The precise values are not critical, as long as the relative luminance is accurate.
         // Like so: return (2 * color.R + 7 * color.G + color.B);

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Windows.Graphics.Printing;
 using Windows.UI;
 
 namespace CommunityToolkit.WinUI.Helpers;
@@ -9,6 +10,8 @@ namespace CommunityToolkit.WinUI.Helpers;
 public partial class ContrastHelper
 {
     // TODO: Handle gradient brushes?
+    // TODO: Handle transparency values besides 0 or 1
+
     /// <summary>
     /// An attached property that defines the color to compare against.
     /// </summary>
@@ -39,14 +42,36 @@ public partial class ContrastHelper
             new PropertyMetadata(21d, OnMinRatioChanged));
 
     /// <summary>
+    /// An attached property for binding to the calculated contrast ratio
+    /// compared to the actual foreground color.
+    /// </summary>
+    public static readonly DependencyProperty ContrastRatioProperty =
+        DependencyProperty.RegisterAttached(
+            "ContrastRatio",
+            typeof(double),
+            typeof(ContrastHelper),
+            new PropertyMetadata(0d));
+
+    /// <summary>
     /// An attached property that records the original color before adjusting for contrast.
     /// </summary>
     public static readonly DependencyProperty OriginalColorProperty =
         DependencyProperty.RegisterAttached(
-            "Original",
+            "OriginalColor",
             typeof(Color),
             typeof(ContrastHelper),
             new PropertyMetadata(Colors.Transparent));
+
+    /// <summary>
+    /// An attached property for binding to the calculated contrast ratio
+    /// compared to the original color.
+    /// </summary>
+    public static readonly DependencyProperty OriginalContrastRatioProperty =
+        DependencyProperty.RegisterAttached(
+            "OriginalContrastRatio",
+            typeof(double),
+            typeof(ContrastHelper),
+            new PropertyMetadata(0d));
 
     // Tracks the SolidColorBrush we're monitoring for changes
     private static readonly DependencyProperty CallbackObjectProperty =
@@ -65,32 +90,46 @@ public partial class ContrastHelper
             new PropertyMetadata(0L));
 
     /// <summary>
-    /// Get the opponent color to compare against.
+    /// Gets the opponent color to compare against.
     /// </summary>
     /// <returns>The opponent color.</returns>
     public static Color GetOpponent(DependencyObject obj) => (Color)obj.GetValue(OpponentProperty);
 
     /// <summary>
-    /// Set the opponent color to compare against.
+    /// Sets the opponent color to compare against.
     /// </summary>
     public static void SetOpponent(DependencyObject obj, Color value) => obj.SetValue(OpponentProperty, value);
 
     /// <summary>
-    /// Get the minimum acceptable contrast ratio against the opponent color.
+    /// Gets the minimum acceptable contrast ratio against the opponent color.
     /// </summary>
     public static double GetMinRatio(DependencyObject obj) => (double)obj.GetValue(MinRatioProperty);
 
     /// <summary>
-    /// Set the minimum acceptable contrast ratio against the opponent color.
+    /// Sets the minimum acceptable contrast ratio against the opponent color.
     /// </summary>
     public static void SetMinRatio(DependencyObject obj, double value) => obj.SetValue(MinRatioProperty, value);
 
     /// <summary>
+    /// Gets the calculated contrast ratio compared to the actual foreground color.
+    /// </summary>
+    public static double GetContrastRatio(DependencyObject obj) => (double)obj.GetValue(ContrastRatioProperty);
+
+    private static void SetContrastRatio(DependencyObject obj, double value) => obj.SetValue(ContrastRatioProperty, value);
+
+    /// <summary>
+    /// Gets the calculated contrast ratio compared to the original foreground color.
+    /// </summary>
+    public static double GetOriginalContrastRatio(DependencyObject obj) => (double)obj.GetValue(OriginalContrastRatioProperty);
+
+    private static void SetOriginalContrastRatio(DependencyObject obj, double value) => obj.SetValue(OriginalContrastRatioProperty, value);
+
+    /// <summary>
     /// Gets the original color before adjustment for contrast.
     /// </summary>
-    public static Color GetOriginal(DependencyObject obj) => (Color)obj.GetValue(OriginalColorProperty);
+    public static Color GetOriginalColor(DependencyObject obj) => (Color)obj.GetValue(OriginalColorProperty);
 
-    private static void SetOriginal(DependencyObject obj, Color color) => obj.SetValue(OriginalColorProperty, color);
+    private static void SetOriginalColor(DependencyObject obj, Color color) => obj.SetValue(OriginalColorProperty, color);
 
     private static DependencyObject GetCallbackObject(DependencyObject obj) => (DependencyObject)obj.GetValue(CallbackObjectProperty);
 
