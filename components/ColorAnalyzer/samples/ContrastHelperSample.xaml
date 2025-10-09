@@ -9,74 +9,31 @@
       xmlns:local="using:ColorAnalyzerExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <Border Grid.ColumnSpan="2">
-            <Border.Background>
-                <SolidColorBrush Color="{x:Bind BackgroundPicker.Color, Mode=OneWay}" />
-            </Border.Background>
-            <StackPanel Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
-                           FontSize="24"
-                           Text="Always legible text" />
-                <TextBlock helpers:ContrastHelper.MinRatio="5"
-                           helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
-                           FontSize="24"
-                           Text="Legible text (MinRatio: 5)">
-                    <TextBlock.Foreground>
-                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}"/>
-                    </TextBlock.Foreground>
-                </TextBlock>
-                <TextBlock helpers:ContrastHelper.MinRatio="3"
-                           helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
-                           FontSize="24"
-                           Text="Legible text (MinRatio: 3)">
-                    <TextBlock.Foreground>
-                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}" />
-                    </TextBlock.Foreground>
-                </TextBlock>
-                <TextBlock FontSize="24"
-                           Text="Potentially illegible text">
-                    <TextBlock.Foreground>
-                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}" />
-                    </TextBlock.Foreground>
-                </TextBlock>
-                <Rectangle Height="28" Width="28">
-                    <Rectangle.Stroke>
-                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}"
-                                         helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
-                                         helpers:ContrastHelper.MinRatio="3"/>
-                    </Rectangle.Stroke>
-                </Rectangle>
-            </StackPanel>
-        </Border>
-
-        <StackPanel Grid.Row="1"
-                    HorizontalAlignment="Center">
-            <TextBlock Text="Desired Foreground" />
-            <ColorPicker x:Name="ForegroundPicker"
-                         IsColorChannelTextInputVisible="False"
-                         IsHexInputVisible="False"
-                         Color="Black" />
-        </StackPanel>
-
-        <StackPanel Grid.Row="1"
-                    Grid.Column="1"
-                    HorizontalAlignment="Center">
-            <TextBlock Text="Backround" />
-            <ColorPicker x:Name="BackgroundPicker"
-                         IsColorChannelTextInputVisible="False"
-                         IsHexInputVisible="False" />
-        </StackPanel>
-    </Grid>
+    <Page.Background>
+        <SolidColorBrush Color="{x:Bind DesiredBackground, Mode=OneWay}" />
+    </Page.Background>
+    
+    <StackPanel HorizontalAlignment="Center"
+                Padding="20"
+                VerticalAlignment="Top"
+                Spacing="2">
+        <TextBlock x:Name="TextSample"
+                   helpers:ContrastHelper.MinRatio="{x:Bind MinRatio, Mode=OneWay}"
+                   helpers:ContrastHelper.Opponent="{x:Bind DesiredBackground, Mode=OneWay}"
+                   FontSize="24"
+                   Text="Legible Text">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="{x:Bind DesiredForeground, Mode=OneWay}" />
+            </TextBlock.Foreground>
+        </TextBlock>
+        <Rectangle x:Name="ShapeSample"
+                   Width="28"
+                   Height="28">
+            <Rectangle.Stroke>
+                <SolidColorBrush helpers:ContrastHelper.MinRatio="{x:Bind MinRatio, Mode=OneWay}"
+                                 helpers:ContrastHelper.Opponent="{x:Bind DesiredBackground, Mode=OneWay}"
+                                 Color="{x:Bind DesiredForeground, Mode=OneWay}" />
+            </Rectangle.Stroke>
+        </Rectangle>
+    </StackPanel>
 </Page>
