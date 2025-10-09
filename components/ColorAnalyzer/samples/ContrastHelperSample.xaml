@@ -25,7 +25,7 @@
             <Border.Background>
                 <SolidColorBrush Color="{x:Bind BackgroundPicker.Color, Mode=OneWay}" />
             </Border.Background>
-            <StackPanel Spacing="2">
+            <StackPanel Spacing="2" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
                            FontSize="24"
                            Text="Always legible text" />
@@ -34,23 +34,30 @@
                            FontSize="24"
                            Text="Legible text (MinRatio: 5)">
                     <TextBlock.Foreground>
-                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}" />
+                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}"/>
                     </TextBlock.Foreground>
                 </TextBlock>
                 <TextBlock helpers:ContrastHelper.MinRatio="3"
                            helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
-                           FontSize="16"
+                           FontSize="24"
                            Text="Legible text (MinRatio: 3)">
                     <TextBlock.Foreground>
                         <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}" />
                     </TextBlock.Foreground>
                 </TextBlock>
-                <TextBlock FontSize="16"
+                <TextBlock FontSize="24"
                            Text="Potentially illegible text">
                     <TextBlock.Foreground>
                         <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}" />
                     </TextBlock.Foreground>
                 </TextBlock>
+                <Rectangle Height="28" Width="28">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="{x:Bind ForegroundPicker.Color, Mode=OneWay}"
+                                         helpers:ContrastHelper.Opponent="{x:Bind BackgroundPicker.Color, Mode=OneWay}"
+                                         helpers:ContrastHelper.MinRatio="3"/>
+                    </Rectangle.Stroke>
+                </Rectangle>
             </StackPanel>
         </Border>
 

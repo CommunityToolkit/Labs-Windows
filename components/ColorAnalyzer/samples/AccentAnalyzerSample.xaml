@@ -25,7 +25,7 @@
                     VerticalAlignment="Center">
             <Image x:Name="AccentedImage"
                    HorizontalAlignment="Center"
-                   Source="/ColorAnalyzerExperiment.Samples/Assets/StockImages/Bloom.jpg"
+                   Source="/ColorAnalyzerExperiment.Samples/Assets/StockImages/Flowers.jpg"
                    Stretch="Uniform">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="ImageOpened">
