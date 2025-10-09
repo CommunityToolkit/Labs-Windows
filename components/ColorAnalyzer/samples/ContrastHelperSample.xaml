@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="ColorAnalyzerExperiment.Samples.ContrastHelperSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,9 +12,9 @@
     <Page.Background>
         <SolidColorBrush Color="{x:Bind DesiredBackground, Mode=OneWay}" />
     </Page.Background>
-    
-    <StackPanel HorizontalAlignment="Center"
-                Padding="20"
+
+    <StackPanel Padding="20"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Spacing="2">
         <TextBlock x:Name="TextSample"
