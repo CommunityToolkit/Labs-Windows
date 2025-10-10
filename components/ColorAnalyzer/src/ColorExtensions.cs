@@ -38,7 +38,7 @@ internal static class ColorExtensions
         double darker = Math.Min(luminance1, luminance2);
 
         // Calculate contrast ratio
-        return (lighter + 0.05f) / (darker + 0.05f);
+        return (lighter + 0.05) / (darker + 0.05);
     }
 
     internal static double PerceivedLuminance(this Color color)
