@@ -22,6 +22,10 @@
         </helpers:ColorPaletteSampler>
     </Page.Resources>
 
+    <!--
+        ConstrastHelper used to auto-adjust text Foreground against the dynamic background per WCAG.
+        This is not a ContrastHelper sample, but is used here to ensure text is always readable.
+    -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -67,7 +71,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind WeightedColorPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.DominantColor, Mode=OneWay}"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind WeightedColorPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}"
                            Text="Dominant" />
             </Border>
 
@@ -81,10 +85,10 @@
                 </Border.Background>
                 <TextBlock Text="Base">
                     <TextBlock.Foreground>
-                        <!--  ConstrastHelper used to auto-adjust text Foreground against the dynamic background per WCAG  -->
+
                         <SolidColorBrush helpers:ContrastHelper.MinRatio="5"
-                                         helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.BaseColor, Mode=OneWay}"
-                                         Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}" />
+                                         helpers:ContrastHelper.Opponent="{x:Bind BasePalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}"
+                                         Color="{x:Bind AccentPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
                     </TextBlock.Foreground>
                 </TextBlock>
             </Border>
@@ -97,7 +101,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind AccentPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}"
                            Text="Primary" />
             </Border>
             <!--  Secondary  -->
@@ -108,7 +112,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind AccentPalette.SelectedColors[1], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.SecondaryAccentColor, Mode=OneWay}"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentPalette.SelectedColors[1], FallbackValue=Transparent, Mode=OneWay}"
                            Text="Secondary" />
             </Border>
             <!--  Tertiary  -->
@@ -119,7 +123,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind AccentPalette.SelectedColors[2], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.TertiaryAccentColor, Mode=OneWay}"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentPalette.SelectedColors[2], FallbackValue=Transparent, Mode=OneWay}"
                            Text="Tertiary" />
             </Border>
 
