@@ -13,10 +13,12 @@
     <ItemGroup Condition="'$(WinUIMajorVersion)' == '2'">
         <!-- <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls.Primitives" Version="7.1.11"/> -->
       <PackageReference Include="CommunityToolkit.Uwp.Behaviors" Version="8.2.250402"/>
+      <PackageReference Include="CommunityToolkit.Uwp.Controls.ColorPicker" Version="8.2.250402"/>
     </ItemGroup>
   
     <!-- WinUI 3 -->
     <ItemGroup Condition="'$(WinUIMajorVersion)' == '3'">
       <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.250402"/>
+      <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.250402"/>
     </ItemGroup>
 </Project>

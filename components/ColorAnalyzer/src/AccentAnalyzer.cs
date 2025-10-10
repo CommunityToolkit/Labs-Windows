@@ -17,7 +17,7 @@ using System.Windows.Input;
 namespace CommunityToolkit.WinUI.Helpers;
 
 /// <summary>
-/// A resource that can be used to extract color palettes out of any UIElement.
+/// A resource that can be used to extract color palettes out of any <see cref="UIElement"/>.
 /// </summary>
 public partial class AccentAnalyzer : DependencyObject
 {

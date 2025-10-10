@@ -25,7 +25,7 @@
                     VerticalAlignment="Center">
             <Image x:Name="AccentedImage"
                    HorizontalAlignment="Center"
-                   Source="/ColorAnalyzerExperiment.Samples/Assets/StockImages/Bloom.jpg"
+                   Source="/ColorAnalyzerExperiment.Samples/Assets/StockImages/Flowers.jpg"
                    Stretch="Uniform">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="ImageOpened">
@@ -62,7 +62,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind AccentAnalyzer.DominantColor, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock Foreground="Black"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.DominantColor, Mode=OneWay}"
                            Text="Dominant" />
             </Border>
 
@@ -74,8 +74,14 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind AccentAnalyzer.BaseColor, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock Foreground="Black"
-                           Text="Base" />
+                <TextBlock Text="Base">
+                    <TextBlock.Foreground>
+                        <!--  ConstrastHelper used to auto-adjust text Foreground against the dynamic background per WCAG  -->
+                        <SolidColorBrush helpers:ContrastHelper.MinRatio="5"
+                                         helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.BaseColor, Mode=OneWay}"
+                                         Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}" />
+                    </TextBlock.Foreground>
+                </TextBlock>
             </Border>
 
             <!--  Primary  -->
@@ -86,7 +92,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock Foreground="Black"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}"
                            Text="Primary" />
             </Border>
             <!--  Secondary  -->
@@ -97,7 +103,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind AccentAnalyzer.SecondaryAccentColor, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock Foreground="Black"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.SecondaryAccentColor, Mode=OneWay}"
                            Text="Secondary" />
             </Border>
             <!--  Tertiary  -->
@@ -108,7 +114,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{x:Bind AccentAnalyzer.TertiaryAccentColor, Mode=OneWay}" />
                 </Border.Background>
-                <TextBlock Foreground="Black"
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.TertiaryAccentColor, Mode=OneWay}"
                            Text="Tertiary" />
             </Border>
 
