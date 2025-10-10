@@ -31,7 +31,7 @@ public partial class ContrastHelper
         if (@base != Colors.Transparent)
         {
             // Calculate the WCAG contrast ratio
-            var ratio = CalculateWCAGContrastRatio(@base, opponent);
+            var ratio = @base.ContrastRatio(opponent);
             SetOriginalContrastRatio(d, ratio);
 
             // Use original color if the contrast is in the acceptable range
@@ -44,7 +44,7 @@ public partial class ContrastHelper
 
         // Current contrast is too small.
         // Select either black or white backed on the opponent luminance
-        var luminance = CalculatePerceivedLuminance(opponent);
+        var luminance = opponent.PerceivedLuminance();
         var contrastingColor = luminance < 0.5f ? Colors.White : Colors.Black;
         UpdateContrastedProperties(d, contrastingColor);
     }
@@ -91,54 +91,12 @@ public partial class ContrastHelper
         }
 
         // Calculate the actual ratio, between the opponent and the actual color
-        var actualRatio = CalculateWCAGContrastRatio(color, GetOpponent(d));
+        var opponent = GetOpponent(d);
+        var actualRatio = color.ContrastRatio(opponent);
         SetContrastRatio(d, actualRatio);
 
         // Unlock the original color updates
         _selfUpdate = false;
     }
 
-    private static double CalculateWCAGContrastRatio(Color color1, Color color2)
-    {
-        // Using the formula for contrast ratio
-        // Source WCAG guidelines: https://www.w3.org/TR/WCAG20/#contrast-ratiodef
-
-        // Calculate perceived luminance for both colors
-        double luminance1 = CalculatePerceivedLuminance(color1);
-        double luminance2 = CalculatePerceivedLuminance(color2);
-
-        // Determine lighter and darker luminance
-        double lighter = Math.Max(luminance1, luminance2);
-        double darker = Math.Min(luminance1, luminance2);
-
-        // Calculate contrast ratio
-        return (lighter + 0.05f) / (darker + 0.05f);
-    }
-
-    private static double CalculatePerceivedLuminance(Color color)
-    {
-        // Color theory is a massive iceberg. Here's a peek at the tippy top:
-
-        // There's two (main) standards for calculating luminance from RGB values.
-
-        // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
-        // | Standard      | Formula                              | Ref. Section       | Ref. Link                                                                       |
-        // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
-        // | ITU Rec. 709  | Y = 0.2126 R + 0.7152 G + 0.0722 B   | Page 4/Item 3.2    | https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf  |
-        // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
-        // | ITU Rec. 601  | Y = 0.299 R + 0.587 G + 0.114 B      | Page 2/Item 2.5.1  | https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.601-7-201103-I!!PDF-E.pdf  |
-        // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
-
-        // They're based on the standard ability of the human eye to perceive brightness,
-        // from different colors, as well as the average monitor's ability to produce them.
-        // Both standards produce similar results, but Rec. 709 is more accurate for modern displays.
-
-        // NOTE: If we for whatever reason we ever need to optimize this code,
-        // we can make approximations using integer math instead of floating point math.
-        // The precise values are not critical, as long as the relative luminance is accurate.
-        // Like so: return (2 * color.R + 7 * color.G + color.B);
-
-        // TLDR: We use ITU Rec. 709 standard formula for perceived luminance.
-        return (0.2126f * color.R + 0.7152f * color.G + 0.0722 * color.B) / 255;
-    }
 }
