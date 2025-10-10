@@ -13,31 +13,43 @@ global using Microsoft.UI.Xaml.Media.Imaging;
 
 using System.Numerics;
 using System.Windows.Input;
+using Windows.UI;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
 /// <summary>
 /// A resource that can be used to extract color palettes out of any <see cref="UIElement"/>.
 /// </summary>
-public partial class AccentAnalyzer : DependencyObject
+[ContentProperty(Name = nameof(PaletteSelectors))]
+public partial class ColorPaletteSampler : DependencyObject
 {
     /// <summary>
-    /// Initialize an instance of the <see cref="AccentAnalyzer"/> class.
+    /// Initialize an instance of the <see cref="ColorPaletteSampler"/> class.
     /// </summary>
-    public AccentAnalyzer()
+    public ColorPaletteSampler()
     {
+        PaletteSelectors = [];
+    }
+
+    /// <inheritdoc cref="UpdatePaletteAsync"/>
+    /// <remarks>
+    /// Runs the async palette update method, without awaiting it.
+    /// </remarks>
+    public void UpdatePalette()
+    {
+        _ = UpdatePaletteAsync();
     }
 
     /// <summary>
-    /// Update the accent
+    /// Updates the <see cref="Palette"/> and <see cref="PaletteSelectors"/> by sampling the <see cref="Source"/> element.
     /// </summary>
-    public void UpdateAccent()
+    public async Task UpdatePaletteAsync()
     {
-        _ = UpdateAccentAsync();
-    }
+        // No palettes to update.
+        // Skip a lot of unnecessary computation
+        if (PaletteSelectors.Count is 0)
+            return;
 
-    private async Task UpdateAccentAsync()
-    {
         const int sampleCount = 4096;
         const int k = 8;
 
@@ -49,80 +61,31 @@ public partial class AccentAnalyzer : DependencyObject
             return;
 
         // Cluster samples in RGB floating-point color space
-        // With Euclidean Squared distance function
-        // The accumulate accent color infos
+        // With Euclidean Squared distance function, then construct palette data.
         var clusters = KMeansCluster(samples, k, out var sizes);
-        var colorData = clusters
-            .Select((color, i) => new AccentColorInfo(color, (float)sizes[i] / samples.Length));
-        
-        // Evaluate colorfulness
-        // TODO: Should this be weighted by cluster sizes?
-        var overallColorfulness = FindColorfulness(clusters);
+        var colorData = clusters.Select((vectorColor, i) => new PaletteColor(vectorColor.ToColor(), (float)sizes[i] / samples.Length));
 
-        // Select accent colors
-        SelectAccentColors(colorData, overallColorfulness);
+        // Update palettes on the UI thread
+        foreach (var palette in PaletteSelectors)
+        {
+            DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+            {
+                palette.SelectColors(colorData);
+            });
+        }
 
-        // Update accent colors property
+        // Update palette property
         // Not a dependency property, so no need to update from the UI Thread
 #if !WINDOWS_UWP
-        AccentColors = [..colorData];
+        Palette = [..colorData];
 #else
-        AccentColors = colorData.ToList();
+        Palette = colorData.ToList();
 #endif
 
-        // Update the colorfulness and invoke accents updated event,
-        // both from the UI thread
+        // Invoke palette updated event from the UI thread
         DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
         {
-            Colorfulness = overallColorfulness;
-            AccentsUpdated?.Invoke(this, EventArgs.Empty);
-        });
-    }
-
-    /// <summary>
-    /// This method takes the processed color information and selects the accent colors from it.
-    /// </summary>
-    /// <remarks>
-    /// There is no guarentee that this method will be called from the UI Thread.
-    /// Dependency properties should be updated using a dispatcher.
-    /// </remarks>
-    /// <param name="colorData">The analyzed accent color info from the image.</param>
-    /// <param name="imageColorfulness">The overall colorfulness of the image.</param>
-    protected virtual void SelectAccentColors(IEnumerable<AccentColorInfo> colorData, float imageColorfulness)
-    {
-        // Select accent colors
-        var accentColors = colorData
-            .OrderByDescending(x => x.Colorfulness)
-            .Select(x => x.Color);
-
-        // Get primary/secondary/tertiary accents
-        var primary = accentColors.First();
-        var secondary = accentColors.ElementAtOrDefault(1);
-        secondary = secondary != default ? secondary : primary;
-        var tertiary = accentColors.ElementAtOrDefault(2);
-        tertiary = tertiary != default ? tertiary : secondary;
-
-        // Get base color
-        var baseColor = accentColors.Last();
-
-        // Get dominant color by prominence
-#if NET6_0_OR_GREATER
-        var dominantColor = colorData
-            .MaxBy(x => x.Prominence).Color;
-#else
-        var dominantColor = colorData
-            .OrderByDescending((x) => x.Prominence)
-            .First().Color;
-#endif
-
-        // Batch update the dependency properties in the UI Thread
-        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
-        {
-            PrimaryAccentColor = primary;
-            SecondaryAccentColor = secondary;
-            TertiaryAccentColor = tertiary;
-            BaseColor = baseColor;
-            DominantColor = dominantColor;
+            PaletteUpdated?.Invoke(this, EventArgs.Empty);
         });
     }
 

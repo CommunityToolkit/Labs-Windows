@@ -39,6 +39,6 @@ public partial class ImageOptionsPane : UserControl
 
     private void SetImage(Uri uri)
     {
-        _sample.AccentedImage.Source = new BitmapImage(uri);
+        _sample.SampledImage.Source = new BitmapImage(uri);
     }
 }
