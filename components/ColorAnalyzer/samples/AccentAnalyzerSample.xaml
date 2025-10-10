@@ -76,6 +76,7 @@
                 </Border.Background>
                 <TextBlock Text="Base">
                     <TextBlock.Foreground>
+                    <!-- ConstrastHelper used to auto-adjust text Foreground against the dynamic background per WCAG -->
                         <SolidColorBrush helpers:ContrastHelper.MinRatio="5"
                                          helpers:ContrastHelper.Opponent="{x:Bind AccentAnalyzer.BaseColor, Mode=OneWay}"
                                          Color="{x:Bind AccentAnalyzer.PrimaryAccentColor, Mode=OneWay}" />
