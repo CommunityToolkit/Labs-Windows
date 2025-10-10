@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
-public partial class AccentAnalyzer
+public partial class ColorPaletteSampler
 {
     private static Vector3[] KMeansCluster(Span<Vector3> points, int k, out int[] counts)
     {
@@ -121,7 +121,7 @@ public partial class AccentAnalyzer
     }
 
     /// <summary>
-    /// Finds the index of the centroid nearest the point
+    /// Finds the index of the centroid nearest the point.
     /// </summary>
     private static int FindNearestClusterIndex(Vector3 point, Span<Vector3> centroids)
     {
@@ -145,38 +145,5 @@ public partial class AccentAnalyzer
         }
 
         return nearestIndex;
-    }
-
-    internal static float FindColorfulness(Vector3 color)
-    {
-        var rg = color.X - color.Y;
-        var yb = ((color.X + color.Y) / 2) - color.Z;
-        return 0.3f * new Vector2(rg, yb).Length();
-    }
-
-    internal static float FindColorfulness(Vector3[] colors)
-    {
-        // Isolate rg and yb
-        var rg = colors.Select(x => Math.Abs(x.X - x.Y));
-        var yb = colors.Select(x => Math.Abs(0.5f * (x.X + x.Y) - x.Z));
-
-        // Evaluate rg and yb mean and std
-        var rg_std = FindStandardDeviation(rg, out var rg_mean);
-        var yb_std = FindStandardDeviation(yb, out var yb_mean);
-
-        // Combine means and standard deviations
-        var std = new Vector2(rg_mean, yb_mean).Length();
-        var mean = new Vector2(rg_std, yb_std).Length();
-
-        // Return colorfulness
-        return std + (0.3f * mean);
-    }
-
-    private static float FindStandardDeviation(IEnumerable<float> data, out float avg)
-    {
-        var average = data.Average();
-        avg = average;
-        var sumOfSquares = data.Select(x => (x - average) * (x - average)).Sum();
-        return (float)Math.Sqrt(sumOfSquares / data.Count());
     }
 }

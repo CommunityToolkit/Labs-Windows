@@ -11,12 +11,12 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <helpers:AccentAnalyzer x:Name="AccentAnalyzer"
-                                Source="{x:Bind AccentedImage}">
-            <helpers:AccentPalette x:Name="AccentPalette" />
-            <helpers:ProminencePalette x:Name="ProminencePalette" />
-            <helpers:BasePalette x:Name="BasePalette" />
-        </helpers:AccentAnalyzer>
+        <helpers:ColorPaletteSampler x:Name="ColorPaletteSample"
+                                Source="{x:Bind SampledImage}">
+            <helpers:AccentColorPaletteSelector x:Name="AccentPalette" MinColorCount="3"/>
+            <helpers:ColorWeightPaletteSelector x:Name="WeightedColorPalette" MinColorCount="1"/>
+            <helpers:BaseColorPaletteSelector x:Name="BasePalette" MinColorCount="1"/>
+        </helpers:ColorPaletteSampler>
     </Page.Resources>
 
     <Grid>
@@ -27,19 +27,17 @@
 
         <StackPanel Padding="20"
                     VerticalAlignment="Center">
-            <Image x:Name="AccentedImage"
+            <Image x:Name="SampledImage"
                    HorizontalAlignment="Center"
                    Source="/ColorAnalyzerExperiment.Samples/Assets/StockImages/Bloom.jpg"
                    Stretch="Uniform">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="ImageOpened">
-                        <interactivity:CallMethodAction MethodName="UpdateAccent"
-                                                        TargetObject="{x:Bind AccentAnalyzer}" />
+                        <interactivity:CallMethodAction MethodName="UpdatePalette"
+                                                        TargetObject="{x:Bind ColorPaletteSample}" />
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Image>
-            <TextBlock HorizontalAlignment="Center"
-                       Text="{x:Bind AccentAnalyzer.Colorfulness, Mode=OneWay}" />
         </StackPanel>
 
         <Grid Grid.Column="1"
@@ -64,7 +62,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind ProminencePalette.Primary, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind WeightedColorPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Dominant" />
@@ -76,7 +74,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind BasePalette.Base, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind BasePalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Base" />
@@ -88,7 +86,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind AccentPalette.Primary, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind AccentPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Primary" />
@@ -99,7 +97,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind AccentPalette.Secondary, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind AccentPalette.SelectedColors[1], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Secondary" />
@@ -110,7 +108,7 @@
                     Margin="4"
                     Padding="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{x:Bind AccentPalette.Tertiary, Mode=OneWay}" />
+                    <SolidColorBrush Color="{x:Bind AccentPalette.SelectedColors[2], FallbackValue=Transparent, Mode=OneWay}" />
                 </Border.Background>
                 <TextBlock Foreground="Black"
                            Text="Tertiary" />
@@ -123,9 +121,9 @@
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStopCollection>
-                            <GradientStop Offset="0" Color="{x:Bind AccentPalette.Primary, Mode=OneWay}" />
-                            <GradientStop Offset="0.74" Color="{x:Bind AccentPalette.Secondary, Mode=OneWay}" />
-                            <GradientStop Offset="1" Color="{x:Bind AccentPalette.Tertiary, Mode=OneWay}" />
+                            <GradientStop Offset="0" Color="{x:Bind AccentPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
+                            <GradientStop Offset="0.74" Color="{x:Bind AccentPalette.SelectedColors[1], FallbackValue=Transparent, Mode=OneWay}" />
+                            <GradientStop Offset="1" Color="{x:Bind AccentPalette.SelectedColors[2], FallbackValue=Transparent, Mode=OneWay}" />
                         </GradientStopCollection>
                     </LinearGradientBrush>
                 </Rectangle.Fill>

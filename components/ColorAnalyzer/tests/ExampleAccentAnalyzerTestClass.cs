@@ -14,10 +14,10 @@ public partial class ExampleAccentAnalyzerTestClass : VisualUITestBase
     [TestMethod]
     public void SimpleSynchronousExampleTest()
     {
-        var assembly = typeof(AccentAnalyzer).Assembly;
-        var type = assembly.GetType(typeof(AccentAnalyzer).FullName ?? string.Empty);
+        var assembly = typeof(ColorPaletteSampler).Assembly;
+        var type = assembly.GetType(typeof(ColorPaletteSampler).FullName ?? string.Empty);
 
-        Assert.IsNotNull(type, "Could not find AccentAnalyzer type.");
-        Assert.AreEqual(typeof(AccentAnalyzer), type, "Type of AccentAnalyzer does not match expected type.");
+        Assert.IsNotNull(type, "Could not find ColorPaletteSampler type.");
+        Assert.AreEqual(typeof(ColorPaletteSampler), type, "Type of ColorPaletteSampler does not match expected type.");
     }
 }
