@@ -18,7 +18,7 @@ using Windows.UI;
 namespace CommunityToolkit.WinUI.Helpers;
 
 /// <summary>
-/// A resource that can be used to extract color palettes out of any UIElement.
+/// A resource that can be used to extract color palettes out of any <see cref="UIElement"/>.
 /// </summary>
 [ContentProperty(Name = nameof(PaletteSelectors))]
 public partial class ColorPaletteSampler : DependencyObject

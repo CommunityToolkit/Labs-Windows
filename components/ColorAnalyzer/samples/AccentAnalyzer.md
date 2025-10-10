@@ -17,3 +17,5 @@ icon: assets/icon.png
 The AccentAnalyzer provides a pure XAML way to use the colors extracted from an image as a binding source for any `Color` property.
 
 > [!Sample AccentAnalyzerSample]
+
+> [!Sample ContrastHelperSample]
