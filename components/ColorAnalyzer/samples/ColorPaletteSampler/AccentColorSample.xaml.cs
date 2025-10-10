@@ -7,10 +7,10 @@ namespace ColorAnalyzerExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-[ToolkitSample(id: nameof(AccentAnalyzerSample), "AccentAnalyzer helper", description: $"A sample for showing how the accent analyzer can be used.")]
-public sealed partial class AccentAnalyzerSample : Page
+[ToolkitSample(id: nameof(AccentColorSample), "AccentAnalyzer helper", description: $"A sample for showing how the accent analyzer can be used.")]
+public sealed partial class AccentColorSample : ColorPaletteSamplerToolkitSampleBase
 {
-    public AccentAnalyzerSample()
+    public AccentColorSample()
     {
         this.InitializeComponent();
     }
