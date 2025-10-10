@@ -55,7 +55,6 @@ public abstract class ColorPaletteSelector : DependencyObject
     /// Selects a set of colors from a palette to create a sub-group.
     /// </summary>
     /// <param name="palette">The color info extracted by the <see cref="ColorPaletteSampler"/>.</param>
-    /// <param name="imageColorfulness">The overall colorfulness of the palette.</param>
     public virtual void SelectColors(IEnumerable<PaletteColor> palette)
     {
         _palette = palette;
