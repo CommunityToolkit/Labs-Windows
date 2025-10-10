@@ -1,4 +1,4 @@
-<UserControl x:Class="ColorAnalyzerExperiment.Samples.ContrastOptionsPane"
+﻿<UserControl x:Class="ColorAnalyzerExperiment.Samples.ContrastOptionsPane"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -25,13 +25,13 @@
             </StackPanel>
         </StackPanel>
 
-        <Slider Header="Minimum Ratio"
+        <Slider MinWidth="256"
+                HorizontalAlignment="Center"
+                Header="Minimum Ratio"
                 Maximum="21"
                 Minimum="1"
                 StepFrequency="0.1"
                 ValueChanged="Ratio_ValueChanged"
-                HorizontalAlignment="Center"
-                MinWidth="256"
                 Value="3" />
     </StackPanel>
 </UserControl>

@@ -26,6 +26,7 @@ public partial class ImageOptionsPane : UserControl
 
         string[] images = ["Flowers.jpg", "Headphones.jpg", "Paint.jpg"];
         StockImages = images.Select(x => $"ms-appx:///Assets/StockImages/{x}").ToList();
+        SetImage(new Uri(StockImages.First()));
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
