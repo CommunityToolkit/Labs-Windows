@@ -13,13 +13,13 @@ namespace ColorAnalyzerExperiment.Samples;
 public abstract partial class ContrastHelperSampleBase : Page
 {
     public static readonly DependencyProperty DesiredBackgroundProperty =
-        DependencyProperty.Register(nameof(DesiredBackground), typeof(Color), typeof(TextBlockContrastSample), new PropertyMetadata(Colors.Black));
+        DependencyProperty.Register(nameof(DesiredBackground), typeof(Color), typeof(ContrastHelperSampleBase), new PropertyMetadata(Colors.Black));
 
     public static readonly DependencyProperty DesiredForegroundProperty =
-        DependencyProperty.Register(nameof(DesiredForeground), typeof(Color), typeof(TextBlockContrastSample), new PropertyMetadata(Colors.White));
+        DependencyProperty.Register(nameof(DesiredForeground), typeof(Color), typeof(ContrastHelperSampleBase), new PropertyMetadata(Colors.White));
 
     private static readonly DependencyProperty MinRatioProperty =
-        DependencyProperty.Register(nameof(MinRatio), typeof(double), typeof(TextBlockContrastSample), new PropertyMetadata(3d));
+        DependencyProperty.Register(nameof(MinRatio), typeof(double), typeof(ContrastHelperSampleBase), new PropertyMetadata(3d));
 
     public ContrastHelperSampleBase()
     {
