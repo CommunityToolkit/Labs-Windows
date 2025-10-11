@@ -8,34 +8,30 @@
              mc:Ignorable="d">
 
     <StackPanel Spacing="2">
-        <TextBlock Text="Desired Foreground" />
-        <controls:ColorPicker ColorChanged="Foreground_ColorChanged"
-                              IsColorChannelTextInputVisible="True"
-                              IsColorSliderVisible="True"
-                              Color="White" />
+        <StackPanel Orientation="Horizontal">
+            <StackPanel>
+                <TextBlock Text="Desired Foreground" />
+                <controls:ColorPicker ColorChanged="Foreground_ColorChanged"
+                                      IsColorChannelTextInputVisible="True"
+                                      IsColorSliderVisible="True"
+                                      Color="White" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Background" />
+                <controls:ColorPicker ColorChanged="Background_ColorChanged"
+                                      IsColorChannelTextInputVisible="True"
+                                      IsColorSliderVisible="True"
+                                      Color="Black" />
+            </StackPanel>
+        </StackPanel>
 
-        <TextBlock Text="Background" />
-        <controls:ColorPicker ColorChanged="Background_ColorChanged"
-                              IsColorChannelTextInputVisible="True"
-                              IsColorSliderVisible="True"
-                              Color="Black" />
-
-        <Slider Header="Minimum Ratio"
+        <Slider MinWidth="256"
+                HorizontalAlignment="Center"
+                Header="Minimum Ratio"
                 Maximum="21"
                 Minimum="1"
+                StepFrequency="0.1"
                 ValueChanged="Ratio_ValueChanged"
                 Value="3" />
-
-        <Slider Header="Font Size"
-                Maximum="48"
-                Minimum="8"
-                ValueChanged="FontSize_ValueChanged"
-                Value="18" />
-
-        <Slider Header="Stroke Thickness"
-                Maximum="8"
-                Minimum="0"
-                ValueChanged="Thickness_ValueChanged"
-                Value="4" />
     </StackPanel>
 </UserControl>

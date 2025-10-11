@@ -30,22 +30,22 @@ internal static class ColorExtensions
         // Source WCAG guidelines: https://www.w3.org/TR/WCAG20/#contrast-ratiodef
 
         // Calculate perceived luminance for both colors
-        double luminance1 = color1.PerceivedLuminance();
-        double luminance2 = color2.PerceivedLuminance();
+        double luminance1 = color1.RelativeLuminance();
+        double luminance2 = color2.RelativeLuminance();
 
         // Determine lighter and darker luminance
         double lighter = Math.Max(luminance1, luminance2);
         double darker = Math.Min(luminance1, luminance2);
 
         // Calculate contrast ratio
-        return (lighter + 0.05f) / (darker + 0.05f);
+        return (lighter + 0.05) / (darker + 0.05);
     }
 
-    internal static double PerceivedLuminance(this Color color)
+    internal static double RelativeLuminance(this Color color)
     {
         // Color theory is a massive iceberg. Here's a peek at the tippy top:
 
-        // There's two (main) standards for calculating luminance from RGB values.
+        // There's two (main) standards for calculating percieved luminance from RGB values.
 
         // + ------------- + ------------------------------------ + ------------------ + ------------------------------------------------------------------------------- +
         // | Standard      | Formula                              | Ref. Section       | Ref. Link                                                                       |
@@ -61,11 +61,26 @@ internal static class ColorExtensions
 
         // NOTE: If we for whatever reason we ever need to optimize this code,
         // we can make approximations using integer math instead of floating point math.
-        // The precise values are not critical, as long as the relative luminance is accurate.
+        // The precise values are not critical, as long as the proportions are similar and sum to 1.
         // Like so: return (2 * color.R + 7 * color.G + color.B);
 
+        // Adjust channels relative luminance out of sRGB:
+        // https://www.w3.org/WAI/GL/wiki/Relative_luminance#Definition_as_Stated_in_WCAG_2.x
+        float sRGBtoRGB(float s)
+        {
+            if (s <= 0.03928f)
+                return s / 12.92f;
+
+            return MathF.Pow(((s + 0.055f) / 1.055f), 2.4f);
+        }
+
+        var vec = color.ToVector3();
+        var r = sRGBtoRGB(vec.X);
+        var g = sRGBtoRGB(vec.Y);
+        var b = sRGBtoRGB(vec.Z);
+
         // TLDR: We use ITU Rec. 709 standard formula for perceived luminance.
-        return (0.2126f * color.R + 0.7152f * color.G + 0.0722 * color.B) / 255;
+        return (0.2126f * r + 0.7152f * g + 0.0722 * b);
     }
 
     internal static float FindColorfulness(this Color color)

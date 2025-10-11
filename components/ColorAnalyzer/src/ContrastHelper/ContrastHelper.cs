@@ -44,7 +44,7 @@ public partial class ContrastHelper
 
         // Current contrast is too small.
         // Select either black or white backed on the opponent luminance
-        var luminance = opponent.PerceivedLuminance();
+        var luminance = opponent.RelativeLuminance();
         var contrastingColor = luminance < 0.5f ? Colors.White : Colors.Black;
         UpdateContrastedProperties(d, contrastingColor);
     }

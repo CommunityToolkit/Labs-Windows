@@ -115,21 +115,39 @@ public partial class ContrastHelper
     /// </summary>
     public static double GetContrastRatio(DependencyObject obj) => (double)obj.GetValue(ContrastRatioProperty);
 
-    private static void SetContrastRatio(DependencyObject obj, double value) => obj.SetValue(ContrastRatioProperty, value);
+    /// <summary>
+    /// Sets the calculated contrast ratio compared to the actual foreground color.
+    /// </summary>
+    /// <remarks>
+    /// This must be provided for binding, but should be treated as if it were private.
+    /// </remarks>
+    public static void SetContrastRatio(DependencyObject obj, double value) => obj.SetValue(ContrastRatioProperty, value);
 
     /// <summary>
     /// Gets the calculated contrast ratio compared to the original foreground color.
     /// </summary>
     public static double GetOriginalContrastRatio(DependencyObject obj) => (double)obj.GetValue(OriginalContrastRatioProperty);
 
-    private static void SetOriginalContrastRatio(DependencyObject obj, double value) => obj.SetValue(OriginalContrastRatioProperty, value);
+    /// <summary>
+    /// Sets the calculated contrast ratio compared to the original foreground color.
+    /// </summary>
+    /// <remarks>
+    /// This must be provided for binding, but should be treated as if it were private.
+    /// </remarks>
+    public static void SetOriginalContrastRatio(DependencyObject obj, double value) => obj.SetValue(OriginalContrastRatioProperty, value);
 
     /// <summary>
     /// Gets the original color before adjustment for contrast.
     /// </summary>
     public static Color GetOriginalColor(DependencyObject obj) => (Color)obj.GetValue(OriginalColorProperty);
 
-    private static void SetOriginalColor(DependencyObject obj, Color color) => obj.SetValue(OriginalColorProperty, color);
+    /// <summary>
+    /// Sets the original color before adjustment for contrast.
+    /// </summary>
+    /// <remarks>
+    /// This must be provided for binding, but should be treated as if it were private.
+    /// </remarks>
+    public static void SetOriginalColor(DependencyObject obj, Color color) => obj.SetValue(OriginalColorProperty, color);
 
     private static DependencyObject GetCallbackObject(DependencyObject obj) => (DependencyObject)obj.GetValue(CallbackObjectProperty);
 
