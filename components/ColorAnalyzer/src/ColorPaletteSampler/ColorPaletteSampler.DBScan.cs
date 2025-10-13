@@ -59,7 +59,7 @@ public partial class ColorPaletteSampler
             return true;
         }
 
-        private void ExpandCluster(Queue<int> seeds,  out Vector3 centroid, out float weight)
+        private void ExpandCluster(Queue<int> seeds, out Vector3 centroid, out float weight)
         {
             weight = 0;
             centroid = Vector3.Zero;
@@ -95,6 +95,10 @@ public partial class ColorPaletteSampler
         {
             var origin = Points[originIndex];
 
+            // NOTE: Seeding could be done using a spatial data structure to improve traversal
+            // speeds. However currently DBSCAN is run after KMeans with a maximum of 8 points.
+            // There is no need.
+
             var seeds = new Queue<int>();
             for (int i = 0; i < Points.Length; i++)
             {
@@ -107,7 +111,7 @@ public partial class ColorPaletteSampler
             return seeds;
         }
 
-        private DBScan(Span<Vector3> points, Span<float> weights, double epsilon, int minPoints)
+        private DBScan(Span<Vector3> points, Span<float> weights, float epsilon, int minPoints)
         {
             Points = points;
             Weights = weights;
@@ -141,7 +145,7 @@ public partial class ColorPaletteSampler
         public int[] PointClusterIds { get; }
 
         /// <summary>
-        /// Gets epsilon squared. Where epslion is the max distance to consider two points connected.
+        /// Gets epsilon squared. Where epsilon is the max distance to consider two points connected.
         /// </summary>
         /// <remarks>
         /// This is cached as epsilon squared to skip a sqrt operation when comparing distances to epsilon.
@@ -149,7 +153,7 @@ public partial class ColorPaletteSampler
         public double Epsilon2 { get; }
 
         /// <summary>
-        /// Gets the miniumum number of points required to make a core point.
+        /// Gets the minimum number of points required to make a core point.
         /// </summary>
         public int MinPoints { get; }
     }
