@@ -18,7 +18,7 @@ public abstract partial class ContrastHelperSampleBase : Page
     public static readonly DependencyProperty DesiredForegroundProperty =
         DependencyProperty.Register(nameof(DesiredForeground), typeof(Color), typeof(ContrastHelperSampleBase), new PropertyMetadata(Colors.White));
 
-    private static readonly DependencyProperty MinRatioProperty =
+    public static readonly DependencyProperty MinRatioProperty =
         DependencyProperty.Register(nameof(MinRatio), typeof(double), typeof(ContrastHelperSampleBase), new PropertyMetadata(3d));
 
     public ContrastHelperSampleBase()
