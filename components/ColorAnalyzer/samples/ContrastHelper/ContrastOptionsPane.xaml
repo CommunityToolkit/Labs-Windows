@@ -1,4 +1,4 @@
-<UserControl x:Class="ColorAnalyzerExperiment.Samples.ContrastOptionsPane"
+﻿<UserControl x:Class="ColorAnalyzerExperiment.Samples.ContrastOptionsPane"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -9,10 +9,10 @@
 
     <StackPanel Spacing="2">
         <TextBlock Text="Desired Foreground" />
-        <controls:ColorPickerButton SelectedColor="{x:Bind DesiredForeground, Mode=TwoWay}"/>
+        <controls:ColorPickerButton SelectedColor="{x:Bind DesiredForeground, Mode=TwoWay}" />
 
         <TextBlock Text="Background" />
-        <controls:ColorPickerButton SelectedColor="{x:Bind DesiredBackground, Mode=TwoWay}"/>
+        <controls:ColorPickerButton SelectedColor="{x:Bind DesiredBackground, Mode=TwoWay}" />
 
         <Slider MinWidth="256"
                 HorizontalAlignment="Center"
