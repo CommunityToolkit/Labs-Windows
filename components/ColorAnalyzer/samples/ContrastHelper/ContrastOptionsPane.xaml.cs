@@ -5,6 +5,7 @@
 #if !WINDOWS_UWP
 using Microsoft.UI.Xaml.Media.Imaging;
 #elif WINDOWS_UWP
+using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
 
@@ -19,8 +20,20 @@ public partial class ContrastOptionsPane : UserControl
     public ContrastOptionsPane(ContrastHelperSampleBase sample)
     {
         _sample = sample;
-        
+
         this.InitializeComponent();
+    }
+
+    public Color DesiredForeground
+    {
+        get => _sample.DesiredForeground;
+        set => _sample.DesiredForeground = value;
+    }
+
+    public Color DesiredBackground
+    {
+        get => _sample.DesiredBackground;
+        set => _sample.DesiredBackground = value;
     }
 
     private void Foreground_ColorChanged(MUXC.ColorPicker sender, MUXC.ColorChangedEventArgs args)
