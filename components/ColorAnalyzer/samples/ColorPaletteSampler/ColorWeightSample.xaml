@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <local:ColorPaletteSamplerToolkitSampleBase x:Class="ColorAnalyzerExperiment.Samples.ColorWeightSample"
                                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -29,9 +29,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel MaxHeight="250"
-                    Padding="20"
-                    VerticalAlignment="Center">
+        <Grid Margin="20"
+              VerticalAlignment="Center">
             <Image x:Name="SampledImage"
                    HorizontalAlignment="Center"
                    Source="{x:Bind SelectedImage, Mode=OneWay}"
@@ -43,7 +42,7 @@
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Image>
-        </StackPanel>
+        </Grid>
 
         <Grid Grid.Column="1"
               MaxWidth="400"
