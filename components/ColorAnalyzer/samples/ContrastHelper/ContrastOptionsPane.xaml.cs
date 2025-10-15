@@ -5,9 +5,14 @@
 #if !WINDOWS_UWP
 using Microsoft.UI.Xaml.Media.Imaging;
 #elif WINDOWS_UWP
-using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
+
+#if WINUI3
+using Microsoft.UI;
+#endif
+
+using Windows.UI;
 
 namespace ColorAnalyzerExperiment.Samples;
 
