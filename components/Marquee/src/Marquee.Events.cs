@@ -115,6 +115,12 @@ public partial class Marquee
         if (_segment1 is null)
             return;
 
+        if (_marqueeContainer is null)
+            return;
+
+        // Cap the height of the container to the segment height
+        _marqueeContainer.Height = _segment1.ActualHeight;
+
         // If the segment size changes, we need to update the storyboard,
         // and seek to the correct position to maintain a smooth animation.
         UpdateMarquee(true);
