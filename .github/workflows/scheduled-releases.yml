@@ -18,21 +18,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Use a token with write permissions to push to the branch
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0 # Fetch all history for merging
+          fetch-depth: 0 # Fetch all history for tags
 
       - name: Create release
         id: create-release
         run: |
           # Date in the format YYMMDD
           TAG="release/weekly/$(date +%y%m%d)"
+          
+          # Get previous weekly tag for sparse release notes
+          PREV_TAG=$(git tag --list 'release/weekly/*' --sort=-creatordate | head -n 1)
+          
           # gh release create will automatically create the tag if it doesn't exist
           # This triggers the build workflow's tag listener, unlike git tag + git push
           # which doesn't trigger workflows when done by Actions tokens
           gh release create "$TAG" \
             --title "Weekly Release $(date +%y%m%d)" \
             --generate-notes \
+            --notes-start-tag "$PREV_TAG" \
+            --fail-on-no-commits \
             --prerelease
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
