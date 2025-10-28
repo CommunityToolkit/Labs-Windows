@@ -287,9 +287,11 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
           
-      - name: Format Date/Time of Commit for Package Version
+      - name: Format Date/Time for Package Version (Tag builds only)
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
-          echo "VERSION_DATE=$(git log -1 --format=%cd --date=format:%y%m%d)" >> $env:GITHUB_ENV
+          $dateString = "${{ github.ref }}" -replace '^refs/tags/release/weekly/', ''
+          echo "VERSION_DATE=$dateString" >> $env:GITHUB_ENV
 
       - name: Restore dotnet tools
         run: dotnet tool restore
@@ -330,7 +332,7 @@ jobs:
       # Build and pack component nupkg
       - name: Build and pack component packages
         if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
-        run: ./tooling/Build-Toolkit-Components.ps1 -MultiTargets all -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }} -DateForVersion ${{ env.VERSION_DATE }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
+        run: ./tooling/Build-Toolkit-Components.ps1 -MultiTargets all -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }} ${{ env.VERSION_DATE != '' && format('-DateForVersion {0}', env.VERSION_DATE) || '' }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
 
       - name: Validate package names
         if: ${{ env.VERSION_PROPERTY != '' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
