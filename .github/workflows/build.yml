@@ -391,7 +391,7 @@ jobs:
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them both to run to completion.
       matrix:
-        winui: [2, 3]
+        winui: [0, 2, 3]
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
@@ -456,7 +456,7 @@ jobs:
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them both to run to completion.
       matrix:
-        winui: [2, 3]
+        winui: [0, 2, 3]
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
