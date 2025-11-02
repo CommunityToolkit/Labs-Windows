@@ -282,9 +282,6 @@ public partial class Marquee : ContentControl
     {
         seekPoint = TimeSpan.Zero;
 
-        // Stop any existing storyboard
-        _marqueeStoryboard?.Stop();
-
         // Check for crucial template parts
         if (_marqueeContainer is null ||
             _marqueeTransform is null ||
@@ -342,6 +339,7 @@ public partial class Marquee : ContentControl
             _segment2.Visibility = Visibility.Collapsed;
 
             _marqueeStoryboard = null;
+            _marqueeStoryboard?.Stop();
             return false;
         }
 
@@ -361,6 +359,7 @@ public partial class Marquee : ContentControl
         if (distance is 0)
         {
             _marqueeStoryboard = null;
+            _marqueeStoryboard?.Stop();
             return false;
         }
 
