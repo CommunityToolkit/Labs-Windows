@@ -282,6 +282,9 @@ public partial class Marquee : ContentControl
     {
         seekPoint = TimeSpan.Zero;
 
+        // Stop any existing storyboard
+        _marqueeStoryboard?.Stop();
+
         // Check for crucial template parts
         if (_marqueeContainer is null ||
             _marqueeTransform is null ||
