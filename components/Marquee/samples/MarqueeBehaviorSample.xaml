@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="MarqueeExperiment.Samples.MarqueeBehaviorSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -33,22 +33,22 @@
                    FontWeight="Bold"
                    Text="This Marquee contains hyperlinks and will pause while hovered." />
         <controls:Marquee x:Name="MarqueeControl"
+                          AutoPlay="True"
                           Background="Transparent"
                           Behavior="Looping"
                           FontSize="18"
                           RepeatBehavior="Forever"
-                          AutoPlay="True"
                           Speed="96">
             <controls:Marquee.ContentTemplate>
                 <DataTemplate>
                     <StackPanel Spacing="4">
                         <RichTextBlock>
                             <Paragraph>
-                                <Run Text="Lorem ipsum dolor sit amet, "/>
+                                <Run Text="Lorem ipsum dolor sit amet, " />
                                 <Hyperlink>consectetur adipiscing elit</Hyperlink>
-                                <Run Text=", sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "/>
+                                <Run Text=", sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " />
                                 <Hyperlink>Ut enim ad minim veniam</Hyperlink>
-                                <Run Text=", quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
+                                <Run Text=", quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." />
                             </Paragraph>
                         </RichTextBlock>
                     </StackPanel>

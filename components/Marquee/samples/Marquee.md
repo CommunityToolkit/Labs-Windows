@@ -15,6 +15,8 @@ icon: Assets/Marquee.png
 
 The Marquee control allows text or other content to scroll in a marquee fashion. The control is heavily templated and many changes can be made by modifying the style. The control can also be adjusted using the Speed, Behavior, RepeatBehavior, and Direction properties.
 
+> [!Sample MarqueeTextSample]
+
 ## Speed
 
 The speed property determines how quickly the content moves in pixels per second. The speed can be adjusted mid-animation and handled continously.
@@ -50,8 +52,6 @@ The speed property determines how quickly the content moves in pixels-per-second
 ## AutoPlay
 
 The AutoPlay property determines if the marquee will start animating when it is loaded, upon on size changes, or when the content changes. If set to false the marquee can be started manually by calling the `StartMarquee` method.
-
-> [!Sample MarqueeTextSample]
 
 ## Non-Text Content
 
