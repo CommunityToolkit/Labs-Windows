@@ -456,4 +456,19 @@ public partial class Marquee : ContentControl
 
         return marqueeStoryboard;
     }
+
+    private void ClipMarquee(double width = default, double height = default)
+    {
+        if (_marqueeContainer is null)
+            return;
+
+        width = width is default(double) ? _marqueeContainer.ActualWidth : width;
+        height = height is default(double) ? _marqueeContainer.ActualHeight : height;
+
+        // Clip the marquee within the bounds of the container
+        _marqueeContainer.Clip = new RectangleGeometry
+        {
+            Rect = new Rect(0, 0, width, height)
+        };
+    }
 }

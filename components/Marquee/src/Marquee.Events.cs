@@ -56,6 +56,10 @@ public partial class Marquee
             _marqueeStoryboard.Completed += StoryBoard_Completed;
         }
 
+        // The size may have channged while unloaded.
+        // Clip the marquee
+        ClipMarquee();
+
         // Setup the animation
         UpdateMarquee(false);
 
@@ -93,11 +97,8 @@ public partial class Marquee
         if (_marqueeContainer is null)
             return;
         
-        // Clip the marquee within its bounds
-        _marqueeContainer.Clip = new RectangleGeometry
-        {
-            Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
-        };
+        // Clip the marquee
+        ClipMarquee(e.NewSize.Width, e.NewSize.Height);
 
         // Update animation on the fly
         UpdateMarquee(true);
