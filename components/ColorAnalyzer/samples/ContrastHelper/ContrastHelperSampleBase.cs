@@ -2,25 +2,28 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WINUI3
 using Microsoft.UI;
+#endif
+
 using Windows.UI;
 
 namespace ColorAnalyzerExperiment.Samples;
 
-/// <summary>
-/// An example sample page of a custom control inheriting from Panel.
-/// </summary>
-[ToolkitSample(id: nameof(ContrastHelperSample), "ContrastAnalyzer helper", description: $"A sample for showing how the contrast analyzer can be used.")]
-public sealed partial class ContrastHelperSample : Page
+public abstract partial class ContrastHelperSampleBase : Page
 {
     public static readonly DependencyProperty DesiredBackgroundProperty =
-        DependencyProperty.Register(nameof(DesiredBackground), typeof(Color), typeof(ContrastHelperSample), new PropertyMetadata(Colors.Black));
+        DependencyProperty.Register(nameof(DesiredBackground), typeof(Color), typeof(ContrastHelperSampleBase), new PropertyMetadata(Colors.Black));
 
     public static readonly DependencyProperty DesiredForegroundProperty =
-        DependencyProperty.Register(nameof(DesiredForeground), typeof(Color), typeof(ContrastHelperSample), new PropertyMetadata(Colors.White));
+        DependencyProperty.Register(nameof(DesiredForeground), typeof(Color), typeof(ContrastHelperSampleBase), new PropertyMetadata(Colors.White));
 
-    private static readonly DependencyProperty MinRatioProperty =
-        DependencyProperty.Register(nameof(MinRatio), typeof(double), typeof(ContrastHelperSample), new PropertyMetadata(0d));
+    public static readonly DependencyProperty MinRatioProperty =
+        DependencyProperty.Register(nameof(MinRatio), typeof(double), typeof(ContrastHelperSampleBase), new PropertyMetadata(3d));
+
+    public ContrastHelperSampleBase()
+    {
+    }
 
     public Color DesiredBackground
     {
@@ -38,10 +41,5 @@ public sealed partial class ContrastHelperSample : Page
     {
         get => (double)GetValue(MinRatioProperty);
         set => SetValue(MinRatioProperty, value);
-    }
-
-    public ContrastHelperSample()
-    {
-        this.InitializeComponent();
     }
 }

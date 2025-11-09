@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="ColorAnalyzerExperiment.Samples.ContrastOptionsPane"
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<UserControl x:Class="ColorAnalyzerExperiment.Samples.ContrastOptionsPane"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -7,35 +8,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <StackPanel Spacing="2">
-        <TextBlock Text="Desired Foreground" />
-        <controls:ColorPicker ColorChanged="Foreground_ColorChanged"
-                              IsColorChannelTextInputVisible="True"
-                              IsColorSliderVisible="True"
-                              Color="White" />
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OrientationStates">
+                <VisualState x:Name="NarrowState">
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.Orientation" Value="Horizontal" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint1008Plus}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.Orientation" Value="Vertical" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
-        <TextBlock Text="Background" />
-        <controls:ColorPicker ColorChanged="Background_ColorChanged"
-                              IsColorChannelTextInputVisible="True"
-                              IsColorSliderVisible="True"
-                              Color="Black" />
+        <StackPanel x:Name="RootPanel"
+                    Orientation="Horizontal"
+                    Spacing="12">
+            <StackPanel Spacing="2">
+                <TextBlock x:Name="ForegroundLabel"
+                           Text="Foreground" />
+                <controls:ColorPickerButton x:Name="ForegroundPicker"
+                                            SelectedColor="{x:Bind DesiredForeground, Mode=TwoWay}" />
+            </StackPanel>
 
-        <Slider Header="Minimum Ratio"
-                Maximum="21"
-                Minimum="1"
-                ValueChanged="Ratio_ValueChanged"
-                Value="3" />
+            <StackPanel Spacing="2">
+                <TextBlock x:Name="BackgroundLabel"
+                           Text="Background" />
+                <controls:ColorPickerButton x:Name="BackgroundPicker"
+                                            SelectedColor="{x:Bind DesiredBackground, Mode=TwoWay}" />
+            </StackPanel>
 
-        <Slider Header="Font Size"
-                Maximum="48"
-                Minimum="8"
-                ValueChanged="FontSize_ValueChanged"
-                Value="18" />
-
-        <Slider Header="Stroke Thickness"
-                Maximum="8"
-                Minimum="0"
-                ValueChanged="Thickness_ValueChanged"
-                Value="4" />
-    </StackPanel>
+            <Slider x:Name="RatioSlider"
+                    MinWidth="200"
+                    Header="Minimum Ratio"
+                    Maximum="21"
+                    Minimum="1"
+                    StepFrequency="0.1"
+                    ValueChanged="Ratio_ValueChanged"
+                    Value="3" />
+        </StackPanel>
+    </Grid>
 </UserControl>

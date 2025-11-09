@@ -10,19 +10,23 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace ColorAnalyzerExperiment.Samples;
 
-[ToolkitSampleOptionsPane(nameof(AccentAnalyzerSample))]
+[ToolkitSampleOptionsPane(nameof(AccentColorSample))]
+[ToolkitSampleOptionsPane(nameof(BaseColorSample))]
+[ToolkitSampleOptionsPane(nameof(ColorWeightSample))]
+[ToolkitSampleOptionsPane(nameof(MultiplePaletteSelectorSample))]
 public partial class ImageOptionsPane : UserControl
 {
-    private AccentAnalyzerSample.XamlNamedPropertyRelay _sample;
-    
-    public ImageOptionsPane(AccentAnalyzerSample sample)
-    {
-        this.InitializeComponent();
+    private readonly ColorPaletteSamplerToolkitSampleBase _sample;
 
-        _sample = new AccentAnalyzerSample.XamlNamedPropertyRelay(sample);
+    public ImageOptionsPane(ColorPaletteSamplerToolkitSampleBase sample)
+    {
+        _sample = sample;
+
+        this.InitializeComponent();
 
         string[] images = ["Flowers.jpg", "Headphones.jpg", "Paint.jpg"];
         StockImages = images.Select(x => $"ms-appx:///Assets/StockImages/{x}").ToList();
+        SetImage(new Uri(StockImages.First()));
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)
@@ -39,6 +43,6 @@ public partial class ImageOptionsPane : UserControl
 
     private void SetImage(Uri uri)
     {
-        _sample.SampledImage.Source = new BitmapImage(uri);
+        _sample.SelectedImage = new BitmapImage(uri);
     }
 }
