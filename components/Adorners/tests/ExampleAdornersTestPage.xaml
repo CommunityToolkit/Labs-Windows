@@ -9,6 +9,6 @@
       mc:Ignorable="d">
 
     <Grid>
-        <controls:Adorners_ClassicBinding x:Name="AdornersControl" />
+        <controls:AdornerLayer x:Name="AdornersControl" />
     </Grid>
 </Page>

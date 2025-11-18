@@ -1,65 +1,45 @@
 ---
 title: Adorners
-author: githubaccount
-description: TODO: Your experiment's description here
+author: michael-hawker
+description: Adorners let you overlay content on top of your XAML components in a separate layer on top of everything else.
 keywords: Adorners, Control, Layout
 dev_langs:
   - csharp
 category: Controls
 subcategory: Layout
-discussion-id: 0
+discussion-id: 278
 issue-id: 0
 icon: assets/icon.png
 ---
 
-<!-- To know about all the available Markdown syntax, Check out https://docs.microsoft.com/contribute/markdown-reference -->
-<!-- Ensure you remove all comments before submission, to ensure that there are no formatting issues when displaying this page.  -->
-<!-- It is recommended to check how the Documentation will look in the sample app, before Merging a PR -->
-<!-- **Note:** All links to other docs.microsoft.com pages should be relative without locale, i.e. for the one above would be /contribute/markdown-reference -->
-<!-- Included images should be optimized for size and not include any Intellectual Property references. -->
-
-<!-- Be sure to update the discussion/issue numbers above with your Labs discussion/issue id numbers in order for UI links to them from the sample app to work. -->
-
 # Adorners
 
-TODO: Fill in information about this experiment and how to get started here...
+Adorners allow a developer to overlay any content on top of another UI element in a separate layer that resides on top of everything else.
 
-## Custom Control
+## Background
 
-You can inherit from an existing component as well, like `Panel`, this example shows a control without a
-XAML Style that will be more light-weight to consume by an app developer:
+Adorners originally existed in WPF as a main integration part as part of the framework. [You can read more about how they worked in WPF here.](https://learn.microsoft.com/dotnet/desktop/wpf/controls/adorners-overview)
 
-> [!Sample AdornersCustomSample]
+UWP/WinUI unfortunately never ported this integration point into the new framework, this experiment hopes to fill that gap with a similar and modernized version of the API surface.
 
-## Templated Controls
+### Without Adorners
 
-The Toolkit is built with templated controls. This provides developers a flexible way to restyle components
-easily while still inheriting the general functionality a control provides. The examples below show
-how a component can use a default style and then get overridden by the end developer.
+Imagine a scenario where you have a button or tab that checks a user's e-mail, and you'd like it to display the number of new e-mails that have arrived.
 
-TODO: Two types of templated control building methods are shown. Delete these if you're building a custom component.
-Otherwise, pick one method for your component and delete the files related to the unchosen `_ClassicBinding` or `_xBind`
-classes (and the custom non-suffixed one as well). Then, rename your component to just be your component name.
+You could try and incorporate a [`InfoBadge`](https://learn.microsoft.com/windows/apps/design/controls/info-badge) into your Visual Tree in order to display this as  part of your icon, but that requires you to modify quite a bit of your content, as in this example:
 
-The `_ClassicBinding` class shows the traditional method used to develop components with best practices.
+> [!SAMPLE InfoBadgeWithoutAdorner]
 
-### Implict style
+It also by default gets confined to the perimeter of the button and clipped, as seen above.
 
-> [!SAMPLE AdornersTemplatedSample]
+### With Adorners
 
-### Custom style
+However, with an Adorner instead, you can abstract this behavior from the content of your control. You can even more easily place the notification outside the bounds of the original element, like so:
 
-> [!SAMPLE AdornersTemplatedStyleCustomSample]
+> [!SAMPLE AdornersInfoBadgeSample]
 
-## Templated Controls with x:Bind
+## Highlight Example
 
-This is an _experimental_ new way to define components which allows for the use of x:Bind within the style.
+Adorners can be used in a variety of scenarios. For instance, if you wanted to highlight an element and show it's alignment to other elements in a creativity app.
 
-### Implict style
-
-> [!SAMPLE AdornersXbindBackedSample]
-
-### Custom style
-
-> [!SAMPLE AdornersXbindBackedStyleCustomSample]
-
+> [!SAMPLE ElementHighlightAdornerSample]

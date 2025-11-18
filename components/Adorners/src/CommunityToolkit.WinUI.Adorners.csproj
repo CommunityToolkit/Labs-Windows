@@ -3,7 +3,7 @@
   
   <PropertyGroup>
     <ToolkitComponentName>Adorners</ToolkitComponentName>
-    <Description>This package contains Adorners.</Description>
+    <Description>This package contains Adorners. A Modern WinUI XAML based take on WPF Adorners.</Description>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
     <RootNamespace>CommunityToolkit.WinUI.Controls.AdornersRns</RootNamespace>
