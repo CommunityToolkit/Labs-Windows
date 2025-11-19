@@ -9,7 +9,7 @@ namespace CommunityToolkit.WinUI;
 /// </summary>
 [TemplatePart(Name = PartAdornerLayer, Type = typeof(AdornerLayer))]
 [ContentProperty(Name = nameof(Child))]
-public sealed class AdornerDecorator : Control
+public sealed partial class AdornerDecorator : Control
 {
     private const string PartAdornerLayer = "AdornerLayer";
 
