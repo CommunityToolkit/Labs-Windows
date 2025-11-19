@@ -16,13 +16,43 @@ public partial class AdornerLayer : Canvas
         return (UIElement)obj.GetValue(XamlProperty);
     }
 
+    /// <summary>
+    /// Sets the <see cref="XamlProperty"/> of a <see cref="FrameworkElement"/>. Use this to attach any <see cref="UIElement"/> as an adorner to another <see cref="FrameworkElement"/>. Requires that an <see cref="AdornerLayer"/> is available in the visual tree above the adorned element.
+    /// </summary>
+    /// <param name="obj">The <see cref="FrameworkElement"/> to adorn.</param>
+    /// <param name="value">The <see cref="UIElement"/> to attach as an adorner.</param>
     public static void SetXaml(FrameworkElement obj, UIElement value)
     {
         obj.SetValue(XamlProperty, value);
     }
 
+    /// <summary>
+    /// Identifies the Xaml Attached Property.
+    /// </summary>
     public static readonly DependencyProperty XamlProperty =
         DependencyProperty.RegisterAttached("Xaml", typeof(UIElement), typeof(AdornerLayer), new PropertyMetadata(null, OnXamlPropertyChanged));
+
+    public AdornerLayer()
+    {
+        SizeChanged += AdornerLayer_SizeChanged;
+    }
+
+    private void AdornerLayer_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        foreach (var adorner in Children)
+        {
+            if (adorner is Border border && border.Tag is FrameworkElement adornedElement)
+            {
+                border.Width = adornedElement.ActualWidth;
+                border.Height = adornedElement.ActualHeight;
+
+                var coord = this.CoordinatesTo(adornedElement);
+
+                Canvas.SetLeft(border, coord.X);
+                Canvas.SetTop(border, coord.Y);
+            }
+        }
+    }
 
     private static async void OnXamlPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
     {
@@ -41,8 +71,15 @@ public partial class AdornerLayer : Canvas
                     AttachAdorner(layer, fe, adorner);
                 }
             }
+            else if (args.NewValue == null && args.OldValue is UIElement oldAdorner)
+            {
+                var layer = await GetAdornerLayerAsync(fe);
 
-            // TODO: Handle removing Adorner
+                if (layer is not null)
+                {
+                    RemoveAdorner(layer, oldAdorner);
+                }
+            }
         }
     }
 
@@ -56,7 +93,11 @@ public partial class AdornerLayer : Canvas
 
             if (layer is not null)
             {
-                AttachAdorner(layer, fe, GetXaml(fe));
+                var adorner = GetXaml(fe);
+
+                if (adorner == null) return;
+
+                AttachAdorner(layer, fe, adorner);
             }
         }
     }
@@ -71,7 +112,7 @@ public partial class AdornerLayer : Canvas
     {
         // 1. Find Adorner Layer for element or top-most element
         FrameworkElement? lastElement = null;
-        
+
         var adornerLayerOrTopMostElement = adornedElement.FindAscendant<FrameworkElement>((element) =>
         {
             lastElement = element; // TODO: should this be after our if, does it matter?
@@ -84,7 +125,7 @@ public partial class AdornerLayer : Canvas
             {
                 return true;
             }
-            else if (element is ScrollViewer scoller)
+            else if (element is ScrollViewer)
             {
                 return true;
             }
@@ -157,7 +198,7 @@ public partial class AdornerLayer : Canvas
                 return layerContainer.AdornerLayer;
             }
             // Grid seems like the easiest place for us to inject AdornerLayers automatically at the top-level (if needed) - not sure how common this will be?
-            else if (adornerLayerOrTopMostElement is Grid grid) 
+            else if (adornerLayerOrTopMostElement is Grid grid)
             {
                 // TODO: Not sure how we want to handle AdornerDecorator in this scenario...
                 var adornerLayer = new AdornerLayer();
@@ -187,7 +228,8 @@ public partial class AdornerLayer : Canvas
             Width = adornedElement.ActualWidth, // TODO: Register/tie to size of element better for changes.
             Height = adornedElement.ActualHeight,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Tag = adornedElement,
         };
 
         var coord = layer.CoordinatesTo(adornedElement);
@@ -196,5 +238,17 @@ public partial class AdornerLayer : Canvas
         Canvas.SetTop(border, coord.Y);
 
         layer.Children.Add(border);
+    }
+
+    private static void RemoveAdorner(AdornerLayer layer, UIElement adorner)
+    {
+        var border = adorner.FindAscendant<Border>();
+
+        if (border != null)
+        {
+            layer.Children.Remove(border);
+
+            VisualTreeHelper.DisconnectChildrenRecursive(border);
+        }
     }
 }

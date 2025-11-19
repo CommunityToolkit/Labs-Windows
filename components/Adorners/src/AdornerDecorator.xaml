@@ -20,7 +20,7 @@
                         Basically we need something that arranges the content and the adorner layer within the same space,
                         we put the AdornerLayer below so it will appear atop all content within the decorated region.
                     -->
-                    <Grid>
+                    <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
                         <ContentPresenter Padding="{TemplateBinding Padding}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
