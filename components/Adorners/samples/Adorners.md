@@ -36,9 +36,11 @@ However, with an Adorner instead, you can abstract this behavior from the conten
 
 > [!SAMPLE AdornersInfoBadgeSample]
 
-You can see how Adorners react to more dynamic content, like a TabViewItem here:
+You can see how Adorners react to more dynamic content with this more complete example here:
 
 > [!SAMPLE AdornersTabBadgeSample]
+
+The above example shows how to leverage XAML animations and data binding alongside the XAML-based Adorner with a `TabViewItem` which can also move or disappear.
 
 ## Highlight Example
 

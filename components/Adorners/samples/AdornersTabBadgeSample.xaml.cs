@@ -5,6 +5,7 @@
 namespace AdornersExperiment.Samples;
 
 [ToolkitSampleBoolOption("IsAdornerVisible", true, Title = "Is Adorner Visible")]
+[ToolkitSampleNumericOption("BadgeValue", 3, 1, 5, 1, true, Title = "Badge Value")]
 
 [ToolkitSample(id: nameof(AdornersTabBadgeSample), "InfoBadge w/ Adorner in TabView", description: "A sample for showing how add an InfoBadge to a TabViewItem via an Adorner.")]
 public sealed partial class AdornersTabBadgeSample : Page

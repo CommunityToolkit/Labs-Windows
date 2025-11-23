@@ -18,7 +18,7 @@
                                 IsHitTestVisible="False"
                                 Opacity="0.9"
                                 Visibility="{x:Bind IsAdornerVisible, Mode=OneWay}"
-                                Value="3">
+                                Value="{x:Bind (x:Int32)BadgeValue, Mode=OneWay}">
                     <animations:Implicit.ShowAnimations>
                         <animations:RotationInDegreesAnimation From="45"
                                                                To="0"
