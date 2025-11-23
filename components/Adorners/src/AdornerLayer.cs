@@ -50,17 +50,12 @@ public partial class AdornerLayer : Canvas
 
     private void AdornerLayer_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        foreach (var adorner in Children)
+        foreach (var adornerXaml in Children)
         {
-            if (adorner is Border border && border.Tag is FrameworkElement adornedElement)
+            if (adornerXaml is Adorner adorner)
             {
-                border.Width = adornedElement.ActualWidth;
-                border.Height = adornedElement.ActualHeight;
-
-                var coord = this.CoordinatesTo(adornedElement);
-
-                Canvas.SetLeft(border, coord.X);
-                Canvas.SetTop(border, coord.Y);
+                // Notify each adorner that our general layout has updated.
+                adorner.OnLayoutUpdated(null, EventArgs.Empty);
             }
         }
     }
@@ -229,38 +224,40 @@ public partial class AdornerLayer : Canvas
     }
 
     // TODO: Temp helper? Build into 'Adorner' base class?
-    private static void AttachAdorner(AdornerLayer layer, FrameworkElement adornedElement, UIElement adorner)
+    private static void AttachAdorner(AdornerLayer layer, FrameworkElement adornedElement, UIElement adornerXaml)
     {
-        // Add adorner XAML content to the Adorner Layer
-
-        var border = new Border()
+        if (adornerXaml is Adorner adorner)
         {
-            Child = adorner,
-            Width = adornedElement.ActualWidth, // TODO: Register/tie to size of element better for changes.
-            Height = adornedElement.ActualHeight,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch,
-            Tag = adornedElement,
-        };
+            // We already have an adorner type, use it directly.
+        }
+        else
+        {
+            adorner = new Adorner()
+            {
+                Content = adornerXaml,
+            };
+        }
 
-        var coord = layer.CoordinatesTo(adornedElement);
+        // Add adorner XAML content to the Adorner Layer
+        adorner.AdornerLayer = layer;
+        adorner.AdornedElement = adornedElement;
 
-        Canvas.SetLeft(border, coord.X);
-        Canvas.SetTop(border, coord.Y);
-
-        layer.Children.Add(border);
+        layer.Children.Add(adorner);
     }
 
-    private static void RemoveAdorner(AdornerLayer layer, UIElement adorner)
+    private static void RemoveAdorner(AdornerLayer layer, UIElement adornerXaml)
     {
-        var border = adorner.FindAscendant<Border>();
+        var adorner = adornerXaml.FindAscendant<Adorner>();
 
-        if (border != null)
+        if (adorner != null)
         {
-            layer.Children.Remove(border);
+            adorner.AdornedElement = null;
+            adorner.AdornerLayer = null;
+
+            layer.Children.Remove(adorner);
 
 #if !HAS_UNO
-            VisualTreeHelper.DisconnectChildrenRecursive(border);
+            VisualTreeHelper.DisconnectChildrenRecursive(adorner);
 #endif
         }
     }
