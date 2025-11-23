@@ -4,6 +4,9 @@
 
 namespace CommunityToolkit.WinUI.Future;
 
+/// <summary>
+/// Helper extensions for <see cref="FrameworkElement"/>.
+/// </summary>
 public static partial class FrameworkElementExtensions
 {
     /// <summary>

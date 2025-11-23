@@ -13,23 +13,35 @@ public sealed partial class AdornerDecorator : Control
 {
     private const string PartAdornerLayer = "AdornerLayer";
 
+    /// <summary>
+    /// Gets or sets the single child element of the <see cref="AdornerDecorator"/>.
+    /// </summary>
     public UIElement Child
     {
         get { return (UIElement)GetValue(ContentProperty); }
         set { SetValue(ContentProperty, value); }
     }
 
-    // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
+    /// <summary>
+    /// Identifies the <see cref="Child"/> dependency property. 
+    /// </summary>
     public static readonly DependencyProperty ContentProperty =
         DependencyProperty.Register(nameof(Child), typeof(UIElement), typeof(AdornerDecorator), new PropertyMetadata(null));
 
-    public AdornerLayer? AdornerLayer { get; private set; }
+    /// <summary>
+    /// Gets the <see cref="AdornerLayer"/> contained within this <see cref="AdornerDecorator"/>.
+    /// </summary>
+    internal AdornerLayer? AdornerLayer { get; private set; }
 
+    /// <summary>
+    /// Constructs a new instance of <see cref="AdornerDecorator"/>.
+    /// </summary>
     public AdornerDecorator()
     {
         this.DefaultStyleKey = typeof(AdornerDecorator);
     }
 
+    /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();

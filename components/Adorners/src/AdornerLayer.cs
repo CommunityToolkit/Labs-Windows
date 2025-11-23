@@ -7,10 +7,18 @@ using CommunityToolkit.WinUI.Future;
 namespace CommunityToolkit.WinUI;
 
 /// <summary>
-/// An adornment layer which can hold content to show on top of other components. If none is specified, one will be injected into your app content for you.
+/// An adornment layer which can hold content to show on top of other components.
+/// If none is specified, one will be injected into your app content for you.
+/// If a suitable location can't be automatically found, you can also use an
+/// <see cref="AdornerDecorator"/> to specify where the <see cref="AdornerLayer"/> should be placed.
 /// </summary>
 public partial class AdornerLayer : Canvas
 {
+    /// <summary>
+    /// Gets the <see cref="XamlProperty"/> of a <see cref="FrameworkElement"/>. Use this to retrieve any attached <see cref="UIElement"/> adorner from another <see cref="FrameworkElement"/>.
+    /// </summary>
+    /// <param name="obj">The <see cref="FrameworkElement"/> to retrieve the adorner from.</param>
+    /// <returns>The <see cref="UIElement"/> attached as an adorner.</returns>
     public static UIElement GetXaml(FrameworkElement obj)
     {
         return (UIElement)obj.GetValue(XamlProperty);
@@ -32,6 +40,9 @@ public partial class AdornerLayer : Canvas
     public static readonly DependencyProperty XamlProperty =
         DependencyProperty.RegisterAttached("Xaml", typeof(UIElement), typeof(AdornerLayer), new PropertyMetadata(null, OnXamlPropertyChanged));
 
+    /// <summary>
+    /// Constructs a new instance of <see cref="AdornerLayer"/>.
+    /// </summary>
     public AdornerLayer()
     {
         SizeChanged += AdornerLayer_SizeChanged;
@@ -248,7 +259,9 @@ public partial class AdornerLayer : Canvas
         {
             layer.Children.Remove(border);
 
+#if !HAS_UNO
             VisualTreeHelper.DisconnectChildrenRecursive(border);
+#endif
         }
     }
 }
