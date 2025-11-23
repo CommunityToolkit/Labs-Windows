@@ -13,4 +13,9 @@ public sealed partial class AdornersTabBadgeSample : Page
     {
         this.InitializeComponent();
     }
+
+    private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
+    {
+        sender.TabItems.Remove(args.Tab);
+    }
 }

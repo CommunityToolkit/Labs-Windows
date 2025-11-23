@@ -245,9 +245,9 @@ public partial class AdornerLayer : Canvas
         layer.Children.Add(adorner);
     }
 
-    private static void RemoveAdorner(AdornerLayer layer, UIElement adornerXaml)
+    internal static void RemoveAdorner(AdornerLayer layer, UIElement adornerXaml)
     {
-        var adorner = adornerXaml.FindAscendant<Adorner>();
+        var adorner = adornerXaml.FindAscendantOrSelf<Adorner>();
 
         if (adorner != null)
         {

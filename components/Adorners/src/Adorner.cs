@@ -62,6 +62,14 @@ public partial class Adorner : ContentControl
             // Initial size & layout update
             OnSizeChanged(null, null!);
             OnLayoutUpdated(null, null!);
+
+            // Track if AdornedElement is unloaded
+            var weakPropertyChangedListenerUnloaded = new WeakEventListener<Adorner, object, RoutedEventArgs>(this)
+            {
+                OnEventAction = static (instance, source, eventArgs) => instance.OnUnloaded(source, eventArgs),
+                OnDetachAction = (weakEventListener) => newfe.Unloaded -= weakEventListener.OnEvent // Use Local References Only
+            };
+            newfe.Unloaded += weakPropertyChangedListenerUnloaded.OnEvent;
         }
     }
 
@@ -84,6 +92,13 @@ public partial class Adorner : ContentControl
             Canvas.SetLeft(this, coord.X);
             Canvas.SetTop(this, coord.Y);
         }
+    }
+
+    private void OnUnloaded(object source, RoutedEventArgs eventArgs)
+    {
+        if (AdornerLayer is null) return;
+
+        AdornerLayer.RemoveAdorner(AdornerLayer, this);        
     }
 
     internal AdornerLayer? AdornerLayer { get; set; }
