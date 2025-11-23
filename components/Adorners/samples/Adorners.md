@@ -36,6 +36,10 @@ However, with an Adorner instead, you can abstract this behavior from the conten
 
 > [!SAMPLE AdornersInfoBadgeSample]
 
+You can see how Adorners react to more dynamic content, like a TabViewItem here:
+
+> [!SAMPLE AdornersTabBadgeSample]
+
 ## Highlight Example
 
 Adorners can be used in a variety of scenarios. For instance, if you wanted to highlight an element and show it's alignment to other elements in a creativity app:
