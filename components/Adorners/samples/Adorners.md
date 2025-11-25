@@ -48,6 +48,16 @@ Adorners can be used in a variety of scenarios. For instance, if you wanted to h
 
 > [!SAMPLE ElementHighlightAdornerSample]
 
+The above examples highlights how adorners are sized and positioned directly atop the adorned element. This allows for relative positioning of elements within the context of the Adorner's visuals in relation to the Adorned Element itself.
+
+## Custom Adorner Example
+
+Adorners can be subclassed in order to encapsulate specific logic and/or styling for your scenario. For instance, you may want to create a custom Adorner that allows a user to edit a piece of text in place:
+
+> [!SAMPLE InPlaceTextEditorAdornerSample]
+
+Adorners are templated controls, but you can use a class-backed resource dictionary to better enable usage of x:Bind for easier creation.
+
 ## TODO: Resize Example
 
 Another common use case for adorners is to allow a user to resize a visual element.

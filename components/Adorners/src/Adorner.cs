@@ -74,6 +74,8 @@ public partial class Adorner : ContentControl
                 OnDetachAction = (weakEventListener) => newfe.Unloaded -= weakEventListener.OnEvent // Use Local References Only
             };
             newfe.Unloaded += weakPropertyChangedListenerUnloaded.OnEvent;
+
+            OnAttached();
         }
     }
 
@@ -102,6 +104,8 @@ public partial class Adorner : ContentControl
     {
         if (AdornerLayer is null) return;
 
+        OnDetaching();
+
         AdornerLayer.RemoveAdorner(AdornerLayer, this);        
     }
 
@@ -114,4 +118,20 @@ public partial class Adorner : ContentControl
 	{
 		this.DefaultStyleKey = typeof(Adorner);
 	}
+
+    /// <summary>
+    /// Called after the <see cref="Adorner"/> is attached to the <see cref="AdornedElement"/>.
+    /// </summary>
+    /// <remarks>
+    /// Override this method in a subclass to initiate functionality of the <see cref="Adorner"/>.
+    /// </remarks>
+    protected virtual void OnAttached() { }
+
+    /// <summary>
+    /// Called when the <see cref="Adorner"/> is being detached from the <see cref="AdornedElement"/>.
+    /// </summary>
+    /// <remarks>
+    /// Override this method to unhook functionality from the <see cref="AdornedElement"/>.
+    /// </remarks>
+    protected virtual void OnDetaching() { }
 }
