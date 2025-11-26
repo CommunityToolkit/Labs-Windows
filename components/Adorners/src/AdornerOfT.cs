@@ -8,7 +8,7 @@ namespace CommunityToolkit.WinUI;
 /// A base class for <see cref="Adorner"/>s allowing for explicit types.
 /// </summary>
 /// <typeparam name="T">The object type to attach to</typeparam>
-public abstract class Adorner<T> : Adorner where T : UIElement
+public abstract partial class Adorner<T> : Adorner where T : UIElement
 {
     /// <inheritdoc/>
     public new T? AdornedElement
