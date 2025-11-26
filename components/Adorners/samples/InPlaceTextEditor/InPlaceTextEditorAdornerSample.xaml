@@ -68,9 +68,12 @@
     </Page.Resources>
 
     <StackPanel Spacing="8">
-        <TextBlock Text="Editable Text:" />
+        <TextBlock Text="Click the editable text below to edit:" />
 
-        <TextBlock Text="Hello, World!">
+        <!-- We set the DataContext here for our Adorner to retrieve the IEditableObject reference -->
+        <!-- We use TwoWay binding to ensure the updates from the Adorner are reflected in the ViewModel -->
+        <TextBlock DataContext="{x:Bind ViewModel}"
+                   Text="{x:Bind ViewModel.MyText, Mode=TwoWay}">
             <ui:AdornerLayer.Xaml>
                 <!-- Style manually set here as local to example -->
                 <local:InPlaceTextEditorAdorner Style="{StaticResource DefaultInPlaceTextEditorAdornerStyle}"/>

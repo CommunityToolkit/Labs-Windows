@@ -52,11 +52,13 @@ The above examples highlights how adorners are sized and positioned directly ato
 
 ## Custom Adorner Example
 
-Adorners can be subclassed in order to encapsulate specific logic and/or styling for your scenario. For instance, you may want to create a custom Adorner that allows a user to edit a piece of text in place:
+Adorners can be subclassed in order to encapsulate specific logic and/or styling for your scenario.
+For instance, you may want to create a custom Adorner that allows a user to click and edit a piece of text in place.
+The following example uses `IEditableObject` to control the editing lifecycle coordinated with a typical MVVM pattern binding:
 
 > [!SAMPLE InPlaceTextEditorAdornerSample]
 
-Adorners are templated controls, but you can use a class-backed resource dictionary to better enable usage of x:Bind for easier creation.
+Adorners are template-based controls, but you can use a class-backed resource dictionary to better enable usage of x:Bind for easier creation and binding to the `AdornedElement`, as seen here.
 
 ## TODO: Resize Example
 
