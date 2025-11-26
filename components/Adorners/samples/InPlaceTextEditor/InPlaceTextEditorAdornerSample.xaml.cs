@@ -3,9 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI;
-using Windows.Foundation.Metadata;
 
-namespace AdornersExperiment.Samples;
+namespace AdornersExperiment.Samples.InPlaceTextEditor;
 
 [ToolkitSample(id: nameof(InPlaceTextEditorAdornerSample), "In place text editor Adorner", description: "A sample for showing how add a popup TextBox component via an Adorner of a TextBlock.")]
 public sealed partial class InPlaceTextEditorAdornerSample : Page
