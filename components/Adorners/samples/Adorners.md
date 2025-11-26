@@ -60,6 +60,14 @@ The following example uses `IEditableObject` to control the editing lifecycle co
 
 Adorners are template-based controls, but you can use a class-backed resource dictionary to better enable usage of x:Bind for easier creation and binding to the `AdornedElement`, as seen here.
 
+## Input Validation Example
+
+The custom adorner example above can be further extended to provide input validation feedback to the user using the standard `INotifyDataErrorInfo` interface.
+We use the `ObservableValidator` class from the `CommunityToolkit.Mvvm` package to provide validation rules for our view model properties.
+When the user submits invalid input, the adorner displays a red border around the text box and shows a tooltip with the validation error message:
+
+> [!SAMPLE InputValidationAdornerSample]
+
 ## TODO: Resize Example
 
 Another common use case for adorners is to allow a user to resize a visual element.
