@@ -20,7 +20,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Padding="16" MaxHeight="600">
+    <Grid Margin="16" MaxHeight="600">
         <controls:StretchPanel Orientation="{x:Bind local:StretchPanelBasicSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}"
                                HorizontalSpacing="{x:Bind HorizontalSpacing, Mode=OneWay}"
                                VerticalSpacing="{x:Bind VerticalSpacing, Mode=OneWay}"
