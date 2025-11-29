@@ -8,20 +8,37 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
 
+#if WINUI3
+using Microsoft.UI;
+#endif
+
+using Windows.UI;
+
 namespace ColorAnalyzerExperiment.Samples;
 
-[ToolkitSampleOptionsPane(nameof(ContrastHelperSample))]
+[ToolkitSampleOptionsPane(nameof(TextBlockContrastSample))]
+[ToolkitSampleOptionsPane(nameof(SolidColorBrushContrastSample))]
 public partial class ContrastOptionsPane : UserControl
 {
-    private ContrastHelperSample _sample;
-    private ContrastHelperSample.XamlNamedPropertyRelay _sampleXamlRelay;
+    private ContrastHelperSampleBase _sample;
     
-    public ContrastOptionsPane(ContrastHelperSample sample)
+    public ContrastOptionsPane(ContrastHelperSampleBase sample)
     {
         _sample = sample;
-        _sampleXamlRelay = new ContrastHelperSample.XamlNamedPropertyRelay(sample);
-        
+
         this.InitializeComponent();
+    }
+
+    public Color DesiredForeground
+    {
+        get => _sample.DesiredForeground;
+        set => _sample.DesiredForeground = value;
+    }
+
+    public Color DesiredBackground
+    {
+        get => _sample.DesiredBackground;
+        set => _sample.DesiredBackground = value;
     }
 
     private void Foreground_ColorChanged(MUXC.ColorPicker sender, MUXC.ColorChangedEventArgs args)
@@ -45,15 +62,5 @@ public partial class ContrastOptionsPane : UserControl
     private void Ratio_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
         _sample.MinRatio = (double)e.NewValue;
-    }
-
-    private void FontSize_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-    {
-        _sampleXamlRelay.TextSample.FontSize = (double)e.NewValue;
-    }
-
-    private void Thickness_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-    {
-        _sampleXamlRelay.ShapeSample.StrokeThickness = (double)e.NewValue;
     }
 }
