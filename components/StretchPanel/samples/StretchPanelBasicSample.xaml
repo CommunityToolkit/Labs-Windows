@@ -24,37 +24,37 @@
         <controls:StretchPanel Orientation="{x:Bind local:StretchPanelBasicSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}"
                                HorizontalSpacing="8" VerticalSpacing="2">
             <Border controls:StretchPanel.LayoutLength="2*" >
-                <TextBlock Text="2*"/>
+                <TextBlock Text="2*" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="Auto" >
-                <TextBlock Text="Auto"/>
+                <TextBlock Text="Auto" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="400" >
-                <TextBlock Text="400px"/>
+                <TextBlock Text="400px" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="1*" >
-                <TextBlock Text="1*"/>
+                <TextBlock Text="1*" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="200" >
-                <TextBlock Text="200px"/>
+                <TextBlock Text="200px" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="600">
-                <TextBlock Text="600px"/>
+                <TextBlock Text="600px" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="2*">
-                <TextBlock Text="2*"/>
+                <TextBlock Text="2*" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="1.5*">
-                <TextBlock Text="1.5*"/>
+                <TextBlock Text="1.5*" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="Auto">
-                <TextBlock Text="Auto with longer text"/>
+                <TextBlock Text="Auto with longer text" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="400">
-                <TextBlock Text="400px"/>
+                <TextBlock Text="400px" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="1*">
-                <TextBlock Text="1*"/>
+                <TextBlock Text="1*" HorizontalAlignment="Center"/>
             </Border>
         </controls:StretchPanel>
     </Grid>

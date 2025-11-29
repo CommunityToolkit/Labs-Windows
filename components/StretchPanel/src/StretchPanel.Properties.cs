@@ -26,16 +26,6 @@ public partial class StretchPanel
         new PropertyMetadata(default(Orientation), OnPropertyChanged));
 
     /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="VerticalSpacing"/> property.
-    /// </summary>
-    /// <returns>The identifier for the <see cref="HorizontalSpacing"/> dependency property.</returns>
-    public static readonly DependencyProperty WrapProperty = DependencyProperty.Register(
-        nameof(VerticalSpacing),
-        typeof(double),
-        typeof(StretchPanel),
-        new PropertyMetadata(default(double), OnPropertyChanged));
-
-    /// <summary>
     /// Backing <see cref="DependencyProperty"/> for the <see cref="HorizontalSpacing"/> property.
     /// </summary>
     /// <returns>The identifier for the <see cref="HorizontalSpacing"/> dependency property.</returns>
@@ -62,15 +52,6 @@ public partial class StretchPanel
     {
         get => (Orientation)GetValue(OrientationProperty);
         set => SetValue(OrientationProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets whether or not the panel should wrap items.
-    /// </summary>
-    public bool Wrap
-    {
-        get => (bool)GetValue(WrapProperty);
-        set => SetValue(WrapProperty, value);
     }
 
     /// <summary>
