@@ -10,6 +10,10 @@ namespace StretchPanelExperiment.Samples;
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
 [ToolkitSampleMultiChoiceOption("LayoutOrientation", "Horizontal", "Vertical", Title = "Orientation")]
+[ToolkitSampleMultiChoiceOption("LayoutHorizontalAlignment", "Left", "Center", "Right", "Stretch", Title = "Horizontal Alignment")]
+[ToolkitSampleMultiChoiceOption("LayoutVerticalAlignment", "Top", "Center", "Bottom", "Stretch", Title = "Vertical Alignment")]
+[ToolkitSampleNumericOption("HorizontalSpacing", 8, 0, 16, Title = "Horizontal Spacing")]
+[ToolkitSampleNumericOption("VerticalSpacing", 2, 0, 16, Title = "Vertical Spacing")]
 
 [ToolkitSample(id: nameof(StretchPanelBasicSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(StretchPanel)} custom control.")]
 public sealed partial class StretchPanelBasicSample : Page
@@ -24,6 +28,26 @@ public sealed partial class StretchPanelBasicSample : Page
     {
         "Vertical" => Orientation.Vertical,
         "Horizontal" => Orientation.Horizontal,
+        _ => throw new System.NotImplementedException(),
+    };
+
+    // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
+    public static HorizontalAlignment ConvertStringToHorizontalAlignment(string alignment) => alignment switch
+    {
+        "Left" => HorizontalAlignment.Left,
+        "Center" => HorizontalAlignment.Center,
+        "Right" => HorizontalAlignment.Right,
+        "Stretch" => HorizontalAlignment.Stretch,
+        _ => throw new System.NotImplementedException(),
+    };
+
+    // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
+    public static VerticalAlignment ConvertStringToVerticalAlignment(string alignment) => alignment switch
+    {
+        "Top" => VerticalAlignment.Top,
+        "Center" => VerticalAlignment.Center,
+        "Bottom" => VerticalAlignment.Bottom,
+        "Stretch" => VerticalAlignment.Stretch,
         _ => throw new System.NotImplementedException(),
     };
 }

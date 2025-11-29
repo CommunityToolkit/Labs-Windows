@@ -20,9 +20,12 @@
         </Style>
     </Page.Resources>
 
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="800" MaxHeight="600">
+    <Grid Padding="16" MaxHeight="600">
         <controls:StretchPanel Orientation="{x:Bind local:StretchPanelBasicSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}"
-                               HorizontalSpacing="8" VerticalSpacing="2">
+                               HorizontalSpacing="{x:Bind HorizontalSpacing, Mode=OneWay}"
+                               VerticalSpacing="{x:Bind VerticalSpacing, Mode=OneWay}"
+                               HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
+                               VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}">
             <Border controls:StretchPanel.LayoutLength="2*" >
                 <TextBlock Text="2*" HorizontalAlignment="Center"/>
             </Border>
