@@ -25,7 +25,8 @@
                                HorizontalSpacing="{x:Bind HorizontalSpacing, Mode=OneWay}"
                                VerticalSpacing="{x:Bind VerticalSpacing, Mode=OneWay}"
                                HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
-                               VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}">
+                               VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
+                               FixedRowLengths="{x:Bind FixedRowLengths, Mode=OneWay}">
             <Border controls:StretchPanel.LayoutLength="2*" >
                 <TextBlock Text="2*" HorizontalAlignment="Center"/>
             </Border>

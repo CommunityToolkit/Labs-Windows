@@ -12,17 +12,18 @@ namespace CommunityToolkit.WinUI.Controls;
 public partial class StretchPanel : Panel
 {
     private List<RowSpec>? _rowSpecs;
+    private double _longestRowSize = 0;
 
     /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
         _rowSpecs = [];
+        _longestRowSize = 0;
 
         // Define XY/UV coordinate variables
         var uvAvailableSize = new UVCoord(availableSize.Width, availableSize.Height, Orientation);
         var uvSpacing = new UVCoord(HorizontalSpacing, VerticalSpacing, Orientation);
 
-        double largestRow = 0;
         RowSpec currentRowSpec = default;
 
         var elements = Children.Where(static e => e.Visibility is Visibility.Visible);
@@ -47,14 +48,14 @@ public partial class StretchPanel : Panel
                 // Could not add to current row/column
                 // Start a new row/column
                 _rowSpecs.Add(currentRowSpec);
-                largestRow = Math.Max(largestRow, currentRowSpec.Measure(uvSpacing.U));
+                _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(uvSpacing.U));
                 currentRowSpec = spec;
             }
         }
 
         // Add the final row/column
         _rowSpecs.Add(currentRowSpec);
-        largestRow = Math.Max(largestRow, currentRowSpec.Measure(uvSpacing.U));
+        _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(uvSpacing.U));
 
         // Determine if the desired alignment is stretched.
         // Don't stretch if infinite space is available though. Attempting to divide infinite space will result in a crash.
@@ -63,7 +64,7 @@ public partial class StretchPanel : Panel
         // Calculate final desired size
         var uvSize = new UVCoord(0, 0, Orientation)
         {
-            U = stretch ? uvAvailableSize.U : largestRow,
+            U = stretch ? uvAvailableSize.U : _longestRowSize,
             V = _rowSpecs.Sum(static rs => rs.MaxOffAxisSize) + (uvSpacing.V * (_rowSpecs.Count - 1))
         };
 
@@ -96,7 +97,8 @@ public partial class StretchPanel : Panel
             bool stretch = GetAlignment() is Alignment.Stretch && !double.IsInfinity(uvFinalSize.U);
 
             // Calculate portion size if stretching
-            if (stretch)
+            // Same logic applies for matching row lengths, since the size was determined during measure
+            if (stretch || FixedRowLengths)
             {
                 portionSize = (uvFinalSize.U - row.ReservedSpace - spacingTotalSize) / row.PortionsSum;
             }

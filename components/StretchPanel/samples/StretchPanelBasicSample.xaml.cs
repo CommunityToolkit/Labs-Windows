@@ -14,6 +14,7 @@ namespace StretchPanelExperiment.Samples;
 [ToolkitSampleMultiChoiceOption("LayoutVerticalAlignment", "Top", "Center", "Bottom", "Stretch", Title = "Vertical Alignment")]
 [ToolkitSampleNumericOption("HorizontalSpacing", 8, 0, 16, Title = "Horizontal Spacing")]
 [ToolkitSampleNumericOption("VerticalSpacing", 2, 0, 16, Title = "Vertical Spacing")]
+[ToolkitSampleBoolOption("FixedRowLengths", false, Title = "Fixed Row Lengths")]
 
 [ToolkitSample(id: nameof(StretchPanelBasicSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(StretchPanel)} custom control.")]
 public sealed partial class StretchPanelBasicSample : Page

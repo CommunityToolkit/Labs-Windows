@@ -28,7 +28,6 @@ public partial class StretchPanel
     /// <summary>
     /// Backing <see cref="DependencyProperty"/> for the <see cref="HorizontalSpacing"/> property.
     /// </summary>
-    /// <returns>The identifier for the <see cref="HorizontalSpacing"/> dependency property.</returns>
     public static readonly DependencyProperty HorizontalSpacingProperty = DependencyProperty.Register(
         nameof(HorizontalSpacing),
         typeof(double),
@@ -38,12 +37,20 @@ public partial class StretchPanel
     /// <summary>
     /// Backing <see cref="DependencyProperty"/> for the <see cref="VerticalSpacing"/> property.
     /// </summary>
-    /// <returns>The identifier for the <see cref="HorizontalSpacing"/> dependency property.</returns>
     public static readonly DependencyProperty VerticalSpacingProperty = DependencyProperty.Register(
         nameof(VerticalSpacing),
         typeof(double),
         typeof(StretchPanel),
         new PropertyMetadata(default(double), OnPropertyChanged));
+
+    /// <summary>
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="VerticalSpacing"/> property.
+    /// </summary>
+    public static readonly DependencyProperty FixedRowLengthsProperty = DependencyProperty.Register(
+        nameof(FixedRowLengths),
+        typeof(bool),
+        typeof(StretchPanel),
+        new PropertyMetadata(default(bool), OnPropertyChanged));
 
     /// <summary>
     /// Gets or sets the panel orientation.
@@ -70,6 +77,15 @@ public partial class StretchPanel
     {
         get => (double)GetValue(VerticalSpacingProperty);
         set => SetValue(VerticalSpacingProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets whether or not all rows/columns should stretch to match the length of the longest.
+    /// </summary>
+    public bool FixedRowLengths
+    {
+        get => (bool)GetValue(FixedRowLengthsProperty);
+        set => SetValue(FixedRowLengthsProperty, value);
     }
 
     /// <summary>
