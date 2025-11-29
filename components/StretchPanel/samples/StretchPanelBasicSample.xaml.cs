@@ -15,6 +15,7 @@ namespace StretchPanelExperiment.Samples;
 [ToolkitSampleNumericOption("HorizontalSpacing", 8, 0, 16, Title = "Horizontal Spacing")]
 [ToolkitSampleNumericOption("VerticalSpacing", 2, 0, 16, Title = "Vertical Spacing")]
 [ToolkitSampleBoolOption("FixedRowLengths", false, Title = "Fixed Row Lengths")]
+[ToolkitSampleMultiChoiceOption("LayoutForcedStretchMethod", "None", "First", "Last", "Equal", "Proportional", Title = "Forced Stretch Method")]
 
 [ToolkitSample(id: nameof(StretchPanelBasicSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(StretchPanel)} custom control.")]
 public sealed partial class StretchPanelBasicSample : Page
@@ -49,6 +50,17 @@ public sealed partial class StretchPanelBasicSample : Page
         "Center" => VerticalAlignment.Center,
         "Bottom" => VerticalAlignment.Bottom,
         "Stretch" => VerticalAlignment.Stretch,
+        _ => throw new System.NotImplementedException(),
+    };
+
+    // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
+    public static ForcedStretchMethod ConvertStringToForcedStretchMethod(string stretchMethod) => stretchMethod switch
+    {
+        "None" => ForcedStretchMethod.None,
+        "First" => ForcedStretchMethod.First,
+        "Last" => ForcedStretchMethod.Last,
+        "Equal" => ForcedStretchMethod.Equal,
+        "Proportional" => ForcedStretchMethod.Proportional,
         _ => throw new System.NotImplementedException(),
     };
 }

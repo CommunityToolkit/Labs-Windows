@@ -44,11 +44,20 @@ public partial class StretchPanel
         new PropertyMetadata(default(double), OnPropertyChanged));
 
     /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="VerticalSpacing"/> property.
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="FixedRowLengths"/> property.
     /// </summary>
     public static readonly DependencyProperty FixedRowLengthsProperty = DependencyProperty.Register(
         nameof(FixedRowLengths),
         typeof(bool),
+        typeof(StretchPanel),
+        new PropertyMetadata(default(bool), OnPropertyChanged));
+
+    /// <summary>
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="ForcedStretchMethod"/> property.
+    /// </summary>
+    public static readonly DependencyProperty ForcedStretchMethodProperty = DependencyProperty.Register(
+        nameof(ForcedStretchMethod),
+        typeof(ForcedStretchMethod),
         typeof(StretchPanel),
         new PropertyMetadata(default(bool), OnPropertyChanged));
 
@@ -86,6 +95,15 @@ public partial class StretchPanel
     {
         get => (bool)GetValue(FixedRowLengthsProperty);
         set => SetValue(FixedRowLengthsProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the method used to fill rows without a star-sized item.
+    /// </summary>
+    public ForcedStretchMethod ForcedStretchMethod
+    {
+        get => (ForcedStretchMethod)GetValue(ForcedStretchMethodProperty);
+        set => SetValue(ForcedStretchMethodProperty, value);
     }
 
     /// <summary>

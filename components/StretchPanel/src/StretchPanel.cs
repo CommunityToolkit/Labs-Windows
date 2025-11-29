@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel.DataAnnotations;
-
 namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
@@ -91,6 +89,7 @@ public partial class StretchPanel : Panel
         foreach (var row in _rowSpecs)
         {
             var spacingTotalSize = uvSpacing.U * (row.ItemsCount - 1);
+            var remainingSpace = uvFinalSize.U - row.ReservedSpace - spacingTotalSize;
             var portionSize = row.MinPortionSize;
 
             // Determine if the desired alignment is stretched.
@@ -100,7 +99,7 @@ public partial class StretchPanel : Panel
             // Same logic applies for matching row lengths, since the size was determined during measure
             if (stretch || FixedRowLengths)
             {
-                portionSize = (uvFinalSize.U - row.ReservedSpace - spacingTotalSize) / row.PortionsSum;
+                portionSize = remainingSpace / row.PortionsSum;
             }
 
             // Reset U position
@@ -108,11 +107,28 @@ public partial class StretchPanel : Panel
 
             // Adjust the starting position if not stretching
             // Also do this if there are no star-sized items in the row/column
-            if (!stretch || row.PortionsSum is 0)
+            // and no forced streching is in use.
+            if (!stretch || (row.PortionsSum is 0 && ForcedStretchMethod is ForcedStretchMethod.None))
             {
                 // Determine the offset based on alignment
                 var rowSize = row.Measure(uvSpacing.U);
                 pos.U = GetStartByAlignment(GetAlignment(), rowSize, uvFinalSize.U);
+            }
+
+            // Set a flag for if the row is being forced to stretch
+            bool forceStrech = row.PortionsSum is 0 && ForcedStretchMethod is not ForcedStretchMethod.None;
+
+            // Setup portionSize for forced stretching
+            if (forceStrech)
+            {
+                portionSize = ForcedStretchMethod switch
+                {
+                    ForcedStretchMethod.First => remainingSpace + GetChildSize(elements.ElementAt(0)),
+                    ForcedStretchMethod.Last => remainingSpace + GetChildSize(elements.ElementAt(row.ItemsCount - 1)),
+                    ForcedStretchMethod.Equal => (uvFinalSize.U - spacingTotalSize) / row.ItemsCount,
+                    ForcedStretchMethod.Equal or ForcedStretchMethod.Proportional => (uvFinalSize.U - spacingTotalSize) / row.ReservedSpace,
+                    _ => row.MinPortionSize,
+                };
             }
 
             for (int i = 0; i < row.ItemsCount; i++)
@@ -130,6 +146,26 @@ public partial class StretchPanel : Panel
                 // Get layout and desired size
                 var layoutLength = GetLayoutLength(child);
                 var uvDesiredSize = new UVCoord(child.DesiredSize, Orientation);
+
+                // Override the layout based on the forced stretch method if necessary
+                if (forceStrech)
+                {
+                    var oneStar = new GridLength(1, GridUnitType.Star);
+                    layoutLength = ForcedStretchMethod switch
+                    {
+                        ForcedStretchMethod.First when i is 0 => oneStar,
+                        ForcedStretchMethod.Last when i == (row.ItemsCount - 1) => oneStar,
+                        ForcedStretchMethod.Equal => oneStar,
+                        ForcedStretchMethod.Proportional => layoutLength.GridUnitType switch
+                        {
+                            GridUnitType.Auto => new GridLength(uvDesiredSize.U, GridUnitType.Star),
+                            GridUnitType.Pixel or _ => new GridLength(layoutLength.Value, GridUnitType.Star),
+                        },
+
+                        // If the above conditions aren't met, do nothing
+                        _ => layoutLength,
+                    };
+                }
 
                 // Determine the child's U size
                 double uSize = layoutLength.GridUnitType switch
@@ -217,6 +253,18 @@ public partial class StretchPanel : Panel
                 _ => Alignment.Start,
             },
             _ => Alignment.Start,
+        };
+    }
+
+    private double GetChildSize(UIElement child)
+    {
+        var childLayout = GetLayoutLength(child);
+
+        return childLayout.GridUnitType switch
+        {
+            GridUnitType.Auto => new UVCoord(child.DesiredSize, Orientation).U,
+            GridUnitType.Pixel => childLayout.Value,
+            _ => 0,
         };
     }
 

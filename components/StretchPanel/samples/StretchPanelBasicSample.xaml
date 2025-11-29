@@ -26,7 +26,8 @@
                                VerticalSpacing="{x:Bind VerticalSpacing, Mode=OneWay}"
                                HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
                                VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
-                               FixedRowLengths="{x:Bind FixedRowLengths, Mode=OneWay}">
+                               FixedRowLengths="{x:Bind FixedRowLengths, Mode=OneWay}"
+                               ForcedStretchMethod="{x:Bind local:StretchPanelBasicSample.ConvertStringToForcedStretchMethod(LayoutForcedStretchMethod), Mode=OneWay}">
             <Border controls:StretchPanel.LayoutLength="2*" >
                 <TextBlock Text="2*" HorizontalAlignment="Center"/>
             </Border>
@@ -41,6 +42,9 @@
             </Border>
             <Border controls:StretchPanel.LayoutLength="200" >
                 <TextBlock Text="200px" HorizontalAlignment="Center"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="300" >
+                <TextBlock Text="300px" HorizontalAlignment="Center"/>
             </Border>
             <Border controls:StretchPanel.LayoutLength="600">
                 <TextBlock Text="600px" HorizontalAlignment="Center"/>
