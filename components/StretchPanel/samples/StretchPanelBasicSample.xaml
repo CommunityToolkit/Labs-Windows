@@ -8,18 +8,54 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <StackPanel Spacing="16">
-        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                   Text="{x:Bind TitleText, Mode=OneWay}" />
-        <StackPanel Spacing="16">
-            <controls:StretchPanel Orientation="{x:Bind local:StretchPanelBasicSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}">
-                <TextBlock Text="1" />
-                <TextBlock Text="2" />
-                <TextBlock Text="3" />
-                <TextBlock Text="4" />
-                <TextBlock Text="5" />
-                <TextBlock Text="6" />
-            </controls:StretchPanel>
-        </StackPanel>
-    </StackPanel>
+    <Page.Resources>
+        <Style TargetType="Border">
+            <Setter Property="Background" Value="#55000000"/>
+            <Setter Property="BorderBrush" Value="#88000000"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="800" MaxHeight="600">
+        <controls:StretchPanel Orientation="{x:Bind local:StretchPanelBasicSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}"
+                               HorizontalSpacing="8" VerticalSpacing="2">
+            <Border controls:StretchPanel.LayoutLength="2*" >
+                <TextBlock Text="2*"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="Auto" >
+                <TextBlock Text="Auto"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="400" >
+                <TextBlock Text="400px"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="1*" >
+                <TextBlock Text="1*"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="200" >
+                <TextBlock Text="200px"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="600">
+                <TextBlock Text="600px"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="2*">
+                <TextBlock Text="2*"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="1.5*">
+                <TextBlock Text="1.5*"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="Auto">
+                <TextBlock Text="Auto with longer text"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="400">
+                <TextBlock Text="400px"/>
+            </Border>
+            <Border controls:StretchPanel.LayoutLength="1*">
+                <TextBlock Text="1*"/>
+            </Border>
+        </controls:StretchPanel>
+    </Grid>
 </Page>

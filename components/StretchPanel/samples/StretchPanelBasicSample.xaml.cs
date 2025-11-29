@@ -9,7 +9,6 @@ namespace StretchPanelExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-[ToolkitSampleTextOption("TitleText", "This is a title", Title = "Input the text")]
 [ToolkitSampleMultiChoiceOption("LayoutOrientation", "Horizontal", "Vertical", Title = "Orientation")]
 
 [ToolkitSample(id: nameof(StretchPanelBasicSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(StretchPanel)} custom control.")]
