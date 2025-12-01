@@ -43,6 +43,10 @@ public partial class StretchPanel : Panel
             var spec = new RowSpec(layoutLength, uvDesiredSize);
             if (!currentRowSpec.TryAdd(spec, uvSpacing.U, uvAvailableSize.U))
             {
+                // If the overflow behavior is drop, just end the row here.
+                if (OverflowBehavior is OverflowBehavior.Drop)
+                    break;
+
                 // Could not add to current row/column
                 // Start a new row/column
                 _rowSpecs.Add(currentRowSpec);
@@ -62,6 +66,9 @@ public partial class StretchPanel : Panel
             V = _rowSpecs.Sum(static rs => rs.MaxOffAxisSize) + (uvSpacing.V * (_rowSpecs.Count - 1))
         };
 
+        // Clamp to available size and return
+        uvSize.U = Math.Min(uvSize.U, uvAvailableSize.U);
+        uvSize.V = Math.Min(uvSize.V, uvAvailableSize.V);
         return uvSize.Size;
     }
 
@@ -87,6 +94,13 @@ public partial class StretchPanel : Panel
         {
             // Arrange the row/column
             ArrangeRow(ref pos, row, uvFinalSize, uvSpacing, childQueue);
+        }
+
+        // "Arrange" remaning children by rendering them with zero size
+        while (childQueue.TryDequeue(out var child))
+        {
+            // Arrange with zero size
+            child.Arrange(new Rect(0, 0, 0, 0));
         }
 
         return finalSize;

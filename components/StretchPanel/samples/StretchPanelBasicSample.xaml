@@ -27,7 +27,8 @@
                                HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
                                VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
                                FixedRowLengths="{x:Bind FixedRowLengths, Mode=OneWay}"
-                               ForcedStretchMethod="{x:Bind local:StretchPanelBasicSample.ConvertStringToForcedStretchMethod(LayoutForcedStretchMethod), Mode=OneWay}">
+                               ForcedStretchMethod="{x:Bind local:StretchPanelBasicSample.ConvertStringToForcedStretchMethod(LayoutForcedStretchMethod), Mode=OneWay}"
+                               OverflowBehavior="{x:Bind local:StretchPanelBasicSample.ConvertStringToOverflowBehavior(LayoutOverflowBehavior), Mode=OneWay}">
             <Border controls:StretchPanel.LayoutLength="2*" >
                 <TextBlock Text="2*" HorizontalAlignment="Center"/>
             </Border>

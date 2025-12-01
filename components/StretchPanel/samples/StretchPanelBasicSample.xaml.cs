@@ -16,6 +16,7 @@ namespace StretchPanelExperiment.Samples;
 [ToolkitSampleNumericOption("VerticalSpacing", 2, 0, 16, Title = "Vertical Spacing")]
 [ToolkitSampleBoolOption("FixedRowLengths", false, Title = "Fixed Row Lengths")]
 [ToolkitSampleMultiChoiceOption("LayoutForcedStretchMethod", "None", "First", "Last", "Equal", "Proportional", Title = "Forced Stretch Method")]
+[ToolkitSampleMultiChoiceOption("LayoutOverflowBehavior", "Wrap", "Drop", Title = "Overflow Behavior")]
 
 [ToolkitSample(id: nameof(StretchPanelBasicSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(StretchPanel)} custom control.")]
 public sealed partial class StretchPanelBasicSample : Page
@@ -61,6 +62,14 @@ public sealed partial class StretchPanelBasicSample : Page
         "Last" => ForcedStretchMethod.Last,
         "Equal" => ForcedStretchMethod.Equal,
         "Proportional" => ForcedStretchMethod.Proportional,
+        _ => throw new System.NotImplementedException(),
+    };
+
+    // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
+    public static OverflowBehavior ConvertStringToOverflowBehavior(string overflowBehavior) => overflowBehavior switch
+    {
+        "Wrap" => OverflowBehavior.Wrap,
+        "Drop" => OverflowBehavior.Drop,
         _ => throw new System.NotImplementedException(),
     };
 }

@@ -59,7 +59,16 @@ public partial class StretchPanel
         nameof(ForcedStretchMethod),
         typeof(ForcedStretchMethod),
         typeof(StretchPanel),
-        new PropertyMetadata(default(bool), OnPropertyChanged));
+        new PropertyMetadata(default(ForcedStretchMethod), OnPropertyChanged));
+
+    /// <summary>
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="OverflowBehavior"/> property.
+    /// </summary>
+    public static readonly DependencyProperty OverflowBehaviorProperty = DependencyProperty.Register(
+        nameof(OverflowBehavior),
+        typeof(OverflowBehavior),
+        typeof(StretchPanel),
+        new PropertyMetadata(default(OverflowBehavior), OnPropertyChanged));
 
     /// <summary>
     /// Gets or sets the panel orientation.
@@ -104,6 +113,15 @@ public partial class StretchPanel
     {
         get => (ForcedStretchMethod)GetValue(ForcedStretchMethodProperty);
         set => SetValue(ForcedStretchMethodProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets how the panel handles content overflowing the available space.
+    /// </summary>
+    public OverflowBehavior OverflowBehavior
+    {
+        get => (OverflowBehavior)GetValue(OverflowBehaviorProperty);
+        set => SetValue(OverflowBehaviorProperty, value);
     }
 
     /// <summary>
