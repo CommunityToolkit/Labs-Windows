@@ -322,6 +322,14 @@ Here is some `inline code` with custom styling. Try adjusting the padding, corne
 
 Another example: `config.Themes.InlineCodePadding`
 
+## Images
+
+Images can be styled with max width, max height, and stretch options. Notice how the text flows naturally without any gaps above or below the image:
+
+![Windows Terminal](https://devblogs.microsoft.com/commandline/wp-content/uploads/sites/33/2025/11/0.96-Social-media-image-V2-1024x536.webp)
+
+The image above automatically scales to respect the max width setting while maintaining its aspect ratio. Text continues to flow seamlessly below it.
+
 ## Code Blocks
 
 ```csharp
@@ -369,12 +377,6 @@ The line above is a horizontal rule with customizable thickness and margin.
 - Adjust the theme settings on the right panel
 - Click **Apply Changes** to see updates
 - Use **Reset to Defaults** to start over
-
-## Images
-
-Images can be styled with max width, max height, and stretch options:
-
-![Windows Terminal](https://devblogs.microsoft.com/commandline/wp-content/uploads/sites/33/2025/11/0.96-Social-media-image-V2-1024x536.webp)
 ";
 
     public MarkdownTextBlockCustomThemeSample()
