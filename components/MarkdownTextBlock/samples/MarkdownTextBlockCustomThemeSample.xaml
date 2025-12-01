@@ -1,0 +1,140 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="MarkdownTextBlockExperiment.Samples.MarkdownTextBlockCustomThemeSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:MarkdownTextBlockExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="320" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Markdown Preview -->
+        <ScrollViewer Grid.Column="0" Margin="0,0,8,0">
+            <controls:MarkdownTextBlock x:Name="MarkdownTextBlock"
+                                        Margin="12"
+                                        Config="{x:Bind MarkdownConfig, Mode=OneTime}"
+                                        Text="{x:Bind MarkdownText, Mode=OneWay}" />
+        </ScrollViewer>
+
+        <!-- Theme Editor Panel -->
+        <Border Grid.Column="1" 
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,0,0,0">
+            <ScrollViewer>
+                <StackPanel Padding="12" Spacing="12">
+                    <TextBlock Text="Theme Editor" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock Text="Changes apply instantly" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+
+                    <!-- Headings Section -->
+                    <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="True">
+                        <Expander.Header>
+                            <TextBlock Text="Headings" FontWeight="SemiBold" />
+                        </Expander.Header>
+                        <StackPanel Spacing="8">
+                            <NumberBox Header="H1 Font Size" Value="{x:Bind H1FontSize, Mode=TwoWay}" Minimum="8" Maximum="48" SpinButtonPlacementMode="Compact" />
+                            <ComboBox Header="H1 Color" SelectedIndex="{x:Bind H1ColorIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="DodgerBlue" />
+                                <ComboBoxItem Content="Coral" />
+                                <ComboBoxItem Content="MediumSeaGreen" />
+                                <ComboBoxItem Content="Gold" />
+                                <ComboBoxItem Content="Orchid" />
+                                <ComboBoxItem Content="Default (Primary)" />
+                            </ComboBox>
+                            <NumberBox Header="H2 Font Size" Value="{x:Bind H2FontSize, Mode=TwoWay}" Minimum="8" Maximum="48" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="H3 Font Size" Value="{x:Bind H3FontSize, Mode=TwoWay}" Minimum="8" Maximum="48" SpinButtonPlacementMode="Compact" />
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Inline Code Section -->
+                    <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Expander.Header>
+                            <TextBlock Text="Inline Code" FontWeight="SemiBold" />
+                        </Expander.Header>
+                        <StackPanel Spacing="8">
+                            <NumberBox Header="Font Size" Value="{x:Bind InlineCodeFontSize, Mode=TwoWay}" Minimum="8" Maximum="24" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Padding" Value="{x:Bind InlineCodePadding, Mode=TwoWay}" Minimum="0" Maximum="16" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Corner Radius" Value="{x:Bind InlineCodeCornerRadius, Mode=TwoWay}" Minimum="0" Maximum="16" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Border Thickness" Value="{x:Bind InlineCodeBorderThickness, Mode=TwoWay}" Minimum="0" Maximum="4" SpinButtonPlacementMode="Compact" />
+                            <ComboBox Header="Foreground Color" SelectedIndex="{x:Bind InlineCodeColorIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="Orange" />
+                                <ComboBoxItem Content="Coral" />
+                                <ComboBoxItem Content="LimeGreen" />
+                                <ComboBoxItem Content="DeepSkyBlue" />
+                                <ComboBoxItem Content="Default (Primary)" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Code Block Section -->
+                    <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Expander.Header>
+                            <TextBlock Text="Code Blocks" FontWeight="SemiBold" />
+                        </Expander.Header>
+                        <StackPanel Spacing="8">
+                            <NumberBox Header="Padding" Value="{x:Bind CodeBlockPadding, Mode=TwoWay}" Minimum="0" Maximum="24" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Corner Radius" Value="{x:Bind CodeBlockCornerRadius, Mode=TwoWay}" Minimum="0" Maximum="16" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Border Thickness" Value="{x:Bind CodeBlockBorderThickness, Mode=TwoWay}" Minimum="0" Maximum="4" SpinButtonPlacementMode="Compact" />
+                            <ComboBox Header="Font Family" SelectedIndex="{x:Bind CodeBlockFontIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="Cascadia Code" />
+                                <ComboBoxItem Content="Consolas" />
+                                <ComboBoxItem Content="Courier New" />
+                                <ComboBoxItem Content="Segoe UI" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Quote Section -->
+                    <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Expander.Header>
+                            <TextBlock Text="Block Quotes" FontWeight="SemiBold" />
+                        </Expander.Header>
+                        <StackPanel Spacing="8">
+                            <NumberBox Header="Border Width" Value="{x:Bind QuoteBorderWidth, Mode=TwoWay}" Minimum="0" Maximum="12" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Padding" Value="{x:Bind QuotePadding, Mode=TwoWay}" Minimum="0" Maximum="24" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Corner Radius" Value="{x:Bind QuoteCornerRadius, Mode=TwoWay}" Minimum="0" Maximum="16" SpinButtonPlacementMode="Compact" />
+                            <ComboBox Header="Border Color" SelectedIndex="{x:Bind QuoteColorIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="DodgerBlue" />
+                                <ComboBoxItem Content="Gray" />
+                                <ComboBoxItem Content="MediumSeaGreen" />
+                                <ComboBoxItem Content="Coral" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Table Section -->
+                    <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Expander.Header>
+                            <TextBlock Text="Tables" FontWeight="SemiBold" />
+                        </Expander.Header>
+                        <StackPanel Spacing="8">
+                            <NumberBox Header="Cell Padding" Value="{x:Bind TableCellPadding, Mode=TwoWay}" Minimum="0" Maximum="16" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Border Thickness" Value="{x:Bind TableBorderThickness, Mode=TwoWay}" Minimum="0" Maximum="4" SpinButtonPlacementMode="Compact" />
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Horizontal Rule Section -->
+                    <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Expander.Header>
+                            <TextBlock Text="Horizontal Rule" FontWeight="SemiBold" />
+                        </Expander.Header>
+                        <StackPanel Spacing="8">
+                            <NumberBox Header="Thickness" Value="{x:Bind HorizontalRuleThickness, Mode=TwoWay}" Minimum="1" Maximum="8" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Vertical Margin" Value="{x:Bind HorizontalRuleMargin, Mode=TwoWay}" Minimum="0" Maximum="32" SpinButtonPlacementMode="Compact" />
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Actions -->
+                    <Button Content="Reset to Defaults" Click="ResetTheme_Click" HorizontalAlignment="Stretch" />
+                    <Button Content="Apply Changes" Click="ApplyTheme_Click" HorizontalAlignment="Stretch" Style="{ThemeResource AccentButtonStyle}" />
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Page>
