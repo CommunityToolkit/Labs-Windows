@@ -46,7 +46,7 @@ internal class MyTableCell : IAddChild
         get => _rowIndex;
     }
 
-    public MyTableCell(TableCell tableCell, TextAlignment textAlignment, bool isHeader, int columnIndex, int rowIndex)
+    public MyTableCell(TableCell tableCell, TextAlignment textAlignment, bool isHeader, int columnIndex, int rowIndex, MarkdownThemes themes)
     {
         _isHeader = isHeader;
         _tableCell = tableCell;
@@ -66,8 +66,8 @@ internal class MyTableCell : IAddChild
             _ => HorizontalAlignment.Left,
         };
 
-    // Use themed table cell padding if available
-    _container.Padding = MarkdownConfig.Default.Themes.TableCellPadding;
+        // Use themed table cell padding
+        _container.Padding = themes.TableCellPadding;
         if (_isHeader)
         {
             _flowDocument.RichTextBlock.FontWeight = FontWeights.Bold;

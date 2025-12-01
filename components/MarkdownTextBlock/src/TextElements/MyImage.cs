@@ -18,6 +18,7 @@ internal class MyImage : IAddChild
     private HtmlNode? _htmlNode;
     private IImageProvider? _imageProvider;
     private ISVGRenderer _svgRenderer;
+    private MarkdownThemes _themes;
     private double _precedentWidth;
     private double _precedentHeight;
     private bool _loaded;
@@ -33,6 +34,7 @@ internal class MyImage : IAddChild
         _uri = uri;
         _imageProvider = config.ImageProvider;
         _svgRenderer = config.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
+        _themes = config.Themes;
         Init();
         var size = Extensions.GetMarkdownImageSize(linkInline);
         if (size.Width != 0)
@@ -55,6 +57,7 @@ internal class MyImage : IAddChild
         _htmlNode = htmlNode;
         _imageProvider = config?.ImageProvider;
         _svgRenderer = config?.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
+        _themes = config?.Themes ?? MarkdownThemes.Default;
         Init();
         int.TryParse(
             htmlNode.GetAttribute("width", "0"),
@@ -152,16 +155,15 @@ internal class MyImage : IAddChild
             }
 
             // Apply theme constraints if provided
-            var themes = MarkdownConfig.Default.Themes;
-            if (themes.ImageMaxWidth > 0)
+            if (_themes.ImageMaxWidth > 0)
             {
-                _image.MaxWidth = themes.ImageMaxWidth;
+                _image.MaxWidth = _themes.ImageMaxWidth;
             }
-            if (themes.ImageMaxHeight > 0)
+            if (_themes.ImageMaxHeight > 0)
             {
-                _image.MaxHeight = themes.ImageMaxHeight;
+                _image.MaxHeight = _themes.ImageMaxHeight;
             }
-            _image.Stretch = themes.ImageStretch;
+            _image.Stretch = _themes.ImageStretch;
         }
         catch (Exception) { }
     }
