@@ -32,6 +32,12 @@
                     <TextBlock Text="Theme Editor" FontSize="18" FontWeight="SemiBold" />
                     <TextBlock Text="Changes apply instantly" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
 
+                    <!-- Actions -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Reset to Defaults" Click="ResetTheme_Click" />
+                        <Button Content="Apply Changes" Click="ApplyTheme_Click" Style="{ThemeResource AccentButtonStyle}" />
+                    </StackPanel>
+
                     <!-- Headings Section -->
                     <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="True">
                         <Expander.Header>
@@ -69,6 +75,20 @@
                                 <ComboBoxItem Content="DeepSkyBlue" />
                                 <ComboBoxItem Content="Default (Primary)" />
                             </ComboBox>
+                            <ComboBox Header="Background Color" SelectedIndex="{x:Bind InlineCodeBackgroundColorIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="Blue Tint" />
+                                <ComboBoxItem Content="Dark Tint" />
+                                <ComboBoxItem Content="Black Tint" />
+                                <ComboBoxItem Content="Green Tint" />
+                                <ComboBoxItem Content="Default (Theme)" />
+                            </ComboBox>
+                            <ComboBox Header="Border Color" SelectedIndex="{x:Bind InlineCodeBorderColorIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="SlateGray" />
+                                <ComboBoxItem Content="DimGray" />
+                                <ComboBoxItem Content="DarkSlateGray" />
+                                <ComboBoxItem Content="MediumSlateBlue" />
+                                <ComboBoxItem Content="Transparent" />
+                            </ComboBox>
                         </StackPanel>
                     </Expander>
 
@@ -86,6 +106,20 @@
                                 <ComboBoxItem Content="Consolas" />
                                 <ComboBoxItem Content="Courier New" />
                                 <ComboBoxItem Content="Segoe UI" />
+                            </ComboBox>
+                            <ComboBox Header="Background Color" SelectedIndex="{x:Bind CodeBlockBackgroundColorIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="Blue Tint" />
+                                <ComboBoxItem Content="Dark Tint" />
+                                <ComboBoxItem Content="Black Tint" />
+                                <ComboBoxItem Content="Green Tint" />
+                                <ComboBoxItem Content="Default (Theme)" />
+                            </ComboBox>
+                            <ComboBox Header="Border Color" SelectedIndex="{x:Bind CodeBlockBorderColorIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="SlateGray" />
+                                <ComboBoxItem Content="DimGray" />
+                                <ComboBoxItem Content="DarkSlateGray" />
+                                <ComboBoxItem Content="MediumSlateBlue" />
+                                <ComboBoxItem Content="Transparent" />
                             </ComboBox>
                         </StackPanel>
                     </Expander>
@@ -130,9 +164,22 @@
                         </StackPanel>
                     </Expander>
 
-                    <!-- Actions -->
-                    <Button Content="Reset to Defaults" Click="ResetTheme_Click" HorizontalAlignment="Stretch" />
-                    <Button Content="Apply Changes" Click="ApplyTheme_Click" HorizontalAlignment="Stretch" Style="{ThemeResource AccentButtonStyle}" />
+                    <!-- Images Section -->
+                    <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Expander.Header>
+                            <TextBlock Text="Images" FontWeight="SemiBold" />
+                        </Expander.Header>
+                        <StackPanel Spacing="8">
+                            <NumberBox Header="Max Width (0 = no limit)" Value="{x:Bind ImageMaxWidth, Mode=TwoWay}" Minimum="0" Maximum="1000" SpinButtonPlacementMode="Compact" />
+                            <NumberBox Header="Max Height (0 = no limit)" Value="{x:Bind ImageMaxHeight, Mode=TwoWay}" Minimum="0" Maximum="1000" SpinButtonPlacementMode="Compact" />
+                            <ComboBox Header="Stretch" SelectedIndex="{x:Bind ImageStretchIndex, Mode=TwoWay}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="Uniform" />
+                                <ComboBoxItem Content="None" />
+                                <ComboBoxItem Content="Fill" />
+                                <ComboBoxItem Content="UniformToFill" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Expander>
                 </StackPanel>
             </ScrollViewer>
         </Border>

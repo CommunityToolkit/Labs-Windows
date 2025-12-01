@@ -3,8 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
-using System.ComponentModel;
+using Microsoft.UI;
 using System.Runtime.CompilerServices;
+using Windows.UI;
+
 
 #if !WINAPPSDK
 using FontWeights = Windows.UI.Text.FontWeights;
@@ -102,6 +104,20 @@ public sealed partial class MarkdownTextBlockCustomThemeSample : Page, INotifyPr
         set { _inlineCodeColorIndex = value; OnPropertyChanged(); }
     }
 
+    private int _inlineCodeBackgroundColorIndex = 0;
+    public int InlineCodeBackgroundColorIndex
+    {
+        get => _inlineCodeBackgroundColorIndex;
+        set { _inlineCodeBackgroundColorIndex = value; OnPropertyChanged(); }
+    }
+
+    private int _inlineCodeBorderColorIndex = 0;
+    public int InlineCodeBorderColorIndex
+    {
+        get => _inlineCodeBorderColorIndex;
+        set { _inlineCodeBorderColorIndex = value; OnPropertyChanged(); }
+    }
+
     // === Code Block Properties ===
     private double _codeBlockPadding = 12;
     public double CodeBlockPadding
@@ -129,6 +145,20 @@ public sealed partial class MarkdownTextBlockCustomThemeSample : Page, INotifyPr
     {
         get => _codeBlockFontIndex;
         set { _codeBlockFontIndex = value; OnPropertyChanged(); }
+    }
+
+    private int _codeBlockBackgroundColorIndex = 0;
+    public int CodeBlockBackgroundColorIndex
+    {
+        get => _codeBlockBackgroundColorIndex;
+        set { _codeBlockBackgroundColorIndex = value; OnPropertyChanged(); }
+    }
+
+    private int _codeBlockBorderColorIndex = 0;
+    public int CodeBlockBorderColorIndex
+    {
+        get => _codeBlockBorderColorIndex;
+        set { _codeBlockBorderColorIndex = value; OnPropertyChanged(); }
     }
 
     // === Quote Properties ===
@@ -190,6 +220,28 @@ public sealed partial class MarkdownTextBlockCustomThemeSample : Page, INotifyPr
         set { _horizontalRuleMargin = value; OnPropertyChanged(); }
     }
 
+    // === Image Properties ===
+    private double _imageMaxWidth = 0;
+    public double ImageMaxWidth
+    {
+        get => _imageMaxWidth;
+        set { _imageMaxWidth = value; OnPropertyChanged(); }
+    }
+
+    private double _imageMaxHeight = 0;
+    public double ImageMaxHeight
+    {
+        get => _imageMaxHeight;
+        set { _imageMaxHeight = value; OnPropertyChanged(); }
+    }
+
+    private int _imageStretchIndex = 0;
+    public int ImageStretchIndex
+    {
+        get => _imageStretchIndex;
+        set { _imageStretchIndex = value; OnPropertyChanged(); }
+    }
+
     // Color lookup helpers
     private static readonly Brush[] HeadingColors = new Brush[]
     {
@@ -210,6 +262,24 @@ public sealed partial class MarkdownTextBlockCustomThemeSample : Page, INotifyPr
         (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"]
     };
 
+    private static readonly Brush[] CodeBackgroundColors = new Brush[]
+    {
+        new SolidColorBrush(Color.FromArgb(40, 100, 100, 255)),
+        new SolidColorBrush(Color.FromArgb(30, 50, 50, 80)),
+        new SolidColorBrush(Color.FromArgb(40, 0, 0, 0)),
+        new SolidColorBrush(Color.FromArgb(40, 50, 150, 50)),
+        (Brush)Application.Current.Resources["ExpanderHeaderBackground"]
+    };
+
+    private static readonly Brush[] CodeBorderColors = new Brush[]
+    {
+        new SolidColorBrush(Colors.SlateGray),
+        new SolidColorBrush(Colors.DimGray),
+        new SolidColorBrush(Colors.DarkSlateGray),
+        new SolidColorBrush(Colors.MediumSlateBlue),
+        new SolidColorBrush(Colors.Transparent)
+    };
+
     private static readonly Brush[] QuoteColors = new Brush[]
     {
         new SolidColorBrush(Colors.DodgerBlue),
@@ -224,6 +294,14 @@ public sealed partial class MarkdownTextBlockCustomThemeSample : Page, INotifyPr
         new FontFamily("Consolas"),
         new FontFamily("Courier New"),
         new FontFamily("Segoe UI")
+    };
+
+    private static readonly Stretch[] ImageStretchOptions = new Stretch[]
+    {
+        Stretch.Uniform,
+        Stretch.None,
+        Stretch.Fill,
+        Stretch.UniformToFill
     };
 
     private const string SampleMarkdown = @"
@@ -291,6 +369,12 @@ The line above is a horizontal rule with customizable thickness and margin.
 - Adjust the theme settings on the right panel
 - Click **Apply Changes** to see updates
 - Use **Reset to Defaults** to start over
+
+## Images
+
+Images can be styled with max width, max height, and stretch options:
+
+![Windows Terminal](https://devblogs.microsoft.com/commandline/wp-content/uploads/sites/33/2025/11/0.96-Social-media-image-V2-1024x536.webp)
 ";
 
     public MarkdownTextBlockCustomThemeSample()
@@ -322,16 +406,16 @@ The line above is a horizontal rule with customizable thickness and margin.
             InlineCodeCornerRadius = new CornerRadius(InlineCodeCornerRadius),
             InlineCodeBorderThickness = new Thickness(InlineCodeBorderThickness),
             InlineCodeForeground = InlineCodeColors[InlineCodeColorIndex],
-            InlineCodeBackground = new SolidColorBrush(Color.FromArgb(40, 100, 100, 255)),
-            InlineCodeBorderBrush = new SolidColorBrush(Colors.SlateGray),
+            InlineCodeBackground = CodeBackgroundColors[InlineCodeBackgroundColorIndex],
+            InlineCodeBorderBrush = CodeBorderColors[InlineCodeBorderColorIndex],
 
             CodeBlockPadding = new Thickness(CodeBlockPadding),
             CodeBlockCornerRadius = new CornerRadius(CodeBlockCornerRadius),
             CodeBlockBorderThickness = new Thickness(CodeBlockBorderThickness),
             CodeBlockFontFamily = CodeFonts[CodeBlockFontIndex],
-            CodeBlockBackground = new SolidColorBrush(Color.FromArgb(30, 50, 50, 80)),
+            CodeBlockBackground = CodeBackgroundColors[CodeBlockBackgroundColorIndex],
             CodeBlockForeground = new SolidColorBrush(Colors.LightGreen),
-            CodeBlockBorderBrush = new SolidColorBrush(Colors.DimGray),
+            CodeBlockBorderBrush = CodeBorderColors[CodeBlockBorderColorIndex],
 
             QuoteBorderThickness = new Thickness(QuoteBorderWidth, 0, 0, 0),
             QuotePadding = new Thickness(QuotePadding, QuotePadding / 2, QuotePadding, QuotePadding / 2),
@@ -350,6 +434,10 @@ The line above is a horizontal rule with customizable thickness and margin.
             HorizontalRuleBrush = new SolidColorBrush(Colors.MediumSlateBlue),
 
             LinkForeground = new SolidColorBrush(Colors.DeepSkyBlue),
+
+            ImageMaxWidth = ImageMaxWidth,
+            ImageMaxHeight = ImageMaxHeight,
+            ImageStretch = ImageStretchOptions[ImageStretchIndex],
         };
     }
 
@@ -378,11 +466,15 @@ The line above is a horizontal rule with customizable thickness and margin.
         InlineCodeCornerRadius = 4;
         InlineCodeBorderThickness = 1;
         InlineCodeColorIndex = 0;
+        InlineCodeBackgroundColorIndex = 0;
+        InlineCodeBorderColorIndex = 0;
 
         CodeBlockPadding = 12;
         CodeBlockCornerRadius = 8;
         CodeBlockBorderThickness = 1;
         CodeBlockFontIndex = 0;
+        CodeBlockBackgroundColorIndex = 1;
+        CodeBlockBorderColorIndex = 1;
 
         QuoteBorderWidth = 4;
         QuotePadding = 12;
@@ -394,6 +486,10 @@ The line above is a horizontal rule with customizable thickness and margin.
 
         HorizontalRuleThickness = 2;
         HorizontalRuleMargin = 16;
+
+        ImageMaxWidth = 0;
+        ImageMaxHeight = 0;
+        ImageStretchIndex = 0;
 
         ApplyTheme_Click(sender, e);
     }
