@@ -20,7 +20,6 @@ public partial class WrapPanel2 : Panel
 
         // Define XY/UV coordinate variables
         var uvAvailableSize = new UVCoord(availableSize.Width, availableSize.Height, Orientation);
-        var uvSpacing = new UVCoord(HorizontalSpacing, VerticalSpacing, Orientation);
 
         RowSpec currentRowSpec = default;
 
@@ -41,7 +40,7 @@ public partial class WrapPanel2 : Panel
 
             // Attempt to add the child to the current row/column
             var spec = new RowSpec(layoutLength, uvDesiredSize);
-            if (!currentRowSpec.TryAdd(spec, uvSpacing.U, uvAvailableSize.U))
+            if (!currentRowSpec.TryAdd(spec, ItemSpacing, uvAvailableSize.U))
             {
                 // If the overflow behavior is drop, just end the row here.
                 if (OverflowBehavior is OverflowBehavior.Drop)
@@ -50,20 +49,20 @@ public partial class WrapPanel2 : Panel
                 // Could not add to current row/column
                 // Start a new row/column
                 _rowSpecs.Add(currentRowSpec);
-                _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(uvSpacing.U));
+                _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing));
                 currentRowSpec = spec;
             }
         }
 
         // Add the final row/column
         _rowSpecs.Add(currentRowSpec);
-        _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(uvSpacing.U));
+        _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing));
 
         // Calculate final desired size
         var uvSize = new UVCoord(0, 0, Orientation)
         {
             U = IsMainAxisStretch(uvAvailableSize.U) ? uvAvailableSize.U : _longestRowSize,
-            V = _rowSpecs.Sum(static rs => rs.MaxOffAxisSize) + (uvSpacing.V * (_rowSpecs.Count - 1))
+            V = _rowSpecs.Sum(static rs => rs.MaxOffAxisSize) + (LineSpacing * (_rowSpecs.Count - 1))
         };
 
         // Clamp to available size and return
@@ -82,10 +81,9 @@ public partial class WrapPanel2 : Panel
         // Create XY/UV coordinate variables
         var pos = new UVCoord(0, 0, Orientation);
         var uvFinalSize = new UVCoord(finalSize, Orientation);
-        var uvSpacing = new UVCoord(HorizontalSpacing, VerticalSpacing, Orientation);
 
         // Adjust the starting position based on off-axis alignment
-        var contentHeight = _rowSpecs.Sum(static rs => rs.MaxOffAxisSize) + (uvSpacing.V * (_rowSpecs.Count - 1));
+        var contentHeight = _rowSpecs.Sum(static rs => rs.MaxOffAxisSize) + (LineSpacing * (_rowSpecs.Count - 1));
         pos.V = GetStartByAlignment(GetOffAlignment(), contentHeight, uvFinalSize.V);
 
         var childQueue = new Queue<UIElement>(Children.Where(static e => e.Visibility is Visibility.Visible));
@@ -93,7 +91,7 @@ public partial class WrapPanel2 : Panel
         foreach (var row in _rowSpecs)
         {
             // Arrange the row/column
-            ArrangeRow(ref pos, row, uvFinalSize, uvSpacing, childQueue);
+            ArrangeRow(ref pos, row, uvFinalSize, childQueue);
         }
 
         // "Arrange" remaning children by rendering them with zero size
@@ -106,9 +104,9 @@ public partial class WrapPanel2 : Panel
         return finalSize;
     }
 
-    private void ArrangeRow(ref UVCoord pos, RowSpec row, UVCoord uvFinalSize, UVCoord uvSpacing, Queue<UIElement> childQueue)
+    private void ArrangeRow(ref UVCoord pos, RowSpec row, UVCoord uvFinalSize, Queue<UIElement> childQueue)
     {
-        var spacingTotalSize = uvSpacing.U * (row.ItemsCount - 1);
+        var spacingTotalSize = ItemSpacing * (row.ItemsCount - 1);
         var remainingSpace = uvFinalSize.U - row.ReservedSpace - spacingTotalSize;
         var portionSize = row.MinPortionSize;
 
@@ -130,7 +128,7 @@ public partial class WrapPanel2 : Panel
         // Also do this if there are no star-sized items in the row/column and no forced streching is in use.
         if (!stretch || (row.PortionsSum is 0 && ForcedStretchMethod is ForcedStretchMethod.None))
         {
-            var rowSize = row.Measure(uvSpacing.U);
+            var rowSize = row.Measure(ItemSpacing);
             pos.U = GetStartByAlignment(GetAlignment(), rowSize, uvFinalSize.U);
         }
 
@@ -184,11 +182,11 @@ public partial class WrapPanel2 : Panel
             child.Arrange(new Rect(pos.X, pos.Y, size.X, size.Y));
 
             // Advance the position
-            pos.U += size.U + uvSpacing.U;
+            pos.U += size.U + ItemSpacing;
         }
 
         // Advance to the next row/column
-        pos.V += row.MaxOffAxisSize + uvSpacing.V;
+        pos.V += row.MaxOffAxisSize + LineSpacing;
     }
 
     private UVCoord GetChildSize(UIElement child, int indexInRow, RowSpec row, double portionSize, bool forceStretch)

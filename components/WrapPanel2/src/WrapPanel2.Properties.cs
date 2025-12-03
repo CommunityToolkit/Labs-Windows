@@ -26,19 +26,19 @@ public partial class WrapPanel2
         new PropertyMetadata(default(Orientation), OnPropertyChanged));
 
     /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="HorizontalSpacing"/> property.
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="ItemSpacing"/> property.
     /// </summary>
-    public static readonly DependencyProperty HorizontalSpacingProperty = DependencyProperty.Register(
-        nameof(HorizontalSpacing),
+    public static readonly DependencyProperty ItemSpacingProperty = DependencyProperty.Register(
+        nameof(ItemSpacing),
         typeof(double),
         typeof(WrapPanel2),
         new PropertyMetadata(default(double), OnPropertyChanged));
 
     /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="VerticalSpacing"/> property.
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="LineSpacing"/> property.
     /// </summary>
-    public static readonly DependencyProperty VerticalSpacingProperty = DependencyProperty.Register(
-        nameof(VerticalSpacing),
+    public static readonly DependencyProperty lineSpacingProperty = DependencyProperty.Register(
+        nameof(LineSpacing),
         typeof(double),
         typeof(WrapPanel2),
         new PropertyMetadata(default(double), OnPropertyChanged));
@@ -80,21 +80,21 @@ public partial class WrapPanel2
     }
 
     /// <summary>
-    /// Gets or sets the horizontal spacing between items.
+    /// Gets or sets the spacing between items.
     /// </summary>
-    public double HorizontalSpacing
+    public double ItemSpacing
     {
-        get => (double)GetValue(HorizontalSpacingProperty);
-        set => SetValue(HorizontalSpacingProperty, value);
+        get => (double)GetValue(ItemSpacingProperty);
+        set => SetValue(ItemSpacingProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the vertical spacing between items.
     /// </summary>
-    public double VerticalSpacing
+    public double LineSpacing
     {
-        get => (double)GetValue(VerticalSpacingProperty);
-        set => SetValue(VerticalSpacingProperty, value);
+        get => (double)GetValue(lineSpacingProperty);
+        set => SetValue(lineSpacingProperty, value);
     }
 
     /// <summary>

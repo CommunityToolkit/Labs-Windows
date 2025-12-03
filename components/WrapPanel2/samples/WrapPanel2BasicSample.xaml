@@ -26,10 +26,10 @@
                              VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
                              FixedRowLengths="{x:Bind FixedRowLengths, Mode=OneWay}"
                              ForcedStretchMethod="{x:Bind local:WrapPanel2BasicSample.ConvertStringToForcedStretchMethod(LayoutForcedStretchMethod), Mode=OneWay}"
-                             HorizontalSpacing="{x:Bind HorizontalSpacing, Mode=OneWay}"
+                             ItemSpacing="{x:Bind ItemSpacing, Mode=OneWay}"
+                             LineSpacing="{x:Bind LineSpacing, Mode=OneWay}"
                              Orientation="{x:Bind local:WrapPanel2BasicSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}"
-                             OverflowBehavior="{x:Bind local:WrapPanel2BasicSample.ConvertStringToOverflowBehavior(LayoutOverflowBehavior), Mode=OneWay}"
-                             VerticalSpacing="{x:Bind VerticalSpacing, Mode=OneWay}">
+                             OverflowBehavior="{x:Bind local:WrapPanel2BasicSample.ConvertStringToOverflowBehavior(LayoutOverflowBehavior), Mode=OneWay}">
             <Border controls:WrapPanel2.LayoutLength="2*">
                 <TextBlock HorizontalAlignment="Center"
                            Text="2*" />
