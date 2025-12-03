@@ -2,11 +2,11 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
   
   <PropertyGroup>
-    <ToolkitComponentName>StretchPanel</ToolkitComponentName>
-    <Description>This package contains StretchPanel.</Description>
+    <ToolkitComponentName>WrapPanel2</ToolkitComponentName>
+    <Description>This package contains WrapPanel2.</Description>
 
     <!-- Rns suffix is required for namespaces shared across projects. See https://github.com/CommunityToolkit/Labs-Windows/issues/152 -->
-    <RootNamespace>CommunityToolkit.WinUI.Controls.StretchPanelRns</RootNamespace>
+    <RootNamespace>CommunityToolkit.WinUI.Controls.WrapPanel2Rns</RootNamespace>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->

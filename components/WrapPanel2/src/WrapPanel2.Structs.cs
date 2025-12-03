@@ -4,7 +4,7 @@
 
 namespace CommunityToolkit.WinUI.Controls;
 
-public partial class StretchPanel
+public partial class WrapPanel2
 {
     /// <summary>
     /// A struct representing the specifications of a row or column in the panel.

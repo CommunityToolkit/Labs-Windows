@@ -6,20 +6,20 @@ using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
 using CommunityToolkit.WinUI.Controls;
 
-namespace StretchPanelTests;
+namespace WrapPanel2Tests;
 
 [TestClass]
-public partial class ExampleStretchPanelTestClass : VisualUITestBase
+public partial class ExampleWrapPanel2TestClass : VisualUITestBase
 {
     // If you don't need access to UI objects directly or async code, use this pattern.
     [TestMethod]
     public void SimpleSynchronousExampleTest()
     {
-        var assembly = typeof(StretchPanel).Assembly;
-        var type = assembly.GetType(typeof(StretchPanel).FullName ?? string.Empty);
+        var assembly = typeof(WrapPanel2).Assembly;
+        var type = assembly.GetType(typeof(WrapPanel2).FullName ?? string.Empty);
 
-        Assert.IsNotNull(type, "Could not find StretchPanel type.");
-        Assert.AreEqual(typeof(StretchPanel), type, "Type of StretchPanel does not match expected type.");
+        Assert.IsNotNull(type, "Could not find WrapPanel2 type.");
+        Assert.AreEqual(typeof(WrapPanel2), type, "Type of WrapPanel2 does not match expected type.");
     }
 
     // If you don't need access to UI objects directly, use this pattern.
@@ -46,7 +46,7 @@ public partial class ExampleStretchPanelTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public void SimpleUIAttributeExampleTest()
     {
-        var component = new StretchPanel();
+        var component = new WrapPanel2();
         Assert.IsNotNull(component);
     }
 
@@ -54,27 +54,27 @@ public partial class ExampleStretchPanelTestClass : VisualUITestBase
     // This lets us actually test a control as it would behave within an actual application.
     // The page will already be loaded by the time your test is called.
     [UIThreadTestMethod]
-    public void SimpleUIExamplePageTest(ExampleStretchPanelTestPage page)
+    public void SimpleUIExamplePageTest(ExampleWrapPanel2TestPage page)
     {
         // You can use the Toolkit Visual Tree helpers here to find the component by type or name:
-        var component = page.FindDescendant<StretchPanel>();
+        var component = page.FindDescendant<WrapPanel2>();
 
         Assert.IsNotNull(component);
 
-        var componentByName = page.FindDescendant("StretchPanelControl");
+        var componentByName = page.FindDescendant("WrapPanel2Control");
 
         Assert.IsNotNull(componentByName);
     }
 
     // You can still do async work with a UIThreadTestMethod as well.
     [UIThreadTestMethod]
-    public async Task SimpleAsyncUIExamplePageTest(ExampleStretchPanelTestPage page)
+    public async Task SimpleAsyncUIExamplePageTest(ExampleWrapPanel2TestPage page)
     {
         // This helper can be used to wait for a rendering pass to complete.
         // Note, this is already done by loading a Page with the [UIThreadTestMethod] helper.
         await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
-        var component = page.FindDescendant<StretchPanel>();
+        var component = page.FindDescendant<WrapPanel2>();
 
         Assert.IsNotNull(component);
     }
@@ -89,7 +89,7 @@ public partial class ExampleStretchPanelTestClass : VisualUITestBase
     {
         await EnqueueAsync(() =>
         {
-            var component = new StretchPanel();
+            var component = new WrapPanel2();
             Assert.IsNotNull(component);
         });
     }
@@ -101,7 +101,7 @@ public partial class ExampleStretchPanelTestClass : VisualUITestBase
     {
         await EnqueueAsync(async () =>
         {
-            var component = new StretchPanel();
+            var component = new WrapPanel2();
             Assert.IsNotNull(component);
             Assert.IsFalse(component.IsLoaded);
 
@@ -119,7 +119,7 @@ public partial class ExampleStretchPanelTestClass : VisualUITestBase
     [UIThreadTestMethod]
     public async Task ComplexAsyncLoadUIExampleWithoutDispatcherTest()
     {
-        var component = new StretchPanel();
+        var component = new WrapPanel2();
         Assert.IsNotNull(component);
         Assert.IsFalse(component.IsLoaded);
 

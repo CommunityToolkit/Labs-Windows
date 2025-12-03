@@ -6,16 +6,16 @@
     <SharedGUID>1EFF9838-CA24-43C3-AA4F-0B321F74861B</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>StretchPanelTests</Import_RootNamespace>
+    <Import_RootNamespace>WrapPanel2Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleStretchPanelTestClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ExampleStretchPanelTestPage.xaml.cs">
-      <DependentUpon>ExampleStretchPanelTestPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)ExampleWrapPanel2TestClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExampleWrapPanel2TestPage.xaml.cs">
+      <DependentUpon>ExampleWrapPanel2TestPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)ExampleStretchPanelTestPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)ExampleWrapPanel2TestPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

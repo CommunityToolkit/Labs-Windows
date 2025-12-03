@@ -4,7 +4,7 @@
 
 using CommunityToolkit.WinUI.Controls;
 
-namespace StretchPanelExperiment.Samples;
+namespace WrapPanel2Experiment.Samples;
 
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
@@ -18,10 +18,10 @@ namespace StretchPanelExperiment.Samples;
 [ToolkitSampleMultiChoiceOption("LayoutForcedStretchMethod", "None", "First", "Last", "Equal", "Proportional", Title = "Forced Stretch Method")]
 [ToolkitSampleMultiChoiceOption("LayoutOverflowBehavior", "Wrap", "Drop", Title = "Overflow Behavior")]
 
-[ToolkitSample(id: nameof(StretchPanelBasicSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(StretchPanel)} custom control.")]
-public sealed partial class StretchPanelBasicSample : Page
+[ToolkitSample(id: nameof(WrapPanel2BasicSample), "WrapPanel2 Basic Sample", description: $"A sample for showing how to use a {nameof(WrapPanel2)} panel.")]
+public sealed partial class WrapPanel2BasicSample : Page
 {
-    public StretchPanelBasicSample()
+    public WrapPanel2BasicSample()
     {
         this.InitializeComponent();
     }

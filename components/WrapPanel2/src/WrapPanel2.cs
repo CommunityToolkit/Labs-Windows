@@ -7,7 +7,7 @@ namespace CommunityToolkit.WinUI.Controls;
 /// <summary>
 /// A panel that arranges its children in a grid-like fashion, stretching them to fill available space.
 /// </summary>
-public partial class StretchPanel : Panel
+public partial class WrapPanel2 : Panel
 {
     private List<RowSpec>? _rowSpecs;
     private double _longestRowSize = 0;

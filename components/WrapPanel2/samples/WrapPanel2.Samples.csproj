@@ -2,14 +2,14 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
   
   <PropertyGroup>
-    <ToolkitComponentName>StretchPanel</ToolkitComponentName>
+    <ToolkitComponentName>WrapPanel2</ToolkitComponentName>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's sample project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SampleProject.props" />
   <ItemGroup>
-    <Compile Update="StretchPanelBasicSample.xaml.cs">
-      <DependentUpon>StretchPanelBasicSample.xaml</DependentUpon>
+    <Compile Update="WrapPanel2BasicSample.xaml.cs">
+      <DependentUpon>WrapPanel2BasicSample.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 
 namespace CommunityToolkit.WinUI.Controls;
 
-public partial class StretchPanel
+public partial class WrapPanel2
 {
     /// <summary>
     /// An attached property for identifying the requested layout of a child within the panel.
@@ -13,7 +13,7 @@ public partial class StretchPanel
         DependencyProperty.Register(
             "LayoutLength",
             typeof(GridLength),
-            typeof(StretchPanel),
+            typeof(WrapPanel2),
             new PropertyMetadata(GridLength.Auto));
 
     /// <summary>
@@ -22,7 +22,7 @@ public partial class StretchPanel
     public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
         nameof(Orientation),
         typeof(Orientation),
-        typeof(StretchPanel),
+        typeof(WrapPanel2),
         new PropertyMetadata(default(Orientation), OnPropertyChanged));
 
     /// <summary>
@@ -31,7 +31,7 @@ public partial class StretchPanel
     public static readonly DependencyProperty HorizontalSpacingProperty = DependencyProperty.Register(
         nameof(HorizontalSpacing),
         typeof(double),
-        typeof(StretchPanel),
+        typeof(WrapPanel2),
         new PropertyMetadata(default(double), OnPropertyChanged));
 
     /// <summary>
@@ -40,7 +40,7 @@ public partial class StretchPanel
     public static readonly DependencyProperty VerticalSpacingProperty = DependencyProperty.Register(
         nameof(VerticalSpacing),
         typeof(double),
-        typeof(StretchPanel),
+        typeof(WrapPanel2),
         new PropertyMetadata(default(double), OnPropertyChanged));
 
     /// <summary>
@@ -49,7 +49,7 @@ public partial class StretchPanel
     public static readonly DependencyProperty FixedRowLengthsProperty = DependencyProperty.Register(
         nameof(FixedRowLengths),
         typeof(bool),
-        typeof(StretchPanel),
+        typeof(WrapPanel2),
         new PropertyMetadata(default(bool), OnPropertyChanged));
 
     /// <summary>
@@ -58,7 +58,7 @@ public partial class StretchPanel
     public static readonly DependencyProperty ForcedStretchMethodProperty = DependencyProperty.Register(
         nameof(ForcedStretchMethod),
         typeof(ForcedStretchMethod),
-        typeof(StretchPanel),
+        typeof(WrapPanel2),
         new PropertyMetadata(default(ForcedStretchMethod), OnPropertyChanged));
 
     /// <summary>
@@ -67,7 +67,7 @@ public partial class StretchPanel
     public static readonly DependencyProperty OverflowBehaviorProperty = DependencyProperty.Register(
         nameof(OverflowBehavior),
         typeof(OverflowBehavior),
-        typeof(StretchPanel),
+        typeof(WrapPanel2),
         new PropertyMetadata(default(OverflowBehavior), OnPropertyChanged));
 
     /// <summary>
@@ -125,18 +125,18 @@ public partial class StretchPanel
     }
 
     /// <summary>
-    /// Gets the <see cref="LayoutLengthProperty"/> of an item in the <see cref="StretchPanel"/>.
+    /// Gets the <see cref="LayoutLengthProperty"/> of an item in the <see cref="WrapPanel2"/>.
     /// </summary>
     public static GridLength GetLayoutLength(DependencyObject obj) => (GridLength)obj.GetValue(LayoutLengthProperty);
 
     /// <summary>
-    /// Sets the <see cref="LayoutLengthProperty"/> of an item in the <see cref="StretchPanel"/>.
+    /// Sets the <see cref="LayoutLengthProperty"/> of an item in the <see cref="WrapPanel2"/>.
     /// </summary>
     public static void SetLayoutLength(DependencyObject obj, GridLength value) => obj.SetValue(LayoutLengthProperty, value);
 
     private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        var panel = (StretchPanel)d;
+        var panel = (WrapPanel2)d;
         panel.InvalidateMeasure();
     }
 }
