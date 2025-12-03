@@ -65,6 +65,21 @@ public partial class MyViewModel : ObservableObject, IEditableObject
 public sealed partial class InPlaceTextEditorAdorner : Adorner<TextBlock>
 {
     /// <summary>
+    /// Gets or sets the object being edited.
+    /// </summary>
+    public IEditableObject EditableObject
+    {
+        get { return (IEditableObject)GetValue(EditableObjectProperty); }
+        set { SetValue(EditableObjectProperty, value); }
+    }
+
+    /// <summary>
+    /// Identifies the <see cref="EditableObject"/> dependency property.
+    /// </summary>
+    public static readonly DependencyProperty EditableObjectProperty =
+        DependencyProperty.Register(nameof(EditableObject), typeof(IEditableObject), typeof(InPlaceTextEditorAdorner), new PropertyMetadata(null));
+
+    /// <summary>
     /// Gets or sets whether the popup is open.
     /// </summary>
     public bool IsPopupOpen
@@ -108,28 +123,19 @@ public sealed partial class InPlaceTextEditorAdorner : Adorner<TextBlock>
 
     private void AdornedElement_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        if (AdornedElement?.DataContext is IEditableObject editableObject)
-        {
-            editableObject.BeginEdit();
-        }
+        EditableObject?.BeginEdit();
         IsPopupOpen = true;
     }
 
     public void ConfirmButton_Click(object sender, RoutedEventArgs e)
     {
-        if (AdornedElement?.DataContext is IEditableObject editableObject)
-        {
-            editableObject.EndEdit();
-        }
+        EditableObject?.EndEdit();
         IsPopupOpen = false;
     }
 
     public void CloseButton_Click(object sender, RoutedEventArgs e)
     {
-        if (AdornedElement?.DataContext is IEditableObject editableObject)
-        {
-            editableObject.CancelEdit();
-        }
+        EditableObject?.CancelEdit();
         IsPopupOpen = false;
     }
 }
