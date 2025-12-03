@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 using INotifyDataErrorInfo = System.ComponentModel.INotifyDataErrorInfo;
@@ -29,7 +30,7 @@ public sealed partial class InputValidationAdorner : Adorner<FrameworkElement>
     /// Identifies the <see cref="PropertyName"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty PropertyNameProperty =
-        DependencyProperty.Register(nameof(PropertyName), typeof(string), typeof(InputValidationAdorner), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(PropertyName), typeof(string), typeof(InputValidationAdorner), new PropertyMetadata(null, (s, e) => (s as InputValidationAdorner)?.RefreshErrors()));
 
     /// <summary>
     /// Gets or sets the <see cref="INotifyDataErrorInfo"/> context object to use for validation.
@@ -44,7 +45,7 @@ public sealed partial class InputValidationAdorner : Adorner<FrameworkElement>
     /// Identifies the <see cref="NotifyDataErrorInfo"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty NotifyDataErrorInfoProperty =
-        DependencyProperty.Register(nameof(NotifyDataErrorInfo), typeof(INotifyDataErrorInfo), typeof(InputValidationAdorner), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(NotifyDataErrorInfo), typeof(INotifyDataErrorInfo), typeof(InputValidationAdorner), new PropertyMetadata(null, (s, e) => (s as InputValidationAdorner)?.RefreshErrors()));
 
     /// <summary>
     /// Gets or sets whether the validation adorners is displayed (handled automatically).
@@ -76,6 +77,8 @@ public sealed partial class InputValidationAdorner : Adorner<FrameworkElement>
     public static readonly DependencyProperty ValidationMessageProperty =
         DependencyProperty.Register(nameof(ValidationMessage), typeof(string), typeof(InputValidationAdorner), new PropertyMetadata(null));
 
+    // TODO: Do we consider an InfoBar style Severity property?
+
     /// <summary>
     /// Initializes a new instance of the <see cref="InputValidationAdorner"/> class.
     /// </summary>
@@ -103,45 +106,47 @@ public sealed partial class InputValidationAdorner : Adorner<FrameworkElement>
 
     private void INotifyDataErrorInfo_ErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
     {
-        if (NotifyDataErrorInfo is not null)
+        RefreshErrors();
+    }
+
+    private void RefreshErrors()
+    {
+        // Check if we have any errors for our specified property
+        if (NotifyDataErrorInfo is not null
+            && PropertyName is not null
+            && NotifyDataErrorInfo.GetErrors(PropertyName) is IEnumerable errors
+            && errors.Cast<object>().Any())
         {
-            // Reset state
-            if (!NotifyDataErrorInfo.HasErrors)
+            // Build up error messages depending on error collection type.
+            StringBuilder message = new();
+            if (errors is IEnumerable<ValidationResult> validationResults)
             {
-                HasValidationFailed = false;
-                ValidationMessage = string.Empty;
-                return;
+                foreach (ValidationResult result in validationResults)
+                {
+                    message.AppendLine(result.ErrorMessage);
+                }
+            }
+            else if (errors is IEnumerable<string> stringErrors)
+            {
+                foreach (string result in stringErrors)
+                {
+                    message.AppendLine(result);
+                }
+            }
+            else
+            {
+                // TODO: Not sure if should handle more types of collections here?
+                throw new ArgumentException("The errors returned by INotifyDataErrorInfo.GetErrors must be of type IEnumerable<ValidationResult> or IEnumerable<string>.");
             }
 
-            if (e.PropertyName == PropertyName)
-            {
-                HasValidationFailed = true;
-
-                var errors = NotifyDataErrorInfo.GetErrors(e.PropertyName);
-
-                StringBuilder message = new();
-                if (errors is IEnumerable<ValidationResult> validationResults)
-                {
-                    foreach (ValidationResult result in validationResults)
-                    {
-                        message.AppendLine(result.ErrorMessage);
-                    }
-                }
-                else if (errors is IEnumerable<string> stringErrors)
-                {
-                    foreach (string result in stringErrors)
-                    {
-                        message.AppendLine(result);
-                    }
-                }
-                else
-                {
-                    // TODO: Not sure if should handle more types of collections here?
-                    throw new ArgumentException("The errors returned by INotifyDataErrorInfo.GetErrors must be of type IEnumerable<ValidationResult> or IEnumerable<string>.");
-                }                
-
-                ValidationMessage = message.ToString().Trim();
-            }
+            HasValidationFailed = true;
+            ValidationMessage = message.ToString().Trim();
+        }
+        else
+        {
+            // Hide if we have no object or errors to validate against.
+            HasValidationFailed = false;
+            ValidationMessage = string.Empty;
         }
     }
 
