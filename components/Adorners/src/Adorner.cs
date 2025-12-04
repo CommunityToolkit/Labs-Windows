@@ -97,6 +97,9 @@ public partial class Adorner : ContentControl
 
             Canvas.SetLeft(this, coord.X);
             Canvas.SetTop(this, coord.Y);
+
+            // Also update size
+            OnSizeChanged(this, null!);
         }
     }
 
@@ -134,4 +137,12 @@ public partial class Adorner : ContentControl
     /// Override this method to unhook functionality from the <see cref="AdornedElement"/>.
     /// </remarks>
     protected virtual void OnDetaching() { }
+
+    /// <inheritdoc/>
+    public new void UpdateLayout()
+    {
+        OnLayoutUpdated(this, null!);
+
+        base.UpdateLayout();
+    }
 }

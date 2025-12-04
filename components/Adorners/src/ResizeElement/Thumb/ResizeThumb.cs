@@ -9,6 +9,8 @@ namespace CommunityToolkit.WinUI.Controls;
 /// </summary>
 public partial class ResizeThumb : Control
 {
+    public event TypedEventHandler<ResizeThumb, TargetControlResizedEventArgs>? TargetControlResized;
+
     private Thickness? _originalMargin;
     private Point? _originalPosition;
     private Size? _originalSize;
@@ -130,6 +132,12 @@ public partial class ResizeThumb : Control
                     newMargin.Top += verticalChange;
 
                 TargetControl.Margin = newMargin;
+
+                TargetControlResized?.Invoke(this, new TargetControlResizedEventArgs(
+                    TargetControl.Margin.Left,
+                    TargetControl.Margin.Top,
+                    TargetControl.Width,
+                    TargetControl.Height));
             }
             else
             {
@@ -143,7 +151,21 @@ public partial class ResizeThumb : Control
                 if ((Direction == ResizeDirection.Top || Direction == ResizeDirection.TopLeft || Direction == ResizeDirection.TopRight)
                     && adjustHeight)
                     Canvas.SetTop(TargetControl, newY);
+
+                TargetControlResized?.Invoke(this, new TargetControlResizedEventArgs(
+                    Canvas.GetLeft(TargetControl),
+                    Canvas.GetTop(TargetControl),
+                    TargetControl.Width,
+                    TargetControl.Height));
             }
         }
     }
+}
+
+public class TargetControlResizedEventArgs(double newLeft, double newTop, double newWidth, double newHeight) : EventArgs
+{
+    public double NewLeft { get; } = newLeft;
+    public double NewTop { get; } = newTop;
+    public double NewWidth { get; } = newWidth;
+    public double NewHeight { get; } = newHeight;
 }

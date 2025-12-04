@@ -77,12 +77,30 @@ public sealed partial class ResizeElementAdorner : Adorner<FrameworkElement>
         TopRightThumbPart?.TargetControl = AdornedElement;
         BottomLeftThumbPart?.TargetControl = AdornedElement;
         BottomRightThumbPart?.TargetControl = AdornedElement;
+
+        TopThumbPart?.TargetControlResized += OnTargetControlResized;
+        BottomThumbPart?.TargetControlResized += OnTargetControlResized;
+        LeftThumbPart?.TargetControlResized += OnTargetControlResized;
+        RightThumbPart?.TargetControlResized += OnTargetControlResized;
+        TopLeftThumbPart?.TargetControlResized += OnTargetControlResized;
+        TopRightThumbPart?.TargetControlResized += OnTargetControlResized;
+        BottomLeftThumbPart?.TargetControlResized += OnTargetControlResized;
+        BottomRightThumbPart?.TargetControlResized += OnTargetControlResized;
     }
 
     /// <inheritdoc/>
     protected override void OnDetaching()
     {
         base.OnDetaching();
+
+        TopThumbPart?.TargetControlResized -= OnTargetControlResized;
+        BottomThumbPart?.TargetControlResized -= OnTargetControlResized;
+        LeftThumbPart?.TargetControlResized -= OnTargetControlResized;
+        RightThumbPart?.TargetControlResized -= OnTargetControlResized;
+        TopLeftThumbPart?.TargetControlResized -= OnTargetControlResized;
+        TopRightThumbPart?.TargetControlResized -= OnTargetControlResized;
+        BottomLeftThumbPart?.TargetControlResized -= OnTargetControlResized;
+        BottomRightThumbPart?.TargetControlResized -= OnTargetControlResized;
 
         TopThumbPart?.TargetControl = null;
         BottomThumbPart?.TargetControl = null;
@@ -92,5 +110,13 @@ public sealed partial class ResizeElementAdorner : Adorner<FrameworkElement>
         TopRightThumbPart?.TargetControl = null;
         BottomLeftThumbPart?.TargetControl = null;
         BottomRightThumbPart?.TargetControl = null;
+    }
+
+    private void OnTargetControlResized(ResizeThumb sender, TargetControlResizedEventArgs args)
+    {
+        // TODO: Investigate more
+        // Note: I'm not sure why the AdornedElement's SizeChanged/LayoutUpdate isn't getting triggered by our changes...
+        // So for now, we'll just force a layout update here of the Adorner itself to realign to the new size of the AdornedElement.
+        this.UpdateLayout();
     }
 }
