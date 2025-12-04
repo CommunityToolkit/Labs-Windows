@@ -18,4 +18,7 @@ public enum ResizePositionMode
     /// Resize using <see cref="FrameworkElement.Margin"/>'s Top and Left values.
     /// </summary>
     MarginTopLeft,
+
+    // TODO: MarginBottomRight could be added in the future. Not sure of alternate anchor points are useful? e.g. TopRight, BottomLeft
+    // Alternate anchor points would require more complex calculations during resize to determine when to change the Width/Height of the element.
 }

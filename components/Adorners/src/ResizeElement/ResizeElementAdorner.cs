@@ -56,7 +56,12 @@ public sealed partial class ResizeElementAdorner : Adorner<FrameworkElement>
         BottomRightThumbPart = GetTemplateChild(nameof(BottomRightThumbPart)) as ResizeThumb;
 
         // OnApplyTemplate can be called after OnAttached, especially if the Adorner isn't initially visible, so we need to re-apply the TargetControl here.
-        OnAttached();
+        if (AdornedElement is not null)
+        {
+            // Guard this incase we're getting removed from the visual tree...
+            // Not sure if this is a bug in the Adorner lifecycle or not or specific to how we've set this up here.
+            OnAttached();
+        }
     }
 
     /// <inheritdoc/>

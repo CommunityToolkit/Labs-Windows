@@ -76,6 +76,17 @@ public partial class ResizeThumb : Control
         }
 #endif
 
+        // If we're adjusting the opposite boundary then we need to invert the change values.
+        if (Direction == ResizeDirection.Right || Direction == ResizeDirection.TopRight || Direction == ResizeDirection.BottomRight)
+        {
+            horizontalChange *= -1;
+        }
+
+        if (Direction == ResizeDirection.Bottom || Direction == ResizeDirection.BottomLeft || Direction == ResizeDirection.BottomRight)
+        {
+            verticalChange *= -1;
+        }
+
         // Apply the changes to the target control
         if (TargetControl != null)
         {
@@ -83,9 +94,9 @@ public partial class ResizeThumb : Control
             bool adjustWidth = false;
             bool adjustHeight = false;
 
-            // Calculate the new size
-            var newWidth = _originalSize?.Width ?? 0 + horizontalChange;
-            var newHeight = _originalSize?.Height ?? 0 + verticalChange;
+            // Calculate the new size (Note: This is the opposite direction to expand the opposing boundary of the thumb)
+            var newWidth = (_originalSize?.Width ?? 0) - horizontalChange;
+            var newHeight = (_originalSize?.Height ?? 0) - verticalChange;
 
             if (Direction != ResizeDirection.Top && Direction != ResizeDirection.Bottom)
             {

@@ -20,4 +20,8 @@ The `ResizeElementAdorner` provides resizing functionality to any `FrameworkElem
 
 The `ResizeElementAdorner` can be attached to any element and displayed to allow a user to resize the adorned element by dragging the resize handles.
 
-> [!SAMPLE ResizeElementAdornerSample]
+> [!SAMPLE ResizeElementAdornerCanvasSample]
+
+This can be done above within a `Canvas` layout control, or with general layout using Margins as well:
+
+// TODO: Add Margin example here

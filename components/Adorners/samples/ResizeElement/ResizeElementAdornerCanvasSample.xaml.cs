@@ -5,10 +5,10 @@
 namespace AdornersExperiment.Samples.ResizeElement;
 
 [ToolkitSampleBoolOption("IsAdornerVisible", false, Title = "Is Adorner Visible")]
-[ToolkitSample(id: nameof(ResizeElementAdornerSample), "Resize Element Adorner", description: "A sample for showing how to use an Adorner for resizing an element.")]
-public sealed partial class ResizeElementAdornerSample : Page
+[ToolkitSample(id: nameof(ResizeElementAdornerCanvasSample), "Resize Element Adorner on Canvas", description: "A sample for showing how to use an Adorner for resizing an element within a Canvas.")]
+public sealed partial class ResizeElementAdornerCanvasSample : Page
 {
-    public ResizeElementAdornerSample()
+    public ResizeElementAdornerCanvasSample()
     {
         this.InitializeComponent();
     }
