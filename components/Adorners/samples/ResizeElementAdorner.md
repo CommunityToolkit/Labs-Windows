@@ -1,0 +1,23 @@
+---
+title: ResizeElementAdorner
+author: michael-hawker
+description: A ResizeElementAdorner provides resizing functionality to FrameworkElement.
+keywords: Adorners, Resize, FrameworkElement, Layout, Controls
+dev_langs:
+  - csharp
+category: Controls
+subcategory: Layout
+discussion-id: 278
+issue-id: 0
+icon: assets/icon.png
+---
+
+# ResizeElementAdorner
+
+The `ResizeElementAdorner` provides resizing functionality to any `FrameworkElement`.
+
+## Usage Example
+
+The `ResizeElementAdorner` can be attached to any element and displayed to allow a user to resize the adorned element by dragging the resize handles.
+
+> [!SAMPLE ResizeElementAdornerSample]
