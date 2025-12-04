@@ -2,7 +2,7 @@
 title: Adorners
 author: michael-hawker
 description: Adorners let you overlay content on top of your XAML components in a separate layer on top of everything else.
-keywords: Adorners, Control, Layout, InfoBadge, AdornerLayer, AdornerDecorator, Adorner, Input Validation, Highlighting
+keywords: Adorners, Control, Layout, InfoBadge, AdornerLayer, AdornerDecorator, Adorner, Input Validation, Resize, Highlighting
 dev_langs:
   - csharp
 category: Controls
@@ -60,13 +60,7 @@ The following example uses `IEditableObject` to control the editing lifecycle co
 
 Adorners are template-based controls, but you can use a class-backed resource dictionary to better enable usage of x:Bind for easier creation and binding to the `AdornedElement`, as seen here.
 
-You can see other example of custom adorners with the other Adorner help topics for the built-in adorners provided in this package, such as the `InputValidationAdorner`.
-
-## TODO: Resize Example
-
-Another common use case for adorners is to allow a user to resize a visual element.
-
-// TODO: Make an example here for this w/ custom Adorner class...
+You can see other example of custom adorners with the other Adorner help topics for the built-in adorners provided in this package, such as the `InputValidationAdorner` and `ResizeElementAdorner`.
 
 ## Migrating from WPF
 

@@ -1,6 +1,5 @@
 <!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<ResourceDictionary x:Class="CommunityToolkit.WinUI.Adorners.Resources.ResizeElementAdornerResources"
-                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:adorners="using:CommunityToolkit.WinUI.Adorners"
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -15,57 +14,49 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="adorners:ResizeElementAdorner">
-                    <ContentControl x:Name="ContentContainer"
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch">
-                        <ContentControl.ContentTemplate>
-                            <DataTemplate x:DataType="adorners:ResizeElementAdorner">
-                                <Grid BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
-                                      BorderThickness="1">
-                                    <controls:ResizeThumb x:Name="PART_TopThumb"
-                                                          Margin="0,-8,0,0"
-                                                          HorizontalAlignment="Center"
-                                                          VerticalAlignment="Top"
-                                                          Cursor="SizeNorthSouth" />
-                                    <controls:ResizeThumb x:Name="PART_BottomThumb"
-                                                          Margin="0,0,0,-8"
-                                                          HorizontalAlignment="Center"
-                                                          VerticalAlignment="Bottom"
-                                                          Cursor="SizeNorthSouth" />
-                                    <controls:ResizeThumb x:Name="PART_LeftThumb"
-                                                          Margin="-8,0,0,0"
-                                                          HorizontalAlignment="Left"
-                                                          VerticalAlignment="Center"
-                                                          Cursor="SizeWestEast" />
-                                    <controls:ResizeThumb x:Name="PART_RightThumb"
-                                                          Margin="0,0,-8,0"
-                                                          HorizontalAlignment="Right"
-                                                          VerticalAlignment="Center"
-                                                          Cursor="SizeWestEast" />
-                                    <controls:ResizeThumb x:Name="PART_UpperLeftThumb"
-                                                          Margin="-8,-8,0,0"
-                                                          HorizontalAlignment="Left"
-                                                          VerticalAlignment="Top"
-                                                          Cursor="SizeNorthwestSoutheast" />
-                                    <controls:ResizeThumb x:Name="PART_UpperRightThumb"
-                                                          Margin="0,-8,-8,0"
-                                                          HorizontalAlignment="Right"
-                                                          VerticalAlignment="Top"
-                                                          Cursor="SizeNortheastSouthwest" />
-                                    <controls:ResizeThumb x:Name="PART_LowerLeftThumb"
-                                                          Margin="-8,0,0,-8"
-                                                          HorizontalAlignment="Left"
-                                                          VerticalAlignment="Bottom"
-                                                          Cursor="SizeNortheastSouthwest" />
-                                    <controls:ResizeThumb x:Name="PART_LowerRightThumb"
-                                                          Margin="0,0,-8,-8"
-                                                          HorizontalAlignment="Right"
-                                                          VerticalAlignment="Bottom"
-                                                          Cursor="SizeNorthwestSoutheast" />
-                                </Grid>
-                            </DataTemplate>
-                        </ContentControl.ContentTemplate>
-                    </ContentControl>
+                    <Grid BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+                                    BorderThickness="1">
+                        <controls:ResizeThumb x:Name="TopThumbPart"
+                                                        Margin="0,-8,0,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Top"
+                                                        Direction="Top" />
+                        <controls:ResizeThumb x:Name="BottomThumbPart"
+                                                        Margin="0,0,0,-8"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Bottom"
+                                                        Direction="Bottom" />
+                        <controls:ResizeThumb x:Name="LeftThumbPart"
+                                                        Margin="-8,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Direction="Left" />
+                        <controls:ResizeThumb x:Name="RightThumbPart"
+                                                        Margin="0,0,-8,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Direction="Right" />
+                        <controls:ResizeThumb x:Name="TopLeftThumbPart"
+                                                        Margin="-8,-8,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top"
+                                                        Direction="TopLeft" />
+                        <controls:ResizeThumb x:Name="TopRightThumbPart"
+                                                        Margin="0,-8,-8,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        Direction="TopRight"/>
+                        <controls:ResizeThumb x:Name="BottomLeftThumbPart"
+                                                        Margin="-8,0,0,-8"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Bottom"
+                                                        Direction="BottomLeft" />
+                        <controls:ResizeThumb x:Name="BottomRightThumbPart"
+                                                        Margin="0,0,-8,-8"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Direction="BottomRight" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

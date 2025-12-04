@@ -8,7 +8,7 @@
 
         <!--  Custom Adorners  -->
         <resources:InputValidationAdornerResources />
-        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Adorners/ResizeElement/ResizeThumb.xaml" />
-        <resources:ResizeElementAdornerResources />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Adorners/ResizeElement/Thumb/ResizeThumb.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Adorners/ResizeElement/ResizeElementAdorner.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
