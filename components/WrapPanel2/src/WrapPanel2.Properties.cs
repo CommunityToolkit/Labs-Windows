@@ -53,13 +53,13 @@ public partial class WrapPanel2
         new PropertyMetadata(default(bool), OnPropertyChanged));
 
     /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="ForcedStretchMethod"/> property.
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="StretchChildren"/> property.
     /// </summary>
-    public static readonly DependencyProperty ForcedStretchMethodProperty = DependencyProperty.Register(
-        nameof(ForcedStretchMethod),
-        typeof(ForcedStretchMethod),
+    public static readonly DependencyProperty StretchChildrenProperty = DependencyProperty.Register(
+        nameof(StretchChildren),
+        typeof(StretchChildren),
         typeof(WrapPanel2),
-        new PropertyMetadata(default(ForcedStretchMethod), OnPropertyChanged));
+        new PropertyMetadata(default(StretchChildren), OnPropertyChanged));
 
     /// <summary>
     /// Backing <see cref="DependencyProperty"/> for the <see cref="OverflowBehavior"/> property.
@@ -109,10 +109,10 @@ public partial class WrapPanel2
     /// <summary>
     /// Gets or sets the method used to fill rows without a star-sized item.
     /// </summary>
-    public ForcedStretchMethod ForcedStretchMethod
+    public StretchChildren StretchChildren
     {
-        get => (ForcedStretchMethod)GetValue(ForcedStretchMethodProperty);
-        set => SetValue(ForcedStretchMethodProperty, value);
+        get => (StretchChildren)GetValue(StretchChildrenProperty);
+        set => SetValue(StretchChildrenProperty, value);
     }
 
     /// <summary>

@@ -15,7 +15,7 @@ namespace WrapPanel2Experiment.Samples;
 [ToolkitSampleNumericOption("ItemSpacing", 8, 0, 16, Title = "Item Spacing")]
 [ToolkitSampleNumericOption("LineSpacing", 2, 0, 16, Title = "Line Spacing")]
 [ToolkitSampleBoolOption("FixedRowLengths", false, Title = "Fixed Row Lengths")]
-[ToolkitSampleMultiChoiceOption("LayoutForcedStretchMethod", "None", "First", "Last", "Equal", "Proportional", Title = "Forced Stretch Method")]
+[ToolkitSampleMultiChoiceOption("LayoutStretchChildren", "StarSizedOnly", "First", "Last", "Equal", "Proportional", Title = "Forced Stretch Method")]
 [ToolkitSampleMultiChoiceOption("LayoutOverflowBehavior", "Wrap", "Drop", Title = "Overflow Behavior")]
 
 [ToolkitSample(id: nameof(WrapPanel2BasicSample), "WrapPanel2 Basic Sample", description: $"A sample for showing how to use a {nameof(WrapPanel2)} panel.")]
@@ -55,13 +55,13 @@ public sealed partial class WrapPanel2BasicSample : Page
     };
 
     // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
-    public static ForcedStretchMethod ConvertStringToForcedStretchMethod(string stretchMethod) => stretchMethod switch
+    public static StretchChildren ConvertStringToForcedStretchMethod(string stretchMethod) => stretchMethod switch
     {
-        "None" => ForcedStretchMethod.None,
-        "First" => ForcedStretchMethod.First,
-        "Last" => ForcedStretchMethod.Last,
-        "Equal" => ForcedStretchMethod.Equal,
-        "Proportional" => ForcedStretchMethod.Proportional,
+        "StarSizedOnly" => StretchChildren.StarSizedOnly,
+        "First" => StretchChildren.First,
+        "Last" => StretchChildren.Last,
+        "Equal" => StretchChildren.Equal,
+        "Proportional" => StretchChildren.Proportional,
         _ => throw new System.NotImplementedException(),
     };
 
