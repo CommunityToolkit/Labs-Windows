@@ -29,26 +29,26 @@ When not stretched along the main axis, star-sized child elements will be the sm
 
 When `FixedRowLengths` is enabled, all rows/columns will to stretch to the size of the largest row/column in the panel. When this is not enabled, rows/columns will size to their content individually.
 
-### Forced Stretch Method
+### Stretching Children
 
-The `ForcedStretchMethod` property allows you to specify how the panel should handle stretching in rows without star-sized definitions.
+The `StretchChildren` property allows you to specify how the panel should handle stretching in rows without star-sized definitions.
 
-#### None
+#### StarSizedOnly
 
-When set to `None`, this panel will not stretch rows/columns that do not have star-sized definitions. When the alignment is set to stretch, and even when fixed row lengths is enabled, the rows/columns without star-sized definitions will size to their content.
+When set to `StarSizedOnly`, this panel will never stretch rows/columns that do not have star-sized definitions. When the alignment is set to stretch, and even when fixed row lengths is enabled, the rows/columns without star-sized definitions will size to their content.
 
 #### First
 
-When set the `First`, this panel will stretch the first item in the row/column to occupy the remaining space when needed to comply with stretch alignment.
+When set the `First`, this panel will stretch the first item in the row/column to occupy the remaining space when needed if `FixedRowLengths` is enabled.
 
 #### Last
 
-When set to `Last`, this panel will stretch the last item in the row/column to occupy the remaining space when needed to comply with stretch alignment.
+When set to `Last`, this panel will stretch the last item in the row/column to occupy the remaining space when needed if `FixedRowLengths` is enabled.
 
 #### Equal
 
-When set to `Equal`, this panel will stretch all items in the row/column to occupy the equal space throughout the row when needed to comply with stretch alignment.
+When set to `Equal`, this panel will stretch all items in the row/column to occupy the equal space throughout the row when needed if `FixedRowLengths` is enabled.
 
 #### Proportional
 
-When set to `Proportional`, this panel will stretch all items in the row/column proportionally to their defined size to occupy the remaining space when needed to comply with stretch alignment.
+When set to `Proportional`, this panel will stretch all items in the row/column proportionally to their defined size to occupy the remaining space when needed if `FixedRowLengths` is enabled.
