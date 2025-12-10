@@ -69,23 +69,26 @@ public sealed partial class ResizeElementAdorner : Adorner<FrameworkElement>
     {
         base.OnAttached();
 
-        TopThumbPart?.TargetControl = AdornedElement;
-        BottomThumbPart?.TargetControl = AdornedElement;
-        LeftThumbPart?.TargetControl = AdornedElement;
-        RightThumbPart?.TargetControl = AdornedElement;
-        TopLeftThumbPart?.TargetControl = AdornedElement;
-        TopRightThumbPart?.TargetControl = AdornedElement;
-        BottomLeftThumbPart?.TargetControl = AdornedElement;
-        BottomRightThumbPart?.TargetControl = AdornedElement;
+        var parts = new ResizeThumb?[]
+        {
+            TopThumbPart,
+            BottomThumbPart,
+            LeftThumbPart,
+            RightThumbPart,
+            TopLeftThumbPart,
+            TopRightThumbPart,
+            BottomLeftThumbPart,
+            BottomRightThumbPart
+        };
 
-        TopThumbPart?.TargetControlResized += OnTargetControlResized;
-        BottomThumbPart?.TargetControlResized += OnTargetControlResized;
-        LeftThumbPart?.TargetControlResized += OnTargetControlResized;
-        RightThumbPart?.TargetControlResized += OnTargetControlResized;
-        TopLeftThumbPart?.TargetControlResized += OnTargetControlResized;
-        TopRightThumbPart?.TargetControlResized += OnTargetControlResized;
-        BottomLeftThumbPart?.TargetControlResized += OnTargetControlResized;
-        BottomRightThumbPart?.TargetControlResized += OnTargetControlResized;
+        foreach (var part in parts)
+        {
+            part?.TargetControl = AdornedElement;
+            part?.TargetControlResized += OnTargetControlResized;
+        }
+
+        // If the adorned element moves than we need to update our layout.
+        AdornedElement?.ManipulationDelta += OnTargetManipulated;
     }
 
     /// <inheritdoc/>
@@ -93,23 +96,30 @@ public sealed partial class ResizeElementAdorner : Adorner<FrameworkElement>
     {
         base.OnDetaching();
 
-        TopThumbPart?.TargetControlResized -= OnTargetControlResized;
-        BottomThumbPart?.TargetControlResized -= OnTargetControlResized;
-        LeftThumbPart?.TargetControlResized -= OnTargetControlResized;
-        RightThumbPart?.TargetControlResized -= OnTargetControlResized;
-        TopLeftThumbPart?.TargetControlResized -= OnTargetControlResized;
-        TopRightThumbPart?.TargetControlResized -= OnTargetControlResized;
-        BottomLeftThumbPart?.TargetControlResized -= OnTargetControlResized;
-        BottomRightThumbPart?.TargetControlResized -= OnTargetControlResized;
+        var parts = new ResizeThumb?[]
+        {
+            TopThumbPart,
+            BottomThumbPart,
+            LeftThumbPart,
+            RightThumbPart,
+            TopLeftThumbPart,
+            TopRightThumbPart,
+            BottomLeftThumbPart,
+            BottomRightThumbPart
+        };
 
-        TopThumbPart?.TargetControl = null;
-        BottomThumbPart?.TargetControl = null;
-        LeftThumbPart?.TargetControl = null;
-        RightThumbPart?.TargetControl = null;
-        TopLeftThumbPart?.TargetControl = null;
-        TopRightThumbPart?.TargetControl = null;
-        BottomLeftThumbPart?.TargetControl = null;
-        BottomRightThumbPart?.TargetControl = null;
+        foreach (var part in parts)
+        {
+            part?.TargetControlResized -= OnTargetControlResized;
+            part?.TargetControl = null;
+        }
+
+        AdornedElement?.ManipulationDelta -= OnTargetManipulated;
+    }
+    private void OnTargetManipulated(object sender, ManipulationDeltaRoutedEventArgs e)
+    {
+        // If the underlying adorned element moves than we need to update our layout.
+        this.UpdateLayout();
     }
 
     private void OnTargetControlResized(ResizeThumb sender, TargetControlResizedEventArgs args)

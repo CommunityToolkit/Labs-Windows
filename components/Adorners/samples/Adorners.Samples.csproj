@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+
+    <ProjectReference Include="$(RepositoryDirectory)components\CanvasView\src\CommunityToolkit.WinUI.Controls.CanvasView.csproj" />
   </ItemGroup>
 
   <!-- Sets this up as a toolkit component's sample project -->

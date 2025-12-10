@@ -100,6 +100,9 @@ public partial class ResizeThumb : Control
             var newWidth = (_originalSize?.Width ?? 0) - horizontalChange;
             var newHeight = (_originalSize?.Height ?? 0) - verticalChange;
 
+            // TODO: There may be other constraints on elements (aspect ratio of constrained box, image set to uniform, etc...)
+            // that may need to be considered here as well in which case we should restrict our reactions to those as well to stay synced
+            // and not move the element unexpectedly.
             if (Direction != ResizeDirection.Top && Direction != ResizeDirection.Bottom)
             {
                 if (IsValidWidth(TargetControl, newWidth, ActualWidth))

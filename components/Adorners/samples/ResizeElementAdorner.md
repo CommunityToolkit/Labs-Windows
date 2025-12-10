@@ -24,4 +24,10 @@ The `ResizeElementAdorner` can be attached to any element and displayed to allow
 
 This can be done above within a `Canvas` layout control, or with general layout using Margins as well:
 
-// TODO: Add Margin example here
+// TODO: Add Margin-based example here
+
+## Complete Example
+
+Using the `CanvasView` control allows for advanced manipulation with dragging elements as well, this can be combined to create a design-type surface:
+
+> [!SAMPLE ResizeElementAdornerWithDragSample]
