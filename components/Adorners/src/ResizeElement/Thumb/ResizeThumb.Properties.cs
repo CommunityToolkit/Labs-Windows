@@ -106,7 +106,7 @@ public partial class ResizeThumb : Control
             // so we'll update it here (and maintain any cursor override).
             if (cursor is CursorEnum cursorValue)
             {
-                FrameworkElementExtensions.SetCursor(gripper, cursorValue);
+                FrameworkElementExtensions.SetCursor(resizeThumb, cursorValue);
             }
 
             return;
