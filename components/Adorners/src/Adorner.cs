@@ -67,10 +67,18 @@ public partial class Adorner : ContentControl
             OnSizeChanged(null, null!);
             OnLayoutUpdated(null, null!);
 
+            // Track if AdornedElement is loaded
+            var weakPropertyChangedListenerLoaded = new WeakEventListener<Adorner, object, RoutedEventArgs>(this)
+            {
+                OnEventAction = static (instance, source, eventArgs) => instance.OnAdornedElementLoaded(source, eventArgs),
+                OnDetachAction = (weakEventListener) => newfe.Loaded -= weakEventListener.OnEvent // Use Local References Only
+            };
+            newfe.Loaded += weakPropertyChangedListenerLoaded.OnEvent;
+
             // Track if AdornedElement is unloaded
             var weakPropertyChangedListenerUnloaded = new WeakEventListener<Adorner, object, RoutedEventArgs>(this)
             {
-                OnEventAction = static (instance, source, eventArgs) => instance.OnUnloaded(source, eventArgs),
+                OnEventAction = static (instance, source, eventArgs) => instance.OnAdornedElementUnloaded(source, eventArgs),
                 OnDetachAction = (weakEventListener) => newfe.Unloaded -= weakEventListener.OnEvent // Use Local References Only
             };
             newfe.Unloaded += weakPropertyChangedListenerUnloaded.OnEvent;
@@ -103,13 +111,23 @@ public partial class Adorner : ContentControl
         }
     }
 
-    private void OnUnloaded(object source, RoutedEventArgs eventArgs)
+    private void OnAdornedElementLoaded(object source, RoutedEventArgs eventArgs)
+    {
+        if (AdornerLayer is null) return;
+
+        OnAttached();
+    }
+
+    private void OnAdornedElementUnloaded(object source, RoutedEventArgs eventArgs)
     {
         if (AdornerLayer is null) return;
 
         OnDetaching();
 
-        AdornerLayer.RemoveAdorner(AdornerLayer, this);        
+        // TODO: Need to evaluate lifecycle a bit more, right now AdornerLayer (via attached property) mostly constrols the lifecycle
+        // We could use private WeakReference to AdornedElement to re-listen for Loaded event and still remove/re-add via those
+        // We just like to have the harder reference while we're active to make binding/interaction for Adorner implementer easier in XAML...
+        //// AdornerLayer.RemoveAdorner(AdornerLayer, this);        
     }
 
     internal AdornerLayer? AdornerLayer { get; set; }
