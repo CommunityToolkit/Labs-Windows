@@ -63,5 +63,5 @@ When set to `Proportional`, this panel will stretch all items in the row/column 
 
 Encoding diagram example
 
-[!Sample WrapPanel2ProportionalSample]
+> [!Sample WrapPanel2ProportionalSample]
 
