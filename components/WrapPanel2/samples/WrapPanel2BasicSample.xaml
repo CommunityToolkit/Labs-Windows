@@ -20,7 +20,8 @@
         </Style>
     </Page.Resources>
 
-    <Grid MaxHeight="600">
+    <Grid MaxHeight="600"
+          Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition />

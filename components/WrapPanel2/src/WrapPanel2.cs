@@ -133,7 +133,7 @@ public partial class WrapPanel2 : Panel
         }
 
         // Set a flag for if the row is being forced to stretch
-        bool forceStretch = row.PortionsSum is 0 && StretchChildren is not StretchChildren.StarSizedOnly;
+        bool forceStretch = FixedRowLengths && row.PortionsSum is 0 && StretchChildren is not StretchChildren.StarSizedOnly;
 
         // Setup portionSize for forced stretching
         if (forceStretch)
