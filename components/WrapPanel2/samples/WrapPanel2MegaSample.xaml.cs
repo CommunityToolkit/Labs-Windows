@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
-using Windows.UI;
 
 namespace WrapPanel2Experiment.Samples;
 
@@ -19,10 +18,10 @@ namespace WrapPanel2Experiment.Samples;
 [ToolkitSampleMultiChoiceOption("LayoutStretchChildren", "StarSizedOnly", "First", "Last", "Equal", "Proportional", Title = "Forced Stretch Method")]
 [ToolkitSampleMultiChoiceOption("LayoutOverflowBehavior", "Wrap", "Drop", Title = "Overflow Behavior")]
 
-[ToolkitSample(id: nameof(WrapPanel2BasicSample), $"Basic demo of the {nameof(WrapPanel2)} with auto-sized items.", description: $"A sample showing every property of the {nameof(WrapPanel2)} panel.")]
-public sealed partial class WrapPanel2BasicSample : Page
+[ToolkitSample(id: nameof(WrapPanel2MegaSample), "Demo of all WrapPanel2 feature", description: $"A sample showing every property of the {nameof(WrapPanel2)} panel.")]
+public sealed partial class WrapPanel2MegaSample : Page
 {
-    public WrapPanel2BasicSample()
+    public WrapPanel2MegaSample()
     {
         this.InitializeComponent();
     }
@@ -73,43 +72,4 @@ public sealed partial class WrapPanel2BasicSample : Page
         "Drop" => OverflowBehavior.Drop,
         _ => throw new System.NotImplementedException(),
     };
-
-    private int _index;
-
-    private string[] LoremIpsumWords => LoremIpsum.Split(' ');
-
-    private string LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fermentum placerat pretium. Phasellus molestie faucibus purus ut semper. Etiam felis ante, condimentum sed leo in, aliquam pharetra libero. Etiam ante ante, sagittis in semper eu, aliquam non sapien. Donec a pharetra magna. Suspendisse et nulla magna. Cras varius sem dolor, ac faucibus turpis malesuada ac. Maecenas rutrum tortor et faucibus rutrum. Vestibulum in gravida odio, non dapibus dui. Praesent leo tellus, vulputate sed sollicitudin id, fringilla quis ligula. Cras eget ex vitae purus pulvinar mattis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec consectetur tellus id augue ultrices, eget congue tellus pharetra.";
-
-    private void AddItemClick(object sender, RoutedEventArgs e)
-    {
-        AddItem();
-    }
-
-    private void Add5ItemsClick(object sender, RoutedEventArgs e)
-    {
-        for (int i = 0; i < 5; i++)
-            AddItem();
-    }
-
-    private void ClearItemsClick(object sender, RoutedEventArgs e)
-    {
-        WrapPanel.Children.Clear();
-        _index = 0;
-    }
-
-    private void AddItem()
-    {
-        _index = _index % LoremIpsumWords.Length;
-
-        var currentWord = LoremIpsumWords[_index++];
-        var border = new Border()
-        {
-            Child = new TextBlock()
-            {
-                Text = currentWord,
-            }
-        };
-
-        WrapPanel.Children.Add(border);
-    }
 }

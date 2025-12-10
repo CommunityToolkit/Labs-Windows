@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
   <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))" Condition="Exists('$([MSBuild]::GetPathOfFileAbove(Directory.Build.props))')" />
   
   <PropertyGroup>
@@ -11,5 +11,20 @@
     <Compile Update="WrapPanel2BasicSample.xaml.cs">
       <DependentUpon>WrapPanel2BasicSample.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="WrapPanel2ProportionalSample.xaml.cs">
+      <DependentUpon>WrapPanel2ProportionalSample.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="WrapPanel2MegaSample.xaml.cs">
+      <DependentUpon>WrapPanel2MegaSample.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="WrapPanel2BasicSample.xaml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
 </Project>

@@ -23,7 +23,7 @@ public partial class WrapPanel2
         nameof(Orientation),
         typeof(Orientation),
         typeof(WrapPanel2),
-        new PropertyMetadata(default(Orientation), OnPropertyChanged));
+        new PropertyMetadata(Orientation.Horizontal, OnPropertyChanged));
 
     /// <summary>
     /// Backing <see cref="DependencyProperty"/> for the <see cref="ItemSpacing"/> property.

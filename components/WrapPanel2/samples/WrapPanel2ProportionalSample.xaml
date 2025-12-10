@@ -1,0 +1,50 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="WrapPanel2Experiment.Samples.WrapPanel2ProportionalSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:WrapPanel2Experiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Border CornerRadius="8" Padding="2" BorderBrush="Black" Background="Black"
+                VerticalAlignment="Top" HorizontalAlignment="Stretch">
+        <Border.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="6" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+            </Style>
+        </Border.Resources>
+
+        <controls:WrapPanel2 ItemSpacing="2" HorizontalAlignment="Stretch">
+            <Border Background="#A7FA95"
+                        controls:WrapPanel2.LayoutLength="6*">
+                <TextBlock Text="OP Code (6 bits)"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"/>
+            </Border>
+            <Border Background="#FE8482"
+                        controls:WrapPanel2.LayoutLength="5*">
+                <TextBlock Text="RS (5 bits)"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"/>
+            </Border>
+            <Border Background="#FE8482"
+                        controls:WrapPanel2.LayoutLength="5*">
+                <TextBlock Text="RS (5 bits)"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"/>
+            </Border>
+            <Border Background="#F8FC8B"
+                        controls:WrapPanel2.LayoutLength="16*">
+                <TextBlock Text="Immediate (16 bits)"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"/>
+            </Border>
+        </controls:WrapPanel2>
+    </Border>
+</Page>

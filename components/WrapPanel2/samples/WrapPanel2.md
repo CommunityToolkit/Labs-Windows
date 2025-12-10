@@ -1,5 +1,5 @@
 ---
-title: WrapPannel2
+title: WrapPanel2
 author: Avid29
 description: A labs-component candidate for a new WrapPanel implementation.
 keywords: WrapPanel, Control, Layout
@@ -52,3 +52,16 @@ When set to `Equal`, this panel will stretch all items in the row/column to occu
 #### Proportional
 
 When set to `Proportional`, this panel will stretch all items in the row/column proportionally to their defined size to occupy the remaining space when needed if `FixedRowLengths` is enabled.
+
+## Additional Samples
+
+### Adjusted Sizings Sample
+
+> [!Sample WrapPanel2MegaSample]
+
+### Proportional Sizing
+
+Encoding diagram example
+
+[!Sample WrapPanel2ProportionalSample]
+
