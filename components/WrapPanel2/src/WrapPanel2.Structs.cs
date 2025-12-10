@@ -27,6 +27,7 @@ public partial class WrapPanel2
                     break;
             }
 
+            MaxInAxisSize = desiredSize.U;
             MaxOffAxisSize = desiredSize.V;
             ItemsCount = 1;
         }
@@ -51,6 +52,14 @@ public partial class WrapPanel2
         /// Gets the maximum width/height of items in the row/column.
         /// </summary>
         /// <remarks>
+        /// Height in vertical orientation, width in horizontal orientation.
+        /// </remarks>
+        public double MaxInAxisSize { get; private set; }
+
+        /// <summary>
+        /// Gets the maximum width/height of items in the row/column.
+        /// </summary>
+        /// <remarks>
         /// Width in vertical orientation, height in horizontal orientation.
         /// </remarks>
         public double MaxOffAxisSize { get; private set; }
@@ -65,11 +74,11 @@ public partial class WrapPanel2
         /// </summary>
         public int ItemsCount { get; private set; }
 
-        public bool TryAdd(RowSpec addend, double spacing, double maxSize)
+        public bool TryAdd(RowSpec addend, double spacing, double maxSize, bool equalStretching)
         {
             // Check if adding the new spec would exceed the maximum size
             var sum = this + addend;
-            if (sum.Measure(spacing) > maxSize)
+            if (sum.Measure(spacing, equalStretching) > maxSize)
                 return false;
 
             // Update the current spec to include the new spec
@@ -77,14 +86,25 @@ public partial class WrapPanel2
             return true;
         }
 
-        public readonly double Measure(double spacing)
+        public readonly double Measure(double spacing, bool equalStretching)
         {
             var totalSpacing = (ItemsCount - 1) * spacing;
-            var totalSize = ReservedSpace + totalSpacing;
 
-            // Add star-sized items if applicable
+            // Handle equal-sized items child stretching.
+            // Without this check, children might become scrunched in the arrange
+            // step when they are made equal sizes.
+            if (equalStretching && PortionsSum is 0)
+            {
+                return (MaxInAxisSize * ItemsCount) + totalSpacing;
+            }
+
+            // Otherwise, base size is reserved space + spacing
+            var totalSize = ReservedSpace + totalSpacing;
+            
+            // Also add star-sized items if applicable
             if (!double.IsNaN(MinPortionSize) && !double.IsInfinity(MinPortionSize))
                 totalSize += MinPortionSize * PortionsSum;
+
 
             return totalSize;
         }
@@ -96,6 +116,7 @@ public partial class WrapPanel2
                 ReservedSpace = a.ReservedSpace + b.ReservedSpace,
                 PortionsSum = a.PortionsSum + b.PortionsSum,
                 MinPortionSize = Math.Max(a.MinPortionSize, b.MinPortionSize),
+                MaxInAxisSize = Math.Max(a.MaxInAxisSize, b.MaxInAxisSize),
                 MaxOffAxisSize = Math.Max(a.MaxOffAxisSize, b.MaxOffAxisSize),
                 ItemsCount = a.ItemsCount + b.ItemsCount
             };

@@ -31,6 +31,10 @@ public partial class WrapPanel2 : Panel
             return new Size(0, 0);
         }
 
+        // Adjusted measuring will be required if fixed row lengths is enabled and
+        // the StretchChildren is set to Equal. Condense this into a bool here.
+        bool equalStretching = FixedRowLengths && StretchChildren is StretchChildren.Equal;
+
         foreach (var child in elements)
         {
             // Measure the child's desired size and get layout
@@ -40,7 +44,7 @@ public partial class WrapPanel2 : Panel
 
             // Attempt to add the child to the current row/column
             var spec = new RowSpec(layoutLength, uvDesiredSize);
-            if (!currentRowSpec.TryAdd(spec, ItemSpacing, uvAvailableSize.U))
+            if (!currentRowSpec.TryAdd(spec, ItemSpacing, uvAvailableSize.U, equalStretching))
             {
                 // If the overflow behavior is drop, just end the row here.
                 if (OverflowBehavior is OverflowBehavior.Drop)
@@ -49,14 +53,14 @@ public partial class WrapPanel2 : Panel
                 // Could not add to current row/column
                 // Start a new row/column
                 _rowSpecs.Add(currentRowSpec);
-                _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing));
+                _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing, equalStretching));
                 currentRowSpec = spec;
             }
         }
 
         // Add the final row/column
         _rowSpecs.Add(currentRowSpec);
-        _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing));
+        _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing, equalStretching));
 
         // Calculate final desired size
         var uvSize = new UVCoord(0, 0, Orientation)
@@ -128,7 +132,7 @@ public partial class WrapPanel2 : Panel
         // Also do this if there are no star-sized items in the row/column and no forced streching is in use.
         if (!stretch || (row.PortionsSum is 0 && StretchChildren is StretchChildren.StarSizedOnly))
         {
-            var rowSize = row.Measure(ItemSpacing);
+            var rowSize = row.Measure(ItemSpacing, false);
             pos.U = GetStartByAlignment(GetAlignment(), rowSize, uvFinalSize.U);
         }
 
