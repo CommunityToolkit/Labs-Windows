@@ -1,0 +1,84 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="AdornersExperiment.Samples.InputValidation.InputValidationAdornerSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:adorners="using:CommunityToolkit.WinUI.Adorners"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:AdornersExperiment.Samples.InputValidation"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:ui="using:CommunityToolkit.WinUI"
+      mc:Ignorable="d">
+
+    <StackPanel HorizontalAlignment="Left"
+                Spacing="16">
+        <TextBlock Text="Please fill out the form below and click Submit:" />
+
+        <!--  We set the DataContext here for our Adorner to retrieve the INotifyDataErrorInfo reference  -->
+        <!--  We use TwoWay binding to ensure the updates from the Adorner are reflected in the ViewModel  -->
+        <TextBox Header="Enter your first name:"
+                 PlaceholderText="First name"
+                 Text="{x:Bind ViewModel.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ui:AdornerLayer.Xaml>
+                <adorners:InputValidationAdorner NotifyDataErrorInfo="{x:Bind ViewModel}"
+                                                 PropertyName="FirstName" />
+            </ui:AdornerLayer.Xaml>
+        </TextBox>
+
+        <TextBox DataContext="{x:Bind ViewModel}"
+                 Header="Enter your last name:"
+                 PlaceholderText="Last name"
+                 Text="{x:Bind ViewModel.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ui:AdornerLayer.Xaml>
+                <adorners:InputValidationAdorner NotifyDataErrorInfo="{x:Bind ViewModel}"
+                                                 PropertyName="LastName" />
+            </ui:AdornerLayer.Xaml>
+        </TextBox>
+
+        <TextBox DataContext="{x:Bind ViewModel}"
+                 Header="Enter your email address:"
+                 PlaceholderText="Email"
+                 Text="{x:Bind ViewModel.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ui:AdornerLayer.Xaml>
+                <adorners:InputValidationAdorner NotifyDataErrorInfo="{x:Bind ViewModel}"
+                                                 PropertyName="Email" />
+            </ui:AdornerLayer.Xaml>
+        </TextBox>
+
+        <TextBox DataContext="{x:Bind ViewModel}"
+                 Header="Enter your phone number:"
+                 PlaceholderText="Phone number"
+                 Text="{x:Bind ViewModel.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ui:AdornerLayer.Xaml>
+                <adorners:InputValidationAdorner NotifyDataErrorInfo="{x:Bind ViewModel}"
+                                                 PropertyName="PhoneNumber">
+                    <!--  Override some style properties  -->
+                    <adorners:InputValidationAdorner.Resources>
+                        <SolidColorBrush x:Key="InputValidationAdornerBorderBrush"
+                                         Color="Yellow" />
+                        <SolidColorBrush x:Key="InputValidationAdornerBadgeBackground"
+                                         Color="{ThemeResource SystemFillColorCaution}" />
+                        <x:String x:Key="InputValidationAdornerBadgeGlyph">&#xE7BA;</x:String>
+                    </adorners:InputValidationAdorner.Resources>
+                </adorners:InputValidationAdorner>
+            </ui:AdornerLayer.Xaml>
+        </TextBox>
+
+        <muxc:NumberBox DataContext="{x:Bind ViewModel}"
+                        Header="Enter your age:"
+                        LargeChange="10"
+                        PlaceholderText="Age"
+                        SmallChange="1"
+                        SpinButtonPlacementMode="Inline"
+                        Value="{x:Bind ViewModel.Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ui:AdornerLayer.Xaml>
+                <adorners:InputValidationAdorner NotifyDataErrorInfo="{x:Bind ViewModel}"
+                                                 PropertyName="Age" />
+            </ui:AdornerLayer.Xaml>
+        </muxc:NumberBox>
+
+        <!--  Submit command  -->
+        <Button Command="{x:Bind ViewModel.SubmitCommand}"
+                Content="Submit" />
+    </StackPanel>
+</Page>

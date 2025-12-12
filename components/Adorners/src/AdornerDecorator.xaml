@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="using:CommunityToolkit.WinUI">
+
+    <Style BasedOn="{StaticResource AdornerDecoratorDefaultStyle}"
+           TargetType="ui:AdornerDecorator" />
+
+    <Style x:Key="AdornerDecoratorDefaultStyle"
+           TargetType="ui:AdornerDecorator">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ui:AdornerDecorator">
+                    <!--
+                        TODO: We could make a simple panel here to not use Grid
+                        Basically we need something that arranges the content and the adorner layer within the same space,
+                        we put the AdornerLayer below so it will appear atop all content within the decorated region.
+                    -->
+                    <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                        <ContentPresenter Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          Background="{TemplateBinding Background}"
+                                          BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          Content="{TemplateBinding Child}"
+                                          CornerRadius="{TemplateBinding CornerRadius}" />
+                        <ui:AdornerLayer x:Name="AdornerLayer" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
