@@ -9,9 +9,15 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-    tags: [ 'release/weekly/*' ]
+    tags: [ 'release/weekly/**' ]
   pull_request:
     branches: [ main ]
+
+  # Triggers on release publication (including automated weekly releases)
+  # Note: Tag events don't trigger from GitHub Actions, but release events do
+  # This allows scheduled-releases.yml to trigger builds via gh release create
+  release:
+    types: [published]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,16 +36,10 @@ env:
 jobs:
   # This workflow contains a single job called "Xaml-Style-Check"
   Xaml-Style-Check:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # .NET 6 SDK is required for xamlstyler.console to run.
-      - name: Install .NET SDK v6
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 6.0.x
-
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v4
         with:
@@ -64,7 +64,7 @@ jobs:
   # Build both Uno.UI/WinUI2/UWP and Uno.WinUI/WinUI3/WindowsAppSDK versions of our packages using a matrix
   build:
     needs: [Xaml-Style-Check]
-    runs-on: windows-latest-large
+    runs-on: windows-2022
 
     # See https://docs.github.com/actions/using-jobs/using-a-matrix-for-your-jobs
     strategy:
@@ -82,10 +82,26 @@ jobs:
 
     env:
       MULTI_TARGET_DIRECTORY: tooling/MultiTarget
-      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
+      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/') || startsWith(github.ref, 'refs/tags/release/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Filter release events to only process weekly releases
+      # Note: Release events don't support pattern filtering, so we filter manually
+      # This allows both manual releases and automated weekly releases to trigger builds
+      - name: Filter release events
+        if: github.event_name == 'release'
+        id: filter-release
+        run: |
+          $tagName = "${{ github.event.release.tag_name }}"
+          if ($tagName -match "^release/weekly/") {
+            Write-Host "Matched weekly release tag: $tagName"
+            exit 0
+          } else {
+            Write-Host "Tag does not match weekly pattern: $tagName - skipping build"
+            exit 1
+          }
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -155,6 +171,7 @@ jobs:
           --skip wsl
           --skip androidemulator
           --skip vswinworkloads
+          --skip vswin
           --verbose
 
       - name: Add msbuild to PATH
@@ -242,7 +259,7 @@ jobs:
           dotnet-dump analyze ${{ steps.filter.outputs.dump_files }} -c "clrstack" -c "pe -lines" -c "exit"
 
   package:
-    runs-on: windows-latest-large
+    runs-on: windows-2022
     needs: [build]
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them all to run to completion.
@@ -250,7 +267,7 @@ jobs:
         winui: [0, 2, 3]
 
     env:
-      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
+      VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/') || startsWith(github.ref, 'refs/tags/release/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
@@ -271,9 +288,11 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
           
-      - name: Format Date/Time of Commit for Package Version
+      - name: Format Date/Time for Package Version (Tag builds only)
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
-          echo "VERSION_DATE=$(git log -1 --format=%cd --date=format:%y%m%d)" >> $env:GITHUB_ENV
+          $dateString = "${{ github.ref }}" -replace '^refs/tags/release/weekly/', ''
+          echo "VERSION_DATE=$dateString" >> $env:GITHUB_ENV
 
       - name: Restore dotnet tools
         run: dotnet tool restore
@@ -287,6 +306,7 @@ jobs:
           --skip wsl
           --skip androidemulator
           --skip vswinworkloads
+          --skip vswin
           --verbose
 
       - name: Add msbuild to PATH
@@ -314,7 +334,7 @@ jobs:
       # Build and pack component nupkg
       - name: Build and pack component packages
         if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
-        run: ./tooling/Build-Toolkit-Components.ps1 -MultiTargets all -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }} -DateForVersion ${{ env.VERSION_DATE }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
+        run: ./tooling/Build-Toolkit-Components.ps1 -MultiTargets all -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }} ${{ env.VERSION_DATE != '' && format('-DateForVersion {0}', env.VERSION_DATE) || '' }} ${{ env.VERSION_PROPERTY != '' && format('-PreviewVersion "{0}"', env.VERSION_PROPERTY) || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-EnableBinlogs' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && '-Verbose' || '' }} -BinlogOutput ./ -NupkgOutput ./ -Release
 
       - name: Validate package names
         if: ${{ env.VERSION_PROPERTY != '' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
@@ -366,14 +386,14 @@ jobs:
   sign:
     needs: [package]
     if: ${{ startsWith(github.ref, 'refs/heads/rel/') || startsWith(github.ref, 'refs/tags/') }}
-    runs-on: windows-latest
+    runs-on: windows-2022
     permissions:
       id-token: write # Required for requesting the JWT
 
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them both to run to completion.
       matrix:
-        winui: [2, 3]
+        winui: [0, 2, 3]
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
@@ -438,7 +458,7 @@ jobs:
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them both to run to completion.
       matrix:
-        winui: [2, 3]
+        winui: [0, 2, 3]
 
     steps:
       - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
