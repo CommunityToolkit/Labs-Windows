@@ -1,0 +1,60 @@
+<Page x:Class="AdornersExperiment.Samples.ElementHighlightAdornerSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:AdornersExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="using:CommunityToolkit.WinUI"
+      mc:Ignorable="d">
+
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="8">
+        <Button Content="Test Button">
+            <ui:AdornerLayer.Xaml>
+                <Canvas x:Name="AdornerCanvas"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        ui:FrameworkElementExtensions.EnableActualSizeBinding="True"
+                        Background="Cyan"
+                        IsHitTestVisible="False"
+                        Opacity="0.3"
+                        Visibility="{x:Bind IsAdornerVisible, Mode=OneWay}">
+
+                    <!--  Horizontal Bound Lines  -->
+                    <Line Stroke="Cyan"
+                          StrokeThickness="1"
+                          X1="-10000"
+                          X2="10000"
+                          Y1="0"
+                          Y2="0" />
+                    <!--  TODO: Can't use x:Bind due to Uno bug: https://github.com/unoplatform/uno/issues/7893  -->
+                    <Line Stroke="Cyan"
+                          StrokeThickness="1"
+                          X1="-10000"
+                          X2="10000"
+                          Y1="{Binding ElementName=AdornerCanvas, Path=(ui:FrameworkElementExtensions.ActualHeight)}"
+                          Y2="{Binding ElementName=AdornerCanvas, Path=(ui:FrameworkElementExtensions.ActualHeight)}" />
+
+                    <!--  Vertical Bound Lines  -->
+                    <Line HorizontalAlignment="Left"
+                          Stroke="Cyan"
+                          StrokeThickness="1"
+                          X1="0"
+                          X2="0"
+                          Y1="-10000"
+                          Y2="10000" />
+                    <Line HorizontalAlignment="Right"
+                          Stroke="Cyan"
+                          StrokeThickness="1"
+                          X1="{Binding ElementName=AdornerCanvas, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
+                          X2="{Binding ElementName=AdornerCanvas, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
+                          Y1="-10000"
+                          Y2="10000" />
+                </Canvas>
+            </ui:AdornerLayer.Xaml>
+        </Button>
+        <!--  TODO: Maybe we want to use XAML Behaviors to have PointerEntered on Button and then PointerExit on Adorner to show/hide?  -->
+        <TextBlock Text="Click the checkbox to see the highlight." />
+    </StackPanel>
+</Page>
