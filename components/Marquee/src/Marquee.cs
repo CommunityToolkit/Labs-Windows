@@ -277,7 +277,7 @@ public partial class Marquee : ContentControl
     /// </remarks>
     /// <param name="seekPoint">The seek point to resume the animation (if possible or appropriate.</param>
     /// <exception cref="InvalidOperationException">Thrown when template parts are not supplied.</exception>
-    /// <returns>Returns whether or not an animation is neccesary.</returns>
+    /// <returns>Returns whether or not an animation is necessary.</returns>
     private bool UpdateAnimation(out TimeSpan seekPoint)
     {
         seekPoint = TimeSpan.Zero;
