@@ -6,7 +6,7 @@
     <SharedGUID>F2D39FE2-BDFC-4E8C-9948-272F5272F936</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>TransitionHelperExperiment.Tests</Import_RootNamespace>
+    <Import_RootNamespace>TransitionHelperTests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleTransitionHelperTestClass.cs" />

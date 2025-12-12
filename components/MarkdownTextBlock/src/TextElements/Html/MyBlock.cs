@@ -5,7 +5,7 @@
 using HtmlAgilityPack;
 using Windows.UI.Text;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements.Html;
+namespace CommunityToolkit.WinUI.Controls.TextElements.Html;
 
 internal class MyBlock : IAddChild
 {

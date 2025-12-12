@@ -4,9 +4,9 @@
 
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
-using CommunityToolkit.Labs.WinUI.Rive;
+using CommunityToolkit.WinUI.Rive;
 
-namespace RivePlayerExperiment.Tests;
+namespace RivePlayerTests;
 
 // Track https://github.com/CommunityToolkit/Labs-Windows/issues/567
 #if !WINDOWS_WINAPPSDK

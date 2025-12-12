@@ -4,7 +4,7 @@
 
 using HtmlAgilityPack;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements.Html;
+namespace CommunityToolkit.WinUI.Controls.TextElements.Html;
 
 internal class MyInline : IAddChild
 {

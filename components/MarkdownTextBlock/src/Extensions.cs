@@ -7,13 +7,13 @@
 //using ColorCode.Styling;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.TextElements;
 using System.Xml.Linq;
 using System.Globalization;
 using Windows.UI.ViewManagement;
 using HtmlAgilityPack;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+namespace CommunityToolkit.WinUI.Controls;
 
 public static class Extensions
 {

@@ -1,0 +1,101 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<local:ColorPaletteSamplerToolkitSampleBase x:Class="ColorAnalyzerExperiment.Samples.MultiplePaletteSelectorSample"
+                                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                            xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
+                                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                            xmlns:helpers="using:CommunityToolkit.WinUI.Helpers"
+                                            xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+                                            xmlns:local="using:ColorAnalyzerExperiment.Samples"
+                                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                            mc:Ignorable="d">
+
+    <local:ColorPaletteSamplerToolkitSampleBase.Resources>
+        <helpers:ColorPaletteSampler x:Name="ColorPaletteSampler"
+                                     Source="{x:Bind SampledImage}">
+            <helpers:AccentColorPaletteSelector x:Name="AccentPalette"
+                                                MinColorCount="1" />
+            <helpers:BaseColorPaletteSelector x:Name="BaseColorPalette"
+                                              MinColorCount="1" />
+            <helpers:ColorWeightPaletteSelector x:Name="ColorWeightPalette"
+                                                MinColorCount="1" />
+        </helpers:ColorPaletteSampler>
+    </local:ColorPaletteSamplerToolkitSampleBase.Resources>
+
+    <!--
+        ConstrastHelper is used in this sample to auto-adjust text Foreground to ensure
+        readability against dynamic background. This is not the ContrastHelper sample.
+        (though it is a fantastic example use case for it!)
+    -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Margin="20"
+              VerticalAlignment="Center">
+            <Image x:Name="SampledImage"
+                   HorizontalAlignment="Center"
+                   Source="{x:Bind SelectedImage, Mode=OneWay}"
+                   Stretch="Uniform">
+                <interactivity:Interaction.Behaviors>
+                    <interactivity:EventTriggerBehavior EventName="ImageOpened">
+                        <interactivity:CallMethodAction MethodName="UpdatePalette"
+                                                        TargetObject="{x:Bind ColorPaletteSampler}" />
+                    </interactivity:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Image>
+        </Grid>
+
+        <Grid Grid.Column="1"
+              MaxWidth="400"
+              MaxHeight="250"
+              Margin="20"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="0.6*" />
+            </Grid.RowDefinitions>
+
+            <!--  Dominant  -->
+            <Border Grid.ColumnSpan="2"
+                    Margin="4"
+                    Padding="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind ColorWeightPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
+                </Border.Background>
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind ColorWeightPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}"
+                           Text="Dominant" />
+            </Border>
+
+            <!--  Accent  -->
+            <Border Grid.Row="1"
+                    Margin="4"
+                    Padding="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind AccentPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
+                </Border.Background>
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind AccentPalette.SelectedColors[1], FallbackValue=Transparent, Mode=OneWay}"
+                           Text="Accent" />
+            </Border>
+
+            <!--  Base  -->
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="4"
+                    Padding="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{x:Bind BaseColorPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}" />
+                </Border.Background>
+                <TextBlock helpers:ContrastHelper.Opponent="{x:Bind BaseColorPalette.SelectedColors[0], FallbackValue=Transparent, Mode=OneWay}"
+                           Text="Base" />
+            </Border>
+        </Grid>
+    </Grid>
+</local:ColorPaletteSamplerToolkitSampleBase>

@@ -28,7 +28,7 @@ Otherwise, you can clone the repo, open the `components` directory, navigate wit
 - [DataTable](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/DataTable/samples/DataTable.md)
 - [Extensions.DependencyInjection](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Extensions.DependencyInjection)
 - [MarkdownTextBlock](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarkdownTextBlock/samples/MarkdownTextBlock.md)
-- [MarqueeText](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarqueeText/samples/MarqueeText.md)
+- [Marquee](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Marquee/samples/Marquee.md)
 - [Notifications](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Notifications)
 - [Ribbon](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Ribbon/samples/Ribbon.md)
 - [RivePlayer](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/RivePlayer/samples/RivePlayer.md)
@@ -48,7 +48,7 @@ git clone --recurse-submodules https://github.com/CommunityToolkit/Labs-Windows.
 ## Build Requirements
 
 - Visual Studio 2022 (UWP & Desktop Workloads for .NET)
-- .NET 8 SDK
+- .NET 9 SDK
 - Windows 10 SDK, version 2004 (10.0.19041.0)
 - Windows 10 21H1 (Build 19043) or greater
 - Run `dotnet tool restore` from the project root to install SlnGen

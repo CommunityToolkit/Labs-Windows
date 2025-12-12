@@ -5,7 +5,7 @@
 using Markdig.Syntax.Inlines;
 using Windows.UI.Text;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyEmphasisInline : IAddChild
 {

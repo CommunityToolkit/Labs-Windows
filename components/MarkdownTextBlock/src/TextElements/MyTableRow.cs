@@ -4,7 +4,7 @@
 
 using Markdig.Extensions.Tables;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyTableRow : IAddChild
 {

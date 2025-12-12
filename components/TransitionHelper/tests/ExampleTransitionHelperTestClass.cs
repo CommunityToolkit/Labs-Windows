@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.WinUI;
+using CommunityToolkit.WinUI;
 using CommunityToolkit.Tests;
 using CommunityToolkit.Tooling.TestGen;
 
-namespace TransitionHelperExperiment.Tests;
+namespace TransitionHelperTests;
 
 [TestClass]
 public partial class ExampleTransitionHelperTestClass : VisualUITestBase

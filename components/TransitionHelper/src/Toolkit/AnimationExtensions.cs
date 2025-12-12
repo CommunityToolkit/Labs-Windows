@@ -12,7 +12,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI;
 
 /// <summary>
 /// Common properties related to extensions. (Copied from internal of Toolkit)

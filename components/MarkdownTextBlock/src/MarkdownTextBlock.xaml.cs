@@ -2,15 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Extensions;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Inlines;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.Renderers;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Extensions;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Inlines;
+using CommunityToolkit.WinUI.Controls.TextElements;
 using Markdig;
 using Markdig.Syntax;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+namespace CommunityToolkit.WinUI.Controls;
 
 [TemplatePart(Name = MarkdownContainerName, Type = typeof(Grid))]
 public partial class MarkdownTextBlock : Control
@@ -60,7 +60,16 @@ public partial class MarkdownTextBlock : Control
     
     public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
 
-    internal void RaiseLinkClickedEvent(Uri uri) => OnLinkClicked?.Invoke(this, new LinkClickedEventArgs(uri));
+    internal bool RaiseLinkClickedEvent(Uri uri)
+    {
+        if (OnLinkClicked == null)
+        {
+            return false;
+        }
+        var args = new LinkClickedEventArgs(uri);
+        OnLinkClicked?.Invoke(this, args);
+        return args.Handled;
+    }
 
     private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -97,6 +106,7 @@ public partial class MarkdownTextBlock : Control
         if (UseTaskLists) pipelineBuilder = pipelineBuilder.UseTaskLists();
         if (UseAutoLinks) pipelineBuilder = pipelineBuilder.UseAutoLinks();
         if (UseSoftlineBreakAsHardlineBreak) pipelineBuilder = pipelineBuilder.UseSoftlineBreakAsHardlineBreak();
+        if (DisableHtml) pipelineBuilder = pipelineBuilder.DisableHtml();
 
         _pipeline = pipelineBuilder.Build();
 
@@ -144,27 +154,28 @@ public partial class MarkdownTextBlock : Control
                 // Default block renderers
                 _renderer.ObjectRenderers.Add(new CodeBlockRenderer());
                 _renderer.ObjectRenderers.Add(new ListRenderer());
+                _renderer.ObjectRenderers.Add(new ListItemRenderer());
                 _renderer.ObjectRenderers.Add(new HeadingRenderer());
                 _renderer.ObjectRenderers.Add(new ParagraphRenderer());
                 _renderer.ObjectRenderers.Add(new QuoteBlockRenderer());
                 _renderer.ObjectRenderers.Add(new ThematicBreakRenderer());
-                _renderer.ObjectRenderers.Add(new HtmlBlockRenderer());
+                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlBlockRenderer());
 
                 // Default inline renderers
                 if (UseAutoLinks) _renderer.ObjectRenderers.Add(new AutoLinkInlineRenderer());
                 _renderer.ObjectRenderers.Add(new CodeInlineRenderer());
                 _renderer.ObjectRenderers.Add(new DelimiterInlineRenderer());
                 _renderer.ObjectRenderers.Add(new EmphasisInlineRenderer());
-                _renderer.ObjectRenderers.Add(new HtmlEntityInlineRenderer());
+                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlEntityInlineRenderer());
                 _renderer.ObjectRenderers.Add(new LineBreakInlineRenderer());
-                _renderer.ObjectRenderers.Add(new LinkInlineRenderer());
+                if (!DisableLinks) _renderer.ObjectRenderers.Add(new LinkInlineRenderer());
                 _renderer.ObjectRenderers.Add(new LiteralInlineRenderer());
-                _renderer.ObjectRenderers.Add(new ContainerInlineRenderer());
+                if (!DisableLinks) _renderer.ObjectRenderers.Add(new ContainerInlineRenderer());
 
                 // Extension renderers
                 if (UsePipeTables) _renderer.ObjectRenderers.Add(new TableRenderer());
                 if (UseTaskLists) _renderer.ObjectRenderers.Add(new TaskListRenderer());
-                _renderer.ObjectRenderers.Add(new HtmlInlineRenderer());
+                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlInlineRenderer());
             }
             _pipeline.Setup(_renderer);
             ApplyText(false);

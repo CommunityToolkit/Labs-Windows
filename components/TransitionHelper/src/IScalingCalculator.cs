@@ -4,7 +4,7 @@
 
 using System.Numerics;
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI;
 
 /// <summary>
 /// Defines methods to support calculating scaling changes.

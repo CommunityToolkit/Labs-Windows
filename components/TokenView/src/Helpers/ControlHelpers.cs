@@ -6,7 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI.Controls;
+
 internal static partial class ControlHelpers
 {
     internal static bool IsXamlRootAvailable { get; } = Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");

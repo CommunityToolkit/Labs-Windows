@@ -9,7 +9,7 @@ using SkiaSharp.Views.UWP;
 using SkiaSharp.Views.Windows;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI.Rive;
+namespace CommunityToolkit.WinUI.Rive;
 
 // This file contains platform-specific customizations of RivePlayer.
 [TemplatePart(Name = SkiaSurfacePartName, Type = typeof(ContentPresenter))]

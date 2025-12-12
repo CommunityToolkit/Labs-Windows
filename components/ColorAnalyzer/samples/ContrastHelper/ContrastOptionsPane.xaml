@@ -1,0 +1,57 @@
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<UserControl x:Class="ColorAnalyzerExperiment.Samples.ContrastOptionsPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:ColorAnalyzerExperiment.Samples"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OrientationStates">
+                <VisualState x:Name="NarrowState">
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.Orientation" Value="Horizontal" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint1008Plus}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.Orientation" Value="Vertical" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel x:Name="RootPanel"
+                    Orientation="Horizontal"
+                    Spacing="12">
+            <StackPanel Spacing="2">
+                <TextBlock x:Name="ForegroundLabel"
+                           Text="Foreground" />
+                <controls:ColorPickerButton x:Name="ForegroundPicker"
+                                            SelectedColor="{x:Bind DesiredForeground, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel Spacing="2">
+                <TextBlock x:Name="BackgroundLabel"
+                           Text="Background" />
+                <controls:ColorPickerButton x:Name="BackgroundPicker"
+                                            SelectedColor="{x:Bind DesiredBackground, Mode=TwoWay}" />
+            </StackPanel>
+
+            <Slider x:Name="RatioSlider"
+                    MinWidth="200"
+                    Header="Minimum Ratio"
+                    Maximum="21"
+                    Minimum="1"
+                    StepFrequency="0.1"
+                    ValueChanged="Ratio_ValueChanged"
+                    Value="3" />
+        </StackPanel>
+    </Grid>
+</UserControl>

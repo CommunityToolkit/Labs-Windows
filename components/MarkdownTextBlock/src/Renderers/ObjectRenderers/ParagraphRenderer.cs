@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Markdig.Syntax;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.TextElements;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers;
+namespace CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers;
 
 internal class ParagraphRenderer : UWPObjectRenderer<ParagraphBlock>
 {
@@ -14,7 +14,7 @@ internal class ParagraphRenderer : UWPObjectRenderer<ParagraphBlock>
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-        var paragraph = new MyParagraph(obj);
+        var paragraph = new MyParagraph(obj, renderer);
         // set style
         renderer.Push(paragraph);
         renderer.WriteLeafInline(obj);

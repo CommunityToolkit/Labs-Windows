@@ -4,7 +4,7 @@
 
 using Markdig.Syntax;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyCodeBlock : IAddChild
 {
@@ -24,11 +24,15 @@ internal class MyCodeBlock : IAddChild
         _paragraph = new Paragraph();
         var container = new InlineUIContainer();
         var border = new Border();
-        border.Background = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
-        border.Padding = _config.Themes.Padding;
-        border.Margin = _config.Themes.InternalMargin;
-        border.CornerRadius = _config.Themes.CornerRadius;
+    border.Background = _config.Themes.CodeBlockBackground;
+    border.BorderBrush = _config.Themes.CodeBlockBorderBrush;
+    border.BorderThickness = _config.Themes.CodeBlockBorderThickness;
+    border.Padding = _config.Themes.CodeBlockPadding;
+    border.Margin = _config.Themes.CodeBlockMargin;
+    border.CornerRadius = _config.Themes.CodeBlockCornerRadius;
         var richTextBlock = new RichTextBlock();
+    richTextBlock.FontFamily = _config.Themes.CodeBlockFontFamily;
+    richTextBlock.Foreground = _config.Themes.CodeBlockForeground;
 
 #if false
         if (codeBlock is FencedCodeBlock fencedCodeBlock)
@@ -71,20 +75,23 @@ internal class MyCodeBlock : IAddChild
         {
 #endif
 
-        foreach (var line in codeBlock.Lines.Lines)
+        if (codeBlock.Lines.Lines != null)
         {
-            var paragraph = new Paragraph();
-            var lineString = line.ToString();
-            if (!String.IsNullOrWhiteSpace(lineString))
+            foreach (var line in codeBlock.Lines.Lines)
             {
-                paragraph.Inlines.Add(new Run() { Text = lineString });
+                var paragraph = new Paragraph();
+                var lineString = line.ToString();
+                if (!String.IsNullOrWhiteSpace(lineString))
+                {
+                    paragraph.Inlines.Add(new Run() { Text = lineString });
+                }
+                richTextBlock.Blocks.Add(paragraph);
             }
-            richTextBlock.Blocks.Add(paragraph);
+
+            border.Child = richTextBlock;
+            container.Child = border;
+            _paragraph.Inlines.Add(container);
         }
-        
-        border.Child = richTextBlock;
-        container.Child = border;
-        _paragraph.Inlines.Add(container);
     }
 
     public void AddChild(IAddChild child) {}

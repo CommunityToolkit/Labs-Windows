@@ -1,0 +1,40 @@
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<local:ContrastHelperSampleBase x:Class="ColorAnalyzerExperiment.Samples.TextBlockContrastSample"
+                                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
+                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                xmlns:helpers="using:CommunityToolkit.WinUI.Helpers"
+                                xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+                                xmlns:local="using:ColorAnalyzerExperiment.Samples"
+                                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                mc:Ignorable="d">
+    <local:ContrastHelperSampleBase.Background>
+        <SolidColorBrush Color="{x:Bind DesiredBackground, Mode=OneWay}" />
+    </local:ContrastHelperSampleBase.Background>
+
+    <StackPanel Margin="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+        <TextBlock x:Name="BoundTextBlock"
+                   helpers:ContrastHelper.MinRatio="{x:Bind MinRatio, Mode=OneWay}"
+                   helpers:ContrastHelper.Opponent="{x:Bind DesiredBackground, Mode=OneWay}"
+                   FontSize="24"
+                   Text="Contrast Ratio:">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="{x:Bind DesiredForeground, Mode=OneWay}" />
+            </TextBlock.Foreground>
+        </TextBlock>
+        <TextBlock Margin="4,0,0,0"
+                   helpers:ContrastHelper.MinRatio="{x:Bind MinRatio, Mode=OneWay}"
+                   helpers:ContrastHelper.Opponent="{x:Bind DesiredBackground, Mode=OneWay}"
+                   FontSize="24"
+                   Text="{x:Bind BoundTextBlock.(helpers:ContrastHelper.ContrastRatio), Mode=OneWay}">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="{x:Bind DesiredForeground, Mode=OneWay}" />
+            </TextBlock.Foreground>
+        </TextBlock>
+    </StackPanel>
+
+</local:ContrastHelperSampleBase>

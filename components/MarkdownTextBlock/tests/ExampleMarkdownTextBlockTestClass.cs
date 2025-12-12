@@ -4,9 +4,9 @@
 
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+using CommunityToolkit.WinUI.Controls;
 
-namespace MarkdownTextBlockExperiment.Tests;
+namespace MarkdownTextBlockTests;
 
 [TestClass]
 public partial class ExampleMarkdownTextBlockTestClass : VisualUITestBase

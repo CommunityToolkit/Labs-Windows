@@ -6,7 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
 /// This is an controĺ easily visualize tokens, to create filtering experiences.

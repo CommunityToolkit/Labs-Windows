@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using HtmlAgilityPack;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements.Html;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.Renderers;
+using CommunityToolkit.WinUI.Controls.TextElements.Html;
+using CommunityToolkit.WinUI.Controls.TextElements;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+namespace CommunityToolkit.WinUI.Controls;
 
 internal class HtmlWriter
 {
@@ -36,16 +36,28 @@ internal class HtmlWriter
                         var myHyperlinkButton = new MyHyperlinkButton(node, renderer.Config.BaseUrl);
                         myHyperlinkButton.ClickEvent += (sender, e) =>
                         {
-                            renderer.MarkdownTextBlock.RaiseLinkClickedEvent(((HyperlinkButton)sender).NavigateUri);
+                            var button = (HyperlinkButton)sender;
+                            var uri = button.NavigateUri;
+                            var handled = renderer.MarkdownTextBlock.RaiseLinkClickedEvent(uri);
+                            if (handled)
+                            {
+                                button.NavigateUri = null;
+                            }
                         };
                         hyperLink = myHyperlinkButton;
                     }
                     else
                     {
                         var myHyperlink = new MyHyperlink(node, renderer.Config.BaseUrl);
+                        myHyperlink.TextElement.Foreground = renderer.Config.Themes.LinkForeground;
                         myHyperlink.ClickEvent += (sender, e) =>
                         {
-                            renderer.MarkdownTextBlock.RaiseLinkClickedEvent(sender.NavigateUri);
+                            var uri = sender.NavigateUri;
+                            var handled = renderer.MarkdownTextBlock.RaiseLinkClickedEvent(uri);
+                            if (handled)
+                            {
+                                sender.NavigateUri = null;
+                            }
                         };
                         hyperLink = myHyperlink;
                     }

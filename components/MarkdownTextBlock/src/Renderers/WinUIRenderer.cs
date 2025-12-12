@@ -2,21 +2,23 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Inlines;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers.Extensions;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Inlines;
+using CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Extensions;
+using CommunityToolkit.WinUI.Controls.TextElements;
 using Markdig.Renderers;
 using Markdig.Syntax;
 using Markdig.Helpers;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers;
+namespace CommunityToolkit.WinUI.Controls.Renderers;
 
 public class WinUIRenderer : RendererBase
 {
     private readonly Stack<IAddChild> _stack = new Stack<IAddChild>();
     private char[] _buffer;
     private MarkdownConfig _config = MarkdownConfig.Default;
+    private readonly Stack<string> _listBullets = new();
+
     public MyFlowDocument FlowDocument { get; private set; }
     public MarkdownConfig Config
     {
@@ -131,6 +133,29 @@ public class WinUIRenderer : RendererBase
                 text.CopyTo(offset, _buffer, 0, length);
                 WriteText(new string(_buffer, 0, length));
             }
+        }
+    }
+
+    public void PushListBullet(string bullet)
+    {
+        _listBullets.Push(bullet);
+    }
+
+    public string PeekListBullet()
+    {
+        return _listBullets.Count > 0 ? _listBullets.Peek() : string.Empty;
+    }
+
+    public int GetListBulletCount()
+    {
+        return _listBullets.Count;
+    }
+
+    public void PopListBullet()
+    {
+        if (_listBullets.Count > 0)
+        {
+            _listBullets.Pop();
         }
     }
 

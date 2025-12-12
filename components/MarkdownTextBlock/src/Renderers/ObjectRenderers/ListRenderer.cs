@@ -2,31 +2,73 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Globalization;
+using CommunityToolkit.WinUI.Controls.TextElements;
 using Markdig.Syntax;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using RomanNumerals;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers;
+namespace CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers;
 
 internal class ListRenderer : UWPObjectRenderer<ListBlock>
 {
+    public const string UnorderedListDot = "• ";
+
     protected override void Write(WinUIRenderer renderer, ListBlock listBlock)
     {
-        if (renderer == null) throw new ArgumentNullException(nameof(renderer));
-        if (listBlock == null) throw new ArgumentNullException(nameof(listBlock));
-
-        var list = new MyList(listBlock);
-
-        renderer.Push(list);
-
-        foreach (var item in listBlock)
+        int index = 1;
+        bool isOrdered = false;
+        BulletType bulletType = BulletType.Circle;
+        if (listBlock.IsOrdered)
         {
-            var listItemBlock = (ListItemBlock)item;
-            var listItem = new MyBlockContainer(listItemBlock);
-            renderer.Push(listItem);
-            renderer.WriteChildren(listItemBlock);
-            renderer.Pop();
+            isOrdered = true;
+            bulletType = ToOrderedBulletType(listBlock.BulletType);
+
+            if (listBlock.OrderedStart != null && listBlock.DefaultOrderedStart != listBlock.OrderedStart)
+            {
+                int.TryParse(listBlock.OrderedStart, NumberStyles.Number, NumberFormatInfo.InvariantInfo, out index);
+            }
         }
 
-        renderer.Pop();
+        foreach (var listItem in listBlock)
+        {
+            renderer.PushListBullet(GetBulletString(isOrdered, bulletType, index));
+            renderer.Write(listItem);
+            renderer.PopListBullet();
+            index++;
+        }
+    }
+
+    internal static BulletType ToOrderedBulletType(char bullet)
+    {
+        return bullet switch
+        {
+            '1' => BulletType.Number,
+            'a' => BulletType.LowerAlpha,
+            'A' => BulletType.UpperAlpha,
+            'i' => BulletType.LowerRoman,
+            'I' => BulletType.UpperRoman,
+            _ => BulletType.Number,
+        };
+    }
+
+    private static string GetBulletString(bool isOrdered, BulletType bulletType, int index)
+    {
+        if (isOrdered)
+        {
+            return bulletType switch
+            {
+                BulletType.Number => $"{index}. ",
+                BulletType.LowerAlpha => $"{index.ToAlphabetical()}. ",
+                BulletType.UpperAlpha => $"{index.ToAlphabetical().ToUpper(CultureInfo.CurrentCulture)}. ",
+                BulletType.LowerRoman => $"{index.ToRomanNumerals().ToLower(CultureInfo.CurrentCulture)} ",
+                BulletType.UpperRoman => $"{index.ToRomanNumerals().ToUpper(CultureInfo.CurrentCulture)} ",
+                BulletType.Circle => UnorderedListDot,
+                _ => $"{index}. "
+            };
+        }
+        else
+        {
+            return UnorderedListDot;
+        }
     }
 }

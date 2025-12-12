@@ -9,7 +9,7 @@ using CommunityToolkit.Notifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #nullable disable
-namespace NotificationsExperiment.Tests;
+namespace NotificationsTests;
 
 [TestClass]
 public class Test_Tile_Xml

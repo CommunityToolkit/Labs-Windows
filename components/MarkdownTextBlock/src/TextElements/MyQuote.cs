@@ -4,22 +4,24 @@
 
 using Markdig.Syntax;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyQuote : IAddChild
 {
     private Paragraph _paragraph;
     private MyFlowDocument _flowDocument;
     private QuoteBlock _quoteBlock;
+    private MarkdownThemes _themes;
 
     public TextElement TextElement
     {
         get => _paragraph;
     }
 
-    public MyQuote(QuoteBlock quoteBlock)
+    public MyQuote(QuoteBlock quoteBlock, MarkdownThemes themes)
     {
         _quoteBlock = quoteBlock;
+        _themes = themes;
         _paragraph = new Paragraph();
 
         _flowDocument = new MyFlowDocument(quoteBlock);
@@ -30,20 +32,24 @@ internal class MyQuote : IAddChild
         grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
 
         var bar = new Grid();
-        bar.Width = 4;
-        bar.Background = new SolidColorBrush(Colors.Gray);
+        var borderThickness = _themes.QuoteBorderThickness.Left > 0 ? _themes.QuoteBorderThickness.Left : 4;
+        bar.Width = borderThickness;
+        bar.Background = _themes.QuoteBorderBrush ?? new SolidColorBrush(Colors.Gray);
         bar.SetValue(Grid.ColumnProperty, 0);
         bar.VerticalAlignment = VerticalAlignment.Stretch;
         bar.Margin = new Thickness(0, 0, 4, 0);
         grid.Children.Add(bar);
 
-        var rightGrid = new Grid();
-        rightGrid.Padding = new Thickness(4);
+    var rightGrid = new Grid();
+    rightGrid.Padding = _themes.QuotePadding;
+    rightGrid.Background = _themes.QuoteBackground;
+    rightGrid.CornerRadius = _themes.QuoteCornerRadius;
         rightGrid.Children.Add(_flowDocument.RichTextBlock);
+    _flowDocument.RichTextBlock.Foreground = _themes.QuoteForeground;
 
         rightGrid.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(rightGrid);
-        grid.Margin = new Thickness(0, 2, 0, 2);
+        grid.Margin = _themes.QuoteMargin;
 
         inlineUIContainer.Child = grid;
 

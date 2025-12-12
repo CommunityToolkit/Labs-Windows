@@ -6,6 +6,6 @@
     <SharedGUID>A3106AE5-5AA9-4307-9041-E9C4232AA7F2</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>AppServicesExperiment.Tests</Import_RootNamespace>
+    <Import_RootNamespace>AppServicesTests</Import_RootNamespace>
   </PropertyGroup>
 </Project>

@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
 #if !WINAPPSDK
 using FontWeight = Windows.UI.Text.FontWeight;
 using FontWeights = Windows.UI.Text.FontWeights;
@@ -11,7 +10,7 @@ using FontWeight = Windows.UI.Text.FontWeight;
 using FontWeights = Microsoft.UI.Text.FontWeights;
 #endif
 
-namespace CommunityToolkit.WinUI.Controls.MarkdownTextBlockRns;
+namespace CommunityToolkit.WinUI.Controls;
 
 public sealed class MarkdownThemes : DependencyObject
 {
@@ -35,9 +34,14 @@ public sealed class MarkdownThemes : DependencyObject
 
     public double H6FontSize { get; set; } = 12;
 
-    public Brush HeadingForeground { get; set; } = Extensions.GetAccentColorBrush();
+    public Brush H1Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H2Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H3Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H4Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H5Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Brush H6Foreground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
 
-    public FontWeight H1FontWeight { get; set; } = FontWeights.Bold;
+    public FontWeight H1FontWeight { get; set; } = FontWeights.SemiBold;
 
     public FontWeight H2FontWeight { get; set; } = FontWeights.Normal;
 
@@ -49,10 +53,10 @@ public sealed class MarkdownThemes : DependencyObject
 
     public FontWeight H6FontWeight { get; set; } = FontWeights.Normal;
 
-    public Thickness H1Margin { get; set; } = new(left: 0, top: 14, right: 0, bottom: 0);
-    public Thickness H2Margin { get; set; } = new(left: 0, top: 14, right: 0, bottom: 0);
-    public Thickness H3Margin { get; set; } = new(left: 0, top: 14, right: 0, bottom: 0);
-    public Thickness H4Margin { get; set; } = new(left: 0, top: 14, right: 0, bottom: 0);
+    public Thickness H1Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
+    public Thickness H2Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
+    public Thickness H3Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
+    public Thickness H4Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
     public Thickness H5Margin { get; set; } = new(left: 0, top: 8, right: 0, bottom: 0);
     public Thickness H6Margin { get; set; } = new(left: 0, top: 8, right: 0, bottom: 0);
 
@@ -74,4 +78,54 @@ public sealed class MarkdownThemes : DependencyObject
     public double InlineCodeFontSize { get; set; } = 10;
 
     public FontWeight InlineCodeFontWeight { get; set; } = FontWeights.Normal;
+
+    // Legacy parity properties (new)
+    // Code block styling
+    public Brush CodeBlockBackground { get; set; } = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
+    public Brush CodeBlockBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Thickness CodeBlockBorderThickness { get; set; } = new Thickness(1);
+    public Thickness CodeBlockPadding { get; set; } = new Thickness(8);
+    public Thickness CodeBlockMargin { get; set; } = new Thickness(0, 8, 0, 8);
+    public FontFamily CodeBlockFontFamily { get; set; } = new FontFamily("Consolas");
+    public Brush CodeBlockForeground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public CornerRadius CodeBlockCornerRadius { get; set; } = new CornerRadius(4);
+
+    // Horizontal rule
+    public Brush HorizontalRuleBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public double HorizontalRuleThickness { get; set; } = 1.0;
+    public Thickness HorizontalRuleMargin { get; set; } = new Thickness(0, 12, 0, 12);
+
+    // Link styling
+    public Brush LinkForeground { get; set; } = (Brush)Application.Current.Resources["AccentTextFillColorPrimaryBrush"] ?? new SolidColorBrush(Colors.DodgerBlue);
+
+    // Paragraph / list
+    public Thickness ParagraphMargin { get; set; } = new Thickness(0, 8, 0, 8);
+    public double ParagraphLineHeight { get; set; } = 0; // 0 = default
+    public double ListBulletSpacing { get; set; } = 4; // spaces after bullet
+    public double ListGutterWidth { get; set; } = 30; // indent delta per level
+    public Thickness ListMargin { get; set; } = new Thickness(0, 4, 0, 4);
+
+    // Quote styling
+    public Brush QuoteBackground { get; set; } = new SolidColorBrush(Colors.Transparent);
+    public Brush QuoteBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Thickness QuoteBorderThickness { get; set; } = new Thickness(4, 0, 0, 0);
+    public Brush QuoteForeground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+    public Thickness QuoteMargin { get; set; } = new Thickness(0, 4, 0, 4);
+    public Thickness QuotePadding { get; set; } = new Thickness(4);
+    public CornerRadius QuoteCornerRadius { get; set; } = new CornerRadius(4);
+
+    // Image styling
+    public double ImageMaxWidth { get; set; } = 0; // 0 = no constraint
+    public double ImageMaxHeight { get; set; } = 0;
+    public Stretch ImageStretch { get; set; } = Stretch.Uniform;
+
+    // Table styling
+    public Brush TableBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public double TableBorderThickness { get; set; } = 1;
+    public Thickness TableCellPadding { get; set; } = new Thickness(4);
+    public Thickness TableMargin { get; set; } = new Thickness(0, 10, 0, 10);
+
+    // YAML / not currently used - placeholders for parity
+    public Brush YamlBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Thickness YamlBorderThickness { get; set; } = new Thickness(1);
 }
