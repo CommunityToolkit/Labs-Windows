@@ -338,8 +338,8 @@ public partial class Marquee : ContentControl
             _marqueeContainer.SetValue(dp, 0);
             _segment2.Visibility = Visibility.Collapsed;
 
-            _marqueeStoryboard = null;
             _marqueeStoryboard?.Stop();
+            _marqueeStoryboard = null;
             return false;
         }
 
@@ -358,8 +358,8 @@ public partial class Marquee : ContentControl
         // If the distance is zero, don't play an animation
         if (distance is 0)
         {
-            _marqueeStoryboard = null;
             _marqueeStoryboard?.Stop();
+            _marqueeStoryboard = null;
             return false;
         }
 
