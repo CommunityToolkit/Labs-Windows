@@ -52,6 +52,7 @@ public partial class ColorPaletteSampler : DependencyObject
 
         const int sampleCount = 4096;
         const int k = 8;
+        const float mergeDistance = 0.12f;
 
         // Retreive pixel samples from source
         var samples = await SampleSourcePixelColorsAsync(sampleCount);
@@ -62,8 +63,11 @@ public partial class ColorPaletteSampler : DependencyObject
 
         // Cluster samples in RGB floating-point color space
         // With Euclidean Squared distance function, then construct palette data.
-        var clusters = KMeansCluster(samples, k, out var sizes);
-        var colorData = clusters.Select((vectorColor, i) => new PaletteColor(vectorColor.ToColor(), (float)sizes[i] / samples.Length));
+        // Merge KMeans results that are too similar, using DBScan
+        var kClusters = KMeansCluster(samples, k, out var counts);
+        var weights = counts.Select(x => (float)x / samples.Length).ToArray();
+        var dbCluster = DBScan.Cluster(kClusters, mergeDistance, 0, ref weights);
+        var colorData = dbCluster.Select((vectorColor, i) => new PaletteColor(vectorColor.ToColor(), weights[i]));
 
         // Update palettes on the UI thread
         foreach (var palette in PaletteSelectors)

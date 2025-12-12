@@ -69,7 +69,7 @@ public partial class ColorPaletteSampler
     /// <summary>
     /// Calculates the centroid of each cluster, and prunes empty clusters.
     /// </summary>
-    private static void CalculateCentroidsAndPrune(ref Span<Vector3> centroids, ref int[] counts, Span<Vector3> points, int[] clusterIds)
+    internal static void CalculateCentroidsAndPrune(ref Span<Vector3> centroids, ref int[] counts, Span<Vector3> points, int[] clusterIds)
     {
         // Clear centroids and counts before recalculation
         for (int i = 0; i < centroids.Length; i++)
