@@ -133,7 +133,9 @@ public partial class WrapPanel2 : Panel
         }
 
         // Set a flag for if the row is being forced to stretch
+        // Also declare a variable for the effective items spacing. This will be adjusted if needed for justification.
         bool forceStretch = ItemJustification && row.PortionsSum is 0 && ItemsStretch is not WrapPanelItemsStretch.None;
+        var itemSpacing = ItemSpacing;
 
         // Setup portionSize for forced stretching
         if (forceStretch)
@@ -164,6 +166,12 @@ public partial class WrapPanel2 : Panel
                 _ => row.MinPortionSize,
             };
         }
+        else if (ItemJustification && row.PortionsSum is 0)
+        {
+            // If Item Justification is enabled and there's no proportional
+            // Adjust the spacing between items to align items with the margins
+            itemSpacing = (remainingSpace + spacingTotalSize) / (row.ItemsCount - 1);
+        }
 
         // Arrange each child in the row/column
         for (int i = 0; i < row.ItemsCount; i++)
@@ -182,7 +190,7 @@ public partial class WrapPanel2 : Panel
             child.Arrange(new Rect(pos.X, pos.Y, size.X, size.Y));
 
             // Advance the position
-            pos.U += size.U + ItemSpacing;
+            pos.U += size.U + itemSpacing;
         }
 
         // Advance to the next row/column
