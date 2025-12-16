@@ -33,7 +33,7 @@ public partial class WrapPanel2 : Panel
 
         // Adjusted measuring will be required if fixed row lengths is enabled and
         // the StretchChildren is set to Equal. Condense this into a bool here.
-        bool equalStretching = FixedRowLengths && StretchChildren is StretchChildren.Equal;
+        bool equalStretching = ItemJustification && ItemsStretch is WrapPanelItemsStretch.Equal;
 
         foreach (var child in elements)
         {
@@ -46,10 +46,6 @@ public partial class WrapPanel2 : Panel
             var spec = new RowSpec(layoutLength, uvDesiredSize);
             if (!currentRowSpec.TryAdd(spec, ItemSpacing, uvAvailableSize.U, equalStretching))
             {
-                // If the overflow behavior is drop, just end the row here.
-                if (OverflowBehavior is OverflowBehavior.Drop)
-                    break;
-
                 // Could not add to current row/column
                 // Start a new row/column
                 _rowSpecs.Add(currentRowSpec);
@@ -116,7 +112,7 @@ public partial class WrapPanel2 : Panel
 
         // Determine if the desired alignment is stretched.
         // Or if fixed row lengths are in use.
-        bool stretch = IsMainAxisStretch(uvFinalSize.U) || FixedRowLengths;
+        bool stretch = IsMainAxisStretch(uvFinalSize.U) || ItemJustification;
 
         // Calculate portion size if stretching
         // Same logic applies for matching row lengths, since the size was determined during measure
@@ -130,38 +126,38 @@ public partial class WrapPanel2 : Panel
 
         // Adjust the starting position if not stretching
         // Also do this if there are no star-sized items in the row/column and no forced streching is in use.
-        if (!stretch || (row.PortionsSum is 0 && StretchChildren is StretchChildren.StarSizedOnly))
+        if (!stretch || (row.PortionsSum is 0 && ItemsStretch is WrapPanelItemsStretch.None))
         {
             var rowSize = row.Measure(ItemSpacing, false);
             pos.U = GetStartByAlignment(GetAlignment(), rowSize, uvFinalSize.U);
         }
 
         // Set a flag for if the row is being forced to stretch
-        bool forceStretch = FixedRowLengths && row.PortionsSum is 0 && StretchChildren is not StretchChildren.StarSizedOnly;
+        bool forceStretch = ItemJustification && row.PortionsSum is 0 && ItemsStretch is not WrapPanelItemsStretch.None;
 
         // Setup portionSize for forced stretching
         if (forceStretch)
         {
-            portionSize = StretchChildren switch
+            portionSize = ItemsStretch switch
             {
                 // The first child's size will be overridden to 1*
                 // Change portion size to fill remaining space plus its original size
-                StretchChildren.First =>
+                WrapPanelItemsStretch.First =>
                     remainingSpace + GetChildSize(childQueue.Peek()),
 
                 // The last child's size will be overridden to 1*
                 // Change portion size to fill remaining space plus its original size
-                StretchChildren.Last =>
+                WrapPanelItemsStretch.Last =>
                     remainingSpace + GetChildSize(childQueue.ElementAt(row.ItemsCount - 1)),
 
                 // All children's sizes will be overridden to 1*
                 // Change portion size to evenly distribute remaining space
-                StretchChildren.Equal =>
+                WrapPanelItemsStretch.Equal =>
                     (uvFinalSize.U - spacingTotalSize) / row.ItemsCount,
 
                 // All children's sizes will be overridden to star sizes proportional to their original size
                 // Change portion size to distribute remaining space proportionally
-                StretchChildren.Proportional =>
+                WrapPanelItemsStretch.Proportional =>
                     (uvFinalSize.U - spacingTotalSize) / row.ReservedSpace,
 
                 // Default case (should not be hit)
@@ -203,19 +199,19 @@ public partial class WrapPanel2 : Panel
         if (forceStretch)
         {
             var oneStar = new GridLength(1, GridUnitType.Star);
-            layoutLength = StretchChildren switch
+            layoutLength = ItemsStretch switch
             {
                 // Override the first item's layout to 1*
-                StretchChildren.First when indexInRow is 0 => oneStar,
+                WrapPanelItemsStretch.First when indexInRow is 0 => oneStar,
 
                 // Override the last item's layout to 1*
-                StretchChildren.Last when indexInRow == (row.ItemsCount - 1) => oneStar,
+                WrapPanelItemsStretch.Last when indexInRow == (row.ItemsCount - 1) => oneStar,
 
                 // Override all item's layouts to 1*
-                StretchChildren.Equal => oneStar,
+                WrapPanelItemsStretch.Equal => oneStar,
 
                 // Override all item's layouts to star sizes proportional to their original size
-                StretchChildren.Proportional => layoutLength.GridUnitType switch
+                WrapPanelItemsStretch.Proportional => layoutLength.GridUnitType switch
                 {
                     GridUnitType.Auto => new GridLength(uvDesiredSize.U, GridUnitType.Star),
                     GridUnitType.Pixel or _ => new GridLength(layoutLength.Value, GridUnitType.Star),

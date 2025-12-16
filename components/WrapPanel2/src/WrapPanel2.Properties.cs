@@ -37,38 +37,29 @@ public partial class WrapPanel2
     /// <summary>
     /// Backing <see cref="DependencyProperty"/> for the <see cref="LineSpacing"/> property.
     /// </summary>
-    public static readonly DependencyProperty lineSpacingProperty = DependencyProperty.Register(
+    public static readonly DependencyProperty LineSpacingProperty = DependencyProperty.Register(
         nameof(LineSpacing),
         typeof(double),
         typeof(WrapPanel2),
         new PropertyMetadata(default(double), OnPropertyChanged));
 
     /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="FixedRowLengths"/> property.
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="ItemJustification"/> property.
     /// </summary>
     public static readonly DependencyProperty FixedRowLengthsProperty = DependencyProperty.Register(
-        nameof(FixedRowLengths),
+        nameof(ItemJustification),
         typeof(bool),
         typeof(WrapPanel2),
         new PropertyMetadata(default(bool), OnPropertyChanged));
 
     /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="StretchChildren"/> property.
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="ItemsStretch"/> property.
     /// </summary>
-    public static readonly DependencyProperty StretchChildrenProperty = DependencyProperty.Register(
-        nameof(StretchChildren),
-        typeof(StretchChildren),
+    public static readonly DependencyProperty ItemsStretchProperty = DependencyProperty.Register(
+        nameof(ItemsStretch),
+        typeof(WrapPanelItemsStretch),
         typeof(WrapPanel2),
-        new PropertyMetadata(default(StretchChildren), OnPropertyChanged));
-
-    /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="OverflowBehavior"/> property.
-    /// </summary>
-    public static readonly DependencyProperty OverflowBehaviorProperty = DependencyProperty.Register(
-        nameof(OverflowBehavior),
-        typeof(OverflowBehavior),
-        typeof(WrapPanel2),
-        new PropertyMetadata(default(OverflowBehavior), OnPropertyChanged));
+        new PropertyMetadata(default(WrapPanelItemsStretch), OnPropertyChanged));
 
     /// <summary>
     /// Gets or sets the panel orientation.
@@ -93,35 +84,29 @@ public partial class WrapPanel2
     /// </summary>
     public double LineSpacing
     {
-        get => (double)GetValue(lineSpacingProperty);
-        set => SetValue(lineSpacingProperty, value);
+        get => (double)GetValue(LineSpacingProperty);
+        set => SetValue(LineSpacingProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets whether or not all rows/columns should stretch to match the length of the longest.
+    /// Gets or sets whether or not all rows/columns should stretch its children to ensure the space is filled from margin to margin.
     /// </summary>
-    public bool FixedRowLengths
+    /// <remarks>
+    /// This will not apply on lines without star-sized items unless a <see cref="ItemsStretch"/> behavior is selected.
+    /// </remarks>
+    public bool ItemJustification
     {
         get => (bool)GetValue(FixedRowLengthsProperty);
         set => SetValue(FixedRowLengthsProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets the method used to fill rows without a star-sized item.
+    /// Gets or sets the method used to fill rows without a star-sized item when <see cref="ItemJustification"/> is enabled.
     /// </summary>
-    public StretchChildren StretchChildren
+    public WrapPanelItemsStretch ItemsStretch
     {
-        get => (StretchChildren)GetValue(StretchChildrenProperty);
-        set => SetValue(StretchChildrenProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets how the panel handles content overflowing the available space.
-    /// </summary>
-    public OverflowBehavior OverflowBehavior
-    {
-        get => (OverflowBehavior)GetValue(OverflowBehaviorProperty);
-        set => SetValue(OverflowBehaviorProperty, value);
+        get => (WrapPanelItemsStretch)GetValue(ItemsStretchProperty);
+        set => SetValue(ItemsStretchProperty, value);
     }
 
     /// <summary>

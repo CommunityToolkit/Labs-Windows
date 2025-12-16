@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
-using Windows.UI;
 
 namespace WrapPanel2Experiment.Samples;
 
@@ -15,9 +14,8 @@ namespace WrapPanel2Experiment.Samples;
 [ToolkitSampleMultiChoiceOption("LayoutVerticalAlignment", "Top", "Center", "Bottom", "Stretch", Title = "Vertical Alignment")]
 [ToolkitSampleNumericOption("ItemSpacing", 8, 0, 16, Title = "Item Spacing")]
 [ToolkitSampleNumericOption("LineSpacing", 2, 0, 16, Title = "Line Spacing")]
-[ToolkitSampleBoolOption("FixedRowLengths", false, Title = "Fixed Row Lengths")]
-[ToolkitSampleMultiChoiceOption("LayoutStretchChildren", "StarSizedOnly", "First", "Last", "Equal", "Proportional", Title = "Forced Stretch Method")]
-[ToolkitSampleMultiChoiceOption("LayoutOverflowBehavior", "Wrap", "Drop", Title = "Overflow Behavior")]
+[ToolkitSampleBoolOption("ItemJustification", false, Title = "Item Justification")]
+[ToolkitSampleMultiChoiceOption("LayoutItemsStretch", "None", "First", "Last", "Equal", "Proportional", Title = "Items Stretch")]
 
 [ToolkitSample(id: nameof(WrapPanel2BasicSample), $"Basic demo of the {nameof(WrapPanel2)} with auto-sized items.", description: $"A sample showing every property of the {nameof(WrapPanel2)} panel.")]
 public sealed partial class WrapPanel2BasicSample : Page
@@ -56,21 +54,13 @@ public sealed partial class WrapPanel2BasicSample : Page
     };
 
     // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
-    public static StretchChildren ConvertStringToForcedStretchMethod(string stretchMethod) => stretchMethod switch
+    public static WrapPanelItemsStretch ConvertStringToItemsStretch(string stretchMethod) => stretchMethod switch
     {
-        "StarSizedOnly" => StretchChildren.StarSizedOnly,
-        "First" => StretchChildren.First,
-        "Last" => StretchChildren.Last,
-        "Equal" => StretchChildren.Equal,
-        "Proportional" => StretchChildren.Proportional,
-        _ => throw new System.NotImplementedException(),
-    };
-
-    // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
-    public static OverflowBehavior ConvertStringToOverflowBehavior(string overflowBehavior) => overflowBehavior switch
-    {
-        "Wrap" => OverflowBehavior.Wrap,
-        "Drop" => OverflowBehavior.Drop,
+        "None" => WrapPanelItemsStretch.None,
+        "First" => WrapPanelItemsStretch.First,
+        "Last" => WrapPanelItemsStretch.Last,
+        "Equal" => WrapPanelItemsStretch.Equal,
+        "Proportional" => WrapPanelItemsStretch.Proportional,
         _ => throw new System.NotImplementedException(),
     };
 

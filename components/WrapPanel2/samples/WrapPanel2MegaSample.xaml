@@ -1,12 +1,13 @@
 <!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<Page x:Class="WrapPanel2Experiment.Samples.WrapPanel2MegaSample"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:WrapPanel2Experiment.Samples"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+<Page
+    x:Class="WrapPanel2Experiment.Samples.WrapPanel2MegaSample"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WrapPanel2Experiment.Samples"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
 
     <Page.Resources>
         <Style TargetType="Border">
@@ -20,63 +21,50 @@
         </Style>
     </Page.Resources>
 
-    <Grid MaxHeight="600"
-          Margin="16">
-        <controls:WrapPanel2 HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
-                             VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
-                             FixedRowLengths="{x:Bind FixedRowLengths, Mode=OneWay}"
-                             ItemSpacing="{x:Bind ItemSpacing, Mode=OneWay}"
-                             LineSpacing="{x:Bind LineSpacing, Mode=OneWay}"
-                             Orientation="{x:Bind local:WrapPanel2MegaSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}"
-                             OverflowBehavior="{x:Bind local:WrapPanel2MegaSample.ConvertStringToOverflowBehavior(LayoutOverflowBehavior), Mode=OneWay}"
-                             StretchChildren="{x:Bind local:WrapPanel2MegaSample.ConvertStringToForcedStretchMethod(LayoutStretchChildren), Mode=OneWay}">
+    <Grid MaxHeight="600" Margin="16">
+        <controls:WrapPanel2
+            HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
+            VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
+            ItemJustification="{x:Bind ItemJustification, Mode=OneWay}"
+            ItemSpacing="{x:Bind ItemSpacing, Mode=OneWay}"
+            ItemsStretch="{x:Bind local:WrapPanel2MegaSample.ConvertStringToItemsStretch(LayoutItemsStretch), Mode=OneWay}"
+            LineSpacing="{x:Bind LineSpacing, Mode=OneWay}"
+            Orientation="{x:Bind local:WrapPanel2MegaSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}">
             <Border controls:WrapPanel2.LayoutLength="2*">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="2*" />
+                <TextBlock HorizontalAlignment="Center" Text="2*" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="Auto">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="Auto" />
+                <TextBlock HorizontalAlignment="Center" Text="Auto" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="400">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="400px" />
+                <TextBlock HorizontalAlignment="Center" Text="400px" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="1*">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="1*" />
+                <TextBlock HorizontalAlignment="Center" Text="1*" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="200">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="200px" />
+                <TextBlock HorizontalAlignment="Center" Text="200px" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="300">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="300px" />
+                <TextBlock HorizontalAlignment="Center" Text="300px" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="600">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="600px" />
+                <TextBlock HorizontalAlignment="Center" Text="600px" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="2*">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="2*" />
+                <TextBlock HorizontalAlignment="Center" Text="2*" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="1.5*">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="1.5*" />
+                <TextBlock HorizontalAlignment="Center" Text="1.5*" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="Auto">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="Auto with longer text" />
+                <TextBlock HorizontalAlignment="Center" Text="Auto with longer text" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="400">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="400px" />
+                <TextBlock HorizontalAlignment="Center" Text="400px" />
             </Border>
             <Border controls:WrapPanel2.LayoutLength="1*">
-                <TextBlock HorizontalAlignment="Center"
-                           Text="1*" />
+                <TextBlock HorizontalAlignment="Center" Text="1*" />
             </Border>
         </controls:WrapPanel2>
     </Grid>
