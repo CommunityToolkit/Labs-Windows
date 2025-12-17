@@ -46,7 +46,7 @@ public partial class WrapPanel2
     /// <summary>
     /// Backing <see cref="DependencyProperty"/> for the <see cref="ItemJustification"/> property.
     /// </summary>
-    public static readonly DependencyProperty FixedRowLengthsProperty = DependencyProperty.Register(
+    public static readonly DependencyProperty ItemJustificationProperty = DependencyProperty.Register(
         nameof(ItemJustification),
         typeof(bool),
         typeof(WrapPanel2),
@@ -100,8 +100,8 @@ public partial class WrapPanel2
     /// </remarks>
     public bool ItemJustification
     {
-        get => (bool)GetValue(FixedRowLengthsProperty);
-        set => SetValue(FixedRowLengthsProperty, value);
+        get => (bool)GetValue(ItemJustificationProperty);
+        set => SetValue(ItemJustificationProperty, value);
     }
 
     /// <summary>

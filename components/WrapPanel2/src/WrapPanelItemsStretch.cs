@@ -27,7 +27,7 @@ public enum WrapPanelItemsStretch
     First,
 
     /// <summary>
-    /// Ehe last item in the row will be stretched to fill the row.
+    /// The last item in the row will be stretched to fill the row.
     /// </summary>
     Last,
 
