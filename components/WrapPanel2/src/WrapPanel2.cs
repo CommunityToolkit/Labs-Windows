@@ -31,8 +31,8 @@ public partial class WrapPanel2 : Panel
             return new Size(0, 0);
         }
 
-        // Adjusted measuring will be required if fixed row lengths is enabled and
-        // the StretchChildren is set to Equal. Condense this into a bool here.
+        // Adjusted measuring will be required if items justification is enabled and
+        // ItemsStreching is set to Equal. Condense this into a bool here.
         bool equalStretching = ItemJustification && ItemsStretch is WrapPanelItemsStretch.Equal;
 
         foreach (var child in elements)
@@ -258,6 +258,9 @@ public partial class WrapPanel2 : Panel
         };
     }
 
+    /// <summary>
+    /// Gets the the alignment panels horizontal/vertical alignment along the main axis.
+    /// </summary>
     private Alignment GetAlignment()
     {
         return Orientation switch
@@ -282,6 +285,9 @@ public partial class WrapPanel2 : Panel
         };
     }
 
+    /// <summary>
+    /// Gets the the alignment panels horizontal/vertical alignment along the off axis.
+    /// </summary>
     private Alignment GetOffAlignment()
     {
         return Orientation switch

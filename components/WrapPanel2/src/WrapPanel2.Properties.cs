@@ -73,6 +73,10 @@ public partial class WrapPanel2
     /// <summary>
     /// Gets or sets the spacing between items.
     /// </summary>
+    /// <remarks>
+    /// When <see cref="ItemJustification"/> is enabled and <see cref="ItemsStretch"/> is <see cref="WrapPanelItemsStretch.None"/>,
+    /// this may instead be used as the minimum space between items, while the exact spacing is adjusted to ensure the items span from margin to margin.
+    /// </remarks>
     public double ItemSpacing
     {
         get => (double)GetValue(ItemSpacingProperty);
