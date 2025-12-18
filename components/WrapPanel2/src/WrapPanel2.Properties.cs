@@ -128,4 +128,10 @@ public partial class WrapPanel2
         var panel = (WrapPanel2)d;
         panel.InvalidateMeasure();
     }
+
+    private static void OnAlignmentPropertyChanged(DependencyObject obj, DependencyProperty prop)
+    {
+        var panel = (WrapPanel2)obj;
+        panel.InvalidateMeasure();
+    } 
 }

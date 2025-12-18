@@ -12,6 +12,15 @@ public partial class WrapPanel2 : Panel
     private List<RowSpec>? _rowSpecs;
     private double _longestRowSize = 0;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WrapPanel2"/> class.
+    /// </summary>
+    public WrapPanel2()
+    {
+        RegisterPropertyChangedCallback(HorizontalAlignmentProperty, OnAlignmentPropertyChanged);
+        RegisterPropertyChangedCallback(VerticalAlignmentProperty, OnAlignmentPropertyChanged);
+    }
+
     /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
