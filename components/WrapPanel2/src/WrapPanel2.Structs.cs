@@ -74,11 +74,15 @@ public partial class WrapPanel2
         /// </summary>
         public int ItemsCount { get; private set; }
 
-        public bool TryAdd(RowSpec addend, double spacing, double maxSize, bool equalStretching)
+        /// <remarks>
+        /// New size is only set if the size changes.
+        /// Otherwise it will be 0.
+        /// </remarks>
+        public bool TryAdd(RowSpec addend, double spacing, double maxSize, WrapPanelItemsStretch stretching, WrapPanelItemsJustification justification)
         {
             // Check if adding the new spec would exceed the maximum size
             var sum = this + addend;
-            if (sum.Measure(spacing, equalStretching) > maxSize)
+            if (sum.Measure(spacing, stretching, justification) > maxSize)
                 return false;
 
             // Update the current spec to include the new spec
@@ -86,9 +90,10 @@ public partial class WrapPanel2
             return true;
         }
 
-        public readonly double Measure(double spacing, bool equalStretching)
+        public readonly double Measure(double spacing, WrapPanelItemsStretch stretching, WrapPanelItemsJustification justification)
         {
-            var totalSpacing = (ItemsCount - 1) * spacing;
+            var totalSpacing = GetTotalSpacing(ItemsCount, spacing, justification);
+            var equalStretching = stretching is WrapPanelItemsStretch.Equal && IsSpacingJustified(justification);
 
             // Handle equal-sized items child stretching.
             // Without this check, children might become scrunched in the arrange

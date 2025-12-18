@@ -31,10 +31,6 @@ public partial class WrapPanel2 : Panel
             return new Size(0, 0);
         }
 
-        // Adjusted measuring will be required if items justification is enabled and
-        // ItemsStreching is set to Equal. Condense this into a bool here.
-        bool equalStretching = ItemJustification && ItemsStretch is WrapPanelItemsStretch.Equal;
-
         foreach (var child in elements)
         {
             // Measure the child's desired size and get layout
@@ -44,19 +40,20 @@ public partial class WrapPanel2 : Panel
 
             // Attempt to add the child to the current row/column
             var spec = new RowSpec(layoutLength, uvDesiredSize);
-            if (!currentRowSpec.TryAdd(spec, ItemSpacing, uvAvailableSize.U, equalStretching))
+            if (!currentRowSpec.TryAdd(spec, ItemSpacing, uvAvailableSize.U, ItemsStretch, RealJustification))
             {
                 // Could not add to current row/column
                 // Start a new row/column
                 _rowSpecs.Add(currentRowSpec);
-                _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing, equalStretching));
+                var newSize = currentRowSpec.Measure(ItemSpacing, ItemsStretch, RealJustification);
+                _longestRowSize = Math.Max(_longestRowSize, newSize);
                 currentRowSpec = spec;
             }
         }
 
         // Add the final row/column
         _rowSpecs.Add(currentRowSpec);
-        _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing, equalStretching));
+        _longestRowSize = Math.Max(_longestRowSize, currentRowSpec.Measure(ItemSpacing, ItemsStretch, RealJustification));
 
         // Calculate final desired size
         var uvSize = new UVCoord(0, 0, Orientation)
@@ -106,13 +103,13 @@ public partial class WrapPanel2 : Panel
 
     private void ArrangeRow(ref UVCoord pos, RowSpec row, UVCoord uvFinalSize, Queue<UIElement> childQueue)
     {
-        var spacingTotalSize = ItemSpacing * (row.ItemsCount - 1);
+        var spacingTotalSize = GetTotalSpacing(row.ItemsCount, ItemSpacing, RealJustification);
         var remainingSpace = uvFinalSize.U - row.ReservedSpace - spacingTotalSize;
         var portionSize = row.MinPortionSize;
 
         // Determine if the desired alignment is stretched.
         // Or if fixed row lengths are in use.
-        bool stretch = IsMainAxisStretch(uvFinalSize.U) || ItemJustification;
+        bool stretch = IsMainAxisStretch(uvFinalSize.U) || JustifiedSpacing;
 
         // Calculate portion size if stretching
         // Same logic applies for matching row lengths, since the size was determined during measure
@@ -124,17 +121,9 @@ public partial class WrapPanel2 : Panel
         // Reset the starting U position
         pos.U = 0;
 
-        // Adjust the starting position if not stretching
-        // Also do this if there are no star-sized items in the row/column and no forced streching is in use.
-        if (!stretch || (row.PortionsSum is 0 && ItemsStretch is WrapPanelItemsStretch.None))
-        {
-            var rowSize = row.Measure(ItemSpacing, false);
-            pos.U = GetStartByAlignment(GetAlignment(), rowSize, uvFinalSize.U);
-        }
-
         // Set a flag for if the row is being forced to stretch
         // Also declare a variable for the effective items spacing. This will be adjusted if needed for justification.
-        bool forceStretch = ItemJustification && row.PortionsSum is 0 && ItemsStretch is not WrapPanelItemsStretch.None;
+        bool forceStretch = JustifiedSpacing && row.PortionsSum is 0 && ItemsStretch is not WrapPanelItemsStretch.None;
         var itemSpacing = ItemSpacing;
 
         // Setup portionSize for forced stretching
@@ -166,12 +155,32 @@ public partial class WrapPanel2 : Panel
                 _ => row.MinPortionSize,
             };
         }
-        else if (ItemJustification && row.PortionsSum is 0)
+        else if (JustifiedSpacing && row.PortionsSum is 0)
         {
             // If Item Justification is enabled and there's no proportional
-            // Adjust the spacing between items to align items with the margins
-            itemSpacing = (remainingSpace + spacingTotalSize) / (row.ItemsCount - 1);
+            // Adjust the spacing between items according to the justification mode.
+            var divisbleSpace = remainingSpace + spacingTotalSize;
+            itemSpacing = RealJustification switch
+            {
+                WrapPanelItemsJustification.SpaceBetween => divisbleSpace / (row.ItemsCount - 1),
+                WrapPanelItemsJustification.SpaceAround => divisbleSpace / row.ItemsCount,    
+                WrapPanelItemsJustification.SpaceEvenly => divisbleSpace / (row.ItemsCount + 1),
+                _ => divisbleSpace / row.ItemsCount,
+            };
         }
+
+        // Adjust the starting position
+        var rowSize = row.Measure(ItemSpacing, ItemsStretch, RealJustification);
+        pos.U = RealJustification switch
+        {
+            WrapPanelItemsJustification.SpaceAround => itemSpacing / 2,
+            WrapPanelItemsJustification.SpaceBetween => 0,
+            WrapPanelItemsJustification.SpaceEvenly => itemSpacing,
+
+            WrapPanelItemsJustification.Start or
+            WrapPanelItemsJustification.Center or
+            WrapPanelItemsJustification.End or _ => GetStartByAlignment(GetJustificationAlignment(), rowSize, uvFinalSize.U),
+        };
 
         // Arrange each child in the row/column
         for (int i = 0; i < row.ItemsCount; i++)
@@ -312,11 +321,69 @@ public partial class WrapPanel2 : Panel
         };
     }
 
+    private Alignment GetJustificationAlignment()
+    {
+        return RealJustification switch
+        {
+            WrapPanelItemsJustification.Start => Alignment.Start,
+            WrapPanelItemsJustification.Center => Alignment.Center,
+            WrapPanelItemsJustification.End => Alignment.End,
+            _ => Alignment.Stretch,
+        };
+    }
+
     /// <summary>
     /// Determine if the desired alignment is stretched.
     /// Don't stretch if infinite space is available though. Attempting to divide infinite space will result in a crash.
     /// </summary>
     private bool IsMainAxisStretch(double availableSize) => GetAlignment() is Alignment.Stretch && !double.IsInfinity(availableSize);
+
+    /// <summary>
+    /// Gets whether or not the <see cref="ItemsJustification"/> is adjusting spacing.
+    /// </summary>
+    private bool JustifiedSpacing => IsSpacingJustified(RealJustification);
+
+    /// <summary>
+    /// Gets the <see cref="ItemsJustification"/> with the automatic option converted to the actual behavior.
+    /// </summary>
+    private WrapPanelItemsJustification RealJustification => ItemsJustification switch
+    {
+        WrapPanelItemsJustification.Automatic => GetAlignment() switch
+        {
+            Alignment.Start => WrapPanelItemsJustification.Start,
+            Alignment.Center => WrapPanelItemsJustification.Center,
+            Alignment.End => WrapPanelItemsJustification.End,
+            _ => WrapPanelItemsJustification.SpaceBetween,
+        },
+        _ => ItemsJustification,
+    };
+
+    private static bool IsSpacingJustified(WrapPanelItemsJustification justification) => justification switch
+    {
+        WrapPanelItemsJustification.Start or
+        WrapPanelItemsJustification.Center or
+        WrapPanelItemsJustification.End => false,
+
+        WrapPanelItemsJustification.SpaceAround or
+        WrapPanelItemsJustification.SpaceBetween or
+        WrapPanelItemsJustification.SpaceEvenly => true,
+
+        _ => false,
+    };
+
+    private static double GetTotalSpacing(int itemCount, double itemsSpacing, WrapPanelItemsJustification justification)
+    {
+        return justification switch
+        {
+            WrapPanelItemsJustification.SpaceAround => itemCount * itemsSpacing,
+            WrapPanelItemsJustification.SpaceEvenly => (itemCount + 1) * itemsSpacing,
+
+            WrapPanelItemsJustification.Start or
+            WrapPanelItemsJustification.Center or
+            WrapPanelItemsJustification.End or
+            WrapPanelItemsJustification.SpaceBetween or _ => (itemCount - 1) * itemsSpacing,
+        };
+    }
 
     private double GetChildSize(UIElement child)
     {

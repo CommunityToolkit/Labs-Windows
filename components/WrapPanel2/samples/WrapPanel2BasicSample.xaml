@@ -42,8 +42,8 @@
                              Grid.Row="1"
                              HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
                              VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
-                             ItemJustification="{x:Bind ItemJustification, Mode=OneWay}"
                              ItemSpacing="{x:Bind ItemSpacing, Mode=OneWay}"
+                             ItemsJustification="{x:Bind local:WrapPanel2BasicSample.ConvertStringToItemsJustification(LayoutItemsJustification), Mode=OneWay}"
                              ItemsStretch="{x:Bind local:WrapPanel2BasicSample.ConvertStringToItemsStretch(LayoutItemsStretch), Mode=OneWay}"
                              LineSpacing="{x:Bind LineSpacing, Mode=OneWay}"
                              Orientation="{x:Bind local:WrapPanel2BasicSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}" />

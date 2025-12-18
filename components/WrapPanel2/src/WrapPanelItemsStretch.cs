@@ -17,7 +17,7 @@ public enum WrapPanelItemsStretch
     /// </summary>
     /// <remarks>
     /// Items with a Star-Sized <see cref="WrapPanel2.LayoutLengthProperty"/> will still stretch if the main-axis alignment
-    /// is set to stretch or if <see cref="WrapPanel2.ItemJustification"/> is enabled.
+    /// is set to stretch or if <see cref="WrapPanel2.ItemsJustification"/> is enabled.
     /// </remarks>
     None,
 

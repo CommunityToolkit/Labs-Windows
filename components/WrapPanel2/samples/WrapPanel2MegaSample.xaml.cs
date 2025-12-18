@@ -14,7 +14,7 @@ namespace WrapPanel2Experiment.Samples;
 [ToolkitSampleMultiChoiceOption("LayoutVerticalAlignment", "Top", "Center", "Bottom", "Stretch", Title = "Vertical Alignment")]
 [ToolkitSampleNumericOption("ItemSpacing", 8, 0, 16, Title = "Item Spacing")]
 [ToolkitSampleNumericOption("LineSpacing", 2, 0, 16, Title = "Line Spacing")]
-[ToolkitSampleBoolOption("ItemJustification", false, Title = "Item Justification")]
+[ToolkitSampleMultiChoiceOption("LayoutItemsJustification", "Automatic", "Start", "Center", "End", "SpaceAround", "SpaceBetween", "SpaceEvenly", Title = "Items Justification")]
 [ToolkitSampleMultiChoiceOption("LayoutItemsStretch", "None", "First", "Last", "Equal", "Proportional", Title = "Items Stretch")]
 
 [ToolkitSample(id: nameof(WrapPanel2MegaSample), "Demo of all WrapPanel2 feature", description: $"A sample showing every property of the {nameof(WrapPanel2)} panel.")]
@@ -50,6 +50,19 @@ public sealed partial class WrapPanel2MegaSample : Page
         "Center" => VerticalAlignment.Center,
         "Bottom" => VerticalAlignment.Bottom,
         "Stretch" => VerticalAlignment.Stretch,
+        _ => throw new System.NotImplementedException(),
+    };
+
+    // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
+    public static WrapPanelItemsJustification ConvertStringToItemsJustification(string itemsJustification) => itemsJustification switch
+    {
+        "Automatic" => WrapPanelItemsJustification.Automatic,
+        "Start" => WrapPanelItemsJustification.Start,
+        "Center" => WrapPanelItemsJustification.Center,
+        "End" => WrapPanelItemsJustification.End,
+        "SpaceAround" => WrapPanelItemsJustification.SpaceAround,
+        "SpaceBetween" => WrapPanelItemsJustification.SpaceBetween,
+        "SpaceEvenly" => WrapPanelItemsJustification.SpaceEvenly,
         _ => throw new System.NotImplementedException(),
     };
 

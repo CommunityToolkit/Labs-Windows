@@ -24,8 +24,8 @@
           Margin="16">
         <controls:WrapPanel2 HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
                              VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
-                             ItemJustification="{x:Bind ItemJustification, Mode=OneWay}"
                              ItemSpacing="{x:Bind ItemSpacing, Mode=OneWay}"
+                             ItemsJustification="{x:Bind local:WrapPanel2MegaSample.ConvertStringToItemsJustification(LayoutItemsJustification), Mode=OneWay}"
                              ItemsStretch="{x:Bind local:WrapPanel2MegaSample.ConvertStringToItemsStretch(LayoutItemsStretch), Mode=OneWay}"
                              LineSpacing="{x:Bind LineSpacing, Mode=OneWay}"
                              Orientation="{x:Bind local:WrapPanel2MegaSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}">

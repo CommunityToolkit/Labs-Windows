@@ -44,11 +44,11 @@ public partial class WrapPanel2
         new PropertyMetadata(default(double), OnPropertyChanged));
 
     /// <summary>
-    /// Backing <see cref="DependencyProperty"/> for the <see cref="ItemJustification"/> property.
+    /// Backing <see cref="DependencyProperty"/> for the <see cref="ItemsJustification"/> property.
     /// </summary>
-    public static readonly DependencyProperty ItemJustificationProperty = DependencyProperty.Register(
-        nameof(ItemJustification),
-        typeof(bool),
+    public static readonly DependencyProperty ItemsJustificationProperty = DependencyProperty.Register(
+        nameof(ItemsJustification),
+        typeof(WrapPanelItemsJustification),
         typeof(WrapPanel2),
         new PropertyMetadata(default(bool), OnPropertyChanged));
 
@@ -74,7 +74,7 @@ public partial class WrapPanel2
     /// Gets or sets the spacing between items.
     /// </summary>
     /// <remarks>
-    /// When <see cref="ItemJustification"/> is enabled and <see cref="ItemsStretch"/> is <see cref="WrapPanelItemsStretch.None"/>,
+    /// When <see cref="ItemsJustification"/> is in a spacing mode and <see cref="ItemsStretch"/> is <see cref="WrapPanelItemsStretch.None"/>,
     /// this may instead be used as the minimum space between items, while the exact spacing is adjusted to ensure the items span from margin to margin.
     /// </remarks>
     public double ItemSpacing
@@ -98,14 +98,14 @@ public partial class WrapPanel2
     /// <remarks>
     /// This will not apply on lines without star-sized items unless a <see cref="ItemsStretch"/> behavior is selected.
     /// </remarks>
-    public bool ItemJustification
+    public WrapPanelItemsJustification ItemsJustification
     {
-        get => (bool)GetValue(ItemJustificationProperty);
-        set => SetValue(ItemJustificationProperty, value);
+        get => (WrapPanelItemsJustification)GetValue(ItemsJustificationProperty);
+        set => SetValue(ItemsJustificationProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets the method used to fill rows without a star-sized item when <see cref="ItemJustification"/> is enabled.
+    /// Gets or sets the method used to fill rows without a star-sized item when <see cref="ItemsJustification"/> is in a spacing mode.
     /// </summary>
     public WrapPanelItemsStretch ItemsStretch
     {
