@@ -10,7 +10,7 @@ public partial class ColorPaletteSampler
     /// Gets the <see cref="DependencyProperty"/> for the <see cref="Source"/> property.
     /// </summary>
     public static readonly DependencyProperty SourceProperty =
-        DependencyProperty.Register(nameof(Source), typeof(UIElement), typeof(ColorPaletteSampler), new PropertyMetadata(null, OnSourceChanged));
+        DependencyProperty.Register(nameof(Source), typeof(ColorSource), typeof(ColorPaletteSampler), new PropertyMetadata(null, OnSourceChanged));
 
     /// <summary>
     /// An event fired when the <see cref="Palette"/> and <see cref="PaletteSelectors"/> are updated.
@@ -18,11 +18,11 @@ public partial class ColorPaletteSampler
     public event EventHandler? PaletteUpdated;
 
     /// <summary>
-    /// Gets or sets the <see cref="UIElement"/> source sampled for a color palette.
+    /// Gets or sets the <see cref="ColorSource"/> for the color palette.
     /// </summary>
-    public UIElement? Source
+    public ColorSource? Source
     {
-        get => (UIElement)GetValue(SourceProperty);
+        get => (ColorSource)GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
     }
 
