@@ -45,6 +45,21 @@ public partial class ColorPaletteSampler
         if (d is not ColorPaletteSampler analyzer)
             return;
 
+        if (e.OldValue is ColorSource oldSource)
+        {
+            oldSource.SourceUpdated -= analyzer.OnSourceUpdated;
+        }
+
+        if (e.NewValue is ColorSource newSource)
+        {
+            newSource.SourceUpdated += analyzer.OnSourceUpdated;
+        }
+
         _ = analyzer.UpdatePaletteAsync();
+    }
+
+    private void OnSourceUpdated(object? sender, EventArgs e)
+    {
+        _ = UpdatePaletteAsync();
     }
 }
