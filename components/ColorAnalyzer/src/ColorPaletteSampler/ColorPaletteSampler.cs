@@ -12,8 +12,6 @@ global using Microsoft.UI.Xaml.Media.Imaging;
 #endif
 
 using System.Numerics;
-using System.Windows.Input;
-using Windows.UI;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
