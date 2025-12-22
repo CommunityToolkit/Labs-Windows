@@ -1,0 +1,33 @@
+﻿<Page x:Class="AdornersExperiment.Samples.ResizeElement.ResizeElementAdornerWithDragSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:adorners="using:CommunityToolkit.WinUI.Adorners"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.WinUI.Controls"
+      xmlns:local="using:AdornersExperiment.Samples.ResizeElement"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="using:CommunityToolkit.WinUI"
+      mc:Ignorable="d">
+
+    <labs:CanvasView MinHeight="400"
+                     VerticalAlignment="Stretch"
+                     ItemsSource="{x:Bind Images}">
+        <labs:CanvasView.ItemTemplate>
+            <DataTemplate x:DataType="local:CanvasImage">
+                <!--  Note: Stretch Fill is important here, as otherwise the image bounds fight the resizing controls.  -->
+                <!--  TODO: More work is needed to support the interaction of maintaining aspect ratios and such of the adorned element.  -->
+                <Image Canvas.Left="{x:Bind Left, Mode=TwoWay}"
+                       Canvas.Top="{x:Bind Top, Mode=TwoWay}"
+                       Canvas.ZIndex="{x:Bind ZIndex, Mode=OneWay}"
+                       ManipulationMode="TranslateX,TranslateY"
+                       PointerPressed="Image_PointerPressed"
+                       Source="{x:Bind ImageSource}"
+                       Stretch="Fill">
+                    <ui:AdornerLayer.Xaml>
+                        <adorners:ResizeElementAdorner Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                    </ui:AdornerLayer.Xaml>
+                </Image>
+            </DataTemplate>
+        </labs:CanvasView.ItemTemplate>
+    </labs:CanvasView>
+</Page>

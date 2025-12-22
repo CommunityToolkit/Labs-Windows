@@ -1,0 +1,52 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="AdornersExperiment.Samples.AdornersTabBadgeSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+      xmlns:ui="using:CommunityToolkit.WinUI"
+      mc:Ignorable="d">
+
+    <muxc:TabView TabCloseRequested="TabView_TabCloseRequested">
+        <muxc:TabViewItem Header="Home">
+            <ui:AdornerLayer.Xaml>
+                <muxc:InfoBadge Margin="-4,-8"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                IsHitTestVisible="False"
+                                Opacity="0.9"
+                                Visibility="{x:Bind IsAdornerVisible, Mode=OneWay}"
+                                Value="{x:Bind (x:Int32)BadgeValue, Mode=OneWay}">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:RotationInDegreesAnimation From="45"
+                                                               To="0"
+                                                               Duration="0:0:1" />
+                        <animations:TranslationAnimation From="0, 1, 0"
+                                                         To="0"
+                                                         Duration="0:0:1" />
+                        <animations:OpacityAnimation From="0"
+                                                     To="1.0"
+                                                     Duration="0:0:1" />
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation To="0.0"
+                                                     Duration="0:0:1" />
+                        <animations:ScalarAnimation Target="Translation.Y"
+                                                    To="5"
+                                                    Duration="0:0:1">
+                            <animations:ScalarKeyFrame Key="0.1"
+                                                       Value="-10" />
+                            <animations:ScalarKeyFrame Key="0.5"
+                                                       Value="0.0" />
+                        </animations:ScalarAnimation>
+                    </animations:Implicit.HideAnimations>
+                </muxc:InfoBadge>
+            </ui:AdornerLayer.Xaml>
+        </muxc:TabViewItem>
+        <muxc:TabViewItem Header="Document 1" />
+        <muxc:TabViewItem Header="Document 2" />
+    </muxc:TabView>
+</Page>

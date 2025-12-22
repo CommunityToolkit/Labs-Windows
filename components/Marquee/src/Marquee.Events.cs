@@ -12,12 +12,22 @@ public partial class Marquee
     /// <summary>
     /// Event raised when the Marquee begins scrolling.
     /// </summary>
-    public event EventHandler? MarqueeBegan;
+    public event EventHandler? MarqueeStarted;
 
     /// <summary>
-    /// Event raised when the Marquee stops scrolling for any reason.
+    /// Event raised when the Marquee is stopped manually or completed.
     /// </summary>
     public event EventHandler? MarqueeStopped;
+
+    /// <summary>
+    /// Event raised when the Marquee is resumed from a pause.
+    /// </summary>
+    public event EventHandler? MarqueeResumed;
+
+    /// <summary>
+    /// Event raised when the Marquee is paused.
+    /// </summary>
+    public event EventHandler? MarqueePaused;
 
     /// <summary>
     /// Event raised when the Marquee completes scrolling.
@@ -28,7 +38,7 @@ public partial class Marquee
     {
         // While loaded, detach the loaded event and attach the unloaded event
         this.Loaded -= this.Marquee_Loaded;
-        this.Unloaded += Marquee_Unloaded;
+        this.Unloaded += this.Marquee_Unloaded;
 
         // Attach other events
         if (_marqueeContainer is not null)
@@ -36,9 +46,27 @@ public partial class Marquee
             _marqueeContainer.SizeChanged += Container_SizeChanged;
         }
 
+        if (_segment1 is not null)
+        {
+            _segment1.SizeChanged += Segment_SizeChanged;
+        }
+
         if (_marqueeStoryboard is not null)
         {
             _marqueeStoryboard.Completed += StoryBoard_Completed;
+        }
+
+        // The size may have channged while unloaded.
+        // Clip the marquee
+        ClipMarquee();
+
+        // Setup the animation
+        UpdateMarquee(false);
+
+        // The marquee should run when loaded if auto play is enabled
+        if (AutoPlay)
+        {
+            StartMarquee();
         }
     }
 
@@ -53,6 +81,11 @@ public partial class Marquee
             _marqueeContainer.SizeChanged -= Container_SizeChanged;
         }
 
+        if (_segment1 is not null)
+        {
+            _segment1.SizeChanged -= Segment_SizeChanged;
+        }
+
         if (_marqueeStoryboard is not null)
         {
             _marqueeStoryboard.Completed -= StoryBoard_Completed;
@@ -62,35 +95,41 @@ public partial class Marquee
     private void Container_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         if (_marqueeContainer is null)
-        {
             return;
-        }
         
-        // Clip the marquee within its bounds
-        _marqueeContainer.Clip = new RectangleGeometry
-        {
-            Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height)
-        };
+        // Clip the marquee
+        ClipMarquee(e.NewSize.Width, e.NewSize.Height);
+
+        // Update animation on the fly
+        UpdateMarquee(true);
 
         // The marquee should run when the size changes in case the text gets cutoff
-        StartMarquee();
+        // and auto play is enabled.
+        if (AutoPlay)
+        {
+            StartMarquee();
+        }
     }
 
     private void Segment_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         if (_segment1 is null)
-        {
             return;
-        }
+
+        if (_marqueeContainer is null)
+            return;
+
+        // Cap the height of the container to the segment height
+        _marqueeContainer.Height = _segment1.ActualHeight;
 
         // If the segment size changes, we need to update the storyboard,
         // and seek to the correct position to maintain a smooth animation.
-        UpdateAnimation(true);
+        UpdateMarquee(true);
     }
 
     private void StoryBoard_Completed(object? sender, object e)
     {
-        StopMarquee(true);
+        StopMarquee();
         MarqueeCompleted?.Invoke(this, EventArgs.Empty);
     }
 }

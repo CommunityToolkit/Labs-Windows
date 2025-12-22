@@ -1,0 +1,66 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<ResourceDictionary x:Class="AdornersExperiment.Samples.InPlaceTextEditor.InPlaceTextEditorAdornerResources"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Windows11="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 14)"
+                    xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
+                    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+                    xmlns:local="using:AdornersExperiment.Samples.InPlaceTextEditor">
+
+    <!--  Implicitly applied default style  -->
+    <Style BasedOn="{StaticResource DefaultInPlaceTextEditorAdornerStyle}"
+           TargetType="local:InPlaceTextEditorAdorner" />
+
+    <Style x:Key="DefaultInPlaceTextEditorAdornerStyle"
+           TargetType="local:InPlaceTextEditorAdorner">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:InPlaceTextEditorAdorner">
+                    <ContentControl x:Name="ContentContainer"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate x:DataType="local:InPlaceTextEditorAdorner">
+                                <Popup x:Name="PopupRoot"
+                                       Windows11:DesiredPlacement="BottomEdgeAlignedLeft"
+                                       Windows11:PlacementTarget="{x:Bind AdornedElement, Mode=OneWay}"
+                                       IsLightDismissEnabled="False"
+                                       IsOpen="{x:Bind IsPopupOpen, Mode=OneWay}">
+                                    <Grid MinWidth="320"
+                                          Margin="-4"
+                                          Padding="4"
+                                          Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                                          BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
+                                          ColumnSpacing="4"
+                                          CornerRadius="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Text="{x:Bind AdornedElement.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <interactivity:Interaction.Behaviors>
+                                                <behaviors:AutoSelectBehavior />
+                                            </interactivity:Interaction.Behaviors>
+                                        </TextBox>
+                                        <Button Grid.Column="1"
+                                                Click="{x:Bind ConfirmButton_Click}">
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                      Glyph="&#xE73E;" />
+                                        </Button>
+                                        <Button x:Name="CloseButton"
+                                                Grid.Column="2"
+                                                Click="{x:Bind CloseButton_Click}">
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                      Glyph="&#xE711;" />
+                                        </Button>
+                                    </Grid>
+                                </Popup>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

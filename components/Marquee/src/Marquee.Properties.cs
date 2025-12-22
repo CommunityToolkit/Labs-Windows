@@ -11,6 +11,9 @@ namespace CommunityToolkit.WinUI.Controls;
 /// </summary>
 public partial class Marquee
 {
+    private static readonly DependencyProperty AutoPlayProperty =
+        DependencyProperty.Register(nameof(AutoPlay), typeof(bool), typeof(Marquee), new PropertyMetadata(false));
+    
     private static readonly DependencyProperty SpeedProperty =
         DependencyProperty.Register(nameof(Speed), typeof(double), typeof(Marquee), new PropertyMetadata(32d, PropertyChanged));
 
@@ -18,10 +21,19 @@ public partial class Marquee
         DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(Marquee), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
 
     private static readonly DependencyProperty BehaviorProperty =
-        DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(Marquee), new PropertyMetadata(0, BehaviorPropertyChanged));
+        DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(Marquee), new PropertyMetadata(MarqueeBehavior.Ticker, BehaviorPropertyChanged));
 
     private static readonly DependencyProperty DirectionProperty =
         DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(Marquee), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
+
+    /// <summary>
+    /// Gets or sets whether or not the Marquee plays immediately upon loading or updating a property.
+    /// </summary>
+    public bool AutoPlay
+    {
+        get => (bool)GetValue(AutoPlayProperty);
+        set => SetValue(AutoPlayProperty, value);
+    }
 
     /// <summary>
     /// Gets or sets the speed the text moves in the Marquee.
@@ -79,17 +91,16 @@ public partial class Marquee
     private static void BehaviorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not Marquee control)
-        {
             return;
-        }
 
-        bool active = control._isActive;
         var newBehavior = (MarqueeBehavior)e.NewValue;
 
         VisualStateManager.GoToState(control, GetVisualStateName(newBehavior), true);
 
-        control.StopMarquee(false);
-        if (active)
+        // It is always impossible to perform an on the fly behavior change.
+        control.UpdateMarquee(false);
+
+        if (control.AutoPlay)
         {
             control.StartMarquee();
         }
@@ -98,11 +109,8 @@ public partial class Marquee
     private static void DirectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not Marquee control)
-        {
             return;
-        }
 
-        bool active = control._isActive;
         var oldDirection = (MarqueeDirection)e.OldValue;
         var newDirection = (MarqueeDirection)e.NewValue;
         bool oldAxisX = oldDirection is MarqueeDirection.Left or MarqueeDirection.Right;
@@ -110,12 +118,11 @@ public partial class Marquee
 
         VisualStateManager.GoToState(control, GetVisualStateName(newDirection), true);
 
-        if (oldAxisX != newAxisX)
-        {
-            control.StopMarquee(false);
-        }
+        // If the axis changed we cannot update the animation on the fly.
+        // Otherwise, the animation can be updated and resumed seamlessly
+        control.UpdateMarquee(oldAxisX == newAxisX);
 
-        if (active)
+        if (control.AutoPlay)
         {
             control.StartMarquee();
         }
@@ -124,10 +131,15 @@ public partial class Marquee
     private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not Marquee control)
-        {
             return;
-        }
 
-        control.UpdateAnimation();
+        // It is always possible to update these properties on the fly.
+        // NOTE: The RepeatBehavior will reset its count though. Can this be fixed?
+        control.UpdateMarquee(true);
+
+        if (control.AutoPlay)
+        {
+            control.StartMarquee();
+        }
     }
 }
