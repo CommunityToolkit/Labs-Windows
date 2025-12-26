@@ -104,11 +104,13 @@ public partial class ColorPaletteSampler : DependencyObject
 
         // Read the stream into a a color array
         const int bytesPerPixel = 4;
-        var samples = new Vector3[(int)pixelByteStream.Length / bytesPerPixel];
+        var samples = new Vector3[sampleCount];
 
         // Iterate through the stream reading a pixel (4 bytes) at a time
         // and storing them as a Vector3. Opacity info is dropped.
         int colorIndex = 0;
+        var step = (pixelByteStream.Length / sampleCount);
+        step -= step % 4;
 #if NET7_0_OR_GREATER
         Span<byte> pixelBytes = stackalloc byte[bytesPerPixel];
         while (pixelByteStream.Read(pixelBytes) == bytesPerPixel)
@@ -124,6 +126,9 @@ public partial class ColorPaletteSampler : DependencyObject
             // Take the red, green, and blue channels to make a floating-point space color.
             samples[colorIndex] = new Vector3(pixelBytes[2], pixelBytes[1], pixelBytes[0]) / byte.MaxValue;
             colorIndex++;
+
+            // Advance by step amount
+            pixelByteStream.Position += step;
         }
 
         // If we skipped any pixels, trim the span
