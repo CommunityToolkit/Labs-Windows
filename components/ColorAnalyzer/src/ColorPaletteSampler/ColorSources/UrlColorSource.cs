@@ -34,12 +34,17 @@ public class UrlColorSource : ColorSource
         if (Source is null)
             return null;
 
-        // TODO: Sample the data
         var stream = await RandomAccessStreamReference.CreateFromUri(new Uri(Source)).OpenReadAsync();
+#if !HAS_UNO
         var decoder = await BitmapDecoder.CreateAsync(stream);
         var pixelData = await decoder.GetPixelDataAsync();
         var bytes = pixelData.DetachPixelData();
         return new MemoryStream(bytes);
+#else
+        // NOTE: This assumes raw pixel data.
+        // TODO: Uses some form of image processing
+        return stream.AsStream();
+#endif
     }
 
     private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

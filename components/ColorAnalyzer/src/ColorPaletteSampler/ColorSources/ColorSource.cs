@@ -7,7 +7,7 @@ namespace CommunityToolkit.WinUI.Helpers;
 /// <summary>
 /// A base class for a color data source in the <see cref="ColorPaletteSampler"/>.
 /// </summary>
-public abstract class ColorSource : DependencyObject
+public abstract partial class ColorSource : DependencyObject
 {
     /// <summary>
     /// An event invoked when the source pixels changed.

@@ -29,11 +29,16 @@ public class StreamColorSource : ColorSource
     /// <inheritdoc/>
     public override async Task<Stream?> GetPixelDataAsync(int requestedSamples)
     {
-        // TODO: Sample the data
+#if !HAS_UNO
         var decoder = await BitmapDecoder.CreateAsync(Source.AsRandomAccessStream());
         var pixelData = await decoder.GetPixelDataAsync();
         var bytes = pixelData.DetachPixelData();
         return new MemoryStream(bytes);
+#else
+        // NOTE: This assumes raw pixel data.
+        // TODO: Uses some form of image processing
+        return Source;
+#endif
     }
 
     private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -14,7 +14,8 @@
     <local:ColorPaletteSamplerToolkitSampleBase.Resources>
         <helpers:ColorPaletteSampler x:Name="ColorPaletteSampler">
             <helpers:ColorPaletteSampler.Source>
-                <helpers:UIColorSource Source="{x:Bind SampledImage}" />
+                <!--<helpers:UIColorSource Source="{x:Bind SampledImage}" />-->
+                <helpers:UrlColorSource Source="{x:Bind SelectedImageUrl, Mode=OneWay}" />
             </helpers:ColorPaletteSampler.Source>
             <helpers:ColorWeightPaletteSelector x:Name="ColorWeightPalette" MinColorCount="5" />
         </helpers:ColorPaletteSampler>
