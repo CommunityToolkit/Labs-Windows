@@ -2,35 +2,41 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+
 using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
 /// <summary>
-/// A <see cref="ColorSource"/> that uses a <see cref="Stream"/> directly as a source.
+/// A <see cref="ColorSource"/> that that loads pixel data from a url.
 /// </summary>
-public class StreamColorSource : ColorSource
+public class UrlColorSource : ColorSource
 {
     /// <summary>
     /// Gets the <see cref="DependencyProperty"/> for the <see cref="Source"/> property.
     /// </summary>
     public static readonly DependencyProperty SourceProperty =
-        DependencyProperty.Register(nameof(Source), typeof(UIElement), typeof(StreamColorSource), new PropertyMetadata(null, OnSourceChanged));
+        DependencyProperty.Register(nameof(Source), typeof(string), typeof(UrlColorSource), new PropertyMetadata(null, OnSourceChanged));
 
     /// <summary>
-    /// Gets or sets the <see cref="UIElement"/> source sampled for a color palette.
+    /// Gets or sets the url source sampled for a color palette.
     /// </summary>
-    public Stream? Source
+    public string? Source
     {
-        get => (Stream)GetValue(SourceProperty);
+        get => (string?)GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
     }
 
     /// <inheritdoc/>
     public override async Task<Stream?> GetPixelDataAsync(int requestedSamples)
     {
+        if (Source is null)
+            return null;
+
         // TODO: Sample the data
-        var decoder = await BitmapDecoder.CreateAsync(Source.AsRandomAccessStream());
+        var stream = await RandomAccessStreamReference.CreateFromUri(new Uri(Source)).OpenReadAsync();
+        var decoder = await BitmapDecoder.CreateAsync(stream);
         var pixelData = await decoder.GetPixelDataAsync();
         var bytes = pixelData.DetachPixelData();
         return new MemoryStream(bytes);
@@ -38,7 +44,7 @@ public class StreamColorSource : ColorSource
 
     private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not StreamColorSource source)
+        if (d is not UrlColorSource source)
             return;
 
         source.InvokeSourceUpdated();

@@ -17,9 +17,9 @@ public abstract class ColorSource : DependencyObject
     /// <summary>
     /// Retreives the pixels from the source as a stream
     /// </summary>
-    /// <param name="sampleCount">The approximate number of samples the method should return.</param>
+    /// <param name="requestedSamples">The number of samples requested by the <see cref="ColorPaletteSampler"/>.</param>
     /// <returns>A stream of pixels in rgba format.</returns>
-    public abstract Task<Stream?> GetPixelStreamAsync(int sampleCount);
+    public abstract Task<Stream?> GetPixelDataAsync(int requestedSamples);
 
     /// <summary>
     /// Invokes the <see cref="SourceUpdated"/> event.

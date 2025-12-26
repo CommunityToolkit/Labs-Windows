@@ -43,6 +43,7 @@ public partial class ImageOptionsPane : UserControl
 
     private void SetImage(Uri uri)
     {
+        _sample.SelectedImageUrl = uri.AbsoluteUri;
         _sample.SelectedImage = new BitmapImage(uri);
     }
 }

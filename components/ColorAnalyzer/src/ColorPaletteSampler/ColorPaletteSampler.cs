@@ -96,7 +96,7 @@ public partial class ColorPaletteSampler : DependencyObject
         if (Source is null)
             return [];
 
-        var pixelByteStream = await Source.GetPixelStreamAsync(sampleCount);
+        var pixelByteStream = await Source.GetPixelDataAsync(sampleCount);
 
         // Something went wrong
         if (pixelByteStream is null || pixelByteStream.Length == 0)

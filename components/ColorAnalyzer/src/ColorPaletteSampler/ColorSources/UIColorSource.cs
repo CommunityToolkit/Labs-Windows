@@ -8,7 +8,7 @@ using System.Numerics;
 namespace CommunityToolkit.WinUI.Helpers;
 
 /// <summary>
-/// A <see cref="ColorSource"/> that samples the 
+/// A <see cref="ColorSource"/> that gets pixel data from a <see cref="UIElement"/>.
 /// </summary>
 public class UIColorSource : ColorSource
 {
@@ -28,7 +28,7 @@ public class UIColorSource : ColorSource
     }
 
     /// <inheritdoc/>
-    public override async Task<Stream?> GetPixelStreamAsync(int sampleCount)
+    public override async Task<Stream?> GetPixelDataAsync(int requestedSamples)
     {
         // Ensure the source is populated
         if (Source is null)
@@ -42,7 +42,7 @@ public class UIColorSource : ColorSource
         // Calculate size of scaled rerender using the actual size
         // scaled down to the sample count, maintaining aspect ration
         var sourceArea = sourceSize.X * sourceSize.Y;
-        var sampleScale = MathF.Sqrt(sampleCount / sourceArea);
+        var sampleScale = MathF.Sqrt(requestedSamples / sourceArea);
         var sampleSize = sourceSize * sampleScale;
 
         // Rerender the UIElement to a bitmap of about sampleCount pixels
