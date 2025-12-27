@@ -242,6 +242,14 @@ public sealed partial class MarkdownTextBlockCustomThemeSample : Page, INotifyPr
         set { _imageStretchIndex = value; OnPropertyChanged(); }
     }
 
+    // === Bold Text Properties ===
+    private int _boldFontWeightIndex = 0;
+    public int BoldFontWeightIndex
+    {
+        get => _boldFontWeightIndex;
+        set { _boldFontWeightIndex = value; OnPropertyChanged(); }
+    }
+
     // Color lookup helpers
     private static readonly Brush[] HeadingColors = new Brush[]
     {
@@ -302,6 +310,15 @@ public sealed partial class MarkdownTextBlockCustomThemeSample : Page, INotifyPr
         Stretch.None,
         Stretch.Fill,
         Stretch.UniformToFill
+    };
+
+    private static readonly Windows.UI.Text.FontWeight[] BoldFontWeights = new Windows.UI.Text.FontWeight[]
+    {
+        FontWeights.Bold,
+        FontWeights.SemiBold,
+        FontWeights.Medium,
+        FontWeights.Normal,
+        FontWeights.ExtraBold
     };
 
     private const string SampleMarkdown = @"
@@ -440,6 +457,8 @@ The line above is a horizontal rule with customizable thickness and margin.
             ImageMaxWidth = ImageMaxWidth,
             ImageMaxHeight = ImageMaxHeight,
             ImageStretch = ImageStretchOptions[ImageStretchIndex],
+
+            BoldFontWeight = BoldFontWeights[BoldFontWeightIndex],
         };
     }
 
@@ -492,6 +511,8 @@ The line above is a horizontal rule with customizable thickness and margin.
         ImageMaxWidth = 0;
         ImageMaxHeight = 0;
         ImageStretchIndex = 0;
+
+        BoldFontWeightIndex = 0;
 
         ApplyTheme_Click(sender, e);
     }

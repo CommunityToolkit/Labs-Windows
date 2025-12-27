@@ -1,4 +1,4 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
 <Page x:Class="MarkdownTextBlockExperiment.Samples.MarkdownTextBlockCustomThemeSample"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -82,6 +82,26 @@
                                        Minimum="8"
                                        SpinButtonPlacementMode="Compact"
                                        Value="{x:Bind H3FontSize, Mode=TwoWay}" />
+                        </StackPanel>
+                    </Expander>
+
+                    <!--  Text Styling Section  -->
+                    <Expander HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch">
+                        <Expander.Header>
+                            <TextBlock FontWeight="SemiBold"
+                                       Text="Text Styling" />
+                        </Expander.Header>
+                        <StackPanel Spacing="8">
+                            <ComboBox HorizontalAlignment="Stretch"
+                                      Header="Bold Font Weight"
+                                      SelectedIndex="{x:Bind BoldFontWeightIndex, Mode=TwoWay}">
+                                <ComboBoxItem Content="Bold" />
+                                <ComboBoxItem Content="SemiBold" />
+                                <ComboBoxItem Content="Medium" />
+                                <ComboBoxItem Content="Normal" />
+                                <ComboBoxItem Content="ExtraBold" />
+                            </ComboBox>
                         </StackPanel>
                     </Expander>
 
