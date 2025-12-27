@@ -9,6 +9,7 @@ namespace CommunityToolkit.WinUI.Controls.TextElements;
 internal class MyAutolinkInline : IAddChild
 {
     private AutolinkInline _autoLinkInline;
+    private MarkdownThemes _themes;
 
     public TextElement TextElement { get; private set; }
 
@@ -24,12 +25,14 @@ internal class MyAutolinkInline : IAddChild
         }
     }
 
-    public MyAutolinkInline(AutolinkInline autoLinkInline)
+    public MyAutolinkInline(AutolinkInline autoLinkInline, MarkdownThemes themes)
     {
         _autoLinkInline = autoLinkInline;
+        _themes = themes;
         TextElement = new Hyperlink()
         {
             NavigateUri = new Uri(autoLinkInline.Url),
+            Foreground = _themes.LinkForeground
         };
     }
 

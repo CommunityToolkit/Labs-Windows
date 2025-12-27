@@ -13,6 +13,7 @@ internal class MyHyperlink : IAddChild
     private LinkInline? _linkInline;
     private HtmlNode? _htmlNode;
     private string? _baseUrl;
+    private MarkdownThemes _themes;
 
     public event TypedEventHandler<Hyperlink, HyperlinkClickEventArgs> ClickEvent
     {
@@ -33,27 +34,29 @@ internal class MyHyperlink : IAddChild
         get => _hyperlink;
     }
 
-    public MyHyperlink(LinkInline linkInline, string? baseUrl)
+    public MyHyperlink(LinkInline linkInline, string? baseUrl, MarkdownThemes themes)
     {
         _baseUrl = baseUrl;
+        _themes = themes;
         var url = linkInline.GetDynamicUrl != null ? linkInline.GetDynamicUrl() ?? linkInline.Url : linkInline.Url;
         _linkInline = linkInline;
         _hyperlink = new Hyperlink()
         {
             NavigateUri = Extensions.GetUri(url, baseUrl),
-            Foreground = MarkdownConfig.Default.Themes.LinkForeground
+            Foreground = _themes.LinkForeground
         };
     }
 
-    public MyHyperlink(HtmlNode htmlNode, string? baseUrl)
+    public MyHyperlink(HtmlNode htmlNode, string? baseUrl, MarkdownThemes themes)
     {
         _baseUrl = baseUrl;
+        _themes = themes;
         var url = htmlNode.GetAttribute("href", "#");
         _htmlNode = htmlNode;
         _hyperlink = new Hyperlink()
         {
             NavigateUri = Extensions.GetUri(url, baseUrl),
-            Foreground = MarkdownConfig.Default.Themes.LinkForeground
+            Foreground = _themes.LinkForeground
         };
     }
 

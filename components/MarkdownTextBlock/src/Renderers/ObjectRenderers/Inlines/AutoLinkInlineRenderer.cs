@@ -25,7 +25,7 @@ internal class AutoLinkInlineRenderer : UWPObjectRenderer<AutolinkInline>
             url = "#";
         }
 
-        var autolink = new MyAutolinkInline(link);
+        var autolink = new MyAutolinkInline(link, renderer.Config.Themes);
         autolink.ClickEvent += (sender, e) =>
         {
             renderer.MarkdownTextBlock.RaiseLinkClickedEvent(sender.NavigateUri);
