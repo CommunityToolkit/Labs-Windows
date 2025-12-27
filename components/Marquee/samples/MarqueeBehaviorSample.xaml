@@ -1,0 +1,71 @@
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="MarqueeExperiment.Samples.MarqueeBehaviorSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:local="MarqueeExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      mc:Ignorable="d">
+
+    <win:StackPanel Padding="16">
+        <TextBlock FontWeight="Bold"
+                   Text="This Marquee will loop once when hovered." />
+        <controls:Marquee x:Name="Loop1Marquee"
+                          Background="Transparent"
+                          Behavior="Ticker"
+                          Content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                          FontSize="18"
+                          RepeatBehavior="1x"
+                          Speed="256">
+            <interactivity:Interaction.Behaviors>
+                <interactivity:EventTriggerBehavior EventName="PointerEntered"
+                                                    SourceObject="{Binding ElementName=Loop1Marquee}">
+                    <interactivity:CallMethodAction MethodName="StartMarquee"
+                                                    TargetObject="{Binding ElementName=Loop1Marquee}" />
+                </interactivity:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+        </controls:Marquee>
+
+        <TextBlock Margin="0,16,0,0"
+                   FontWeight="Bold"
+                   Text="This Marquee contains hyperlinks and will pause while hovered." />
+        <controls:Marquee x:Name="MarqueeControl"
+                          AutoPlay="True"
+                          Background="Transparent"
+                          Behavior="Looping"
+                          FontSize="18"
+                          RepeatBehavior="Forever"
+                          Speed="96">
+            <controls:Marquee.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Spacing="4">
+                        <RichTextBlock>
+                            <Paragraph>
+                                <Run Text="Lorem ipsum dolor sit amet, " />
+                                <Hyperlink>consectetur adipiscing elit</Hyperlink>
+                                <Run Text=", sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " />
+                                <Hyperlink>Ut enim ad minim veniam</Hyperlink>
+                                <Run Text=", quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." />
+                            </Paragraph>
+                        </RichTextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </controls:Marquee.ContentTemplate>
+            <interactivity:Interaction.Behaviors>
+                <interactivity:EventTriggerBehavior EventName="PointerEntered"
+                                                    SourceObject="{Binding ElementName=MarqueeControl}">
+                    <interactivity:CallMethodAction MethodName="PauseMarquee"
+                                                    TargetObject="{Binding ElementName=MarqueeControl}" />
+                </interactivity:EventTriggerBehavior>
+                <interactivity:EventTriggerBehavior EventName="PointerExited"
+                                                    SourceObject="{Binding ElementName=MarqueeControl}">
+                    <interactivity:CallMethodAction MethodName="StartMarquee"
+                                                    TargetObject="{Binding ElementName=MarqueeControl}" />
+                </interactivity:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+        </controls:Marquee>
+    </win:StackPanel>
+</Page>

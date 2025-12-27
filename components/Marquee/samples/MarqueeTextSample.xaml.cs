@@ -16,6 +16,7 @@ namespace MarqueeExperiment.Samples;
 #else
 [ToolkitSampleMultiChoiceOption("MQBehavior", "Ticker", "Looping", Title = "Marquee Behavior")]
 #endif
+[ToolkitSampleBoolOption("MQAuto", true, Title = "Auto Play")]
 public sealed partial class MarqueeTextSample : Page
 {
     public MarqueeTextSample()
@@ -41,4 +42,12 @@ public sealed partial class MarqueeTextSample : Page
         "Down" => MarqueeDirection.Down,
         _ => throw new System.NotImplementedException(),
     };
+
+    private void StartMarquee_Click(object sender, RoutedEventArgs e) => MarqueeControl.StartMarquee();
+
+    private void StopMarquee_Click(object sender, RoutedEventArgs e) => MarqueeControl.StopMarquee();
+
+    private void ResumeMarquee_Click(object sender, RoutedEventArgs e) => MarqueeControl.ResumeMarquee();
+
+    private void PauseMarquee_Click(object sender, RoutedEventArgs e) => MarqueeControl.PauseMarquee();
 }

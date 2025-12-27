@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:resources="using:CommunityToolkit.WinUI.Adorners.Resources">
+    <ResourceDictionary.MergedDictionaries>
+        <!--  Base Adorner XAML  -->
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Adorners/Adorner.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Adorners/AdornerDecorator.xaml" />
+
+        <!--  Custom Adorners  -->
+        <resources:InputValidationAdornerResources />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Adorners/ResizeElement/Thumb/ResizeThumb.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Adorners/ResizeElement/ResizeElementAdorner.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
