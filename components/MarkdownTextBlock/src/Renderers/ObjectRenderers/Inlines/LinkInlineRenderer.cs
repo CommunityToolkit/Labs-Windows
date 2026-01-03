@@ -30,7 +30,7 @@ internal class LinkInlineRenderer : UWPObjectRenderer<LinkInline>
         {
             if (link.FirstChild is LinkInline linkInlineChild && linkInlineChild.IsImage)
             {
-                var myHyperlinkButton = new MyHyperlinkButton(link, renderer.Config.BaseUrl);
+                var myHyperlinkButton = new MyHyperlinkButton(link, renderer.Config.BaseUrl, renderer.Config.Themes);
                 myHyperlinkButton.ClickEvent += (sender, e) =>
                 {
                     var button = (HyperlinkButton)sender;
@@ -43,14 +43,11 @@ internal class LinkInlineRenderer : UWPObjectRenderer<LinkInline>
                         // Optionally restore later; not needed unless reused.
                     }
                 };
-                // Apply link foreground to nested RichTextBlock content
-                // (Handled in MyHyperlinkButton initialization via MarkdownConfig.Default for now)
                 renderer.Push(myHyperlinkButton);
             }
             else
             {
-                var hyperlink = new MyHyperlink(link, renderer.Config.BaseUrl);
-                hyperlink.TextElement.Foreground = renderer.Config.Themes.LinkForeground;
+                var hyperlink = new MyHyperlink(link, renderer.Config.BaseUrl, renderer.Config.Themes);
                 hyperlink.ClickEvent += (sender, e) =>
                 {
                     var uri = sender.NavigateUri;

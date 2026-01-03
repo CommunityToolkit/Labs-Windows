@@ -21,7 +21,7 @@ internal class EmphasisInlineRenderer : UWPObjectRenderer<EmphasisInline>
             case '*':
             case '_':
                 span = new MyEmphasisInline(obj);
-                if (obj.DelimiterCount == 2) { span.SetBold(); } else { span.SetItalic(); }
+                if (obj.DelimiterCount == 2) { span.SetBold(renderer.Config.Themes.BoldFontWeight); } else { span.SetItalic(); }
                 break;
             case '~':
                 span = new MyEmphasisInline(obj);

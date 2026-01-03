@@ -33,7 +33,7 @@ internal class HtmlWriter
                     IAddChild hyperLink;
                     if (node.ChildNodes.Any(n => n.Name != "#text"))
                     {
-                        var myHyperlinkButton = new MyHyperlinkButton(node, renderer.Config.BaseUrl);
+                        var myHyperlinkButton = new MyHyperlinkButton(node, renderer.Config.BaseUrl, renderer.Config.Themes);
                         myHyperlinkButton.ClickEvent += (sender, e) =>
                         {
                             var button = (HyperlinkButton)sender;
@@ -48,8 +48,7 @@ internal class HtmlWriter
                     }
                     else
                     {
-                        var myHyperlink = new MyHyperlink(node, renderer.Config.BaseUrl);
-                        myHyperlink.TextElement.Foreground = renderer.Config.Themes.LinkForeground;
+                        var myHyperlink = new MyHyperlink(node, renderer.Config.BaseUrl, renderer.Config.Themes);
                         myHyperlink.ClickEvent += (sender, e) =>
                         {
                             var uri = sender.NavigateUri;

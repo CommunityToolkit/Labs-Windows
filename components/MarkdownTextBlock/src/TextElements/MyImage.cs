@@ -18,6 +18,7 @@ internal class MyImage : IAddChild
     private HtmlNode? _htmlNode;
     private IImageProvider? _imageProvider;
     private ISVGRenderer _svgRenderer;
+    private MarkdownThemes _themes;
     private double _precedentWidth;
     private double _precedentHeight;
     private bool _loaded;
@@ -33,6 +34,7 @@ internal class MyImage : IAddChild
         _uri = uri;
         _imageProvider = config.ImageProvider;
         _svgRenderer = config.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
+        _themes = config.Themes;
         Init();
         var size = Extensions.GetMarkdownImageSize(linkInline);
         if (size.Width != 0)
@@ -55,6 +57,7 @@ internal class MyImage : IAddChild
         _htmlNode = htmlNode;
         _imageProvider = config?.ImageProvider;
         _svgRenderer = config?.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
+        _themes = config?.Themes ?? MarkdownThemes.Default;
         Init();
         int.TryParse(
             htmlNode.GetAttribute("width", "0"),
@@ -142,26 +145,46 @@ internal class MyImage : IAddChild
                 _loaded = true;
             }
 
-            if (_precedentWidth != 0)
+            // Determine the actual image dimensions
+            double actualWidth = _precedentWidth != 0 ? _precedentWidth : _image.Width;
+            double actualHeight = _precedentHeight != 0 ? _precedentHeight : _image.Height;
+
+            // Apply max constraints and calculate the final size
+            // When using Uniform stretch with max constraints, we need to calculate
+            // the actual rendered size to avoid gaps
+            double finalWidth = actualWidth;
+            double finalHeight = actualHeight;
+
+            bool hasMaxWidth = _themes.ImageMaxWidth > 0;
+            bool hasMaxHeight = _themes.ImageMaxHeight > 0;
+
+            if (hasMaxWidth || hasMaxHeight)
             {
-                _image.Width = _precedentWidth;
-            }
-            if (_precedentHeight != 0)
-            {
-                _image.Height = _precedentHeight;
+                double scaleX = hasMaxWidth && actualWidth > _themes.ImageMaxWidth 
+                    ? _themes.ImageMaxWidth / actualWidth 
+                    : 1.0;
+                double scaleY = hasMaxHeight && actualHeight > _themes.ImageMaxHeight 
+                    ? _themes.ImageMaxHeight / actualHeight 
+                    : 1.0;
+
+                // For Uniform stretch, use the smaller scale to maintain aspect ratio
+                if (_themes.ImageStretch == Stretch.Uniform || _themes.ImageStretch == Stretch.UniformToFill)
+                {
+                    double uniformScale = Math.Min(scaleX, scaleY);
+                    finalWidth = actualWidth * uniformScale;
+                    finalHeight = actualHeight * uniformScale;
+                }
+                else
+                {
+                    // For other stretch modes, apply constraints independently
+                    finalWidth = actualWidth * scaleX;
+                    finalHeight = actualHeight * scaleY;
+                }
             }
 
-            // Apply theme constraints if provided
-            var themes = MarkdownConfig.Default.Themes;
-            if (themes.ImageMaxWidth > 0)
-            {
-                _image.MaxWidth = themes.ImageMaxWidth;
-            }
-            if (themes.ImageMaxHeight > 0)
-            {
-                _image.MaxHeight = themes.ImageMaxHeight;
-            }
-            _image.Stretch = themes.ImageStretch;
+            _image.Width = finalWidth;
+            _image.Height = finalHeight;
+            _image.Stretch = _themes.ImageStretch;
         }
         catch (Exception) { }
     }

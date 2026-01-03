@@ -4,6 +4,13 @@
 
 using Markdig.Syntax.Inlines;
 using Windows.UI.Text;
+#if !WINAPPSDK
+using FontWeight = Windows.UI.Text.FontWeight;
+using FontWeights = Windows.UI.Text.FontWeights;
+#else
+using FontWeight = Windows.UI.Text.FontWeight;
+using FontWeights = Microsoft.UI.Text.FontWeights;
+#endif
 
 namespace CommunityToolkit.WinUI.Controls.TextElements;
 
@@ -49,14 +56,9 @@ internal class MyEmphasisInline : IAddChild
         }
     }
 
-    public void SetBold()
+    public void SetBold(FontWeight? fontWeight = null)
     {
-        #if WINUI3
-        _span.FontWeight = Microsoft.UI.Text.FontWeights.Bold;
-        #elif WINUI2
-        _span.FontWeight = Windows.UI.Text.FontWeights.Bold;
-        #endif
-
+        _span.FontWeight = fontWeight ?? FontWeights.Bold;
         _isBold = true;
     }
 
