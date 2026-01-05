@@ -118,7 +118,7 @@ public partial class ThemeOptionsPane : UserControl
         _sample.ImageStretchIndex = ImageStretchComboBox.SelectedIndex;
     }
 
-    private void OnValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+    private void OnValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
     {
         if (_isInitializing) return;
 
