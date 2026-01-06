@@ -84,9 +84,27 @@ The line above is a horizontal rule with customizable thickness and margin.
 
 ## Lists
 
+Try adjusting the **Bullet Spacing** and **Gutter Width** settings to see how list formatting changes!
+
+- Top level list item
+  - Nested item level 1
+    - Nested item level 2
+      - Nested item level 3
+- Another top level item
 - Adjust the theme settings in the options panel
+  - The gutter width controls how much each level is indented
+  - The bullet spacing controls space after the bullet character
 - Click **Apply Changes** to see updates
 - Use **Reset to Defaults** to start over
+
+Numbered lists work too:
+
+1. First item
+2. Second item
+   1. Nested numbered item
+   2. Another nested item
+      1. Deep nesting works
+3. Third item
 ";
 
     public MarkdownTextBlockCustomThemeSample()
