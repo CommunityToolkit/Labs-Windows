@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.System;
-using CommunityToolkit.WinUI;
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI.Controls;
+
 public partial class TokenView : ListViewBase
 {
     private void TokenView_SizeChanged(object sender, SizeChangedEventArgs e)

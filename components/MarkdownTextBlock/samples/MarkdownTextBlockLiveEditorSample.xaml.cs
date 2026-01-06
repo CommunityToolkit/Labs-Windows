@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+using CommunityToolkit.WinUI.Controls;
 using System.Diagnostics;
 
 namespace MarkdownTextBlockExperiment.Samples;
@@ -17,21 +17,12 @@ namespace MarkdownTextBlockExperiment.Samples;
 [ToolkitSampleBoolOption("UseAutoLinks", false, Title = "UseAutoLinks")]
 [ToolkitSampleBoolOption("DisableHtml", false, Title = "DisableHtml")]
 [ToolkitSampleBoolOption("UseSoftlineBreakAsHardlineBreak", false, Title = "UseSoftlineBreakAsHardlineBreak")]
-[ToolkitSample(id: nameof(MarkdownTextBlockLiveEditorSample), "Live Editor", description: $"An interactive live editor for the {nameof(CommunityToolkit.Labs.WinUI.MarkdownTextBlock)} control. Type markdown and see it rendered in real-time.")]
+[ToolkitSample(id: nameof(MarkdownTextBlockLiveEditorSample), "Live Editor", description: $"An interactive live editor for the {nameof(CommunityToolkit.WinUI.Controls.MarkdownTextBlock)} control. Type markdown and see it rendered in real-time.")]
 public sealed partial class MarkdownTextBlockLiveEditorSample : Page
 {
-    private MarkdownConfig _config;
-
-    public MarkdownConfig MarkdownConfig
-    {
-        get => _config;
-        set => _config = value;
-    }
-
     public MarkdownTextBlockLiveEditorSample()
     {
         this.InitializeComponent();
-        _config = new MarkdownConfig();
         MarkdownTextBox.Text = """
             # Hello World
 

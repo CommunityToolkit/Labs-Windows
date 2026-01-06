@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Markdig.Syntax;
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+using CommunityToolkit.WinUI.Controls.TextElements;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers;
+namespace CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers;
 
 internal class QuoteBlockRenderer : UWPObjectRenderer<QuoteBlock>
 {
@@ -14,7 +14,7 @@ internal class QuoteBlockRenderer : UWPObjectRenderer<QuoteBlock>
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-        var quote = new MyQuote(obj);
+    var quote = new MyQuote(obj, renderer.Config.Themes);
 
         renderer.Push(quote);
         renderer.WriteChildren(obj);

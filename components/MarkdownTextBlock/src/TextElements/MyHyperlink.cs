@@ -5,7 +5,7 @@
 using HtmlAgilityPack;
 using Markdig.Syntax.Inlines;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyHyperlink : IAddChild
 {
@@ -41,6 +41,7 @@ internal class MyHyperlink : IAddChild
         _hyperlink = new Hyperlink()
         {
             NavigateUri = Extensions.GetUri(url, baseUrl),
+            Foreground = MarkdownConfig.Default.Themes.LinkForeground
         };
     }
 
@@ -52,6 +53,7 @@ internal class MyHyperlink : IAddChild
         _hyperlink = new Hyperlink()
         {
             NavigateUri = Extensions.GetUri(url, baseUrl),
+            Foreground = MarkdownConfig.Default.Themes.LinkForeground
         };
     }
 

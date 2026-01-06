@@ -1,0 +1,64 @@
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:adorners="using:CommunityToolkit.WinUI.Adorners"
+                    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+                    xmlns:ui="using:CommunityToolkit.WinUI">
+
+    <!--  Implicitly applied default style  -->
+    <Style BasedOn="{StaticResource DefaultResizeElementAdornerStyle}"
+           TargetType="adorners:ResizeElementAdorner" />
+
+    <Style x:Key="DefaultResizeElementAdornerStyle"
+           TargetType="adorners:ResizeElementAdorner">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="adorners:ResizeElementAdorner">
+                    <Grid BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+                          BorderThickness="1">
+                        <controls:ResizeThumb x:Name="TopThumbPart"
+                                              Margin="0,-8,0,0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Top"
+                                              Direction="Top" />
+                        <controls:ResizeThumb x:Name="BottomThumbPart"
+                                              Margin="0,0,0,-8"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Bottom"
+                                              Direction="Bottom" />
+                        <controls:ResizeThumb x:Name="LeftThumbPart"
+                                              Margin="-8,0,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              Direction="Left" />
+                        <controls:ResizeThumb x:Name="RightThumbPart"
+                                              Margin="0,0,-8,0"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Center"
+                                              Direction="Right" />
+                        <controls:ResizeThumb x:Name="TopLeftThumbPart"
+                                              Margin="-8,-8,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              Direction="TopLeft" />
+                        <controls:ResizeThumb x:Name="TopRightThumbPart"
+                                              Margin="0,-8,-8,0"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Top"
+                                              Direction="TopRight" />
+                        <controls:ResizeThumb x:Name="BottomLeftThumbPart"
+                                              Margin="-8,0,0,-8"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Bottom"
+                                              Direction="BottomLeft" />
+                        <controls:ResizeThumb x:Name="BottomRightThumbPart"
+                                              Margin="0,0,-8,-8"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Bottom"
+                                              Direction="BottomRight" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

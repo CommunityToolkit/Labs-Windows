@@ -1,0 +1,65 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<ResourceDictionary x:Class="CommunityToolkit.WinUI.Adorners.Resources.InputValidationAdornerResources"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Windows11="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 14)"
+                    xmlns:adorners="using:CommunityToolkit.WinUI.Adorners"
+                    xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
+                    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+                    xmlns:ui="using:CommunityToolkit.WinUI">
+
+    <!--  Overridable Resources  -->
+    <SolidColorBrush x:Key="InputValidationAdornerBorderBrush"
+                     Color="Red" />
+    <SolidColorBrush x:Key="InputValidationAdornerBadgeBackground"
+                     Color="{StaticResource SystemFillColorCritical}" />
+    <x:String x:Key="InputValidationAdornerBadgeGlyph">&#xF13C;</x:String>
+    <x:Double x:Key="InputValidationAdornerBorderThickness">1</x:Double>
+
+    <!--  Implicitly applied default style  -->
+    <Style BasedOn="{StaticResource DefaultInputValidationAdornerStyle}"
+           TargetType="adorners:InputValidationAdorner" />
+
+    <Style x:Key="DefaultInputValidationAdornerStyle"
+           TargetType="adorners:InputValidationAdorner">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="adorners:InputValidationAdorner">
+                    <ContentControl x:Name="ContentContainer"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate x:DataType="adorners:InputValidationAdorner">
+                                <Grid Visibility="{x:Bind HasValidationFailed, Mode=OneWay}">
+                                    <Border Margin="-4"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Background="{x:Bind Background, Mode=OneWay}"
+                                            BorderBrush="{ThemeResource InputValidationAdornerBorderBrush}"
+                                            BorderThickness="{ThemeResource InputValidationAdornerBorderThickness}"
+                                            CornerRadius="{ThemeResource ControlCornerRadius}" />
+
+                                    <muxc:InfoBadge Width="20"
+                                                    MinHeight="20"
+                                                    Margin="0,0,-32,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Background="{ThemeResource InputValidationAdornerBadgeBackground}">
+                                        <muxc:InfoBadge.IconSource>
+                                            <muxc:FontIconSource FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                                 Glyph="{ThemeResource InputValidationAdornerBadgeGlyph}" />
+                                        </muxc:InfoBadge.IconSource>
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="{x:Bind ValidationMessage, Mode=OneWay}" />
+                                        </ToolTipService.ToolTip>
+                                    </muxc:InfoBadge>
+                                </Grid>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

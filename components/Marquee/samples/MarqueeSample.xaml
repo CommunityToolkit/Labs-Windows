@@ -1,0 +1,45 @@
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="MarqueeExperiment.Samples.MarqueeSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:MarqueeExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <StackPanel Padding="16">
+        <controls:Marquee AutoPlay="True"
+                          Behavior="{x:Bind ConvertStringToMarqueeBehavior(MQBehavior), Mode=OneWay}"
+                          Content="{x:Bind Data}"
+                          Direction="{x:Bind ConvertStringToMarqueeDirection(MQDirection), Mode=OneWay}"
+                          FontSize="18"
+                          RepeatBehavior="Forever"
+                          Speed="{x:Bind MQSpeed, Mode=OneWay}">
+            <controls:Marquee.ContentTemplate>
+                <DataTemplate x:DataType="local:MarqueeSampleItems">
+                    <ItemsControl ItemsSource="{x:Bind Items}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="local:MarqueeSampleItem">
+                                <Border Width="100"
+                                        Height="48"
+                                        Background="{x:Bind Brush}">
+                                    <TextBlock Text="{x:Bind Name}" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </controls:Marquee.ContentTemplate>
+        </controls:Marquee>
+
+        <Button Click="AddItem_Click"
+                Content="Add something" />
+    </StackPanel>
+</Page>

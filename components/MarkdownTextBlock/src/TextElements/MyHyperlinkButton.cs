@@ -5,7 +5,7 @@
 using HtmlAgilityPack;
 using Markdig.Syntax.Inlines;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyHyperlinkButton : IAddChild
 {
@@ -65,7 +65,8 @@ internal class MyHyperlinkButton : IAddChild
             _flowDoc = new MyFlowDocument(_linkInline!);
         }
         _inlineUIContainer.Child = _hyperLinkButton;
-        _hyperLinkButton.Content = _flowDoc.RichTextBlock;
+    _flowDoc.RichTextBlock.Foreground = MarkdownConfig.Default.Themes.LinkForeground;
+    _hyperLinkButton.Content = _flowDoc.RichTextBlock;
     }
 
     public void AddChild(IAddChild child)

@@ -7,7 +7,7 @@ using HtmlAgilityPack;
 using System.Globalization;
 using Windows.Storage.Streams;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyImage : IAddChild
 {
@@ -150,6 +150,18 @@ internal class MyImage : IAddChild
             {
                 _image.Height = _precedentHeight;
             }
+
+            // Apply theme constraints if provided
+            var themes = MarkdownConfig.Default.Themes;
+            if (themes.ImageMaxWidth > 0)
+            {
+                _image.MaxWidth = themes.ImageMaxWidth;
+            }
+            if (themes.ImageMaxHeight > 0)
+            {
+                _image.MaxHeight = themes.ImageMaxHeight;
+            }
+            _image.Stretch = themes.ImageStretch;
         }
         catch (Exception) { }
     }

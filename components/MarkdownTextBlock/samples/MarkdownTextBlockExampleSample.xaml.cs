@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+using CommunityToolkit.WinUI.Controls;
 using System.Diagnostics;
 
 namespace MarkdownTextBlockExperiment.Samples;
@@ -17,7 +17,7 @@ namespace MarkdownTextBlockExperiment.Samples;
 [ToolkitSampleBoolOption("UseAutoLinks", true, Title = "UseAutoLinks")]
 [ToolkitSampleBoolOption("DisableHtml", false, Title = "DisableHtml")]
 [ToolkitSampleBoolOption("UseSoftlineBreakAsHardlineBreak", false, Title = "UseSoftlineBreakAsHardlineBreak")]
-[ToolkitSample(id: nameof(MarkdownTextBlockExampleSample), "Full Example", description: $"A comprehensive example showcasing all the features and capabilities of the {nameof(CommunityToolkit.Labs.WinUI.MarkdownTextBlock)} control with various markdown syntax.")]
+[ToolkitSample(id: nameof(MarkdownTextBlockExampleSample), "Full Example", description: $"A comprehensive example showcasing all the features and capabilities of the {nameof(CommunityToolkit.WinUI.Controls.MarkdownTextBlock)} control with various markdown syntax.")]
 public sealed partial class MarkdownTextBlockExampleSample : Page
 {
     private MarkdownConfig _config;

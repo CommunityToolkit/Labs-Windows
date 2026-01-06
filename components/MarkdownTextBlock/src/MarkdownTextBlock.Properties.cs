@@ -4,7 +4,7 @@
 
 using Markdig.Syntax;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock;
+namespace CommunityToolkit.WinUI.Controls;
 
 public partial class MarkdownTextBlock
 {
@@ -15,7 +15,7 @@ public partial class MarkdownTextBlock
         nameof(Config),
         typeof(MarkdownConfig),
         typeof(MarkdownTextBlock),
-        new PropertyMetadata(null, OnConfigChanged)
+        new PropertyMetadata(new MarkdownConfig(), OnConfigChanged)
     );
 
     /// <summary>
@@ -107,6 +107,23 @@ public partial class MarkdownTextBlock
         typeof(MarkdownDocument),
         typeof(MarkdownTextBlock),
         new PropertyMetadata(null));
+
+    /// <summary>
+    /// Identifies the <see cref="IsTextSelectionEnabled"/> dependency property.
+    /// </summary>
+    private static readonly DependencyProperty IsTextSelectionEnabledProperty = DependencyProperty.Register(
+        nameof(IsTextSelectionEnabled),
+        typeof(bool),
+        typeof(MarkdownTextBlock),
+        new PropertyMetadata(false, OnIsTextSelectionEnabledChanged));
+
+    private static void OnIsTextSelectionEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is MarkdownTextBlock mtb && mtb._document != null)
+        {
+            mtb._document.RichTextBlock.IsTextSelectionEnabled = (bool)e.NewValue;
+        }
+    }
 
     public MarkdownConfig Config
     {
@@ -202,5 +219,14 @@ public partial class MarkdownTextBlock
     {
         get => (MarkdownDocument)GetValue(MarkdownDocumentProperty);
         private set => SetValue(MarkdownDocumentProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether text selection is enabled.
+    /// </summary>
+    public bool IsTextSelectionEnabled
+    {
+        get => (bool)GetValue(IsTextSelectionEnabledProperty);
+        set => SetValue(IsTextSelectionEnabledProperty, value);
     }
 }

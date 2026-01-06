@@ -5,7 +5,7 @@
 using HtmlAgilityPack;
 using Markdig.Syntax;
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.Renderers.ObjectRenderers;
+namespace CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers;
 
 internal class HtmlBlockRenderer : UWPObjectRenderer<HtmlBlock>
 {
@@ -15,14 +15,17 @@ internal class HtmlBlockRenderer : UWPObjectRenderer<HtmlBlock>
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
         var stringBuilder = new StringBuilder();
-        foreach (var line in obj.Lines.Lines)
+        if (obj.Lines.Lines != null)
         {
-            var lineText = line.Slice.ToString().Trim();
-            if (String.IsNullOrWhiteSpace(lineText))
+            foreach (var line in obj.Lines.Lines)
             {
-                continue;
+                var lineText = line.Slice.ToString().Trim();
+                if (String.IsNullOrWhiteSpace(lineText))
+                {
+                    continue;
+                }
+                stringBuilder.AppendLine(lineText);
             }
-            stringBuilder.AppendLine(lineText);
         }
 
         var html = Regex.Replace(stringBuilder.ToString(), @"\t|\n|\r", "", RegexOptions.Compiled);

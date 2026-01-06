@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Labs.WinUI.MarkdownTextBlock.TextElements;
+namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal partial class MyTableUIElement : Panel
 {
@@ -18,13 +18,12 @@ internal partial class MyTableUIElement : Panel
     private double[]? _columnWidths;
     private double[]? _rowHeights;
 
-    public MyTableUIElement(int columnCount, int rowCount, double borderThickness, Brush borderBrush, Brush headingBrush, CornerRadius cornerRadius)
+    public MyTableUIElement(int columnCount, int rowCount, double borderThickness, Brush borderBrush, Brush headingBrush, CornerRadius cornerRadius, Thickness tableMargin)
     {
         _columnCount = columnCount;
         _rowCount = rowCount;
         _borderThickness = borderThickness;
-
-        Margin = new Thickness(left: 0, top: 10, right: 0, bottom: 10);
+        Margin = tableMargin;
 
         Children.Add(new Border
         {

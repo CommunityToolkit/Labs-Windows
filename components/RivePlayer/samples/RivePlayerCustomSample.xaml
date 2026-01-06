@@ -6,7 +6,7 @@
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:RivePlayerExperiment.Samples"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:rive="using:CommunityToolkit.Labs.WinUI.Rive"
+      xmlns:rive="using:CommunityToolkit.WinUI.Rive"
       mc:Ignorable="d">
 
     <Grid>

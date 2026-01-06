@@ -1,0 +1,102 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+                    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <Style TargetType="controls:Marquee">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:Marquee">
+                    <Grid Padding="{TemplateBinding Padding}"
+                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="MarqueeStateGroup">
+                                <VisualState x:Name="MarqueeActive" />
+                                <VisualState x:Name="MarqueePaused" />
+                                <VisualState x:Name="MarqueeStopped" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DirectionStateGroup">
+                                <VisualState x:Name="Leftwards">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueePanel.Orientation" Value="Horizontal" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Rightwards">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueePanel.Orientation" Value="Horizontal" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Upwards">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueePanel.Orientation" Value="Vertical" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Downwards">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueePanel.Orientation" Value="Vertical" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="BehaviorStateGroup">
+                                <VisualState x:Name="Ticker">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Looping">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0,0,32,0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Bouncing">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid x:Name="MarqueeContainer">
+                            <StackPanel x:Name="MarqueePanel"
+                                        Orientation="Horizontal">
+                                <StackPanel.RenderTransform>
+                                    <TranslateTransform x:Name="MarqueeTransform" />
+                                </StackPanel.RenderTransform>
+                                <ContentPresenter x:Name="Segment1"
+                                                  win:FontStretch="{TemplateBinding FontStretch}"
+                                                  CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                  FontFamily="{TemplateBinding FontFamily}"
+                                                  FontSize="{TemplateBinding FontSize}"
+                                                  FontStyle="{TemplateBinding FontStyle}"
+                                                  FontWeight="{TemplateBinding FontWeight}"
+                                                  Foreground="{TemplateBinding Foreground}" />
+                                <ContentPresenter x:Name="Segment2"
+                                                  win:FontStretch="{TemplateBinding FontStretch}"
+                                                  CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                  FontFamily="{TemplateBinding FontFamily}"
+                                                  FontSize="{TemplateBinding FontSize}"
+                                                  FontStyle="{TemplateBinding FontStyle}"
+                                                  FontWeight="{TemplateBinding FontWeight}"
+                                                  Foreground="{TemplateBinding Foreground}" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

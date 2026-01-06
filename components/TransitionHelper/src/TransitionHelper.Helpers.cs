@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
 #endif
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI;
 
 /// <summary>
 /// A animation helper that morphs between two controls.
@@ -252,7 +252,7 @@ public sealed partial class TransitionHelper
                 (targetParentBounds.X - transformedBounds.X) * inverseScale.X,
                 (targetParentBounds.Y - transformedBounds.Y) * inverseScale.Y,
                 (transformedBounds.Right - targetParentBounds.Right) * inverseScale.X,
-                (transformedBounds.Bottom - targetParentBounds.Bottom) * inverseScale.X);
+                (transformedBounds.Bottom - targetParentBounds.Bottom) * inverseScale.Y);
     }
 
     private static readonly Dictionary<(EasingType, EasingMode, bool), IEasingFunctionFactory> EasingFunctionFactoryCache = new();

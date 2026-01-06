@@ -5,18 +5,20 @@
 #if NET8_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
 #endif
-using CommunityToolkit.Labs.WinUI.CanvasViewInternal;
 using CommunityToolkit.WinUI.Helpers;
 
-namespace CommunityToolkit.Labs.WinUI;
+namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
 /// <see cref="CanvasView"/> is an <see cref="ItemsControl"/> which uses a <see cref="Canvas"/> for the layout of its items.
 /// It which provides built-in support for presenting a collection of items bound to specific coordinates 
-/// and drag-and-drop support of those items.
+/// and <see cref="UIElement.ManipulationMode"/> support of those items.
 /// </summary>
 public partial class CanvasView : ItemsControl
 {
+    /// <summary>
+    /// Gets the set of properties that will be automatically bound to the root element within the <see cref="ContentPresenter"/> template to the containing <see cref="ContentPresenter"/> itself within the <see cref="CanvasView"/>. This allows for data binding these properties to a templated object for tracking position based properties.
+    /// </summary>
     private (DependencyProperty, string)[] LiftedProperties = new (DependencyProperty, string)[] {
         (Canvas.LeftProperty, "(Canvas.Left)"),
         (Canvas.TopProperty, "(Canvas.Top)"),
@@ -24,12 +26,27 @@ public partial class CanvasView : ItemsControl
         (ManipulationModeProperty, "ManipulationMode")
     };
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CanvasView"/> class.
+    /// </summary>
     public CanvasView()
     {
         // TODO: Need to use XamlReader because of https://github.com/microsoft/microsoft-ui-xaml/issues/2898
-        ItemsPanel = XamlReader.Load("<ItemsPanelTemplate xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Canvas/></ItemsPanelTemplate>") as ItemsPanelTemplate;
+        ItemsPanel = XamlReader.Load(
+            """
+            <ItemsPanelTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+                <Canvas/>
+            </ItemsPanelTemplate>
+            """) as ItemsPanelTemplate;
     }
 
+    /// <inheritdoc/>
+    protected override DependencyObject GetContainerForItemOverride() => new ContentPresenter();
+
+    /// <inheritdoc/>
+    protected override bool IsItemItsOwnContainerOverride(object item) => item is ContentPresenter;
+
+    /// <inheritdoc/>
     protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
     {
         base.PrepareContainerForItemOverride(element, item);
@@ -51,6 +68,7 @@ public partial class CanvasView : ItemsControl
         // TODO: Do we want to support something else in a custom template?? else if (item is FrameworkElement fe && fe.FindDescendant/GetContentControl?)
     }
 
+    /// <inheritdoc/>
     protected override void ClearContainerForItemOverride(DependencyObject element, object item)
     {
         base.ClearContainerForItemOverride(element, item);
