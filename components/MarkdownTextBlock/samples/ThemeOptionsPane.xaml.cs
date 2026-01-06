@@ -60,6 +60,10 @@ public partial class ThemeOptionsPane : UserControl
         TableCellPaddingBox.Value = _sample.TableCellPadding;
         TableBorderThicknessBox.Value = _sample.TableBorderThickness;
 
+        // Lists
+        ListBulletSpacingBox.Value = _sample.ListBulletSpacing;
+        ListGutterWidthBox.Value = _sample.ListGutterWidth;
+
         // Horizontal Rule
         HorizontalRuleThicknessBox.Value = _sample.HorizontalRuleThickness;
         HorizontalRuleMarginBox.Value = _sample.HorizontalRuleMargin;
@@ -107,6 +111,10 @@ public partial class ThemeOptionsPane : UserControl
         // Table
         _sample.TableCellPadding = TableCellPaddingBox.Value;
         _sample.TableBorderThickness = TableBorderThicknessBox.Value;
+
+        // Lists
+        _sample.ListBulletSpacing = ListBulletSpacingBox.Value;
+        _sample.ListGutterWidth = ListGutterWidthBox.Value;
 
         // Horizontal Rule
         _sample.HorizontalRuleThickness = HorizontalRuleThicknessBox.Value;

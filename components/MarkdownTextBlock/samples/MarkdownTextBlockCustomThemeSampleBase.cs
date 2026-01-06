@@ -104,6 +104,12 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
     public static readonly DependencyProperty BoldFontWeightIndexProperty =
         DependencyProperty.Register(nameof(BoldFontWeightIndex), typeof(int), typeof(MarkdownTextBlockCustomThemeSampleBase), new PropertyMetadata(0));
 
+    public static readonly DependencyProperty ListBulletSpacingProperty =
+        DependencyProperty.Register(nameof(ListBulletSpacing), typeof(double), typeof(MarkdownTextBlockCustomThemeSampleBase), new PropertyMetadata(4d));
+
+    public static readonly DependencyProperty ListGutterWidthProperty =
+        DependencyProperty.Register(nameof(ListGutterWidth), typeof(double), typeof(MarkdownTextBlockCustomThemeSampleBase), new PropertyMetadata(30d));
+
     public MarkdownTextBlockCustomThemeSampleBase()
     {
     }
@@ -283,6 +289,18 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
         set => SetValue(BoldFontWeightIndexProperty, value);
     }
 
+    public double ListBulletSpacing
+    {
+        get => (double)GetValue(ListBulletSpacingProperty);
+        set => SetValue(ListBulletSpacingProperty, value);
+    }
+
+    public double ListGutterWidth
+    {
+        get => (double)GetValue(ListGutterWidthProperty);
+        set => SetValue(ListGutterWidthProperty, value);
+    }
+
     // Static lookup arrays
     public static Brush[] HeadingColors { get; } = new Brush[]
     {
@@ -410,6 +428,9 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
             ImageStretch = ImageStretchOptions[ImageStretchIndex],
 
             BoldFontWeight = BoldFontWeights[BoldFontWeightIndex],
+
+            ListBulletSpacing = ListBulletSpacing,
+            ListGutterWidth = ListGutterWidth,
         };
     }
 
@@ -451,6 +472,9 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
         ImageStretchIndex = 0;
 
         BoldFontWeightIndex = 0;
+
+        ListBulletSpacing = 4;
+        ListGutterWidth = 30;
     }
 
     public abstract void ApplyTheme();

@@ -243,6 +243,29 @@
                 </StackPanel>
             </muxc:Expander>
 
+            <!--  Lists Section  -->
+            <muxc:Expander HorizontalAlignment="Stretch"
+                           HorizontalContentAlignment="Stretch">
+                <muxc:Expander.Header>
+                    <TextBlock FontWeight="SemiBold"
+                               Text="Lists" />
+                </muxc:Expander.Header>
+                <StackPanel Spacing="8">
+                    <muxc:NumberBox x:Name="ListBulletSpacingBox"
+                                    Header="Bullet Spacing"
+                                    Maximum="20"
+                                    Minimum="0"
+                                    SpinButtonPlacementMode="Compact"
+                                    ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox x:Name="ListGutterWidthBox"
+                                    Header="Gutter Width (Indent)"
+                                    Maximum="60"
+                                    Minimum="10"
+                                    SpinButtonPlacementMode="Compact"
+                                    ValueChanged="OnValueChanged" />
+                </StackPanel>
+            </muxc:Expander>
+
             <!--  Table Section  -->
             <muxc:Expander HorizontalAlignment="Stretch"
                            HorizontalContentAlignment="Stretch">
