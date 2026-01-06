@@ -7,14 +7,14 @@ using Windows.UI.Text;
 
 namespace CommunityToolkit.WinUI.Controls.TextElements;
 
-internal class MyEmphasisInline : IAddChild
+internal class MyEmphasisInline : IAddChild, ICascadeChild
 {
     private Span _span;
     private EmphasisInline _markdownObject;
+    private TextElement _textElementCur;
 
-    private bool _isBold;
-    private bool _isItalic;
-    private bool _isStrikeThrough;
+    private bool _isSuperscript;
+    private bool _isSubscript;
 
     public TextElement TextElement
     {
@@ -24,6 +24,7 @@ internal class MyEmphasisInline : IAddChild
     public MyEmphasisInline(EmphasisInline emphasisInline)
     {
         _span = new Span();
+        _textElementCur = _span;
         _markdownObject = emphasisInline;
     }
 
@@ -31,16 +32,17 @@ internal class MyEmphasisInline : IAddChild
     {
         try
         {
+            if (child is ICascadeChild cascadeChild)
+                cascadeChild.InheritProperties(this);
+
+            var inlines = _textElementCur is Span span ? span.Inlines : ((Paragraph)_textElementCur).Inlines;
             if (child is MyInlineText inlineText)
             {
-                _span.Inlines.Add((Run)inlineText.TextElement);
+                inlines.Add((Run)inlineText.TextElement);
             }
             else if (child is MyEmphasisInline emphasisInline)
             {
-                if (emphasisInline._isBold) { SetBold(); }
-                if (emphasisInline._isItalic) { SetItalic(); }
-                if (emphasisInline._isStrikeThrough) { SetStrikeThrough(); }
-                _span.Inlines.Add(emphasisInline._span);
+                inlines.Add(emphasisInline._span);
             }
         }
         catch (Exception ex)
@@ -56,14 +58,11 @@ internal class MyEmphasisInline : IAddChild
         #elif WINUI2
         _span.FontWeight = Windows.UI.Text.FontWeights.Bold;
         #endif
-
-        _isBold = true;
     }
 
     public void SetItalic()
     {
         _span.FontStyle = FontStyle.Italic;
-        _isItalic = true;
     }
 
     public void SetStrikeThrough()
@@ -73,17 +72,53 @@ internal class MyEmphasisInline : IAddChild
         #elif WINUI2
         _span.TextDecorations = Windows.UI.Text.TextDecorations.Strikethrough;
         #endif
-
-        _isStrikeThrough = true;
     }
 
     public void SetSubscript()
     {
-        _span.SetValue(Typography.VariantsProperty, FontVariants.Subscript);
+        _isSubscript = true;
+        ConstructSubSuperContainer();
     }
 
     public void SetSuperscript()
     {
-        _span.SetValue(Typography.VariantsProperty, FontVariants.Superscript);
+        _isSuperscript = true;
+        ConstructSubSuperContainer();
+    }
+
+    public void InheritProperties(IAddChild parent)
+    {
+        if (!_isSuperscript && !_isSubscript)
+            return;
+
+        _textElementCur.FontFamily = parent.TextElement.FontFamily;
+        _textElementCur.FontWeight = parent.TextElement.FontWeight;
+        _textElementCur.FontStyle = parent.TextElement.FontStyle;
+        _textElementCur.Foreground = parent.TextElement.Foreground;
+    }
+
+    private void ConstructSubSuperContainer()
+    {
+        // usually runs get added directly under _span.Inlines (_span -> Run)
+        // for sub/superscript, we use a inline container under _span to translate the Y position of the text
+        // (_span -> InlineUIContainer -> RichTextBlock -> Paragraph -> Run)
+
+        var container = new InlineUIContainer();
+        var richText = new RichTextBlock();
+        var paragraph = new Paragraph
+        {
+            FontSize = _span.FontSize * 0.8,
+        };
+        richText.Blocks.Add(paragraph);
+        container.Child = richText;
+
+        double offset = _isSuperscript ? -0.4 : 0.16;
+        richText.RenderTransform = new TranslateTransform
+        {
+            Y = _span.FontSize * offset
+        };
+
+        _span.Inlines.Add(container);
+        _textElementCur = paragraph;
     }
 }
