@@ -79,6 +79,8 @@ public sealed class MarkdownThemes : DependencyObject
 
     public FontWeight InlineCodeFontWeight { get; set; } = FontWeights.Normal;
 
+    public FontWeight BoldFontWeight { get; set; } = FontWeights.Bold;
+
     // Legacy parity properties (new)
     // Code block styling
     public Brush CodeBlockBackground { get; set; } = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];

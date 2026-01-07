@@ -15,6 +15,7 @@ internal class MyHyperlinkButton : IAddChild
     private string? _baseUrl;
     private LinkInline? _linkInline;
     private HtmlNode? _htmlNode;
+    private MarkdownThemes _themes;
     
     public event RoutedEventHandler? ClickEvent
     {
@@ -35,21 +36,22 @@ internal class MyHyperlinkButton : IAddChild
         get => _inlineUIContainer;
     }
 
-    public MyHyperlinkButton(LinkInline linkInline, string? baseUrl)
-        : this(linkInline.GetDynamicUrl != null ? linkInline.GetDynamicUrl() ?? linkInline.Url : linkInline.Url, baseUrl, null, linkInline)
+    public MyHyperlinkButton(LinkInline linkInline, string? baseUrl, MarkdownThemes themes)
+        : this(linkInline.GetDynamicUrl != null ? linkInline.GetDynamicUrl() ?? linkInline.Url : linkInline.Url, baseUrl, null, linkInline, themes)
     {
     }
 
-    public MyHyperlinkButton(HtmlNode htmlNode, string? baseUrl)
-        : this(htmlNode.GetAttribute("href", "#"), baseUrl, htmlNode, null)
+    public MyHyperlinkButton(HtmlNode htmlNode, string? baseUrl, MarkdownThemes themes)
+        : this(htmlNode.GetAttribute("href", "#"), baseUrl, htmlNode, null, themes)
     {
     }
 
-    private MyHyperlinkButton(string? url, string? baseUrl, HtmlNode? htmlNode, LinkInline? linkInline)
+    private MyHyperlinkButton(string? url, string? baseUrl, HtmlNode? htmlNode, LinkInline? linkInline, MarkdownThemes themes)
     {
         _baseUrl = baseUrl;
         _htmlNode = htmlNode;
         _linkInline = linkInline;
+        _themes = themes;
         _hyperLinkButton = new HyperlinkButton
         {
             NavigateUri = Extensions.GetUri(url, baseUrl),
@@ -65,8 +67,8 @@ internal class MyHyperlinkButton : IAddChild
             _flowDoc = new MyFlowDocument(_linkInline!);
         }
         _inlineUIContainer.Child = _hyperLinkButton;
-    _flowDoc.RichTextBlock.Foreground = MarkdownConfig.Default.Themes.LinkForeground;
-    _hyperLinkButton.Content = _flowDoc.RichTextBlock;
+        _flowDoc.RichTextBlock.Foreground = _themes.LinkForeground;
+        _hyperLinkButton.Content = _flowDoc.RichTextBlock;
     }
 
     public void AddChild(IAddChild child)

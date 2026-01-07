@@ -34,3 +34,9 @@ See all the markdown features and syntax supported by the control:
 Try typing markdown and see it rendered in real-time:
 
 > [!Sample MarkdownTextBlockLiveEditorSample]
+
+## Custom theme sample
+Try different styling options for all markdown elements with a custom theme:
+
+> [!Sample MarkdownTextBlockCustomThemeSample]
+
