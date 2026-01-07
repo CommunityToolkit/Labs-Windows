@@ -39,7 +39,9 @@ internal class MyParagraph : IAddChild
         if (bulletCount != 0)
         {
             string bullet = renderer.PeekListBullet();
-            Run bulletRun = new Run { Text = bullet + "\t" };
+            // Use spaces to create spacing between bullet and text based on ListBulletSpacing
+            string spacing = new string(' ', (int)themes.ListBulletSpacing);
+            Run bulletRun = new Run { Text = bullet + spacing };
 
             _paragraph.Inlines.Add(bulletRun);
             _paragraph.TextIndent = -themes.ListGutterWidth;
