@@ -12,10 +12,19 @@ public sealed partial class GradientSliderThumb : Control
     private Point _dragStartPosition;
     private Point _lastPosition;
 
+    /// <summary>
+    /// Fires when the <see cref="GradientSliderThumb"/> captures the pointer.
+    /// </summary>
     public event DragStartedEventHandler? DragStarted;
 
+    /// <summary>
+    /// Fires as the <see cref="GradientSliderThumb"/> is moved while capturing the pointer.
+    /// </summary>
     public event DragDeltaEventHandler? DragDelta;
 
+    /// <summary>
+    /// Fires when the <see cref="GradientSliderThumb"/> releases the captured pointer.
+    /// </summary>
     public event DragCompletedEventHandler? DragCompleted;
 
     private void GradientSliderThumb_PointerEntered(object sender, PointerRoutedEventArgs e)

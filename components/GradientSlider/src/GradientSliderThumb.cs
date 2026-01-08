@@ -4,6 +4,9 @@
 
 namespace CommunityToolkit.WinUI.Controls;
 
+/// <summary>
+/// A thumb for adjusting a <see cref="Microsoft.UI.Xaml.Media.GradientStop"/> in a <see cref="GradientSlider"/>.
+/// </summary>
 public sealed partial class GradientSliderThumb : Control
 {
     internal const string CommonStates = "CommonStates";
@@ -12,6 +15,9 @@ public sealed partial class GradientSliderThumb : Control
     internal const string PressedState = "Pressed";
     internal const string DisabledState = "Disabled";
 
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="GradientStop"/> property.
+    /// </summary>
     public static readonly DependencyProperty GradientStopProperty =
         DependencyProperty.Register(nameof(GradientStop),
             typeof(GradientStop),
@@ -26,6 +32,9 @@ public sealed partial class GradientSliderThumb : Control
         DefaultStyleKey = typeof(GradientSliderThumb);
     }
 
+    /// <summary>
+    /// Gets or sets the <see cref="GradientStop"/> the thumb controls.
+    /// </summary>
     public GradientStop GradientStop
     {
         get => (GradientStop)GetValue(GradientStopProperty);

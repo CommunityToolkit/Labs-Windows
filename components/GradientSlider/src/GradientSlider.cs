@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Shapes;
 namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
-/// An example templated control.
+/// A slider for gradient color input.
 /// </summary>
 [TemplatePart(Name = "ContainerCanvas", Type = typeof(Canvas))]
 [TemplatePart(Name = "BackgroundRectangle", Type = typeof(Rectangle))]

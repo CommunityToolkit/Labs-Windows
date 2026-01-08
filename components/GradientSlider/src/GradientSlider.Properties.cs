@@ -6,12 +6,18 @@ namespace CommunityToolkit.WinUI.Controls;
 
 public partial class GradientSlider
 {
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="GradientStops"/> property.
+    /// </summary>
     public static readonly DependencyProperty GradientStopsProperty =
         DependencyProperty.Register(nameof(GradientStops),
             typeof(GradientStopCollection),
             typeof(GradientSlider),
             new PropertyMetadata(new GradientStopCollection(), GradientStopsChangedCallback));
 
+    /// <summary>
+    /// Gets or sets the <see cref="GradientStopCollection"/> being modified by the <see cref="GradientSlider"/>.
+    /// </summary>
     public GradientStopCollection GradientStops
     {
         get => (GradientStopCollection)GetValue(GradientStopsProperty);
