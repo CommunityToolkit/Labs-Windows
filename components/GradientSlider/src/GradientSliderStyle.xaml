@@ -2,23 +2,24 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls">
-
-    <!--  Implicitly applied default style  -->
-    <Style BasedOn="{StaticResource DefaultClassicBindingGradientSliderStyle}"
+    
+    <Style BasedOn="{StaticResource DefaultGradientSliderStyle}"
            TargetType="controls:GradientSlider" />
 
-    <Style x:Key="DefaultClassicBindingGradientSliderStyle"
+    <Style x:Key="DefaultGradientSliderStyle"
            TargetType="controls:GradientSlider">
         <Style.Setters>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="controls:GradientSlider">
-                        <Grid>
+                        <Grid Height="20">
+                            <Rectangle x:Name="BackgroundRectangle" Height="8" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                            <Canvas x:Name="ContainerCanvas" Background="Transparent"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style.Setters>
     </Style>
-    
+
 </ResourceDictionary>

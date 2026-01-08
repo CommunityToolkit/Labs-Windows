@@ -17,12 +17,4 @@ public sealed partial class GradientSliderSample : Page
     {
         this.InitializeComponent();
     }
-
-    // TODO: See https://github.com/CommunityToolkit/Labs-Windows/issues/149
-    public static Orientation ConvertStringToOrientation(string orientation) => orientation switch
-    {
-        "Vertical" => Orientation.Vertical,
-        "Horizontal" => Orientation.Horizontal,
-        _ => throw new System.NotImplementedException(),
-    };
 }

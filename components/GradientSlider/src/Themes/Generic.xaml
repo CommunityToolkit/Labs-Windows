@@ -4,6 +4,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.GradientSlider/GradientSliderStyle.xaml" />
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.Controls.GradientSlider/GradientSliderThumbStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
 
 </ResourceDictionary>
