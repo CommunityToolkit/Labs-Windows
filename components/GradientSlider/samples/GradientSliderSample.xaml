@@ -13,7 +13,7 @@
             <controls:GradientSlider.GradientStops>
                 <GradientStopCollection>
                     <GradientStop Color="#FF0000" Offset="0"/>
-                    <GradientStop Color="#00FF00" Offset="0.33"/>
+                    <GradientStop Color="#00FF00" Offset="0.3"/>
                     <GradientStop Color="#0000FF" Offset="0.66"/>
                     <GradientStop Color="#FF0000" Offset="1"/>
                 </GradientStopCollection>

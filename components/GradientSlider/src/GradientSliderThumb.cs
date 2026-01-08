@@ -6,6 +6,12 @@ namespace CommunityToolkit.WinUI.Controls;
 
 public sealed partial class GradientSliderThumb : Control
 {
+    internal const string CommonStates = "CommonStates";
+    internal const string NormalState = "Normal";
+    internal const string PointerOverState = "PointerOver";
+    internal const string PressedState = "Pressed";
+    internal const string DisabledState = "Disabled";
+
     public static readonly DependencyProperty GradientStopProperty =
         DependencyProperty.Register(nameof(GradientStop),
             typeof(GradientStop),
@@ -24,5 +30,19 @@ public sealed partial class GradientSliderThumb : Control
     {
         get => (GradientStop)GetValue(GradientStopProperty);
         set => SetValue(GradientStopProperty, value);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        PointerEntered += this.GradientSliderThumb_PointerEntered;
+        PointerExited += this.GradientSliderThumb_PointerExited;
+        PointerPressed += this.GradientSliderThumb_PointerPressed;
+        PointerMoved += this.GradientSliderThumb_PointerMoved;
+        PointerReleased += this.GradientSliderThumb_PointerReleased;
+        PointerCanceled += this.GradientSliderThumb_PointerCanceled;
+        IsEnabledChanged += this.GradientSliderThumb_IsEnabledChanged;
     }
 }

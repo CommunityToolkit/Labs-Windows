@@ -8,13 +8,10 @@ public partial class GradientSlider
 {
     private void OnGradientStopOffsetChanged(DependencyObject d, DependencyProperty e)
     {
-        if (d is not GradientStop stop)
+        if (d is not GradientStop stop || !_stopThumbs.TryGetValue(stop, out var thumb))
             return;
 
-        if (!_stopThumbs.TryGetValue(stop, out var thumb))
-            return;
-
-        Canvas.SetLeft(thumb, stop.Offset);
+        UpdateThumbPosition(thumb);
     }
 
     private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
