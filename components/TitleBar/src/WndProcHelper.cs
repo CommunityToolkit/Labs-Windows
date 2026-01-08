@@ -44,7 +44,7 @@ internal class WndProcHelper
 
         if (inputNonClientPointerSourceHandle != IntPtr.Zero)
         {
-            int style = NativeMethods.GetWindowLongAuto(Handle, (int)NativeMethods.WindowLongIndexFlags.GWL_STYLE);
+            IntPtr style = NativeMethods.GetWindowLongAuto(Handle, (int)NativeMethods.WindowLongIndexFlags.GWL_STYLE);
             NativeMethods.SetWindowLongAuto(Handle, (int)NativeMethods.WindowLongIndexFlags.GWL_STYLE, (IntPtr)(style & ~(int)NativeMethods.WindowStyle.WS_SYSMENU));
 
             newInputNonClientPointerSourceWndProc = wndProc;
