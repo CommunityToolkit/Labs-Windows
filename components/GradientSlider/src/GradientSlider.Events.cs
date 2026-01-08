@@ -42,7 +42,6 @@ public partial class GradientSlider
     /// <summary>
     /// Called before the <see cref="ValueChanged"/> event occurs.
     /// </summary>
-    /// <param name="e"><see cref="EventArgs"/> event data for the event.</param>
     protected virtual void OnValueChanged()
     {
         ValueChanged?.Invoke(this, EventArgs.Empty);
