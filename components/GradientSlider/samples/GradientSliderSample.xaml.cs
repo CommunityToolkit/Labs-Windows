@@ -9,13 +9,11 @@ namespace GradientSliderExperiment.Samples;
 /// <summary>
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
-[ToolkitSampleTextOption("TitleText", "This is a title", Title = "Input the text")]
-[ToolkitSampleMultiChoiceOption("LayoutOrientation", "Horizontal", "Vertical", Title = "Orientation")]
 
-[ToolkitSample(id: nameof(GradientSliderCustomSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(GradientSlider)} custom control.")]
-public sealed partial class GradientSliderCustomSample : Page
+[ToolkitSample(id: nameof(GradientSliderSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(GradientSlider)} custom control.")]
+public sealed partial class GradientSliderSample : Page
 {
-    public GradientSliderCustomSample()
+    public GradientSliderSample()
     {
         this.InitializeComponent();
     }
