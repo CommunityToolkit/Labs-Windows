@@ -19,6 +19,9 @@ public partial class GradientSlider : Control
     private Canvas? _containerCanvas;
     private Rectangle? _backgroundRectangle;
 
+    private double _dragStartPosition;
+    private bool _isDragging;
+
     /// <summary>
     /// Creates a new instance of the <see cref="GradientSlider"/> class.
     /// </summary>
@@ -54,6 +57,9 @@ public partial class GradientSlider : Control
         // Register callbacks
         var callback = stop.RegisterPropertyChangedCallback(GradientStop.OffsetProperty, OnGradientStopOffsetChanged);
         _stopCallbacks.Add(stop, callback);
+        thumb.DragStarted += this.Thumb_DragStarted;
+        thumb.DragDelta += this.Thumb_DragDelta;
+        thumb.DragCompleted += this.Thumb_DragCompleted;
         thumb.Loaded += this.Thumb_Loaded;
 
         _stopThumbs.Add(stop, thumb);
@@ -113,6 +119,20 @@ public partial class GradientSlider : Control
         thumb.Loaded -= Thumb_Loaded;
         UpdateThumbPosition(thumb);
     }
+
+    private void OnGradientStopOffsetChanged(DependencyObject d, DependencyProperty e)
+    {
+        if (d is not GradientStop stop || !_stopThumbs.TryGetValue(stop, out var thumb))
+            return;
+
+        if (_isDragging)
+            return;
+
+        UpdateThumbPosition(thumb);
+    }
+
+    private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        => SyncThumbs();
 
     private void UpdateThumbPosition(GradientSliderThumb thumb)
     {

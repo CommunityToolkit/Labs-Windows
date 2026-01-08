@@ -29,6 +29,9 @@ public partial class GradientSlider
         if (d is not GradientSlider slider)
             return;
 
+        if (slider._isDragging)
+            return;
+
         slider.RefreshThumbs();
         slider.SyncBackground();
     }

@@ -54,7 +54,7 @@ public sealed partial class GradientSliderThumb : Control
 
         CapturePointer(e.Pointer);
 
-        _dragStartPosition = e.GetCurrentPoint(this).Position;
+        _dragStartPosition = e.GetCurrentPoint(null).Position;
         _lastPosition = _dragStartPosition;
 
         DragStarted?.Invoke(this,
@@ -68,7 +68,7 @@ public sealed partial class GradientSliderThumb : Control
         if (!_isDragging)
             return;
 
-        var position = e.GetCurrentPoint(this).Position;
+        var position = e.GetCurrentPoint(null).Position;
 
         double deltaX = position.X - _lastPosition.X;
         double deltaY = position.Y - _lastPosition.Y;
@@ -82,7 +82,7 @@ public sealed partial class GradientSliderThumb : Control
     {
         if (_isDragging)
         {
-            var end = e.GetCurrentPoint(this).Position;
+            var end = e.GetCurrentPoint(null).Position;
 
             double totalX = end.X - _dragStartPosition.X;
             double totalY = end.Y - _dragStartPosition.Y;

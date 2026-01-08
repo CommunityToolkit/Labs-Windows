@@ -6,14 +6,45 @@ namespace CommunityToolkit.WinUI.Controls;
 
 public partial class GradientSlider
 {
-    private void OnGradientStopOffsetChanged(DependencyObject d, DependencyProperty e)
-    {
-        if (d is not GradientStop stop || !_stopThumbs.TryGetValue(stop, out var thumb))
-            return;
+    /// <summary>
+    /// Event raised when a thumb starts being dragged.
+    /// </summary>
+    public event DragStartedEventHandler? ThumbDragStarted;
 
-        UpdateThumbPosition(thumb);
+    /// <summary>
+    /// Event raised when a thumb ends being dragged.
+    /// </summary>
+    public event DragCompletedEventHandler? ThumbDragCompleted;
+
+    /// <summary>
+    /// Event raised when the gradient's value changes.
+    /// </summary>
+    public event EventHandler? ValueChanged;
+
+    /// <summary>
+    /// Called before the <see cref="ThumbDragStarted"/> event occurs.
+    /// </summary>
+    /// <param name="e">Event data for the event.</param>
+    protected virtual void OnThumbDragStarted(DragStartedEventArgs e)
+    {
+        ThumbDragStarted?.Invoke(this, e);
     }
 
-    private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
-        => SyncThumbs();
+    /// <summary>
+    /// Called before the <see cref="ThumbDragCompleted"/> event occurs.
+    /// </summary>
+    /// <param name="e">Event data for the event.</param>
+    protected virtual void OnThumbDragCompleted(DragCompletedEventArgs e)
+    {
+        ThumbDragCompleted?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Called before the <see cref="ValueChanged"/> event occurs.
+    /// </summary>
+    /// <param name="e"><see cref="EventArgs"/> event data for the event.</param>
+    protected virtual void OnValueChanged()
+    {
+        ValueChanged?.Invoke(this, EventArgs.Empty);
+    }
 }
