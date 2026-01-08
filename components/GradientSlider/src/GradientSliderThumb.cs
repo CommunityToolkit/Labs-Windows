@@ -7,6 +7,8 @@ namespace CommunityToolkit.WinUI.Controls;
 /// <summary>
 /// A thumb for adjusting a <see cref="Microsoft.UI.Xaml.Media.GradientStop"/> in a <see cref="GradientSlider"/>.
 /// </summary>
+[TemplatePart(Name = "PART_ColorPicker", Type = typeof(ColorPicker))]
+[TemplatePart(Name = "PART_Border", Type = typeof(Border))]
 public sealed partial class GradientSliderThumb : Control
 {
     internal const string CommonStates = "CommonStates";
@@ -14,6 +16,9 @@ public sealed partial class GradientSliderThumb : Control
     internal const string PointerOverState = "PointerOver";
     internal const string PressedState = "Pressed";
     internal const string DisabledState = "Disabled";
+
+    private Border? _border;
+    private ColorPicker? _colorPicker;
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="GradientStop"/> property.
@@ -46,6 +51,9 @@ public sealed partial class GradientSliderThumb : Control
     {
         base.OnApplyTemplate();
 
+        _border = (Border)GetTemplateChild("PART_Border");
+        _colorPicker = (ColorPicker)GetTemplateChild("PART_ColorPicker");
+
         PointerEntered += this.GradientSliderThumb_PointerEntered;
         PointerExited += this.GradientSliderThumb_PointerExited;
         PointerPressed += this.GradientSliderThumb_PointerPressed;
@@ -53,5 +61,20 @@ public sealed partial class GradientSliderThumb : Control
         PointerReleased += this.GradientSliderThumb_PointerReleased;
         PointerCanceled += this.GradientSliderThumb_PointerCanceled;
         IsEnabledChanged += this.GradientSliderThumb_IsEnabledChanged;
+
+        _colorPicker.Color = GradientStop.Color;
+        _colorPicker.ColorChanged += this.ColorPicker_ColorChanged;
+
+        Tapped += this.GradientSliderThumb_Tapped;
+    }
+
+    private void ColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+    {
+        GradientStop.Color = args.NewColor;
+    }
+
+    private void GradientSliderThumb_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        FlyoutBase.ShowAttachedFlyout(_border);
     }
 }

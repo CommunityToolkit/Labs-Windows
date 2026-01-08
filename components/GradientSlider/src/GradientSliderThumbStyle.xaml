@@ -17,12 +17,29 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:GradientSliderThumb">
-                    <Border
+                    <Border x:Name="PART_Border"
                         Margin="-2"
                         Background="{ThemeResource SliderOuterThumbBackground}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout Placement="Bottom">
+                                <ColorPicker x:Name="PART_ColorPicker"/>
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
+                        <Ellipse
+                                x:Name="SliderInnerThumb"
+                                Width="{ThemeResource SliderInnerThumbWidth}"
+                                Height="{ThemeResource SliderInnerThumbHeight}"
+                                RenderTransformOrigin="0.5, 0.5">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="{Binding GradientStop.Color, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                            </Ellipse.Fill>
+                            <Ellipse.RenderTransform>
+                                <CompositeTransform />
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -99,18 +116,6 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Ellipse
-                            x:Name="SliderInnerThumb"
-                            Width="{ThemeResource SliderInnerThumbWidth}"
-                            Height="{ThemeResource SliderInnerThumbHeight}"
-                            RenderTransformOrigin="0.5, 0.5">
-                            <Ellipse.Fill>
-                                <SolidColorBrush Color="{Binding GradientStop.Color, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
-                            </Ellipse.Fill>
-                            <Ellipse.RenderTransform>
-                                <CompositeTransform />
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
