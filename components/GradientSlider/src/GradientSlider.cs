@@ -35,13 +35,21 @@ public partial class GradientSlider : Control
     {
         base.OnApplyTemplate();
 
+        if (_containerCanvas is not null)
+        {
+            _containerCanvas.SizeChanged -= ContainerCanvas_SizeChanged;
+        }
+
         _containerCanvas = (Canvas)GetTemplateChild("ContainerCanvas");
         _backgroundRectangle = (Rectangle?)GetTemplateChild("BackgroundRectangle");
 
-        _containerCanvas.SizeChanged += this.ContainerCanvas_SizeChanged;
+        _containerCanvas.SizeChanged += ContainerCanvas_SizeChanged;
 
         RefreshThumbs();
     }
+
+    private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        => SyncThumbs();
 
     private void AddStop(GradientStop stop)
     {
@@ -54,14 +62,15 @@ public partial class GradientSlider : Control
             GradientStop = stop,
         };
 
-        // Register callbacks
+        // Subcribe to events and callbacks
+        thumb.DragStarted += Thumb_DragStarted;
+        thumb.DragDelta += Thumb_DragDelta;
+        thumb.DragCompleted += Thumb_DragCompleted;
+        thumb.Loaded += Thumb_Loaded;
         var callback = stop.RegisterPropertyChangedCallback(GradientStop.OffsetProperty, OnGradientStopOffsetChanged);
         _stopCallbacks.Add(stop, callback);
-        thumb.DragStarted += this.Thumb_DragStarted;
-        thumb.DragDelta += this.Thumb_DragDelta;
-        thumb.DragCompleted += this.Thumb_DragCompleted;
-        thumb.Loaded += this.Thumb_Loaded;
 
+        // Track the thumb and add to the canvas
         _stopThumbs.Add(stop, thumb);
         _containerCanvas.Children.Add(thumb);
     }
@@ -75,11 +84,17 @@ public partial class GradientSlider : Control
         if (!_stopThumbs.TryGetValue(stop, out var thumb))
             return;
 
+        // Unsubscribe from events and callbacks
+        thumb.DragStarted -= Thumb_DragStarted;
+        thumb.DragDelta -= Thumb_DragDelta;
+        thumb.DragCompleted -= Thumb_DragCompleted;
+        thumb.Loaded -= Thumb_Loaded;
         stop.UnregisterPropertyChangedCallback(GradientStop.OffsetProperty, _stopCallbacks[stop]);
         _stopCallbacks.Remove(stop);
 
-        _containerCanvas.Children.Remove(thumb);
+        // Untrack the thumb and remove from the canvas
         _stopThumbs.Remove(stop);
+        _containerCanvas.Children.Remove(thumb);
     }
 
     private void RefreshThumbs()
@@ -91,16 +106,16 @@ public partial class GradientSlider : Control
         SyncBackground();
     }
 
+    private void ClearThumbs()
+    {
+        foreach (var (stop, _) in _stopThumbs)
+            RemoveStop(stop);
+    }
+
     private void SyncThumbs()
     {
         foreach (var thumb in _stopThumbs.Values)
             UpdateThumbPosition(thumb);
-    }
-
-    private void ClearThumbs()
-    {
-        foreach (var (stop, thumb) in _stopThumbs)
-            RemoveStop(stop);
     }
 
     private void SyncBackground()
@@ -116,6 +131,8 @@ public partial class GradientSlider : Control
         if (sender is not GradientSliderThumb thumb)
             return;
 
+        // Thumb position cannot be determined until it has loaded.
+        // Defer until the loading event
         thumb.Loaded -= Thumb_Loaded;
         UpdateThumbPosition(thumb);
     }
@@ -130,9 +147,6 @@ public partial class GradientSlider : Control
 
         UpdateThumbPosition(thumb);
     }
-
-    private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
-        => SyncThumbs();
 
     private void UpdateThumbPosition(GradientSliderThumb thumb)
     {

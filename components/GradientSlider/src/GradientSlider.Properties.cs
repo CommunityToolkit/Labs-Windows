@@ -33,6 +33,5 @@ public partial class GradientSlider
             return;
 
         slider.RefreshThumbs();
-        slider.SyncBackground();
     }
 }

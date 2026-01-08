@@ -38,5 +38,4 @@ public partial class GradientSlider
         OnThumbDragCompleted(e);
         OnValueChanged();
     }
-
 }
