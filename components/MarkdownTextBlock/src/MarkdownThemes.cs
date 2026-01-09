@@ -125,7 +125,7 @@ public sealed class MarkdownThemes : DependencyObject
     public Brush TableBorderBrush { get; set; } = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"];
     public double TableBorderThickness { get; set; } = 1;
     public Thickness TableCellPadding { get; set; } = new Thickness(4);
-    public Thickness TableMargin { get; set; } = new Thickness(0, 10, 0, 10);
+    public Thickness TableMargin { get; set; } = new Thickness(0, 8, 0, 8);
 
     // YAML / not currently used - placeholders for parity
     public Brush YamlBorderBrush { get; set; } = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"];
