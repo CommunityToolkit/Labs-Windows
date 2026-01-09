@@ -346,13 +346,6 @@
                         Minimum="0"
                         SpinButtonPlacementMode="Compact"
                         ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox
-                        x:Name="ImageCornerRadiusBox"
-                        Header="Corner Radius"
-                        Maximum="50"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        ValueChanged="OnValueChanged" />
                     <ComboBox
                         x:Name="ImageStretchComboBox"
                         HorizontalAlignment="Stretch"

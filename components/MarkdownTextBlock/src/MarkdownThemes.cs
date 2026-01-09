@@ -120,7 +120,6 @@ public sealed class MarkdownThemes : DependencyObject
     public double ImageMaxWidth { get; set; } = 0; // 0 = no constraint
     public double ImageMaxHeight { get; set; } = 0;
     public Stretch ImageStretch { get; set; } = Stretch.Uniform;
-    public CornerRadius ImageCornerRadius { get; set; } = new CornerRadius(0);
 
     // Table styling
     public Brush TableBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);

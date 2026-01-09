@@ -12,7 +12,6 @@ namespace CommunityToolkit.WinUI.Controls.TextElements;
 internal class MyImage : IAddChild
 {
     private InlineUIContainer _container = new InlineUIContainer();
-    private Border _border = new Border();
     private LinkInline? _linkInline;
     private Image _image = new Image();
     private Uri _uri;
@@ -85,8 +84,7 @@ internal class MyImage : IAddChild
     private void Init()
     {
         _image.Loaded += LoadImage;
-        _border.Child = _image;
-        _container.Child = _border;
+        _container.Child = _image;
     }
 
     private async void LoadImage(object sender, RoutedEventArgs e)
@@ -97,7 +95,7 @@ internal class MyImage : IAddChild
             if (_imageProvider != null && _imageProvider.ShouldUseThisProvider(_uri.AbsoluteUri))
             {
                 _image = await _imageProvider.GetImage(_uri.AbsoluteUri);
-                _border.Child = _image;
+                _container.Child = _image;
             }
             else
             {
@@ -121,7 +119,7 @@ internal class MyImage : IAddChild
                     if (resImage != null)
                     {
                         _image = resImage;
-                        _border.Child = _image;
+                        _container.Child = _image;
                     }
                 }
                 else
@@ -139,57 +137,39 @@ internal class MyImage : IAddChild
                         await bitmap.SetSourceAsync(stream);
                     }
                     _image.Source = bitmap;
-                    _image.Width = bitmap.PixelWidth == 0 ? bitmap.DecodePixelWidth : bitmap.PixelWidth;
-                    _image.Height = bitmap.PixelHeight == 0 ? bitmap.DecodePixelHeight : bitmap.PixelHeight;
+                    // Don't set fixed Width/Height - let layout system handle it
+                    // Store natural dimensions for MaxWidth/MaxHeight constraints
+                    double naturalWidth = bitmap.PixelWidth == 0 ? bitmap.DecodePixelWidth : bitmap.PixelWidth;
+                    double naturalHeight = bitmap.PixelHeight == 0 ? bitmap.DecodePixelHeight : bitmap.PixelHeight;
 
+                    // Use natural size as max constraint so image doesn't upscale
+                    _image.MaxWidth = naturalWidth;
+                    _image.MaxHeight = naturalHeight;
                 }
 
                 _loaded = true;
             }
 
-            // Determine the actual image dimensions
-            double actualWidth = _precedentWidth != 0 ? _precedentWidth : _image.Width;
-            double actualHeight = _precedentHeight != 0 ? _precedentHeight : _image.Height;
-
-            // Apply max constraints and calculate the final size
-            // When using Uniform stretch with max constraints, we need to calculate
-            // the actual rendered size to avoid gaps
-            double finalWidth = actualWidth;
-            double finalHeight = actualHeight;
-
-            bool hasMaxWidth = _themes.ImageMaxWidth > 0;
-            bool hasMaxHeight = _themes.ImageMaxHeight > 0;
-
-            if (hasMaxWidth || hasMaxHeight)
+            // Apply precedent (markdown-specified) dimensions if provided
+            if (_precedentWidth != 0)
             {
-                double scaleX = hasMaxWidth && actualWidth > _themes.ImageMaxWidth 
-                    ? _themes.ImageMaxWidth / actualWidth 
-                    : 1.0;
-                double scaleY = hasMaxHeight && actualHeight > _themes.ImageMaxHeight 
-                    ? _themes.ImageMaxHeight / actualHeight 
-                    : 1.0;
-
-                // For Uniform stretch, use the smaller scale to maintain aspect ratio
-                if (_themes.ImageStretch == Stretch.Uniform || _themes.ImageStretch == Stretch.UniformToFill)
-                {
-                    double uniformScale = Math.Min(scaleX, scaleY);
-                    finalWidth = actualWidth * uniformScale;
-                    finalHeight = actualHeight * uniformScale;
-                }
-                else
-                {
-                    // For other stretch modes, apply constraints independently
-                    finalWidth = actualWidth * scaleX;
-                    finalHeight = actualHeight * scaleY;
-                }
+                _image.MaxWidth = _precedentWidth;
+            }
+            if (_precedentHeight != 0)
+            {
+                _image.MaxHeight = _precedentHeight;
             }
 
-            _image.Width = finalWidth;
-            _image.Height = finalHeight;
+            // Apply theme constraints - these override natural/precedent if smaller
+            if (_themes.ImageMaxWidth > 0 && _themes.ImageMaxWidth < _image.MaxWidth)
+            {
+                _image.MaxWidth = _themes.ImageMaxWidth;
+            }
+            if (_themes.ImageMaxHeight > 0 && _themes.ImageMaxHeight < _image.MaxHeight)
+            {
+                _image.MaxHeight = _themes.ImageMaxHeight;
+            }
             _image.Stretch = _themes.ImageStretch;
-
-            // Apply corner radius via the border
-            _border.CornerRadius = _themes.ImageCornerRadius;
         }
         catch (Exception) { }
     }

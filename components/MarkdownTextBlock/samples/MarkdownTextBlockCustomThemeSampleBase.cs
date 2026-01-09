@@ -101,9 +101,6 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
     public static readonly DependencyProperty ImageStretchIndexProperty =
         DependencyProperty.Register(nameof(ImageStretchIndex), typeof(int), typeof(MarkdownTextBlockCustomThemeSampleBase), new PropertyMetadata(0));
 
-    public static readonly DependencyProperty ImageCornerRadiusProperty =
-        DependencyProperty.Register(nameof(ImageCornerRadius), typeof(double), typeof(MarkdownTextBlockCustomThemeSampleBase), new PropertyMetadata(0d));
-
     public static readonly DependencyProperty BoldFontWeightIndexProperty =
         DependencyProperty.Register(nameof(BoldFontWeightIndex), typeof(int), typeof(MarkdownTextBlockCustomThemeSampleBase), new PropertyMetadata(0));
 
@@ -286,12 +283,6 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
         set => SetValue(ImageStretchIndexProperty, value);
     }
 
-    public double ImageCornerRadius
-    {
-        get => (double)GetValue(ImageCornerRadiusProperty);
-        set => SetValue(ImageCornerRadiusProperty, value);
-    }
-
     public int BoldFontWeightIndex
     {
         get => (int)GetValue(BoldFontWeightIndexProperty);
@@ -435,7 +426,6 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
             ImageMaxWidth = ImageMaxWidth,
             ImageMaxHeight = ImageMaxHeight,
             ImageStretch = ImageStretchOptions[ImageStretchIndex],
-            ImageCornerRadius = new CornerRadius(ImageCornerRadius),
 
             BoldFontWeight = BoldFontWeights[BoldFontWeightIndex],
 
@@ -480,7 +470,6 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
         ImageMaxWidth = 0;
         ImageMaxHeight = 0;
         ImageStretchIndex = 0;
-        ImageCornerRadius = 0;
 
         BoldFontWeightIndex = 0;
 
