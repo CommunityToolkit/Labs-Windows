@@ -71,6 +71,7 @@ public partial class ThemeOptionsPane : UserControl
         // Images
         ImageMaxWidthBox.Value = _sample.ImageMaxWidth;
         ImageMaxHeightBox.Value = _sample.ImageMaxHeight;
+        ImageCornerRadiusBox.Value = _sample.ImageCornerRadius;
         ImageStretchComboBox.SelectedIndex = _sample.ImageStretchIndex;
     }
 
@@ -123,6 +124,7 @@ public partial class ThemeOptionsPane : UserControl
         // Images
         _sample.ImageMaxWidth = ImageMaxWidthBox.Value;
         _sample.ImageMaxHeight = ImageMaxHeightBox.Value;
+        _sample.ImageCornerRadius = ImageCornerRadiusBox.Value;
         _sample.ImageStretchIndex = ImageStretchComboBox.SelectedIndex;
     }
 

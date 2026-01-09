@@ -12,6 +12,7 @@ namespace CommunityToolkit.WinUI.Controls.TextElements;
 internal class MyImage : IAddChild
 {
     private InlineUIContainer _container = new InlineUIContainer();
+    private Border _border = new Border();
     private LinkInline? _linkInline;
     private Image _image = new Image();
     private Uri _uri;
@@ -84,7 +85,8 @@ internal class MyImage : IAddChild
     private void Init()
     {
         _image.Loaded += LoadImage;
-        _container.Child = _image;
+        _border.Child = _image;
+        _container.Child = _border;
     }
 
     private async void LoadImage(object sender, RoutedEventArgs e)
@@ -95,7 +97,7 @@ internal class MyImage : IAddChild
             if (_imageProvider != null && _imageProvider.ShouldUseThisProvider(_uri.AbsoluteUri))
             {
                 _image = await _imageProvider.GetImage(_uri.AbsoluteUri);
-                _container.Child = _image;
+                _border.Child = _image;
             }
             else
             {
@@ -119,7 +121,7 @@ internal class MyImage : IAddChild
                     if (resImage != null)
                     {
                         _image = resImage;
-                        _container.Child = _image;
+                        _border.Child = _image;
                     }
                 }
                 else
@@ -185,6 +187,9 @@ internal class MyImage : IAddChild
             _image.Width = finalWidth;
             _image.Height = finalHeight;
             _image.Stretch = _themes.ImageStretch;
+
+            // Apply corner radius via the border
+            _border.CornerRadius = _themes.ImageCornerRadius;
         }
         catch (Exception) { }
     }
