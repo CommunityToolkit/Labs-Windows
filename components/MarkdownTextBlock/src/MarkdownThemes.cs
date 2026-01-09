@@ -43,15 +43,15 @@ public sealed class MarkdownThemes : DependencyObject
 
     public FontWeight H1FontWeight { get; set; } = FontWeights.SemiBold;
 
-    public FontWeight H2FontWeight { get; set; } = FontWeights.Normal;
+    public FontWeight H2FontWeight { get; set; } = FontWeights.SemiBold;
 
-    public FontWeight H3FontWeight { get; set; } = FontWeights.Normal;
+    public FontWeight H3FontWeight { get; set; } = FontWeights.SemiBold;
 
-    public FontWeight H4FontWeight { get; set;} = FontWeights.Normal;
+    public FontWeight H4FontWeight { get; set;} = FontWeights.SemiBold;
 
-    public FontWeight H5FontWeight { get; set; } = FontWeights.Normal;
+    public FontWeight H5FontWeight { get; set; } = FontWeights.SemiBold;
 
-    public FontWeight H6FontWeight { get; set; } = FontWeights.Normal;
+    public FontWeight H6FontWeight { get; set; } = FontWeights.SemiBold;
 
     public Thickness H1Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
     public Thickness H2Margin { get; set; } = new(left: 0, top: 16, right: 0, bottom: 0);
@@ -64,10 +64,10 @@ public sealed class MarkdownThemes : DependencyObject
 
     public Brush TableHeadingBackground { get; set; } = Extensions.GetAccentColorBrush(Windows.UI.ViewManagement.UIColorType.AccentLight3);
 
-    public Brush InlineCodeBackground { get; set; } = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
+    public Brush InlineCodeBackground { get; set; } = (Brush)Application.Current.Resources["CardBackgroundFillColorSecondaryBrush"];
     public Brush InlineCodeForeground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
 
-    public Brush InlineCodeBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Brush InlineCodeBorderBrush { get; set; } = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"];
 
     public Thickness InlineCodeBorderThickness { get; set; } = new (1);
 
@@ -83,8 +83,8 @@ public sealed class MarkdownThemes : DependencyObject
 
     // Legacy parity properties (new)
     // Code block styling
-    public Brush CodeBlockBackground { get; set; } = (Brush)Application.Current.Resources["ExpanderHeaderBackground"];
-    public Brush CodeBlockBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Brush CodeBlockBackground { get; set; } = (Brush)Application.Current.Resources["CardBackgroundFillColorSecondaryBrush"];
+    public Brush CodeBlockBorderBrush { get; set; } = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"];
     public Thickness CodeBlockBorderThickness { get; set; } = new Thickness(1);
     public Thickness CodeBlockPadding { get; set; } = new Thickness(8);
     public Thickness CodeBlockMargin { get; set; } = new Thickness(0, 8, 0, 8);
@@ -93,7 +93,7 @@ public sealed class MarkdownThemes : DependencyObject
     public CornerRadius CodeBlockCornerRadius { get; set; } = new CornerRadius(4);
 
     // Horizontal rule
-    public Brush HorizontalRuleBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Brush HorizontalRuleBrush { get; set; } = (Brush)Application.Current.Resources["DividerStrokeColorDefaultBrush"];
     public double HorizontalRuleThickness { get; set; } = 1.0;
     public Thickness HorizontalRuleMargin { get; set; } = new Thickness(0, 12, 0, 12);
 
@@ -122,12 +122,12 @@ public sealed class MarkdownThemes : DependencyObject
     public Stretch ImageStretch { get; set; } = Stretch.Uniform;
 
     // Table styling
-    public Brush TableBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Brush TableBorderBrush { get; set; } = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"];
     public double TableBorderThickness { get; set; } = 1;
     public Thickness TableCellPadding { get; set; } = new Thickness(4);
     public Thickness TableMargin { get; set; } = new Thickness(0, 10, 0, 10);
 
     // YAML / not currently used - placeholders for parity
-    public Brush YamlBorderBrush { get; set; } = new SolidColorBrush(Colors.Gray);
+    public Brush YamlBorderBrush { get; set; } = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"];
     public Thickness YamlBorderThickness { get; set; } = new Thickness(1);
 }
