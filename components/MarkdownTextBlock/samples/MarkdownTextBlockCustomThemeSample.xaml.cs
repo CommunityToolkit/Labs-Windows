@@ -35,7 +35,7 @@ Another example: `config.Themes.InlineCodePadding`
 
 ## Images
 
-Images can be styled with max width, max height, corner radius, and stretch options. Notice how the text flows naturally without any gaps above or below the image:
+Images can be styled with max width, max height, and stretch options. Notice how the text flows naturally without any gaps above or below the image:
 
 ![Windows Terminal](https://devblogs.microsoft.com/commandline/wp-content/uploads/sites/33/2025/11/0.96-Social-media-image-V2-1024x536.webp)
 
@@ -43,7 +43,7 @@ The image above automatically scales to respect the max width setting while main
 
 ![Shortcut Conflict](https://devblogs.microsoft.com/commandline/wp-content/uploads/sites/33/2025/09/ShortcutConflict.png)
 
-Here's another image showing how corner radius can be applied to give images rounded corners.
+Here's another image that also responds to the image styling settings.
 
 ## Code Blocks
 
