@@ -1,44 +1,46 @@
-﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
-<UserControl x:Class="MarkdownTextBlockExperiment.Samples.ThemeOptionsPane"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="using:MarkdownTextBlockExperiment.Samples"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-             mc:Ignorable="d">
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<UserControl
+    x:Class="MarkdownTextBlockExperiment.Samples.ThemeOptionsPane"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MarkdownTextBlockExperiment.Samples"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
 
     <ScrollViewer>
         <StackPanel Spacing="12">
             <!--  Actions  -->
-            <StackPanel Orientation="Horizontal"
-                        Spacing="8">
-                <Button Click="ResetTheme_Click"
-                        Content="Reset to Defaults" />
-                <Button Click="ApplyTheme_Click"
-                        Content="Apply Changes"
-                        Style="{ThemeResource AccentButtonStyle}" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Click="ResetTheme_Click" Content="Reset to Defaults" />
+                <Button
+                    Click="ApplyTheme_Click"
+                    Content="Apply Changes"
+                    Style="{ThemeResource AccentButtonStyle}" />
             </StackPanel>
 
             <!--  Headings Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch"
-                           IsExpanded="True">
+            <muxc:Expander
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="True">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Headings" />
+                    <TextBlock FontWeight="SemiBold" Text="Headings" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <muxc:NumberBox x:Name="H1FontSizeBox"
-                                    Header="H1 Font Size"
-                                    Maximum="48"
-                                    Minimum="8"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <ComboBox x:Name="H1ColorComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="H1 Color"
-                              SelectionChanged="OnSelectionChanged">
+                    <muxc:NumberBox
+                        x:Name="H1FontSizeBox"
+                        Header="H1 Font Size"
+                        Maximum="48"
+                        Minimum="8"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <ComboBox
+                        x:Name="H1ColorComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="H1 Color"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="DodgerBlue" />
                         <ComboBoxItem Content="Coral" />
                         <ComboBoxItem Content="MediumSeaGreen" />
@@ -46,33 +48,34 @@
                         <ComboBoxItem Content="Orchid" />
                         <ComboBoxItem Content="Default (Primary)" />
                     </ComboBox>
-                    <muxc:NumberBox x:Name="H2FontSizeBox"
-                                    Header="H2 Font Size"
-                                    Maximum="48"
-                                    Minimum="8"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="H3FontSizeBox"
-                                    Header="H3 Font Size"
-                                    Maximum="48"
-                                    Minimum="8"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="H2FontSizeBox"
+                        Header="H2 Font Size"
+                        Maximum="48"
+                        Minimum="8"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="H3FontSizeBox"
+                        Header="H3 Font Size"
+                        Maximum="48"
+                        Minimum="8"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
                 </StackPanel>
             </muxc:Expander>
 
             <!--  Text Styling Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch">
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Text Styling" />
+                    <TextBlock FontWeight="SemiBold" Text="Text Styling" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <ComboBox x:Name="BoldFontWeightComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Bold Font Weight"
-                              SelectionChanged="OnSelectionChanged">
+                    <ComboBox
+                        x:Name="BoldFontWeightComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Bold Font Weight"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="Bold" />
                         <ComboBoxItem Content="SemiBold" />
                         <ComboBoxItem Content="Medium" />
@@ -83,61 +86,66 @@
             </muxc:Expander>
 
             <!--  Inline Code Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch">
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Inline Code" />
+                    <TextBlock FontWeight="SemiBold" Text="Inline Code" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <muxc:NumberBox x:Name="InlineCodeFontSizeBox"
-                                    Header="Font Size"
-                                    Maximum="24"
-                                    Minimum="8"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="InlineCodePaddingBox"
-                                    Header="Padding"
-                                    Maximum="16"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="InlineCodeCornerRadiusBox"
-                                    Header="Corner Radius"
-                                    Maximum="16"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="InlineCodeBorderThicknessBox"
-                                    Header="Border Thickness"
-                                    Maximum="4"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <ComboBox x:Name="InlineCodeColorComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Foreground Color"
-                              SelectionChanged="OnSelectionChanged">
+                    <muxc:NumberBox
+                        x:Name="InlineCodeFontSizeBox"
+                        Header="Font Size"
+                        Maximum="24"
+                        Minimum="8"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="InlineCodePaddingBox"
+                        Header="Padding"
+                        Maximum="16"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="InlineCodeCornerRadiusBox"
+                        Header="Corner Radius"
+                        Maximum="16"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="InlineCodeBorderThicknessBox"
+                        Header="Border Thickness"
+                        Maximum="4"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <ComboBox
+                        x:Name="InlineCodeColorComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Foreground Color"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="Orange" />
                         <ComboBoxItem Content="Coral" />
                         <ComboBoxItem Content="LimeGreen" />
                         <ComboBoxItem Content="DeepSkyBlue" />
                         <ComboBoxItem Content="Default (Primary)" />
                     </ComboBox>
-                    <ComboBox x:Name="InlineCodeBackgroundColorComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Background Color"
-                              SelectionChanged="OnSelectionChanged">
+                    <ComboBox
+                        x:Name="InlineCodeBackgroundColorComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Background Color"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="Blue Tint" />
                         <ComboBoxItem Content="Dark Tint" />
                         <ComboBoxItem Content="Black Tint" />
                         <ComboBoxItem Content="Green Tint" />
                         <ComboBoxItem Content="Default (Theme)" />
                     </ComboBox>
-                    <ComboBox x:Name="InlineCodeBorderColorComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Border Color"
-                              SelectionChanged="OnSelectionChanged">
+                    <ComboBox
+                        x:Name="InlineCodeBorderColorComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Border Color"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="SlateGray" />
                         <ComboBoxItem Content="DimGray" />
                         <ComboBoxItem Content="DarkSlateGray" />
@@ -148,54 +156,58 @@
             </muxc:Expander>
 
             <!--  Code Block Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch">
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Code Blocks" />
+                    <TextBlock FontWeight="SemiBold" Text="Code Blocks" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <muxc:NumberBox x:Name="CodeBlockPaddingBox"
-                                    Header="Padding"
-                                    Maximum="24"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="CodeBlockCornerRadiusBox"
-                                    Header="Corner Radius"
-                                    Maximum="16"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="CodeBlockBorderThicknessBox"
-                                    Header="Border Thickness"
-                                    Maximum="4"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <ComboBox x:Name="CodeBlockFontComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Font Family"
-                              SelectionChanged="OnSelectionChanged">
+                    <muxc:NumberBox
+                        x:Name="CodeBlockPaddingBox"
+                        Header="Padding"
+                        Maximum="24"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="CodeBlockCornerRadiusBox"
+                        Header="Corner Radius"
+                        Maximum="16"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="CodeBlockBorderThicknessBox"
+                        Header="Border Thickness"
+                        Maximum="4"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <ComboBox
+                        x:Name="CodeBlockFontComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Font Family"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="Cascadia Code" />
                         <ComboBoxItem Content="Consolas" />
                         <ComboBoxItem Content="Courier New" />
                         <ComboBoxItem Content="Segoe UI" />
                     </ComboBox>
-                    <ComboBox x:Name="CodeBlockBackgroundColorComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Background Color"
-                              SelectionChanged="OnSelectionChanged">
+                    <ComboBox
+                        x:Name="CodeBlockBackgroundColorComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Background Color"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="Blue Tint" />
                         <ComboBoxItem Content="Dark Tint" />
                         <ComboBoxItem Content="Black Tint" />
                         <ComboBoxItem Content="Green Tint" />
                         <ComboBoxItem Content="Default (Theme)" />
                     </ComboBox>
-                    <ComboBox x:Name="CodeBlockBorderColorComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Border Color"
-                              SelectionChanged="OnSelectionChanged">
+                    <ComboBox
+                        x:Name="CodeBlockBorderColorComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Border Color"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="SlateGray" />
                         <ComboBoxItem Content="DimGray" />
                         <ComboBoxItem Content="DarkSlateGray" />
@@ -206,35 +218,37 @@
             </muxc:Expander>
 
             <!--  Quote Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch">
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Block Quotes" />
+                    <TextBlock FontWeight="SemiBold" Text="Block Quotes" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <muxc:NumberBox x:Name="QuoteBorderWidthBox"
-                                    Header="Border Width"
-                                    Maximum="12"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="QuotePaddingBox"
-                                    Header="Padding"
-                                    Maximum="24"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="QuoteCornerRadiusBox"
-                                    Header="Corner Radius"
-                                    Maximum="16"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <ComboBox x:Name="QuoteColorComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Border Color"
-                              SelectionChanged="OnSelectionChanged">
+                    <muxc:NumberBox
+                        x:Name="QuoteBorderWidthBox"
+                        Header="Border Width"
+                        Maximum="12"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="QuotePaddingBox"
+                        Header="Padding"
+                        Maximum="24"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="QuoteCornerRadiusBox"
+                        Header="Corner Radius"
+                        Maximum="16"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <ComboBox
+                        x:Name="QuoteColorComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Border Color"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="DodgerBlue" />
                         <ComboBoxItem Content="Gray" />
                         <ComboBoxItem Content="MediumSeaGreen" />
@@ -244,98 +258,99 @@
             </muxc:Expander>
 
             <!--  Lists Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch">
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Lists" />
+                    <TextBlock FontWeight="SemiBold" Text="Lists" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <muxc:NumberBox x:Name="ListBulletSpacingBox"
-                                    Header="Bullet Spacing"
-                                    Maximum="20"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="ListGutterWidthBox"
-                                    Header="Gutter Width (Indent)"
-                                    Maximum="60"
-                                    Minimum="10"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="ListBulletSpacingBox"
+                        Header="Bullet Spacing"
+                        Maximum="20"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="ListGutterWidthBox"
+                        Header="Gutter Width (Indent)"
+                        Maximum="60"
+                        Minimum="10"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
                 </StackPanel>
             </muxc:Expander>
 
             <!--  Table Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch">
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Tables" />
+                    <TextBlock FontWeight="SemiBold" Text="Tables" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <muxc:NumberBox x:Name="TableCellPaddingBox"
-                                    Header="Cell Padding"
-                                    Maximum="16"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="TableBorderThicknessBox"
-                                    Header="Border Thickness"
-                                    Maximum="4"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="TableCellPaddingBox"
+                        Header="Cell Padding"
+                        Maximum="16"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="TableBorderThicknessBox"
+                        Header="Border Thickness"
+                        Maximum="4"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
                 </StackPanel>
             </muxc:Expander>
 
             <!--  Horizontal Rule Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch">
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Horizontal Rule" />
+                    <TextBlock FontWeight="SemiBold" Text="Horizontal Rule" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <muxc:NumberBox x:Name="HorizontalRuleThicknessBox"
-                                    Header="Thickness"
-                                    Maximum="8"
-                                    Minimum="1"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="HorizontalRuleMarginBox"
-                                    Header="Vertical Margin"
-                                    Maximum="32"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="HorizontalRuleThicknessBox"
+                        Header="Thickness"
+                        Maximum="8"
+                        Minimum="1"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="HorizontalRuleMarginBox"
+                        Header="Vertical Margin"
+                        Maximum="32"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
                 </StackPanel>
             </muxc:Expander>
 
             <!--  Images Section  -->
-            <muxc:Expander HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch">
+            <muxc:Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <muxc:Expander.Header>
-                    <TextBlock FontWeight="SemiBold"
-                               Text="Images" />
+                    <TextBlock FontWeight="SemiBold" Text="Images" />
                 </muxc:Expander.Header>
                 <StackPanel Spacing="8">
-                    <muxc:NumberBox x:Name="ImageMaxWidthBox"
-                                    Header="Max Width (0 = no limit)"
-                                    Maximum="1000"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <muxc:NumberBox x:Name="ImageMaxHeightBox"
-                                    Header="Max Height (0 = no limit)"
-                                    Maximum="1000"
-                                    Minimum="0"
-                                    SpinButtonPlacementMode="Compact"
-                                    ValueChanged="OnValueChanged" />
-                    <ComboBox x:Name="ImageStretchComboBox"
-                              HorizontalAlignment="Stretch"
-                              Header="Stretch"
-                              SelectionChanged="OnSelectionChanged">
+                    <muxc:NumberBox
+                        x:Name="ImageMaxWidthBox"
+                        Header="Max Width (0 = no limit)"
+                        Maximum="1000"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <muxc:NumberBox
+                        x:Name="ImageMaxHeightBox"
+                        Header="Max Height (0 = no limit)"
+                        Maximum="1000"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="OnValueChanged" />
+                    <ComboBox
+                        x:Name="ImageStretchComboBox"
+                        HorizontalAlignment="Stretch"
+                        Header="Stretch"
+                        SelectionChanged="OnSelectionChanged">
                         <ComboBoxItem Content="Uniform" />
                         <ComboBoxItem Content="None" />
                         <ComboBoxItem Content="Fill" />
