@@ -9,8 +9,17 @@ public abstract partial class ColorPaletteSamplerToolkitSampleBase : Page
     public static readonly DependencyProperty SelectedImageProperty =
         DependencyProperty.Register(nameof(SelectedImage), typeof(ImageSource), typeof(ColorPaletteSamplerToolkitSampleBase), new PropertyMetadata(null));
 
+    public static readonly DependencyProperty SelectedImageUrlProperty =
+        DependencyProperty.Register(nameof(SelectedImageUrl), typeof(string), typeof(ColorPaletteSamplerToolkitSampleBase), new PropertyMetadata(null));
+
     public ColorPaletteSamplerToolkitSampleBase()
     {
+    }
+
+    public string? SelectedImageUrl
+    {
+        get => (string?)GetValue(SelectedImageUrlProperty);
+        set => SetValue(SelectedImageUrlProperty, value);
     }
 
     public ImageSource SelectedImage

@@ -12,8 +12,6 @@ global using Microsoft.UI.Xaml.Media.Imaging;
 #endif
 
 using System.Numerics;
-using System.Windows.Input;
-using Windows.UI;
 
 namespace CommunityToolkit.WinUI.Helpers;
 
@@ -95,41 +93,24 @@ public partial class ColorPaletteSampler : DependencyObject
 
     private async Task<Vector3[]> SampleSourcePixelColorsAsync(int sampleCount)
     {
-        // Ensure the source is populated
         if (Source is null)
             return [];
 
-        // Grab actual size
-        // If actualSize is 0, replace with 1:1 aspect ratio
-        var sourceSize = Source.ActualSize;
-        sourceSize = sourceSize != Vector2.Zero ? sourceSize : Vector2.One;
-        
-        // Calculate size of scaled rerender using the actual size
-        // scaled down to the sample count, maintaining aspect ration
-        var sourceArea = sourceSize.X * sourceSize.Y;
-        var sampleScale = MathF.Sqrt(sampleCount / sourceArea);
-        var sampleSize = sourceSize * sampleScale;
-
-        // Rerender the UIElement to a bitmap of about sampleCount pixels
-        // Note: RenderTargetBitmap is not supported with Uno Platform.
-        var bitmap = new RenderTargetBitmap();
-        await bitmap.RenderAsync(Source, (int)sampleSize.X, (int)sampleSize.Y);
-
-        // Create a stream from the bitmap
-        var pixels = await bitmap.GetPixelsAsync();
-        var pixelByteStream = pixels.AsStream();
+        var pixelByteStream = await Source.GetPixelDataAsync(sampleCount);
 
         // Something went wrong
-        if (pixelByteStream.Length == 0)
+        if (pixelByteStream is null || pixelByteStream.Length == 0)
             return [];
 
         // Read the stream into a a color array
         const int bytesPerPixel = 4;
-        var samples = new Vector3[(int)pixelByteStream.Length / bytesPerPixel];
+        var samples = new Vector3[sampleCount];
 
         // Iterate through the stream reading a pixel (4 bytes) at a time
         // and storing them as a Vector3. Opacity info is dropped.
         int colorIndex = 0;
+        var step = (pixelByteStream.Length / sampleCount);
+        step -= step % 4;
 #if NET7_0_OR_GREATER
         Span<byte> pixelBytes = stackalloc byte[bytesPerPixel];
         while (pixelByteStream.Read(pixelBytes) == bytesPerPixel)
@@ -145,6 +126,9 @@ public partial class ColorPaletteSampler : DependencyObject
             // Take the red, green, and blue channels to make a floating-point space color.
             samples[colorIndex] = new Vector3(pixelBytes[2], pixelBytes[1], pixelBytes[0]) / byte.MaxValue;
             colorIndex++;
+
+            // Advance by step amount
+            pixelByteStream.Position += step;
         }
 
         // If we skipped any pixels, trim the span
