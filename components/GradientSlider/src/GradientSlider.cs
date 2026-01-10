@@ -31,7 +31,7 @@ public partial class GradientSlider : Control
     private Rectangle? _backgroundRectangle;
 
     private double _dragStartPosition;
-    private bool _isDragging;
+    private GradientSliderThumb? _draggingThumb;
 
     /// <summary>
     /// Creates a new instance of the <see cref="GradientSlider"/> class.
@@ -63,6 +63,7 @@ public partial class GradientSlider : Control
             _containerCanvas.PointerMoved += ContainerCanvas_PointerMoved;
             _containerCanvas.PointerExited += ContainerCanvas_PointerExited;
             _containerCanvas.PointerPressed += ContainerCanvas_PointerPressed;
+            _containerCanvas.PointerReleased += ContainerCanvas_PointerReleased;
 
             _placeholderThumb.Visibility = Visibility.Collapsed;
         }
@@ -73,10 +74,12 @@ public partial class GradientSlider : Control
     private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         => SyncThumbs();
 
-    private void AddStop(GradientStop stop)
+    private GradientSliderThumb? AddStop(GradientStop stop)
     {
         if (_containerCanvas is null)
-            return;
+        {
+            throw new InvalidOperationException(nameof(_containerCanvas));
+        }    
 
         // Prepare a thumb for the gradient stop
         var thumb = new GradientSliderThumb()
@@ -95,6 +98,8 @@ public partial class GradientSlider : Control
         // Track the thumb and add to the canvas
         _stopThumbs.Add(stop, thumb);
         _containerCanvas.Children.Add(thumb);
+
+        return thumb;
     }
 
     private void RemoveStop(GradientStop stop)

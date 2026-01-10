@@ -29,8 +29,10 @@ public partial class GradientSlider
         if (d is not GradientSlider slider)
             return;
 
-        if (slider._isDragging)
+        if (slider._containerCanvas is null)
             return;
+
+        // TODO: What happens if the gradient stop collection changes while the user is dragging a stop?
 
         slider.RefreshThumbs();
     }

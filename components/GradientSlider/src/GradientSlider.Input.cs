@@ -13,7 +13,7 @@ public partial class GradientSlider
         if (sender is not GradientSliderThumb thumb)
             return;
 
-        _isDragging = true;
+        _draggingThumb = thumb;
         _dragStartPosition = Canvas.GetLeft(thumb);
 
         OnThumbDragStarted(e);
@@ -35,7 +35,7 @@ public partial class GradientSlider
 
     private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
     {
-        _isDragging = false;
+        _draggingThumb = null;
 
         OnThumbDragCompleted(e);
         OnValueChanged();
@@ -47,7 +47,7 @@ public partial class GradientSlider
             return;
 
         _placeholderThumb.Visibility = Visibility.Visible;
-        _placeholderThumb.IsEnabled = true;
+
         VisualStateManager.GoToState(this, PointerOverState, false);
     }
 
@@ -58,12 +58,21 @@ public partial class GradientSlider
 
         var position = e.GetCurrentPoint(_containerCanvas).Position.X;
 
-        // NOTE: This check could be made O(log(n)) by tracking the thumbs positions in a sorted list and running a binary search
-        _placeholderThumb.IsEnabled = !IsPointerOverThumb(position);
+        if (_draggingThumb is null)
+        {
+            // NOTE: This check could be made O(log(n)) by tracking the thumbs positions in a sorted list and running a binary search
+            _placeholderThumb.IsEnabled = !IsPointerOverThumb(position);
 
-        var thumbPosition = position - _placeholderThumb.ActualWidth / 2;
-        thumbPosition = Math.Clamp(thumbPosition, 0, _containerCanvas.ActualWidth - _placeholderThumb.ActualWidth);
-        Canvas.SetLeft(_placeholderThumb, thumbPosition);
+            var thumbPosition = position - _placeholderThumb.ActualWidth / 2;
+            thumbPosition = Math.Clamp(thumbPosition, 0, _containerCanvas.ActualWidth - _placeholderThumb.ActualWidth);
+            Canvas.SetLeft(_placeholderThumb, thumbPosition);
+        }
+        else if (_draggingThumb.PointerCaptures?.Count is null or 0)
+        {
+            var newPos = (position - (_draggingThumb.ActualWidth / 2)) / (_containerCanvas.ActualWidth - _draggingThumb.ActualWidth);
+            _draggingThumb.GradientStop.Offset = Math.Clamp(newPos, 0, 1);
+            UpdateThumbPosition(_draggingThumb);
+        }
     }
 
     private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -73,17 +82,22 @@ public partial class GradientSlider
 
         _placeholderThumb.Visibility = Visibility.Collapsed;
         _placeholderThumb.IsEnabled = false;
+
         VisualStateManager.GoToState(this, NormalState, false);
     }
 
     private void ContainerCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
     {
-        if (_containerCanvas is null)
+        if (_containerCanvas is null || _placeholderThumb is null)
             return;
 
         var position = e.GetCurrentPoint(_containerCanvas).Position.X;
         if (IsPointerOverThumb(position))
             return;
+
+        _containerCanvas.CapturePointer(e.Pointer);
+
+        _placeholderThumb.IsEnabled = false;
 
         var stop = new GradientStop()
         {
@@ -92,7 +106,19 @@ public partial class GradientSlider
         };
 
         GradientStops.Add(stop);
-        AddStop(stop);
+        _draggingThumb = AddStop(stop);
+    }
+
+    private void ContainerCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
+    {
+        if (_containerCanvas is null)
+            return;
+
+        _draggingThumb = null;
+        _containerCanvas.ReleasePointerCapture(e.Pointer);
+
+        OnValueChanged();
+
     }
 
     private bool IsPointerOverThumb(double position)
