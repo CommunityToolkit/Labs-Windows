@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ExampleMarkdownTextBlockTestClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImageProviderConstraintTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExampleMarkdownTextBlockTestPage.xaml.cs">
       <DependentUpon>ExampleMarkdownTextBlockTestPage.xaml</DependentUpon>
     </Compile>
