@@ -46,7 +46,10 @@ public partial class GradientSlider
         if (_placeholderThumb is null)
             return;
 
-        _placeholderThumb.Visibility = Visibility.Visible;
+        if (IsAddStopsEnabled)
+        {
+            _placeholderThumb.Visibility = Visibility.Visible;
+        }
 
         VisualStateManager.GoToState(this, PointerOverState, false);
     }
@@ -89,6 +92,9 @@ public partial class GradientSlider
     private void ContainerCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
     {
         if (_containerCanvas is null || _placeholderThumb is null)
+            return;
+
+        if (!IsAddStopsEnabled)
             return;
 
         var position = e.GetCurrentPoint(_containerCanvas).Position.X;

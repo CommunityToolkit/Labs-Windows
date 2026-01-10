@@ -11,6 +11,7 @@ namespace GradientSliderExperiment.Samples;
 /// </summary>
 
 [ToolkitSample(id: nameof(GradientSliderSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(GradientSlider)} custom control.")]
+[ToolkitSampleBoolOption("CanAddStops", true, Title = nameof(GradientSlider.IsAddStopsEnabled))]
 public sealed partial class GradientSliderSample : Page
 {
     public GradientSliderSample()

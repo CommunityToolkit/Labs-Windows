@@ -16,12 +16,30 @@ public partial class GradientSlider
             new PropertyMetadata(null, GradientStopsChangedCallback));
 
     /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="GradientStops"/> property.
+    /// </summary>
+    public static readonly DependencyProperty IsAddStopsEnabledProperty =
+        DependencyProperty.Register(nameof(IsAddStopsEnabled),
+            typeof(bool),
+            typeof(GradientSlider),
+            new PropertyMetadata(true));
+
+    /// <summary>
     /// Gets or sets the <see cref="GradientStopCollection"/> being modified by the <see cref="GradientSlider"/>.
     /// </summary>
     public GradientStopCollection GradientStops
     {
         get => (GradientStopCollection)GetValue(GradientStopsProperty);
         set => SetValue(GradientStopsProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets whether or not the user can add new stops.
+    /// </summary>
+    public bool IsAddStopsEnabled
+    {
+        get => (bool)GetValue(IsAddStopsEnabledProperty);
+        set => SetValue(IsAddStopsEnabledProperty, value);
     }
 
     private static void GradientStopsChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
