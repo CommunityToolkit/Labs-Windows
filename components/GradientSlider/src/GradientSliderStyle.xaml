@@ -39,6 +39,7 @@
                                                     <ControlTemplate TargetType="Thumb">
                                                         <Ellipse
                                                             x:Name="SliderInnerThumb"
+                                                            IsHitTestVisible="False"
                                                             Width="{ThemeResource SliderInnerThumbWidth}"
                                                             Height="{ThemeResource SliderInnerThumbHeight}"
                                                             Margin="-4"

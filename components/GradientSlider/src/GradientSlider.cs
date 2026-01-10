@@ -62,6 +62,7 @@ public partial class GradientSlider : Control
             _containerCanvas.PointerEntered += ContainerCanvas_PointerEntered;
             _containerCanvas.PointerMoved += ContainerCanvas_PointerMoved;
             _containerCanvas.PointerExited += ContainerCanvas_PointerExited;
+            _containerCanvas.PointerPressed += ContainerCanvas_PointerPressed;
 
             _placeholderThumb.Visibility = Visibility.Collapsed;
         }

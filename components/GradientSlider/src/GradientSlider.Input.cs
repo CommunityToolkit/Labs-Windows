@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI;
+
 namespace CommunityToolkit.WinUI.Controls;
 
 public partial class GradientSlider
@@ -55,23 +57,13 @@ public partial class GradientSlider
             return;
 
         var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-        position -= _placeholderThumb.ActualWidth / 2;
-        position = Math.Clamp(position, 0, _containerCanvas.ActualWidth - _placeholderThumb.ActualWidth);
 
-        _placeholderThumb.IsEnabled = true;
-        foreach (var child in _containerCanvas.Children)
-        {
-            if (child is not GradientSliderThumb thumb)
-                continue;
+        // NOTE: This check could be made O(log(n)) by tracking the thumbs positions in a sorted list and running a binary search
+        _placeholderThumb.IsEnabled = !IsPointerOverThumb(position);
 
-            var thumbPos = Canvas.GetLeft(thumb);
-            if (position > thumbPos - thumb.ActualWidth && position < thumbPos + (thumb.ActualWidth * 2))
-            {
-                _placeholderThumb.IsEnabled = false;
-            }
-        }
-
-        Canvas.SetLeft(_placeholderThumb, position);
+        var thumbPosition = position - _placeholderThumb.ActualWidth / 2;
+        thumbPosition = Math.Clamp(thumbPosition, 0, _containerCanvas.ActualWidth - _placeholderThumb.ActualWidth);
+        Canvas.SetLeft(_placeholderThumb, thumbPosition);
     }
 
     private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -82,5 +74,42 @@ public partial class GradientSlider
         _placeholderThumb.Visibility = Visibility.Collapsed;
         _placeholderThumb.IsEnabled = false;
         VisualStateManager.GoToState(this, NormalState, false);
+    }
+
+    private void ContainerCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        if (_containerCanvas is null)
+            return;
+
+        var position = e.GetCurrentPoint(_containerCanvas).Position.X;
+        if (IsPointerOverThumb(position))
+            return;
+
+        var stop = new GradientStop()
+        {
+            Offset = position / _containerCanvas.ActualWidth,
+            Color = Colors.Black,
+        };
+
+        GradientStops.Add(stop);
+        AddStop(stop);
+    }
+
+    private bool IsPointerOverThumb(double position)
+    {
+        if (_containerCanvas is null)
+            return false;
+
+        foreach (var child in _containerCanvas.Children)
+        {
+            if (child is not GradientSliderThumb thumb)
+                continue;
+
+            var thumbPos = Canvas.GetLeft(thumb);
+            if (position > thumbPos - thumb.ActualWidth && position < thumbPos + (thumb.ActualWidth * 2))
+                return true;
+        }
+
+        return false;
     }
 }
