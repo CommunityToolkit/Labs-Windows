@@ -14,6 +14,7 @@ namespace CommunityToolkit.WinUI.Controls;
 /// A slider for gradient color input.
 /// </summary>
 [TemplatePart(Name = "ContainerCanvas", Type = typeof(Canvas))]
+[TemplatePart(Name = "PlaceholderThumb", Type = typeof(Thumb))]
 [TemplatePart(Name = "BackgroundRectangle", Type = typeof(Rectangle))]
 public partial class GradientSlider : Control
 {
@@ -21,6 +22,7 @@ public partial class GradientSlider : Control
     private readonly Dictionary<GradientStop, long> _stopCallbacks = [];
 
     private Canvas? _containerCanvas;
+    private Thumb? _placeholderThumb;
     private Rectangle? _backgroundRectangle;
 
     private double _dragStartPosition;
@@ -45,9 +47,19 @@ public partial class GradientSlider : Control
         }
 
         _containerCanvas = (Canvas)GetTemplateChild("ContainerCanvas");
+        _placeholderThumb = (Thumb)GetTemplateChild("PlaceholderThumb");
         _backgroundRectangle = (Rectangle?)GetTemplateChild("BackgroundRectangle");
 
         _containerCanvas.SizeChanged += ContainerCanvas_SizeChanged;
+
+        if (_placeholderThumb is not null)
+        {
+            _containerCanvas.PointerEntered += ContainerCanvas_PointerEntered;
+            _containerCanvas.PointerMoved += ContainerCanvas_PointerMoved;
+            _containerCanvas.PointerExited += ContainerCanvas_PointerExited;
+
+            _placeholderThumb.Visibility = Visibility.Collapsed;
+        }
 
         RefreshThumbs();
     }
@@ -146,9 +158,6 @@ public partial class GradientSlider : Control
     private void OnGradientStopOffsetChanged(DependencyObject d, DependencyProperty e)
     {
         if (d is not GradientStop stop || !_stopThumbs.TryGetValue(stop, out var thumb))
-            return;
-
-        if (_isDragging)
             return;
 
         UpdateThumbPosition(thumb);

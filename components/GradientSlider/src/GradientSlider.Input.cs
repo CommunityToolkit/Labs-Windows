@@ -38,4 +38,31 @@ public partial class GradientSlider
         OnThumbDragCompleted(e);
         OnValueChanged();
     }
+
+    private void ContainerCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        if (_placeholderThumb is null)
+            return;
+
+        _placeholderThumb.Visibility = Visibility.Visible;
+    }
+
+    private void ContainerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
+    {
+        if (_containerCanvas is null || _placeholderThumb is null)
+            return;
+
+        var position = e.GetCurrentPoint(_containerCanvas).Position.X;
+        position -= _placeholderThumb.ActualWidth / 2;
+        position = Math.Clamp(position, 0, _containerCanvas.ActualWidth - _placeholderThumb.ActualWidth);
+        Canvas.SetLeft(_placeholderThumb, position);
+    }
+
+    private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        if (_placeholderThumb is null)
+            return;
+
+        _placeholderThumb.Visibility = Visibility.Collapsed;
+    }
 }
