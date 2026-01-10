@@ -105,7 +105,9 @@ public partial class GradientSlider : Control
     {
         ClearThumbs();
         foreach (var stop in GradientStops)
+        {
             AddStop(stop);
+        }
 
         SyncBackground();
     }
