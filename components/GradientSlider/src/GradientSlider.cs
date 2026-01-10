@@ -18,6 +18,11 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplatePart(Name = "BackgroundRectangle", Type = typeof(Rectangle))]
 public partial class GradientSlider : Control
 {
+    internal const string CommonStates = "CommonStates";
+    internal const string NormalState = "Normal";
+    internal const string PointerOverState = "PointerOver";
+    internal const string DisabledState = "Disabled";
+
     private readonly Dictionary<GradientStop, GradientSliderThumb> _stopThumbs = [];
     private readonly Dictionary<GradientStop, long> _stopCallbacks = [];
 

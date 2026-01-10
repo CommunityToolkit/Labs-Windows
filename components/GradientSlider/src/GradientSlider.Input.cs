@@ -45,6 +45,8 @@ public partial class GradientSlider
             return;
 
         _placeholderThumb.Visibility = Visibility.Visible;
+        _placeholderThumb.IsEnabled = true;
+        VisualStateManager.GoToState(this, PointerOverState, false);
     }
 
     private void ContainerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -55,6 +57,20 @@ public partial class GradientSlider
         var position = e.GetCurrentPoint(_containerCanvas).Position.X;
         position -= _placeholderThumb.ActualWidth / 2;
         position = Math.Clamp(position, 0, _containerCanvas.ActualWidth - _placeholderThumb.ActualWidth);
+
+        _placeholderThumb.IsEnabled = true;
+        foreach (var child in _containerCanvas.Children)
+        {
+            if (child is not GradientSliderThumb thumb)
+                continue;
+
+            var thumbPos = Canvas.GetLeft(thumb);
+            if (position > thumbPos - thumb.ActualWidth && position < thumbPos + (thumb.ActualWidth * 2))
+            {
+                _placeholderThumb.IsEnabled = false;
+            }
+        }
+
         Canvas.SetLeft(_placeholderThumb, position);
     }
 
@@ -64,5 +80,7 @@ public partial class GradientSlider
             return;
 
         _placeholderThumb.Visibility = Visibility.Collapsed;
+        _placeholderThumb.IsEnabled = false;
+        VisualStateManager.GoToState(this, NormalState, false);
     }
 }
