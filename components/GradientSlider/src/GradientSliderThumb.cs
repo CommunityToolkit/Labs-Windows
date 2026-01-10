@@ -70,7 +70,7 @@ public sealed partial class GradientSliderThumb : Control
         Tapped += this.GradientSliderThumb_Tapped;
     }
 
-    private void ColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+    private void ColorPicker_ColorChanged(ColorPicker sender, MUXC.ColorChangedEventArgs args)
     {
         GradientStop.Color = args.NewColor;
     }
