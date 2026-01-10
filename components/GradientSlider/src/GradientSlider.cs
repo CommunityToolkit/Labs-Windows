@@ -3,8 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 #if !WINAPPSDK
+using Windows.UI;
 using Windows.UI.Xaml.Shapes;
 #else
+using Microsoft.UI;
 using Microsoft.UI.Xaml.Shapes;
 #endif
 
@@ -39,6 +41,20 @@ public partial class GradientSlider : Control
     public GradientSlider()
     {
         this.DefaultStyleKey = typeof(GradientSlider);
+
+        GradientStops =
+        [
+            new GradientStop
+            {
+                Color = Colors.Black,
+                Offset = 0,
+            },
+            new GradientStop
+            {
+                Color = Colors.White,
+                Offset = 1,
+            }
+        ];
     }
 
     /// <inheritdoc />

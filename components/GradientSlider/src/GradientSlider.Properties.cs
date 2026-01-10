@@ -13,7 +13,7 @@ public partial class GradientSlider
         DependencyProperty.Register(nameof(GradientStops),
             typeof(GradientStopCollection),
             typeof(GradientSlider),
-            new PropertyMetadata(new GradientStopCollection(), GradientStopsChangedCallback));
+            new PropertyMetadata(null, GradientStopsChangedCallback));
 
     /// <summary>
     /// Gets or sets the <see cref="GradientStopCollection"/> being modified by the <see cref="GradientSlider"/>.

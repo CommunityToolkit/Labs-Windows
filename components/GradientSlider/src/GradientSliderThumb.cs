@@ -56,18 +56,18 @@ public sealed partial class GradientSliderThumb : Control
         _border = (Border)GetTemplateChild("PART_Border");
         _colorPicker = (ColorPicker)GetTemplateChild("PART_ColorPicker");
 
-        PointerEntered += this.GradientSliderThumb_PointerEntered;
-        PointerExited += this.GradientSliderThumb_PointerExited;
-        PointerPressed += this.GradientSliderThumb_PointerPressed;
-        PointerMoved += this.GradientSliderThumb_PointerMoved;
-        PointerReleased += this.GradientSliderThumb_PointerReleased;
-        PointerCanceled += this.GradientSliderThumb_PointerCanceled;
-        IsEnabledChanged += this.GradientSliderThumb_IsEnabledChanged;
+        PointerEntered += GradientSliderThumb_PointerEntered;
+        PointerExited += GradientSliderThumb_PointerExited;
+        PointerPressed += GradientSliderThumb_PointerPressed;
+        PointerMoved += GradientSliderThumb_PointerMoved;
+        PointerReleased += GradientSliderThumb_PointerReleased;
+        PointerCanceled += GradientSliderThumb_PointerCanceled;
+        IsEnabledChanged += GradientSliderThumb_IsEnabledChanged;
 
         _colorPicker.Color = GradientStop.Color;
-        _colorPicker.ColorChanged += this.ColorPicker_ColorChanged;
+        _colorPicker.ColorChanged += ColorPicker_ColorChanged;
 
-        Tapped += this.GradientSliderThumb_Tapped;
+        Tapped += GradientSliderThumb_Tapped;
     }
 
     private void ColorPicker_ColorChanged(ColorPicker sender, MUXC.ColorChangedEventArgs args)
