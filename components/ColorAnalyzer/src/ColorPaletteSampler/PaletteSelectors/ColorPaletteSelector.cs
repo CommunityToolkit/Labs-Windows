@@ -9,7 +9,7 @@ namespace CommunityToolkit.WinUI.Helpers;
 /// <summary>
 /// A base class for selecting colors from a palette extracted by the <see cref="ColorPaletteSampler"/>.
 /// </summary>
-public abstract class ColorPaletteSelector : DependencyObject
+public abstract partial class ColorPaletteSelector : DependencyObject
 {
     private IEnumerable<PaletteColor>? _palette;
 
