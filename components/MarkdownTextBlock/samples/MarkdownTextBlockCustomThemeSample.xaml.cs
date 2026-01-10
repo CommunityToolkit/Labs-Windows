@@ -9,7 +9,6 @@ namespace MarkdownTextBlockExperiment.Samples;
 /// <summary>
 /// A sample demonstrating custom theming options for the MarkdownTextBlock control with live editing.
 /// </summary>
-/// 
 [ToolkitSample(id: nameof(MarkdownTextBlockCustomThemeSample), "Custom Theme", description: "A sample showcasing custom theming options with live editing for headings, code blocks, quotes, tables, and more.")]
 public sealed partial class MarkdownTextBlockCustomThemeSample : MarkdownTextBlockCustomThemeSampleBase
 {
