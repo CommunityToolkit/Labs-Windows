@@ -3,8 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
-using Microsoft.UI.Xaml.Media;
+
+#if WINAPPSDK
 using Microsoft.UI.Xaml.Media.Imaging;
+#elif WINDOWS_UWP
+using Windows.UI.Xaml.Media.Imaging;
+#endif
 using Windows.Storage.Streams;
 
 namespace MarkdownTextBlockExperiment.Samples;
