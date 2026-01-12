@@ -92,19 +92,28 @@ internal class MyImage : IAddChild
         if (_loaded) return;
         try
         {
+            // Track whether we have valid natural dimensions to constrain against
+            bool hasNaturalWidth = false;
+            bool hasNaturalHeight = false;
+
             if (_imageProvider != null && _imageProvider.ShouldUseThisProvider(_uri.AbsoluteUri))
             {
                 _image = await _imageProvider.GetImage(_uri.AbsoluteUri);
                 _container.Child = _image;
                 
-                // Set natural dimensions as max constraints from the provider image
-                if (_image.Width > 0)
+                // Capture natural dimensions as max constraints from the provider image
+                // Then clear fixed Width/Height so images can shrink responsively
+                if (_image.Width > 0 && !double.IsNaN(_image.Width) && !double.IsInfinity(_image.Width))
                 {
                     _image.MaxWidth = _image.Width;
+                    _image.Width = double.NaN; // Clear fixed width to allow shrinking
+                    hasNaturalWidth = true;
                 }
-                if (_image.Height > 0)
+                if (_image.Height > 0 && !double.IsNaN(_image.Height) && !double.IsInfinity(_image.Height))
                 {
                     _image.MaxHeight = _image.Height;
+                    _image.Height = double.NaN; // Clear fixed height to allow shrinking
+                    hasNaturalHeight = true;
                 }
                 
                 _loaded = true;
@@ -155,29 +164,41 @@ internal class MyImage : IAddChild
                     double naturalHeight = bitmap.PixelHeight == 0 ? bitmap.DecodePixelHeight : bitmap.PixelHeight;
 
                     // Use natural size as max constraint so image doesn't upscale
-                    _image.MaxWidth = naturalWidth;
-                    _image.MaxHeight = naturalHeight;
+                    if (naturalWidth > 0)
+                    {
+                        _image.MaxWidth = naturalWidth;
+                        hasNaturalWidth = true;
+                    }
+                    if (naturalHeight > 0)
+                    {
+                        _image.MaxHeight = naturalHeight;
+                        hasNaturalHeight = true;
+                    }
                 }
 
                 _loaded = true;
             }
 
             // Apply precedent (markdown-specified) dimensions if provided
+            // Precedent always takes priority and sets a known dimension
             if (_precedentWidth != 0)
             {
                 _image.MaxWidth = _precedentWidth;
+                hasNaturalWidth = true;
             }
             if (_precedentHeight != 0)
             {
                 _image.MaxHeight = _precedentHeight;
+                hasNaturalHeight = true;
             }
 
-            // Apply theme constraints - these override natural/precedent if smaller
-            if (_themes.ImageMaxWidth > 0 && _themes.ImageMaxWidth < _image.MaxWidth)
+            // Apply theme constraints - only if we have a known dimension to constrain
+            // This prevents theme constraints from enlarging images with unknown natural size
+            if (_themes.ImageMaxWidth > 0 && hasNaturalWidth && _themes.ImageMaxWidth < _image.MaxWidth)
             {
                 _image.MaxWidth = _themes.ImageMaxWidth;
             }
-            if (_themes.ImageMaxHeight > 0 && _themes.ImageMaxHeight < _image.MaxHeight)
+            if (_themes.ImageMaxHeight > 0 && hasNaturalHeight && _themes.ImageMaxHeight < _image.MaxHeight)
             {
                 _image.MaxHeight = _themes.ImageMaxHeight;
             }
