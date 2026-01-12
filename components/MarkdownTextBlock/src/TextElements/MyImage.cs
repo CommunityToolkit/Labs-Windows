@@ -96,6 +96,18 @@ internal class MyImage : IAddChild
             {
                 _image = await _imageProvider.GetImage(_uri.AbsoluteUri);
                 _container.Child = _image;
+                
+                // Set natural dimensions as max constraints from the provider image
+                if (_image.Width > 0)
+                {
+                    _image.MaxWidth = _image.Width;
+                }
+                if (_image.Height > 0)
+                {
+                    _image.MaxHeight = _image.Height;
+                }
+                
+                _loaded = true;
             }
             else
             {
