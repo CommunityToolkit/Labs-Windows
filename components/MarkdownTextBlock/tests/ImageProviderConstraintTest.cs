@@ -80,14 +80,14 @@ public partial class ImageProviderConstraintTest : VisualUITestBase
         Assert.IsNotNull(image, "Image element should be rendered");
 
         // Assert: The image should maintain its natural size (100x100)
-        // NOT be constrained to the theme's larger MaxWidth (500)
-        // 
-        // BUG: Currently fails because when ImageProvider is used,
-        // natural dimensions aren't set on the image, so MaxWidth defaults to Infinity.
-        // Then the theme constraint (500 < Infinity) applies incorrectly.
+        // and NOT be constrained to the theme's larger MaxWidth (500).
         //
-        // Expected behavior: Image should have MaxWidth=100 (its natural size)
-        // Actual behavior: Image has MaxWidth=500 (theme constraint applied incorrectly)
+        // This is a regression test for a previous bug where, when IImageProvider was used,
+        // natural dimensions weren't set on the image, so MaxWidth defaulted to Infinity.
+        // In that case the theme constraint (500 < Infinity) incorrectly applied, forcing MaxWidth=500.
+        //
+        // The purpose of this test is to ensure that the image's MaxWidth is set to its natural size (100)
+        // before theme constraints are evaluated, so the theme constraint is not incorrectly applied.
         
         Assert.AreEqual(100.0, image.MaxWidth, 0.1, 
             "Image MaxWidth should be its natural size (100), not the theme constraint (500). " +
