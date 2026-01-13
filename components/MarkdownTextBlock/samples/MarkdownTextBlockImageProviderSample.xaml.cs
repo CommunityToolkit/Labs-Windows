@@ -100,11 +100,9 @@ public sealed partial class MarkdownTextBlockImageProviderSample : Page
         TestCase3.Text = "![test](provider://test3-nodims.png)";
 
         // Give time for images to load, then check results
-        DispatcherQueue.TryEnqueue(async () =>
-        {
-            await Task.Delay(1000);
-            UpdateResults();
-        });
+
+        await Task.Delay(1000);
+        UpdateResults();
     }
 
     private void UpdateResults()
