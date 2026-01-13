@@ -39,9 +39,3 @@ Try typing markdown and see it rendered in real-time:
 Try different styling options for all markdown elements with a custom theme:
 
 > [!Sample MarkdownTextBlockCustomThemeSample]
-
-## Image Provider Constraints
-Test the IImageProvider constraint behavior to verify small images aren't incorrectly enlarged:
-
-> [!Sample MarkdownTextBlockImageProviderSample]
-
