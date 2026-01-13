@@ -65,7 +65,7 @@ public partial class ImageProviderConstraintTest : VisualUITestBase
         {
             Config = config,
             // Image URL with no precedent dimensions specified
-            Text = "![Test Image](test://example.png)"
+            Text = "<img src=\"test://example.png\">"
         };
 
         // Act
@@ -114,7 +114,7 @@ public partial class ImageProviderConstraintTest : VisualUITestBase
         {
             Config = config,
             // Image with explicit width specified in markdown
-            Text = "![Test Image](test://example.png){ width=200 }"
+            Text = "<img src=\"test://example.png\" width=\"200\">"
         };
 
         // Act
@@ -150,7 +150,7 @@ public partial class ImageProviderConstraintTest : VisualUITestBase
         var markdown = new MarkdownTextBlock
         {
             Config = config,
-            Text = "![Test Image](test://large.png)"
+            Text = "<img src=\"test://large.png\" width=\"200\">"
         };
 
         // Act
