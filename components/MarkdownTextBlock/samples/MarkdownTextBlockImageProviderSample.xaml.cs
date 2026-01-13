@@ -44,7 +44,7 @@ public sealed partial class MarkdownTextBlockImageProviderSample : Page
         ApplyConfiguration();
     }
 
-    private void ApplyConfiguration()
+    private async void ApplyConfiguration()
     {
         var providerWidth = ProviderWidthBox.Value;
         var providerHeight = ProviderHeightBox.Value;
