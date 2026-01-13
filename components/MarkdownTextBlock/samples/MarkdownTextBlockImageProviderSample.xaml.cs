@@ -179,6 +179,8 @@ public sealed partial class MarkdownTextBlockImageProviderSample : Page
     /// </summary>
     private class TestImageProvider : IImageProvider
     {
+        private static readonly System.Net.Http.HttpClient s_httpClient = new();
+
         private readonly double _width;
         private readonly double _height;
         private readonly string _realImageUrl;
@@ -202,8 +204,7 @@ public sealed partial class MarkdownTextBlockImageProviderSample : Page
             // Load a real image so it's visible
             try
             {
-                var httpClient = new System.Net.Http.HttpClient();
-                var data = await httpClient.GetByteArrayAsync(_realImageUrl);
+                var data = await s_httpClient.GetByteArrayAsync(_realImageUrl);
                 var bitmap = new BitmapImage();
                 using (var stream = new InMemoryRandomAccessStream())
                 {
