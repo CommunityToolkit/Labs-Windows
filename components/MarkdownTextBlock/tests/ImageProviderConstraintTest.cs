@@ -114,7 +114,7 @@ public partial class ImageProviderConstraintTest : VisualUITestBase
         {
             Config = config,
             // Image with explicit width specified in markdown
-            Text = "![Test Image](test://example.png){ width=200 }"
+            Text = "<img src=\"test://example.png\" width=\"200\">"
         };
 
         // Act
