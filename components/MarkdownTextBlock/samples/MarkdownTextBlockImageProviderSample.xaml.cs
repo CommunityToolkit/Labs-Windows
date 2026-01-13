@@ -34,17 +34,17 @@ public sealed partial class MarkdownTextBlockImageProviderSample : Page
         this.Loaded += OnLoaded;
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    private async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        ApplyConfiguration();
+        await ApplyConfigurationAsync();
     }
 
-    private void ApplyButton_Click(object sender, RoutedEventArgs e)
+    private async void ApplyButton_Click(object sender, RoutedEventArgs e)
     {
-        ApplyConfiguration();
+        await ApplyConfigurationAsync();
     }
 
-    private async void ApplyConfiguration()
+    private async Task ApplyConfigurationAsync()
     {
         var providerWidth = ProviderWidthBox.Value;
         var providerHeight = ProviderHeightBox.Value;
