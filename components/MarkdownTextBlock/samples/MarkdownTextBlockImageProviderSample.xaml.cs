@@ -3,13 +3,16 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
+using Windows.Storage.Streams;
 
 #if WINAPPSDK
 using Microsoft.UI.Xaml.Media.Imaging;
+using Colors = Microsoft.UI.Colors;
 #elif WINDOWS_UWP
 using Windows.UI.Xaml.Media.Imaging;
+using Colors = Windows.UI.Colors;
 #endif
-using Windows.Storage.Streams;
+
 
 namespace MarkdownTextBlockExperiment.Samples;
 
@@ -118,12 +121,12 @@ public sealed partial class MarkdownTextBlockImageProviderSample : Page
         {
             var pass = Math.Abs(image1.MaxWidth - providerWidth) < 1;
             TestCase1Result.Text = $"MaxWidth: {image1.MaxWidth:F0} (Expected: {providerWidth}) - {(pass ? "✅ PASS" : "❌ FAIL - Image incorrectly enlarged!")}";
-            TestCase1Result.Foreground = new SolidColorBrush(pass ? Microsoft.UI.Colors.Green : Microsoft.UI.Colors.Red);
+            TestCase1Result.Foreground = new SolidColorBrush(pass ? Colors.Green : Colors.Red);
         }
         else
         {
             TestCase1Result.Text = "❌ Image not found";
-            TestCase1Result.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Red);
+            TestCase1Result.Foreground = new SolidColorBrush(Colors.Red);
         }
 
         // Test Case 2: Large image should be constrained to 400
@@ -131,12 +134,12 @@ public sealed partial class MarkdownTextBlockImageProviderSample : Page
         {
             var pass = Math.Abs(image2.MaxWidth - 400) < 1;
             TestCase2Result.Text = $"MaxWidth: {image2.MaxWidth:F0} (Expected: 400) - {(pass ? "✅ PASS" : "❌ FAIL")}";
-            TestCase2Result.Foreground = new SolidColorBrush(pass ? Microsoft.UI.Colors.Green : Microsoft.UI.Colors.Red);
+            TestCase2Result.Foreground = new SolidColorBrush(pass ? Colors.Green : Colors.Red);
         }
         else
         {
             TestCase2Result.Text = "❌ Image not found";
-            TestCase2Result.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Red);
+            TestCase2Result.Foreground = new SolidColorBrush(Colors.Red);
         }
 
         // Test Case 3: No dimensions - theme should NOT be applied
@@ -144,12 +147,12 @@ public sealed partial class MarkdownTextBlockImageProviderSample : Page
         {
             var pass = double.IsInfinity(image3.MaxWidth);
             TestCase3Result.Text = $"MaxWidth: {image3.MaxWidth} (Expected: Infinity) - {(pass ? "✅ PASS" : "❌ FAIL - Theme incorrectly applied!")}";
-            TestCase3Result.Foreground = new SolidColorBrush(pass ? Microsoft.UI.Colors.Green : Microsoft.UI.Colors.Red);
+            TestCase3Result.Foreground = new SolidColorBrush(pass ? Colors.Green : Colors.Red);
         }
         else
         {
             TestCase3Result.Text = "❌ Image not found";
-            TestCase3Result.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Red);
+            TestCase3Result.Foreground = new SolidColorBrush(Colors.Red);
         }
     }
 
