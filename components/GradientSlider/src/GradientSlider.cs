@@ -32,7 +32,7 @@ public partial class GradientSlider : Control
     private Thumb? _placeholderThumb;
     private Rectangle? _backgroundRectangle;
 
-    private double _dragStartPosition;
+    private Point _dragPosition;
     private GradientSliderThumb? _draggingThumb;
 
     /// <summary>
