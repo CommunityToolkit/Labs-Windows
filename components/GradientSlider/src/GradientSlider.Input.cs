@@ -8,6 +8,7 @@ using Windows.UI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls.Primitives;
 #endif
+using Windows.System;
 
 namespace CommunityToolkit.WinUI.Controls;
 
@@ -46,6 +47,32 @@ public partial class GradientSlider
 
         OnThumbDragCompleted(e);
         OnValueChanged();
+    }
+
+    private void Thumb_KeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (sender is not GradientSliderThumb thumb)
+            return;
+
+        var change = e.Key switch
+        {
+#if !HAS_UNO
+            VirtualKey.Left when FlowDirection is FlowDirection.RightToLeft => 0.05,
+            VirtualKey.Right when FlowDirection is FlowDirection.RightToLeft => -0.05,
+#endif
+
+            VirtualKey.Left => -0.01,
+            VirtualKey.Right => 0.01,
+
+            _ => 0,
+        };
+
+        if (change is not 0)
+        {
+            thumb.GradientStop.Offset = Math.Clamp(change + thumb.GradientStop.Offset, 0, 1);
+            UpdateThumbPosition(thumb);
+            e.Handled = true;
+        }
     }
 
     private void ContainerCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)

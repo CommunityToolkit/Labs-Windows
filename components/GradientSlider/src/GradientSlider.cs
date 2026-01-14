@@ -107,6 +107,7 @@ public partial class GradientSlider : Control
         thumb.DragStarted += Thumb_DragStarted;
         thumb.DragDelta += Thumb_DragDelta;
         thumb.DragCompleted += Thumb_DragCompleted;
+        thumb.KeyDown += Thumb_KeyDown;
         thumb.Loaded += Thumb_Loaded;
         var callback = stop.RegisterPropertyChangedCallback(GradientStop.OffsetProperty, OnGradientStopOffsetChanged);
         _stopCallbacks.Add(stop, callback);
@@ -131,6 +132,7 @@ public partial class GradientSlider : Control
         thumb.DragStarted -= Thumb_DragStarted;
         thumb.DragDelta -= Thumb_DragDelta;
         thumb.DragCompleted -= Thumb_DragCompleted;
+        thumb.KeyDown -= Thumb_KeyDown;
         thumb.Loaded -= Thumb_Loaded;
         stop.UnregisterPropertyChangedCallback(GradientStop.OffsetProperty, _stopCallbacks[stop]);
         _stopCallbacks.Remove(stop);
