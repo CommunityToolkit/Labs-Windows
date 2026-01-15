@@ -62,7 +62,7 @@ public sealed class MarkdownThemes : DependencyObject
 
     public Brush BorderBrush { get; set; } = (Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"];
 
-    public Brush TableHeadingBackground { get; set; } = Extensions.GetAccentColorBrush(Windows.UI.ViewManagement.UIColorType.AccentLight3);
+    public Brush TableHeadingBackground { get; set; } = (Brush)Application.Current.Resources["CardBackgroundFillColorDefaultBrush"];
 
     public Brush InlineCodeBackground { get; set; } = (Brush)Application.Current.Resources["CardBackgroundFillColorSecondaryBrush"];
     public Brush InlineCodeForeground { get; set; } = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
