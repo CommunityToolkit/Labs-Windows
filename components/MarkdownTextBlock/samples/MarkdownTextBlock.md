@@ -39,4 +39,3 @@ Try typing markdown and see it rendered in real-time:
 Try different styling options for all markdown elements with a custom theme:
 
 > [!Sample MarkdownTextBlockCustomThemeSample]
-

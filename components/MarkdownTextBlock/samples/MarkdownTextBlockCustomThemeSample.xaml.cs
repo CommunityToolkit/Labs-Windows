@@ -40,6 +40,8 @@ Images can be styled with max width, max height, and stretch options. Notice how
 
 The image above automatically scales to respect the max width setting while maintaining its aspect ratio. Text continues to flow seamlessly below it.
 
+![Shortcut Conflict](https://devblogs.microsoft.com/commandline/wp-content/uploads/sites/33/2025/09/ShortcutConflict.png)
+
 ## Code Blocks
 
 ```csharp
