@@ -14,7 +14,9 @@ namespace CommunityToolkit.WinUI.Controls;
 
 public sealed class MarkdownThemes : DependencyObject
 {
-    internal static MarkdownThemes Default { get; } = new();
+    [ThreadStatic]
+    private static MarkdownThemes? _default;
+    internal static MarkdownThemes Default => _default ??= new MarkdownThemes();
 
     public Thickness Padding { get; set; } = new(8);
 
