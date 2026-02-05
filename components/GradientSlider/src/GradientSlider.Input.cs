@@ -75,6 +75,16 @@ public partial class GradientSlider
         }
     }
 
+    private void Thumb_RightTapped(object sender, RightTappedRoutedEventArgs e)
+    {
+        if (sender is not GradientSliderThumb thumb)
+            return;
+
+        var stop = thumb.GradientStop;
+        GradientStops.Remove(stop);
+        RemoveStopThumb(stop);
+    }
+
     private void ContainerCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         if (_placeholderThumb is null)
@@ -145,7 +155,7 @@ public partial class GradientSlider
         };
 
         GradientStops.Add(stop);
-        _draggingThumb = AddStop(stop);
+        _draggingThumb = AddStopThumb(stop);
     }
 
     private void ContainerCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)

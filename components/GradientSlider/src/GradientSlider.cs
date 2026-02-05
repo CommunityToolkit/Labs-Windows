@@ -90,7 +90,7 @@ public partial class GradientSlider : Control
     private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         => SyncThumbs();
 
-    private GradientSliderThumb? AddStop(GradientStop stop)
+    private GradientSliderThumb? AddStopThumb(GradientStop stop)
     {
         if (_containerCanvas is null)
         {
@@ -109,6 +109,7 @@ public partial class GradientSlider : Control
         thumb.DragCompleted += Thumb_DragCompleted;
         thumb.KeyDown += Thumb_KeyDown;
         thumb.Loaded += Thumb_Loaded;
+        thumb.RightTapped += this.Thumb_RightTapped; ;
         var callback = stop.RegisterPropertyChangedCallback(GradientStop.OffsetProperty, OnGradientStopOffsetChanged);
         _stopCallbacks.Add(stop, callback);
 
@@ -119,7 +120,7 @@ public partial class GradientSlider : Control
         return thumb;
     }
 
-    private void RemoveStop(GradientStop stop)
+    private void RemoveStopThumb(GradientStop stop)
     {
         if (_containerCanvas is null)
             return;
@@ -147,7 +148,7 @@ public partial class GradientSlider : Control
         ClearThumbs();
         foreach (var stop in GradientStops)
         {
-            AddStop(stop);
+            AddStopThumb(stop);
         }
 
         SyncBackground();
@@ -156,7 +157,7 @@ public partial class GradientSlider : Control
     private void ClearThumbs()
     {
         foreach (var (stop, _) in _stopThumbs)
-            RemoveStop(stop);
+            RemoveStopThumb(stop);
     }
 
     private void SyncThumbs()
