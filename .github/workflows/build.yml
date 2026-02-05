@@ -24,7 +24,8 @@ on:
   merge_group:
 
 env:
-  DOTNET_VERSION: ${{ '9.0.x' }}
+  DOTNET_VERSION: '9.0.310'  # Only used by jobs that cannot access global.json (no checkout/artifact-only jobs)
+
   ENABLE_DIAGNOSTICS: true
   #COREHOST_TRACE: 1
   MSBUILD_VERBOSITY: normal
@@ -40,11 +41,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -53,6 +49,11 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 0
           fetch-tags: true
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -145,11 +146,11 @@ jobs:
           Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpCount' -Type DWord -Value '10'
           Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps' -Name 'DumpType' -Type DWord -Value '2'
 
-      - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
+      - name: Install .NET SDK
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: global.json
 
       - name: .NET Info (if diagnostics)
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
@@ -270,15 +271,6 @@ jobs:
       VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/') || startsWith(github.ref, 'refs/tags/release/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     steps:
-      - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: .NET Info (if diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
-        run: dotnet --info
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -287,7 +279,16 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 0
           fetch-tags: true
-          
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: .NET Info (if diagnostics)
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
+        run: dotnet --info
+
       - name: Format Date/Time for Package Version (Tag builds only)
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
@@ -396,7 +397,7 @@ jobs:
         winui: [0, 2, 3]
 
     steps:
-      - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
@@ -461,7 +462,7 @@ jobs:
         winui: [0, 2, 3]
 
     steps:
-      - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
@@ -486,15 +487,6 @@ jobs:
       HEADS_DIRECTORY: tooling/ProjectHeads
 
     steps:
-      - name: Install .NET SDK v${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: .NET Info (if diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
-        run: dotnet --info
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -503,6 +495,15 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 0
           fetch-tags: true
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: .NET Info (if diagnostics)
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
+        run: dotnet --info
 
       # Restore Tools from Manifest list in the Repository
       - name: Restore dotnet tools
@@ -530,3 +531,5 @@ jobs:
         with:
           name: linux-logs
           path: ./**/*.*log
+
+
