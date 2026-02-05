@@ -80,6 +80,10 @@ public partial class GradientSlider
         if (sender is not GradientSliderThumb thumb)
             return;
 
+        // Prevent removing the last stop
+        if (GradientStops.Count <= 1)
+            return;
+
         var stop = thumb.GradientStop;
         GradientStops.Remove(stop);
         RemoveStopThumb(stop);
