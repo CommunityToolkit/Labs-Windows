@@ -92,10 +92,31 @@ internal class MyImage : IAddChild
         if (_loaded) return;
         try
         {
+            // Track whether we have valid natural dimensions to constrain against
+            bool hasNaturalWidth = false;
+            bool hasNaturalHeight = false;
+
             if (_imageProvider != null && _imageProvider.ShouldUseThisProvider(_uri.AbsoluteUri))
             {
                 _image = await _imageProvider.GetImage(_uri.AbsoluteUri);
                 _container.Child = _image;
+                
+                // Capture natural dimensions as max constraints from the provider image
+                // Then clear fixed Width/Height so images can shrink responsively
+                if (_image.Width > 0 && !double.IsNaN(_image.Width) && !double.IsInfinity(_image.Width))
+                {
+                    _image.MaxWidth = _image.Width;
+                    _image.Width = double.NaN; // Clear fixed width to allow shrinking
+                    hasNaturalWidth = true;
+                }
+                if (_image.Height > 0 && !double.IsNaN(_image.Height) && !double.IsInfinity(_image.Height))
+                {
+                    _image.MaxHeight = _image.Height;
+                    _image.Height = double.NaN; // Clear fixed height to allow shrinking
+                    hasNaturalHeight = true;
+                }
+                
+                _loaded = true;
             }
             else
             {
@@ -137,53 +158,50 @@ internal class MyImage : IAddChild
                         await bitmap.SetSourceAsync(stream);
                     }
                     _image.Source = bitmap;
-                    _image.Width = bitmap.PixelWidth == 0 ? bitmap.DecodePixelWidth : bitmap.PixelWidth;
-                    _image.Height = bitmap.PixelHeight == 0 ? bitmap.DecodePixelHeight : bitmap.PixelHeight;
+                    // Don't set fixed Width/Height - let layout system handle it
+                    // Store natural dimensions for MaxWidth/MaxHeight constraints
+                    double naturalWidth = bitmap.PixelWidth == 0 ? bitmap.DecodePixelWidth : bitmap.PixelWidth;
+                    double naturalHeight = bitmap.PixelHeight == 0 ? bitmap.DecodePixelHeight : bitmap.PixelHeight;
 
+                    // Use natural size as max constraint so image doesn't upscale
+                    if (naturalWidth > 0)
+                    {
+                        _image.MaxWidth = naturalWidth;
+                        hasNaturalWidth = true;
+                    }
+                    if (naturalHeight > 0)
+                    {
+                        _image.MaxHeight = naturalHeight;
+                        hasNaturalHeight = true;
+                    }
                 }
 
                 _loaded = true;
             }
 
-            // Determine the actual image dimensions
-            double actualWidth = _precedentWidth != 0 ? _precedentWidth : _image.Width;
-            double actualHeight = _precedentHeight != 0 ? _precedentHeight : _image.Height;
-
-            // Apply max constraints and calculate the final size
-            // When using Uniform stretch with max constraints, we need to calculate
-            // the actual rendered size to avoid gaps
-            double finalWidth = actualWidth;
-            double finalHeight = actualHeight;
-
-            bool hasMaxWidth = _themes.ImageMaxWidth > 0;
-            bool hasMaxHeight = _themes.ImageMaxHeight > 0;
-
-            if (hasMaxWidth || hasMaxHeight)
+            // Apply precedent (markdown-specified) dimensions if provided
+            // Precedent always takes priority and sets a known dimension
+            if (_precedentWidth != 0)
             {
-                double scaleX = hasMaxWidth && actualWidth > _themes.ImageMaxWidth 
-                    ? _themes.ImageMaxWidth / actualWidth 
-                    : 1.0;
-                double scaleY = hasMaxHeight && actualHeight > _themes.ImageMaxHeight 
-                    ? _themes.ImageMaxHeight / actualHeight 
-                    : 1.0;
-
-                // For Uniform stretch, use the smaller scale to maintain aspect ratio
-                if (_themes.ImageStretch == Stretch.Uniform || _themes.ImageStretch == Stretch.UniformToFill)
-                {
-                    double uniformScale = Math.Min(scaleX, scaleY);
-                    finalWidth = actualWidth * uniformScale;
-                    finalHeight = actualHeight * uniformScale;
-                }
-                else
-                {
-                    // For other stretch modes, apply constraints independently
-                    finalWidth = actualWidth * scaleX;
-                    finalHeight = actualHeight * scaleY;
-                }
+                _image.MaxWidth = _precedentWidth;
+                hasNaturalWidth = true;
+            }
+            if (_precedentHeight != 0)
+            {
+                _image.MaxHeight = _precedentHeight;
+                hasNaturalHeight = true;
             }
 
-            _image.Width = finalWidth;
-            _image.Height = finalHeight;
+            // Apply theme constraints - only if we have a known dimension to constrain
+            // This prevents theme constraints from enlarging images with unknown natural size
+            if (_themes.ImageMaxWidth > 0 && hasNaturalWidth && _themes.ImageMaxWidth < _image.MaxWidth)
+            {
+                _image.MaxWidth = _themes.ImageMaxWidth;
+            }
+            if (_themes.ImageMaxHeight > 0 && hasNaturalHeight && _themes.ImageMaxHeight < _image.MaxHeight)
+            {
+                _image.MaxHeight = _themes.ImageMaxHeight;
+            }
             _image.Stretch = _themes.ImageStretch;
         }
         catch (Exception) { }
