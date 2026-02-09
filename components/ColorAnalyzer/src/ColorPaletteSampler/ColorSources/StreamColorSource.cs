@@ -15,7 +15,7 @@ public class StreamColorSource : ColorSource
     /// Gets the <see cref="DependencyProperty"/> for the <see cref="Source"/> property.
     /// </summary>
     public static readonly DependencyProperty SourceProperty =
-        DependencyProperty.Register(nameof(Source), typeof(UIElement), typeof(StreamColorSource), new PropertyMetadata(null, OnSourceChanged));
+        DependencyProperty.Register(nameof(Source), typeof(Stream), typeof(StreamColorSource), new PropertyMetadata(null, OnSourceChanged));
 
     /// <summary>
     /// Gets or sets the <see cref="UIElement"/> source sampled for a color palette.
