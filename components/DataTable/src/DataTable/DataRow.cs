@@ -64,9 +64,6 @@ public partial class DataRow : Panel
             _isTreeView = itemsPresenter.FindAscendant<TreeView>() is TreeView;
         }
 
-        // 1b. If we can't find the ItemsPresenter, then we reach up outside to find the next thing we could use as a parent
-        panel ??= this.FindAscendant<Panel>(static (element) => element is Grid or DataTable);
-
         // Cache actual datatable reference
         if (panel is DataTable table)
         {
