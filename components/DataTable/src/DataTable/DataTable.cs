@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Runtime.CompilerServices;
-
 namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
@@ -42,7 +40,9 @@ public partial class DataTable : Panel
     /// Gets the <see cref="ColumnSpacing"/> <see cref="DependencyProperty"/>.
     /// </summary>
     public static readonly DependencyProperty ColumnSpacingProperty =
-        DependencyProperty.Register(nameof(ColumnSpacing), typeof(double), typeof(DataTable), new PropertyMetadata(0d));
+        DependencyProperty.Register(
+            nameof(ColumnSpacing), typeof(double), typeof(DataTable),
+            new PropertyMetadata(0d));
 
     /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)

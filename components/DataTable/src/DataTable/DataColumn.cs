@@ -17,12 +17,14 @@ public partial class DataColumn : ContentControl
     private WeakReference<DataTable>? _parent;
 
     /// <summary>
-    /// Gets or sets the width of the largest child contained within the visible <see cref="DataRow"/>s of the <see cref="DataTable"/>.
+    /// Gets or sets the width of the largest child contained within the visible <see cref="DataRow"/>s
+    /// of the <see cref="DataTable"/>.
     /// </summary>
     internal double MaxChildDesiredWidth { get; set; }
 
     /// <summary>
-    /// Gets or sets the internal copy of the <see cref="DesiredWidth"/> property to be used in calculations, this gets manipulated in Auto-Size mode.
+    /// Gets or sets the internal copy of the <see cref="DesiredWidth"/> property to be used in calculations,
+    /// this gets manipulated in Auto-Size mode.
     /// </summary>
     internal GridLength CurrentWidth { get; private set; }
 
@@ -39,10 +41,13 @@ public partial class DataColumn : ContentControl
     /// Identifies the <see cref="CanResize"/> property.
     /// </summary>
     public static readonly DependencyProperty CanResizeProperty =
-        DependencyProperty.Register("CanResize", typeof(bool), typeof(DataColumn), new PropertyMetadata(false));
+        DependencyProperty.Register(
+            nameof(CanResize), typeof(bool), typeof(DataColumn),
+            new PropertyMetadata(false));
 
     /// <summary>
-    /// Gets or sets the desired width of the column upon initialization. Defaults to a <see cref="GridLength"/> of 1 <see cref="GridUnitType.Star"/>.
+    /// Gets or sets the desired width of the column upon initialization. Defaults to a <see cref="GridLength"/>
+    /// of 1 <see cref="GridUnitType.Star"/>.
     /// </summary>
     public GridLength DesiredWidth
     {
@@ -54,7 +59,9 @@ public partial class DataColumn : ContentControl
     /// Identifies the <see cref="DesiredWidth"/> property.
     /// </summary>
     public static readonly DependencyProperty DesiredWidthProperty =
-        DependencyProperty.Register(nameof(DesiredWidth), typeof(GridLength), typeof(DataColumn), new PropertyMetadata(GridLength.Auto, DesiredWidth_PropertyChanged));
+        DependencyProperty.Register(
+            nameof(DesiredWidth), typeof(GridLength), typeof(DataColumn),
+            new PropertyMetadata(GridLength.Auto, DesiredWidth_PropertyChanged));
 
     private static void DesiredWidth_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -118,8 +125,8 @@ public partial class DataColumn : ContentControl
         CurrentWidth = new(this.ActualWidth);
 
         // Notify the rest of the table to update
-        if (_parent?.TryGetTarget(out DataTable? parent) == true
-            && parent != null)
+        if (_parent?.TryGetTarget(out DataTable? parent) == true &&
+            parent != null)
         {
             parent.ColumnResized();
         }

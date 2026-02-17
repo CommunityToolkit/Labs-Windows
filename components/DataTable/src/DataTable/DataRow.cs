@@ -42,7 +42,8 @@ public partial class DataRow : Panel
         //       Positive: don't have to restart climbing the Visual Tree if we don't find ItemsPresenter...
         ////var parent = this.FindAscendant<FrameworkElement>(static (element) => element is ItemsPresenter or Grid);
 
-        // TODO: Investigate what a scenario with an ItemsRepeater would look like (with a StackLayout, but using DataRow as the item's panel inside)
+        // TODO: Investigate what a scenario with an ItemsRepeater would look like (with a StackLayout, but
+        //       using DataRow as the item's panel inside)
         Panel? panel = null;
 
         // 1a. Get parent ItemsPresenter to find header
@@ -93,8 +94,8 @@ public partial class DataRow : Panel
                 return new Size(availableSize.Width, Children[0].DesiredSize.Height);
             }
             // Handle DataTable Parent
-            else if (_parentTable != null
-                     && _parentTable.Children.Count == Children.Count)
+            else if (_parentTable != null &&
+                     _parentTable.Children.Count == Children.Count)
             {
                 // TODO: Need to check visibility
                 // Measure all children since we need to determine the row's height at minimum
@@ -115,7 +116,8 @@ public partial class DataRow : Panel
                             if (parentContainer != null)
                             {
                                 _treePadding = parentContainer.Padding.Left;
-                                // We assume our 'DataRow' is in the last child slot of the Grid, need to know how large the other columns are.
+                                // We assume our 'DataRow' is in the last child slot of the Grid, need to know
+                                // how large the other columns are.
                                 for (int j = 0; j < parentContainer.Children.Count - 1; j++)
                                 {
                                     // TODO: We may need to get the actual size here later in Arrange?
@@ -148,9 +150,9 @@ public partial class DataRow : Panel
                 }
             }
             // Fallback for Grid Hybrid scenario...
-            else if (_parentPanel is Grid grid
-                     && _parentPanel.Children.Count == Children.Count
-                     && grid.ColumnDefinitions.Count == Children.Count)
+            else if (_parentPanel is Grid grid &&
+                     _parentPanel.Children.Count == Children.Count &&
+                     grid.ColumnDefinitions.Count == Children.Count)
             {
                 // TODO: Need to check visibility
                 // Measure all children since we need to determine the row's height at minimum
@@ -204,7 +206,8 @@ public partial class DataRow : Panel
                     width = (table.Children[column++] as DataColumn)?.ActualWidth ?? 0;
                 }
 
-                // Note: For Auto, since we measured our children and bubbled that up to the DataTable layout, then the DataColumn size we grab above should account for the largest of our children.
+                // Note: For Auto, since we measured our children and bubbled that up to the DataTable layout,
+                //       then the DataColumn size we grab above should account for the largest of our children.
                 if (i == 0)
                 {
                     child.Arrange(new Rect(x, 0, width, finalSize.Height));
