@@ -74,16 +74,29 @@ public partial class DataRow : Panel
 
         double maxHeight = 0;
 
-        if (Children.Count > 0)
+        // If we don't have a DataTable, just layout children like a horizontal StackPanel.
+        if (_parentTable is null)
         {
-            // If we don't have a grid, just measure first child to get row height and take available space
-            if (_parentTable is null)
+            double totalWidth = 0;
+
+            for (int i = 0; i < Children.Count; i++)
             {
-                Children[0].Measure(availableSize);
-                return new Size(availableSize.Width, Children[0].DesiredSize.Height);
+                var child = Children[i];
+                if (child?.Visibility != Visibility.Visible)
+                    continue;
+
+                child.Measure(availableSize);
+
+                totalWidth += child.DesiredSize.Width;
+                maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
             }
-            // Handle DataTable Parent
-            else if (_parentTable.Children.Count == Children.Count)
+
+            return new Size(totalWidth, maxHeight);
+        }
+        // Handle DataTable Parent
+        else
+        {
+            if (_parentTable.Children.Count == Children.Count)
             {
                 // TODO: Need to check visibility
                 // Measure all children since we need to determine the row's height at minimum
@@ -148,16 +161,34 @@ public partial class DataRow : Panel
     /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
-        int column = 0;
-        double x = 0;
-
-        // Try and grab Column Spacing from DataTable, if not a parent Grid, if not 0.
-        double spacing = _parentTable?.ColumnSpacing ?? 0;
-
-        double width = 0;
-
-        if (_parentTable != null)
+        // If we don't have DataTable, just layout children like a horizontal StackPanel.
+        if (_parentTable is null)
         {
+            double x = 0;
+
+            for (int i = 0; i < Children.Count; i++)
+            {
+                var child = Children[i];
+                if (child?.Visibility != Visibility.Visible)
+                    continue;
+
+                double width = child.DesiredSize.Width;
+
+                child.Arrange(new Rect(x, 0, width, finalSize.Height));
+
+                x += width;
+            }
+
+            return new Size(x, finalSize.Height);
+        }
+        // Handle DataTable Parent
+        else
+        {
+            int column = 0;
+            double x = 0;
+            double spacing = _parentTable.ColumnSpacing;
+            double width = 0;
+
             int i = 0;
             foreach (UIElement child in Children.Where(static e => e.Visibility == Visibility.Visible))
             {
@@ -186,7 +217,5 @@ public partial class DataRow : Panel
 
             return new Size(x - spacing, finalSize.Height);
         }
-
-        return finalSize;
     }
 }
