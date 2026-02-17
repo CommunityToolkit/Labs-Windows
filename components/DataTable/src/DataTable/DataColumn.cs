@@ -4,6 +4,9 @@
 
 namespace CommunityToolkit.WinUI.Controls;
 
+/// <summary>
+/// Represents a <see cref="DataTable"/> column.
+/// </summary>
 [TemplatePart(Name = nameof(PART_ColumnSizer), Type = typeof(ContentSizer))]
 public partial class DataColumn : ContentControl
 {
@@ -70,11 +73,15 @@ public partial class DataColumn : ContentControl
         }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataColumn"/> class.
+    /// </summary>
     public DataColumn()
     {
         this.DefaultStyleKey = typeof(DataColumn);
     }
 
+    /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
         if (PART_ColumnSizer != null)

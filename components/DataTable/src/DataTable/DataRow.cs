@@ -6,6 +6,9 @@ using TreeView = Microsoft.UI.Xaml.Controls.TreeView;
 
 namespace CommunityToolkit.WinUI.Controls;
 
+/// <summary>
+/// Represents a <see cref="DataTable"/> row.
+/// </summary>
 public partial class DataRow : Panel
 {
     // TODO: Create our own helper class here for the Header as well vs. straight-Grid.
@@ -16,6 +19,9 @@ public partial class DataRow : Panel
     private bool _isTreeView;
     private double _treePadding;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataRow"/> class.
+    /// </summary>
     public DataRow()
     {
         Unloaded += this.DataRow_Unloaded;
@@ -67,6 +73,7 @@ public partial class DataRow : Panel
         return panel;
     }
 
+    /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
         // We should probably only have to do this once ever?
@@ -179,6 +186,7 @@ public partial class DataRow : Panel
         return new(_parentPanel?.DesiredSize.Width ?? availableSize.Width, maxHeight);
     }
 
+    /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
         // If we don't have a grid, just layout children like a horizontal StackPanel.
@@ -219,7 +227,7 @@ public partial class DataRow : Panel
                 if (_parentPanel is Grid grid &&
                     column < grid.ColumnDefinitions.Count)
                 {
-                    width = grid.ColumnDefinitions[column++].ActualWidth;                    
+                    width = grid.ColumnDefinitions[column++].ActualWidth;
                 }
                 // TODO: Need to check Column visibility here as well...
                 else if (_parentPanel is DataTable table &&

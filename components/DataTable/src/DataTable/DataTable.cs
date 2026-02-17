@@ -44,6 +44,7 @@ public partial class DataTable : Panel
     public static readonly DependencyProperty ColumnSpacingProperty =
         DependencyProperty.Register(nameof(ColumnSpacing), typeof(double), typeof(DataTable), new PropertyMetadata(0d));
 
+    /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
         double fixedWidth = 0;
@@ -107,6 +108,7 @@ public partial class DataTable : Panel
         return new Size(availableSize.Width, maxHeight);
     }
 
+    /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
         double fixedWidth = 0;
