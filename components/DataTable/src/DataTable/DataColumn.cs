@@ -16,6 +16,8 @@ public partial class DataColumn : ContentControl
 
     private WeakReference<DataTable>? _parent;
 
+    internal DataTable? DataTable => _parent?.TryGetTarget(out DataTable? parent) == true ? parent : null;
+
     /// <summary>
     /// Gets or sets the width of the largest child contained within the visible <see cref="DataRow"/>s
     /// of the <see cref="DataTable"/>.
@@ -27,6 +29,12 @@ public partial class DataColumn : ContentControl
     /// this gets manipulated in Auto-Size mode.
     /// </summary>
     internal GridLength CurrentWidth { get; private set; }
+
+    internal bool IsAbsolute => CurrentWidth.IsAbsolute;
+
+    internal bool IsAuto => CurrentWidth.IsAuto;
+
+    internal bool IsStar => CurrentWidth.IsStar;
 
     /// <summary>
     /// Gets or sets whether the column can be resized by the user.
@@ -125,10 +133,6 @@ public partial class DataColumn : ContentControl
         CurrentWidth = new(this.ActualWidth);
 
         // Notify the rest of the table to update
-        if (_parent?.TryGetTarget(out DataTable? parent) == true &&
-            parent != null)
-        {
-            parent.ColumnResized();
-        }
+        DataTable?.ColumnResized();
     }
 }
