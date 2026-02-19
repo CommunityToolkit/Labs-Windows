@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Runtime.CompilerServices;
-
 namespace CommunityToolkit.WinUI.Controls;
 
 /// <summary>
@@ -12,15 +10,12 @@ namespace CommunityToolkit.WinUI.Controls;
 /// </summary>
 public partial class DataTable : Panel
 {
-    // TODO: We should cache this result and update if column properties change
-    internal bool IsAnyColumnAuto => Children.Any(static e => e is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto });
-
     // TODO: Check with Sergio if there's a better structure here, as I don't need a Dictionary like ConditionalWeakTable
     internal HashSet<DataRow> Rows { get; private set; } = new();
 
     internal void ColumnResized()
     {
-        InvalidateArrange();
+        InvalidateMeasure();
 
         foreach (var row in Rows)
         {
@@ -42,123 +37,164 @@ public partial class DataTable : Panel
     /// Gets the <see cref="ColumnSpacing"/> <see cref="DependencyProperty"/>.
     /// </summary>
     public static readonly DependencyProperty ColumnSpacingProperty =
-        DependencyProperty.Register(nameof(ColumnSpacing), typeof(double), typeof(DataTable), new PropertyMetadata(0d));
+        DependencyProperty.Register(
+            nameof(ColumnSpacing), typeof(double), typeof(DataTable),
+            new PropertyMetadata(0d));
 
+    /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
-        double fixedWidth = 0;
-        double proportionalUnits = 0;
-        double autoSized = 0;
+        //Debug.WriteLine($"DataTable.MeasureOverride");
 
+        int starRemains = 0;
+        double starAmounts = 0;
+
+        double columnSpacing = ColumnSpacing;
+        double totalWidth = double.NaN;
         double maxHeight = 0;
 
-        var elements = Children.Where(static e => e.Visibility == Visibility.Visible && e is DataColumn);
+        bool invokeRowsMeasures = false;
 
-        // We only need to measure elements that are visible
-        foreach (DataColumn column in elements)
+        for (int i = 0; i < Children.Count; i++)
         {
-            if (column.CurrentWidth.IsStar)
-            {
-                proportionalUnits += column.DesiredWidth.Value;
-            }
-            else if (column.CurrentWidth.IsAbsolute)
-            {
-                fixedWidth += column.DesiredWidth.Value;
-            }
-        }
+            // We only need to measure children that are visible
+            var column = Children[i] as DataColumn;
+            if (column?.Visibility != Visibility.Visible)
+                continue;
 
-        // Add in spacing between columns to our fixed size allotment
-        fixedWidth += (elements.Count() - 1) * ColumnSpacing;
-
-        // TODO: Handle infinite width?
-        var proportionalAmount = (availableSize.Width - fixedWidth) / proportionalUnits;
-
-        foreach (DataColumn column in elements)
-        {
-            if (column.CurrentWidth.IsStar)
-            {
-                column.Measure(new Size(proportionalAmount * column.CurrentWidth.Value, availableSize.Height));
-            }
-            else if (column.CurrentWidth.IsAbsolute)
-            {
-                column.Measure(new Size(column.CurrentWidth.Value, availableSize.Height));
-            }
+            if (double.IsNaN(totalWidth))
+                totalWidth = 0;
             else
+                totalWidth += columnSpacing;
+
+            double width = column.ActualCurrentWidth;
+
+            if (column.IsStarProportion)
             {
-                // TODO: Technically this is using 'Auto' on the Header content
-                // What the developer probably intends is it to be adjusted based on the contents of the rows...
-                // To enable this scenario, we'll need to actually measure the contents of the rows for that column
-                // in DataRow and figure out the maximum size to report back and adjust here in some sort of hand-shake
-                // for the layout process... (i.e. get the data in the measure step, use it in the arrange step here,
-                // then invalidate the child arranges [don't re-measure and cause loop]...)
+                ++starRemains;
+                starAmounts += column.DesiredWidth.Value;
+                continue;
+            }
+            else if (column.IsStar)
+            {
+                starAmounts += column.DesiredWidth.Value;
+                //Debug.WriteLine($"  Column[{i}] ({column.DesiredWidth}) width is fixed to: {width}");
 
-                // For now, we'll just use the header content as a guideline to see if things work.
+                // If availableSize.Width is infinite, the column will also get infinite available width.
+                column.Measure(new Size(width, availableSize.Height));
+            }
+            else if (column.IsAbsolute)
+            {
+                // column.CurrentWidth is already set in DesiredWidth_PropertyChanged.
+                //Debug.WriteLine($"  Column[{i}] ({column.DesiredWidth}) width is fixed to: {width}");
 
-                // Avoid negative values when columns don't fit `availableSize`. Otherwise the `Size` constructor will throw.
-                column.Measure(new Size(Math.Max(availableSize.Width - fixedWidth - autoSized, 0), availableSize.Height));
+                column.Measure(new Size(width, availableSize.Height));
+            }
+            else // (column.IsAuto)
+            {
+                if (column.IsAutoFit)
+                {
+                    // Calculate the best width of the header content.
+                    column.Measure(new Size(double.PositiveInfinity, availableSize.Height));
 
-                // Keep track of already 'allotted' space, use either the maximum child size (if we know it) or the header content
-                autoSized += Math.Max(column.DesiredSize.Width, column.MaxChildDesiredWidth);
+                    width = column.DesiredSize.Width;
+                    foreach (var row in Rows)
+                    {
+                        if (i < row.Children.Count)
+                        {
+                            var child = row.Children[i];
+
+                            var childWidth = child.DesiredSize.Width;
+                            if (i == 0)
+                                childWidth += row.TreePadding;
+
+                            width = Math.Max(width, childWidth);
+                        }
+                    }
+                    //Debug.WriteLine($"  Column[{i}] ({column.DesiredWidth}) width is adjusted to: {width}");
+
+                    // The column width of the corresponding cell in each row
+                    // is taken into account in the next layout pass.
+                    invokeRowsMeasures = true;
+
+                    // Store the calculated column width as a negative value.
+                    column.CurrentWidth = -width;
+                }
+                else
+                {
+                    //Debug.WriteLine($"  Column[{i}] ({column.DesiredWidth}) width is fixed to: {width}");
+
+                    column.Measure(new Size(width, availableSize.Height));
+                }
             }
 
+            totalWidth += width;
             maxHeight = Math.Max(maxHeight, column.DesiredSize.Height);
         }
 
-        return new Size(availableSize.Width, maxHeight);
-    }
+        if (double.IsNaN(totalWidth))
+            return new Size(0, 0);
 
-    protected override Size ArrangeOverride(Size finalSize)
-    {
-        double fixedWidth = 0;
-        double proportionalUnits = 0;
-        double autoSized = 0;
-
-        var elements = Children.Where(static e => e.Visibility == Visibility.Visible && e is DataColumn);
-
-        // We only need to measure elements that are visible
-        foreach (DataColumn column in elements)
+        double starUnit = Math.Max(0, availableSize.Width - totalWidth) / starAmounts;
+        for (int i = 0; starRemains != 0; i++)
         {
-            if (column.CurrentWidth.IsStar)
+            var column = Children[i] as DataColumn;
+            if (column?.Visibility != Visibility.Visible)
+                continue;
+
+            if (column.IsStarProportion)
             {
-                proportionalUnits += column.CurrentWidth.Value;
-            }
-            else if (column.CurrentWidth.IsAbsolute)
-            {
-                fixedWidth += column.CurrentWidth.Value;
-            }
-            else
-            {
-                autoSized += Math.Max(column.DesiredSize.Width, column.MaxChildDesiredWidth);
+                --starRemains;
+
+                // If the column width needs to be calculated, get the proportion of the remained space.
+                double width = starUnit * column.DesiredWidth.Value;
+                //Debug.WriteLine($"  Column[{i}] ({column.DesiredWidth}) width is adjusted to: {width}");
+
+                // If availableSize.Width is infinite, the column will also get infinite available width.
+                column.Measure(new Size(width, availableSize.Height));
+
+                // Store the calculated column width as a negative value.
+                column.CurrentWidth = -width;
+
+                totalWidth += width;
+                maxHeight = Math.Max(maxHeight, column.DesiredSize.Height);
             }
         }
 
-        // TODO: Handle infinite width?
-        // TODO: This can go out of bounds or something around here when pushing a resized column to the right...
-        var proportionalAmount = (finalSize.Width - fixedWidth - autoSized) / proportionalUnits;
-
-        double width = 0;
-        double x = 0;
-
-        foreach (DataColumn column in elements)
+        if (invokeRowsMeasures)
         {
-            if (column.CurrentWidth.IsStar)
-            {
-                width = proportionalAmount * column.CurrentWidth.Value;
-                column.Arrange(new Rect(x, 0, width, finalSize.Height));
-            }
-            else if (column.CurrentWidth.IsAbsolute)
-            {
-                width = column.CurrentWidth.Value;
-                column.Arrange(new Rect(x, 0, width, finalSize.Height));
-            }
-            else
-            {
-                // TODO: We use the comparison of sizes a lot, should we cache in the DataColumn itself?
-                width = Math.Max(column.DesiredSize.Width, column.MaxChildDesiredWidth);
-                column.Arrange(new Rect(x, 0, width, finalSize.Height));
-            }
+            foreach (var row in Rows)
+                row.InvalidateMeasure();
+        }
 
-            x += width + ColumnSpacing;
+        return new Size(totalWidth, maxHeight);
+    }
+
+    /// <inheritdoc/>
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        //Debug.WriteLine($"DataTable.ArrangeOverride");
+
+        double columnSpacing = ColumnSpacing;
+        double x = double.NaN;
+
+        for (int i = 0; i < Children.Count; i++)
+        {
+            // We only need to measure children that are visible
+            var column = Children[i] as DataColumn;
+            if (column?.Visibility != Visibility.Visible)
+                continue;
+
+            if (double.IsNaN(x))
+                x = 0;
+            else
+                x += columnSpacing;
+
+            double width = column.ActualCurrentWidth;
+
+            column.Arrange(new Rect(x, 0, width, finalSize.Height));
+
+            x += width;
         }
 
         return finalSize;
