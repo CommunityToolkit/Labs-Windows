@@ -13,7 +13,6 @@ public partial class DataRow : Panel
 {
     // TODO: Create our own helper class here for the Header as well vs. straight-Grid.
     // TODO: WeakReference?
-    private Panel? _parentPanel;
     private DataTable? _parentTable;
 
     private bool _isTreeView;
@@ -32,10 +31,9 @@ public partial class DataRow : Panel
         // Remove our references on unloaded
         _parentTable?.Rows.Remove(this);
         _parentTable = null;
-        _parentPanel = null;
     }
 
-    private Panel? InitializeParentHeaderConnection()
+    private DataTable? InitializeParentHeaderConnection()
     {
         // TODO: Think about this expression instead...
         //       Drawback: Can't have Grid between table and header
@@ -49,15 +47,9 @@ public partial class DataRow : Panel
         // 1a. Get parent ItemsPresenter to find header
         if (this.FindAscendant<ItemsPresenter>() is ItemsPresenter itemsPresenter)
         {
-            // 2. Quickly check if the header is just what we're looking for.
-            if (itemsPresenter.Header is Grid or DataTable)
+            if (itemsPresenter.Header is DependencyObject header)
             {
-                panel = itemsPresenter.Header as Panel;
-            }
-            else
-            {
-                // 3. Otherwise, try and find the inner thing we want.
-                panel = itemsPresenter.FindDescendant<Panel>(static (element) => element is Grid or DataTable);
+                panel = header.FindDescendantOrSelf<DataTable>();
             }
 
             // Check if we're in a TreeView
@@ -71,28 +63,27 @@ public partial class DataRow : Panel
             _parentTable.Rows.Add(this); // Add us to the row list.
         }
 
-        return panel;
+        return _parentTable;
     }
 
     /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
         // We should probably only have to do this once ever?
-        _parentPanel ??= InitializeParentHeaderConnection();
+        _parentTable ??= InitializeParentHeaderConnection();
 
         double maxHeight = 0;
 
         if (Children.Count > 0)
         {
             // If we don't have a grid, just measure first child to get row height and take available space
-            if (_parentPanel is null)
+            if (_parentTable is null)
             {
                 Children[0].Measure(availableSize);
                 return new Size(availableSize.Width, Children[0].DesiredSize.Height);
             }
             // Handle DataTable Parent
-            else if (_parentTable != null &&
-                     _parentTable.Children.Count == Children.Count)
+            else if (_parentTable.Children.Count == Children.Count)
             {
                 // TODO: Need to check visibility
                 // Measure all children since we need to determine the row's height at minimum
@@ -146,32 +137,12 @@ public partial class DataRow : Panel
                     maxHeight = Math.Max(maxHeight, Children[i].DesiredSize.Height);
                 }
             }
-            // Fallback for Grid Hybrid scenario...
-            else if (_parentPanel is Grid grid &&
-                     _parentPanel.Children.Count == Children.Count &&
-                     grid.ColumnDefinitions.Count == Children.Count)
-            {
-                // TODO: Need to check visibility
-                // Measure all children since we need to determine the row's height at minimum
-                for (int i = 0; i < Children.Count; i++)
-                {
-                    if (grid.ColumnDefinitions[i].Width.GridUnitType == GridUnitType.Pixel)
-                    {
-                        Children[i].Measure(new(grid.ColumnDefinitions[i].Width.Value, availableSize.Height));
-                    }
-                    else
-                    {
-                        Children[i].Measure(availableSize);
-                    }
 
-                    maxHeight = Math.Max(maxHeight, Children[i].DesiredSize.Height);
-                }
-            }
             // TODO: What do we want to do if there's unequal children in the DataTable vs. DataRow?
         }
 
         // Otherwise, return our parent's size as the desired size.
-        return new(_parentPanel?.DesiredSize.Width ?? availableSize.Width, maxHeight);
+        return new(_parentTable?.DesiredSize.Width ?? availableSize.Width, maxHeight);
     }
 
     /// <inheritdoc/>
@@ -181,26 +152,20 @@ public partial class DataRow : Panel
         double x = 0;
 
         // Try and grab Column Spacing from DataTable, if not a parent Grid, if not 0.
-        double spacing = _parentTable?.ColumnSpacing ?? (_parentPanel as Grid)?.ColumnSpacing ?? 0;
+        double spacing = _parentTable?.ColumnSpacing ?? 0;
 
         double width = 0;
 
-        if (_parentPanel != null)
+        if (_parentTable != null)
         {
             int i = 0;
             foreach (UIElement child in Children.Where(static e => e.Visibility == Visibility.Visible))
             {
-                if (_parentPanel is Grid grid &&
-                    column < grid.ColumnDefinitions.Count)
-                {
-                    width = grid.ColumnDefinitions[column++].ActualWidth;
-                }
                 // TODO: Need to check Column visibility here as well...
-                else if (_parentPanel is DataTable table &&
-                    column < table.Children.Count)
+                if (column < _parentTable.Children.Count)
                 {
                     // TODO: This is messy...
-                    width = (table.Children[column++] as DataColumn)?.ActualWidth ?? 0;
+                    width = (_parentTable.Children[column++] as DataColumn)?.ActualWidth ?? 0;
                 }
 
                 // Note: For Auto, since we measured our children and bubbled that up to the DataTable layout,

@@ -36,14 +36,6 @@ can be made to look like a table of data:
 There are limitations here with having fixed column sizes that can be difficult to align. Their definitions are
 also duplicated, and every item is recreating this layout and duplicating it within the Visual Tree.
 
-## DataRow Hybrid Setup
-
-As a first step, moving to **DataTable** is easy, just replace the `Grid` in your `ItemsTemplate` with the `DataRow` panel
-and remove the Column attributes from your controls. `DataRow` automatically will lay each subsequent control in the next column
-for you automatically:
-
-> [!Sample DataTableHybridSample]
-
 ## DataTable Setup
 
 The `DataTable` setup provides an easier way to define and manage your columns within your header for this coordinated effort
