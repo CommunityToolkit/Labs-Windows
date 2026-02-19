@@ -16,7 +16,7 @@ public partial class DataRow : Panel
     private DataTable? _parentTable;
 
     private bool _isTreeView;
-    private double _treePadding;
+    internal double TreePadding { get; private set; }
 
     /// <summary>
     /// Constructor.
@@ -69,6 +69,8 @@ public partial class DataRow : Panel
     /// <inheritdoc/>
     protected override Size MeasureOverride(Size availableSize)
     {
+        //Debug.WriteLine($"DataRow.MeasureOverride");
+
         // We should probably only have to do this once ever?
         _parentTable ??= InitializeParentHeaderConnection();
 
@@ -106,55 +108,53 @@ public partial class DataRow : Panel
                 if (column?.Visibility != Visibility.Visible)
                     continue;
 
-                if (column.IsAuto)
+                // For TreeView in the first column, we want the header to expand to encompass
+                // the maximum indentation of the tree.
+                //// TODO: We only want/need to do this once? We may want to do if we're not an Auto column too...?
+                if (i == 0 && _isTreeView)
                 {
-                    child.Measure(availableSize);
-
-                    // For TreeView in the first column, we want the header to expand to encompass
-                    // the maximum indentation of the tree.
-                    double padding = 0;
-                    //// TODO: We only want/need to do this once? We may want to do if we're not an Auto column too...?
-                    if (i == 0 && _isTreeView)
+                    // Get our containing grid from TreeViewItem, start with our indented padding
+                    var parentContainer = this.FindAscendant("MultiSelectGrid") as Grid;
+                    if (parentContainer != null)
                     {
-                        // Get our containing grid from TreeViewItem, start with our indented padding
-                        var parentContainer = this.FindAscendant("MultiSelectGrid") as Grid;
-                        if (parentContainer != null)
+                        TreePadding = parentContainer.Padding.Left;
+                        // We assume our 'DataRow' is in the last child slot of the Grid, need to know
+                        // how large the other columns are.
+                        for (int j = 0; j < parentContainer.Children.Count - 1; j++)
                         {
-                            _treePadding = parentContainer.Padding.Left;
-                            // We assume our 'DataRow' is in the last child slot of the Grid, need to know
-                            // how large the other columns are.
-                            for (int j = 0; j < parentContainer.Children.Count - 1; j++)
-                            {
-                                // TODO: We may need to get the actual size here later in Arrange?
-                                _treePadding += parentContainer.Children[j].DesiredSize.Width;
-                            }
+                            // TODO: We may need to get the actual size here later in Arrange?
+                            TreePadding += parentContainer.Children[j].DesiredSize.Width;
                         }
-                        padding = _treePadding;
                     }
-
-                    // TODO: Do we want this to ever shrink back?
-                    var prev = column.MaxChildDesiredWidth;
-                    column.MaxChildDesiredWidth = Math.Max(column.MaxChildDesiredWidth, child.DesiredSize.Width + padding);
-                    if (column.MaxChildDesiredWidth != prev)
-                    {
-                        // If our measure has changed, then we have to invalidate the arrange of the DataTable
-                        _parentTable.ColumnResized();
-                    }
-
                 }
-                else if (column.IsAbsolute)
+
+                double width = column.ActualCurrentWidth;
+
+                if (column.IsAutoFit)
                 {
-                    child.Measure(new(column.DesiredWidth.Value, availableSize.Height));
+                    // We should get the *required* width from the child.
+                    child.Measure(new Size(double.PositiveInfinity, availableSize.Height));
+
+                    var childWidth = child.DesiredSize.Width;
+                    if (i == 0)
+                        childWidth += TreePadding;
+
+                    // If the adjusted column width is smaller than the current cell width,
+                    // we should call DataTable.MeasureOverride() again to extend it.
+                    if (!(width >= childWidth))
+                    {
+                        _parentTable.InvalidateMeasure();
+                    }
                 }
                 else
                 {
-                    child.Measure(availableSize);
+                    child.Measure(new Size(width, availableSize.Height));
                 }
 
                 maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
             }
 
-            // Return our parent's size as the desired size.
+            // Returns the same width as the DataTable requests, regardless of the IsAutoFit column presence.
             return new Size(_parentTable.DesiredSize.Width, maxHeight);
         }
     }
@@ -162,6 +162,8 @@ public partial class DataRow : Panel
     /// <inheritdoc/>
     protected override Size ArrangeOverride(Size finalSize)
     {
+        //Debug.WriteLine($"DataRow.ArrangeOverride");
+
         // If we don't have DataTable, just layout children like a horizontal StackPanel.
         if (_parentTable is null)
         {
@@ -202,22 +204,12 @@ public partial class DataRow : Panel
                 else
                     x += columnSpacing;
 
-                // TODO: This is messy...
-                double width = column.ActualWidth;
+                double width = column.ActualCurrentWidth;
+                if (i == 0)
+                    width = Math.Max(0, width - TreePadding);
 
                 var child = Children[i];
-
-                // Note: For Auto, since we measured our children and bubbled that up to the DataTable layout,
-                //       then the DataColumn size we grab above should account for the largest of our children.
-                if (i == 0)
-                {
-                    child.Arrange(new Rect(x, 0, width, finalSize.Height));
-                }
-                else
-                {
-                    // If we're in a tree, remove the indentation from the layout of columns beyond the first.
-                    child.Arrange(new Rect(x - _treePadding, 0, width, finalSize.Height));
-                }
+                child?.Arrange(new Rect(x, 0, width, finalSize.Height));
 
                 x += width;
             }
