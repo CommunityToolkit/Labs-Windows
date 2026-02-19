@@ -96,66 +96,67 @@ public partial class DataRow : Panel
         // Handle DataTable Parent
         else
         {
-            if (_parentTable.Children.Count == Children.Count)
+            int maxChildCount = Math.Min(_parentTable.Children.Count, Children.Count);
+
+            // Measure all children which have corresponding visible DataColumns.
+            for (int i = 0; i < maxChildCount; i++)
             {
-                // TODO: Need to check visibility
-                // Measure all children since we need to determine the row's height at minimum
-                for (int i = 0; i < Children.Count; i++)
+                var child = Children[i];
+                var column = _parentTable.Children[i] as DataColumn;
+                if (column?.Visibility != Visibility.Visible)
+                    continue;
+
+                if (column.IsAuto)
                 {
-                    if (_parentTable.Children[i] is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Auto } col)
-                    {
-                        Children[i].Measure(availableSize);
+                    child.Measure(availableSize);
 
-                        // For TreeView in the first column, we want the header to expand to encompass
-                        // the maximum indentation of the tree.
-                        double padding = 0;
-                        //// TODO: We only want/need to do this once? We may want to do if we're not an Auto column too...?
-                        if (i == 0 && _isTreeView)
+                    // For TreeView in the first column, we want the header to expand to encompass
+                    // the maximum indentation of the tree.
+                    double padding = 0;
+                    //// TODO: We only want/need to do this once? We may want to do if we're not an Auto column too...?
+                    if (i == 0 && _isTreeView)
+                    {
+                        // Get our containing grid from TreeViewItem, start with our indented padding
+                        var parentContainer = this.FindAscendant("MultiSelectGrid") as Grid;
+                        if (parentContainer != null)
                         {
-                            // Get our containing grid from TreeViewItem, start with our indented padding
-                            var parentContainer = this.FindAscendant("MultiSelectGrid") as Grid;
-                            if (parentContainer != null)
+                            _treePadding = parentContainer.Padding.Left;
+                            // We assume our 'DataRow' is in the last child slot of the Grid, need to know
+                            // how large the other columns are.
+                            for (int j = 0; j < parentContainer.Children.Count - 1; j++)
                             {
-                                _treePadding = parentContainer.Padding.Left;
-                                // We assume our 'DataRow' is in the last child slot of the Grid, need to know
-                                // how large the other columns are.
-                                for (int j = 0; j < parentContainer.Children.Count - 1; j++)
-                                {
-                                    // TODO: We may need to get the actual size here later in Arrange?
-                                    _treePadding += parentContainer.Children[j].DesiredSize.Width;
-                                }
+                                // TODO: We may need to get the actual size here later in Arrange?
+                                _treePadding += parentContainer.Children[j].DesiredSize.Width;
                             }
-                            padding = _treePadding;
                         }
-
-                        // TODO: Do we want this to ever shrink back?
-                        var prev = col.MaxChildDesiredWidth;
-                        col.MaxChildDesiredWidth = Math.Max(col.MaxChildDesiredWidth, Children[i].DesiredSize.Width + padding);
-                        if (col.MaxChildDesiredWidth != prev)
-                        {
-                            // If our measure has changed, then we have to invalidate the arrange of the DataTable
-                            _parentTable.ColumnResized();
-                        }
-
+                        padding = _treePadding;
                     }
-                    else if (_parentTable.Children[i] is DataColumn { CurrentWidth.GridUnitType: GridUnitType.Pixel } pixel)
+
+                    // TODO: Do we want this to ever shrink back?
+                    var prev = column.MaxChildDesiredWidth;
+                    column.MaxChildDesiredWidth = Math.Max(column.MaxChildDesiredWidth, child.DesiredSize.Width + padding);
+                    if (column.MaxChildDesiredWidth != prev)
                     {
-                        Children[i].Measure(new(pixel.DesiredWidth.Value, availableSize.Height));
-                    }
-                    else
-                    {
-                        Children[i].Measure(availableSize);
+                        // If our measure has changed, then we have to invalidate the arrange of the DataTable
+                        _parentTable.ColumnResized();
                     }
 
-                    maxHeight = Math.Max(maxHeight, Children[i].DesiredSize.Height);
                 }
+                else if (column.IsAbsolute)
+                {
+                    child.Measure(new(column.DesiredWidth.Value, availableSize.Height));
+                }
+                else
+                {
+                    child.Measure(availableSize);
+                }
+
+                maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
             }
 
-            // TODO: What do we want to do if there's unequal children in the DataTable vs. DataRow?
+            // Return our parent's size as the desired size.
+            return new Size(_parentTable.DesiredSize.Width, maxHeight);
         }
-
-        // Otherwise, return our parent's size as the desired size.
-        return new(_parentTable?.DesiredSize.Width ?? availableSize.Width, maxHeight);
     }
 
     /// <inheritdoc/>
@@ -184,20 +185,27 @@ public partial class DataRow : Panel
         // Handle DataTable Parent
         else
         {
-            int column = 0;
-            double x = 0;
-            double spacing = _parentTable.ColumnSpacing;
-            double width = 0;
+            int maxChildCount = Math.Min(_parentTable.Children.Count, Children.Count);
 
-            int i = 0;
-            foreach (UIElement child in Children.Where(static e => e.Visibility == Visibility.Visible))
+            double columnSpacing = _parentTable.ColumnSpacing;
+            double x = double.NaN;
+
+            // Arrange all children which have corresponding visible DataColumns.
+            for (int i = 0; i < maxChildCount; i++)
             {
-                // TODO: Need to check Column visibility here as well...
-                if (column < _parentTable.Children.Count)
-                {
-                    // TODO: This is messy...
-                    width = (_parentTable.Children[column++] as DataColumn)?.ActualWidth ?? 0;
-                }
+                var column = _parentTable.Children[i] as DataColumn;
+                if (column?.Visibility != Visibility.Visible)
+                    continue;
+
+                if (double.IsNaN(x))
+                    x = 0;
+                else
+                    x += columnSpacing;
+
+                // TODO: This is messy...
+                double width = column.ActualWidth;
+
+                var child = Children[i];
 
                 // Note: For Auto, since we measured our children and bubbled that up to the DataTable layout,
                 //       then the DataColumn size we grab above should account for the largest of our children.
@@ -211,11 +219,10 @@ public partial class DataRow : Panel
                     child.Arrange(new Rect(x - _treePadding, 0, width, finalSize.Height));
                 }
 
-                x += width + spacing;
-                i++;
+                x += width;
             }
 
-            return new Size(x - spacing, finalSize.Height);
+            return new Size(x, finalSize.Height);
         }
     }
 }
