@@ -58,11 +58,11 @@ public partial class DataTable : Panel
         // We only need to measure elements that are visible
         foreach (DataColumn column in elements)
         {
-            if (column.CurrentWidth.IsStar)
+            if (column.IsStar)
             {
                 proportionalUnits += column.DesiredWidth.Value;
             }
-            else if (column.CurrentWidth.IsAbsolute)
+            else if (column.IsAbsolute)
             {
                 fixedWidth += column.DesiredWidth.Value;
             }
@@ -76,11 +76,11 @@ public partial class DataTable : Panel
 
         foreach (DataColumn column in elements)
         {
-            if (column.CurrentWidth.IsStar)
+            if (column.IsStar)
             {
                 column.Measure(new Size(proportionalAmount * column.CurrentWidth.Value, availableSize.Height));
             }
-            else if (column.CurrentWidth.IsAbsolute)
+            else if (column.IsAbsolute)
             {
                 column.Measure(new Size(column.CurrentWidth.Value, availableSize.Height));
             }
@@ -120,11 +120,11 @@ public partial class DataTable : Panel
         // We only need to measure elements that are visible
         foreach (DataColumn column in elements)
         {
-            if (column.CurrentWidth.IsStar)
+            if (column.IsStar)
             {
                 proportionalUnits += column.CurrentWidth.Value;
             }
-            else if (column.CurrentWidth.IsAbsolute)
+            else if (column.IsAbsolute)
             {
                 fixedWidth += column.CurrentWidth.Value;
             }
@@ -143,12 +143,12 @@ public partial class DataTable : Panel
 
         foreach (DataColumn column in elements)
         {
-            if (column.CurrentWidth.IsStar)
+            if (column.IsStar)
             {
                 width = proportionalAmount * column.CurrentWidth.Value;
                 column.Arrange(new Rect(x, 0, width, finalSize.Height));
             }
-            else if (column.CurrentWidth.IsAbsolute)
+            else if (column.IsAbsolute)
             {
                 width = column.CurrentWidth.Value;
                 column.Arrange(new Rect(x, 0, width, finalSize.Height));
