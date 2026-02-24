@@ -451,12 +451,6 @@ public partial class MarkdownTextBlock
     public static readonly DependencyProperty HorizontalRuleMarginProperty =
         DependencyProperty.Register(nameof(HorizontalRuleMargin), typeof(Thickness), typeof(MarkdownTextBlock), new PropertyMetadata(default(Thickness), OnThemePropertyChanged));
 
-    /// <summary>
-    /// Identifies the <see cref="HorizontalRuleX2"/> dependency property.
-    /// </summary>
-    public static readonly DependencyProperty HorizontalRuleX2Property =
-        DependencyProperty.Register(nameof(HorizontalRuleX2), typeof(double), typeof(MarkdownTextBlock), new PropertyMetadata(0d, OnThemePropertyChanged));
-
     // ── Link ────────────────────────────────────────────────────────────
 
     /// <summary>
@@ -818,8 +812,6 @@ public partial class MarkdownTextBlock
     public double HorizontalRuleThickness { get => (double)GetValue(HorizontalRuleThicknessProperty); set => SetValue(HorizontalRuleThicknessProperty, value); }
     /// <summary>Gets or sets the margin around horizontal rules.</summary>
     public Thickness HorizontalRuleMargin { get => (Thickness)GetValue(HorizontalRuleMarginProperty); set => SetValue(HorizontalRuleMarginProperty, value); }
-    /// <summary>Gets or sets the X2 endpoint coordinate for horizontal rules.</summary>
-    public double HorizontalRuleX2 { get => (double)GetValue(HorizontalRuleX2Property); set => SetValue(HorizontalRuleX2Property, value); }
 
     /// <summary>Gets or sets the foreground brush for hyperlinks.</summary>
     public Brush LinkForeground { get => (Brush)GetValue(LinkForegroundProperty); set => SetValue(LinkForegroundProperty, value); }

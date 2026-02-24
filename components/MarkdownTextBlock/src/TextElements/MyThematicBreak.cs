@@ -27,7 +27,7 @@ internal class MyThematicBreak : IAddChild
         {
             Stretch = Stretch.Fill,
             Stroke = control.HorizontalRuleBrush,
-            X2 = control.HorizontalRuleX2,
+            X2 = 1,
             StrokeThickness = control.HorizontalRuleThickness,
             Margin = control.HorizontalRuleMargin
         };

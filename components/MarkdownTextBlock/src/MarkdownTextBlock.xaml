@@ -200,7 +200,6 @@
         <Setter Property="HorizontalRuleBrush" Value="{ThemeResource MarkdownTextBlockHorizontalRuleBrush}" />
         <Setter Property="HorizontalRuleThickness" Value="1" />
         <Setter Property="HorizontalRuleMargin" Value="0,12,0,12" />
-        <Setter Property="HorizontalRuleX2" Value="1" />
 
         <!--  Link properties  -->
         <Setter Property="LinkForeground" Value="{ThemeResource MarkdownTextBlockLinkForeground}" />
