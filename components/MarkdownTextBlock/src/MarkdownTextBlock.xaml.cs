@@ -10,6 +10,12 @@ using CommunityToolkit.WinUI.Controls.TextElements;
 using Markdig;
 using Markdig.Syntax;
 
+#if !WINAPPSDK
+using DispatcherQueue = Windows.System.DispatcherQueue;
+#else
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
+#endif
+
 namespace CommunityToolkit.WinUI.Controls;
 
 [TemplatePart(Name = MarkdownContainerName, Type = typeof(Grid))]
@@ -66,7 +72,7 @@ public partial class MarkdownTextBlock : Control
         if (!_themePropertyChangeQueued)
         {
             _themePropertyChangeQueued = true;
-            DispatcherQueue.TryEnqueue(() =>
+            DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
             {
                 _themePropertyChangeQueued = false;
                 ApplyText(true);

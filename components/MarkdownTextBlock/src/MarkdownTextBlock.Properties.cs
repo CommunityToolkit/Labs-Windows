@@ -7,9 +7,11 @@ using Markdig.Syntax;
 #if !WINAPPSDK
 using FontWeight = Windows.UI.Text.FontWeight;
 using FontWeights = Windows.UI.Text.FontWeights;
+using DispatcherQueue = Windows.System.DispatcherQueue;
 #else
 using FontWeight = Windows.UI.Text.FontWeight;
 using FontWeights = Microsoft.UI.Text.FontWeights;
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 #endif
 
 namespace CommunityToolkit.WinUI.Controls;
@@ -163,7 +165,7 @@ public partial class MarkdownTextBlock
         if (d is MarkdownTextBlock self && !self._themePropertyChangeQueued)
         {
             self._themePropertyChangeQueued = true;
-            self.DispatcherQueue.TryEnqueue(() =>
+            DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
             {
                 self._themePropertyChangeQueued = false;
                 self.ApplyText(true);
