@@ -33,7 +33,7 @@ internal class HtmlWriter
                     IAddChild hyperLink;
                     if (node.ChildNodes.Any(n => n.Name != "#text"))
                     {
-                        var myHyperlinkButton = new MyHyperlinkButton(node, renderer.Config.BaseUrl, renderer.Config.Themes);
+                        var myHyperlinkButton = new MyHyperlinkButton(node, renderer.MarkdownTextBlock);
                         myHyperlinkButton.ClickEvent += (sender, e) =>
                         {
                             var button = (HyperlinkButton)sender;
@@ -48,7 +48,7 @@ internal class HtmlWriter
                     }
                     else
                     {
-                        var myHyperlink = new MyHyperlink(node, renderer.Config.BaseUrl, renderer.Config.Themes);
+                        var myHyperlink = new MyHyperlink(node, renderer.MarkdownTextBlock);
                         myHyperlink.ClickEvent += (sender, e) =>
                         {
                             var uri = sender.NavigateUri;
@@ -66,7 +66,7 @@ internal class HtmlWriter
                 }
                 else if (inlineTagName == "img")
                 {
-                    var image = new MyImage(node, renderer.Config);
+                    var image = new MyImage(node, renderer.MarkdownTextBlock);
                     renderer.WriteInline(image);
                 }
                 else
@@ -84,13 +84,17 @@ internal class HtmlWriter
                 if (tag == "details")
                 {
                     block = new MyDetails(node);
-                    node.ChildNodes.Remove(node.ChildNodes.FirstOrDefault(x => x.Name == "summary" || x.Name == "header"));
+                    var summaryNode = node.ChildNodes.FirstOrDefault(x => x.Name == "summary" || x.Name == "header");
+                    if (summaryNode != null)
+                    {
+                        node.ChildNodes.Remove(summaryNode);
+                    }
                     renderer.Push(block);
                     WriteHtml(renderer, node.ChildNodes);
                 }
                 else if (tag.IsHeading())
                 {
-                    var heading = new MyHeading(node, renderer.Config);
+                    var heading = new MyHeading(node, renderer.MarkdownTextBlock);
                     renderer.Push(heading);
                     WriteHtml(renderer, node.ChildNodes);
                 }
