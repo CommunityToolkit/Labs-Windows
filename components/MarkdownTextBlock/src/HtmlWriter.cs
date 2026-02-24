@@ -84,7 +84,11 @@ internal class HtmlWriter
                 if (tag == "details")
                 {
                     block = new MyDetails(node);
-                    node.ChildNodes.Remove(node.ChildNodes.FirstOrDefault(x => x.Name == "summary" || x.Name == "header"));
+                    var summaryNode = node.ChildNodes.FirstOrDefault(x => x.Name == "summary" || x.Name == "header");
+                    if (summaryNode != null)
+                    {
+                        node.ChildNodes.Remove(summaryNode);
+                    }
                     renderer.Push(block);
                     WriteHtml(renderer, node.ChildNodes);
                 }

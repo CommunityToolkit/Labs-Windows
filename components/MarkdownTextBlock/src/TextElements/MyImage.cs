@@ -125,10 +125,7 @@ internal class MyImage : IAddChild
             }
             else
             {
-                HttpClient client = new HttpClient();
-
-                // Download data from URL
-                HttpResponseMessage response = await client.GetAsync(_uri);
+                HttpResponseMessage response = await _sharedHttpClient.GetAsync(_uri);
 
 
                 // Get the Content-Type header

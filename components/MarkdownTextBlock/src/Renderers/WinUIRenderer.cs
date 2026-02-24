@@ -118,14 +118,10 @@ public class WinUIRenderer : RendererBase
         {
             if (length > _buffer.Length)
             {
-                _buffer = text.ToCharArray();
-                WriteText(new string(_buffer, offset, length));
+                _buffer = new char[Math.Max(length, _buffer.Length * 2)];
             }
-            else
-            {
-                text.CopyTo(offset, _buffer, 0, length);
-                WriteText(new string(_buffer, 0, length));
-            }
+            text.CopyTo(offset, _buffer, 0, length);
+            WriteText(new string(_buffer, 0, length));
         }
     }
 

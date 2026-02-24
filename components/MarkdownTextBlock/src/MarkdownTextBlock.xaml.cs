@@ -47,7 +47,18 @@ public partial class MarkdownTextBlock : Control
     {
         this.DefaultStyleKey = typeof(MarkdownTextBlock);
         _document = new MyFlowDocument();
+        this.Loaded += OnLoaded;
+        this.Unloaded += OnUnloaded;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
         this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        this.ActualThemeChanged -= OnActualThemeChanged;
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
