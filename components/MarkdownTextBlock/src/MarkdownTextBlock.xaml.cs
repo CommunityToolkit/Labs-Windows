@@ -20,6 +20,7 @@ public partial class MarkdownTextBlock : Control
     private MarkdownPipeline _pipeline = null!;
     private MyFlowDocument _document;
     private WinUIRenderer? _renderer;
+    private bool _themePropertyChangeQueued;
 
     public event EventHandler<LinkClickedEventArgs>? OnLinkClicked;
 
@@ -34,14 +35,6 @@ public partial class MarkdownTextBlock : Control
         return args.Handled;
     }
 
-    private static void OnConfigChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is MarkdownTextBlock self && e.NewValue != null)
-        {
-            self.ApplyConfig(self.Config);
-        }
-    }
-
     private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is MarkdownTextBlock self && e.NewValue != null)
@@ -54,6 +47,20 @@ public partial class MarkdownTextBlock : Control
     {
         this.DefaultStyleKey = typeof(MarkdownTextBlock);
         _document = new MyFlowDocument();
+        this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnActualThemeChanged(FrameworkElement sender, object args)
+    {
+        if (!_themePropertyChangeQueued)
+        {
+            _themePropertyChangeQueued = true;
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                _themePropertyChangeQueued = false;
+                ApplyText(true);
+            });
+        }
     }
 
     protected override void OnApplyTemplate()
@@ -79,14 +86,6 @@ public partial class MarkdownTextBlock : Control
         Build();
     }
 
-    private void ApplyConfig(MarkdownConfig config)
-    {
-        if (_renderer != null)
-        {
-            _renderer.Config = config;
-        }
-    }
-
     private void ApplyText(bool rerender)
     {
         if (_renderer != null)
@@ -107,40 +106,38 @@ public partial class MarkdownTextBlock : Control
 
     private void Build()
     {
-        if (Config != null)
+        if (_renderer == null)
         {
-            if (_renderer == null)
-            {
-                _renderer = new WinUIRenderer(_document, Config, this);
+            _renderer = new WinUIRenderer(_document, this);
 
-                // Default block renderers
-                _renderer.ObjectRenderers.Add(new CodeBlockRenderer());
-                _renderer.ObjectRenderers.Add(new ListRenderer());
-                _renderer.ObjectRenderers.Add(new ListItemRenderer());
-                _renderer.ObjectRenderers.Add(new HeadingRenderer());
-                _renderer.ObjectRenderers.Add(new ParagraphRenderer());
-                _renderer.ObjectRenderers.Add(new QuoteBlockRenderer());
-                _renderer.ObjectRenderers.Add(new ThematicBreakRenderer());
-                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlBlockRenderer());
+            // Default block renderers
+            _renderer.ObjectRenderers.Add(new CodeBlockRenderer());
+            _renderer.ObjectRenderers.Add(new ListRenderer());
+            _renderer.ObjectRenderers.Add(new ListItemRenderer());
+            _renderer.ObjectRenderers.Add(new HeadingRenderer());
+            _renderer.ObjectRenderers.Add(new ParagraphRenderer());
+            _renderer.ObjectRenderers.Add(new QuoteBlockRenderer());
+            _renderer.ObjectRenderers.Add(new ThematicBreakRenderer());
+            if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlBlockRenderer());
 
-                // Default inline renderers
-                if (UseAutoLinks) _renderer.ObjectRenderers.Add(new AutoLinkInlineRenderer());
-                _renderer.ObjectRenderers.Add(new CodeInlineRenderer());
-                _renderer.ObjectRenderers.Add(new DelimiterInlineRenderer());
-                _renderer.ObjectRenderers.Add(new EmphasisInlineRenderer());
-                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlEntityInlineRenderer());
-                _renderer.ObjectRenderers.Add(new LineBreakInlineRenderer());
-                if (!DisableLinks) _renderer.ObjectRenderers.Add(new LinkInlineRenderer());
-                _renderer.ObjectRenderers.Add(new LiteralInlineRenderer());
-                if (!DisableLinks) _renderer.ObjectRenderers.Add(new ContainerInlineRenderer());
+            // Default inline renderers
+            if (UseAutoLinks) _renderer.ObjectRenderers.Add(new AutoLinkInlineRenderer());
+            _renderer.ObjectRenderers.Add(new CodeInlineRenderer());
+            _renderer.ObjectRenderers.Add(new DelimiterInlineRenderer());
+            _renderer.ObjectRenderers.Add(new EmphasisInlineRenderer());
+            if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlEntityInlineRenderer());
+            _renderer.ObjectRenderers.Add(new LineBreakInlineRenderer());
+            if (!DisableLinks) _renderer.ObjectRenderers.Add(new LinkInlineRenderer());
+            _renderer.ObjectRenderers.Add(new LiteralInlineRenderer());
+            if (!DisableLinks) _renderer.ObjectRenderers.Add(new ContainerInlineRenderer());
 
-                // Extension renderers
-                if (UsePipeTables) _renderer.ObjectRenderers.Add(new TableRenderer());
-                if (UseTaskLists) _renderer.ObjectRenderers.Add(new TaskListRenderer());
-                if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlInlineRenderer());
-            }
-            _pipeline.Setup(_renderer);
-            ApplyText(false);
+            // Extension renderers
+            if (UsePipeTables) _renderer.ObjectRenderers.Add(new TableRenderer());
+            if (UseTaskLists) _renderer.ObjectRenderers.Add(new TaskListRenderer());
+            if (!DisableHtml) _renderer.ObjectRenderers.Add(new HtmlInlineRenderer());
         }
+        _pipeline.Setup(_renderer);
+
+        ApplyText(true);
     }
 }

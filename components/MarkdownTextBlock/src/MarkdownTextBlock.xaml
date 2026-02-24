@@ -1,12 +1,239 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <!--  Heading foregrounds  -->
+            <StaticResource x:Key="MarkdownTextBlockH1Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH2Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH3Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH4Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH5Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH6Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+
+            <!--  Inline code  -->
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeBackground"
+                            ResourceKey="CardBackgroundFillColorSecondaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeBorderBrush"
+                            ResourceKey="CardStrokeColorDefaultBrush" />
+
+            <!--  Code block  -->
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockBackground"
+                            ResourceKey="CardBackgroundFillColorSecondaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockBorderBrush"
+                            ResourceKey="CardStrokeColorDefaultBrush" />
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+
+            <!--  Horizontal rule  -->
+            <StaticResource x:Key="MarkdownTextBlockHorizontalRuleBrush"
+                            ResourceKey="DividerStrokeColorDefaultBrush" />
+
+            <!--  Link  -->
+            <StaticResource x:Key="MarkdownTextBlockLinkForeground"
+                            ResourceKey="AccentTextFillColorPrimaryBrush" />
+
+            <!--  Quote  -->
+            <SolidColorBrush x:Key="MarkdownTextBlockQuoteBackground"
+                             Color="Transparent" />
+            <StaticResource x:Key="MarkdownTextBlockQuoteBorderBrush"
+                            ResourceKey="CardStrokeColorDefaultBrush" />
+            <StaticResource x:Key="MarkdownTextBlockQuoteForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+
+            <!--  Table  -->
+            <StaticResource x:Key="MarkdownTextBlockTableHeadingBackground"
+                            ResourceKey="CardBackgroundFillColorDefaultBrush" />
+            <StaticResource x:Key="MarkdownTextBlockTableBorderBrush"
+                            ResourceKey="CardStrokeColorDefaultBrush" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Light">
+            <StaticResource x:Key="MarkdownTextBlockH1Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH2Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH3Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH4Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH5Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH6Foreground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeBackground"
+                            ResourceKey="CardBackgroundFillColorSecondaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeBorderBrush"
+                            ResourceKey="CardStrokeColorDefaultBrush" />
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockBackground"
+                            ResourceKey="CardBackgroundFillColorSecondaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockBorderBrush"
+                            ResourceKey="CardStrokeColorDefaultBrush" />
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockHorizontalRuleBrush"
+                            ResourceKey="DividerStrokeColorDefaultBrush" />
+            <StaticResource x:Key="MarkdownTextBlockLinkForeground"
+                            ResourceKey="AccentTextFillColorPrimaryBrush" />
+            <SolidColorBrush x:Key="MarkdownTextBlockQuoteBackground"
+                             Color="Transparent" />
+            <StaticResource x:Key="MarkdownTextBlockQuoteBorderBrush"
+                            ResourceKey="CardStrokeColorDefaultBrush" />
+            <StaticResource x:Key="MarkdownTextBlockQuoteForeground"
+                            ResourceKey="TextFillColorPrimaryBrush" />
+            <StaticResource x:Key="MarkdownTextBlockTableHeadingBackground"
+                            ResourceKey="CardBackgroundFillColorDefaultBrush" />
+            <StaticResource x:Key="MarkdownTextBlockTableBorderBrush"
+                            ResourceKey="CardStrokeColorDefaultBrush" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="HighContrast">
+            <StaticResource x:Key="MarkdownTextBlockH1Foreground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH2Foreground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH3Foreground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH4Foreground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH5Foreground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockH6Foreground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeBackground"
+                            ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeForeground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockInlineCodeBorderBrush"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockBackground"
+                            ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockBorderBrush"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockCodeBlockForeground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockHorizontalRuleBrush"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockLinkForeground"
+                            ResourceKey="SystemColorHotlightColorBrush" />
+            <SolidColorBrush x:Key="MarkdownTextBlockQuoteBackground"
+                             Color="Transparent" />
+            <StaticResource x:Key="MarkdownTextBlockQuoteBorderBrush"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockQuoteForeground"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockTableHeadingBackground"
+                            ResourceKey="SystemColorButtonFaceColorBrush" />
+            <StaticResource x:Key="MarkdownTextBlockTableBorderBrush"
+                            ResourceKey="SystemColorButtonTextColorBrush" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
 
     <Style BasedOn="{StaticResource DefaultMarkdownTextBlockStyle}"
            TargetType="controls:MarkdownTextBlock" />
 
     <Style x:Key="DefaultMarkdownTextBlockStyle"
            TargetType="controls:MarkdownTextBlock">
+
+        <!--  Heading properties  -->
+        <Setter Property="H1Foreground" Value="{ThemeResource MarkdownTextBlockH1Foreground}" />
+        <Setter Property="H2Foreground" Value="{ThemeResource MarkdownTextBlockH2Foreground}" />
+        <Setter Property="H3Foreground" Value="{ThemeResource MarkdownTextBlockH3Foreground}" />
+        <Setter Property="H4Foreground" Value="{ThemeResource MarkdownTextBlockH4Foreground}" />
+        <Setter Property="H5Foreground" Value="{ThemeResource MarkdownTextBlockH5Foreground}" />
+        <Setter Property="H6Foreground" Value="{ThemeResource MarkdownTextBlockH6Foreground}" />
+        <Setter Property="H1FontSize" Value="22" />
+        <Setter Property="H2FontSize" Value="20" />
+        <Setter Property="H3FontSize" Value="18" />
+        <Setter Property="H4FontSize" Value="16" />
+        <Setter Property="H5FontSize" Value="14" />
+        <Setter Property="H6FontSize" Value="12" />
+        <Setter Property="H1FontWeight" Value="SemiBold" />
+        <Setter Property="H2FontWeight" Value="SemiBold" />
+        <Setter Property="H3FontWeight" Value="SemiBold" />
+        <Setter Property="H4FontWeight" Value="SemiBold" />
+        <Setter Property="H5FontWeight" Value="SemiBold" />
+        <Setter Property="H6FontWeight" Value="SemiBold" />
+        <Setter Property="H1Margin" Value="0,16,0,0" />
+        <Setter Property="H2Margin" Value="0,16,0,0" />
+        <Setter Property="H3Margin" Value="0,16,0,0" />
+        <Setter Property="H4Margin" Value="0,16,0,0" />
+        <Setter Property="H5Margin" Value="0,8,0,0" />
+        <Setter Property="H6Margin" Value="0,8,0,0" />
+
+        <!--  Inline code properties  -->
+        <Setter Property="InlineCodeBackground" Value="{ThemeResource MarkdownTextBlockInlineCodeBackground}" />
+        <Setter Property="InlineCodeForeground" Value="{ThemeResource MarkdownTextBlockInlineCodeForeground}" />
+        <Setter Property="InlineCodeBorderBrush" Value="{ThemeResource MarkdownTextBlockInlineCodeBorderBrush}" />
+        <Setter Property="InlineCodeBorderThickness" Value="1" />
+        <Setter Property="InlineCodeCornerRadius" Value="2" />
+        <Setter Property="InlineCodePadding" Value="0" />
+        <Setter Property="InlineCodeFontSize" Value="10" />
+        <Setter Property="InlineCodeFontWeight" Value="Normal" />
+
+        <!--  Bold  -->
+        <Setter Property="BoldFontWeight" Value="SemiBold" />
+
+        <!--  Code block properties  -->
+        <Setter Property="CodeBlockBackground" Value="{ThemeResource MarkdownTextBlockCodeBlockBackground}" />
+        <Setter Property="CodeBlockBorderBrush" Value="{ThemeResource MarkdownTextBlockCodeBlockBorderBrush}" />
+        <Setter Property="CodeBlockForeground" Value="{ThemeResource MarkdownTextBlockCodeBlockForeground}" />
+        <Setter Property="CodeBlockBorderThickness" Value="1" />
+        <Setter Property="CodeBlockPadding" Value="8" />
+        <Setter Property="CodeBlockMargin" Value="0,8,0,8" />
+        <Setter Property="CodeBlockFontFamily" Value="Consolas" />
+        <Setter Property="CodeBlockCornerRadius" Value="4" />
+
+        <!--  Horizontal rule properties  -->
+        <Setter Property="HorizontalRuleBrush" Value="{ThemeResource MarkdownTextBlockHorizontalRuleBrush}" />
+        <Setter Property="HorizontalRuleThickness" Value="1" />
+        <Setter Property="HorizontalRuleMargin" Value="0,12,0,12" />
+        <Setter Property="HorizontalRuleX2" Value="1" />
+
+        <!--  Link properties  -->
+        <Setter Property="LinkForeground" Value="{ThemeResource MarkdownTextBlockLinkForeground}" />
+
+        <!--  Paragraph / list properties  -->
+        <Setter Property="ParagraphMargin" Value="0,8,0,8" />
+        <Setter Property="ParagraphLineHeight" Value="0" />
+        <Setter Property="ListBulletSpacing" Value="4" />
+        <Setter Property="ListGutterWidth" Value="32" />
+
+        <!--  Quote properties  -->
+        <Setter Property="QuoteBackground" Value="{ThemeResource MarkdownTextBlockQuoteBackground}" />
+        <Setter Property="QuoteBorderBrush" Value="{ThemeResource MarkdownTextBlockQuoteBorderBrush}" />
+        <Setter Property="QuoteForeground" Value="{ThemeResource MarkdownTextBlockQuoteForeground}" />
+        <Setter Property="QuoteBorderThickness" Value="4,0,0,0" />
+        <Setter Property="QuoteMargin" Value="0,4,0,4" />
+        <Setter Property="QuotePadding" Value="4" />
+        <Setter Property="QuoteCornerRadius" Value="4" />
+        <Setter Property="QuoteBarMargin" Value="0,0,4,0" />
+
+        <!--  Image properties  -->
+        <Setter Property="ImageMaxWidth" Value="0" />
+        <Setter Property="ImageMaxHeight" Value="0" />
+        <Setter Property="ImageStretch" Value="Uniform" />
+
+        <!--  Table properties  -->
+        <Setter Property="TableHeadingBackground" Value="{ThemeResource MarkdownTextBlockTableHeadingBackground}" />
+        <Setter Property="TableBorderBrush" Value="{ThemeResource MarkdownTextBlockTableBorderBrush}" />
+        <Setter Property="TableBorderThickness" Value="1" />
+        <Setter Property="TableCellPadding" Value="4" />
+        <Setter Property="TableMargin" Value="0,8,0,8" />
+        <Setter Property="TableCornerRadius" Value="4" />
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MarkdownTextBlock">

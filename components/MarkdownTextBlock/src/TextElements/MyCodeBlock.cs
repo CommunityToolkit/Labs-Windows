@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls;
 using Markdig.Syntax;
 
 namespace CommunityToolkit.WinUI.Controls.TextElements;
@@ -10,29 +11,29 @@ internal class MyCodeBlock : IAddChild
 {
     private CodeBlock _codeBlock;
     private Paragraph _paragraph;
-    private MarkdownConfig _config;
+    private MarkdownTextBlock _control;
 
     public TextElement TextElement
     {
         get => _paragraph;
     }
 
-    public MyCodeBlock(CodeBlock codeBlock, MarkdownConfig config)
+    public MyCodeBlock(CodeBlock codeBlock, MarkdownTextBlock control)
     {
         _codeBlock = codeBlock;
-        _config = config;
+        _control = control;
         _paragraph = new Paragraph();
         var container = new InlineUIContainer();
         var border = new Border();
-    border.Background = _config.Themes.CodeBlockBackground;
-    border.BorderBrush = _config.Themes.CodeBlockBorderBrush;
-    border.BorderThickness = _config.Themes.CodeBlockBorderThickness;
-    border.Padding = _config.Themes.CodeBlockPadding;
-    border.Margin = _config.Themes.CodeBlockMargin;
-    border.CornerRadius = _config.Themes.CodeBlockCornerRadius;
+    border.Background = _control.CodeBlockBackground;
+    border.BorderBrush = _control.CodeBlockBorderBrush;
+    border.BorderThickness = _control.CodeBlockBorderThickness;
+    border.Padding = _control.CodeBlockPadding;
+    border.Margin = _control.CodeBlockMargin;
+    border.CornerRadius = _control.CodeBlockCornerRadius;
         var richTextBlock = new RichTextBlock();
-    richTextBlock.FontFamily = _config.Themes.CodeBlockFontFamily;
-    richTextBlock.Foreground = _config.Themes.CodeBlockForeground;
+    richTextBlock.FontFamily = _control.CodeBlockFontFamily;
+    richTextBlock.Foreground = _control.CodeBlockForeground;
 
 #if false
         if (codeBlock is FencedCodeBlock fencedCodeBlock)

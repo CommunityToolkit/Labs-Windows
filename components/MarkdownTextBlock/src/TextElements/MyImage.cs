@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls;
 using Markdig.Syntax.Inlines;
 using HtmlAgilityPack;
 using System.Globalization;
@@ -11,6 +12,9 @@ namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 internal class MyImage : IAddChild
 {
+    private static readonly HttpClient _sharedHttpClient = new();
+    private static readonly DefaultSVGRenderer _defaultSvgRenderer = new();
+
     private InlineUIContainer _container = new InlineUIContainer();
     private LinkInline? _linkInline;
     private Image _image = new Image();
@@ -18,7 +22,7 @@ internal class MyImage : IAddChild
     private HtmlNode? _htmlNode;
     private IImageProvider? _imageProvider;
     private ISVGRenderer _svgRenderer;
-    private MarkdownThemes _themes;
+    private MarkdownTextBlock _control;
     private double _precedentWidth;
     private double _precedentHeight;
     private bool _loaded;
@@ -28,13 +32,13 @@ internal class MyImage : IAddChild
         get => _container;
     }
 
-    public MyImage(LinkInline linkInline, Uri uri, MarkdownConfig config)
+    public MyImage(LinkInline linkInline, Uri uri, MarkdownTextBlock control)
     {
         _linkInline = linkInline;
         _uri = uri;
-        _imageProvider = config.ImageProvider;
-        _svgRenderer = config.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
-        _themes = config.Themes;
+        _imageProvider = control.ImageProvider;
+        _svgRenderer = control.SVGRenderer ?? _defaultSvgRenderer;
+        _control = control;
         Init();
         var size = Extensions.GetMarkdownImageSize(linkInline);
         if (size.Width != 0)
@@ -48,16 +52,16 @@ internal class MyImage : IAddChild
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public MyImage(HtmlNode htmlNode, MarkdownConfig? config)
+    public MyImage(HtmlNode htmlNode, MarkdownTextBlock? control)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
 #pragma warning disable CS8601 // Possible null reference assignment.
         Uri.TryCreate(htmlNode.GetAttribute("src", "#"), UriKind.RelativeOrAbsolute, out _uri);
 #pragma warning restore CS8601 // Possible null reference assignment.
         _htmlNode = htmlNode;
-        _imageProvider = config?.ImageProvider;
-        _svgRenderer = config?.SVGRenderer == null ? new DefaultSVGRenderer() : config.SVGRenderer;
-        _themes = config?.Themes ?? MarkdownThemes.Default;
+        _imageProvider = control?.ImageProvider;
+        _svgRenderer = control?.SVGRenderer ?? _defaultSvgRenderer;
+        _control = control!;
         Init();
         int.TryParse(
             htmlNode.GetAttribute("width", "0"),
@@ -89,6 +93,7 @@ internal class MyImage : IAddChild
 
     private async void LoadImage(object sender, RoutedEventArgs e)
     {
+        _image.Loaded -= LoadImage;
         if (_loaded) return;
         try
         {
@@ -194,15 +199,15 @@ internal class MyImage : IAddChild
 
             // Apply theme constraints - only if we have a known dimension to constrain
             // This prevents theme constraints from enlarging images with unknown natural size
-            if (_themes.ImageMaxWidth > 0 && hasNaturalWidth && _themes.ImageMaxWidth < _image.MaxWidth)
+            if (_control.ImageMaxWidth > 0 && hasNaturalWidth && _control.ImageMaxWidth < _image.MaxWidth)
             {
-                _image.MaxWidth = _themes.ImageMaxWidth;
+                _image.MaxWidth = _control.ImageMaxWidth;
             }
-            if (_themes.ImageMaxHeight > 0 && hasNaturalHeight && _themes.ImageMaxHeight < _image.MaxHeight)
+            if (_control.ImageMaxHeight > 0 && hasNaturalHeight && _control.ImageMaxHeight < _image.MaxHeight)
             {
-                _image.MaxHeight = _themes.ImageMaxHeight;
+                _image.MaxHeight = _control.ImageMaxHeight;
             }
-            _image.Stretch = _themes.ImageStretch;
+            _image.Stretch = _control.ImageStretch;
         }
         catch (Exception) { }
     }

@@ -16,21 +16,14 @@ public class WinUIRenderer : RendererBase
 {
     private readonly Stack<IAddChild> _stack = new Stack<IAddChild>();
     private char[] _buffer;
-    private MarkdownConfig _config = MarkdownConfig.Default;
     private readonly Stack<string> _listBullets = new();
 
     public MyFlowDocument FlowDocument { get; private set; }
-    public MarkdownConfig Config
-    {
-        get => _config;
-        set => _config = value;
-    }
     public MarkdownTextBlock MarkdownTextBlock { get; }
 
-    public WinUIRenderer(MyFlowDocument document, MarkdownConfig config, MarkdownTextBlock markdownTextBlock)
+    public WinUIRenderer(MyFlowDocument document, MarkdownTextBlock markdownTextBlock)
     {
         _buffer = new char[1024];
-        Config = config;
         MarkdownTextBlock = markdownTextBlock;
         FlowDocument = document;
         // set style

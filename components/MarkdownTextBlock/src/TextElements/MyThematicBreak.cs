@@ -17,7 +17,7 @@ internal class MyThematicBreak : IAddChild
         get => _paragraph;
     }
 
-    public MyThematicBreak(ThematicBreakBlock thematicBreakBlock, MarkdownThemes themes)
+    public MyThematicBreak(ThematicBreakBlock thematicBreakBlock, MarkdownTextBlock control)
     {
         _thematicBreakBlock = thematicBreakBlock;
         _paragraph = new Paragraph();
@@ -26,10 +26,10 @@ internal class MyThematicBreak : IAddChild
         Line line = new Line
         {
             Stretch = Stretch.Fill,
-            Stroke = themes.HorizontalRuleBrush ?? themes.BorderBrush,
-            X2 = 1,
-            StrokeThickness = themes.HorizontalRuleThickness,
-            Margin = themes.HorizontalRuleMargin
+            Stroke = control.HorizontalRuleBrush,
+            X2 = control.HorizontalRuleX2,
+            StrokeThickness = control.HorizontalRuleThickness,
+            Margin = control.HorizontalRuleMargin
         };
         inlineUIContainer.Child = line;
         _paragraph.Inlines.Add(inlineUIContainer);
