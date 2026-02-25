@@ -10,8 +10,6 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplatePart(Name = nameof(PART_ColumnSizer), Type = typeof(ContentSizer))]
 public partial class DataColumn : ContentControl
 {
-    private static GridLength StarLength = new GridLength(1, GridUnitType.Star);
-
     private ContentSizer? PART_ColumnSizer;
 
     private WeakReference<DataTable>? _parent;
@@ -20,20 +18,26 @@ public partial class DataColumn : ContentControl
     private DataTable? DataTable => _parent?.TryGetTarget(out DataTable? parent) == true ? parent : null;
 
     /// <summary>
-    /// Gets or sets the width of the largest child contained within the visible <see cref="DataRow"/>s of the <see cref="DataTable"/>.
+    /// Gets or sets the internal calculated or manually set width of this column.
+    /// NaN means that the column size is no yet calculated.
     /// </summary>
-    internal double MaxChildDesiredWidth { get; set; }
+    internal double CurrentWidth { get; set; } = double.NaN;
 
     /// <summary>
-    /// Gets or sets the internal copy of the <see cref="DesiredWidth"/> property to be used in calculations, this gets manipulated in Auto-Size mode.
+    /// Gets the internal calculated or manually set width of this column, as a positive value.
     /// </summary>
-    internal GridLength CurrentWidth { get; private set; }
+    internal double ActualCurrentWidth => double.IsNaN(CurrentWidth) ? 0 : CurrentWidth;
 
-    internal bool IsAbsolute => CurrentWidth.IsAbsolute;
+    internal bool IsAbsolute => DesiredWidth.IsAbsolute;
 
-    internal bool IsAuto => CurrentWidth.IsAuto;
+    internal bool IsAuto => DesiredWidth.IsAuto;
 
-    internal bool IsStar => CurrentWidth.IsStar;
+    internal bool IsStar => DesiredWidth.IsStar;
+
+    /// <summary>
+    /// Returns <see langword="true"/> if the column width is fixed with the manual adjustment.
+    /// </summary>
+    internal bool IsFixed { get; set; }
 
     /// <summary>
     /// Gets or sets whether the column can be resized by the user.
@@ -67,10 +71,29 @@ public partial class DataColumn : ContentControl
 
     private static void DesiredWidth_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        // If the developer updates the size of the column, update our internal copy
-        if (d is DataColumn col)
+        // If the developer updates the size of the column, update our internal value.
+        if (d is DataColumn column)
         {
-            col.CurrentWidth = col.DesiredWidth;
+            if (column.DesiredWidth is { GridUnitType: GridUnitType.Pixel, Value: var value })
+            {
+                column.IsFixed = true;
+                column.CurrentWidth = value;
+            }
+            else if (column.DesiredWidth is { GridUnitType: GridUnitType.Star, Value: 0 })
+            {
+                // Handle DesiredWidth="0*" as fixed zero width column.
+                column.IsFixed = true;
+                column.CurrentWidth = 0;
+            }
+            else
+            {
+                // Reset the manual adjusted width.
+                column.IsFixed = false;
+                column.CurrentWidth = double.NaN;
+            }
+
+            // Request to measure for the IsAutoFit or IsStarProportion columns.
+            column.DataTable?.InvalidateMeasure();
         }
     }
 
@@ -124,9 +147,12 @@ public partial class DataColumn : ContentControl
     private void ColumnResizedByUserSizer()
     {
         // Update our internal representation to be our size now as a fixed value.
-        CurrentWidth = new(this.ActualWidth);
+        if (CurrentWidth != this.ActualWidth)
+        {
+            CurrentWidth = this.ActualWidth;
 
-        // Notify the rest of the table to update
-        DataTable?.ColumnResized();
+            // Notify the rest of the table to update
+            DataTable?.ColumnResized();
+        }
     }
 }
