@@ -44,7 +44,7 @@ internal class MyHyperlink : IAddChild
         _hyperlink = new Hyperlink()
         {
             NavigateUri = Extensions.GetUri(url, _baseUrl),
-            Foreground = _control.LinkForeground
+            Foreground = _control.Config.LinkForeground
         };
     }
 
@@ -57,7 +57,7 @@ internal class MyHyperlink : IAddChild
         _hyperlink = new Hyperlink()
         {
             NavigateUri = Extensions.GetUri(url, _baseUrl),
-            Foreground = _control.LinkForeground
+            Foreground = _control.Config.LinkForeground
         };
     }
 

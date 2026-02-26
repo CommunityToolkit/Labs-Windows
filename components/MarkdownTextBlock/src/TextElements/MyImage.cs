@@ -196,15 +196,15 @@ internal class MyImage : IAddChild
 
             // Apply theme constraints - only if we have a known dimension to constrain
             // This prevents theme constraints from enlarging images with unknown natural size
-            if (_control.ImageMaxWidth > 0 && hasNaturalWidth && _control.ImageMaxWidth < _image.MaxWidth)
+            if (_control.Config.ImageMaxWidth > 0 && hasNaturalWidth && _control.Config.ImageMaxWidth < _image.MaxWidth)
             {
-                _image.MaxWidth = _control.ImageMaxWidth;
+                _image.MaxWidth = _control.Config.ImageMaxWidth;
             }
-            if (_control.ImageMaxHeight > 0 && hasNaturalHeight && _control.ImageMaxHeight < _image.MaxHeight)
+            if (_control.Config.ImageMaxHeight > 0 && hasNaturalHeight && _control.Config.ImageMaxHeight < _image.MaxHeight)
             {
-                _image.MaxHeight = _control.ImageMaxHeight;
+                _image.MaxHeight = _control.Config.ImageMaxHeight;
             }
-            _image.Stretch = _control.ImageStretch;
+            _image.Stretch = _control.Config.ImageStretch;
         }
         catch (Exception) { }
     }

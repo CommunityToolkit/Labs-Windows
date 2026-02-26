@@ -147,91 +147,30 @@
     <Style x:Key="DefaultMarkdownTextBlockStyle"
            TargetType="controls:MarkdownTextBlock">
 
-        <!--  Heading properties  -->
-        <Setter Property="H1Foreground" Value="{ThemeResource MarkdownTextBlockH1Foreground}" />
-        <Setter Property="H2Foreground" Value="{ThemeResource MarkdownTextBlockH2Foreground}" />
-        <Setter Property="H3Foreground" Value="{ThemeResource MarkdownTextBlockH3Foreground}" />
-        <Setter Property="H4Foreground" Value="{ThemeResource MarkdownTextBlockH4Foreground}" />
-        <Setter Property="H5Foreground" Value="{ThemeResource MarkdownTextBlockH5Foreground}" />
-        <Setter Property="H6Foreground" Value="{ThemeResource MarkdownTextBlockH6Foreground}" />
-        <Setter Property="H1FontSize" Value="22" />
-        <Setter Property="H2FontSize" Value="20" />
-        <Setter Property="H3FontSize" Value="18" />
-        <Setter Property="H4FontSize" Value="16" />
-        <Setter Property="H5FontSize" Value="14" />
-        <Setter Property="H6FontSize" Value="12" />
-        <Setter Property="H1FontWeight" Value="SemiBold" />
-        <Setter Property="H2FontWeight" Value="SemiBold" />
-        <Setter Property="H3FontWeight" Value="SemiBold" />
-        <Setter Property="H4FontWeight" Value="SemiBold" />
-        <Setter Property="H5FontWeight" Value="SemiBold" />
-        <Setter Property="H6FontWeight" Value="SemiBold" />
-        <Setter Property="H1Margin" Value="0,16,0,0" />
-        <Setter Property="H2Margin" Value="0,16,0,0" />
-        <Setter Property="H3Margin" Value="0,16,0,0" />
-        <Setter Property="H4Margin" Value="0,16,0,0" />
-        <Setter Property="H5Margin" Value="0,8,0,0" />
-        <Setter Property="H6Margin" Value="0,8,0,0" />
-
-        <!--  Inline code properties  -->
-        <Setter Property="InlineCodeBackground" Value="{ThemeResource MarkdownTextBlockInlineCodeBackground}" />
-        <Setter Property="InlineCodeForeground" Value="{ThemeResource MarkdownTextBlockInlineCodeForeground}" />
-        <Setter Property="InlineCodeBorderBrush" Value="{ThemeResource MarkdownTextBlockInlineCodeBorderBrush}" />
-        <Setter Property="InlineCodeBorderThickness" Value="1" />
-        <Setter Property="InlineCodeCornerRadius" Value="2" />
-        <Setter Property="InlineCodePadding" Value="0" />
-        <Setter Property="InlineCodeFontSize" Value="10" />
-        <Setter Property="InlineCodeFontWeight" Value="Normal" />
-
-        <!--  Bold  -->
-        <Setter Property="BoldFontWeight" Value="SemiBold" />
-
-        <!--  Code block properties  -->
-        <Setter Property="CodeBlockBackground" Value="{ThemeResource MarkdownTextBlockCodeBlockBackground}" />
-        <Setter Property="CodeBlockBorderBrush" Value="{ThemeResource MarkdownTextBlockCodeBlockBorderBrush}" />
-        <Setter Property="CodeBlockForeground" Value="{ThemeResource MarkdownTextBlockCodeBlockForeground}" />
-        <Setter Property="CodeBlockBorderThickness" Value="1" />
-        <Setter Property="CodeBlockPadding" Value="8" />
-        <Setter Property="CodeBlockMargin" Value="0,8,0,8" />
-        <Setter Property="CodeBlockFontFamily" Value="Consolas" />
-        <Setter Property="CodeBlockCornerRadius" Value="4" />
-
-        <!--  Horizontal rule properties  -->
-        <Setter Property="HorizontalRuleBrush" Value="{ThemeResource MarkdownTextBlockHorizontalRuleBrush}" />
-        <Setter Property="HorizontalRuleThickness" Value="1" />
-        <Setter Property="HorizontalRuleMargin" Value="0,12,0,12" />
-
-        <!--  Link properties  -->
-        <Setter Property="LinkForeground" Value="{ThemeResource MarkdownTextBlockLinkForeground}" />
-
-        <!--  Paragraph / list properties  -->
-        <Setter Property="ParagraphMargin" Value="0,8,0,8" />
-        <Setter Property="ParagraphLineHeight" Value="0" />
-        <Setter Property="ListBulletSpacing" Value="4" />
-        <Setter Property="ListGutterWidth" Value="32" />
-
-        <!--  Quote properties  -->
-        <Setter Property="QuoteBackground" Value="{ThemeResource MarkdownTextBlockQuoteBackground}" />
-        <Setter Property="QuoteBorderBrush" Value="{ThemeResource MarkdownTextBlockQuoteBorderBrush}" />
-        <Setter Property="QuoteForeground" Value="{ThemeResource MarkdownTextBlockQuoteForeground}" />
-        <Setter Property="QuoteBorderThickness" Value="4,0,0,0" />
-        <Setter Property="QuoteMargin" Value="0,4,0,4" />
-        <Setter Property="QuotePadding" Value="4" />
-        <Setter Property="QuoteCornerRadius" Value="4" />
-        <Setter Property="QuoteBarMargin" Value="0,0,4,0" />
-
-        <!--  Image properties  -->
-        <Setter Property="ImageMaxWidth" Value="0" />
-        <Setter Property="ImageMaxHeight" Value="0" />
-        <Setter Property="ImageStretch" Value="Uniform" />
-
-        <!--  Table properties  -->
-        <Setter Property="TableHeadingBackground" Value="{ThemeResource MarkdownTextBlockTableHeadingBackground}" />
-        <Setter Property="TableBorderBrush" Value="{ThemeResource MarkdownTextBlockTableBorderBrush}" />
-        <Setter Property="TableBorderThickness" Value="1" />
-        <Setter Property="TableCellPadding" Value="4" />
-        <Setter Property="TableMargin" Value="0,8,0,8" />
-        <Setter Property="TableCornerRadius" Value="4" />
+        <Setter Property="Config">
+            <Setter.Value>
+                <controls:MarkdownConfig
+                    H1Foreground="{ThemeResource MarkdownTextBlockH1Foreground}"
+                    H2Foreground="{ThemeResource MarkdownTextBlockH2Foreground}"
+                    H3Foreground="{ThemeResource MarkdownTextBlockH3Foreground}"
+                    H4Foreground="{ThemeResource MarkdownTextBlockH4Foreground}"
+                    H5Foreground="{ThemeResource MarkdownTextBlockH5Foreground}"
+                    H6Foreground="{ThemeResource MarkdownTextBlockH6Foreground}"
+                    InlineCodeBackground="{ThemeResource MarkdownTextBlockInlineCodeBackground}"
+                    InlineCodeForeground="{ThemeResource MarkdownTextBlockInlineCodeForeground}"
+                    InlineCodeBorderBrush="{ThemeResource MarkdownTextBlockInlineCodeBorderBrush}"
+                    CodeBlockBackground="{ThemeResource MarkdownTextBlockCodeBlockBackground}"
+                    CodeBlockBorderBrush="{ThemeResource MarkdownTextBlockCodeBlockBorderBrush}"
+                    CodeBlockForeground="{ThemeResource MarkdownTextBlockCodeBlockForeground}"
+                    HorizontalRuleBrush="{ThemeResource MarkdownTextBlockHorizontalRuleBrush}"
+                    LinkForeground="{ThemeResource MarkdownTextBlockLinkForeground}"
+                    QuoteBackground="{ThemeResource MarkdownTextBlockQuoteBackground}"
+                    QuoteBorderBrush="{ThemeResource MarkdownTextBlockQuoteBorderBrush}"
+                    QuoteForeground="{ThemeResource MarkdownTextBlockQuoteForeground}"
+                    TableHeadingBackground="{ThemeResource MarkdownTextBlockTableHeadingBackground}"
+                    TableBorderBrush="{ThemeResource MarkdownTextBlockTableBorderBrush}" />
+            </Setter.Value>
+        </Setter>
 
         <Setter Property="Template">
             <Setter.Value>

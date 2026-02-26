@@ -25,15 +25,15 @@ internal class MyCodeBlock : IAddChild
         _paragraph = new Paragraph();
         var container = new InlineUIContainer();
         var border = new Border();
-    border.Background = _control.CodeBlockBackground;
-    border.BorderBrush = _control.CodeBlockBorderBrush;
-    border.BorderThickness = _control.CodeBlockBorderThickness;
-    border.Padding = _control.CodeBlockPadding;
-    border.Margin = _control.CodeBlockMargin;
-    border.CornerRadius = _control.CodeBlockCornerRadius;
+    border.Background = _control.Config.CodeBlockBackground;
+    border.BorderBrush = _control.Config.CodeBlockBorderBrush;
+    border.BorderThickness = _control.Config.CodeBlockBorderThickness;
+    border.Padding = _control.Config.CodeBlockPadding;
+    border.Margin = _control.Config.CodeBlockMargin;
+    border.CornerRadius = _control.Config.CodeBlockCornerRadius;
         var richTextBlock = new RichTextBlock();
-    richTextBlock.FontFamily = _control.CodeBlockFontFamily;
-    richTextBlock.Foreground = _control.CodeBlockForeground;
+    richTextBlock.FontFamily = _control.Config.CodeBlockFontFamily;
+    richTextBlock.Foreground = _control.Config.CodeBlockForeground;
 
 #if false
         if (codeBlock is FencedCodeBlock fencedCodeBlock)

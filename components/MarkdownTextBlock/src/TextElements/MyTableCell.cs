@@ -68,7 +68,7 @@ internal class MyTableCell : IAddChild
         };
 
         // Use themed table cell padding
-        _container.Padding = control.TableCellPadding;
+        _container.Padding = control.Config.TableCellPadding;
         if (_isHeader)
         {
             _flowDocument.RichTextBlock.FontWeight = FontWeights.Bold;

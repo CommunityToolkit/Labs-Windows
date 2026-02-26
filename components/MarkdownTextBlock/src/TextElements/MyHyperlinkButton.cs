@@ -68,7 +68,7 @@ internal class MyHyperlinkButton : IAddChild
             _flowDoc = new MyFlowDocument(_linkInline!);
         }
         _inlineUIContainer.Child = _hyperLinkButton;
-        _flowDoc.RichTextBlock.Foreground = _control.LinkForeground;
+        _flowDoc.RichTextBlock.Foreground = _control.Config.LinkForeground;
         _hyperLinkButton.Content = _flowDoc.RichTextBlock;
     }
 

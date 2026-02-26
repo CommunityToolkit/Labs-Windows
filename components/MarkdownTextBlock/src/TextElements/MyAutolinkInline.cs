@@ -33,7 +33,7 @@ internal class MyAutolinkInline : IAddChild
         TextElement = new Hyperlink()
         {
             NavigateUri = new Uri(autoLinkInline.Url),
-            Foreground = _control.LinkForeground
+            Foreground = _control.Config.LinkForeground
         };
     }
 
