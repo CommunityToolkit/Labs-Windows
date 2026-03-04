@@ -10,7 +10,7 @@ public partial class WrapPanel2
     /// An attached property for identifying the requested layout of a child within the panel.
     /// </summary>
     public static readonly DependencyProperty LayoutLengthProperty =
-        DependencyProperty.Register(
+        DependencyProperty.RegisterAttached(
             "LayoutLength",
             typeof(GridLength),
             typeof(WrapPanel2),
@@ -50,7 +50,7 @@ public partial class WrapPanel2
         nameof(ItemsJustification),
         typeof(WrapPanelItemsJustification),
         typeof(WrapPanel2),
-        new PropertyMetadata(default(bool), OnPropertyChanged));
+        new PropertyMetadata(default(WrapPanelItemsJustification), OnPropertyChanged));
 
     /// <summary>
     /// Backing <see cref="DependencyProperty"/> for the <see cref="ItemsStretch"/> property.
