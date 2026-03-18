@@ -62,7 +62,7 @@ public partial class WrapPanel2
         new PropertyMetadata(default(WrapPanelItemsStretch), OnPropertyChanged));
 
     /// <summary>
-    /// Gets or sets the panel orientation.
+    /// Gets or sets the direction in which child elements are arranged.
     /// </summary>
     public Orientation Orientation
     {
@@ -71,11 +71,11 @@ public partial class WrapPanel2
     }
 
     /// <summary>
-    /// Gets or sets the spacing between items.
+    /// Gets or sets the distance between items in the same row or column.
     /// </summary>
     /// <remarks>
-    /// When <see cref="ItemsJustification"/> is in a spacing mode and <see cref="ItemsStretch"/> is <see cref="WrapPanelItemsStretch.None"/>,
-    /// this may instead be used as the minimum space between items, while the exact spacing is adjusted to ensure the items span from margin to margin.
+    /// When <see cref="ItemsJustification"/> is set to a spacing mode (e.g., SpaceBetween) and <see cref="ItemsStretch"/> is <see cref="WrapPanelItemsStretch.None"/>,
+    /// this value acts as the minimum spacing between items.
     /// </remarks>
     public double ItemSpacing
     {
@@ -84,7 +84,7 @@ public partial class WrapPanel2
     }
 
     /// <summary>
-    /// Gets or sets the vertical spacing between items.
+    /// Gets or sets the distance between consecutive rows or columns.
     /// </summary>
     public double LineSpacing
     {
@@ -93,10 +93,11 @@ public partial class WrapPanel2
     }
 
     /// <summary>
-    /// Gets or sets whether or not all rows/columns should stretch its children to ensure the space is filled from margin to margin.
+    /// Gets or sets how items are aligned and distributed within a single line.
     /// </summary>
     /// <remarks>
-    /// This will not apply on lines without star-sized items unless a <see cref="ItemsStretch"/> behavior is selected.
+    /// If a non-stretching justification is used, items with a Star-Sized <see cref="WrapPanel2.LayoutLengthProperty"/> 
+    /// will collapse to their minimum size while maintaining their relative proportions.
     /// </remarks>
     public WrapPanelItemsJustification ItemsJustification
     {
@@ -105,7 +106,7 @@ public partial class WrapPanel2
     }
 
     /// <summary>
-    /// Gets or sets the method used to fill rows without a star-sized item when <see cref="ItemsJustification"/> is in a spacing mode.
+    /// Gets or sets the stretching behavior for items on lines that do not contain Star-sized elements.
     /// </summary>
     public WrapPanelItemsStretch ItemsStretch
     {
@@ -114,13 +115,17 @@ public partial class WrapPanel2
     }
 
     /// <summary>
-    /// Gets the <see cref="LayoutLengthProperty"/> of an item in the <see cref="WrapPanel2"/>.
+    /// Gets the <see cref="LayoutLengthProperty"/> attached property for a given element.
     /// </summary>
+    /// <param name="obj">The element from which to read the property value.</param>
+    /// <returns>The <see cref="GridLength"/> defining the item's sizing logic.</returns>
     public static GridLength GetLayoutLength(DependencyObject obj) => (GridLength)obj.GetValue(LayoutLengthProperty);
 
     /// <summary>
-    /// Sets the <see cref="LayoutLengthProperty"/> of an item in the <see cref="WrapPanel2"/>.
+    /// Sets the <see cref="LayoutLengthProperty"/> attached property for a given element.
     /// </summary>
+    /// <param name="obj">The element on which to set the property value.</param>
+    /// <param name="value">The <see cref="GridLength"/> to apply.</param>
     public static void SetLayoutLength(DependencyObject obj, GridLength value) => obj.SetValue(LayoutLengthProperty, value);
 
     private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

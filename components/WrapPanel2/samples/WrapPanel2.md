@@ -14,54 +14,55 @@ icon: assets/icon.png
 
 # WrapPanel2
 
-The WrapPanel2 is an experiment for a new WrapPanel API using GridLength definitions to define the item's desired sizings.
+The WrapPanel2 is an advanced layout control that uses `GridLength` definitions to manage item sizing within a wrapping flow. It provides granular control over how items occupy space, particularly when using proportional (Star) sizing.
 
-When stretched along the main axis, the child elements with star-sized GridLength values will proportionally occupy the available space.
+## Proportional Sizing Logic
 
-When not stretched along the main axis, star-sized child elements will be the smallest size possible while maintaining proportional sizing relative to each other and ensuring that all child elements are fully visible.
+The behavior of items with **Star** 'LayoutLength' values depends on the panel's justification:
 
+**When Stretched/Distributed:** If `ItemsJustification` is set to a distribution mode (like `SpaceBetween`) or if the panel is stretched along the orientation axis, Star-sized items proportionally occupy the available remaining space.
 
-> [!Sample WrapPanel2BasicSample]
+**When Aligned (Start, Center, End):** Star-sized child elements will collapse to the smallest size possible while maintaining their relative proportions and ensuring all child elements are fully visible.
+
+[!Sample WrapPanel2BasicSample]
 
 ## Properties
 
-### Fixed Row Length
+### Items Justification
 
-When `FixedRowLengths` is enabled, all rows/columns will to stretch to the size of the largest row/column in the panel. When this is not enabled, rows/columns will size to their content individually.
+The `ItemsJustification` property determines how items are aligned and distributed along a line.
 
-### Stretching Children
+| Value     | Description | Star-Size Behavior |
+| --------- | ----------- | ------------------ |
+| Automatic | Arranges items according to the control's alignment. | Varies by alignment. |
+| Start / Center / End | Aligns items to the beginning, middle, or end of the line. | Collapse to minimum proportional size. |
+| SpaceAround | Equal internal padding with half-sized padding at margins. | Proportional expansion. |
+| SpaceBetween | Equal spacing between items; no margin padding. | Proportional expansion. |
+| SpaceEvenly | Equal spacing between all items and margins. | Proportional expansion. |
 
-The `StretchChildren` property allows you to specify how the panel should handle stretching in rows without star-sized definitions.
+### Items Stretch
 
-#### StarSizedOnly
+The `ItemsStretch` property defines how the panel fills space on lines that do not contain Star-sized definitions, or when forced to fill a fixed row length.
 
-When set to `StarSizedOnly`, this panel will never stretch rows/columns that do not have star-sized definitions. When the alignment is set to stretch, and even when fixed row lengths is enabled, the rows/columns without star-sized definitions will size to their content.
-
-#### First
-
-When set the `First`, this panel will stretch the first item in the row/column to occupy the remaining space when needed if `FixedRowLengths` is enabled.
-
-#### Last
-
-When set to `Last`, this panel will stretch the last item in the row/column to occupy the remaining space when needed if `FixedRowLengths` is enabled.
-
-#### Equal
-
-When set to `Equal`, this panel will stretch all items in the row/column to occupy the equal space throughout the row when needed if `FixedRowLengths` is enabled.
-
-#### Proportional
-
-When set to `Proportional`, this panel will stretch all items in the row/column proportionally to their defined size to occupy the remaining space when needed if `FixedRowLengths` is enabled.
-
+| Value        | Description |
+| ------------ | ----------- |
+| None         | No additional stretching is applied to non-star items. Note that Star-sized items will still expand if the `ItemsJustification` mode triggers a stretch. |
+| First        | The first item in the line is stretched to occupy all remaining space. |
+| Last         | The last item in the line is stretched to occupy all remaining space. |
+| Equal        | Every item in the line is stretched to a uniform size to fill the row, regardless of their individual content size. |
+| Proportional | Every item in the line is stretched proportionally based on their desired size to fill the remaining space. |
+ 
 ## Additional Samples
 
 ### Adjusted Sizings Sample
+
+Demonstrates a mix of Auto, Pixel, and Star lengths within a wrapping layout.
 
 > [!Sample WrapPanel2MegaSample]
 
 ### Proportional Sizing
 
-Encoding diagram example
+Demonstrates how Star-sized items maintain ratios even when the panel is not set to stretch.
 
 > [!Sample WrapPanel2ProportionalSample]
 

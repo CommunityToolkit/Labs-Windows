@@ -13,31 +13,31 @@ namespace CommunityToolkit.WinUI.Controls;
 public enum WrapPanelItemsStretch
 {
     /// <summary>
-    /// Items will not be stretched to help justify items.
+    /// No additional stretching is applied to non-star items. 
     /// </summary>
     /// <remarks>
-    /// Items with a Star-Sized <see cref="WrapPanel2.LayoutLengthProperty"/> will still stretch if the main-axis alignment
-    /// is set to stretch or if <see cref="WrapPanel2.ItemsJustification"/> is enabled.
+    /// Items with a Star-sized <see cref="WrapPanel2.LayoutLengthProperty"/> will still expand 
+    /// if the justification mode allows for stretching to fill the line.
     /// </remarks>
     None,
 
     /// <summary>
-    /// The first item in the row will be stretched to fill the row.
+    /// The first item in the line is stretched to occupy all remaining space.
     /// </summary>
     First,
 
     /// <summary>
-    /// The last item in the row will be stretched to fill the row.
+    /// The last item in the line is stretched to occupy all remaining space.
     /// </summary>
     Last,
 
     /// <summary>
-    /// Each item will be stretched to an equal size to fill the row.
+    /// All items in the line are stretched to an equal size to fill the available space.
     /// </summary>
     Equal,
 
     /// <summary>
-    /// Each item will be stretched proportional to their desired size to fill the row.
+    /// All items in the line are stretched proportionally based on their desired size to fill the remaining space.
     /// </summary>
     Proportional,
 }

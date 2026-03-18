@@ -10,37 +10,37 @@ namespace CommunityToolkit.WinUI.Controls;
 public enum WrapPanelItemsJustification
 {
     /// <summary>
-    /// Items will be arranged according to the control's alignment over the main axis.
+    /// Items are arranged according to the control's alignment.
     /// </summary>
     Automatic,
 
     /// <summary>
-    /// Items will be arranged starting aligned with starting margin of the line.
+    /// Items are aligned toward the start of the line (Left for Horizontal, Top for Vertical).
     /// </summary>
     Start,
 
     /// <summary>
-    /// Items will be arranged in the center of the line.
+    /// Items are centered within the line. 
     /// </summary>
     Center,
 
     /// <summary>
-    /// Items will be arranged ending aligned with the ending margin of the line.
+    /// Items are aligned toward the end of the line (Right for Horizontal, Bottom for Vertical).
     /// </summary>
     End,
 
     /// <summary>
-    /// Items will be arranged with padding on both sides of each item, and half-sized padding against the margin.
+    /// Items are distributed with equal internal spacing and half-sized spacing at the margins.
     /// </summary>
     SpaceAround,
 
     /// <summary>
-    /// Items will be arranged with equal padding between all items, and no padding against the margins.
+    /// Items are distributed with equal spacing between them; no spacing is applied at the margins.
     /// </summary>
     SpaceBetween,
 
     /// <summary>
-    /// Items will be arranged with padding on both sides of each item, and full-sized padding against the margin.
+    /// Items are distributed so that the spacing between any two items and the spacing to the margins is equal.
     /// </summary>
     SpaceEvenly,
 }
