@@ -24,7 +24,7 @@ The behavior of items with **Star** 'LayoutLength' values depends on the panel's
 
 **When Aligned (Start, Center, End):** Star-sized child elements will collapse to the smallest size possible while maintaining their relative proportions and ensuring all child elements are fully visible.
 
-[!Sample WrapPanel2BasicSample]
+> [!Sample WrapPanel2BasicSample]
 
 ## Properties
 
@@ -32,25 +32,49 @@ The behavior of items with **Star** 'LayoutLength' values depends on the panel's
 
 The `ItemsJustification` property determines how items are aligned and distributed along a line.
 
-| Value     | Description | Star-Size Behavior |
-| --------- | ----------- | ------------------ |
-| Automatic | Arranges items according to the control's alignment. | Varies by alignment. |
-| Start / Center / End | Aligns items to the beginning, middle, or end of the line. | Collapse to minimum proportional size. |
-| SpaceAround | Equal internal padding with half-sized padding at margins. | Proportional expansion. |
-| SpaceBetween | Equal spacing between items; no margin padding. | Proportional expansion. |
-| SpaceEvenly | Equal spacing between all items and margins. | Proportional expansion. |
+#### Automatic
+
+Arranges items according to the control's alignment.
+
+#### Start / Center / End
+
+Aligns items to the beginning, middle, or end of the line.
+
+#### SpaceAround
+
+Equal internal padding with half-sized padding at margins.
+
+#### SpaceBetween
+
+Equal spacing between items; no margin padding.
+
+#### SpaceEvenly
+
+Equal spacing between all items and margins. 
 
 ### Items Stretch
 
 The `ItemsStretch` property defines how the panel fills space on lines that do not contain Star-sized definitions, or when forced to fill a fixed row length.
 
-| Value        | Description |
-| ------------ | ----------- |
-| None         | No additional stretching is applied to non-star items. Note that Star-sized items will still expand if the `ItemsJustification` mode triggers a stretch. |
-| First        | The first item in the line is stretched to occupy all remaining space. |
-| Last         | The last item in the line is stretched to occupy all remaining space. |
-| Equal        | Every item in the line is stretched to a uniform size to fill the row, regardless of their individual content size. |
-| Proportional | Every item in the line is stretched proportionally based on their desired size to fill the remaining space. |
+#### None
+
+No additional stretching is applied to non-star items. Note that Star-sized items will still expand if the `ItemsJustification` mode triggers a stretch.
+
+#### First
+
+The first item in the line is stretched to occupy all remaining space.
+
+#### Last
+
+The last item in the line is stretched to occupy all remaining space.
+
+#### Equal
+
+Every item in the line is stretched to a uniform size to fill the row, regardless of their individual content size.
+
+#### Proportional
+
+Every item in the line is stretched proportionally based on their desired size to fill the remaining space.
  
 ## Additional Samples
 
