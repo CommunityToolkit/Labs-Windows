@@ -35,7 +35,7 @@ Otherwise, you can clone the repo, open the `components` directory, navigate wit
 - [MarkdownTextBlock](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarkdownTextBlock/samples/MarkdownTextBlock.md)
 - [Marquee](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Marquee/samples/Marquee.md)
 - [Notifications](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Notifications)
-- [OpacityMaskView](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/OpacityMaskView)
+- [OpacityMaskView](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/OpacityMaskView/samples/OpacityMaskView.md)
 - [Ribbon](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Ribbon/samples/Ribbon.md)
 - [RivePlayer](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/RivePlayer/samples/RivePlayer.md)
 - [Shimmer](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Shimmer/samples/Shimmer.md)
