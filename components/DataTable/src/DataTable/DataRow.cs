@@ -131,7 +131,11 @@ public partial class DataRow : Panel
 
                 double width = column.ActualCurrentWidth;
 
-                if (column.IsAuto && !column.IsFixed)
+                if (column.IsFixed)
+                {
+                    child.Measure(new Size(width, availableSize.Height));
+                }
+                else
                 {
                     // We should get the *required* width from the child.
                     child.Measure(new Size(double.PositiveInfinity, availableSize.Height));
@@ -142,14 +146,10 @@ public partial class DataRow : Panel
 
                     // If the adjusted column width is smaller than the current cell width,
                     // we should call DataTable.MeasureOverride() again to extend it.
-                    if (!(width >= childWidth))
+                    if (column.IsAuto && !(width >= childWidth))
                     {
                         _parentTable.InvalidateMeasure();
                     }
-                }
-                else
-                {
-                    child.Measure(new Size(width, availableSize.Height));
                 }
 
                 maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
