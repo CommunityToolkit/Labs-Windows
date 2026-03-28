@@ -238,6 +238,7 @@ public partial class DataTable : Panel
                 width = starUnit * column.DesiredWidth.Value;
 
                 // Store the actual star column width.
+                //Debug.WriteLine($"  Column[{i}] ({column.DesiredWidth}) width is re-adjusted to: {width}");
                 column.CurrentWidth = width;
             }
 
