@@ -1,11 +1,13 @@
 
 # 🧪 Windows Community Toolkit Labs (Preview) 🧪
 
-![Windows Community Toolkit Labs header](CommunityToolkitLabs-Header.png)
+**[Try our components live in your browser in our Sample App here!](https://toolkitlabs.dev)**
+
+[![Windows Community Toolkit Labs header](CommunityToolkitLabs-Header.png)](https://toolkitlabs.dev)
 
 Welcome to the home of Windows Community Toolkit Labs. A place for all new components to be developed in 'experiments' for the [Windows Community Toolkit](https://aka.ms/windowstoolkitdocs) (built on top of WinUI 2, [WinUI 3](https://aka.ms/winui3), and [Uno Platform](https://platform.uno))! Find out more about Toolkit Labs in our [blog post here](https://devblogs.microsoft.com/ifdef-windows/announcing-the-windows-community-toolkit-labs/). It includes more about our motivations for having this space as well as how to setup the NuGet feed required to easily use experiments found in this repo.
 
-This is the starting place for all new features to make it into the [Windows Community Toolkit](https://aka.ms/wct). It is a useful prototyping space as well as a space to work collaboratively on polishing a feature. This allows a final PR into the main Toolkit repo to go as smoothly as possible once a feature is ready to go.
+This is the starting place for all new features to make it into the [Windows Community Toolkit](https://aka.ms/wct). It is a useful prototyping space as well as a space to work collaboratively on polishing a feature. This allows a final PR into the main Toolkit repo to go as smoothly as possible once a feature is ready to go. You can try these components live in the browser, thanks to Uno Platform, [here](https://toolkitlabs.dev).
 
 ## Getting Started
 
@@ -22,14 +24,18 @@ If you find an experiment useful, please up-vote 👍 its corresponding issue an
 Otherwise, you can clone the repo, open the `components` directory, navigate within the folder for a particular experiment and open up it's solution file in Visual Studio. Run one of the project heads (_ExperimentName.Uwp/Wasm/WinAppSDK_) to see its samples.
 
 **List of current experiments**
+- [Adorners](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Adorners/samples/Adorners.md)
 - [AppServices](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/AppServices)
 - [CanvasLayout](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/CanvasLayout/samples/CanvasLayout.md)
 - [CanvasView](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/CanvasView/samples/CanvasView.md)
+- [ColorAnalyzer](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/ColorAnalyzer)
 - [DataTable](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/DataTable/samples/DataTable.md)
+- [DependencyPropertyGenerator](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/DependencyPropertyGenerator)
 - [Extensions.DependencyInjection](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Extensions.DependencyInjection)
 - [MarkdownTextBlock](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarkdownTextBlock/samples/MarkdownTextBlock.md)
 - [Marquee](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Marquee/samples/Marquee.md)
 - [Notifications](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Notifications)
+- [OpacityMaskView](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/OpacityMaskView/samples/OpacityMaskView.md)
 - [Ribbon](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Ribbon/samples/Ribbon.md)
 - [RivePlayer](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/RivePlayer/samples/RivePlayer.md)
 - [Shimmer](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Shimmer/samples/Shimmer.md)
