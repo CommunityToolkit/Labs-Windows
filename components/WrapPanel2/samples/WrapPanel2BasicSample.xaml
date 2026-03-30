@@ -1,0 +1,51 @@
+﻿<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="WrapPanel2Experiment.Samples.WrapPanel2BasicSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:WrapPanel2Experiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="Border">
+            <Setter Property="Background" Value="#55000000" />
+            <Setter Property="BorderBrush" Value="#88000000" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+    </Page.Resources>
+
+    <Grid MaxHeight="600"
+          Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="8"
+                    Orientation="Horizontal"
+                    Spacing="8">
+            <Button Click="AddItemClick"
+                    Content="Add Item" />
+            <Button Click="Add5ItemsClick"
+                    Content="Add 5 Items" />
+            <Button Click="ClearItemsClick"
+                    Content="Clear" />
+        </StackPanel>
+
+        <controls:WrapPanel2 x:Name="WrapPanel"
+                             Grid.Row="1"
+                             HorizontalAlignment="{x:Bind LayoutHorizontalAlignment, Mode=OneWay}"
+                             VerticalAlignment="{x:Bind LayoutVerticalAlignment, Mode=OneWay}"
+                             ItemSpacing="{x:Bind ItemSpacing, Mode=OneWay}"
+                             ItemsJustification="{x:Bind local:WrapPanel2BasicSample.ConvertStringToItemsJustification(LayoutItemsJustification), Mode=OneWay}"
+                             ItemsStretch="{x:Bind local:WrapPanel2BasicSample.ConvertStringToItemsStretch(LayoutItemsStretch), Mode=OneWay}"
+                             LineSpacing="{x:Bind LineSpacing, Mode=OneWay}"
+                             Orientation="{x:Bind local:WrapPanel2BasicSample.ConvertStringToOrientation(LayoutOrientation), Mode=OneWay}" />
+    </Grid>
+</Page>
