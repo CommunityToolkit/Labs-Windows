@@ -10,7 +10,7 @@ namespace GradientSliderExperiment.Samples;
 /// An example sample page of a custom control inheriting from Panel.
 /// </summary>
 
-[ToolkitSample(id: nameof(GradientSliderSample), "Custom control", description: $"A sample for showing how to create and use a {nameof(GradientSlider)} custom control.")]
+[ToolkitSample(id: nameof(GradientSliderSample), "GradientSlider", description: $"A sample for showing how to create and use the {nameof(GradientSlider)}.")]
 [ToolkitSampleBoolOption("CanAddStops", true, Title = nameof(GradientSlider.IsAddStopsEnabled))]
 public sealed partial class GradientSliderSample : Page
 {
