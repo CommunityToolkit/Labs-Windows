@@ -1,7 +1,7 @@
 ---
 title: GradientSlider
-author: githubaccount
-description: TODO: Your experiment's description here
+author: Avid29
+description: A slider control for selecting color gradients.
 keywords: GradientSlider, Control, Layout
 dev_langs:
   - csharp
