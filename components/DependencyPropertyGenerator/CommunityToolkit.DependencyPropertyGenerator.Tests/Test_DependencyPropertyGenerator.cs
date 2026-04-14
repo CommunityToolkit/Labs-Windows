@@ -1017,11 +1017,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
 
                             OnNameChanged(value);
                         }
@@ -1076,6 +1072,7 @@ public partial class Test_DependencyPropertyGenerator
     }
 
     [TestMethod]
+    public void SingleProperty_Int32_WithNoCaching_WithDefaultValue_WithCallback()
     {
         const string source = """
             using CommunityToolkit.WinUI;
