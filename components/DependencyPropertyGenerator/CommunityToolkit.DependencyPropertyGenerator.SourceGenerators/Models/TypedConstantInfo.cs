@@ -78,7 +78,7 @@ internal abstract partial record TypedConstantInfo
             /// <inheritdoc/>
             public override string ToString()
             {
-                return '"' + Value + '"';
+                return Literal(Value).ToFullString();
             }
         }
 
