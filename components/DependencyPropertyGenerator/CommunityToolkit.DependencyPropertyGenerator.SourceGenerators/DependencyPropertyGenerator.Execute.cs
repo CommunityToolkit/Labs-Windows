@@ -449,6 +449,60 @@ partial class DependencyPropertyGenerator
         }
 
         /// <summary>
+        /// Checks whether the user has provided an implementation for the <c>On&lt;PROPERTY_NAME&gt;Set(ref object)</c> partial method.
+        /// </summary>
+        /// <param name="propertySymbol">The input <see cref="IPropertySymbol"/> instance to process.</param>
+        /// <returns>Whether the user has an implementation for the boxed set callback.</returns>
+        public static bool IsObjectSetCallbackImplemented(IPropertySymbol propertySymbol)
+        {
+            // Check for any 'On<PROPERTY_NAME>Set' methods with a single ref 'object' parameter
+            foreach (ISymbol symbol in propertySymbol.ContainingType.GetMembers($"On{propertySymbol.Name}Set"))
+            {
+                if (symbol is IMethodSymbol { IsStatic: false, ReturnsVoid: true, Parameters: [{ RefKind: RefKind.Ref, Type.SpecialType: SpecialType.System_Object }] })
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the <c>XamlBindingHelper.SetPropertyFrom*</c> method name for a given property type, if supported.
+        /// </summary>
+        /// <param name="typeSymbol">The input <see cref="ITypeSymbol"/> to check.</param>
+        /// <returns>The method name to use, or <see langword="null"/> if the type is not supported.</returns>
+        public static string? GetXamlBindingHelperSetMethodName(ITypeSymbol typeSymbol)
+        {
+            // Check for well known primitive types first (these are the most common)
+            switch (typeSymbol.SpecialType)
+            {
+                case SpecialType.System_Boolean: return "SetPropertyFromBoolean";
+                case SpecialType.System_Byte: return "SetPropertyFromByte";
+                case SpecialType.System_Char: return "SetPropertyFromChar16";
+                case SpecialType.System_Double: return "SetPropertyFromDouble";
+                case SpecialType.System_Int32: return "SetPropertyFromInt32";
+                case SpecialType.System_Int64: return "SetPropertyFromInt64";
+                case SpecialType.System_Single: return "SetPropertyFromSingle";
+                case SpecialType.System_String: return "SetPropertyFromString";
+                case SpecialType.System_UInt32: return "SetPropertyFromUInt32";
+                case SpecialType.System_UInt64: return "SetPropertyFromUInt64";
+                case SpecialType.System_Object: return "SetPropertyFromObject";
+                default: break;
+            }
+
+            // Check for the remaining well known WinRT projected types
+            if (typeSymbol.HasFullyQualifiedMetadataName("System.DateTimeOffset")) return "SetPropertyFromDateTime";
+            if (typeSymbol.HasFullyQualifiedMetadataName("System.TimeSpan")) return "SetPropertyFromTimeSpan";
+            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Point")) return "SetPropertyFromPoint";
+            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Rect")) return "SetPropertyFromRect";
+            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Size")) return "SetPropertyFromSize";
+            if (typeSymbol.HasFullyQualifiedMetadataName("System.Uri")) return "SetPropertyFromUri";
+
+            return null;
+        }
+
+        /// <summary>
         /// Gathers all forwarded attributes for the generated property.
         /// </summary>
         ///<param name="node">The input <see cref="PropertyDeclarationSyntax"/> node.</param>
@@ -708,21 +762,39 @@ partial class DependencyPropertyGenerator
                                 On{{propertyInfo.PropertyName}}Changing(__oldValue, value);
 
                                 field = value;
-
-                                object? __boxedValue = value;
                             """, isMultiline: true);
-                        writer.WriteLineIf(propertyInfo.TypeName != "object", $"""
 
-                                On{propertyInfo.PropertyName}Set(ref __boxedValue);
-                            """, isMultiline: true);
-                        writer.Write($$"""
+                        // If an optimized 'XamlBindingHelper' method is available, use it directly
+                        if (propertyInfo.XamlBindingHelperSetMethodName is string setMethodName)
+                        {
+                            writer.Write($$"""
 
-                                SetValue({{propertyInfo.PropertyName}}Property, __boxedValue);
+                                    global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{setMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
 
-                                On{{propertyInfo.PropertyName}}Changed(value);
-                                On{{propertyInfo.PropertyName}}Changed(__oldValue, value);
-                            }
-                            """, isMultiline: true);
+                                    On{{propertyInfo.PropertyName}}Changed(value);
+                                    On{{propertyInfo.PropertyName}}Changed(__oldValue, value);
+                                }
+                                """, isMultiline: true);
+                        }
+                        else
+                        {
+                            writer.Write($$"""
+
+                                    object? __boxedValue = value;
+                                """, isMultiline: true);
+                            writer.WriteLineIf(propertyInfo.TypeName != "object", $"""
+
+                                    On{propertyInfo.PropertyName}Set(ref __boxedValue);
+                                """, isMultiline: true);
+                            writer.Write($$"""
+
+                                    SetValue({{propertyInfo.PropertyName}}Property, __boxedValue);
+
+                                    On{{propertyInfo.PropertyName}}Changed(value);
+                                    On{{propertyInfo.PropertyName}}Changed(__oldValue, value);
+                                }
+                                """, isMultiline: true);
+                        }
 
                         // If the default value is not what the default field value would be, add an initializer
                         if (propertyInfo.DefaultValue is not (DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default or DependencyPropertyDefaultValue.Callback))
@@ -758,9 +830,34 @@ partial class DependencyPropertyGenerator
                             }
                             """, isMultiline: true);
                     }
-                    else
+                    else  if (propertyInfo.XamlBindingHelperSetMethodName is string setMethodName)
                     {
                         // Same as above but with the extra typed hook for both accessors
+                        writer.WriteLine($$"""
+                            {{GetExpressionWithTrailingSpace(propertyInfo.GetterAccessibility)}}get
+                            {
+                                object? __boxedValue = GetValue({{propertyInfo.PropertyName}}Property);
+
+                                On{{propertyInfo.PropertyName}}Get(ref __boxedValue);
+
+                                {{propertyInfo.TypeNameWithNullabilityAnnotations}} __unboxedValue = ({{propertyInfo.TypeNameWithNullabilityAnnotations}})__boxedValue;
+
+                                On{{propertyInfo.PropertyName}}Get(ref __unboxedValue);
+
+                                return __unboxedValue;
+                            }
+                            {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
+                            {
+                                On{{propertyInfo.PropertyName}}Set(ref value);
+
+                                global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{setMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
+
+                                On{{propertyInfo.PropertyName}}Changed(value);
+                            }
+                            """, isMultiline: true);
+                    }
+                    else
+                    {
                         writer.WriteLine($$"""
                             {{GetExpressionWithTrailingSpace(propertyInfo.GetterAccessibility)}}get
                             {
@@ -787,7 +884,6 @@ partial class DependencyPropertyGenerator
                                 On{{propertyInfo.PropertyName}}Changed(value);
                             }
                             """, isMultiline: true);
-
                     }
                 }
             }
