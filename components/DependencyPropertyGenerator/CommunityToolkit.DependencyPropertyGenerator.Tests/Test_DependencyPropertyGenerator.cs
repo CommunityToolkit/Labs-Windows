@@ -962,20 +962,33 @@ public partial class Test_DependencyPropertyGenerator
     }
 
     [TestMethod]
-    [DataRow("\"Hello\"")]
-    [DataRow("\"\"")]
-    [DataRow("\"Hello, World!\"")]
-    [DataRow("\"Hello\\tWorld\"")]
-    [DataRow("\"Hello\\nWorld\"")]
-    [DataRow("\"Hello\\rWorld\"")]
-    [DataRow("\"Hello\\r\\nWorld\"")]
-    [DataRow("\"Hello\\\\World\"")]
-    [DataRow("\"Hello\\\"World\"")]
-    [DataRow("\"Hello\\0World\"")]
-    [DataRow("\"C:\\\\Users\\\\Test\"")]
-    [DataRow("\"Line1\\nLine2\\nLine3\"")]
-    [DataRow("\"Tab\\there\"")]
-    public void SingleProperty_String_WithNoCaching_WithDefaultValue(string expectedLiteral)
+
+    // Simple strings (input and output are the same)
+    [DataRow("\"Hello\"", "\"Hello\"")]
+    [DataRow("\"\"", "\"\"")]
+    [DataRow("\"Hello, World!\"", "\"Hello, World!\"")]
+
+    // Escape sequences
+    [DataRow("\"Hello\\tWorld\"", "\"Hello\\tWorld\"")]
+    [DataRow("\"Hello\\nWorld\"", "\"Hello\\nWorld\"")]
+    [DataRow("\"Hello\\rWorld\"", "\"Hello\\rWorld\"")]
+    [DataRow("\"Hello\\r\\nWorld\"", "\"Hello\\r\\nWorld\"")]
+    [DataRow("\"Hello\\\\World\"", "\"Hello\\\\World\"")]
+    [DataRow("\"Hello\\\"World\"", "\"Hello\\\"World\"")]
+    [DataRow("\"Hello\\0World\"", "\"Hello\\0World\"")]
+    [DataRow("\"C:\\\\Users\\\\Test\"", "\"C:\\\\Users\\\\Test\"")]
+    [DataRow("\"Line1\\nLine2\\nLine3\"", "\"Line1\\nLine2\\nLine3\"")]
+    [DataRow("\"Tab\\there\"", "\"Tab\\there\"")]
+
+    // Verbatim string literals (input uses @"..." syntax, output uses regular escaped form)
+    [DataRow("@\"C:\\Users\\Test\"", "\"C:\\\\Users\\\\Test\"")]
+    [DataRow("@\"Hello\\World\"", "\"Hello\\\\World\"")]
+    [DataRow("@\"She said \"\"hi\"\"\"", "\"She said \\\"hi\\\"\"")]
+    [DataRow("@\"Line1\nLine2\"", "\"Line1\\nLine2\"")]
+    [DataRow("@\"Tab\there\"", "\"Tab\\there\"")]
+    [DataRow("@\"C:\\"", "\"C:\\\"")]
+    [DataRow("@\"C:\\Program Files\\App\"", "\"C:\\\\Program Files\\\\App\"")]
+    public void SingleProperty_String_WithNoCaching_WithDefaultValue(string inputLiteral, string expectedLiteral)
     {
         string source = $$"""
             using CommunityToolkit.WinUI;
@@ -985,7 +998,7 @@ public partial class Test_DependencyPropertyGenerator
 
             public partial class MyControl : DependencyObject
             {
-                [GeneratedDependencyProperty(DefaultValue = {{expectedLiteral}})]
+                [GeneratedDependencyProperty(DefaultValue = {{inputLiteral}})]
                 public partial string? Name { get; set; }
             }
             """;
