@@ -4050,8 +4050,10 @@ public partial class Test_DependencyPropertyGenerator
     {
         // Compute the setter body and partial method block based on whether the optimization is used
         string setterBody = setMethodName is not null
-            ? $"global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, NameProperty, value)"
-            : $$"""
+            ? $"""
+                             global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, NameProperty, value)
+             """            
+            : """
                              object? __boxedValue = value;
 
                              OnNameSet(ref __boxedValue);
@@ -4122,7 +4124,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            {{setterBody}};
+            {{setterBody}};
 
                             OnNameChanged(value);
                         }
@@ -4454,8 +4456,10 @@ public partial class Test_DependencyPropertyGenerator
     {
         // Compute the setter body and partial method block based on whether the optimization is used
         string setterBody = setMethodName is not null
-            ? $"global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, IsSelectedProperty, value)"
-            : $$"""
+            ? $"""
+                             global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, IsSelectedProperty, value)
+             """
+            : """
                              object? __boxedValue = value;
 
                              OnIsSelectedSet(ref __boxedValue);
@@ -4520,7 +4524,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnIsSelectedSet(ref value);
 
-                            {{setterBody}};
+            {{setterBody}};
 
                             OnIsSelectedChanged(value);
                         }
