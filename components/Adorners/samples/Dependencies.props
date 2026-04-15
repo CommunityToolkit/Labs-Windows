@@ -11,11 +11,11 @@
 <Project>
   <!-- WinUI 2 / UWP / Uno -->
   <ItemGroup Condition="'$(IsUwp)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '2')">
-    <PackageReference Include="CommunityToolkit.Uwp.Animations" Version="8.2.250402"/>
+    <PackageReference Include="CommunityToolkit.Uwp.Animations" Version="8.3.260402-preview2"/>
   </ItemGroup>
 
   <!-- WinUI 3 / WinAppSdk / Uno -->
   <ItemGroup Condition="'$(IsWinAppSdk)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '3')">
-    <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.250402"/>
+    <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.3.260402-preview2"/>
   </ItemGroup>
 </Project>
