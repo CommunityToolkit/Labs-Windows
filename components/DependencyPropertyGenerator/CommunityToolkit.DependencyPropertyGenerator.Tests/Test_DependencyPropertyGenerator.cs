@@ -958,7 +958,7 @@ public partial class Test_DependencyPropertyGenerator
     [DataRow("@\"She said \"\"hi\"\"\"", "\"She said \\\"hi\\\"\"")]
     [DataRow("@\"Line1\nLine2\"", "\"Line1\\nLine2\"")]
     [DataRow("@\"Tab\there\"", "\"Tab\\there\"")]
-    [DataRow("@\"C:\\"", "\"C:\\\"")]
+    [DataRow("@\"C:\\\"", "\"C:\\\\\"")]
     [DataRow("@\"C:\\Program Files\\App\"", "\"C:\\\\Program Files\\\\App\"")]
     public void SingleProperty_String_WithNoCaching_WithDefaultValue(string inputLiteral, string expectedLiteral)
     {
