@@ -43,6 +43,10 @@ internal sealed class CSharpCodeFixTest<TAnalyzer, TCodeFixer> : CSharpCodeFixTe
         TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location));
         TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location));
         TestState.AnalyzerConfigFiles.Add(("/.editorconfig", "[*]\nend_of_line = lf"));
+        TestState.AnalyzerConfigFiles.Add(("/.globalconfig", """
+            is_global = true
+            build_property.DependencyPropertyGeneratorUseWindowsUIXaml = true
+            """));
     }
 
     /// <inheritdoc/>
