@@ -1017,7 +1017,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -1637,7 +1644,14 @@ public partial class Test_DependencyPropertyGenerator
 
                             field = value;
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                             OnNameChanged(__oldValue, value);
@@ -1758,7 +1772,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -1870,7 +1891,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -1987,7 +2015,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -2099,7 +2134,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -2218,7 +2260,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -2330,7 +2379,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -2455,7 +2511,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -2483,7 +2546,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -2650,7 +2720,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -2678,7 +2755,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -2895,7 +2979,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -2923,7 +3014,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -3156,7 +3254,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -3184,7 +3289,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -3431,7 +3543,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -3459,7 +3578,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -3932,7 +4058,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -4048,18 +4181,32 @@ public partial class Test_DependencyPropertyGenerator
         string? typeDefinition = "",
         string? setMethodName = null)
     {
-        // Compute the setter body and partial method block based on whether the optimization is used
-        string setterBody = setMethodName is not null
-            ? $"""
-                             global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, NameProperty, value)
-             """            
-            : """
-                             object? __boxedValue = value;
+        // Compute the setter body and partial method block based on whether the optimization is used.
+        // The 'string' type needs a special path, since 'XamlBindingHelper.SetPropertyFromString' doesn't
+        // handle 'null' or empty strings correctly, so we need to fall back to 'SetValue' in those cases.
+        string setterBody = setMethodName switch
+        {
+            "SetPropertyFromString" => """
+                                if (value is null || value.Length == 0)
+                                {
+                                    SetValue(NameProperty, value);
+                                }
+                                else
+                                {
+                                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                                }
+                """,
+            not null => $"""
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, NameProperty, value);
+                """,
+            _ => """
+                                object? __boxedValue = value;
 
-                             OnNameSet(ref __boxedValue);
+                                OnNameSet(ref __boxedValue);
 
-                             SetValue(NameProperty, __boxedValue)
-             """;
+                                SetValue(NameProperty, __boxedValue);
+                """
+        };
 
         string source = $$"""
             using System;
@@ -4124,7 +4271,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-            {{setterBody}};
+            {{setterBody}}
 
                             OnNameChanged(value);
                         }
@@ -4266,7 +4413,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -4454,18 +4608,30 @@ public partial class Test_DependencyPropertyGenerator
         string propertyMetadata,
         string? setMethodName = null)
     {
-        // Compute the setter body and partial method block based on whether the optimization is used
-        string setterBody = setMethodName is not null
-            ? $"""
-                             global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, IsSelectedProperty, value)
-             """
-            : """
-                             object? __boxedValue = value;
+        // Compute the setter body (see 'SingleProperty_MultipleTypes_WithNoCaching_DefaultValueIsOptimized' for context on the 'string' case)
+        string setterBody = setMethodName switch
+        {
+            "SetPropertyFromString" => """
+                                if (value is null || value.Length == 0)
+                                {
+                                    SetValue(IsSelectedProperty, value);
+                                }
+                                else
+                                {
+                                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, IsSelectedProperty, value);
+                                }
+                """,
+            not null => $"""
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, IsSelectedProperty, value);
+                """,
+            _ => """
+                                object? __boxedValue = value;
 
-                             OnIsSelectedSet(ref __boxedValue);
+                                OnIsSelectedSet(ref __boxedValue);
 
-                             SetValue(IsSelectedProperty, __boxedValue)
-             """;
+                                SetValue(IsSelectedProperty, __boxedValue);
+                """
+        };
 
         string source = $$"""
             using CommunityToolkit.WinUI;
@@ -4524,7 +4690,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnIsSelectedSet(ref value);
 
-            {{setterBody}};
+            {{setterBody}}
 
                             OnIsSelectedChanged(value);
                         }
@@ -4788,7 +4954,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NumberProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            }
 
                             OnNumberChanged(value);
                         }
@@ -4911,7 +5084,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NumberProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            }
 
                             OnNumberChanged(value);
                         }
@@ -5034,7 +5214,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NumberProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            }
 
                             OnNumberChanged(value);
                         }
@@ -5167,7 +5354,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NumberProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            }
 
                             OnNumberChanged(value);
                         }
