@@ -5,12 +5,8 @@
 using Markdig.Syntax;
 
 #if !WINAPPSDK
-using FontWeight = Windows.UI.Text.FontWeight;
-using FontWeights = Windows.UI.Text.FontWeights;
 using DispatcherQueue = Windows.System.DispatcherQueue;
 #else
-using FontWeight = Windows.UI.Text.FontWeight;
-using FontWeights = Microsoft.UI.Text.FontWeights;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 #endif
 
