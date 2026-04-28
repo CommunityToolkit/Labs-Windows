@@ -764,9 +764,29 @@ partial class DependencyPropertyGenerator
                                 field = value;
                             """, isMultiline: true);
 
-                        // If an optimized 'XamlBindingHelper' method is available, use it directly
-                        if (propertyInfo.XamlBindingHelperSetMethodName is string setMethodName)
+                        // If the property is of type 'string', we need a special path. That is because 'XamlBindingHelper.SetPropertyFromString'
+                        // doesn't work correctly for 'null' or empty strings, so we need to fall back to 'SetValue' in those cases.
+                        if (propertyInfo.TypeName == "string")
                         {
+                            writer.Write($$"""
+
+                                    if (value is null || value.Length == 0)
+                                    {
+                                        SetValue({{propertyInfo.PropertyName}}Property, value);
+                                    }
+                                    else
+                                    {
+                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.SetPropertyFromString(this, {{propertyInfo.PropertyName}}Property, value);
+                                    }
+
+                                    On{{propertyInfo.PropertyName}}Changed(value);
+                                    On{{propertyInfo.PropertyName}}Changed(__oldValue, value);
+                                }
+                                """, isMultiline: true);
+                        }
+                        else if (propertyInfo.XamlBindingHelperSetMethodName is string setMethodName)
+                        {
+                            // If an optimized 'XamlBindingHelper' method is available, use it directly
                             writer.Write($$"""
 
                                     global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{setMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
@@ -846,15 +866,42 @@ partial class DependencyPropertyGenerator
 
                                 return __unboxedValue;
                             }
-                            {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
-                            {
-                                On{{propertyInfo.PropertyName}}Set(ref value);
-
-                                global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{setMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
-
-                                On{{propertyInfo.PropertyName}}Changed(value);
-                            }
                             """, isMultiline: true);
+
+                        // For 'string' properties, we need a specialized path (see comment in the local caching branch above)
+                        if (propertyInfo.TypeName == "string")
+                        {
+                            writer.WriteLine($$"""
+                                {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
+                                {
+                                    On{{propertyInfo.PropertyName}}Set(ref value);
+
+                                    if (value is null || value.Length == 0)
+                                    {
+                                        SetValue({{propertyInfo.PropertyName}}Property, value);
+                                    }
+                                    else
+                                    {
+                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.SetPropertyFromString(this, {{propertyInfo.PropertyName}}Property, value);
+                                    }
+
+                                    On{{propertyInfo.PropertyName}}Changed(value);
+                                }
+                                """, isMultiline: true);
+                        }
+                        else
+                        {
+                            writer.WriteLine($$"""
+                                {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
+                                {
+                                    On{{propertyInfo.PropertyName}}Set(ref value);
+
+                                    global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{setMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
+
+                                    On{{propertyInfo.PropertyName}}Changed(value);
+                                }
+                                """, isMultiline: true);
+                        }
                     }
                     else
                     {
