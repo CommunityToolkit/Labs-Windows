@@ -70,11 +70,7 @@ public partial class Test_DependencyPropertyGenerator
 
                             field = value;
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                             OnNumberChanged(__oldValue, value);
@@ -202,11 +198,7 @@ public partial class Test_DependencyPropertyGenerator
 
                             field = value;
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                             OnNumberChanged(__oldValue, value);
@@ -376,11 +368,7 @@ public partial class Test_DependencyPropertyGenerator
 
                             field = value;
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                             OnNumberChanged(__oldValue, value);
@@ -501,11 +489,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                         }
@@ -617,11 +601,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                         }
@@ -739,11 +719,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                         }
@@ -903,11 +879,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                         }
@@ -948,6 +920,151 @@ public partial class Test_DependencyPropertyGenerator
                     /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="Number"/> is changed.</remarks>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
                     partial void OnNumberPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when any dependency property has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+                }
+            }
+            """;
+
+        CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, ("MyNamespace.MyControl.g.cs", result), languageVersion: LanguageVersion.Preview);
+    }
+
+    [TestMethod]
+
+    // Simple strings (input and output are the same)
+    [DataRow("\"Hello\"", "\"Hello\"")]
+    [DataRow("\"\"", "\"\"")]
+    [DataRow("\"Hello, World!\"", "\"Hello, World!\"")]
+
+    // Escape sequences
+    [DataRow("\"Hello\\tWorld\"", "\"Hello\\tWorld\"")]
+    [DataRow("\"Hello\\nWorld\"", "\"Hello\\nWorld\"")]
+    [DataRow("\"Hello\\rWorld\"", "\"Hello\\rWorld\"")]
+    [DataRow("\"Hello\\r\\nWorld\"", "\"Hello\\r\\nWorld\"")]
+    [DataRow("\"Hello\\\\World\"", "\"Hello\\\\World\"")]
+    [DataRow("\"Hello\\\"World\"", "\"Hello\\\"World\"")]
+    [DataRow("\"Hello\\0World\"", "\"Hello\\0World\"")]
+    [DataRow("\"C:\\\\Users\\\\Test\"", "\"C:\\\\Users\\\\Test\"")]
+    [DataRow("\"Line1\\nLine2\\nLine3\"", "\"Line1\\nLine2\\nLine3\"")]
+    [DataRow("\"Tab\\there\"", "\"Tab\\there\"")]
+
+    // Verbatim string literals (input uses @"..." syntax, output uses regular escaped form)
+    [DataRow("@\"C:\\Users\\Test\"", "\"C:\\\\Users\\\\Test\"")]
+    [DataRow("@\"Hello\\World\"", "\"Hello\\\\World\"")]
+    [DataRow("@\"She said \"\"hi\"\"\"", "\"She said \\\"hi\\\"\"")]
+    [DataRow("@\"Line1\nLine2\"", "\"Line1\\nLine2\"")]
+    [DataRow("@\"Tab\there\"", "\"Tab\\there\"")]
+    [DataRow("@\"C:\\\"", "\"C:\\\\\"")]
+    [DataRow("@\"C:\\Program Files\\App\"", "\"C:\\\\Program Files\\\\App\"")]
+    public void SingleProperty_String_WithNoCaching_WithDefaultValue(string inputLiteral, string expectedLiteral)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            namespace MyNamespace;
+
+            public partial class MyControl : DependencyObject
+            {
+                [GeneratedDependencyProperty(DefaultValue = {{inputLiteral}})]
+                public partial string? Name { get; set; }
+            }
+            """;
+
+        string result = $$"""
+            // <auto-generated/>
+            #pragma warning disable
+            #nullable enable
+
+            namespace MyNamespace
+            {
+                /// <inheritdoc cref="MyControl"/>
+                partial class MyControl
+                {
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="Name"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty NameProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "Name",
+                        propertyType: typeof(string),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: new global::Windows.UI.Xaml.PropertyMetadata({{expectedLiteral}}));
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial string? Name
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(NameProperty);
+
+                            OnNameGet(ref __boxedValue);
+
+                            string? __unboxedValue = (string?)__boxedValue;
+
+                            OnNameGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnNameSet(ref value);
+
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
+
+                            OnNameChanged(value);
+                        }
+                    }
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="Name"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="NameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="NameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameGet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="Name"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="NameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="NameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameGet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Name"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="NameProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="NameProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameSet(ref object? propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Name"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="Name"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="Name"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameSet(ref string? propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="Name"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="Name"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNameChanged(string? newValue);
+
+                    /// <summary>Executes the logic for when <see cref="Name"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="Name"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNamePropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
 
                     /// <summary>Executes the logic for when any dependency property has just changed.</summary>
                     /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
@@ -1025,11 +1142,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                         }
@@ -1195,11 +1308,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                         }
@@ -1369,11 +1478,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                         }
@@ -1539,11 +1644,14 @@ public partial class Test_DependencyPropertyGenerator
 
                             field = value;
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                             OnNameChanged(__oldValue, value);
@@ -1664,11 +1772,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -1780,11 +1891,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -1901,11 +2015,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -2017,11 +2134,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -2140,11 +2260,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -2256,11 +2379,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -2385,11 +2511,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnFirstNameSet(ref __boxedValue);
-
-                            SetValue(FirstNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -2417,11 +2546,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnLastNameSet(ref __boxedValue);
-
-                            SetValue(LastNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -2588,11 +2720,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnFirstNameSet(ref __boxedValue);
-
-                            SetValue(FirstNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -2620,11 +2755,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnLastNameSet(ref __boxedValue);
-
-                            SetValue(LastNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -2841,11 +2979,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnFirstNameSet(ref __boxedValue);
-
-                            SetValue(FirstNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -2873,11 +3014,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnLastNameSet(ref __boxedValue);
-
-                            SetValue(LastNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -3110,11 +3254,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnFirstNameSet(ref __boxedValue);
-
-                            SetValue(FirstNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -3142,11 +3289,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnLastNameSet(ref __boxedValue);
-
-                            SetValue(LastNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -3393,11 +3543,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnFirstNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnFirstNameSet(ref __boxedValue);
-
-                            SetValue(FirstNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(FirstNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, FirstNameProperty, value);
+                            }
 
                             OnFirstNameChanged(value);
                         }
@@ -3425,11 +3578,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnLastNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnLastNameSet(ref __boxedValue);
-
-                            SetValue(LastNameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(LastNameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, LastNameProperty, value);
+                            }
 
                             OnLastNameChanged(value);
                         }
@@ -3658,11 +3814,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromInt32(this, NumberProperty, value);
 
                             OnNumberChanged(value);
                         }
@@ -3906,11 +4058,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -3967,21 +4122,21 @@ public partial class Test_DependencyPropertyGenerator
     [TestMethod]
 
     // The 'string' type is special
-    [DataRow("string", "string", "object", "null")]
-    [DataRow("string", "string?", "object?", "null")]
+    [DataRow("string", "string", "object", "null", "", "SetPropertyFromString")]
+    [DataRow("string", "string?", "object?", "null", "", "SetPropertyFromString")]
 
     // Well known WinRT primitive types
-    [DataRow("int", "int", "object", "null")]
-    [DataRow("byte", "byte", "object", "null")]
+    [DataRow("int", "int", "object", "null", "", "SetPropertyFromInt32")]
+    [DataRow("byte", "byte", "object", "null", "", "SetPropertyFromByte")]
     [DataRow("sbyte", "sbyte", "object", "null")]
     [DataRow("short", "short", "object", "null")]
     [DataRow("ushort", "ushort", "object", "null")]
-    [DataRow("uint", "uint", "object", "null")]
-    [DataRow("long", "long", "object", "null")]
-    [DataRow("ulong", "ulong", "object", "null")]
-    [DataRow("char", "char", "object", "null")]
-    [DataRow("float", "float", "object", "null")]
-    [DataRow("double", "double", "object", "null")]
+    [DataRow("uint", "uint", "object", "null", "", "SetPropertyFromUInt32")]
+    [DataRow("long", "long", "object", "null", "", "SetPropertyFromInt64")]
+    [DataRow("ulong", "ulong", "object", "null", "", "SetPropertyFromUInt64")]
+    [DataRow("char", "char", "object", "null", "", "SetPropertyFromChar16")]
+    [DataRow("float", "float", "object", "null", "", "SetPropertyFromSingle")]
+    [DataRow("double", "double", "object", "null", "", "SetPropertyFromDouble")]
 
     // Well known WinRT struct types
     [DataRow("global::System.Numerics.Matrix3x2", "global::System.Numerics.Matrix3x2", "object", "null")]
@@ -3991,11 +4146,11 @@ public partial class Test_DependencyPropertyGenerator
     [DataRow("global::System.Numerics.Vector2", "global::System.Numerics.Vector2", "object", "null")]
     [DataRow("global::System.Numerics.Vector3", "global::System.Numerics.Vector3", "object", "null")]
     [DataRow("global::System.Numerics.Vector4", "global::System.Numerics.Vector4", "object", "null")]
-    [DataRow("global::Windows.Foundation.Point", "global::Windows.Foundation.Point", "object", "null")]
-    [DataRow("global::Windows.Foundation.Rect", "global::Windows.Foundation.Rect", "object", "null")]
-    [DataRow("global::Windows.Foundation.Size", "global::Windows.Foundation.Size", "object", "null")]
-    [DataRow("global::System.TimeSpan", "global::System.TimeSpan", "object", "null")]
-    [DataRow("global::System.DateTimeOffset", "global::System.DateTimeOffset", "object", "null")]
+    [DataRow("global::Windows.Foundation.Point", "global::Windows.Foundation.Point", "object", "null", "", "SetPropertyFromPoint")]
+    [DataRow("global::Windows.Foundation.Rect", "global::Windows.Foundation.Rect", "object", "null", "", "SetPropertyFromRect")]
+    [DataRow("global::Windows.Foundation.Size", "global::Windows.Foundation.Size", "object", "null", "", "SetPropertyFromSize")]
+    [DataRow("global::System.TimeSpan", "global::System.TimeSpan", "object", "null", "", "SetPropertyFromTimeSpan")]
+    [DataRow("global::System.DateTimeOffset", "global::System.DateTimeOffset", "object", "null", "", "SetPropertyFromDateTime")]
 
     // Well known WinRT enum types
     [DataRow("global::Windows.UI.Xaml.Visibility", "global::Windows.UI.Xaml.Visibility", "object", "null")]
@@ -4023,8 +4178,36 @@ public partial class Test_DependencyPropertyGenerator
         string propertyType,
         string defaultValueDefinition,
         string propertyMetadataExpression,
-        string? typeDefinition = "")
+        string? typeDefinition = "",
+        string? setMethodName = null)
     {
+        // Compute the setter body and partial method block based on whether the optimization is used.
+        // The 'string' type needs a special path, since 'XamlBindingHelper.SetPropertyFromString' doesn't
+        // handle 'null' or empty strings correctly, so we need to fall back to 'SetValue' in those cases.
+        string setterBody = setMethodName switch
+        {
+            "SetPropertyFromString" => """
+                                if (value is null || value.Length == 0)
+                                {
+                                    SetValue(NameProperty, value);
+                                }
+                                else
+                                {
+                                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                                }
+                """,
+            not null => $"""
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, NameProperty, value);
+                """,
+            _ => """
+                                object? __boxedValue = value;
+
+                                OnNameSet(ref __boxedValue);
+
+                                SetValue(NameProperty, __boxedValue);
+                """
+        };
+
         string source = $$"""
             using System;
             using System.Collections.Generic;
@@ -4088,11 +4271,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+            {{setterBody}}
 
                             OnNameChanged(value);
                         }
@@ -4234,11 +4413,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNameSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNameSet(ref __boxedValue);
-
-                            SetValue(NameProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NameProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NameProperty, value);
+                            }
 
                             OnNameChanged(value);
                         }
@@ -4350,11 +4532,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnIsSelectedSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnIsSelectedSet(ref __boxedValue);
-
-                            SetValue(IsSelectedProperty, __boxedValue);
+                            global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromBoolean(this, IsSelectedProperty, value);
 
                             OnIsSelectedChanged(value);
                         }
@@ -4409,16 +4587,16 @@ public partial class Test_DependencyPropertyGenerator
     }
 
     [TestMethod]
-    [DataRow("bool", "bool", "null", "bool", "object", "null")]
-    [DataRow("bool", "bool", "bool", "bool", "object", "null")]
-    [DataRow("bool", "bool", "object", "object", "object", "new global::Windows.UI.Xaml.PropertyMetadata(default(bool))")]
+    [DataRow("bool", "bool", "null", "bool", "object", "null", "SetPropertyFromBoolean")]
+    [DataRow("bool", "bool", "bool", "bool", "object", "null", "SetPropertyFromBoolean")]
+    [DataRow("bool", "bool", "object", "object", "object", "new global::Windows.UI.Xaml.PropertyMetadata(default(bool))", "SetPropertyFromBoolean")]
     [DataRow("bool?", "bool?", "null", "bool?", "object?", "null")]
     [DataRow("bool?", "bool?", "bool?", "bool?", "object?", "null")]
     [DataRow("bool?", "bool?", "object", "object", "object?", "null")]
     [DataRow("bool?", "bool?", "bool", "bool", "object?", "new global::Windows.UI.Xaml.PropertyMetadata(null)")]
-    [DataRow("string?", "string?", "null", "string", "object?", "null")]
-    [DataRow("string?", "string?", "string", "string", "object?", "null")]
-    [DataRow("string?", "string?", "object", "object", "object?", "null")]
+    [DataRow("string?", "string?", "null", "string", "object?", "null", "SetPropertyFromString")]
+    [DataRow("string?", "string?", "string", "string", "object?", "null", "SetPropertyFromString")]
+    [DataRow("string?", "string?", "object", "object", "object?", "null", "SetPropertyFromString")]
     [DataRow("Visibility", "global::Windows.UI.Xaml.Visibility", "object", "object", "object", "new global::Windows.UI.Xaml.PropertyMetadata(default(global::Windows.UI.Xaml.Visibility))")]
     [DataRow("Visibility?", "global::Windows.UI.Xaml.Visibility?", "object", "object", "object?", "null")]
     public void SingleProperty_WithCustomMetadataType_WithNoCaching(
@@ -4427,8 +4605,34 @@ public partial class Test_DependencyPropertyGenerator
         string propertyType,
         string generatedPropertyType,
         string boxedType,
-        string propertyMetadata)
+        string propertyMetadata,
+        string? setMethodName = null)
     {
+        // Compute the setter body (see 'SingleProperty_MultipleTypes_WithNoCaching_DefaultValueIsOptimized' for context on the 'string' case)
+        string setterBody = setMethodName switch
+        {
+            "SetPropertyFromString" => """
+                                if (value is null || value.Length == 0)
+                                {
+                                    SetValue(IsSelectedProperty, value);
+                                }
+                                else
+                                {
+                                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, IsSelectedProperty, value);
+                                }
+                """,
+            not null => $"""
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.{setMethodName}(this, IsSelectedProperty, value);
+                """,
+            _ => """
+                                object? __boxedValue = value;
+
+                                OnIsSelectedSet(ref __boxedValue);
+
+                                SetValue(IsSelectedProperty, __boxedValue);
+                """
+        };
+
         string source = $$"""
             using CommunityToolkit.WinUI;
             using Windows.UI.Xaml;
@@ -4486,11 +4690,7 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnIsSelectedSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnIsSelectedSet(ref __boxedValue);
-
-                            SetValue(IsSelectedProperty, __boxedValue);
+            {{setterBody}}
 
                             OnIsSelectedChanged(value);
                         }
@@ -4754,11 +4954,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NumberProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            }
 
                             OnNumberChanged(value);
                         }
@@ -4881,11 +5084,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NumberProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            }
 
                             OnNumberChanged(value);
                         }
@@ -5008,11 +5214,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NumberProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            }
 
                             OnNumberChanged(value);
                         }
@@ -5145,11 +5354,14 @@ public partial class Test_DependencyPropertyGenerator
                         {
                             OnNumberSet(ref value);
 
-                            object? __boxedValue = value;
-
-                            OnNumberSet(ref __boxedValue);
-
-                            SetValue(NumberProperty, __boxedValue);
+                            if (value is null || value.Length == 0)
+                            {
+                                SetValue(NumberProperty, value);
+                            }
+                            else
+                            {
+                                global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetPropertyFromString(this, NumberProperty, value);
+                            }
 
                             OnNumberChanged(value);
                         }
@@ -5808,5 +6020,125 @@ public partial class Test_DependencyPropertyGenerator
             """;
 
         CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, ("MyNamespace.MyObject`4.g.cs", result), languageVersion: LanguageVersion.Preview);
+    }
+
+    [TestMethod]
+    public void SingleProperty_Int32_WithNoCaching_WithObjectSetCallback()
+    {
+        const string source = """
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            namespace MyNamespace;
+
+            public partial class MyControl : DependencyObject
+            {
+                [GeneratedDependencyProperty]
+                public partial int Number { get; set; }
+
+                partial void OnNumberSet(ref object propertyValue)
+                {
+                }
+            }
+            """;
+
+        const string result = """
+            // <auto-generated/>
+            #pragma warning disable
+            #nullable enable
+
+            namespace MyNamespace
+            {
+                /// <inheritdoc cref="MyControl"/>
+                partial class MyControl
+                {
+                    /// <summary>
+                    /// The backing <see cref="global::Windows.UI.Xaml.DependencyProperty"/> instance for <see cref="Number"/>.
+                    /// </summary>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    public static readonly global::Windows.UI.Xaml.DependencyProperty NumberProperty = global::Windows.UI.Xaml.DependencyProperty.Register(
+                        name: "Number",
+                        propertyType: typeof(int),
+                        ownerType: typeof(MyControl),
+                        typeMetadata: null);
+
+                    /// <inheritdoc/>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    [global::System.Diagnostics.DebuggerNonUserCode]
+                    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+                    public partial int Number
+                    {
+                        get
+                        {
+                            object? __boxedValue = GetValue(NumberProperty);
+
+                            OnNumberGet(ref __boxedValue);
+
+                            int __unboxedValue = (int)__boxedValue;
+
+                            OnNumberGet(ref __unboxedValue);
+
+                            return __unboxedValue;
+                        }
+                        set
+                        {
+                            OnNumberSet(ref value);
+
+                            object? __boxedValue = value;
+
+                            OnNumberSet(ref __boxedValue);
+
+                            SetValue(NumberProperty, __boxedValue);
+
+                            OnNumberChanged(value);
+                        }
+                    }
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="Number"/> is invoked</summary>
+                    /// <param name="propertyValue">The raw property value that has been retrieved from <see cref="NumberProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value retrieved via <see cref="GetValue"/> on <see cref="NumberProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNumberGet(ref object propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="get"/> accessor <see cref="Number"/> is invoked</summary>
+                    /// <param name="propertyValue">The unboxed property value that has been retrieved from <see cref="NumberProperty"/>.</param>
+                    /// <remarks>This method is invoked on the unboxed value retrieved via <see cref="GetValue"/> on <see cref="NumberProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNumberGet(ref int propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Number"/> is invoked</summary>
+                    /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="NumberProperty"/>.</param>
+                    /// <remarks>This method is invoked on the boxed value that is about to be passed to <see cref="SetValue"/> on <see cref="NumberProperty"/>.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNumberSet(ref object propertyValue);
+
+                    /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Number"/> is invoked</summary>
+                    /// <param name="propertyValue">The property value that is being assigned to <see cref="Number"/>.</param>
+                    /// <remarks>This method is invoked on the raw value being assigned to <see cref="Number"/>, before <see cref="SetValue"/> is used.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNumberSet(ref int propertyValue);
+
+                    /// <summary>Executes the logic for when <see cref="Number"/> has just changed.</summary>
+                    /// <param name="value">The new property value that has been set.</param>
+                    /// <remarks>This method is invoked right after the value of <see cref="Number"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNumberChanged(int newValue);
+
+                    /// <summary>Executes the logic for when <see cref="Number"/> has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of <see cref="Number"/> is changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnNumberPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+
+                    /// <summary>Executes the logic for when any dependency property has just changed.</summary>
+                    /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+                    /// <remarks>This method is invoked by the <see cref="global::Windows.UI.Xaml.DependencyProperty"/> infrastructure, after the value of any dependency property has just changed.</remarks>
+                    [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
+                    partial void OnPropertyChanged(global::Windows.UI.Xaml.DependencyPropertyChangedEventArgs e);
+                }
+            }
+            """;
+
+        CSharpGeneratorTest<DependencyPropertyGenerator>.VerifySources(source, ("MyNamespace.MyControl.g.cs", result), languageVersion: LanguageVersion.Preview);
     }
 }
