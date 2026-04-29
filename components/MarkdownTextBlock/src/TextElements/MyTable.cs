@@ -18,7 +18,7 @@ internal class MyTable : IAddChild
         get => _paragraph;
     }
 
-    public MyTable(Table table, MarkdownThemes themes)
+    public MyTable(Table table, MarkdownTextBlock control)
     {
         _table = table;
         _paragraph = new Paragraph();
@@ -29,11 +29,11 @@ internal class MyTable : IAddChild
         (
             column,
             table.Count,
-            borderThickness: themes.TableBorderThickness,
-            themes.TableBorderBrush ?? themes.BorderBrush,
-            themes.TableHeadingBackground,
-            themes.CornerRadius,
-            themes.TableMargin
+            borderThickness: control.TableBorderThickness,
+            control.TableBorderBrush,
+            control.TableHeadingBackground,
+            control.TableCornerRadius,
+            control.TableMargin
         );
 
         var inlineUIContainer = new InlineUIContainer();

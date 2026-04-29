@@ -16,21 +16,14 @@ public class WinUIRenderer : RendererBase
 {
     private readonly Stack<IAddChild> _stack = new Stack<IAddChild>();
     private char[] _buffer;
-    private MarkdownConfig _config = MarkdownConfig.Default;
     private readonly Stack<string> _listBullets = new();
 
     public MyFlowDocument FlowDocument { get; private set; }
-    public MarkdownConfig Config
-    {
-        get => _config;
-        set => _config = value;
-    }
     public MarkdownTextBlock MarkdownTextBlock { get; }
 
-    public WinUIRenderer(MyFlowDocument document, MarkdownConfig config, MarkdownTextBlock markdownTextBlock)
+    public WinUIRenderer(MyFlowDocument document, MarkdownTextBlock markdownTextBlock)
     {
         _buffer = new char[1024];
-        Config = config;
         MarkdownTextBlock = markdownTextBlock;
         FlowDocument = document;
         // set style
@@ -125,14 +118,10 @@ public class WinUIRenderer : RendererBase
         {
             if (length > _buffer.Length)
             {
-                _buffer = text.ToCharArray();
-                WriteText(new string(_buffer, offset, length));
+                _buffer = new char[Math.Max(length, _buffer.Length * 2)];
             }
-            else
-            {
-                text.CopyTo(offset, _buffer, 0, length);
-                WriteText(new string(_buffer, 0, length));
-            }
+            text.CopyTo(offset, _buffer, 0, length);
+            WriteText(new string(_buffer, 0, length));
         }
     }
 

@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI;
 using Windows.UI;
 
@@ -14,7 +13,7 @@ using FontWeights = Microsoft.UI.Text.FontWeights;
 
 namespace MarkdownTextBlockExperiment.Samples;
 
-public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
+public partial class MarkdownTextBlockCustomThemeSampleBase : Page
 {
     // Dependency properties for theme customization
     public static readonly DependencyProperty H1FontSizeProperty =
@@ -372,67 +371,7 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
         FontWeights.ExtraBold
     };
 
-    public MarkdownThemes CreateThemes()
-    {
-        return new MarkdownThemes
-        {
-            H1FontSize = H1FontSize,
-            H1FontWeight = FontWeights.Bold,
-            H1Foreground = HeadingColors[H1ColorIndex],
-            H1Margin = new Thickness(0, 20, 0, 10),
 
-            H2FontSize = H2FontSize,
-            H2FontWeight = FontWeights.SemiBold,
-            H2Foreground = new SolidColorBrush(Colors.MediumSlateBlue),
-
-            H3FontSize = H3FontSize,
-            H3FontWeight = FontWeights.SemiBold,
-            H3Foreground = new SolidColorBrush(Colors.MediumPurple),
-
-            InlineCodeFontSize = InlineCodeFontSize,
-            InlineCodePadding = new Thickness(InlineCodePadding, InlineCodePadding / 2, InlineCodePadding, InlineCodePadding / 2),
-            InlineCodeCornerRadius = new CornerRadius(InlineCodeCornerRadius),
-            InlineCodeBorderThickness = new Thickness(InlineCodeBorderThickness),
-            InlineCodeForeground = InlineCodeColors[InlineCodeColorIndex],
-            InlineCodeBackground = CodeBackgroundColors[InlineCodeBackgroundColorIndex],
-            InlineCodeBorderBrush = CodeBorderColors[InlineCodeBorderColorIndex],
-
-            CodeBlockPadding = new Thickness(CodeBlockPadding),
-            CodeBlockCornerRadius = new CornerRadius(CodeBlockCornerRadius),
-            CodeBlockBorderThickness = new Thickness(CodeBlockBorderThickness),
-            CodeBlockFontFamily = CodeFonts[CodeBlockFontIndex],
-            CodeBlockBackground = CodeBackgroundColors[CodeBlockBackgroundColorIndex],
-            CodeBlockForeground = new SolidColorBrush(Colors.LightGreen),
-            CodeBlockBorderBrush = CodeBorderColors[CodeBlockBorderColorIndex],
-
-            QuoteBorderThickness = new Thickness(QuoteBorderWidth, 0, 0, 0),
-            QuotePadding = new Thickness(QuotePadding, QuotePadding / 2, QuotePadding, QuotePadding / 2),
-            QuoteCornerRadius = new CornerRadius(0, QuoteCornerRadius, QuoteCornerRadius, 0),
-            QuoteBorderBrush = QuoteColors[QuoteColorIndex],
-            QuoteBackground = new SolidColorBrush(Color.FromArgb(20, 100, 149, 237)),
-            QuoteForeground = new SolidColorBrush(Colors.CornflowerBlue),
-
-            TableCellPadding = new Thickness(TableCellPadding, TableCellPadding / 2, TableCellPadding, TableCellPadding / 2),
-            TableBorderThickness = TableBorderThickness,
-            TableBorderBrush = new SolidColorBrush(Colors.SlateGray),
-            TableHeadingBackground = new SolidColorBrush(Color.FromArgb(40, 100, 149, 237)),
-
-            HorizontalRuleThickness = HorizontalRuleThickness,
-            HorizontalRuleMargin = new Thickness(0, HorizontalRuleMargin, 0, HorizontalRuleMargin),
-            HorizontalRuleBrush = new SolidColorBrush(Colors.MediumSlateBlue),
-
-            LinkForeground = new SolidColorBrush(Colors.DeepSkyBlue),
-
-            ImageMaxWidth = ImageMaxWidth,
-            ImageMaxHeight = ImageMaxHeight,
-            ImageStretch = ImageStretchOptions[ImageStretchIndex],
-
-            BoldFontWeight = BoldFontWeights[BoldFontWeightIndex],
-
-            ListBulletSpacing = ListBulletSpacing,
-            ListGutterWidth = ListGutterWidth,
-        };
-    }
 
     public void ResetToDefaults()
     {
@@ -476,6 +415,4 @@ public abstract partial class MarkdownTextBlockCustomThemeSampleBase : Page
         ListBulletSpacing = 4;
         ListGutterWidth = 30;
     }
-
-    public abstract void ApplyTheme();
 }
