@@ -16,7 +16,8 @@ public partial class DataColumn : ContentControl
 
     private WeakReference<DataTable>? _parent;
 
-    internal DataTable? DataTable => _parent?.TryGetTarget(out DataTable? parent) == true ? parent : null;
+    // Pass-thru convenience helper to get reference from WeakReference; computed each time, do not store result!
+    private DataTable? DataTable => _parent?.TryGetTarget(out DataTable? parent) == true ? parent : null;
 
     /// <summary>
     /// Gets or sets the width of the largest child contained within the visible <see cref="DataRow"/>s of the <see cref="DataTable"/>.
