@@ -147,12 +147,10 @@ public partial class DataColumn : ContentControl
     private void ColumnResizedByUserSizer()
     {
         // Update our internal representation to be our size now as a fixed value.
-        if (CurrentWidth != this.ActualWidth)
-        {
-            CurrentWidth = this.ActualWidth;
+        CurrentWidth = this.ActualWidth;
+        IsFixed = true;
 
-            // Notify the rest of the table to update
-            DataTable?.ColumnResized();
-        }
+        // Notify the rest of the table to update
+        DataTable?.ColumnResized();
     }
 }
