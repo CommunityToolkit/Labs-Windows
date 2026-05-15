@@ -26,6 +26,7 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Models;
 /// <param name="IsSharedPropertyChangedCallbackImplemented">Indicates whether the WinRT-based shared property changed callback is implemented.</param>
 /// <param name="IsAdditionalTypesGenerationSupported">Indicates whether additional types can be generated.</param>
 /// <param name="UseWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
+/// <param name="XamlBindingHelperSetMethodName">The name of the <c>XamlBindingHelper.SetPropertyFrom*</c> method to use for optimized setters, if available.</param>
 /// <param name="StaticFieldAttributes">The attributes to emit on the generated static field, if any.</param>
 internal sealed record DependencyPropertyInfo(
     HierarchyInfo Hierarchy,
@@ -44,4 +45,5 @@ internal sealed record DependencyPropertyInfo(
     bool IsSharedPropertyChangedCallbackImplemented,
     bool IsAdditionalTypesGenerationSupported,
     bool UseWindowsUIXaml,
+    string? XamlBindingHelperSetMethodName,
     EquatableArray<AttributeInfo> StaticFieldAttributes);

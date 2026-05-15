@@ -63,6 +63,10 @@ public sealed class CSharpSuppressorTest<TSuppressor> : CSharpAnalyzerTest<TSupp
         TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(ApplicationView).Assembly.Location));
         TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(DependencyProperty).Assembly.Location));
         TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(typeof(GeneratedDependencyPropertyAttribute).Assembly.Location));
+        TestState.AnalyzerConfigFiles.Add(("/.globalconfig", """
+            is_global = true
+            build_property.DependencyPropertyGeneratorUseWindowsUIXaml = true
+            """));
     }
 
     /// <inheritdoc/>

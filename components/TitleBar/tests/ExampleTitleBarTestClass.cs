@@ -5,6 +5,7 @@
 using CommunityToolkit.Tooling.TestGen;
 using CommunityToolkit.Tests;
 using CommunityToolkit.WinUI.Controls;
+using TitleBar = CommunityToolkit.WinUI.Controls.TitleBar;
 
 namespace TitleBarTests;
 

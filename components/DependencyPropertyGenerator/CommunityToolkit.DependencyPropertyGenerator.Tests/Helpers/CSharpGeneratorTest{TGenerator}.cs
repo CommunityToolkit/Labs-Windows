@@ -91,6 +91,7 @@ internal static class CSharpGeneratorTest<TGenerator>
 
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
             generators: [new TGenerator().AsSourceGenerator()],
+            optionsProvider: DependencyPropertyGeneratorAnalyzerConfigOptionsProvider.Instance,
             driverOptions: new GeneratorDriverOptions(IncrementalGeneratorOutputKind.None, trackIncrementalGeneratorSteps: true));
 
         // Run the generator on the initial sources
@@ -166,7 +167,9 @@ internal static class CSharpGeneratorTest<TGenerator>
         Compilation originalCompilation = CreateCompilation(source, languageVersion);
 
         // Create the generator driver with the specified generator
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(new TGenerator()).WithUpdatedParseOptions(originalCompilation.SyntaxTrees.First().Options);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(
+            generators: [new TGenerator().AsSourceGenerator()],
+            optionsProvider: DependencyPropertyGeneratorAnalyzerConfigOptionsProvider.Instance).WithUpdatedParseOptions(originalCompilation.SyntaxTrees.First().Options);
 
         // Run all source generators on the input source code
         _ = driver.RunGeneratorsAndUpdateCompilation(originalCompilation, out compilation, out diagnostics);
