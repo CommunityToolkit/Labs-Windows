@@ -175,6 +175,10 @@ jobs:
           --skip vswin
           --verbose
 
+      - name: Install Windows SDKs
+        shell: pwsh
+        run: ./tooling/Install-WindowsSdkISO.ps1 19041
+
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
         if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
