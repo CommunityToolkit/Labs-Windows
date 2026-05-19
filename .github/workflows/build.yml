@@ -310,10 +310,6 @@ jobs:
           --skip vswin
           --verbose
 
-      - name: Install Windows SDKs
-        shell: pwsh
-        run: ./tooling/Install-WindowsSdk.ps1
-
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
         with:
