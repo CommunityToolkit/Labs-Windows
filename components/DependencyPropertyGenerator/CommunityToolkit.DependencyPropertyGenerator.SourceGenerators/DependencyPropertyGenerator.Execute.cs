@@ -471,8 +471,10 @@ partial class DependencyPropertyGenerator
         /// Gets the <c>XamlBindingHelper.SetPropertyFrom*</c> method name for a given property type, if supported.
         /// </summary>
         /// <param name="typeSymbol">The input <see cref="ITypeSymbol"/> to check.</param>
+        /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
+        /// <param name="compilation">The <see cref="Compilation"/> for the current run, used to probe for optional APIs.</param>
         /// <returns>The method name to use, or <see langword="null"/> if the type is not supported.</returns>
-        public static string? GetXamlBindingHelperSetMethodName(ITypeSymbol typeSymbol)
+        public static string? GetXamlBindingHelperSetMethodName(ITypeSymbol typeSymbol, bool useWindowsUIXaml, Compilation compilation)
         {
             // Check for well known primitive types first (these are the most common)
             switch (typeSymbol.SpecialType)
@@ -491,13 +493,38 @@ partial class DependencyPropertyGenerator
                 default: break;
             }
 
-            // Check for the remaining well known WinRT projected types
+            // Check for the remaining well known WinRT projected types (always available on both UWP and WinAppSDK)
             if (typeSymbol.HasFullyQualifiedMetadataName("System.DateTimeOffset")) return "SetPropertyFromDateTime";
             if (typeSymbol.HasFullyQualifiedMetadataName("System.TimeSpan")) return "SetPropertyFromTimeSpan";
             if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Point")) return "SetPropertyFromPoint";
             if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Rect")) return "SetPropertyFromRect";
             if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Size")) return "SetPropertyFromSize";
             if (typeSymbol.HasFullyQualifiedMetadataName("System.Uri")) return "SetPropertyFromUri";
+
+            // The following types only have a corresponding 'SetPropertyFrom*' method on the WinAppSDK
+            // 'XamlBindingHelper'. The methods were also only added in newer WinAppSDK versions, so we
+            // additionally have to probe for their presence on the resolved type before emitting calls
+            // to them, to avoid breaking codegen for projects targeting older WinAppSDK releases.
+            if (!useWindowsUIXaml)
+            {
+                if (typeSymbol.HasFullyQualifiedMetadataName("Windows.UI.Color") &&
+                    HasXamlBindingHelperMethod(compilation, "SetPropertyFromColor", "Windows.UI.Color"))
+                {
+                    return "SetPropertyFromColor";
+                }
+
+                if (typeSymbol.HasFullyQualifiedMetadataName($"{WellKnownTypeNames.MicrosoftUIXamlNamespace}.CornerRadius") &&
+                    HasXamlBindingHelperMethod(compilation, "SetPropertyFromCornerRadius", $"{WellKnownTypeNames.MicrosoftUIXamlNamespace}.CornerRadius"))
+                {
+                    return "SetPropertyFromCornerRadius";
+                }
+
+                if (typeSymbol.HasFullyQualifiedMetadataName($"{WellKnownTypeNames.MicrosoftUIXamlNamespace}.Thickness") &&
+                    HasXamlBindingHelperMethod(compilation, "SetPropertyFromThickness", $"{WellKnownTypeNames.MicrosoftUIXamlNamespace}.Thickness"))
+                {
+                    return "SetPropertyFromThickness";
+                }
+            }
 
             return null;
         }
