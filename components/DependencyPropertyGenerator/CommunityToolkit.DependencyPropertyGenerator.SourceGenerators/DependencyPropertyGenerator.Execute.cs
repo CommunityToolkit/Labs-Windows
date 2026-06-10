@@ -509,7 +509,7 @@ partial class DependencyPropertyGenerator
             }
 
             // UWP is not getting any new APIs in 'XamlBindingHelper', so if we didn't hit a match yet, we can stop here
-            if (!useWindowsUIXaml)
+            if (useWindowsUIXaml)
             {
                 return null;
             }
