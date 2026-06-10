@@ -111,9 +111,9 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     // This is only used when the property type is not 'object' (which would gain nothing),
                     // and the user hasn't provided their own 'On<PROPERTY_NAME>Set(ref object)' implementation.
                     string? xamlBindingHelperSetMethodName = Execute.GetXamlBindingHelperSetMethodName(
-                        propertySymbol.Type,
-                        useWindowsUIXaml,
-                        context.SemanticModel.Compilation);
+                        typeSymbol: propertySymbol.Type,
+                        useWindowsUIXaml: useWindowsUIXaml,
+                        compilation: context.SemanticModel.Compilation);
 
                     if (xamlBindingHelperSetMethodName is not null)
                     {
