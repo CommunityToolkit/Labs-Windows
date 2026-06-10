@@ -503,6 +503,53 @@ partial class DependencyPropertyGenerator
         }
 
         /// <summary>
+        /// Checks whether the WinAppSDK <c>XamlBindingHelper</c> type exposes a <c>SetPropertyFrom*</c> static method
+        /// with the expected <c>(object, DependencyProperty, T)</c> signature.
+        /// </summary>
+        /// <param name="compilation">The <see cref="Compilation"/> for the current run.</param>
+        /// <param name="methodName">The name of the static method to look for.</param>
+        /// <param name="valueTypeMetadataName">The fully qualified metadata name of the third (value) parameter.</param>
+        /// <returns>Whether the WinAppSDK <c>XamlBindingHelper</c> exposes a matching static method.</returns>
+        /// <remarks>
+        /// This helper intentionally hardcodes the WinAppSDK <c>XamlBindingHelper</c> type, as it is only used
+        /// to probe for methods that don't exist on the UWP equivalent. Callers must therefore gate on
+        /// <c>useWindowsUIXaml == false</c> before invoking it.
+        /// </remarks>
+        private static bool HasXamlBindingHelperMethod(Compilation compilation, string methodName, string valueTypeMetadataName)
+        {
+            INamedTypeSymbol? xamlBindingHelperType = compilation.GetTypeByMetadataName(WellKnownTypeNames.XamlBindingHelper(useWindowsUIXaml: false));
+
+            if (xamlBindingHelperType is null)
+            {
+                return false;
+            }
+
+            // Match the expected 'static void Method(object, DependencyProperty, T)' shape. We validate the
+            // exact parameter types to guard against any future overload with the same name but different shape.
+            foreach (ISymbol member in xamlBindingHelperType.GetMembers(methodName))
+            {
+                if (member is IMethodSymbol
+                    {
+                        IsStatic: true,
+                        ReturnsVoid: true,
+                        Parameters:
+                        [
+                            { Type.SpecialType: SpecialType.System_Object },
+                            { Type: INamedTypeSymbol dependencyPropertyType },
+                            { Type: INamedTypeSymbol valueType }
+                        ]
+                    } &&
+                    dependencyPropertyType.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyProperty(useWindowsUIXaml: false)) &&
+                    valueType.HasFullyQualifiedMetadataName(valueTypeMetadataName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Gathers all forwarded attributes for the generated property.
         /// </summary>
         ///<param name="node">The input <see cref="PropertyDeclarationSyntax"/> node.</param>
