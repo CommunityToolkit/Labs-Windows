@@ -471,8 +471,10 @@ partial class DependencyPropertyGenerator
         /// Gets the <c>XamlBindingHelper.SetPropertyFrom*</c> method name for a given property type, if supported.
         /// </summary>
         /// <param name="typeSymbol">The input <see cref="ITypeSymbol"/> to check.</param>
+        /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
+        /// <param name="compilation">The <see cref="Compilation"/> for the current run, used to probe for optional APIs.</param>
         /// <returns>The method name to use, or <see langword="null"/> if the type is not supported.</returns>
-        public static string? GetXamlBindingHelperSetMethodName(ITypeSymbol typeSymbol)
+        public static string? GetXamlBindingHelperSetMethodName(ITypeSymbol typeSymbol, bool useWindowsUIXaml, Compilation compilation)
         {
             // Check for well known primitive types first (these are the most common)
             switch (typeSymbol.SpecialType)
@@ -491,15 +493,91 @@ partial class DependencyPropertyGenerator
                 default: break;
             }
 
-            // Check for the remaining well known WinRT projected types
-            if (typeSymbol.HasFullyQualifiedMetadataName("System.DateTimeOffset")) return "SetPropertyFromDateTime";
-            if (typeSymbol.HasFullyQualifiedMetadataName("System.TimeSpan")) return "SetPropertyFromTimeSpan";
-            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Point")) return "SetPropertyFromPoint";
-            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Rect")) return "SetPropertyFromRect";
-            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Size")) return "SetPropertyFromSize";
-            if (typeSymbol.HasFullyQualifiedMetadataName("System.Uri")) return "SetPropertyFromUri";
+            // Check for the remaining well known WinRT projected types (always available on both UWP and WinAppSDK)
+            foreach ((string fullyQualifiedName, string methodName) in (ReadOnlySpan<(string, string)>)[
+                ("System.DateTimeOffset", "SetPropertyFromDateTime"),
+                ("System.TimeSpan", "SetPropertyFromTimeSpan"),
+                ("Windows.Foundation.Point", "SetPropertyFromPoint"),
+                ("Windows.Foundation.Rect", "SetPropertyFromRect"),
+                ("Windows.Foundation.Size", "SetPropertyFromSize"),
+                ("System.Uri", "SetPropertyFromUri")])
+            {
+                if (typeSymbol.HasFullyQualifiedMetadataName(fullyQualifiedName))
+                {
+                    return methodName;
+                }
+            }
+
+            // UWP is not getting any new APIs in 'XamlBindingHelper', so if we didn't hit a match yet, we can stop here
+            if (useWindowsUIXaml)
+            {
+                return null;
+            }
+
+            // The following types only have a corresponding 'SetPropertyFrom*' method on the WinAppSDK
+            // 'XamlBindingHelper'. The methods were also only added in newer WinAppSDK versions, so we
+            // additionally have to probe for their presence on the resolved type before emitting calls
+            // to them, to avoid breaking codegen for projects targeting older WinAppSDK releases.
+            foreach ((string fullyQualifiedName, string methodName) in (ReadOnlySpan<(string, string)>)[
+                ("Windows.UI.Color", "SetPropertyFromColor"),
+                ("Microsoft.UI.Xaml.CornerRadius", "SetPropertyFromCornerRadius"),
+                ("Microsoft.UI.Xaml.Thickness", "SetPropertyFromThickness")])
+            {
+                if (typeSymbol.HasFullyQualifiedMetadataName(fullyQualifiedName) &&
+                    HasXamlBindingHelperMethod(compilation, methodName, fullyQualifiedName))
+                {
+                    return methodName;
+                }
+            }
 
             return null;
+        }
+
+        /// <summary>
+        /// Checks whether the WinAppSDK <c>XamlBindingHelper</c> type exposes a <c>SetPropertyFrom*</c> static method
+        /// with the expected <c>(object, DependencyProperty, T)</c> signature.
+        /// </summary>
+        /// <param name="compilation">The <see cref="Compilation"/> for the current run.</param>
+        /// <param name="methodName">The name of the static method to look for.</param>
+        /// <param name="valueTypeMetadataName">The fully qualified metadata name of the third (value) parameter.</param>
+        /// <returns>Whether the WinAppSDK <c>XamlBindingHelper</c> exposes a matching static method.</returns>
+        /// <remarks>
+        /// This helper intentionally hardcodes the WinAppSDK <c>XamlBindingHelper</c> type, as it is only used
+        /// to probe for methods that don't exist on the UWP equivalent. Callers must therefore gate on
+        /// <c>useWindowsUIXaml == false</c> before invoking it.
+        /// </remarks>
+        private static bool HasXamlBindingHelperMethod(Compilation compilation, string methodName, string valueTypeMetadataName)
+        {
+            INamedTypeSymbol? xamlBindingHelperType = compilation.GetTypeByMetadataName(WellKnownTypeNames.XamlBindingHelper(useWindowsUIXaml: false));
+
+            if (xamlBindingHelperType is null)
+            {
+                return false;
+            }
+
+            // Match the expected 'static void Method(object, DependencyProperty, T)' shape. We validate the
+            // exact parameter types to guard against any future overload with the same name but different shape.
+            foreach (ISymbol member in xamlBindingHelperType.GetMembers(methodName))
+            {
+                if (member is IMethodSymbol
+                    {
+                        IsStatic: true,
+                        ReturnsVoid: true,
+                        Parameters:
+                        [
+                            { Type.SpecialType: SpecialType.System_Object },
+                            { Type: INamedTypeSymbol dependencyPropertyType },
+                            { Type: INamedTypeSymbol valueType }
+                        ]
+                    } &&
+                    dependencyPropertyType.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyProperty(useWindowsUIXaml: false)) &&
+                    valueType.HasFullyQualifiedMetadataName(valueTypeMetadataName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
