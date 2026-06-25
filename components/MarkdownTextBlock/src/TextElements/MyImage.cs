@@ -51,17 +51,15 @@ internal class MyImage : IAddChild
         }
     }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public MyImage(HtmlNode htmlNode, MarkdownTextBlock? control)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public MyImage(HtmlNode htmlNode, MarkdownTextBlock control)
     {
 #pragma warning disable CS8601 // Possible null reference assignment.
         Uri.TryCreate(htmlNode.GetAttribute("src", "#"), UriKind.RelativeOrAbsolute, out _uri);
 #pragma warning restore CS8601 // Possible null reference assignment.
         _htmlNode = htmlNode;
-        _imageProvider = control?.ImageProvider;
-        _svgRenderer = control?.SVGRenderer ?? _defaultSvgRenderer;
-        _control = control!;
+        _imageProvider = control.ImageProvider;
+        _svgRenderer = control.SVGRenderer ?? _defaultSvgRenderer;
+        _control = control;
         Init();
         int.TryParse(
             htmlNode.GetAttribute("width", "0"),

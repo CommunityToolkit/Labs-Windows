@@ -220,7 +220,7 @@
         <Setter Property="QuoteCornerRadius" Value="4" />
         <Setter Property="QuoteBarMargin" Value="0,0,4,0" />
 
-        <!--  Image properties  -->
+        <!--  Image properties (0 = no max constraint; image uses its natural / markdown-specified size)  -->
         <Setter Property="ImageMaxWidth" Value="0" />
         <Setter Property="ImageMaxHeight" Value="0" />
         <Setter Property="ImageStretch" Value="Uniform" />

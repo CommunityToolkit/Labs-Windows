@@ -157,8 +157,17 @@ public partial class MarkdownTextBlock
 
     // ── Theme DPs ───────────────────────────────────────────────────────
     // Defaults come from the XAML style. C# defaults are type-appropriate
-    // fallbacks only. The shared property-changed callback batches multiple
-    // simultaneous DP updates (e.g. theme switch) into a single re-render.
+    // fallbacks only.
+    //
+    // The shared property-changed callback coalesces the burst of synchronous
+    // DP updates produced by a single theme/style swap into one re-render. DP
+    // callbacks fire synchronously on the UI thread, so the first update queues
+    // a single re-render on the dispatcher and flips _themePropertyChangeQueued;
+    // the remaining updates in the same burst are skipped by the flag. Because
+    // the queued callback only runs after the current synchronous work drains,
+    // ApplyText executes exactly once, after every property has been applied.
+    // The flag is shared with OnActualThemeChanged so the theme event and the
+    // DP updates it triggers collapse into the same single re-render.
 
     private static void OnThemePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

@@ -69,6 +69,9 @@ public partial class MarkdownTextBlock : Control
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
+        // Coalesces with the theme DP callbacks (see OnThemePropertyChanged):
+        // the shared flag collapses this event and the DP updates it triggers
+        // into a single re-render queued on the dispatcher.
         if (!_themePropertyChangeQueued)
         {
             _themePropertyChangeQueued = true;
@@ -121,7 +124,7 @@ public partial class MarkdownTextBlock : Control
         }
     }
 
-    private void Build()
+    private void Build(bool rerender = true)
     {
         if (_renderer == null)
         {
@@ -155,6 +158,6 @@ public partial class MarkdownTextBlock : Control
         }
         _pipeline.Setup(_renderer);
 
-        ApplyText(true);
+        ApplyText(rerender);
     }
 }

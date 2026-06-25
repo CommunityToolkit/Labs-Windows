@@ -15,7 +15,7 @@ using Inline = Microsoft.UI.Xaml.Documents.Inline;
 namespace CommunityToolkit.WinUI.Controls.TextElements;
 
 /// <summary>
-/// Represents a flow document that wraps a <see cref="Microsoft.UI.Xaml.Controls.RichTextBlock"/> for rendering markdown or HTML content.
+/// Represents a flow document that wraps a <see cref="RichTextBlock"/> for rendering markdown or HTML content.
 /// </summary>
 public class MyFlowDocument : IAddChild
 {
@@ -26,7 +26,7 @@ public class MyFlowDocument : IAddChild
     /// <summary>Gets or sets the text element (unused, required by <see cref="IAddChild"/>).</summary>
     public TextElement TextElement { get; set; } = new Run();
 
-    /// <summary>Gets or sets the underlying <see cref="Microsoft.UI.Xaml.Controls.RichTextBlock"/>.</summary>
+    /// <summary>Gets or sets the underlying <see cref="RichTextBlock"/>.</summary>
     public RichTextBlock RichTextBlock
     {
         get => _richTextBlock;
