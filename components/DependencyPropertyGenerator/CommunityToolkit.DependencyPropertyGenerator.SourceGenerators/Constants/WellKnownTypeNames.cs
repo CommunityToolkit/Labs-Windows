@@ -94,4 +94,15 @@ internal static class WellKnownTypeNames
             ? $"{WindowsUIXamlNamespace}.{nameof(CreateDefaultValueCallback)}"
             : $"{MicrosoftUIXamlNamespace}.{nameof(CreateDefaultValueCallback)}";
     }
+
+    /// <summary>
+    /// Gets the fully qualified type name for the <c>XamlBindingHelper</c> type.
+    /// </summary>
+    /// <param name="useWindowsUIXaml"><inheritdoc cref="XamlNamespace(bool)" path="/param[@name='useWindowsUIXaml']/text()"/></param>
+    public static string XamlBindingHelper(bool useWindowsUIXaml)
+    {
+        return useWindowsUIXaml
+            ? $"{WindowsUIXamlNamespace}.Markup.{nameof(XamlBindingHelper)}"
+            : $"{MicrosoftUIXamlNamespace}.Markup.{nameof(XamlBindingHelper)}";
+    }
 }

@@ -107,6 +107,26 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
 
                     token.ThrowIfCancellationRequested();
 
+                    // Get the optimized XamlBindingHelper method name for the property type, if applicable.
+                    // This is only used when the property type is not 'object' (which would gain nothing),
+                    // and the user hasn't provided their own 'On<PROPERTY_NAME>Set(ref object)' implementation.
+                    string? xamlBindingHelperSetMethodName = Execute.GetXamlBindingHelperSetMethodName(propertySymbol.Type);
+
+                    if (xamlBindingHelperSetMethodName is not null)
+                    {
+                        // Skip the optimization for the 'object' type (it gains nothing)
+                        if (propertySymbol.Type.SpecialType == SpecialType.System_Object)
+                        {
+                            xamlBindingHelperSetMethodName = null;
+                        }
+                        else if (Execute.IsObjectSetCallbackImplemented(propertySymbol))
+                        {
+                            xamlBindingHelperSetMethodName = null;
+                        }
+                    }
+
+                    token.ThrowIfCancellationRequested();
+
                     // We're using IsValueType here and not IsReferenceType to also cover unconstrained type parameter cases.
                     // This will cover both reference types as well T when the constraints are not struct or unmanaged.
                     // If this is true, it means the field storage can potentially be in a null state (even if not annotated).
@@ -160,6 +180,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                         IsSharedPropertyChangedCallbackImplemented: isSharedPropertyChangedCallbackImplemented,
                         IsAdditionalTypesGenerationSupported: isAdditionalTypesGenerationSupported,
                         UseWindowsUIXaml: useWindowsUIXaml,
+                        XamlBindingHelperSetMethodName: xamlBindingHelperSetMethodName,
                         StaticFieldAttributes: staticFieldAttributes);
                 })
             .WithTrackingName(WellKnownTrackingNames.Execute)

@@ -39,6 +39,11 @@ internal sealed class CSharpAnalyzerTest<TAnalyzer> : CSharpAnalyzerTest<TAnalyz
     private CSharpAnalyzerTest(LanguageVersion languageVersion)
     {
         this.languageVersion = languageVersion;
+
+        TestState.AnalyzerConfigFiles.Add(("/.globalconfig", """
+            is_global = true
+            build_property.DependencyPropertyGeneratorUseWindowsUIXaml = true
+            """));
     }
 
     /// <inheritdoc/>
