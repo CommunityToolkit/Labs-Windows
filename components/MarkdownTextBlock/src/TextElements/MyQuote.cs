@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls;
 using Markdig.Syntax;
 
 namespace CommunityToolkit.WinUI.Controls.TextElements;
@@ -11,17 +12,17 @@ internal class MyQuote : IAddChild
     private Paragraph _paragraph;
     private MyFlowDocument _flowDocument;
     private QuoteBlock _quoteBlock;
-    private MarkdownThemes _themes;
+    private MarkdownTextBlock _control;
 
     public TextElement TextElement
     {
         get => _paragraph;
     }
 
-    public MyQuote(QuoteBlock quoteBlock, MarkdownThemes themes)
+    public MyQuote(QuoteBlock quoteBlock, MarkdownTextBlock control)
     {
         _quoteBlock = quoteBlock;
-        _themes = themes;
+        _control = control;
         _paragraph = new Paragraph();
 
         _flowDocument = new MyFlowDocument(quoteBlock);
@@ -32,24 +33,24 @@ internal class MyQuote : IAddChild
         grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
 
         var bar = new Grid();
-        var borderThickness = _themes.QuoteBorderThickness.Left > 0 ? _themes.QuoteBorderThickness.Left : 4;
+        var borderThickness = _control.QuoteBorderThickness.Left > 0 ? _control.QuoteBorderThickness.Left : 4;
         bar.Width = borderThickness;
-        bar.Background = _themes.QuoteBorderBrush ?? new SolidColorBrush(Colors.Gray);
+        bar.Background = _control.QuoteBorderBrush;
         bar.SetValue(Grid.ColumnProperty, 0);
         bar.VerticalAlignment = VerticalAlignment.Stretch;
-        bar.Margin = new Thickness(0, 0, 4, 0);
+        bar.Margin = _control.QuoteBarMargin;
         grid.Children.Add(bar);
 
     var rightGrid = new Grid();
-    rightGrid.Padding = _themes.QuotePadding;
-    rightGrid.Background = _themes.QuoteBackground;
-    rightGrid.CornerRadius = _themes.QuoteCornerRadius;
+    rightGrid.Padding = _control.QuotePadding;
+    rightGrid.Background = _control.QuoteBackground;
+    rightGrid.CornerRadius = _control.QuoteCornerRadius;
         rightGrid.Children.Add(_flowDocument.RichTextBlock);
-    _flowDocument.RichTextBlock.Foreground = _themes.QuoteForeground;
+    _flowDocument.RichTextBlock.Foreground = _control.QuoteForeground;
 
         rightGrid.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(rightGrid);
-        grid.Margin = _themes.QuoteMargin;
+        grid.Margin = _control.QuoteMargin;
 
         inlineUIContainer.Child = grid;
 

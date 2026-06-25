@@ -14,6 +14,6 @@ internal class CodeInlineRenderer : UWPObjectRenderer<CodeInline>
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-        renderer.WriteInline(new MyInlineCode(obj, renderer.Config));
+        renderer.WriteInline(new MyInlineCode(obj, renderer.MarkdownTextBlock));
     }
 }

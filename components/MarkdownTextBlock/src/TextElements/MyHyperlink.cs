@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls;
 using HtmlAgilityPack;
 using Markdig.Syntax.Inlines;
 
@@ -13,7 +14,7 @@ internal class MyHyperlink : IAddChild
     private LinkInline? _linkInline;
     private HtmlNode? _htmlNode;
     private string? _baseUrl;
-    private MarkdownThemes _themes;
+    private MarkdownTextBlock _control;
 
     public event TypedEventHandler<Hyperlink, HyperlinkClickEventArgs> ClickEvent
     {
@@ -34,29 +35,29 @@ internal class MyHyperlink : IAddChild
         get => _hyperlink;
     }
 
-    public MyHyperlink(LinkInline linkInline, string? baseUrl, MarkdownThemes themes)
+    public MyHyperlink(LinkInline linkInline, MarkdownTextBlock control)
     {
-        _baseUrl = baseUrl;
-        _themes = themes;
+        _baseUrl = control.BaseUrl;
+        _control = control;
         var url = linkInline.GetDynamicUrl != null ? linkInline.GetDynamicUrl() ?? linkInline.Url : linkInline.Url;
         _linkInline = linkInline;
         _hyperlink = new Hyperlink()
         {
-            NavigateUri = Extensions.GetUri(url, baseUrl),
-            Foreground = _themes.LinkForeground
+            NavigateUri = Extensions.GetUri(url, _baseUrl),
+            Foreground = _control.LinkForeground
         };
     }
 
-    public MyHyperlink(HtmlNode htmlNode, string? baseUrl, MarkdownThemes themes)
+    public MyHyperlink(HtmlNode htmlNode, MarkdownTextBlock control)
     {
-        _baseUrl = baseUrl;
-        _themes = themes;
+        _baseUrl = control.BaseUrl;
+        _control = control;
         var url = htmlNode.GetAttribute("href", "#");
         _htmlNode = htmlNode;
         _hyperlink = new Hyperlink()
         {
-            NavigateUri = Extensions.GetUri(url, baseUrl),
-            Foreground = _themes.LinkForeground
+            NavigateUri = Extensions.GetUri(url, _baseUrl),
+            Foreground = _control.LinkForeground
         };
     }
 

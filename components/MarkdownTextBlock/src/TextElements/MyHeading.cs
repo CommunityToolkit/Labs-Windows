@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls;
 using HtmlAgilityPack;
 using Markdig.Syntax;
 
@@ -12,7 +13,7 @@ internal class MyHeading : IAddChild
     private Paragraph _paragraph;
     private HeadingBlock? _headingBlock;
     private HtmlNode? _htmlNode;
-    private MarkdownConfig _config;
+    private MarkdownTextBlock _control;
 
     public bool IsHtml => _htmlNode != null;
 
@@ -21,20 +22,20 @@ internal class MyHeading : IAddChild
         get => _paragraph;
     }
 
-    public MyHeading(HeadingBlock headingBlock, MarkdownConfig config)
+    public MyHeading(HeadingBlock headingBlock, MarkdownTextBlock control)
     {
         _headingBlock = headingBlock;
         _paragraph = new Paragraph();
-        _config = config;
+        _control = control;
 
         SetHProperties(headingBlock.Level);
     }
 
-    public MyHeading(HtmlNode htmlNode, MarkdownConfig config)
+    public MyHeading(HtmlNode htmlNode, MarkdownTextBlock control)
     {
         _htmlNode = htmlNode;
         _paragraph = new Paragraph();
-        _config = config;
+        _control = control;
 
         var align = _htmlNode.GetAttribute("align", "left");
         _paragraph.TextAlignment = align switch
@@ -53,39 +54,39 @@ internal class MyHeading : IAddChild
     {
         _paragraph.FontSize = level switch
         {
-            1 => _config.Themes.H1FontSize,
-            2 => _config.Themes.H2FontSize,
-            3 => _config.Themes.H3FontSize,
-            4 => _config.Themes.H4FontSize,
-            5 => _config.Themes.H5FontSize,
-            _ => _config.Themes.H6FontSize,
+            1 => _control.H1FontSize,
+            2 => _control.H2FontSize,
+            3 => _control.H3FontSize,
+            4 => _control.H4FontSize,
+            5 => _control.H5FontSize,
+            _ => _control.H6FontSize,
         };
         _paragraph.Foreground = level switch
         {
-            1 => _config.Themes.H1Foreground,
-            2 => _config.Themes.H2Foreground,
-            3 => _config.Themes.H3Foreground,
-            4 => _config.Themes.H4Foreground,
-            5 => _config.Themes.H5Foreground,
-            _ => _config.Themes.H6Foreground,
+            1 => _control.H1Foreground,
+            2 => _control.H2Foreground,
+            3 => _control.H3Foreground,
+            4 => _control.H4Foreground,
+            5 => _control.H5Foreground,
+            _ => _control.H6Foreground,
         };
         _paragraph.FontWeight = level switch
         {
-            1 => _config.Themes.H1FontWeight,
-            2 => _config.Themes.H2FontWeight,
-            3 => _config.Themes.H3FontWeight,
-            4 => _config.Themes.H4FontWeight,
-            5 => _config.Themes.H5FontWeight,
-            _ => _config.Themes.H6FontWeight,
+            1 => _control.H1FontWeight,
+            2 => _control.H2FontWeight,
+            3 => _control.H3FontWeight,
+            4 => _control.H4FontWeight,
+            5 => _control.H5FontWeight,
+            _ => _control.H6FontWeight,
         };
         _paragraph.Margin = level switch
         {
-            1 => _config.Themes.H1Margin,
-            2 => _config.Themes.H2Margin,
-            3 => _config.Themes.H3Margin,
-            4 => _config.Themes.H4Margin,
-            5 => _config.Themes.H5Margin,
-            _ => _config.Themes.H6Margin,
+            1 => _control.H1Margin,
+            2 => _control.H2Margin,
+            3 => _control.H3Margin,
+            4 => _control.H4Margin,
+            5 => _control.H5Margin,
+            _ => _control.H6Margin,
         };
     }
 
