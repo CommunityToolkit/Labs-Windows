@@ -1,0 +1,70 @@
+<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<Page x:Class="LocalizedAccessKeyExperiment.Samples.LocalizedAccessKeyCustomSample"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:LocalizedAccessKeyExperiment.Samples"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <StackPanel Spacing="16">
+        <StackPanel.Resources>
+            <Style TargetType="CommandBar">
+                <Setter Property="DefaultLabelPosition" Value="Right" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="KeyTipPlacementMode" Value="Right" />
+            </Style>
+        </StackPanel.Resources>
+
+        <TextBlock Text="Set the keyboard to a non-Latin language (like Greek) and press ALT to display the access keys." />
+        <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                   Text="Note that the keyboard layout needs to be set before opening the page. If you've just changed your keyboard layout, you will need to reload the page." />
+        <CommandBar>
+            <AppBarButton AccessKey="1Q"
+                          Icon="Add"
+                          Label="Action Q" />
+            <AppBarButton AccessKey="1P"
+                          Icon="Add"
+                          Label="Action P" />
+            <AppBarButton AccessKey="1F"
+                          Icon="Add"
+                          Label="Action F" />
+            <AppBarButton AccessKey="1X"
+                          Icon="Add"
+                          Label="Action X" />
+            <AppBarButton AccessKey="1C"
+                          Icon="Add"
+                          Label="Action C" />
+            <AppBarButton AccessKey="1V"
+                          Icon="Add"
+                          Label="Action V" />
+            <CommandBar.Content>
+                <TextBlock Text="Default access keys" />
+            </CommandBar.Content>
+        </CommandBar>
+        <CommandBar>
+            <AppBarButton AccessKey="{controls:LocalizedAccessKey VirtualKeys='2Q'}"
+                          Icon="Add"
+                          Label="Action Q" />
+            <AppBarButton AccessKey="{controls:LocalizedAccessKey VirtualKeys='2P'}"
+                          Icon="Add"
+                          Label="Action P" />
+            <AppBarButton AccessKey="{controls:LocalizedAccessKey VirtualKeys='2F'}"
+                          Icon="Add"
+                          Label="Action F" />
+            <AppBarButton AccessKey="{controls:LocalizedAccessKey VirtualKeys='2X'}"
+                          Icon="Add"
+                          Label="Action X" />
+            <AppBarButton AccessKey="{controls:LocalizedAccessKey VirtualKeys='2C'}"
+                          Icon="Add"
+                          Label="Action C" />
+            <AppBarButton AccessKey="{controls:LocalizedAccessKey VirtualKeys='2V'}"
+                          Icon="Add"
+                          Label="Action V" />
+            <CommandBar.Content>
+                <TextBlock Text="Keyboard localized access keys" />
+            </CommandBar.Content>
+        </CommandBar>
+    </StackPanel>
+</Page>
