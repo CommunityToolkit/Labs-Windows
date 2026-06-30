@@ -3,17 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 #if WINDOWS_WINAPPSDK && !HAS_UNO
-using Windows.Graphics;
 using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Media;
+using System.Runtime.InteropServices;
+using Windows.Graphics;
 
 namespace CommunityToolkit.WinUI.Controls;
 
 [TemplatePart(Name = nameof(PART_FooterPresenter), Type = typeof(ContentPresenter))]
 [TemplatePart(Name = nameof(PART_ContentPresenter), Type = typeof(ContentPresenter))]
-
 public partial class TitleBar : Control
 {
     WndProcHelper? WndProcHelper;
@@ -54,12 +54,26 @@ public partial class TitleBar : Control
                 };
             }
 
+            // Set the caption buttons to match the flow direction of the titlebar
+            if (AutoChangeWindowLayoutStyle)
+            {
+                UpdateCaptionButtonsDirection(this.FlowDirection);
+            }
+
             PART_ContentPresenter = GetTemplateChild(nameof(PART_ContentPresenter)) as ContentPresenter;
             PART_FooterPresenter = GetTemplateChild(nameof(PART_FooterPresenter)) as ContentPresenter;
 
             // Get caption button occlusion information.
             int CaptionButtonOcclusionWidthRight = Window.AppWindow.TitleBar.RightInset;
             int CaptionButtonOcclusionWidthLeft = Window.AppWindow.TitleBar.LeftInset;
+            
+            // Swap left/right if in RTL mode
+            if (this.FlowDirection == FlowDirection.RightToLeft)
+            {
+                (CaptionButtonOcclusionWidthRight, CaptionButtonOcclusionWidthLeft) = (CaptionButtonOcclusionWidthLeft, CaptionButtonOcclusionWidthRight);
+            }
+
+            // Set padding columns to match caption button occlusion.
             PART_LeftPaddingColumn!.Width = new GridLength(CaptionButtonOcclusionWidthLeft);
             PART_RightPaddingColumn!.Width = new GridLength(CaptionButtonOcclusionWidthRight);
 
@@ -99,6 +113,27 @@ public partial class TitleBar : Control
         {
             Window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
             Window.AppWindow.TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
+        }
+    }
+
+    private void UpdateCaptionButtonsDirection(FlowDirection direction)
+    {
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this.Window);
+
+        if (hwnd != 0)
+        {
+            var exStyle = NativeMethods.GetWindowLongPtr(hwnd, (int)NativeMethods.WindowLongIndexFlags.GWL_EXSTYLE);
+
+            if (direction == FlowDirection.RightToLeft)
+            {
+                exStyle |= (nint)NativeMethods.WindowStyleExtended.WS_EX_LAYOUTRTL;
+            }
+            else
+            {
+                exStyle &= (nint)NativeMethods.WindowStyleExtended.WS_EX_LAYOUTRTL;
+            }
+
+            NativeMethods.SetWindowLongPtr(hwnd, (int)NativeMethods.WindowLongIndexFlags.GWL_EXSTYLE, exStyle);
         }
     }
 
