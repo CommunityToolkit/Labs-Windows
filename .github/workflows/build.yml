@@ -176,10 +176,10 @@ jobs:
           --verbose
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         with:
-          vs-version: '[17.9,)'
+          vs-version: '[18.0,)'
 
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
@@ -315,9 +315,9 @@ jobs:
         run: ./tooling/Install-WindowsSdk.ps1
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
-          vs-version: '[17.9,)'
+          vs-version: '[18.0,)'
 
       - name: Determine scheduled release commit range
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
