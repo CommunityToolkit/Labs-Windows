@@ -26,7 +26,7 @@ internal sealed partial class RibbonPanel : Panel
         {
             var collapsibleGroup = child as RibbonCollapsibleGroup;
             var requestedWidths = collapsibleGroup?.RequestedWidths;
-            if (requestedWidths is null || collapsibleGroup!.State == Visibility.Collapsed)
+            if (requestedWidths is null || collapsibleGroup?.State == Visibility.Collapsed)
             {
                 child.Measure(GroupAvailableSize);
             }
