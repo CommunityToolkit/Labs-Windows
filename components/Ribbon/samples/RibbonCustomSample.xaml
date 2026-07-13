@@ -27,7 +27,16 @@
             </Style>
         </StackPanel.Resources>
 
-        <controls:Ribbon HorizontalAlignment="Stretch">
+        <controls:Ribbon HorizontalAlignment="Stretch"
+                         OptionsAccessKey="O"
+                         OptionsAccessibleName="Options">
+
+            <controls:Ribbon.OptionsFlyout>
+                <MenuFlyout Placement="BottomEdgeAlignedRight">
+                    <ToggleMenuFlyoutItem Text="Always show toolbar" />
+                    <MenuFlyoutItem Text="Configure" />
+                </MenuFlyout>
+            </controls:Ribbon.OptionsFlyout>
 
             <controls:RibbonCollapsibleGroup AccessKey="AB"
                                              CollapsedAccessKey="AA"

@@ -358,6 +358,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <VisualStateManager.VisualStateGroups>
@@ -380,6 +381,14 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="OptionsGroup">
+                                <VisualState x:Name="OptionsCollapsed" />
+                                <VisualState x:Name="OptionsVisible">
+                                    <VisualState.Setters>
+                                        <Setter Target="OptionsButton.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <ScrollViewer x:Name="ScrollViewer"
@@ -397,6 +406,22 @@
                                       Grid.Column="2"
                                       Style="{StaticResource RibbonScrollIncrementButtonStyle}"
                                       Visibility="Collapsed" />
+
+                        <Button x:Name="OptionsButton"
+                                Grid.Column="3"
+                                Margin="4"
+                                Padding="4"
+                                VerticalAlignment="Bottom"
+                                AccessKey="{TemplateBinding OptionsAccessKey}"
+                                AutomationProperties.Name="{TemplateBinding OptionsAccessibleName}"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                Flyout="{TemplateBinding OptionsFlyout}"
+                                Visibility="Collapsed">
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                      FontSize="12"
+                                      Glyph="&#xE70D;" />
+                        </Button>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
