@@ -57,6 +57,16 @@ public partial class GradientSlider : Control
         ];
     }
 
+    /// <summary>
+    /// Explicitly reloads the thumbs for the current <see cref="GradientStopCollection"/>.
+    /// </summary>
+    /// <remarks>
+    /// This method must be used if a <see cref="GradientStop"/> is added or removed from the collection externally.
+    /// It need not be used when a <see cref="GradientStop.Color"/> or <see cref="GradientStop.Offset"/> is modified, as those changes are automatically observed.
+    /// See <see href="https://github.com/CommunityToolkit/Labs-Windows/issues/796"/> for more details.
+    /// </remarks>
+    public void Refresh() => RefreshThumbs();
+
     /// <inheritdoc />
     protected override void OnApplyTemplate()
     {
