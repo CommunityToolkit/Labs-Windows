@@ -372,8 +372,8 @@ public partial class Test_DependencyPropertyGenerator
 
                             OnNumberChanged(value);
                             OnNumberChanged(__oldValue, value);
-                        } = 42;
-                    }
+                        }
+                    } = 42;
 
                     /// <summary>Executes the logic for when the <see langword="set"/> accessor <see cref="Number"/> is invoked</summary>
                     /// <param name="propertyValue">The boxed property value that has been produced before assigning to <see cref="NumberProperty"/>.</param>
@@ -3751,10 +3751,10 @@ public partial class Test_DependencyPropertyGenerator
     }
 
     [TestMethod]
-    [DataRow("int")]
-    [DataRow("object")]
-    [DataRow("object?")]
-    public void SingleProperty_Int32_WithNoCaching_WithDefaultValueCallback(string returnType)
+    [DataRow("int", "static () => CreateNumber()")]
+    [DataRow("object", "CreateNumber")]
+    [DataRow("object?", "CreateNumber")]
+    public void SingleProperty_Int32_WithNoCaching_WithDefaultValueCallback(string returnType, string callback)
     {
         string source = $$"""
             using CommunityToolkit.WinUI;
@@ -3790,7 +3790,7 @@ public partial class Test_DependencyPropertyGenerator
                         propertyType: typeof(int),
                         ownerType: typeof(MyControl),
                         typeMetadata: global::Windows.UI.Xaml.PropertyMetadata.Create(
-                            createDefaultValueCallback: new Windows.UI.Xaml.CreateDefaultValueCallback(CreateNumber)));
+                            createDefaultValueCallback: new Windows.UI.Xaml.CreateDefaultValueCallback({{callback}})));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]
@@ -3869,11 +3869,11 @@ public partial class Test_DependencyPropertyGenerator
     }
 
     [TestMethod]
-    [DataRow("int")]
-    [DataRow("int?")]
-    [DataRow("object")]
-    [DataRow("object?")]
-    public void SingleProperty_NullableOfInt32_WithNoCaching_WithDefaultValueCallback(string returnType)
+    [DataRow("int", "static () => CreateNumber()")]
+    [DataRow("int?", "static () => CreateNumber()")]
+    [DataRow("object", "CreateNumber")]
+    [DataRow("object?", "CreateNumber")]
+    public void SingleProperty_NullableOfInt32_WithNoCaching_WithDefaultValueCallback(string returnType, string callback)
     {
         string source = $$"""
             using CommunityToolkit.WinUI;
@@ -3909,7 +3909,7 @@ public partial class Test_DependencyPropertyGenerator
                         propertyType: typeof(int?),
                         ownerType: typeof(MyControl),
                         typeMetadata: global::Windows.UI.Xaml.PropertyMetadata.Create(
-                            createDefaultValueCallback: new Windows.UI.Xaml.CreateDefaultValueCallback(CreateNumber)));
+                            createDefaultValueCallback: new Windows.UI.Xaml.CreateDefaultValueCallback({{callback}})));
 
                     /// <inheritdoc/>
                     [global::System.CodeDom.Compiler.GeneratedCode("CommunityToolkit.WinUI.DependencyPropertyGenerator", <ASSEMBLY_VERSION>)]

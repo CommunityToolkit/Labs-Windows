@@ -307,7 +307,7 @@ partial class DependencyPropertyGenerator
                         // Validate the method has a valid signature as well
                         if (InvalidPropertyDefaultValueCallbackTypeAnalyzer.IsDefaultValueCallbackValid(propertySymbol, methodSymbol))
                         {
-                            return new DependencyPropertyDefaultValue.Callback(methodName);
+                            return new DependencyPropertyDefaultValue.Callback(methodName, RequiresBoxing: !methodSymbol.ReturnType.IsReferenceType);
                         }
                     }
                 }
@@ -612,10 +612,10 @@ partial class DependencyPropertyGenerator
                     // Shared codegen
                     { DefaultValue: DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default(_, true), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => "null",
-                    { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
+                    { DefaultValue: DependencyPropertyDefaultValue.Callback callback, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"""
                         global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
-                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}))
+                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({callback}))
                         """,
                     { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue})",
@@ -623,22 +623,22 @@ partial class DependencyPropertyGenerator
                     // Codegen for legacy UWP
                     { IsAdditionalTypesGenerationSupported: false } => propertyInfo switch
                     {
-                        { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
+                        { DefaultValue: DependencyPropertyDefaultValue.Callback callback, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
                             => $"""
                             global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
-                                 createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                                 createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({callback}),
                                  propertyChangedCallback: static (d, e) => (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e))
                             """,
-                        { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: true }
+                        { DefaultValue: DependencyPropertyDefaultValue.Callback callback, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: true }
                             => $"""
                             global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
-                                createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                                createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({callback}),
                                 propertyChangedCallback: static (d, e) => (({typeQualifiedName})d).OnPropertyChanged(e))
                             """,
-                        { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: true }
+                        { DefaultValue: DependencyPropertyDefaultValue.Callback callback, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: true }
                             => $$"""
                             global::{{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}}.Create(
-                                createDefaultValueCallback: new {{WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}}({{methodName}}),
+                                createDefaultValueCallback: new {{WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}}({{callback}}),
                                 propertyChangedCallback: static (d, e) => { (({{typeQualifiedName}})d).On{{propertyInfo.PropertyName}}PropertyChanged(e); (({{typeQualifiedName}})d).OnPropertyChanged(e); })
                             """,
                         { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
@@ -675,10 +675,10 @@ partial class DependencyPropertyGenerator
                             defaultValue: null,
                             propertyChangedCallback: global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())
                         """,
-                    { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName) }
+                    { DefaultValue: DependencyPropertyDefaultValue.Callback callback }
                         => $"""
                         global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
-                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({callback}),
                             propertyChangedCallback: global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())
                         """,
                     { DefaultValue: { } defaultValue } and ({ IsPropertyChangedCallbackImplemented: true } or { IsSharedPropertyChangedCallbackImplemented: true })
@@ -740,8 +740,11 @@ partial class DependencyPropertyGenerator
                 // We will never have the 'partial' modifier in the set of property modifiers processed above.
                 writer.WriteLine($"partial {propertyInfo.TypeNameWithNullabilityAnnotations} {propertyInfo.PropertyName}");
 
-                using (writer.WriteBlock())
+                writer.WriteLine("{");
+
                 {
+                    writer.IncreaseIndent();
+
                     // We need very different codegen depending on whether local caching is enabled or not
                     if (propertyInfo.IsLocalCachingEnabled)
                     {
@@ -816,13 +819,6 @@ partial class DependencyPropertyGenerator
                                 """, isMultiline: true);
                         }
 
-                        // If the default value is not what the default field value would be, add an initializer
-                        if (propertyInfo.DefaultValue is not (DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default or DependencyPropertyDefaultValue.Callback))
-                        {
-                            writer.Write($" = {propertyInfo.DefaultValue};");
-                        }
-
-                        // Always leave a newline after the end of the property declaration, in either case
                         writer.WriteLine();
                     }
                     else if (propertyInfo.TypeName == "object")
@@ -932,7 +928,20 @@ partial class DependencyPropertyGenerator
                             }
                             """, isMultiline: true);
                     }
+
+                    writer.DecreaseIndent();
                 }
+
+                writer.Write("}");
+
+                // The initializer follows the property's closing brace, not the setter's
+                if (propertyInfo.IsLocalCachingEnabled &&
+                    propertyInfo.DefaultValue is not (DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default or DependencyPropertyDefaultValue.Callback))
+                {
+                    writer.Write($" = {propertyInfo.DefaultValue};");
+                }
+
+                writer.WriteLine();
             }
 
             // Next, emit all partial method declarations at the bottom of the file
