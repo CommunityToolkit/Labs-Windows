@@ -26,25 +26,25 @@ internal class MyParagraph : IAddChild
 
         // Lists are plain Paragraph_s, one per item.
         // This is so that you can select across list items.
-        var themes = renderer.Config.Themes;
-        Thickness margin = themes.ParagraphMargin;
+        var control = renderer.MarkdownTextBlock;
+        Thickness margin = control.ParagraphMargin;
         int bulletCount = renderer.GetListBulletCount();
-        margin.Left += themes.ListGutterWidth * bulletCount;
+        margin.Left += control.ListGutterWidth * bulletCount;
         _paragraph.Margin = margin;
-        if (themes.ParagraphLineHeight > 0)
+        if (control.ParagraphLineHeight > 0)
         {
-            _paragraph.LineHeight = themes.ParagraphLineHeight;
+            _paragraph.LineHeight = control.ParagraphLineHeight;
         }
 
         if (bulletCount != 0)
         {
             string bullet = renderer.PeekListBullet();
             // Use spaces to create spacing between bullet and text based on ListBulletSpacing
-            string spacing = new string(' ', (int)themes.ListBulletSpacing);
+            string spacing = new string(' ', (int)control.ListBulletSpacing);
             Run bulletRun = new Run { Text = bullet + spacing };
 
             _paragraph.Inlines.Add(bulletRun);
-            _paragraph.TextIndent = -themes.ListGutterWidth;
+            _paragraph.TextIndent = -control.ListGutterWidth;
         }
     }
 

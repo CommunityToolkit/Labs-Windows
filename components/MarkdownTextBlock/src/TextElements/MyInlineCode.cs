@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls;
 using Markdig.Syntax.Inlines;
 
 namespace CommunityToolkit.WinUI.Controls.TextElements;
@@ -10,32 +11,32 @@ internal class MyInlineCode : IAddChild
 {
     private CodeInline _codeInline;
     private InlineUIContainer _inlineContainer;
-    private MarkdownConfig _config;
+    private MarkdownTextBlock _control;
 
     public TextElement TextElement
     {
         get => _inlineContainer;
     }
 
-    public MyInlineCode(CodeInline codeInline, MarkdownConfig config)
+    public MyInlineCode(CodeInline codeInline, MarkdownTextBlock control)
     {
         _codeInline = codeInline;
-        _config = config;
+        _control = control;
         _inlineContainer = new InlineUIContainer();
         var border = new Border();
         border.VerticalAlignment = VerticalAlignment.Bottom;
-        border.Background = _config.Themes.InlineCodeBackground;
-        border.BorderBrush = _config.Themes.InlineCodeBorderBrush;
-        border.BorderThickness = _config.Themes.InlineCodeBorderThickness;
-        border.CornerRadius = _config.Themes.InlineCodeCornerRadius;
-        border.Padding = _config.Themes.InlineCodePadding;
+        border.Background = _control.InlineCodeBackground;
+        border.BorderBrush = _control.InlineCodeBorderBrush;
+        border.BorderThickness = _control.InlineCodeBorderThickness;
+        border.CornerRadius = _control.InlineCodeCornerRadius;
+        border.Padding = _control.InlineCodePadding;
         CompositeTransform3D transform = new CompositeTransform3D();
         transform.TranslateY = 4;
         border.Transform3D = transform;
         var textBlock = new TextBlock();
-        textBlock.FontSize = _config.Themes.InlineCodeFontSize;
-        textBlock.Foreground = _config.Themes.InlineCodeForeground;
-        textBlock.FontWeight = _config.Themes.InlineCodeFontWeight;
+        textBlock.FontSize = _control.InlineCodeFontSize;
+        textBlock.Foreground = _control.InlineCodeForeground;
+        textBlock.FontWeight = _control.InlineCodeFontWeight;
         textBlock.Text = codeInline.Content.ToString();
         border.Child = textBlock;
         _inlineContainer.Child = border;

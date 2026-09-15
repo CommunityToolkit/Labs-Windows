@@ -50,20 +50,11 @@ public partial class ImageProviderConstraintTest : VisualUITestBase
         // Arrange: Image provider returns a 100x100 image
         var provider = new TestImageProvider(width: 100, height: 100);
         
-        var config = new MarkdownConfig
-        {
-            ImageProvider = provider,
-            Themes = new MarkdownThemes
-            {
-                // Theme allows images up to 500px wide
-                ImageMaxWidth = 500,
-                ImageMaxHeight = 500
-            }
-        };
-
         var markdown = new MarkdownTextBlock
         {
-            Config = config,
+            ImageProvider = provider,
+            ImageMaxWidth = 500,
+            ImageMaxHeight = 500,
             // Image URL with no precedent dimensions specified
             Text = "![Test Image](test://example.png)"
         };
@@ -100,19 +91,11 @@ public partial class ImageProviderConstraintTest : VisualUITestBase
         // Arrange: Image provider returns a 100x100 image
         var provider = new TestImageProvider(width: 100, height: 100);
         
-        var config = new MarkdownConfig
-        {
-            ImageProvider = provider,
-            Themes = new MarkdownThemes
-            {
-                ImageMaxWidth = 500,
-                ImageMaxHeight = 500
-            }
-        };
-
         var markdown = new MarkdownTextBlock
         {
-            Config = config,
+            ImageProvider = provider,
+            ImageMaxWidth = 500,
+            ImageMaxHeight = 500,
             // Image with explicit width specified in markdown
             Text = "<img src=\"test://example.png\" width=\"200\">"
         };
@@ -136,20 +119,12 @@ public partial class ImageProviderConstraintTest : VisualUITestBase
         // Arrange: Image provider returns a 800x600 image
         var provider = new TestImageProvider(width: 800, height: 600);
         
-        var config = new MarkdownConfig
-        {
-            ImageProvider = provider,
-            Themes = new MarkdownThemes
-            {
-                // Theme constrains images to max 400px
-                ImageMaxWidth = 400,
-                ImageMaxHeight = 400
-            }
-        };
-
         var markdown = new MarkdownTextBlock
         {
-            Config = config,
+            ImageProvider = provider,
+            // Theme constrains images to max 400px
+            ImageMaxWidth = 400,
+            ImageMaxHeight = 400,
             Text = "![Test Image](test://large.png)"
         };
 

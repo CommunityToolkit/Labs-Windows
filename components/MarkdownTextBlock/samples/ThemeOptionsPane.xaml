@@ -15,9 +15,6 @@
                         Spacing="8">
                 <Button Click="ResetTheme_Click"
                         Content="Reset to Defaults" />
-                <Button Click="ApplyTheme_Click"
-                        Content="Apply Changes"
-                        Style="{ThemeResource AccentButtonStyle}" />
             </StackPanel>
 
             <!--  Headings Section  -->

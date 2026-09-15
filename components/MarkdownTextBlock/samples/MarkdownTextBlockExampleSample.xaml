@@ -11,7 +11,6 @@
     <ScrollViewer>
         <controls:MarkdownTextBlock x:Name="MarkdownTextBlock"
                                     Margin="12"
-                                    Config="{x:Bind MarkdownConfig, Mode=OneTime}"
                                     DisableHtml="{x:Bind DisableHtml, Mode=OneWay}"
                                     Text="{x:Bind Text, Mode=OneTime}"
                                     UseAutoLinks="{x:Bind UseAutoLinks, Mode=OneWay}"
