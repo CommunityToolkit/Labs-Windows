@@ -5,7 +5,7 @@
     <ToolkitComponentName>DependencyPropertyGenerator</ToolkitComponentName>
 
     <!-- This component has documentation but no interactive samples. -->
-    <NoWarn>$(NoWarn);TKSMPL0014</NoWarn>
+    <NoWarn>$(NoWarn);TKSMPL0014;TKSMPL0013;</NoWarn>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's sample project -->
