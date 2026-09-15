@@ -8,3 +8,4 @@
 *.csproj       text      eol=lf
 *.projitems    text      eol=lf
 *.shprroj      text      eol=lf
+*.xaml         text      eol=crlf
