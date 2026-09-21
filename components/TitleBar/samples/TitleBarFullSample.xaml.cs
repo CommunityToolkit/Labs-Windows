@@ -44,7 +44,14 @@ public sealed partial class TitleBarFullSample : Page
         {
             SystemBackdrop = new MicaBackdrop()
         };
-        newWindow.Content = new ShellPage(newWindow);
+
+        // Create the content for the window to show
+        // and set the FlowDirection to match the current region.
+        newWindow.Content = new ShellPage(newWindow)
+        {
+            FlowDirection = this.FlowDirection
+        };
+
         newWindow.Activate();
 #endif
     }
