@@ -11,6 +11,7 @@ using Basic.Reference.Assemblies;
 using CommunityToolkit.WinUI;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Foundation;
@@ -56,7 +57,7 @@ internal static class CSharpGeneratorTest<TGenerator>
     /// <param name="source">The input source to process.</param>
     /// <param name="result">The expected source to be generated.</param>
     /// <param name="languageVersion">The language version to use to run the test.</param>
-    /// <remarks>This also supports invalid inputs. Use <see cref="VerifyCompiles"/> to validate compilation.</remarks>
+    /// <remarks>This also supports invalid inputs. Use <see cref="VerifyCompiles(string, LanguageVersion)"/> to validate compilation.</remarks>
     public static void VerifySources(string source, (string Filename, string Source) result, LanguageVersion languageVersion = LanguageVersion.CSharp13)
     {
         RunGenerator(source, out Compilation compilation, out ImmutableArray<Diagnostic> diagnostics, languageVersion);
@@ -80,7 +81,18 @@ internal static class CSharpGeneratorTest<TGenerator>
     /// <returns>The resulting compilation, for further assertions on the generated sources.</returns>
     public static Compilation VerifyCompiles(string source, LanguageVersion languageVersion = LanguageVersion.CSharp13)
     {
-        RunGenerator(source, out Compilation compilation, out ImmutableArray<Diagnostic> diagnostics, languageVersion);
+        return VerifyCompiles(CreateCompilation(source, languageVersion), DependencyPropertyGeneratorAnalyzerConfigOptionsProvider.Instance);
+    }
+
+    /// <summary>
+    /// Verifies that the resulting sources can be emitted with the specified references and generator options.
+    /// </summary>
+    /// <param name="originalCompilation">The input compilation to process.</param>
+    /// <param name="optionsProvider">The analyzer options to use for the generator.</param>
+    /// <returns>The resulting compilation, for further assertions on the generated sources.</returns>
+    public static Compilation VerifyCompiles(Compilation originalCompilation, AnalyzerConfigOptionsProvider optionsProvider)
+    {
+        RunGenerator(originalCompilation, optionsProvider, out Compilation compilation, out ImmutableArray<Diagnostic> diagnostics);
 
         CollectionAssert.AreEquivalent(Array.Empty<Diagnostic>(), diagnostics);
 
@@ -189,10 +201,26 @@ internal static class CSharpGeneratorTest<TGenerator>
     {
         Compilation originalCompilation = CreateCompilation(source, languageVersion);
 
+        RunGenerator(originalCompilation, DependencyPropertyGeneratorAnalyzerConfigOptionsProvider.Instance, out compilation, out diagnostics);
+    }
+
+    /// <summary>
+    /// Runs a generator with the specified compilation and options.
+    /// </summary>
+    /// <param name="originalCompilation">The input compilation to process.</param>
+    /// <param name="optionsProvider">The analyzer options to use for the generator.</param>
+    /// <param name="compilation">The resulting compilation.</param>
+    /// <param name="diagnostics">The resulting generator diagnostics.</param>
+    private static void RunGenerator(
+        Compilation originalCompilation,
+        AnalyzerConfigOptionsProvider optionsProvider,
+        out Compilation compilation,
+        out ImmutableArray<Diagnostic> diagnostics)
+    {
         // Create the generator driver with the specified generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
             generators: [new TGenerator().AsSourceGenerator()],
-            optionsProvider: DependencyPropertyGeneratorAnalyzerConfigOptionsProvider.Instance).WithUpdatedParseOptions(originalCompilation.SyntaxTrees.First().Options);
+            optionsProvider: optionsProvider).WithUpdatedParseOptions(originalCompilation.SyntaxTrees.First().Options);
 
         // Run all source generators on the input source code
         _ = driver.RunGeneratorsAndUpdateCompilation(originalCompilation, out compilation, out diagnostics);

@@ -76,7 +76,7 @@ Use the properties like any other dependency properties. For example, after mapp
 
 You can also use `CounterControl.CountProperty` with APIs such as `GetValue`, `SetValue`, and `ClearValue`. Do not declare the identifier field or another implementation of the partial property yourself.
 
-Without local caching, the getter reads the effective value from the XAML property system. The setter writes to that system, using optimized `XamlBindingHelper` APIs where available and appropriate. The generator handles the details, including falling back to `SetValue` for null or empty strings.
+Without local caching, the getter reads the effective value from the XAML property system. The setter writes to that system, using optimized `XamlBindingHelper` APIs where available and appropriate. The generator falls back to `SetValue` for `null` URI values and `null` or empty strings, in both caching modes. These checks use the value after the typed setter hook, even for properties not annotated as nullable.
 
 ## Attribute options
 
@@ -263,7 +263,7 @@ public partial class NormalizedCounter : DependencyObject
 }
 ```
 
-For ordinary properties without local caching, implementing the boxed setter hook makes the generator use the `SetValue` path instead of a typed `XamlBindingHelper` optimization, so the hook can inspect or replace the boxed value. The boxed getter hook can normalize values before a cast that would otherwise fail. Replacements must remain compatible with the declared property and metadata types.
+Implementing the boxed setter hook makes the generator use the `SetValue` path instead of a typed `XamlBindingHelper` optimization, so the hook can inspect or replace the boxed value. This applies with and without local caching. The boxed getter hook can normalize values before a cast that would otherwise fail. Replacements must remain compatible with the declared property and metadata types.
 
 An object-typed property has only one getter hook and one setter hook, rather than duplicate typed and boxed signatures. Nullable annotations on hook parameters follow the generated property's signatures.
 
