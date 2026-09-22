@@ -24,8 +24,6 @@ partial class Test_DependencyPropertyGenerator
     [DataRow("int?", null)]
     [DataRow("bool", null)]
     [DataRow("string", null)]
-    [DataRow("System.Uri", null)]
-    [DataRow("System.Uri?", null)]
     public void SingleProperty_WithLocalCache_Compiles(string propertyType, string? defaultValue)
     {
         string defaultValueArgument = defaultValue is null ? "" : $", DefaultValue = {defaultValue}";

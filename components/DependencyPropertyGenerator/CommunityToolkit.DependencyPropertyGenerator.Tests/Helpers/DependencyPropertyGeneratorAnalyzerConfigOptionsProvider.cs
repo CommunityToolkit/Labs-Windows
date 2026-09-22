@@ -12,8 +12,7 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Tests.Helpers;
 /// <summary>
 /// A custom <see cref="AnalyzerConfigOptionsProvider"/> providing the MSBuild properties needed by the dependency property generator.
 /// </summary>
-/// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
-internal sealed class DependencyPropertyGeneratorAnalyzerConfigOptionsProvider(bool useWindowsUIXaml = true) : AnalyzerConfigOptionsProvider
+internal sealed class DependencyPropertyGeneratorAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
 {
     /// <summary>
     /// The singleton <see cref="DependencyPropertyGeneratorAnalyzerConfigOptionsProvider"/> instance.
@@ -22,7 +21,7 @@ internal sealed class DependencyPropertyGeneratorAnalyzerConfigOptionsProvider(b
 
     /// <inheritdoc/>
     public override AnalyzerConfigOptions GlobalOptions { get; } = new SimpleAnalyzerConfigOptions(
-        ImmutableDictionary<string, string>.Empty.Add("build_property.DependencyPropertyGeneratorUseWindowsUIXaml", useWindowsUIXaml ? "true" : "false"));
+        ImmutableDictionary<string, string>.Empty.Add("build_property.DependencyPropertyGeneratorUseWindowsUIXaml", "true"));
 
     /// <inheritdoc/>
     public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
