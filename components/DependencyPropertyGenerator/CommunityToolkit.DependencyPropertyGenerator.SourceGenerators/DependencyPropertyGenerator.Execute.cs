@@ -802,6 +802,14 @@ partial class DependencyPropertyGenerator
             {
                 string oldValueTypeNameAsNullable = GetOldValueTypeNameAsNullable(propertyInfo);
 
+                // These helpers reject null values, and empty 'string' values also marshal to a null 'HSTRING'
+                string? xamlBindingHelperFallbackCondition = propertyInfo.XamlBindingHelperSetMethodName switch
+                {
+                    "SetPropertyFromString" => "value is null || value.Length == 0",
+                    "SetPropertyFromUri" => "value is null",
+                    _ => null
+                };
+
                 // Declare the property
                 writer.WriteLine(skipIfPresent: true);
                 writer.WriteLine("/// <inheritdoc/>");
@@ -845,19 +853,18 @@ partial class DependencyPropertyGenerator
                                 field = value;
                             """, isMultiline: true);
 
-                        // If the property is of type 'string', we need a special path. That is because 'XamlBindingHelper.SetPropertyFromString'
-                        // doesn't work correctly for 'null' or empty strings, so we need to fall back to 'SetValue' in those cases.
-                        if (propertyInfo.TypeName == "string")
+                        // Fall back to 'SetValue' for values rejected by the selected helper
+                        if (xamlBindingHelperFallbackCondition is not null)
                         {
                             writer.Write($$"""
 
-                                    if (value is null || value.Length == 0)
+                                    if ({{xamlBindingHelperFallbackCondition}})
                                     {
                                         SetValue({{propertyInfo.PropertyName}}Property, value);
                                     }
                                     else
                                     {
-                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.SetPropertyFromString(this, {{propertyInfo.PropertyName}}Property, value);
+                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{propertyInfo.XamlBindingHelperSetMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
                                     }
 
                                     On{{propertyInfo.PropertyName}}Changed(value);
@@ -942,21 +949,21 @@ partial class DependencyPropertyGenerator
                             }
                             """, isMultiline: true);
 
-                        // For 'string' properties, we need a specialized path (see comment in the local caching branch above)
-                        if (propertyInfo.TypeName == "string")
+                        // Match the 'string' and 'Uri' fallback from the local caching branch
+                        if (xamlBindingHelperFallbackCondition is not null)
                         {
                             writer.WriteLine($$"""
                                 {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
                                 {
                                     On{{propertyInfo.PropertyName}}Set(ref value);
 
-                                    if (value is null || value.Length == 0)
+                                    if ({{xamlBindingHelperFallbackCondition}})
                                     {
                                         SetValue({{propertyInfo.PropertyName}}Property, value);
                                     }
                                     else
                                     {
-                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.SetPropertyFromString(this, {{propertyInfo.PropertyName}}Property, value);
+                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{setMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
                                     }
 
                                     On{{propertyInfo.PropertyName}}Changed(value);
