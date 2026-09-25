@@ -26,6 +26,11 @@ public sealed class AdaptiveText
     public BindableString Text { get; set; }
 
     /// <summary>
+    /// Gets or sets the id of this text. Use for lock screen notification.
+    /// </summary>
+    public int? Id { get; set; }
+
+    /// <summary>
     /// Gets or sets the target locale of the XML payload, specified as a BCP-47 language tags
     /// such as "en-US" or "fr-FR". The locale specified here overrides any other specified
     /// locale, such as that in binding or visual. If this value is a literal string,
@@ -108,6 +113,7 @@ public sealed class AdaptiveText
     {
         var answer = new Element_AdaptiveText()
         {
+            Id = Id,
             Lang = Language,
             Style = HintStyle,
             Wrap = HintWrap,
