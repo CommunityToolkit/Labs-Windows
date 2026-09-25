@@ -14,7 +14,7 @@ internal class HeadingRenderer : UWPObjectRenderer<HeadingBlock>
         if (renderer == null) throw new ArgumentNullException(nameof(renderer));
         if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-        var paragraph = new MyHeading(obj, renderer.Config);
+        var paragraph = new MyHeading(obj, renderer.MarkdownTextBlock);
         renderer.Push(paragraph);
         renderer.WriteLeafInline(obj);
         renderer.Pop();

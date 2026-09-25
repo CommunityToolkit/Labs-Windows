@@ -20,7 +20,6 @@ namespace MarkdownTextBlockExperiment.Samples;
 [ToolkitSample(id: nameof(MarkdownTextBlockExampleSample), "Full Example", description: $"A comprehensive example showcasing all the features and capabilities of the {nameof(CommunityToolkit.WinUI.Controls.MarkdownTextBlock)} control with various markdown syntax.")]
 public sealed partial class MarkdownTextBlockExampleSample : Page
 {
-    private MarkdownConfig _config;
     private string _text;
     private const string _markdown = @"
 This control was originally written by [Nero Cui](https://github.com/nerocui) for [JitHub](https://github.com/JitHubApp/JitHubV2). The control is powered by the popular [Markdig](https://github.com/xoofx/markdig) markdown parsing library and *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering.
@@ -585,12 +584,6 @@ results in
 Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_primer_or_how_do_you_do_all_that/c03nik6
 ";
 
-    public MarkdownConfig MarkdownConfig
-    {
-        get => _config;
-        set => _config = value;
-    }
-
     public string Text
     {
         get => _text;
@@ -600,7 +593,6 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
     public MarkdownTextBlockExampleSample()
     {
         this.InitializeComponent();
-        _config = new MarkdownConfig();
         _text = _markdown;
         MarkdownTextBlock.OnLinkClicked += MarkdownTextBlock_OnLinkClicked;
     }
