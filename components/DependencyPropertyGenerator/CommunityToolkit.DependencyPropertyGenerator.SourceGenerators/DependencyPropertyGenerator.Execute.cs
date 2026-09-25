@@ -307,7 +307,7 @@ partial class DependencyPropertyGenerator
                         // Validate the method has a valid signature as well
                         if (InvalidPropertyDefaultValueCallbackTypeAnalyzer.IsDefaultValueCallbackValid(propertySymbol, methodSymbol))
                         {
-                            return new DependencyPropertyDefaultValue.Callback(methodName);
+                            return new DependencyPropertyDefaultValue.Callback(methodName, RequiresBoxing: !methodSymbol.ReturnType.IsReferenceType);
                         }
                     }
                 }
@@ -471,8 +471,10 @@ partial class DependencyPropertyGenerator
         /// Gets the <c>XamlBindingHelper.SetPropertyFrom*</c> method name for a given property type, if supported.
         /// </summary>
         /// <param name="typeSymbol">The input <see cref="ITypeSymbol"/> to check.</param>
+        /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
+        /// <param name="compilation">The <see cref="Compilation"/> for the current run, used to probe for optional APIs.</param>
         /// <returns>The method name to use, or <see langword="null"/> if the type is not supported.</returns>
-        public static string? GetXamlBindingHelperSetMethodName(ITypeSymbol typeSymbol)
+        public static string? GetXamlBindingHelperSetMethodName(ITypeSymbol typeSymbol, bool useWindowsUIXaml, Compilation compilation)
         {
             // Check for well known primitive types first (these are the most common)
             switch (typeSymbol.SpecialType)
@@ -491,15 +493,91 @@ partial class DependencyPropertyGenerator
                 default: break;
             }
 
-            // Check for the remaining well known WinRT projected types
-            if (typeSymbol.HasFullyQualifiedMetadataName("System.DateTimeOffset")) return "SetPropertyFromDateTime";
-            if (typeSymbol.HasFullyQualifiedMetadataName("System.TimeSpan")) return "SetPropertyFromTimeSpan";
-            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Point")) return "SetPropertyFromPoint";
-            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Rect")) return "SetPropertyFromRect";
-            if (typeSymbol.HasFullyQualifiedMetadataName("Windows.Foundation.Size")) return "SetPropertyFromSize";
-            if (typeSymbol.HasFullyQualifiedMetadataName("System.Uri")) return "SetPropertyFromUri";
+            // Check for the remaining well known WinRT projected types (always available on both UWP and WinAppSDK)
+            foreach ((string fullyQualifiedName, string methodName) in (ReadOnlySpan<(string, string)>)[
+                ("System.DateTimeOffset", "SetPropertyFromDateTime"),
+                ("System.TimeSpan", "SetPropertyFromTimeSpan"),
+                ("Windows.Foundation.Point", "SetPropertyFromPoint"),
+                ("Windows.Foundation.Rect", "SetPropertyFromRect"),
+                ("Windows.Foundation.Size", "SetPropertyFromSize"),
+                ("System.Uri", "SetPropertyFromUri")])
+            {
+                if (typeSymbol.HasFullyQualifiedMetadataName(fullyQualifiedName))
+                {
+                    return methodName;
+                }
+            }
+
+            // UWP is not getting any new APIs in 'XamlBindingHelper', so if we didn't hit a match yet, we can stop here
+            if (useWindowsUIXaml)
+            {
+                return null;
+            }
+
+            // The following types only have a corresponding 'SetPropertyFrom*' method on the WinAppSDK
+            // 'XamlBindingHelper'. The methods were also only added in newer WinAppSDK versions, so we
+            // additionally have to probe for their presence on the resolved type before emitting calls
+            // to them, to avoid breaking codegen for projects targeting older WinAppSDK releases.
+            foreach ((string fullyQualifiedName, string methodName) in (ReadOnlySpan<(string, string)>)[
+                ("Windows.UI.Color", "SetPropertyFromColor"),
+                ("Microsoft.UI.Xaml.CornerRadius", "SetPropertyFromCornerRadius"),
+                ("Microsoft.UI.Xaml.Thickness", "SetPropertyFromThickness")])
+            {
+                if (typeSymbol.HasFullyQualifiedMetadataName(fullyQualifiedName) &&
+                    HasXamlBindingHelperMethod(compilation, methodName, fullyQualifiedName))
+                {
+                    return methodName;
+                }
+            }
 
             return null;
+        }
+
+        /// <summary>
+        /// Checks whether the WinAppSDK <c>XamlBindingHelper</c> type exposes a <c>SetPropertyFrom*</c> static method
+        /// with the expected <c>(object, DependencyProperty, T)</c> signature.
+        /// </summary>
+        /// <param name="compilation">The <see cref="Compilation"/> for the current run.</param>
+        /// <param name="methodName">The name of the static method to look for.</param>
+        /// <param name="valueTypeMetadataName">The fully qualified metadata name of the third (value) parameter.</param>
+        /// <returns>Whether the WinAppSDK <c>XamlBindingHelper</c> exposes a matching static method.</returns>
+        /// <remarks>
+        /// This helper intentionally hardcodes the WinAppSDK <c>XamlBindingHelper</c> type, as it is only used
+        /// to probe for methods that don't exist on the UWP equivalent. Callers must therefore gate on
+        /// <c>useWindowsUIXaml == false</c> before invoking it.
+        /// </remarks>
+        private static bool HasXamlBindingHelperMethod(Compilation compilation, string methodName, string valueTypeMetadataName)
+        {
+            INamedTypeSymbol? xamlBindingHelperType = compilation.GetTypeByMetadataName(WellKnownTypeNames.XamlBindingHelper(useWindowsUIXaml: false));
+
+            if (xamlBindingHelperType is null)
+            {
+                return false;
+            }
+
+            // Match the expected 'static void Method(object, DependencyProperty, T)' shape. We validate the
+            // exact parameter types to guard against any future overload with the same name but different shape.
+            foreach (ISymbol member in xamlBindingHelperType.GetMembers(methodName))
+            {
+                if (member is IMethodSymbol
+                    {
+                        IsStatic: true,
+                        ReturnsVoid: true,
+                        Parameters:
+                        [
+                            { Type.SpecialType: SpecialType.System_Object },
+                            { Type: INamedTypeSymbol dependencyPropertyType },
+                            { Type: INamedTypeSymbol valueType }
+                        ]
+                    } &&
+                    dependencyPropertyType.HasFullyQualifiedMetadataName(WellKnownTypeNames.DependencyProperty(useWindowsUIXaml: false)) &&
+                    valueType.HasFullyQualifiedMetadataName(valueTypeMetadataName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -612,10 +690,10 @@ partial class DependencyPropertyGenerator
                     // Shared codegen
                     { DefaultValue: DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default(_, true), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => "null",
-                    { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
+                    { DefaultValue: DependencyPropertyDefaultValue.Callback callback, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"""
                         global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
-                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}))
+                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({callback}))
                         """,
                     { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: false }
                         => $"new global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}({defaultValue})",
@@ -623,22 +701,22 @@ partial class DependencyPropertyGenerator
                     // Codegen for legacy UWP
                     { IsAdditionalTypesGenerationSupported: false } => propertyInfo switch
                     {
-                        { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
+                        { DefaultValue: DependencyPropertyDefaultValue.Callback callback, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
                             => $"""
                             global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
-                                 createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                                 createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({callback}),
                                  propertyChangedCallback: static (d, e) => (({typeQualifiedName})d).On{propertyInfo.PropertyName}PropertyChanged(e))
                             """,
-                        { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: true }
+                        { DefaultValue: DependencyPropertyDefaultValue.Callback callback, IsPropertyChangedCallbackImplemented: false, IsSharedPropertyChangedCallbackImplemented: true }
                             => $"""
                             global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
-                                createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                                createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({callback}),
                                 propertyChangedCallback: static (d, e) => (({typeQualifiedName})d).OnPropertyChanged(e))
                             """,
-                        { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName), IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: true }
+                        { DefaultValue: DependencyPropertyDefaultValue.Callback callback, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: true }
                             => $$"""
                             global::{{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}}.Create(
-                                createDefaultValueCallback: new {{WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}}({{methodName}}),
+                                createDefaultValueCallback: new {{WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}}({{callback}}),
                                 propertyChangedCallback: static (d, e) => { (({{typeQualifiedName}})d).On{{propertyInfo.PropertyName}}PropertyChanged(e); (({{typeQualifiedName}})d).OnPropertyChanged(e); })
                             """,
                         { DefaultValue: { } defaultValue, IsPropertyChangedCallbackImplemented: true, IsSharedPropertyChangedCallbackImplemented: false }
@@ -675,10 +753,10 @@ partial class DependencyPropertyGenerator
                             defaultValue: null,
                             propertyChangedCallback: global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())
                         """,
-                    { DefaultValue: DependencyPropertyDefaultValue.Callback(string methodName) }
+                    { DefaultValue: DependencyPropertyDefaultValue.Callback callback }
                         => $"""
                         global::{WellKnownTypeNames.PropertyMetadata(propertyInfo.UseWindowsUIXaml)}.Create(
-                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({methodName}),
+                            createDefaultValueCallback: new {WellKnownTypeNames.CreateDefaultValueCallback(propertyInfo.UseWindowsUIXaml)}({callback}),
                             propertyChangedCallback: global::{GeneratorName}.PropertyChangedCallbacks.{propertyInfo.PropertyName}())
                         """,
                     { DefaultValue: { } defaultValue } and ({ IsPropertyChangedCallbackImplemented: true } or { IsSharedPropertyChangedCallbackImplemented: true })
@@ -724,6 +802,14 @@ partial class DependencyPropertyGenerator
             {
                 string oldValueTypeNameAsNullable = GetOldValueTypeNameAsNullable(propertyInfo);
 
+                // These helpers reject null values, and empty 'string' values also marshal to a null 'HSTRING'
+                string? xamlBindingHelperFallbackCondition = propertyInfo.XamlBindingHelperSetMethodName switch
+                {
+                    "SetPropertyFromString" => "value is null || value.Length == 0",
+                    "SetPropertyFromUri" => "value is null",
+                    _ => null
+                };
+
                 // Declare the property
                 writer.WriteLine(skipIfPresent: true);
                 writer.WriteLine("/// <inheritdoc/>");
@@ -740,8 +826,11 @@ partial class DependencyPropertyGenerator
                 // We will never have the 'partial' modifier in the set of property modifiers processed above.
                 writer.WriteLine($"partial {propertyInfo.TypeNameWithNullabilityAnnotations} {propertyInfo.PropertyName}");
 
-                using (writer.WriteBlock())
+                writer.WriteLine("{");
+
                 {
+                    writer.IncreaseIndent();
+
                     // We need very different codegen depending on whether local caching is enabled or not
                     if (propertyInfo.IsLocalCachingEnabled)
                     {
@@ -764,19 +853,18 @@ partial class DependencyPropertyGenerator
                                 field = value;
                             """, isMultiline: true);
 
-                        // If the property is of type 'string', we need a special path. That is because 'XamlBindingHelper.SetPropertyFromString'
-                        // doesn't work correctly for 'null' or empty strings, so we need to fall back to 'SetValue' in those cases.
-                        if (propertyInfo.TypeName == "string")
+                        // Fall back to 'SetValue' for values rejected by the selected helper
+                        if (xamlBindingHelperFallbackCondition is not null)
                         {
                             writer.Write($$"""
 
-                                    if (value is null || value.Length == 0)
+                                    if ({{xamlBindingHelperFallbackCondition}})
                                     {
                                         SetValue({{propertyInfo.PropertyName}}Property, value);
                                     }
                                     else
                                     {
-                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.SetPropertyFromString(this, {{propertyInfo.PropertyName}}Property, value);
+                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{propertyInfo.XamlBindingHelperSetMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
                                     }
 
                                     On{{propertyInfo.PropertyName}}Changed(value);
@@ -816,13 +904,6 @@ partial class DependencyPropertyGenerator
                                 """, isMultiline: true);
                         }
 
-                        // If the default value is not what the default field value would be, add an initializer
-                        if (propertyInfo.DefaultValue is not (DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default or DependencyPropertyDefaultValue.Callback))
-                        {
-                            writer.Write($" = {propertyInfo.DefaultValue};");
-                        }
-
-                        // Always leave a newline after the end of the property declaration, in either case
                         writer.WriteLine();
                     }
                     else if (propertyInfo.TypeName == "object")
@@ -868,21 +949,21 @@ partial class DependencyPropertyGenerator
                             }
                             """, isMultiline: true);
 
-                        // For 'string' properties, we need a specialized path (see comment in the local caching branch above)
-                        if (propertyInfo.TypeName == "string")
+                        // Match the 'string' and 'Uri' fallback from the local caching branch
+                        if (xamlBindingHelperFallbackCondition is not null)
                         {
                             writer.WriteLine($$"""
                                 {{GetExpressionWithTrailingSpace(propertyInfo.SetterAccessibility)}}set
                                 {
                                     On{{propertyInfo.PropertyName}}Set(ref value);
 
-                                    if (value is null || value.Length == 0)
+                                    if ({{xamlBindingHelperFallbackCondition}})
                                     {
                                         SetValue({{propertyInfo.PropertyName}}Property, value);
                                     }
                                     else
                                     {
-                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.SetPropertyFromString(this, {{propertyInfo.PropertyName}}Property, value);
+                                        global::{{WellKnownTypeNames.XamlBindingHelper(propertyInfo.UseWindowsUIXaml)}}.{{setMethodName}}(this, {{propertyInfo.PropertyName}}Property, value);
                                     }
 
                                     On{{propertyInfo.PropertyName}}Changed(value);
@@ -932,7 +1013,20 @@ partial class DependencyPropertyGenerator
                             }
                             """, isMultiline: true);
                     }
+
+                    writer.DecreaseIndent();
                 }
+
+                writer.Write("}");
+
+                // The initializer follows the property's closing brace, not the setter's
+                if (propertyInfo.IsLocalCachingEnabled &&
+                    propertyInfo.DefaultValue is not (DependencyPropertyDefaultValue.Null or DependencyPropertyDefaultValue.Default or DependencyPropertyDefaultValue.Callback))
+                {
+                    writer.Write($" = {propertyInfo.DefaultValue};");
+                }
+
+                writer.WriteLine();
             }
 
             // Next, emit all partial method declarations at the bottom of the file

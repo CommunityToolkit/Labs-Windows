@@ -30,7 +30,7 @@ Otherwise, you can clone the repo, open the `components` directory, navigate wit
 - [CanvasView](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/CanvasView/samples/CanvasView.md)
 - [ColorAnalyzer](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/ColorAnalyzer)
 - [DataTable](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/DataTable/samples/DataTable.md)
-- [DependencyPropertyGenerator](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/DependencyPropertyGenerator)
+- [DependencyPropertyGenerator](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/DependencyPropertyGenerator/samples/DependencyPropertyGenerator.md)
 - [Extensions.DependencyInjection](https://github.com/CommunityToolkit/Labs-Windows/tree/main/components/Extensions.DependencyInjection)
 - [MarkdownTextBlock](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/MarkdownTextBlock/samples/MarkdownTextBlock.md)
 - [Marquee](https://github.com/CommunityToolkit/Labs-Windows/blob/main/components/Marquee/samples/Marquee.md)
