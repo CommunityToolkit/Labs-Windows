@@ -17,7 +17,10 @@ internal sealed partial class RibbonPanel : Panel
         // We try to limit the layout changes if the parent scrollviewer is sending values with small changes.
         availableSize.Width = Math.Floor(availableSize.Width);
 
-        var childrenByPriority = Children.OrderBy(c => c is RibbonCollapsibleGroup collapsibleGroup ? collapsibleGroup.Priority : 0);
+        var childrenByPriority = Children
+            .OrderBy(c => c is RibbonCollapsibleGroup collapsibleGroup ? collapsibleGroup.Priority : 0)
+            .ToList();
+
         var desiredSize = new Size();
         foreach (var child in childrenByPriority)
         {
@@ -31,9 +34,8 @@ internal sealed partial class RibbonPanel : Panel
             {
                 // Get the closest match to remainingWidth or use infinite size if we do not have any match.
                 var remainingWidth = availableSize.Width - desiredSize.Width;
-                //var requestedWidth = requestedWidths.LastOrDefault(w => w <= remainingWidth, defaultValue: double.PositiveInfinity);
-                var matchingWidths = requestedWidths.Where(w => w <= remainingWidth);
-                var requestedWidth = matchingWidths.Any() ? matchingWidths.Last() : double.PositiveInfinity;
+                var matchingWidth = requestedWidths.LastOrDefault(w => w <= remainingWidth);
+                var requestedWidth = matchingWidth > 0 ? matchingWidth : double.PositiveInfinity;
                 var fixedSize = new Size(requestedWidth, availableSize.Height);
                 child.Measure(fixedSize);
             }
@@ -46,7 +48,7 @@ internal sealed partial class RibbonPanel : Panel
         {
             // We need to collapse some groups.
             // If there is no priority order we assume that the last items are the one which should collapse first.
-            var groups = Children.OfType<RibbonCollapsibleGroup>().Reverse().Where(g => g.State == Visibility.Visible).OrderByDescending(g => g.Priority);
+            var groups = childrenByPriority.OfType<RibbonCollapsibleGroup>().Reverse().Where(g => g.State == Visibility.Visible);
             foreach (var group in groups)
             {
                 group.State = Visibility.Collapsed;
@@ -76,7 +78,7 @@ internal sealed partial class RibbonPanel : Panel
         else if (desiredSize.Width < availableSize.Width)
         {
             // We have more space than needed, we check if we can expand some groups
-            var groups = Children.OfType<RibbonCollapsibleGroup>().Where(g => g.State == Visibility.Collapsed).OrderBy(g => g.Priority);
+            var groups = childrenByPriority.OfType<RibbonCollapsibleGroup>().Where(g => g.State == Visibility.Collapsed);
             foreach (var group in groups)
             {
                 var previousSize = group.DesiredSize;
@@ -91,9 +93,8 @@ internal sealed partial class RibbonPanel : Panel
                 {
                     // Get the closest match to remainingWidth or use infinite size if we do not have any match.
                     var remainingWidth = availableSize.Width + previousSize.Width - desiredSize.Width;
-                    //var requestedWidth = requestedWidths.LastOrDefault(w => w <= remainingWidth, defaultValue: double.PositiveInfinity);
-                    var matchingWidths = requestedWidths.Where(w => w <= remainingWidth);
-                    var requestedWidth = matchingWidths.Any() ? matchingWidths.Last() : double.PositiveInfinity;
+                    var matchingWidth = requestedWidths.LastOrDefault(w => w <= remainingWidth);
+                    var requestedWidth = matchingWidth > 0 ? matchingWidth : double.PositiveInfinity;
                     var fixedSize = new Size(requestedWidth, availableSize.Height);
                     group.Measure(fixedSize);
                 }
