@@ -11,6 +11,7 @@ using Basic.Reference.Assemblies;
 using CommunityToolkit.WinUI;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
@@ -55,6 +56,7 @@ internal static class CSharpGeneratorTest<TGenerator>
     /// <param name="source">The input source to process.</param>
     /// <param name="result">The expected source to be generated.</param>
     /// <param name="languageVersion">The language version to use to run the test.</param>
+    /// <remarks>This also supports invalid inputs. Use <see cref="VerifyCompiles"/> to validate compilation.</remarks>
     public static void VerifySources(string source, (string Filename, string Source) result, LanguageVersion languageVersion = LanguageVersion.CSharp13)
     {
         RunGenerator(source, out Compilation compilation, out ImmutableArray<Diagnostic> diagnostics, languageVersion);
@@ -68,6 +70,27 @@ internal static class CSharpGeneratorTest<TGenerator>
         string actualText = compilation.SyntaxTrees.Single(tree => Path.GetFileName(tree.FilePath) == result.Filename).ToString();
 
         Assert.AreEqual(expectedText, actualText);
+    }
+
+    /// <summary>
+    /// Verifies that the resulting sources produced by a source generator can be emitted.
+    /// </summary>
+    /// <param name="source">The input source to process.</param>
+    /// <param name="languageVersion">The language version to use to run the test.</param>
+    /// <returns>The resulting compilation, for further assertions on the generated sources.</returns>
+    public static Compilation VerifyCompiles(string source, LanguageVersion languageVersion = LanguageVersion.CSharp13)
+    {
+        RunGenerator(source, out Compilation compilation, out ImmutableArray<Diagnostic> diagnostics, languageVersion);
+
+        CollectionAssert.AreEquivalent(Array.Empty<Diagnostic>(), diagnostics);
+
+        using MemoryStream stream = new();
+
+        EmitResult result = compilation.Emit(stream);
+
+        Assert.IsTrue(result.Success, $"Failed to emit generated sources:{Environment.NewLine}{string.Join(Environment.NewLine, result.Diagnostics)}");
+
+        return compilation;
     }
 
     /// <summary>
