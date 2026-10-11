@@ -19,14 +19,21 @@ internal static class NativeMethods
     [Flags]
     public enum WindowStyle : uint
     {
-        WS_SYSMENU = 0x80000
+        WS_SYSMENU = 0x80000,
+    }
+
+    [Flags]
+    public enum WindowStyleExtended : ulong
+    {
+        WS_EX_LAYOUTRTL= 0x00400000L,
     }
 
     [Flags]
     public enum WindowLongIndexFlags : int
     {
         GWL_WNDPROC = -4,
-        GWL_STYLE = -16
+        GWL_STYLE = -16,
+        GWL_EXSTYLE = -20,
     }
 
     [Flags]
@@ -44,43 +51,50 @@ internal static class NativeMethods
         SC_KEYMENU = 0xF100
     }
 
+    // TODO: Check for typing online. IntPtr, int, or long?
+
     [DllImport("user32.dll", EntryPoint = "GetWindowLongW", SetLastError = false)]
-    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+    public static extern int GetWindowLongW(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr", SetLastError = false)]
+    public static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex);
 
     [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW", SetLastError = false)]
-    public static extern int GetWindowLongPtr(IntPtr hWnd, int nIndex);
+    public static extern int GetWindowLongPtrW(IntPtr hWnd, int nIndex);
 
     public static int GetWindowLongAuto(IntPtr hWnd, int nIndex)
     {
         if (IntPtr.Size is 8)
         {
-            return GetWindowLongPtr(hWnd, nIndex);
+            return GetWindowLongPtrW(hWnd, nIndex);
         }
         else
         {
-            return GetWindowLong(hWnd, nIndex);
+            return GetWindowLongW(hWnd, nIndex);
         }
     }
 
     [DllImport("user32.dll", EntryPoint = "FindWindowExW", SetLastError = true, CharSet = CharSet.Unicode)]
     public static extern IntPtr FindWindowEx(IntPtr hWndParent, IntPtr hWndChildAfter, string lpszClass, string lpszWindow);
 
-
     [DllImport("user32.dll", EntryPoint = "SetWindowLongW", SetLastError = false)]
-    public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+    public static extern IntPtr SetWindowLongW(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = false)]
+    public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
     [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW", SetLastError = false)]
-    public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+    public static extern IntPtr SetWindowLongPtrW(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
     public static IntPtr SetWindowLongAuto(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
     {
         if (IntPtr.Size is 8)
         {
-            return SetWindowLongPtr(hWnd, nIndex, dwNewLong);
+            return SetWindowLongPtrW(hWnd, nIndex, dwNewLong);
         }
         else
         {
-            return SetWindowLong(hWnd, nIndex, dwNewLong);
+            return SetWindowLongW(hWnd, nIndex, dwNewLong);
         }
     }
 
