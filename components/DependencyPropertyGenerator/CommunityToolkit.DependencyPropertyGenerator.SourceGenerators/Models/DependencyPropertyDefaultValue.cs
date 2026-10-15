@@ -90,12 +90,14 @@ internal abstract partial record DependencyPropertyDefaultValue
     /// A <see cref="DependencyPropertyDefaultValue"/> type representing a callback.
     /// </summary>
     /// <param name="MethodName">The name of the callback method to invoke.</param>
-    public sealed record Callback(string MethodName) : DependencyPropertyDefaultValue
+    /// <param name="RequiresBoxing">Whether the callback return value requires a boxing conversion to <see cref="object"/>.</param>
+    public sealed record Callback(string MethodName, bool RequiresBoxing) : DependencyPropertyDefaultValue
     {
         /// <inheritdoc/>
         public override string ToString()
         {
-            return MethodName;
+            // Method-group conversions cannot box return values, including unconstrained type parameters
+            return RequiresBoxing ? $"static () => {MethodName}()" : MethodName;
         }
     }
 }

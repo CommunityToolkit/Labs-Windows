@@ -208,7 +208,7 @@ jobs:
 
       - name: Install Testspace Module
         if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
-        uses: testspace-com/setup-testspace@v1
+        uses: testspace-com/setup-testspace@v1.0.8
         with:
           domain: ${{ github.repository_owner }}
 

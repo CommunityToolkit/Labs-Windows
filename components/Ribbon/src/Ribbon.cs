@@ -19,6 +19,8 @@ namespace CommunityToolkit.WinUI.Controls;
 [TemplateVisualState(GroupName = ScrollButtonGroupNameTemplatePart, Name = DecrementButtonStateTemplatePart)]
 [TemplateVisualState(GroupName = ScrollButtonGroupNameTemplatePart, Name = IncrementButtonStateTemplatePart)]
 [TemplateVisualState(GroupName = ScrollButtonGroupNameTemplatePart, Name = BothButtonsStateTemplatePart)]
+[TemplateVisualState(GroupName = OptionsGroupNameTemplatePart, Name = OptionsVisibleStateTemplatePart)]
+[TemplateVisualState(GroupName = OptionsGroupNameTemplatePart, Name = OptionsCollapsedStateTemplatePart)]
 public sealed partial class Ribbon : Control
 {
     private const string PanelTemplatePart = "Panel";
@@ -30,6 +32,9 @@ public sealed partial class Ribbon : Control
     private const string DecrementButtonStateTemplatePart = "DecrementButton";
     private const string IncrementButtonStateTemplatePart = "IncrementButton";
     private const string BothButtonsStateTemplatePart = "BothButtons";
+    private const string OptionsGroupNameTemplatePart = "OptionsGroup";
+    private const string OptionsVisibleStateTemplatePart = "OptionsVisible";
+    private const string OptionsCollapsedStateTemplatePart = "OptionsCollapsed";
 
     private Panel? _panel;
     private ScrollViewer? _scrollViewer;
@@ -47,13 +52,31 @@ public sealed partial class Ribbon : Control
         new PropertyMetadata(20.0));
 
     /// <summary>
-    /// The amount to add or remove from the current scroll position.
+    /// The DP to store the <see cref="OptionsFlyout"/> property value.
     /// </summary>
-    public double ScrollStep
-    {
-        get => (double)GetValue(ScrollStepProperty);
-        set => SetValue(ScrollStepProperty, value);
-    }
+    public static readonly DependencyProperty OptionsFlyoutProperty = DependencyProperty.Register(
+        nameof(OptionsFlyout),
+        typeof(FlyoutBase),
+        typeof(Ribbon),
+        new PropertyMetadata(null, OnOptionsFlyoutPropertyChanged));
+
+    /// <summary>
+    /// The DP to store the <see cref="OptionsAccessibleName"/> property value.
+    /// </summary>
+    public static readonly DependencyProperty OptionsAccessibleNameProperty = DependencyProperty.Register(
+        nameof(OptionsAccessibleName),
+        typeof(string),
+        typeof(Ribbon),
+        new PropertyMetadata(string.Empty));
+
+    /// <summary>
+    /// The DP to store the <see cref="OptionsAccessKey"/> property value.
+    /// </summary>
+    public static readonly DependencyProperty OptionsAccessKeyProperty = DependencyProperty.Register(
+        nameof(OptionsAccessKey),
+        typeof(string),
+        typeof(Ribbon),
+        new PropertyMetadata(string.Empty));
 
     public Ribbon()
     {
@@ -61,6 +84,42 @@ public sealed partial class Ribbon : Control
 
         _items = [];
         _items.CollectionChanged += OnItemsCollectionChanged;
+    }
+
+    /// <summary>
+    /// Gets or sets the amount to add or remove from the current scroll position.
+    /// </summary>
+    public double ScrollStep
+    {
+        get => (double)GetValue(ScrollStepProperty);
+        set => SetValue(ScrollStepProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the flyout to display when the user clicks on the ribbon options button.
+    /// </summary>
+    public FlyoutBase? OptionsFlyout
+    {
+        get => (FlyoutBase?)GetValue(OptionsFlyoutProperty);
+        set => SetValue(OptionsFlyoutProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the accessible name for the options button.
+    /// </summary>
+    public string OptionsAccessibleName
+    {
+        get => (string)GetValue(OptionsAccessibleNameProperty);
+        set => SetValue(OptionsAccessibleNameProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the access key to set on the options flyout button.
+    /// </summary>
+    public string OptionsAccessKey
+    {
+        get => (string)GetValue(OptionsAccessKeyProperty);
+        set => SetValue(OptionsAccessKeyProperty, value);
     }
 
     public IList<UIElement> Items => _items;
@@ -97,6 +156,8 @@ public sealed partial class Ribbon : Control
             _scrollViewer.SizeChanged += OnSizeChanged;
             UpdateScrollButtonsState();
         }
+
+        UpdateOptionsFlyoutState();
     }
 
     private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -198,4 +259,15 @@ public sealed partial class Ribbon : Control
 
     private void OnIncrementScrollViewer(object sender, RoutedEventArgs e)
         => _scrollViewer?.ChangeView(_scrollViewer.HorizontalOffset + ScrollStep, verticalOffset: null, zoomFactor: null);
+
+    private static void OnOptionsFlyoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var ribbon = (Ribbon)d;
+        ribbon.UpdateOptionsFlyoutState();
+    }
+
+    private void UpdateOptionsFlyoutState() => VisualStateManager.GoToState(
+        this,
+        OptionsFlyout != null ? OptionsVisibleStateTemplatePart : OptionsCollapsedStateTemplatePart,
+        useTransitions: true);
 }
