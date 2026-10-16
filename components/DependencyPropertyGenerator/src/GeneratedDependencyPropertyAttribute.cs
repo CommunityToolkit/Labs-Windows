@@ -6,14 +6,14 @@ using System;
 #if NET8_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
 #endif
-#if WINDOWS_UWP || HAS_UNO
-using DependencyObject = Windows.UI.Xaml.DependencyObject;
-using DependencyProperty = Windows.UI.Xaml.DependencyProperty;
-using PropertyMetadata = Windows.UI.Xaml.PropertyMetadata;
-#else
+#if WINAPPSDK
 using DependencyObject = Microsoft.UI.Xaml.DependencyObject;
 using DependencyProperty = Microsoft.UI.Xaml.DependencyProperty;
 using PropertyMetadata = Microsoft.UI.Xaml.PropertyMetadata;
+#else
+using DependencyObject = Windows.UI.Xaml.DependencyObject;
+using DependencyProperty = Windows.UI.Xaml.DependencyProperty;
+using PropertyMetadata = Windows.UI.Xaml.PropertyMetadata;
 #endif
 
 namespace CommunityToolkit.WinUI;
