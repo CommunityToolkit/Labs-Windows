@@ -20,8 +20,17 @@ internal sealed class DependencyPropertyGeneratorAnalyzerConfigOptionsProvider :
     public static DependencyPropertyGeneratorAnalyzerConfigOptionsProvider Instance { get; } = new();
 
     /// <inheritdoc/>
-    public override AnalyzerConfigOptions GlobalOptions { get; } = new SimpleAnalyzerConfigOptions(
-        ImmutableDictionary<string, string>.Empty.Add("build_property.DependencyPropertyGeneratorUseWindowsUIXaml", "true"));
+    public override AnalyzerConfigOptions GlobalOptions { get; }
+
+    /// <summary>
+    /// Creates an options provider for the selected XAML framework.
+    /// </summary>
+    /// <param name="useWindowsUIXaml">Whether to use the UWP XAML namespace.</param>
+    public DependencyPropertyGeneratorAnalyzerConfigOptionsProvider(bool useWindowsUIXaml = true)
+    {
+        GlobalOptions = new SimpleAnalyzerConfigOptions(
+            ImmutableDictionary<string, string>.Empty.Add("build_property.DependencyPropertyGeneratorUseWindowsUIXaml", useWindowsUIXaml ? "true" : "false"));
+    }
 
     /// <inheritdoc/>
     public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
