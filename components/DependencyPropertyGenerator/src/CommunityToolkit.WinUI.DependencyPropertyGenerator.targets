@@ -1,7 +1,8 @@
 <Project>
 
-  <!-- Allow manually specifying the XAML mode for the analyzers (the default is UWP XAML for legacy UWP and for when 'UseUwp' is set, WinUI 3 XAML otherwise) -->
+  <!-- Allow manually specifying the XAML mode for the analyzers (the default is UWP XAML for the UWP package, legacy UWP, and when 'UseUwp' is set, WinUI 3 XAML otherwise) -->
   <PropertyGroup>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND $(MSBuildThisFileName.EndsWith('.Uwp.DependencyPropertyGenerator'))">true</DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(TargetPlatformIdentifier)' == 'UAP'">true</DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' == 'true'">true</DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == ''">false</DependencyPropertyGeneratorUseWindowsUIXaml>
