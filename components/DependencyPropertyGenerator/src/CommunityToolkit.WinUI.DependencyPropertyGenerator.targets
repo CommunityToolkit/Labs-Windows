@@ -45,7 +45,7 @@
     <Error Condition="'$(CommunityToolkitGeneratedDependencyPropertyDllReferenced)' == 'true'"
            Code="WCTDPCFG0001"
            HelpLink="https://aka.ms/toolkit/labs/windows"
-           Text="This project is referencing the '[GeneratedDependencyProperty]' .dll file, but it's also enabling the embedded mode for its public APIs. The embedded mode can only be used when the .dll file is not being referenced. Make sure to use 'PrivateAssets=&quot;all&quot;' and 'ExcludeAssets=&quot;lib&quot;' in the '&lt;PackageReference&gt;' element for the NuGet package." />
+           Text="This project is referencing the '[GeneratedDependencyProperty]' .dll file, but it's also enabling the embedded mode for its public APIs. The embedded mode can only be used when the .dll file is not being referenced. Make sure to use 'PrivateAssets=&quot;all&quot;' and 'ExcludeAssets=&quot;compile;runtime&quot;' in the '&lt;PackageReference&gt;' element for the NuGet package." />
   </Target>
 
   <!-- Check the Roslyn version and warn if it's not high enough (we don't need to remove the analyzers, as they're leveraging multi-targeting) -->
