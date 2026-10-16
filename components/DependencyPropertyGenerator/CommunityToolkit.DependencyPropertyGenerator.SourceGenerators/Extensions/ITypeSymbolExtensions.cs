@@ -163,23 +163,19 @@ internal static class ITypeSymbolExtensions
     }
 
     /// <summary>
-    /// Checks whether or not a given <see cref="ITypeSymbol"/> inherits from a specified type.
+    /// Checks whether a type implements a specified interface, including inherited and transitive interfaces.
     /// </summary>
     /// <param name="typeSymbol">The target <see cref="ITypeSymbol"/> instance to check.</param>
-    /// <param name="name">The full name of the type to check for inheritance.</param>
-    /// <returns>Whether or not <paramref name="typeSymbol"/> inherits from <paramref name="name"/>.</returns>
-    public static bool InheritsFromFullyQualifiedMetadataName(this ITypeSymbol typeSymbol, string name)
+    /// <param name="interfaceSymbol">The interface to check for implementation.</param>
+    /// <returns>Whether <paramref name="typeSymbol"/> implements <paramref name="interfaceSymbol"/>.</returns>
+    public static bool ImplementsInterface(this ITypeSymbol typeSymbol, INamedTypeSymbol interfaceSymbol)
     {
-        INamedTypeSymbol? baseType = typeSymbol.BaseType;
-
-        while (baseType is not null)
+        foreach (INamedTypeSymbol implementedInterfaceSymbol in typeSymbol.AllInterfaces)
         {
-            if (baseType.HasFullyQualifiedMetadataName(name))
+            if (SymbolEqualityComparer.Default.Equals(implementedInterfaceSymbol, interfaceSymbol))
             {
                 return true;
             }
-
-            baseType = baseType.BaseType;
         }
 
         return false;
