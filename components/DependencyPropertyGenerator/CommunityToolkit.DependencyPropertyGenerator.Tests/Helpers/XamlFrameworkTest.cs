@@ -19,6 +19,11 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Tests.Helpers;
 /// <summary>
 /// Runs generation and analysis against an independently referenced XAML framework.
 /// </summary>
+/// <remarks>
+/// Both compilations use .NET 8 reference assemblies to cover the oldest supported modern .NET target,
+/// independently of the SDK running the tests. When raising that baseline, update both reference sets,
+/// the Basic.Reference.Assemblies.Net80 package reference, and the other test helpers together.
+/// </remarks>
 internal static class XamlFrameworkTest
 {
     public static PortableExecutableReference CreateFrameworkReference(string assemblyName, bool isInterface, string xamlNamespace = "Microsoft.UI.Xaml", string? filePath = null)

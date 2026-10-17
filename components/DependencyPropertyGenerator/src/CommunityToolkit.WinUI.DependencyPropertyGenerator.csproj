@@ -19,9 +19,6 @@
 
     <!-- This library doesn't need XAML support, so we can just target 17763 -->
     <UwpTargetFrameworks>uap10.0.17763;net8.0-windows10.0.17763.0;net9.0-windows10.0.17763.0;</UwpTargetFrameworks>
-    <AndroidLibTargetFrameworks>net9.0-android35.0;</AndroidLibTargetFrameworks>
-    <iOSLibTargetFrameworks>net9.0-ios18.0;</iOSLibTargetFrameworks>
-    <MacOSLibTargetFrameworks>net9.0-maccatalyst18.0;</MacOSLibTargetFrameworks>
   </PropertyGroup>
 
   <!-- Sets this up as a toolkit component's source project -->

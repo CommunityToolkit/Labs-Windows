@@ -6,7 +6,7 @@ using System;
 #if NET8_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
 #endif
-#if WINAPPSDK
+#if WINUI3
 using DependencyObject = Microsoft.UI.Xaml.DependencyObject;
 using DependencyProperty = Microsoft.UI.Xaml.DependencyProperty;
 using PropertyMetadata = Microsoft.UI.Xaml.PropertyMetadata;
