@@ -15,18 +15,22 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Tests;
 partial class Test_DependencyPropertyGenerator
 {
     [TestMethod]
-    [DataRow("Uno.UI", true, false)]
-    [DataRow("Uno.UI", true, true)]
-    [DataRow("Uno.WinUI", false, false)]
-    [DataRow("Uno.WinUI", false, true)]
-    [DataRow("Uno.UI", false, false)]
-    [DataRow("Uno.UI", false, true)]
-    [DataRow("Microsoft.WinUI", false, false)]
-    public async Task XamlFramework_ValidOwners_CompileAndDoNotWarn(string assemblyName, bool isInterface, bool renamedReference)
+    [DataRow("Uno.UI", true, false, false)]
+    [DataRow("Uno.UI", true, true, false)]
+    [DataRow("Uno.WinUI", false, false, false)]
+    [DataRow("Uno.WinUI", false, true, false)]
+    [DataRow("Uno.UI", false, false, false)]
+    [DataRow("Uno.UI", false, true, false)]
+    [DataRow("Microsoft.WinUI", false, false, false)]
+    [DataRow("Uno.UI", true, false, true)]
+    [DataRow("Uno.UI", true, true, true)]
+    public async Task XamlFramework_ValidOwners_CompileAndDoNotWarn(string assemblyName, bool isInterface, bool renamedReference, bool useWindowsUIXaml)
     {
+        string xamlNamespace = useWindowsUIXaml ? "Windows.UI.Xaml" : "Microsoft.UI.Xaml";
         PortableExecutableReference frameworkReference = XamlFrameworkTest.CreateFrameworkReference(
             assemblyName,
             isInterface,
+            xamlNamespace,
             filePath: renamedReference ? @"C:\References\Unrelated.dll" : $@"C:\References\{assemblyName}.dll");
 
         const string properties = """
@@ -61,8 +65,8 @@ partial class Test_DependencyPropertyGenerator
 
         string source = $$"""
             using CommunityToolkit.WinUI;
-            using Microsoft.UI.Xaml;
-            using Microsoft.UI.Xaml.Controls;
+            using {{xamlNamespace}};
+            using {{xamlNamespace}}.Controls;
 
             namespace MyApp;
 
@@ -86,19 +90,19 @@ partial class Test_DependencyPropertyGenerator
             }
             """;
 
-        Compilation compilation = XamlFrameworkTest.RunGenerator(source, frameworkReference);
+        Compilation compilation = XamlFrameworkTest.RunGenerator(source, frameworkReference, useWindowsUIXaml);
 
         XamlFrameworkTest.AssertEmits(compilation);
 
-        Assert.AreEqual(0, (await XamlFrameworkTest.GetAnalyzerDiagnosticsAsync(compilation)).Length);
+        Assert.AreEqual(0, (await XamlFrameworkTest.GetAnalyzerDiagnosticsAsync(compilation, useWindowsUIXaml)).Length);
 
         foreach (string ownerName in new[] { "DirectOwner", "ControlOwner", "IndirectOwner" })
         {
             string generatedSource = compilation.SyntaxTrees.Single(tree => Path.GetFileName(tree.FilePath) == $"MyApp.{ownerName}.g.cs").ToString();
 
-            StringAssert.Contains(generatedSource, "global::Microsoft.UI.Xaml.DependencyProperty.Register(");
+            StringAssert.Contains(generatedSource, $"global::{xamlNamespace}.DependencyProperty.Register(");
             StringAssert.Contains(generatedSource, $"ownerType: typeof({ownerName})");
-            StringAssert.Contains(generatedSource, "new global::Microsoft.UI.Xaml.PropertyMetadata(");
+            StringAssert.Contains(generatedSource, $"new global::{xamlNamespace}.PropertyMetadata(");
             StringAssert.Contains(generatedSource, "defaultValue: \"Ready\"");
             StringAssert.Contains(generatedSource, "defaultValue: 42");
             StringAssert.Contains(generatedSource, "defaultValue: default(int)");
