@@ -171,8 +171,9 @@ public partial class DataRow : Panel
             // TODO: What do we want to do if there's unequal children in the DataTable vs. DataRow?
         }
 
-        // Otherwise, return our parent's size as the desired size.
-        return new(_parentPanel?.DesiredSize.Width ?? availableSize.Width, maxHeight);
+        // Use the calculated desired width from the parent table if available, fallback to return our parent's size as the desired size
+        double desiredWidth = _parentTable?.CalculateDesiredWidth() ?? _parentPanel?.DesiredSize.Width ?? availableSize.Width;
+        return new Size(desiredWidth, maxHeight);
     }
 
     /// <inheritdoc/>
