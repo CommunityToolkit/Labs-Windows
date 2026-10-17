@@ -25,7 +25,7 @@
     <PackageReference Include="Markdig" Version="0.38.0" />
     <PackageReference Include="Roman-Numerals" Version="2.0.1" />
   </ItemGroup>
-  <ItemGroup Condition="'$(IsUwp)' == 'true'">
+  <ItemGroup Condition="'$(IsUwp)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '2')">
     <Using Include="Windows.UI" />
     <Using Include="Windows.UI.Xaml.Documents" />
     <Using Include="Windows.UI.Xaml.Media.Imaging" />
@@ -33,7 +33,7 @@
     <Using Include="Windows.UI.Xaml.Shapes" />
     <Using Include="Windows.UI.Text" />
   </ItemGroup>
-  <ItemGroup Condition="'$(IsWinAppSdk)' == 'true'">
+  <ItemGroup Condition="'$(IsWinAppSdk)' == 'true' OR ('$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '3')">
     <Using Include="Microsoft.UI" />
     <Using Include="Microsoft.UI.Xaml.Documents" />
     <Using Include="Microsoft.UI.Xaml.Media.Imaging" />
