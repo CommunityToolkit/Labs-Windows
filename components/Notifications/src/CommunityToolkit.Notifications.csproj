@@ -24,4 +24,9 @@
 
   <!-- Sets this up as a toolkit component's source project -->
   <Import Project="$(ToolingDirectory)\ToolkitComponent.SourceProject.props" />
+
+  <!-- Use installed SDK metadata without requiring the targeted 17763 SDK. -->
+  <PropertyGroup Condition="'$(IsUwp)' == 'true' AND '$(MultiTargetPlatformIdentifier)' == 'windows'">
+    <CsWinRTWindowsMetadata>sdk</CsWinRTWindowsMetadata>
+  </PropertyGroup>
 </Project>
