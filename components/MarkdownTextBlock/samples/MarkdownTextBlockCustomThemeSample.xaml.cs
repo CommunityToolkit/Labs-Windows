@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using CommunityToolkit.WinUI.Controls;
-
 namespace MarkdownTextBlockExperiment.Samples;
 
 /// <summary>
@@ -12,8 +10,6 @@ namespace MarkdownTextBlockExperiment.Samples;
 [ToolkitSample(id: nameof(MarkdownTextBlockCustomThemeSample), "Custom Theme", description: "A sample showcasing custom theming options with live editing for headings, code blocks, quotes, tables, and more.")]
 public sealed partial class MarkdownTextBlockCustomThemeSample : MarkdownTextBlockCustomThemeSampleBase
 {
-    public MarkdownConfig MarkdownConfig { get; private set; }
-
     public string MarkdownText { get; } = @"
 # Custom Theme Demo
 
@@ -96,7 +92,7 @@ Try adjusting the **Bullet Spacing** and **Gutter Width** settings to see how li
 - Adjust the theme settings in the options panel
   - The gutter width controls how much each level is indented
   - The bullet spacing controls space after the bullet character
-- Click **Apply Changes** to see updates
+- Changes apply live via bindings
 - Use **Reset to Defaults** to start over
 
 Numbered lists work too:
@@ -109,20 +105,24 @@ Numbered lists work too:
 3. Third item
 ";
 
+    // Converter methods for x:Bind function bindings (must be on the x:Class type, not the base)
+    public Brush GetHeadingBrush(int index) => HeadingColors[Math.Clamp(index, 0, HeadingColors.Length - 1)];
+    public Brush GetInlineCodeBrush(int index) => InlineCodeColors[Math.Clamp(index, 0, InlineCodeColors.Length - 1)];
+    public Brush GetCodeBackgroundBrush(int index) => CodeBackgroundColors[Math.Clamp(index, 0, CodeBackgroundColors.Length - 1)];
+    public Brush GetCodeBorderBrush(int index) => CodeBorderColors[Math.Clamp(index, 0, CodeBorderColors.Length - 1)];
+    public Brush GetQuoteBrush(int index) => QuoteColors[Math.Clamp(index, 0, QuoteColors.Length - 1)];
+    public FontFamily GetCodeFont(int index) => CodeFonts[Math.Clamp(index, 0, CodeFonts.Length - 1)];
+    public Stretch GetImageStretch(int index) => ImageStretchOptions[Math.Clamp(index, 0, ImageStretchOptions.Length - 1)];
+    public Windows.UI.Text.FontWeight GetBoldFontWeight(int index) => BoldFontWeights[Math.Clamp(index, 0, BoldFontWeights.Length - 1)];
+    public Thickness GetUniformThickness(double value) => new Thickness(value);
+    public CornerRadius GetUniformCornerRadius(double value) => new CornerRadius(value);
+    public Thickness GetHorizontalPadding(double value) => new Thickness(value, value / 2, value, value / 2);
+    public Thickness GetLeftBorderThickness(double value) => new Thickness(value, 0, 0, 0);
+    public CornerRadius GetRightCornerRadius(double value) => new CornerRadius(0, value, value, 0);
+    public Thickness GetVerticalMargin(double value) => new Thickness(0, value, 0, value);
+
     public MarkdownTextBlockCustomThemeSample()
     {
-        MarkdownConfig = new MarkdownConfig { Themes = CreateThemes() };
         this.InitializeComponent();
-    }
-
-    public override void ApplyTheme()
-    {
-        MarkdownConfig = new MarkdownConfig { Themes = CreateThemes() };
-
-        // Force re-render by toggling text
-        MarkdownTextBlock.Config = MarkdownConfig;
-        var text = MarkdownTextBlock.Text;
-        MarkdownTextBlock.Text = "";
-        MarkdownTextBlock.Text = text;
     }
 }
