@@ -1,7 +1,8 @@
 <Project>
 
-  <!-- Allow manually specifying the XAML mode for the analyzers (the default is UWP XAML for legacy UWP and for when 'UseUwp' is set, WinUI 3 XAML otherwise) -->
+  <!-- Allow manually specifying the XAML mode for the analyzers (the default is UWP XAML for the UWP package, legacy UWP, and when 'UseUwp' is set, WinUI 3 XAML otherwise) -->
   <PropertyGroup>
+    <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND $(MSBuildThisFileName.EndsWith('.Uwp.DependencyPropertyGenerator'))">true</DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(TargetPlatformIdentifier)' == 'UAP'">true</DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == '' AND '$(UseUwp)' == 'true'">true</DependencyPropertyGeneratorUseWindowsUIXaml>
     <DependencyPropertyGeneratorUseWindowsUIXaml Condition="'$(DependencyPropertyGeneratorUseWindowsUIXaml)' == ''">false</DependencyPropertyGeneratorUseWindowsUIXaml>
@@ -45,7 +46,7 @@
     <Error Condition="'$(CommunityToolkitGeneratedDependencyPropertyDllReferenced)' == 'true'"
            Code="WCTDPCFG0001"
            HelpLink="https://aka.ms/toolkit/labs/windows"
-           Text="This project is referencing the '[GeneratedDependencyProperty]' .dll file, but it's also enabling the embedded mode for its public APIs. The embedded mode can only be used when the .dll file is not being referenced. Make sure to use 'PrivateAssets=&quot;all&quot;' and 'ExcludeAssets=&quot;lib&quot;' in the '&lt;PackageReference&gt;' element for the NuGet package." />
+           Text="This project is referencing the '[GeneratedDependencyProperty]' .dll file, but it's also enabling the embedded mode for its public APIs. The embedded mode can only be used when the .dll file is not being referenced. Make sure to use 'PrivateAssets=&quot;all&quot;' and 'ExcludeAssets=&quot;compile;runtime&quot;' in the '&lt;PackageReference&gt;' element for the NuGet package." />
   </Target>
 
   <!-- Check the Roslyn version and warn if it's not high enough (we don't need to remove the analyzers, as they're leveraging multi-targeting) -->

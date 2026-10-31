@@ -13,6 +13,38 @@ namespace CommunityToolkit.GeneratedDependencyProperty.Tests;
 public class Test_DependencyPropertyGenerator_Incrementality
 {
     [TestMethod]
+    [DataRow("int", "object")]
+    [DataRow("object", "int")]
+    public void ModifiedDefaultValueCallbackReturnType_ModifiesOutput(string returnType, string updatedReturnType)
+    {
+        string source = $$"""
+            using CommunityToolkit.WinUI;
+            using Windows.UI.Xaml;
+
+            namespace MyNamespace;
+
+            public partial class MyControl : DependencyObject
+            {
+                [GeneratedDependencyProperty(DefaultValueCallback = nameof(CreateNumber))]
+                public partial int Number { get; set; }
+
+                private static {{returnType}} CreateNumber() => 42;
+            }
+            """;
+
+        string updatedSource = source.Replace(
+            $"private static {returnType} CreateNumber()",
+            $"private static {updatedReturnType} CreateNumber()");
+
+        CSharpGeneratorTest<DependencyPropertyGenerator>.VerifyIncrementalSteps(
+            source,
+            updatedSource,
+            executeReason: IncrementalStepRunReason.Modified,
+            outputReason: IncrementalStepRunReason.Modified,
+            sourceReason: IncrementalStepRunReason.Modified);
+    }
+
+    [TestMethod]
     public void ModifiedOptions_ModifiesOutput()
     {
         const string source = """"

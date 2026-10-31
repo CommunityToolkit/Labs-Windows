@@ -51,7 +51,7 @@ public sealed class InvalidPropertyContainingTypeDeclarationAnalyzer : Diagnosti
                 }
 
                 // Emit the diagnostic if the target is not valid
-                if (!propertySymbol.ContainingType.InheritsFromType(dependencyObjectSymbol))
+                if (!IsDependencyObject(propertySymbol.ContainingType, dependencyObjectSymbol))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
                        InvalidPropertyDeclarationContainingTypeIsNotDependencyObject,
@@ -60,5 +60,27 @@ public sealed class InvalidPropertyContainingTypeDeclarationAnalyzer : Diagnosti
                 }
             }, SymbolKind.Property);
         });
+    }
+
+    /// <summary>
+    /// Checks whether a class derives from or implements the selected XAML framework's dependency object type.
+    /// </summary>
+    /// <param name="typeSymbol">The target <see cref="ITypeSymbol"/> instance to check.</param>
+    /// <param name="dependencyObjectSymbol">The resolved dependency object type for the selected XAML framework.</param>
+    /// <returns>Whether <paramref name="typeSymbol"/> can contain generated dependency properties.</returns>
+    public static bool IsDependencyObject(ITypeSymbol typeSymbol, INamedTypeSymbol dependencyObjectSymbol)
+    {
+        if (typeSymbol is not { TypeKind: TypeKind.Class, IsStatic: false })
+        {
+            return false;
+        }
+
+        // WinUI 3, UWP, and Uno 7 expose 'DependencyObject' as a class
+        if (dependencyObjectSymbol.TypeKind is not TypeKind.Interface)
+        {
+            return typeSymbol.InheritsFromType(dependencyObjectSymbol);
+        }
+
+        return typeSymbol.ImplementsInterface(dependencyObjectSymbol);
     }
 }

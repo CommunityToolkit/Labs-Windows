@@ -64,7 +64,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     bool useWindowsUIXaml = context.GlobalOptions.GetMSBuildBooleanPropertyValue(WellKnownPropertyNames.DependencyPropertyGeneratorUseWindowsUIXaml);
 
                     // Do an initial filtering on the symbol as well
-                    if (!Execute.IsCandidateSymbolValid(propertySymbol, useWindowsUIXaml))
+                    if (!Execute.IsCandidateSymbolValid(propertySymbol, context.SemanticModel.Compilation, useWindowsUIXaml))
                     {
                         return null;
                     }
@@ -110,7 +110,10 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     // Get the optimized XamlBindingHelper method name for the property type, if applicable.
                     // This is only used when the property type is not 'object' (which would gain nothing),
                     // and the user hasn't provided their own 'On<PROPERTY_NAME>Set(ref object)' implementation.
-                    string? xamlBindingHelperSetMethodName = Execute.GetXamlBindingHelperSetMethodName(propertySymbol.Type);
+                    string? xamlBindingHelperSetMethodName = Execute.GetXamlBindingHelperSetMethodName(
+                        typeSymbol: propertySymbol.Type,
+                        useWindowsUIXaml: useWindowsUIXaml,
+                        compilation: context.SemanticModel.Compilation);
 
                     if (xamlBindingHelperSetMethodName is not null)
                     {

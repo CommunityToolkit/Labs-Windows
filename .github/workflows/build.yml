@@ -24,7 +24,7 @@ on:
   merge_group:
 
 env:
-  DOTNET_VERSION: '9.0.310'  # Only used by jobs that cannot access global.json (no checkout/artifact-only jobs)
+  DOTNET_VERSION: '10.0.402'  # Only used by jobs that cannot access global.json (no checkout/artifact-only jobs)
 
   ENABLE_DIAGNOSTICS: true
   #COREHOST_TRACE: 1
@@ -65,7 +65,7 @@ jobs:
   # Build both Uno.UI/WinUI2/UWP and Uno.WinUI/WinUI3/WindowsAppSDK versions of our packages using a matrix
   build:
     needs: [Xaml-Style-Check]
-    runs-on: windows-2022
+    runs-on: windows-2025-large
 
     # See https://docs.github.com/actions/using-jobs/using-a-matrix-for-your-jobs
     strategy:
@@ -102,6 +102,11 @@ jobs:
             Write-Host "Tag does not match weekly pattern: $tagName - skipping build"
             exit 1
           }
+
+      - name: Enable Windows long paths
+        shell: pwsh
+        run: |
+          Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name LongPathsEnabled -Value 1 -ErrorAction Stop
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
@@ -174,12 +179,13 @@ jobs:
           --skip vswinworkloads
           --skip vswin
           --verbose
-
+          
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
         if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         with:
           vs-version: '[17.9,)'
+          msbuild-architecture: x64
 
       # Generate full solution with all projects (sample gallery heads, components, tests)
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
@@ -206,21 +212,10 @@ jobs:
       - name: Setup VSTest Path
         uses: darenm/setup-vstest@3a16d909a1f3bbc65b52f8270d475d905e7d3e44
 
-      - name: Install Testspace Module
-        if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
-        uses: testspace-com/setup-testspace@v1.0.8
-        with:
-          domain: ${{ github.repository_owner }}
-
       - name: Run component tests against ${{ matrix.multitarget }}
         if: ${{ (matrix.multitarget == 'uwp' || matrix.multitarget == 'wasdk') && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         id: test-platform
         run:  vstest.console.exe ./tooling/**/CommunityToolkit.Tests.${{ matrix.multitarget }}.build.appxrecipe /Framework:FrameworkUap10 /logger:"trx;LogFileName=${{ matrix.multitarget }}.trx" /Blame
-
-      - name: Create test reports
-        run: |
-          testspace '[${{ matrix.multitarget }}]./TestResults/*.trx'
-        if: ${{ (matrix.multitarget == 'uwp' || matrix.multitarget == 'wasdk') && (steps.test-generator.conclusion == 'success' || steps.test-platform.conclusion == 'success') }}
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v4
@@ -260,7 +255,7 @@ jobs:
           dotnet-dump analyze ${{ steps.filter.outputs.dump_files }} -c "clrstack" -c "pe -lines" -c "exit"
 
   package:
-    runs-on: windows-2022
+    runs-on: windows-2025-large
     needs: [build]
     strategy:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them all to run to completion.
@@ -271,6 +266,11 @@ jobs:
       VERSION_PROPERTY: ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/rel/') || startsWith(github.ref, 'refs/tags/release/')) && format('build.{0}', github.run_number) || format('pull-{0}.{1}', github.event.number, github.run_number) }}
 
     steps:
+      - name: Enable Windows long paths
+        shell: pwsh
+        run: |
+          Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name LongPathsEnabled -Value 1 -ErrorAction Stop
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -310,14 +310,11 @@ jobs:
           --skip vswin
           --verbose
 
-      - name: Install Windows SDKs
-        shell: pwsh
-        run: ./tooling/Install-WindowsSdk.ps1
-
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[17.9,)'
+          msbuild-architecture: x64
 
       - name: Determine scheduled release commit range
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
@@ -391,7 +388,7 @@ jobs:
   sign:
     needs: [package]
     if: ${{ startsWith(github.ref, 'refs/heads/rel/') || startsWith(github.ref, 'refs/tags/') }}
-    runs-on: windows-2022
+    runs-on: windows-2025
     permissions:
       id-token: write # Required for requesting the JWT
 
