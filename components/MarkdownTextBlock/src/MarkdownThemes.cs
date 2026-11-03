@@ -12,7 +12,7 @@ using FontWeights = Microsoft.UI.Text.FontWeights;
 
 namespace CommunityToolkit.WinUI.Controls;
 
-public sealed class MarkdownThemes : DependencyObject
+public sealed partial class MarkdownThemes : DependencyObject
 {
     internal static MarkdownThemes Default { get; } = new();
 
