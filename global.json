@@ -1,11 +1,11 @@
 {
   "sdk": {
-    "version": "10.0.401",
+    "version": "10.0.402",
     "rollForward": "latestFeature"
   },
   "msbuild-sdks":
   {
     "MSBuild.Sdk.Extras":"3.0.44",
-    "Uno.Sdk": "7.0.0-dev.51"
+    "Uno.Sdk": "7.0.0-dev.89"
   }
 }

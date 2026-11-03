@@ -64,7 +64,7 @@ public sealed partial class DependencyPropertyGenerator : IIncrementalGenerator
                     bool useWindowsUIXaml = context.GlobalOptions.GetMSBuildBooleanPropertyValue(WellKnownPropertyNames.DependencyPropertyGeneratorUseWindowsUIXaml);
 
                     // Do an initial filtering on the symbol as well
-                    if (!Execute.IsCandidateSymbolValid(propertySymbol, useWindowsUIXaml))
+                    if (!Execute.IsCandidateSymbolValid(propertySymbol, context.SemanticModel.Compilation, useWindowsUIXaml))
                     {
                         return null;
                     }

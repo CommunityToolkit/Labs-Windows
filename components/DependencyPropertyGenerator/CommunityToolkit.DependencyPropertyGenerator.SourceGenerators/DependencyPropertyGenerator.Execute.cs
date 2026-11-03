@@ -101,9 +101,10 @@ partial class DependencyPropertyGenerator
         /// Checks whether an input symbol is a candidate property declaration for the generator.
         /// </summary>
         /// <param name="propertySymbol">The input symbol to check.</param>
+        /// <param name="compilation">The compilation containing the selected XAML framework.</param>
         /// <param name="useWindowsUIXaml">Whether to use the UWP XAML or WinUI 3 XAML namespaces.</param>
         /// <returns>Whether <paramref name="propertySymbol"/> is a candidate property declaration.</returns>
-        public static bool IsCandidateSymbolValid(IPropertySymbol propertySymbol, bool useWindowsUIXaml)
+        public static bool IsCandidateSymbolValid(IPropertySymbol propertySymbol, Compilation compilation, bool useWindowsUIXaml)
         {
             // Ensure that the property declaration is a partial definition with no implementation
             if (propertySymbol is not { IsPartialDefinition: true, PartialImplementationPart: null })
@@ -130,8 +131,14 @@ partial class DependencyPropertyGenerator
                 return false;
             }
 
-            // Ensure that the containing type derives from 'DependencyObject'
-            if (!typeSymbol.InheritsFromFullyQualifiedMetadataName(WellKnownTypeNames.DependencyObject(useWindowsUIXaml)))
+            // Get the 'DependencyObject' symbol for the selected XAML framework
+            if (compilation.GetTypeByMetadataName(WellKnownTypeNames.DependencyObject(useWindowsUIXaml)) is not { } dependencyObjectSymbol)
+            {
+                return false;
+            }
+
+            // Uno can expose 'DependencyObject' as an interface rather than a class
+            if (!InvalidPropertyContainingTypeDeclarationAnalyzer.IsDependencyObject(typeSymbol, dependencyObjectSymbol))
             {
                 return false;
             }

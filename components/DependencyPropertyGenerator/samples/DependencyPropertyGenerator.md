@@ -1,8 +1,8 @@
 ---
 title: DependencyPropertyGenerator
 author: Sergio0694
-description: Generate dependency properties for WinUI 3 and UWP controls with partial properties, configurable defaults, callbacks, and optional local caching.
-keywords: DependencyPropertyGenerator, GeneratedDependencyProperty, DependencyProperty, SourceGenerator, WinUI, UWP, XAML
+description: Generate dependency properties for WinUI 3, UWP, and Uno Platform controls with partial properties, configurable defaults, callbacks, and optional local caching.
+keywords: DependencyPropertyGenerator, GeneratedDependencyProperty, DependencyProperty, SourceGenerator, WinUI, UWP, Uno, XAML
 dev_langs:
   - csharp
 category: Helpers
@@ -30,6 +30,8 @@ Install the package that matches your application's XAML framework from the [Com
 | --- | --- | --- |
 | WinUI 3 / Windows App SDK | `CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator` | `Microsoft.UI.Xaml` |
 | UWP | `CommunityToolkit.Labs.Uwp.DependencyPropertyGenerator` | `Windows.UI.Xaml` |
+| Uno Platform 5.x (UWP API / Uno.UI) | `CommunityToolkit.Labs.Uwp.DependencyPropertyGenerator` (see target frameworks below) | `Windows.UI.Xaml` |
+| Uno Platform 5.x, 6.x, or 7.x (WinUI API / Uno.WinUI) | `CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator` (see target frameworks below) | `Microsoft.UI.Xaml` |
 
 Both packages expose the attribute in the `CommunityToolkit.WinUI` namespace. Install the package in the project that declares the generated properties, not just in an application that references that project.
 
@@ -48,7 +50,7 @@ The examples on this page use WinUI 3. For UWP, replace `Microsoft.UI.Xaml` and 
 
 ## Declaring a dependency property
 
-The containing class must be `partial` and derive from `DependencyObject`, directly or through a type such as `Control`, `UserControl`, or `Page`. Declare an instance partial property with `get;` and `set;` accessors and let the generator provide its implementation:
+The containing class must be `partial` and derive from `DependencyObject`, directly or through a type such as `Control`, `UserControl`, or `Page`. Uno versions that expose `DependencyObject` as an interface are also supported, including implementations inherited through base classes or intermediate interfaces. Declare an instance partial property with `get;` and `set;` accessors and let the generator provide its implementation:
 
 ```csharp
 using CommunityToolkit.WinUI;
@@ -404,7 +406,7 @@ Only instance partial property definitions with a getter and a non-init setter a
 
 ### XAML namespace selection
 
-The package selects UWP XAML automatically for UAP targets and projects with `UseUwp` enabled; otherwise it selects WinUI 3 XAML. If a custom build setup needs an explicit selection, set `DependencyPropertyGeneratorUseWindowsUIXaml`:
+The UWP package selects UWP XAML automatically, including on Uno.UI mobile targets. UAP targets and projects with `UseUwp` enabled also select UWP XAML; otherwise the default is WinUI 3 XAML. If a custom build setup needs an explicit selection, set `DependencyPropertyGeneratorUseWindowsUIXaml`:
 
 | Value | Generated XAML types |
 | --- | --- |
@@ -429,7 +431,7 @@ Update your existing package reference as follows, replacing `PACKAGE_VERSION` w
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" Version="PACKAGE_VERSION" PrivateAssets="all" ExcludeAssets="lib" />
+  <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" Version="PACKAGE_VERSION" PrivateAssets="all" ExcludeAssets="compile;runtime" />
 </ItemGroup>
 
 <PropertyGroup>
@@ -441,6 +443,43 @@ Update your existing package reference as follows, replacing `PACKAGE_VERSION` w
 `EnableGeneratedDependencyPropertyAttributeEmbeddedMode` emits the internal `GeneratedDependencyPropertyAttribute` type. `EnableGeneratedDependencyPropertyEmbeddedMode` emits the internal `GeneratedDependencyProperty` helper for the `UnsetValue` placeholder; it is only needed if you use that helper. Both options are disabled by default.
 
 Do not combine embedded types with a reference to the package's runtime attribute assembly. Embedded mode removes that Toolkit assembly dependency, not the dependency on your application's XAML framework.
+
+### Uno Platform
+
+Both packages include attribute assemblies for Android, iOS, and Mac Catalyst, alongside their Windows targets. Mobile TFMs and platform versions follow the Toolkit's shared `MultiTarget` configuration; check the package's supported frameworks for the exact TFMs in a particular release. These mobile targets use Uno dependencies rather than Windows App SDK. Reference the package normally on compatible mobile targets; embedded mode is not required.
+
+Select the package by XAML API, not just the Uno version. Uno 5 supports both the UWP API (`Uno.UI`) and the WinUI API (`Uno.WinUI`); Uno 6 and 7 use the WinUI API. An existing Uno 5 UWP-API project can keep using `Windows.UI.Xaml` with the UWP package without migrating to the WinUI API.
+
+For a WinUI-API project, use the WinUI package. The example uses the minimum supported C# version; keep a newer language version if your project already uses one.
+
+```xml
+<ItemGroup>
+  <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator"
+                    Version="PACKAGE_VERSION" />
+</ItemGroup>
+
+<PropertyGroup>
+  <LangVersion>13.0</LangVersion>
+  <DependencyPropertyGeneratorUseWindowsUIXaml>false</DependencyPropertyGeneratorUseWindowsUIXaml>
+</PropertyGroup>
+```
+
+For an Uno 5 UWP-API project, use this package reference instead, and omit the explicit `false` setting above. The UWP package defaults `DependencyPropertyGeneratorUseWindowsUIXaml` to `true`:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="CommunityToolkit.Labs.Uwp.DependencyPropertyGenerator"
+                    Version="PACKAGE_VERSION" />
+</ItemGroup>
+```
+
+Other Uno targets, such as desktop and WebAssembly, do not yet have attribute assemblies in these packages. Use the embedded-mode setup above on those targets: set `PrivateAssets="all"` and `ExcludeAssets="compile;runtime"` on the appropriate package reference and enable `EnableGeneratedDependencyPropertyAttributeEmbeddedMode`. Enable `EnableGeneratedDependencyPropertyEmbeddedMode` too if you use `GeneratedDependencyProperty.UnsetValue`. That setup can also be applied to every TFM listed in a consuming project's `<TargetFrameworks>` property; this is independent of the Toolkit repository's `MultiTarget` build system. Keep the package's analyzer and build assets enabled, and do not combine embedded types with a reference to the attribute assembly.
+
+Use `Windows.UI.Xaml` for Uno's UWP API and `Microsoft.UI.Xaml` for its WinUI API. The WinUI API namespace is the same regardless of whether its types are declared in an assembly named `Uno.UI` or `Uno.WinUI`; assembly names do not necessarily match the NuGet package name. The generator resolves the referenced framework symbols; no Uno version detection, assembly-file naming convention, or application-specific polyfill is required.
+
+The same declarations work with Uno 5.x and 6.x's interface-based `DependencyObject` and Uno 7.x's class-based layout. Uno's own generator supplies the framework implementation when a class directly implements the interface. If another imported namespace also provides a `GeneratedDependencyPropertyAttribute`, qualify the Toolkit attribute as `[CommunityToolkit.WinUI.GeneratedDependencyProperty]`.
+
+### Preserving embedded attributes
 
 The embedded attribute's applications are omitted from compiled metadata by default. If you specifically need to preserve them, define `GENERATED_DEPENDENCY_PROPERTY_PRIVATE_ASSETS_ALL_PRESERVE_ATTRIBUTES`:
 
