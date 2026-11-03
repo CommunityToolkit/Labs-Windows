@@ -72,7 +72,7 @@ jobs:
       fail-fast: false # prevent one matrix pipeline from being cancelled if one fails, we want them all to run to completion.
       matrix:
         winui: [2, 3]
-        multitarget: ['uwp', 'wasdk', 'wasm', 'wpf', 'linuxgtk', 'macos', 'ios', 'android']
+        multitarget: ['uwp', 'wasdk', 'wasm', 'wpf', 'win32', 'linux', 'macos', 'ios', 'android']
         exclude:
           # WinUI 2 not supported on wasdk
           - winui: 2
@@ -80,6 +80,18 @@ jobs:
           # WinUI 3 not supported on uwp
           - winui: 3
             multitarget: uwp
+          # wpf is the Uno 5 Skia WPF head, which Uno 6 replaced with win32
+          - winui: 3
+            multitarget: wpf
+          # win32 is the Uno 6 Skia desktop head, which has no Uno 5 equivalent
+          - winui: 2
+            multitarget: win32
+        include:
+          # On WinUI 3 the Uno.Sdk head replaces the classic Wasm head, so it rides on the
+          # existing wasm job as a flag rather than a fake entry in the multitarget axis.
+          - winui: 3
+            multitarget: wasm
+            unoSdkHead: true
 
     env:
       MULTI_TARGET_DIRECTORY: tooling/MultiTarget
@@ -167,7 +179,7 @@ jobs:
         run: dotnet tool restore
 
       - name: Run Uno Check to Install Dependencies
-        if: ${{ matrix.multitarget != 'wasdk' && matrix.multitarget != 'linuxgtk' && matrix.multitarget != 'wpf' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        if: ${{ matrix.multitarget != 'wasdk' && matrix.multitarget != 'linux' && matrix.multitarget != 'wpf' && matrix.multitarget != 'win32' && !matrix.unoSdkHead && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
         run: >
           dotnet tool run uno-check 
           --ci
@@ -180,6 +192,12 @@ jobs:
           --skip vswin
           --verbose
           
+      # The Uno.Sdk head builds desktop/browserwasm/android (iOS is filtered on
+      # Windows). Install the matching workloads directly instead of uno-check.
+      - name: Install .NET workloads (Uno.Sdk head)
+        if: ${{ matrix.unoSdkHead && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        run: dotnet workload install wasm-tools android ios maui
+
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
         if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
@@ -191,11 +209,11 @@ jobs:
       - name: Generate solution with ${{ matrix.multitarget }} gallery, components and tests
         working-directory: ./
         if: ${{ env.HAS_BUILDABLE_COMPONENTS == 'true' }}
-        run: powershell -version 5.1 -command "./tooling/GenerateAllSolution.ps1 -MultiTargets ${{ matrix.multitarget }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
+        run: powershell -version 5.1 -command "./tooling/GenerateAllSolution.ps1 -MultiTargets ${{ matrix.multitarget }}${{ matrix.unoSdkHead && ',win32 -IncludeUnoSdkHead' || '' }} ${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }} -Components ${{ env.CHANGED_COMPONENTS_LIST }} -WinUIMajorVersion ${{ matrix.winui }}" -ErrorAction Stop
 
       # Build solution
       - name: MSBuild (With diagnostics)
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'true' && env.HAS_BUILDABLE_COMPONENTS == 'true' && !matrix.unoSdkHead }}
         run: >
           msbuild.exe /restore /nowarn:MSB4011
           /p:Configuration=Release
@@ -205,8 +223,14 @@ jobs:
           CommunityToolkit.AllComponents.sln
 
       - name: MSBuild
-        if: ${{ env.ENABLE_DIAGNOSTICS == 'false' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        if: ${{ env.ENABLE_DIAGNOSTICS == 'false' && env.HAS_BUILDABLE_COMPONENTS == 'true' && !matrix.unoSdkHead }}
         run: msbuild.exe CommunityToolkit.AllComponents.sln /restore /nowarn:MSB4011 -p:Configuration=Release
+
+      # The Uno.Sdk head is a single project covering desktop/browserwasm/android
+      # (iOS is filtered on Windows); build it directly with dotnet.
+      - name: Build Uno.Sdk head
+        if: ${{ matrix.unoSdkHead && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        run: dotnet build tooling/ProjectHeads/AllComponents/Uno/CommunityToolkit.App.Uno.csproj -p:Configuration=Release ${{ env.ENABLE_DIAGNOSTICS == 'true' && '/bl' || '' }}
 
       # Run tests
       - name: Setup VSTest Path
@@ -482,7 +506,7 @@ jobs:
           --api-key ${{ secrets.NUGET_PACKAGE_PUSH_TOKEN }}
           --skip-duplicate
 
-  wasm-linux:
+  uno-linux:
     runs-on: ubuntu-latest
     env:
       HEADS_DIRECTORY: tooling/ProjectHeads
@@ -502,6 +526,12 @@ jobs:
         with:
           global-json-file: global.json
 
+      # iOS/maccatalyst aren't installable on Linux (Uno.Sdk filters those TFMs
+      # there). android + wasm-tools are both required: even a single-TFM build
+      # restores all of the head's TargetFrameworks, validating net10.0-android.
+      - name: Install .NET workloads
+        run: dotnet workload install android wasm-tools
+
       - name: .NET Info (if diagnostics)
         if: ${{ env.ENABLE_DIAGNOSTICS == 'true' }}
         run: dotnet --info
@@ -510,27 +540,27 @@ jobs:
       - name: Restore dotnet tools
         run: dotnet tool restore
 
+      # Generate the full solution with the Uno.Sdk gallery head, components and tests
       - name: Generate solution
         shell: pwsh
         working-directory: ./
-        run: ./tooling/GenerateAllSolution.ps1${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
+        run: ./tooling/GenerateAllSolution.ps1 -MultiTargets wasm,linux -IncludeUnoSdkHead -WinUIMajorVersion 3${{ env.ENABLE_DIAGNOSTICS == 'true' && ' -UseDiagnostics' || '' }}
 
-      - name: Install ninja for WASM native dependencies
-        run: sudo apt-get install ninja-build
+      - name: Build Uno head (browserwasm)
+        shell: pwsh
+        working-directory: ./
+        run: dotnet build tooling/ProjectHeads/AllComponents/Uno/CommunityToolkit.App.Uno.csproj -f net10.0-browserwasm -p:Configuration=Release
 
-      # Issue with Comment Links currently, see: https://github.com/mrlacey/CommentLinks/issues/38
-      # See launch.json configuration file for analogous command we're emulating here to build LINK: ../../.vscode/launch.json:CommunityToolkit.App.Wasm.csproj
-      - name: dotnet build
-        working-directory: ./${{ env.HEADS_DIRECTORY }}/AllComponents/Wasm/
-        run: dotnet build /r /bl /p:UnoSourceGeneratorUseGenerationHost=true /p:UnoSourceGeneratorUseGenerationController=false
-  
-      # TODO: Do we want to run tests here? Can we do that on linux easily?
+      - name: Build Uno head (desktop)
+        shell: pwsh
+        working-directory: ./
+        run: dotnet build tooling/ProjectHeads/AllComponents/Uno/CommunityToolkit.App.Uno.csproj -f net10.0-desktop -p:Configuration=Release
 
       - name: Artifact - Diagnostic Logs
         uses: actions/upload-artifact@v4
         if: ${{ (env.ENABLE_DIAGNOSTICS == 'true' || env.COREHOST_TRACE != '') && always() }}
         with:
-          name: linux-logs
+          name: uno-linux-logs
           path: ./**/*.*log
 
 
