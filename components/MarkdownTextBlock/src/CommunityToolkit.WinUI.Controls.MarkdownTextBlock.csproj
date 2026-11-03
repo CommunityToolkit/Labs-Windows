@@ -41,6 +41,14 @@
     <Using Include="Microsoft.UI.Xaml.Shapes" />
     <Using Include="Microsoft.UI.Text" />
   </ItemGroup>
+  <!-- The Android SDK's implicit usings bring in Android.App/Android.Widget types (Application, Orientation, TableRow...)
+       that clash with the XAML and Markdig ones. They're added by its targets, after this file, hence the target. -->
+  <Target Name="RemoveAndroidImplicitUsings" BeforeTargets="GenerateGlobalUsings" Condition="'$(IsDroid)' == 'true'">
+    <ItemGroup>
+      <Using Remove="Android.App" />
+      <Using Remove="Android.Widget" />
+    </ItemGroup>
+  </Target>
   <ItemGroup>
     <Compile Update="MarkdownTextBlock.xaml.cs">
       <DependentUpon>MarkdownTextBlock.xaml</DependentUpon>
