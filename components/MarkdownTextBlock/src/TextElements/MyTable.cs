@@ -4,6 +4,7 @@
 
 using CommunityToolkit.WinUI.Controls;
 using Markdig.Extensions.Tables;
+using TableRow = Markdig.Extensions.Tables.TableRow; // Android.Widget.TableRow on Uno 5 Android
 
 namespace CommunityToolkit.WinUI.Controls.TextElements;
 

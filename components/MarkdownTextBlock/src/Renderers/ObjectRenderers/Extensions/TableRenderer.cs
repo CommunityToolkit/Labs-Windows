@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Markdig.Extensions.Tables;
+using TableRow = Markdig.Extensions.Tables.TableRow; // Android.Widget.TableRow on Uno 5 Android
 using CommunityToolkit.WinUI.Controls.TextElements;
 
 namespace CommunityToolkit.WinUI.Controls.Renderers.ObjectRenderers.Extensions;
