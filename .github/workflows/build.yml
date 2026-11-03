@@ -192,6 +192,12 @@ jobs:
           --skip vswin
           --verbose
           
+      # uno-check pins Microsoft.Android.Sdk 36.1.2, under which the Uno 7 Android head restores a
+      # Mono win-x64 runtime pack that doesn't exist (NU1102); install the current Android workload over it.
+      - name: Update the Android workload (WinUI 3)
+        if: ${{ matrix.winui == 3 && matrix.multitarget == 'android' && env.HAS_BUILDABLE_COMPONENTS == 'true' }}
+        run: dotnet workload install android
+
       # The Uno.Sdk head builds desktop/browserwasm/android (iOS is filtered on
       # Windows). Install the matching workloads directly instead of uno-check.
       - name: Install .NET workloads (Uno.Sdk head)
