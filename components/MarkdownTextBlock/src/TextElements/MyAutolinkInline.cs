@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls;
 using Markdig.Syntax.Inlines;
 
 namespace CommunityToolkit.WinUI.Controls.TextElements;
@@ -9,7 +10,7 @@ namespace CommunityToolkit.WinUI.Controls.TextElements;
 internal class MyAutolinkInline : IAddChild
 {
     private AutolinkInline _autoLinkInline;
-    private MarkdownThemes _themes;
+    private MarkdownTextBlock _control;
 
     public TextElement TextElement { get; private set; }
 
@@ -25,14 +26,14 @@ internal class MyAutolinkInline : IAddChild
         }
     }
 
-    public MyAutolinkInline(AutolinkInline autoLinkInline, MarkdownThemes themes)
+    public MyAutolinkInline(AutolinkInline autoLinkInline, MarkdownTextBlock control)
     {
         _autoLinkInline = autoLinkInline;
-        _themes = themes;
+        _control = control;
         TextElement = new Hyperlink()
         {
             NavigateUri = new Uri(autoLinkInline.Url),
-            Foreground = _themes.LinkForeground
+            Foreground = _control.LinkForeground
         };
     }
 

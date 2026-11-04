@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.WinUI.Controls;
 using Markdig.Extensions.Tables;
 
 namespace CommunityToolkit.WinUI.Controls.TextElements;
@@ -46,7 +47,7 @@ internal class MyTableCell : IAddChild
         get => _rowIndex;
     }
 
-    public MyTableCell(TableCell tableCell, TextAlignment textAlignment, bool isHeader, int columnIndex, int rowIndex, MarkdownThemes themes)
+    public MyTableCell(TableCell tableCell, TextAlignment textAlignment, bool isHeader, int columnIndex, int rowIndex, MarkdownTextBlock control)
     {
         _isHeader = isHeader;
         _tableCell = tableCell;
@@ -67,7 +68,7 @@ internal class MyTableCell : IAddChild
         };
 
         // Use themed table cell padding
-        _container.Padding = themes.TableCellPadding;
+        _container.Padding = control.TableCellPadding;
         if (_isHeader)
         {
             _flowDocument.RichTextBlock.FontWeight = FontWeights.Bold;

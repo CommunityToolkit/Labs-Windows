@@ -140,12 +140,6 @@ public partial class ThemeOptionsPane : UserControl
         SyncValuesToSample();
     }
 
-    private void ApplyTheme_Click(object sender, RoutedEventArgs e)
-    {
-        SyncValuesToSample();
-        _sample.ApplyTheme();
-    }
-
     private void ResetTheme_Click(object sender, RoutedEventArgs e)
     {
         _sample.ResetToDefaults();
@@ -153,7 +147,5 @@ public partial class ThemeOptionsPane : UserControl
         _isInitializing = true;
         LoadValuesFromSample();
         _isInitializing = false;
-
-        _sample.ApplyTheme();
     }
 }

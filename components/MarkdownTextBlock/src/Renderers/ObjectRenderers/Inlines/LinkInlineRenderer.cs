@@ -23,14 +23,14 @@ internal class LinkInlineRenderer : UWPObjectRenderer<LinkInline>
 
         if (link.IsImage)
         {
-            var image = new MyImage(link, Controls.Extensions.GetUri(url, renderer.Config.BaseUrl), renderer.Config);
+            var image = new MyImage(link, Controls.Extensions.GetUri(url, renderer.MarkdownTextBlock.BaseUrl), renderer.MarkdownTextBlock);
             renderer.WriteInline(image);
         }
         else
         {
             if (link.FirstChild is LinkInline linkInlineChild && linkInlineChild.IsImage)
             {
-                var myHyperlinkButton = new MyHyperlinkButton(link, renderer.Config.BaseUrl, renderer.Config.Themes);
+                var myHyperlinkButton = new MyHyperlinkButton(link, renderer.MarkdownTextBlock);
                 myHyperlinkButton.ClickEvent += (sender, e) =>
                 {
                     var button = (HyperlinkButton)sender;
@@ -47,7 +47,7 @@ internal class LinkInlineRenderer : UWPObjectRenderer<LinkInline>
             }
             else
             {
-                var hyperlink = new MyHyperlink(link, renderer.Config.BaseUrl, renderer.Config.Themes);
+                var hyperlink = new MyHyperlink(link, renderer.MarkdownTextBlock);
                 hyperlink.ClickEvent += (sender, e) =>
                 {
                     var uri = sender.NavigateUri;
