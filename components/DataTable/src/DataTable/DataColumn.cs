@@ -81,6 +81,7 @@ public partial class DataColumn : ContentControl
             PART_ColumnSizer.TargetControl = null;
             PART_ColumnSizer.ManipulationDelta -= this.PART_ColumnSizer_ManipulationDelta;
             PART_ColumnSizer.ManipulationCompleted -= this.PART_ColumnSizer_ManipulationCompleted;
+            PART_ColumnSizer.KeyUp -= this.PART_ColumnSizer_KeyUp;
         }
 
         PART_ColumnSizer = GetTemplateChild(nameof(PART_ColumnSizer)) as ContentSizer;
@@ -90,6 +91,7 @@ public partial class DataColumn : ContentControl
             PART_ColumnSizer.TargetControl = this;
             PART_ColumnSizer.ManipulationDelta += this.PART_ColumnSizer_ManipulationDelta;
             PART_ColumnSizer.ManipulationCompleted += this.PART_ColumnSizer_ManipulationCompleted;
+            PART_ColumnSizer.KeyUp += this.PART_ColumnSizer_KeyUp;
         }
 
         // Get DataTable parent weak reference for when we manipulate columns.
@@ -100,6 +102,11 @@ public partial class DataColumn : ContentControl
         }
 
         base.OnApplyTemplate();
+    }
+
+    private void PART_ColumnSizer_KeyUp(object sender, KeyRoutedEventArgs e)
+    {
+        ColumnResizedByUserSizer();
     }
 
     private void PART_ColumnSizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
