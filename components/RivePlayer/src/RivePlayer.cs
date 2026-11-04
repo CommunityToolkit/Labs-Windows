@@ -199,7 +199,7 @@ public sealed partial class RivePlayer
         });
     }
 
-    private void PaintNextAnimationFrame(SKSurface surface, int surfaceWidth, int surfaceHeight)
+    private void PaintNextAnimationFrame(SKCanvas canvas, int surfaceWidth, int surfaceHeight)
     {
         // Handle pending scene actions from the main thread.
         while (sceneActionsQueue.TryDequeue(out var action))
@@ -221,8 +221,7 @@ public sealed partial class RivePlayer
         _lastPaintTime = now;
 
         // Render.
-        surface.Canvas.Clear();
-        var renderer = new Renderer(surface.Canvas);
+        var renderer = new Renderer(canvas);
         renderer.Save();
         renderer.Transform(ComputeAlignment(surfaceWidth, surfaceHeight));
         _scene.Draw(renderer);

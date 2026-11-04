@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if !WINAPPSDK
+#if WINUI3 && HAS_UNO
+using SkiaSharp;
+#elif !WINAPPSDK
  // WASM on WinUI2 needs SkiaSharp.Views.UWP too.
 using SkiaSharp.Views.UWP;
 #else
@@ -51,6 +53,9 @@ public partial class RivePlayer : Control
             };
             swapChainPanel.PaintSurface += OnPaintSurface;
             _skiaSurface.Content = swapChainPanel;
+#elif WINUI3 && HAS_UNO
+            // SkiaSharp.Views has no Uno 7 build, so draw on Uno's own Skia canvas.
+            _skiaSurface.Content = new RiveCanvasElement(this);
 #else
             // WinAppSdk doesn't have SKSwapChainPanel yet.
             // SKSwapChainPanel doesn't work in WASM yet.
@@ -71,6 +76,8 @@ public partial class RivePlayer : Control
 #if WINDOWS_UWP
         var swapChainPanel = _skiaSurface?.Content as SKSwapChainPanel;
         swapChainPanel?.Invalidate();
+#elif WINUI3 && HAS_UNO
+        (_skiaSurface?.Content as RiveCanvasElement)?.Invalidate();
 #else
         var xamlCanvas = _skiaSurface?.Content as SKXamlCanvas;
         xamlCanvas?.Invalidate();
@@ -80,12 +87,18 @@ public partial class RivePlayer : Control
 #if WINDOWS_UWP
     private void OnPaintSurface(object? sender, SKPaintGLSurfaceEventArgs e)
     {
-        this.PaintNextAnimationFrame(e.Surface, e.BackendRenderTarget.Width, e.BackendRenderTarget.Height);
+        e.Surface.Canvas.Clear();
+        this.PaintNextAnimationFrame(e.Surface.Canvas, e.BackendRenderTarget.Width, e.BackendRenderTarget.Height);
     }
+#elif WINUI3 && HAS_UNO
+    // Called by RiveCanvasElement. The canvas is shared with the rest of the window, so it must not be cleared.
+    internal void PaintNextAnimationFrame(SKCanvas canvas, global::Windows.Foundation.Size area) =>
+        this.PaintNextAnimationFrame(canvas, (int)area.Width, (int)area.Height);
 #else
     private void OnPaintSurface(object? sender, SKPaintSurfaceEventArgs e)
     {
-        this.PaintNextAnimationFrame(e.Surface, e.Info.Width, e.Info.Height);
+        e.Surface.Canvas.Clear();
+        this.PaintNextAnimationFrame(e.Surface.Canvas, e.Info.Width, e.Info.Height);
     }
 #endif
 
