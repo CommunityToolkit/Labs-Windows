@@ -365,7 +365,7 @@ public static class Extensions
         else
         {
             // Try to find the next insertion position by moving one symbol forward
-            TextPointer next = position.GetPositionAtOffset(1, logicalDirection);
+            TextPointer? next = position.GetPositionAtOffset(1, logicalDirection);
             // If there is no next position, return null
             if (next == null)
             {
@@ -384,7 +384,7 @@ public static class Extensions
         // Get the character rect of the current position
         Rect currentRect = position.GetCharacterRect(logicalDirection);
         // Try to get the next position by moving one symbol forward
-        TextPointer next = position.GetPositionAtOffset(1, logicalDirection);
+        TextPointer? next = position.GetPositionAtOffset(1, logicalDirection);
         // If there is no next position, return false
         if (next == null)
         {

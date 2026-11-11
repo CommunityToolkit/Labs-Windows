@@ -128,10 +128,13 @@ public partial class TokenView : ListViewBase
         {
             return FocusManager.GetFocusedElement(XamlRoot) as TokenItem;
         }
-        else
-        {
-            return FocusManager.GetFocusedElement() as TokenItem;
-        }
+
+#if WINUI3
+        // Without a XamlRoot the control isn't in a live tree, so none of its items can have focus
+        return null;
+#else
+        return FocusManager.GetFocusedElement() as TokenItem;
+#endif
     }
 
     private void SelectedIndex_PropertyChanged(DependencyObject sender, DependencyProperty dp)

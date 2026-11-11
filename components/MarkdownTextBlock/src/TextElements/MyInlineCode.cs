@@ -29,9 +29,14 @@ internal class MyInlineCode : IAddChild
         border.BorderThickness = _config.Themes.InlineCodeBorderThickness;
         border.CornerRadius = _config.Themes.InlineCodeCornerRadius;
         border.Padding = _config.Themes.InlineCodePadding;
+#if HAS_UNO
+        // UIElement.Transform3D is not implemented on Uno
+        border.RenderTransform = new TranslateTransform { Y = 4 };
+#else
         CompositeTransform3D transform = new CompositeTransform3D();
         transform.TranslateY = 4;
         border.Transform3D = transform;
+#endif
         var textBlock = new TextBlock();
         textBlock.FontSize = _config.Themes.InlineCodeFontSize;
         textBlock.Foreground = _config.Themes.InlineCodeForeground;
