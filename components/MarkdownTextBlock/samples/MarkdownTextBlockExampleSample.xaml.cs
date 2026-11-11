@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
-using System.Diagnostics;
 
 namespace MarkdownTextBlockExperiment.Samples;
 
@@ -607,6 +606,6 @@ Source: https://www.reddit.com/r/reddit.com/comments/6ewgt/reddit_markdown_prime
 
     private void MarkdownTextBlock_OnLinkClicked(object? sender, LinkClickedEventArgs e)
     {
-        Debug.WriteLine($"Link Clicked: {e.Uri}");
+        System.Diagnostics.Debug.WriteLine($"Link Clicked: {e.Uri}");
     }
 }

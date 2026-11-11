@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Controls;
-using System.Diagnostics;
 
 namespace MarkdownTextBlockExperiment.Samples;
 
@@ -43,6 +42,6 @@ public sealed partial class MarkdownTextBlockLiveEditorSample : Page
 
     private void MarkdownTextBlock_OnLinkClicked(object? sender, LinkClickedEventArgs e)
     {
-        Debug.WriteLine($"Link Clicked: {e.Uri}");
+        System.Diagnostics.Debug.WriteLine($"Link Clicked: {e.Uri}");
     }
 }

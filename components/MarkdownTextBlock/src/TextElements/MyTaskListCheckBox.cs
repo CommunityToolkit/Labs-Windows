@@ -15,9 +15,14 @@ internal class MyTaskListCheckBox : IAddChild
     {
         _taskList = taskList;
         var grid = new Grid();
+#if HAS_UNO
+        // UIElement.Transform3D is not implemented on Uno
+        grid.RenderTransform = new TranslateTransform { Y = 2 };
+#else
         CompositeTransform3D transform = new CompositeTransform3D();
         transform.TranslateY = 2;
         grid.Transform3D = transform;
+#endif
         grid.Width = 16;
         grid.Height = 16;
         grid.Margin = new Thickness(2, 0, 2, 0);

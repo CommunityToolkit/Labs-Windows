@@ -29,8 +29,8 @@
     <PackageReference Include="SkiaSharp.Views.WinUI" Version="2.88.6" />
   </ItemGroup>
 
-  <!-- WinUI 3 / Uno -->
+  <!-- WinUI 3 / Uno: SkiaSharp.Views.Uno.WinUI has no Uno 7 build, use Uno's SKCanvasElement instead -->
   <ItemGroup Condition="'$(IsUno)' == 'true' AND '$(WinUIMajorVersion)' == '3'">
-    <PackageReference Include="SkiaSharp.Views.Uno.WinUI" Version="2.88.6" />
+    <PackageReference Include="Uno.WinUI.Graphics2DSK" Version="$(CommonUnoPackageVersion)" />
   </ItemGroup>
 </Project>
