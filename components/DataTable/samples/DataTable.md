@@ -62,6 +62,12 @@ If you don't need headers and want to show a simple table of data, just don't pr
 
 > [!Sample DataTableBlankHeaderSample]
 
+### DataRow without DataTable
+
+If you don't provide `DataTable` control, `DataRow` child items will be given equal widths:
+
+> [!Sample DataRowWithoutDataTableSample]
+
 ### Virtualization
 
 Since `DataTable` is just built on top of `ListView` it can handle many data rows just the same as a ListView can.
