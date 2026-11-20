@@ -61,6 +61,11 @@ public partial class TitleBar : Control
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Window"/> property.
     /// </summary>
+    public static readonly DependencyProperty AutoChangeWindowLayoutStyleProperty = DependencyProperty.Register(nameof(AutoChangeWindowLayoutStyle), typeof(bool), typeof(TitleBar), new PropertyMetadata(true));
+
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="Window"/> property.
+    /// </summary>
     public static readonly DependencyProperty WindowProperty = DependencyProperty.Register(nameof(Window), typeof(Window), typeof(TitleBar), new PropertyMetadata(null));
 #endif
 
@@ -165,6 +170,15 @@ public partial class TitleBar : Control
     }
 
 #if WINAPPSDK
+    /// <summary>
+    /// Gets or sets if the TitleBar should automatically change the Window's LayoutStyle to match the FlowDirection of the TitleBar (WASDK only).
+    /// </summary>
+    public bool AutoChangeWindowLayoutStyle
+    {
+        get => (bool)GetValue(AutoChangeWindowLayoutStyleProperty);
+        set => SetValue(AutoChangeWindowLayoutStyleProperty, value);
+    }
+
     /// <summary>
     /// Gets or sets the window the TitleBar should configure (WASDK only).
     /// </summary>
