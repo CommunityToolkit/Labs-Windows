@@ -11,5 +11,7 @@ public record MarkdownConfig
     public ISVGRenderer? SVGRenderer { get; set; }
     public MarkdownThemes Themes { get; set; } = MarkdownThemes.Default;
 
-    public static MarkdownConfig Default = new();
+    [ThreadStatic]
+    private static MarkdownConfig? _default;
+    public static MarkdownConfig Default => _default ??= new MarkdownConfig();
 }
